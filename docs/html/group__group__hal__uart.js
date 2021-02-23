@@ -27,6 +27,14 @@ var group__group__hal__uart =
       [ "CYHAL_UART_IRQ_RX_NOT_EMPTY", "group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaa9b64ead890054ee5943b58bafc0f367e", null ],
       [ "CYHAL_UART_IRQ_TX_EMPTY", "group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaa0c7868cf2a2719db7fc2cb8c357e47a9", null ]
     ] ],
+    [ "cyhal_uart_fifo_type_t", "group__group__hal__uart.html#ga17602199b64430d4b5503e14340c4ca0", [
+      [ "CYHAL_UART_FIFO_RX", "group__group__hal__uart.html#gga17602199b64430d4b5503e14340c4ca0ae0cb3a0275909eb435e1d892dcc6703c", null ],
+      [ "CYHAL_UART_FIFO_TX", "group__group__hal__uart.html#gga17602199b64430d4b5503e14340c4ca0a2e87281f1bf6b951e55f23edc21e606e", null ]
+    ] ],
+    [ "cyhal_uart_output_t", "group__group__hal__uart.html#ga79c475fe87b88afece099da885605075", [
+      [ "CYHAL_UART_OUTPUT_TRIGGER_RX_FIFO_LEVEL_REACHED", "group__group__hal__uart.html#gga79c475fe87b88afece099da885605075a726f4bf351f0fd57da573087def9745c", null ],
+      [ "CYHAL_UART_OUTPUT_TRIGGER_TX_FIFO_LEVEL_REACHED", "group__group__hal__uart.html#gga79c475fe87b88afece099da885605075a3466e7af5b491da0ab48f0d50711e193", null ]
+    ] ],
     [ "cyhal_uart_init", "group__group__hal__uart.html#gae62874a1a5484721c90ea53993d791d6", null ],
     [ "cyhal_uart_free", "group__group__hal__uart.html#ga51731996aca653fc76caee4cc7ad684f", null ],
     [ "cyhal_uart_set_baud", "group__group__hal__uart.html#ga14dcad3682e9b49e70b7f1e77cd862cc", null ],
@@ -46,5 +54,8 @@ var group__group__hal__uart =
     [ "cyhal_uart_write_abort", "group__group__hal__uart.html#gaa143498ce81a014c19bcd1e8ad43a3f6", null ],
     [ "cyhal_uart_read_abort", "group__group__hal__uart.html#ga94980c5a10527027be1da8e11bc34a98", null ],
     [ "cyhal_uart_register_callback", "group__group__hal__uart.html#gae26bab64811713b1d69170352fe32c20", null ],
-    [ "cyhal_uart_enable_event", "group__group__hal__uart.html#ga4dae4cef7dbf1d7935fe6dd6d31f282e", null ]
+    [ "cyhal_uart_enable_event", "group__group__hal__uart.html#ga4dae4cef7dbf1d7935fe6dd6d31f282e", null ],
+    [ "cyhal_uart_set_fifo_level", "group__group__hal__uart.html#gaea15b10b90d93252206f19b1bbdd0f47", null ],
+    [ "cyhal_uart_enable_output", "group__group__hal__uart.html#gac26f415eecf9b66b490bac95bddab362", null ],
+    [ "cyhal_uart_disable_output", "group__group__hal__uart.html#ga858d1257386c23c97da3b3aff539a162", null ]
 ];

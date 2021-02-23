@@ -87,25 +87,26 @@ $(document).ready(function(){initNavTree('group__group__hal__impl__wdt.html','')
 
 <div class="header">
   <div class="headertitle">
-<div class="title">WDT (Watchdog Timer)<div class="ingroups"><a class="el" href="group__group__hal__impl.html">PSoC 6 Implementation Specific</a></div></div>  </div>
+<div class="title">WDT (Watchdog Timer)<div class="ingroups"><a class="el" href="group__group__hal__impl.html">CAT1 (PSoC 6) Implementation Specific</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
-<p>The PSoC 6 WDT is only capable of supporting certain timeout ranges below its maximum timeout of 6000ms. </p>
-<p>As a result, any unsupported timeouts given to the HAL WDT are rounded up to the nearest supported value. The following table describes the unsupported ranges and the timeout values they are rounded to. </p><table class="doxtable">
+<p>The CAT1 (PSoC 6) WDT is only capable of supporting certain timeout ranges below its maximum timeout. </p>
+<p>As a result, any unsupported timeouts given to the HAL WDT are rounded up to the nearest supported value. The following table describes the unsupported ranges and the timeout values they are rounded to.</p>
+<table class="doxtable">
 <tr>
 <th>Range (ms)</th><th>Rounded Timeout (ms) </th></tr>
 <tr>
-<td>3001 - 4000 </td><td>4001  </td></tr>
+<td>3001 - 3999 </td><td>4000  </td></tr>
 <tr>
-<td>1500 - 2000 </td><td>2001  </td></tr>
+<td>1501 - 1999 </td><td>2000  </td></tr>
 <tr>
-<td>750 - 1000 </td><td>1001  </td></tr>
+<td>751 - 999 </td><td>1000  </td></tr>
 <tr>
-<td>375 - 500 </td><td>501  </td></tr>
+<td>376 - 499 </td><td>500  </td></tr>
 <tr>
-<td>188 - 250 </td><td>251  </td></tr>
+<td>188 - 249 </td><td>250  </td></tr>
 <tr>
-<td>94 - 125 </td><td>126  </td></tr>
+<td>94 - 124 </td><td>125  </td></tr>
 <tr>
 <td>47 - 62 </td><td>63  </td></tr>
 <tr>
@@ -115,7 +116,7 @@ $(document).ready(function(){initNavTree('group__group__hal__impl__wdt.html','')
 <tr>
 <td>6 - 7 </td><td>8  </td></tr>
 <tr>
-<td>3 </td><td>4  </td></tr>
+<td>3 - 3 </td><td>4  </td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

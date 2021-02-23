@@ -90,7 +90,7 @@ $(document).ready(function(){initNavTree('group__group__hal__impl__triggers__pso
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a>  </div>
   <div class="headertitle">
-<div class="title">PSOC6_04<div class="ingroups"><a class="el" href="group__group__hal__impl.html">PSoC 6 Implementation Specific</a> &raquo; <a class="el" href="group__group__hal__impl__triggers.html">Triggers</a></div></div>  </div>
+<div class="title">PSOC6_04<div class="ingroups"><a class="el" href="group__group__hal__impl.html">CAT1 (PSoC 6) Implementation Specific</a> &raquo; <a class="el" href="group__group__hal__impl__triggers.html">Triggers</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">General Description</h2>
@@ -98,6 +98,10 @@ $(document).ready(function(){initNavTree('group__group__hal__impl__triggers__pso
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
+<tr class="memitem:ga3cbcce4caed1c0e1bdad981d9514531b"><td class="memItemLeft" align="right" valign="top"><a id="ga3cbcce4caed1c0e1bdad981d9514531b"></a>
+typedef <a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#gaf248bbdcfc82d83541f1f59116553f77">cyhal_trigger_source_psoc6_04_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ga3cbcce4caed1c0e1bdad981d9514531b">cyhal_source_t</a></td></tr>
+<tr class="memdesc:ga3cbcce4caed1c0e1bdad981d9514531b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef from device family specific trigger source to generic trigger source. <br /></td></tr>
+<tr class="separator:ga3cbcce4caed1c0e1bdad981d9514531b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga5b2363484c5c8fbd6b41338d695a0d92"><td class="memItemLeft" align="right" valign="top"><a id="ga5b2363484c5c8fbd6b41338d695a0d92"></a>
 typedef <a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#gae9c98e18d33db79340bd24ec02488d08">cyhal_trigger_dest_psoc6_04_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ga5b2363484c5c8fbd6b41338d695a0d92">cyhal_dest_t</a></td></tr>
 <tr class="memdesc:ga5b2363484c5c8fbd6b41338d695a0d92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef from device family specific trigger dest to generic trigger dest. <br /></td></tr>
@@ -105,236 +109,894 @@ typedef <a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ga
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
+<tr class="memitem:gaf248bbdcfc82d83541f1f59116553f77"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#gaf248bbdcfc82d83541f1f59116553f77">cyhal_trigger_source_psoc6_04_t</a> { <br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a03a2f1af3373ec9c433c50f71ac3955d">CYHAL_TRIGGER_CPUSS_ZERO</a> = 0, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a8c3bb7eca5dd1a7b23169ad3f7340db3">CYHAL_TRIGGER_CANFD0_TR_DBG_DMA_REQ0</a> = 1, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a8cafb1b954d5ca1d9bb94ec04ab5145b">CYHAL_TRIGGER_CANFD0_TR_FIFO00</a> = 2, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a0854e64a92a0227862500e827d1321dc">CYHAL_TRIGGER_CANFD0_TR_FIFO10</a> = 3, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a1eb314d6ea8d9f3f4cbd064d6bc3a28e">CYHAL_TRIGGER_CANFD0_TR_TMP_RTP_OUT0</a> = 4, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77aab5491bbbb7a9a950091baa2420c3107">CYHAL_TRIGGER_CPUSS_CTI_TR_OUT0</a> = 5, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77ac2b6c09bb64506377264ef0bee087ff4">CYHAL_TRIGGER_CPUSS_CTI_TR_OUT1</a> = 6, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a508f0beeee9056f83c8e419a95721f2a">CYHAL_TRIGGER_CPUSS_DMAC_TR_OUT0</a> = 7, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77aebb443f267af03a7eba63e12fbcb75a0">CYHAL_TRIGGER_CPUSS_DMAC_TR_OUT1</a> = 8, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77af7028296eccb42d98c8e03f04fb83465">CYHAL_TRIGGER_CPUSS_DW0_TR_OUT0</a> = 9, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77af97494d0b485ba027370de2da41c1751">CYHAL_TRIGGER_CPUSS_DW0_TR_OUT1</a> = 10, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a43bcce16df21793de8f08ad57a416bfd">CYHAL_TRIGGER_CPUSS_DW0_TR_OUT2</a> = 11, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a801ab2df05eb225e0876bb5577246fb4">CYHAL_TRIGGER_CPUSS_DW0_TR_OUT3</a> = 12, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a4188e1aec9017e8b7a5b1eeaa9c1b659">CYHAL_TRIGGER_CPUSS_DW0_TR_OUT4</a> = 13, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77aac51c54b16baf729479c7818f4cd8673">CYHAL_TRIGGER_CPUSS_DW0_TR_OUT5</a> = 14, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a179105d777b7f10a95e0d1daa59d24eb">CYHAL_TRIGGER_CPUSS_DW0_TR_OUT6</a> = 15, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77aa92ac361aeaedb20622b20698d1582b1">CYHAL_TRIGGER_CPUSS_DW0_TR_OUT7</a> = 16, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a91ecb7c249e5dca5982591be14d6153f">CYHAL_TRIGGER_CPUSS_DW0_TR_OUT8</a> = 17, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a907b17d73cb8179dd5bb6c8ff61898a1">CYHAL_TRIGGER_CPUSS_DW0_TR_OUT9</a> = 18, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a56f6c6de2423ed9e469745aed37c29c0">CYHAL_TRIGGER_CPUSS_DW0_TR_OUT10</a> = 19, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77ae98c46aeb130d92442f675196ab8f897">CYHAL_TRIGGER_CPUSS_DW0_TR_OUT11</a> = 20, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a0792561264ddf86f7ac6b66fb1f73f11">CYHAL_TRIGGER_CPUSS_DW0_TR_OUT12</a> = 21, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a756a216bbb5141c2e2c24f52967c2888">CYHAL_TRIGGER_CPUSS_DW0_TR_OUT13</a> = 22, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a707d9c072d9f5f33b53f73c913df7200">CYHAL_TRIGGER_CPUSS_DW0_TR_OUT14</a> = 23, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a5d2f1ce3d40fb193816a63d109a549dc">CYHAL_TRIGGER_CPUSS_DW0_TR_OUT15</a> = 24, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77afa51ddfc2aef2246ad79cdfc85f036b3">CYHAL_TRIGGER_CPUSS_DW0_TR_OUT16</a> = 25, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77aa0bb138c6de947eec832cdf9ec7bfb0b">CYHAL_TRIGGER_CPUSS_DW0_TR_OUT17</a> = 26, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77aa51741dd58398399ea2c32b3709089f7">CYHAL_TRIGGER_CPUSS_DW0_TR_OUT18</a> = 27, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a0fedb2a492d9f77d3324c28175f2c7a7">CYHAL_TRIGGER_CPUSS_DW0_TR_OUT19</a> = 28, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77ac9b20fb569195d946f8bc2588463bc10">CYHAL_TRIGGER_CPUSS_DW0_TR_OUT20</a> = 29, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77ad9271f33440eeba5465946603675fe80">CYHAL_TRIGGER_CPUSS_DW0_TR_OUT21</a> = 30, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77ae2c27f6da0240004676a26102bc00cf9">CYHAL_TRIGGER_CPUSS_DW0_TR_OUT22</a> = 31, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a4540ed684462fb4b8fac7882b3ff6638">CYHAL_TRIGGER_CPUSS_DW0_TR_OUT23</a> = 32, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a21c0eac357baba00d3268804f3ddbe31">CYHAL_TRIGGER_CPUSS_DW0_TR_OUT24</a> = 33, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77abdc5c822191504e2738b2d61697338e5">CYHAL_TRIGGER_CPUSS_DW0_TR_OUT25</a> = 34, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a058486b3f2b27c6c388f02c0e1c3ee47">CYHAL_TRIGGER_CPUSS_DW0_TR_OUT26</a> = 35, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a2b06d2433c3a5aa5f7d010ba51d309fe">CYHAL_TRIGGER_CPUSS_DW0_TR_OUT27</a> = 36, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a27895dfb7b513ee0b5e678aee8de63c6">CYHAL_TRIGGER_CPUSS_DW0_TR_OUT28</a> = 37, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a90bf7aea5c8fdda6966d70d9e5eb6144">CYHAL_TRIGGER_CPUSS_DW0_TR_OUT29</a> = 38, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77aa5de40e60637499e351e1d903ce4acb1">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT0</a> = 39, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77af9cc05a471a5d92f8cc734a30eb5fcc9">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT1</a> = 40, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a663eb25b92d851dc16b692856d06bf92">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT2</a> = 41, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a5036cc9f4df7d722b018740ea11f26f4">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT3</a> = 42, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77acd5b05505ea4d72c32d6e8a620872d6b">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT4</a> = 43, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a77862f41c6dec62406ae99b9313c25a8">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT5</a> = 44, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77af863288abaaf0bd554064ec9a056cc80">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT6</a> = 45, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a75fa2a81d17cd25d1ed00523e138b160">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT7</a> = 46, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a8cb71b72b9c611a104946a220ca0eca1">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT8</a> = 47, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77ab740f8f51cf696a61e4f1436f153e4e1">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT9</a> = 48, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77ac8c31972dccb9c12d048a5a53ac5a734">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT10</a> = 49, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a91ce745ac159d6f9c6160ae8f4f6eaa4">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT11</a> = 50, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77af5baac2fe1d5707f16671792a16ebbbc">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT12</a> = 51, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a4d1c192002e0a4c6026d3eb2670be6a8">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT13</a> = 52, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a92a09365e7debcf74692d7a1823d04ba">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT14</a> = 53, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77ae2571e322f021d4fea227062432de763">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT15</a> = 54, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a117b3f4ac4d61cfc3edd833433c9ca11">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT16</a> = 55, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a8ea91de7eb55d8055d08d6a6a22386c2">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT17</a> = 56, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77adedc717783642ec5be482b76fd86205a">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT18</a> = 57, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77adefced4e0e0f85638fbacb826568fb0f">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT19</a> = 58, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a75476dfbc695e074c16d620d71fc7268">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT20</a> = 59, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77acebafb06b7b6ebe432d99ded8940bcfb">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT21</a> = 60, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77ad180b308488313a7d19e48b2a3b96549">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT22</a> = 61, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a48c8d5a139c478fc7b85e7e2b283645a">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT23</a> = 62, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a62b6107791b28823db9d27d2f7dc514a">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT24</a> = 63, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77add722229559a99c9e8fa501e3b8aa9d9">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT25</a> = 64, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77ad67b82ea4824b5687c51444a93efae14">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT26</a> = 65, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77ae3b97953510df8cb7f751ba9e0a4f528">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT27</a> = 66, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77aaa6611dcb62499634c79b74b9bd87032">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT28</a> = 67, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77aca853a251a7adc3ed94d1f5f347c81f3">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT29</a> = 68, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77aed96561ce3ec1804c4cd42ad0d291774">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT30</a> = 69, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77acd58ffff7293802efa83145f1e2065c6">CYHAL_TRIGGER_CPUSS_DW1_TR_OUT31</a> = 70, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a50689ddd7ed5a4acbfb2ca9333d6f20a">CYHAL_TRIGGER_CPUSS_TR_FAULT0</a> = 71, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a893c7719d6fba436440638e38c34cd14">CYHAL_TRIGGER_CPUSS_TR_FAULT1</a> = 72, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77af5a21590bcebceb6253dd3a3413263eb">CYHAL_TRIGGER_CSD_DSI_SAMPLE_OUT</a> = 73, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a2cd506500faefa172bde77202f5b53a5">CYHAL_TRIGGER_CSD_DSI_SENSE_OUT</a> = 74, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a69b7d2298f8126882c7cf063995ca90d">CYHAL_TRIGGER_CSD_TR_ADC_DONE</a> = 75, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a442c38b9197621b9cb6bc5cea8098b2a">CYHAL_TRIGGER_LPCOMP_DSI_COMP0</a> = 76, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a71012b569929a6fb2d100ba3b524d597">CYHAL_TRIGGER_LPCOMP_DSI_COMP1</a> = 77, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77aac611643ed5b3d244c6985a7360271a9">CYHAL_TRIGGER_PASS_DSI_CTB_CMP0</a> = 78, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a1bd29cb30a010cf7e25750ba9dbc31e3">CYHAL_TRIGGER_PASS_DSI_CTB_CMP1</a> = 79, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a3bcfecf872c7419919b759194f5ef7d9">CYHAL_TRIGGER_PASS_TR_CTDAC_EMPTY</a> = 80, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a12e5271df96a08b69b03d1f4b4f5dbea">CYHAL_TRIGGER_PASS_TR_SAR_OUT0</a> = 81, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a100c6adf80822c75469a7a3bf00fd80d">CYHAL_TRIGGER_PASS_TR_SAR_OUT1</a> = 82, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a26451bce5df92cb870e0265da354de7f">CYHAL_TRIGGER_PERI_TR_IO_INPUT0</a> = 83, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77ab4c481f8cc96914be9436c086b3540e6">CYHAL_TRIGGER_PERI_TR_IO_INPUT1</a> = 84, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a0643e60170828d1cedf25ba8db34c9c0">CYHAL_TRIGGER_PERI_TR_IO_INPUT2</a> = 85, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77aa73f80d11c9680ec0fca3f32ee878ed7">CYHAL_TRIGGER_PERI_TR_IO_INPUT3</a> = 86, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a9072cc79db48e44eb5ec8c3cc2077d8a">CYHAL_TRIGGER_PERI_TR_IO_INPUT4</a> = 87, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a8895bc3c5f47c9802b4ad8abba6e3122">CYHAL_TRIGGER_PERI_TR_IO_INPUT5</a> = 88, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a70e3b3bd3c43b0dbea39b2ea0b186226">CYHAL_TRIGGER_PERI_TR_IO_INPUT6</a> = 89, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77ad6a6ac3169020f2b114d0d219a7a9110">CYHAL_TRIGGER_PERI_TR_IO_INPUT7</a> = 90, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a4a5963bc948fe7897f40b339a77aaa2b">CYHAL_TRIGGER_PERI_TR_IO_INPUT8</a> = 91, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77ad8931dbe1fe00b8a08a8fb48f05ab499">CYHAL_TRIGGER_PERI_TR_IO_INPUT9</a> = 92, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77af162e5378bf702fb0270f9db3fa704da">CYHAL_TRIGGER_PERI_TR_IO_INPUT10</a> = 93, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a893aeadade372152d205ef51a6336fe6">CYHAL_TRIGGER_PERI_TR_IO_INPUT11</a> = 94, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77aadca73b2ba9fff74fbf821366c87b1e7">CYHAL_TRIGGER_PERI_TR_IO_INPUT12</a> = 95, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77abc83a9b16dd6ed974f2249951d7cbef1">CYHAL_TRIGGER_PERI_TR_IO_INPUT13</a> = 96, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77ad1e26ed3fd5ca512ba226fea06d8f156">CYHAL_TRIGGER_PERI_TR_IO_INPUT14</a> = 97, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a9d20ef772e33f5b794419aa0806b39d0">CYHAL_TRIGGER_PERI_TR_IO_INPUT15</a> = 98, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77aba8056c24e31656f1bde89bd43239593">CYHAL_TRIGGER_PERI_TR_IO_INPUT16</a> = 99, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77abca1cba121d3d02968868262521d9741">CYHAL_TRIGGER_PERI_TR_IO_INPUT17</a> = 100, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a1636d4949151ccd9f98708911989cfa2">CYHAL_TRIGGER_PERI_TR_IO_INPUT18</a> = 101, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77ad0073944ad740bcc07fda99635357e7f">CYHAL_TRIGGER_PERI_TR_IO_INPUT19</a> = 102, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a867cd6982e2de5b1e9849ff5644b7266">CYHAL_TRIGGER_PERI_TR_IO_INPUT20</a> = 103, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a03f7a861a9581fac845ea82673708f8c">CYHAL_TRIGGER_PERI_TR_IO_INPUT21</a> = 104, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a8c21f51ea55c72199c5ee9b3b19fa273">CYHAL_TRIGGER_PERI_TR_IO_INPUT22</a> = 105, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a930e987f5abbdecae411a67182b49a41">CYHAL_TRIGGER_PERI_TR_IO_INPUT23</a> = 106, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77ad68105b3c814017e2b4932a206b4bd5d">CYHAL_TRIGGER_SCB0_TR_I2C_SCL_FILTERED</a> = 107, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77ab63f37e6b5a24679009ffbaf5eea8a15">CYHAL_TRIGGER_SCB1_TR_I2C_SCL_FILTERED</a> = 108, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77ab669f35409d3ec42f1ebb0a765050491">CYHAL_TRIGGER_SCB2_TR_I2C_SCL_FILTERED</a> = 109, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a797df717b985fd87212d4eed054136f6">CYHAL_TRIGGER_SCB4_TR_I2C_SCL_FILTERED</a> = 110, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a7e89f6ad3c36f27f574f836191db6d8c">CYHAL_TRIGGER_SCB5_TR_I2C_SCL_FILTERED</a> = 111, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77add6c8a5f832d7ff1c51c6dea7d9507f6">CYHAL_TRIGGER_SCB6_TR_I2C_SCL_FILTERED</a> = 112, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77afec830dc3cc313f092418ccb6a4240b0">CYHAL_TRIGGER_SCB0_TR_RX_REQ</a> = 113, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a617d6099e2b7699396a51a554070a707">CYHAL_TRIGGER_SCB1_TR_RX_REQ</a> = 114, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77ad9c912decc51b251821e8752023d5157">CYHAL_TRIGGER_SCB2_TR_RX_REQ</a> = 115, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77af8d4c9a2fe009ff7b7f749f50ff1e50c">CYHAL_TRIGGER_SCB4_TR_RX_REQ</a> = 116, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77ab71f9a2ac210a6aa316beb123993dc2e">CYHAL_TRIGGER_SCB5_TR_RX_REQ</a> = 117, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a6bdacd4ed9fc3d68da885bdd1cb2a9e6">CYHAL_TRIGGER_SCB6_TR_RX_REQ</a> = 118, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a464ad5f427aa723d9d742303777c90ce">CYHAL_TRIGGER_SCB0_TR_TX_REQ</a> = 119, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a6dd7e7b90713a011d4f3c8801df19504">CYHAL_TRIGGER_SCB1_TR_TX_REQ</a> = 120, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a0065bb4e812979d1eb9cd598316f8a84">CYHAL_TRIGGER_SCB2_TR_TX_REQ</a> = 121, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77af1701c61edf0aca9b9bcc0512b7a3a87">CYHAL_TRIGGER_SCB4_TR_TX_REQ</a> = 122, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a77d961bb413a0888a9c2d368e259c8c0">CYHAL_TRIGGER_SCB5_TR_TX_REQ</a> = 123, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77af5315fac71fdbbf66cb928867a3d586d">CYHAL_TRIGGER_SCB6_TR_TX_REQ</a> = 124, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77abdf9ccb1e03cba55b59afeaccc91c359">CYHAL_TRIGGER_SMIF_TR_RX_REQ</a> = 125, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77aa2b8200d8514adcb46349b9827657d72">CYHAL_TRIGGER_SMIF_TR_TX_REQ</a> = 126, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a51884d5ef57a7d2e3bb313bfc1b4d4f2">CYHAL_TRIGGER_TCPWM0_TR_OUT00</a> = 127, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a1a939c5db392a4630b935a1d43b22b7f">CYHAL_TRIGGER_TCPWM0_TR_OUT01</a> = 128, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77abba6dff7b01975948c0ef91da33ec581">CYHAL_TRIGGER_TCPWM0_TR_OUT02</a> = 129, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77ac73afa86099e2c0943667f866a42eb19">CYHAL_TRIGGER_TCPWM0_TR_OUT03</a> = 130, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a9e190cb8f230a1147b58ac486b5db3b9">CYHAL_TRIGGER_TCPWM0_TR_OUT0256</a> = 131, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a5e410a70fbafb973bb4c22b128ca65f0">CYHAL_TRIGGER_TCPWM0_TR_OUT0257</a> = 132, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77af61ef4b63f9c6af5b0f74ccb714ebc3e">CYHAL_TRIGGER_TCPWM0_TR_OUT0258</a> = 133, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77ad70941d47c53f49c4b86c8b5ec00787c">CYHAL_TRIGGER_TCPWM0_TR_OUT0259</a> = 134, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a61751f9d8c232c31dc4106ef20508065">CYHAL_TRIGGER_TCPWM0_TR_OUT0260</a> = 135, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a40e7285298f58be6b7324cfdf2f6e95f">CYHAL_TRIGGER_TCPWM0_TR_OUT0261</a> = 136, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a8c8ffb9468a8498ebf4e0fe416502404">CYHAL_TRIGGER_TCPWM0_TR_OUT0262</a> = 137, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a5e1a7832cbdd3fbc3d4cd002a768c342">CYHAL_TRIGGER_TCPWM0_TR_OUT0263</a> = 138, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a5ffd96b2b5e7a1bc7aa19ccf22108944">CYHAL_TRIGGER_TCPWM0_TR_OUT10</a> = 139, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77aed9ec626ac9ed55f984911574c00c2f1">CYHAL_TRIGGER_TCPWM0_TR_OUT11</a> = 140, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a23af1ba6edb46817a705911bc8f97ae9">CYHAL_TRIGGER_TCPWM0_TR_OUT12</a> = 141, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a3e7cef9d7ea59a5dd03bf3750c693d1c">CYHAL_TRIGGER_TCPWM0_TR_OUT13</a> = 142, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a9953ea466ca7f23bf3f11773877f9248">CYHAL_TRIGGER_TCPWM0_TR_OUT1256</a> = 143, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a85fe0bb95dfef67b2fb3e13edd74870b">CYHAL_TRIGGER_TCPWM0_TR_OUT1257</a> = 144, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a1d2cbb3925052503a22a8185c9427df5">CYHAL_TRIGGER_TCPWM0_TR_OUT1258</a> = 145, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a7cc7b345412c9174623abf00acc3b45b">CYHAL_TRIGGER_TCPWM0_TR_OUT1259</a> = 146, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a6d7cfd647c717c14cd5b76d9ce36e502">CYHAL_TRIGGER_TCPWM0_TR_OUT1260</a> = 147, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77acbf1e4e91b1f5aa07a6d2564d0bae17c">CYHAL_TRIGGER_TCPWM0_TR_OUT1261</a> = 148, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77aed58afb0e0b3845faab7d1ffe84bb5c4">CYHAL_TRIGGER_TCPWM0_TR_OUT1262</a> = 149, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a0983b765a674cafbc8574e8acdccd424">CYHAL_TRIGGER_TCPWM0_TR_OUT1263</a> = 150, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a1a57c1ea5c0a067812241ea09dbb4d08">CYHAL_TRIGGER_USB_DMA_REQ0</a> = 151, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a5428d6c1a804145811efee448f494f5a">CYHAL_TRIGGER_USB_DMA_REQ1</a> = 152, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a8d8a9ea07a2e6322e0c2106e49bc9cf0">CYHAL_TRIGGER_USB_DMA_REQ2</a> = 153, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77adffcb79c2d388ab8f5a04b2dd22a7ac1">CYHAL_TRIGGER_USB_DMA_REQ3</a> = 154, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77aa8005ea58211d65fedcda46a42f60e54">CYHAL_TRIGGER_USB_DMA_REQ4</a> = 155, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77aa0905fb0a3709d764dec0759e665b47e">CYHAL_TRIGGER_USB_DMA_REQ5</a> = 156, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a0f0fd4268b2c4756e82952137f6c1cd6">CYHAL_TRIGGER_USB_DMA_REQ6</a> = 157, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggaf248bbdcfc82d83541f1f59116553f77a468b03dcb4009b312d2821c499ac0ba0">CYHAL_TRIGGER_USB_DMA_REQ7</a> = 158
+<br />
+ }</td></tr>
+<tr class="memdesc:gaf248bbdcfc82d83541f1f59116553f77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of each input trigger.  <a href="group__group__hal__impl__triggers__psoc6__04.html#gaf248bbdcfc82d83541f1f59116553f77">More...</a><br /></td></tr>
+<tr class="separator:gaf248bbdcfc82d83541f1f59116553f77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae9c98e18d33db79340bd24ec02488d08"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#gae9c98e18d33db79340bd24ec02488d08">cyhal_trigger_dest_psoc6_04_t</a> { <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a339155faa5281cfedfca0b506fa28f1f">TRIGGER_CANFD0_TR_DBG_DMA_ACK0</a> = 0, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a51ccd4440082579dd7f5bd6946378988">CYHAL_TRIGGER_CANFD0_TR_DBG_DMA_ACK0</a> = 0, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08af76ec63647b902eec6da5ee30f32f218">TRIGGER_CANFD0_TR_EVT_SWT_IN0</a> = 1, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a91dc76d6386efb35bb26144be05a1873">CYHAL_TRIGGER_CANFD0_TR_EVT_SWT_IN0</a> = 1, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08ae8ee1cce78bd19afd33261f50275849f">TRIGGER_CPUSS_CTI_TR_IN0</a> = 2, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a367b8e792b09b16887c36cdc4489f36f">CYHAL_TRIGGER_CPUSS_CTI_TR_IN0</a> = 2, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a8526fd451aba4dfeea209f44a97d65ce">TRIGGER_CPUSS_CTI_TR_IN1</a> = 3, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a32181ffddcd2f09be4f20ef68b8f5b3e">CYHAL_TRIGGER_CPUSS_CTI_TR_IN1</a> = 3, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a13769916b8fe3a772ef0df5576d443a8">TRIGGER_CPUSS_DMAC_TR_IN0</a> = 4, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08af35c68d34cae4390274ff7145613d61a">CYHAL_TRIGGER_CPUSS_DMAC_TR_IN0</a> = 4, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a4d6ed5fe7856e51781dd71c89c3ebbfc">TRIGGER_CPUSS_DMAC_TR_IN1</a> = 5, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a38e28856631e4f3ce08a6ed5d5bf3cda">CYHAL_TRIGGER_CPUSS_DMAC_TR_IN1</a> = 5, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a59dcca31269cbdcf479d7f4348a7f8fb">TRIGGER_CPUSS_DW0_TR_IN0</a> = 6, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a6e02ae68d8c7b03c4a420cecb6239e65">CYHAL_TRIGGER_CPUSS_DW0_TR_IN0</a> = 6, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08ac5832904e954417e7722fe916e30aed9">TRIGGER_CPUSS_DW0_TR_IN1</a> = 7, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a3942adec1c2d3f2365f2865b830258d2">CYHAL_TRIGGER_CPUSS_DW0_TR_IN1</a> = 7, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08ab2be33a0cdf992a9aaf460ac77f34742">TRIGGER_CPUSS_DW0_TR_IN2</a> = 8, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08af81ec98cd041bf4ab41c72089d6c0e44">CYHAL_TRIGGER_CPUSS_DW0_TR_IN2</a> = 8, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a21023fd979ffa3b92f7c32dfde08e9b5">TRIGGER_CPUSS_DW0_TR_IN3</a> = 9, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a94b0b31224aeedf91a37cdf99182efe7">CYHAL_TRIGGER_CPUSS_DW0_TR_IN3</a> = 9, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a190d365d2ca24eaa543ddfd1c59b9070">TRIGGER_CPUSS_DW0_TR_IN4</a> = 10, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a50bd84857a92cef7ae85d86ac1fe4960">CYHAL_TRIGGER_CPUSS_DW0_TR_IN4</a> = 10, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a7ed7ce4e16e05612710dd7fb92089e00">TRIGGER_CPUSS_DW0_TR_IN5</a> = 11, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a5aa0d0141df012162ba16469eb02e2ff">CYHAL_TRIGGER_CPUSS_DW0_TR_IN5</a> = 11, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a405b4329111bbe3bde81ae454a9a3df1">TRIGGER_CPUSS_DW0_TR_IN6</a> = 12, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a777c3a2973580eeeb0b36aafffa0fd6f">CYHAL_TRIGGER_CPUSS_DW0_TR_IN6</a> = 12, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a02d46b098d3bb72c5b34408b788c5b70">TRIGGER_CPUSS_DW0_TR_IN7</a> = 13, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a49243fb09f7c1fc4457d0ec958e24e03">CYHAL_TRIGGER_CPUSS_DW0_TR_IN7</a> = 13, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a51a16f389ddd36fe8278d40fb706bb7c">TRIGGER_CPUSS_DW0_TR_IN8</a> = 14, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a6dd8a6549737d394625162febb0b679e">CYHAL_TRIGGER_CPUSS_DW0_TR_IN8</a> = 14, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a3119ddb744391f697380a1e30b193aa1">TRIGGER_CPUSS_DW0_TR_IN9</a> = 15, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a4739257efba16654b4969a6bb917fe18">CYHAL_TRIGGER_CPUSS_DW0_TR_IN9</a> = 15, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a048781054f7e9db1e3d1d5a36a9a3c23">TRIGGER_CPUSS_DW0_TR_IN10</a> = 16, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a3d72c4f7ad2a26b4af35cb28caee46e3">CYHAL_TRIGGER_CPUSS_DW0_TR_IN10</a> = 16, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a50c16ac806e546d7e335ef76aad9c599">TRIGGER_CPUSS_DW0_TR_IN11</a> = 17, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a7aedf6c6ae29c4321a7f70ff30486780">CYHAL_TRIGGER_CPUSS_DW0_TR_IN11</a> = 17, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a65660e2df19d36b599d3c733dda6a6f8">TRIGGER_CPUSS_DW0_TR_IN12</a> = 18, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a34156adb1552d963fbd220c412053960">CYHAL_TRIGGER_CPUSS_DW0_TR_IN12</a> = 18, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a37ce1901e0d832418c7c97a88bf95269">TRIGGER_CPUSS_DW0_TR_IN13</a> = 19, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08aba64a13b2c1493803e7367783f87eb84">CYHAL_TRIGGER_CPUSS_DW0_TR_IN13</a> = 19, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08af9e03807927c18419f0895d860ed10a7">TRIGGER_CPUSS_DW0_TR_IN14</a> = 20, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08aed5a58e0eec292c1563399f03925c9da">CYHAL_TRIGGER_CPUSS_DW0_TR_IN14</a> = 20, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08afea88035d1b0457fa6ff23c3f50856d7">TRIGGER_CPUSS_DW0_TR_IN15</a> = 21, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08aa090f4d907f50639836e430416efeb47">CYHAL_TRIGGER_CPUSS_DW0_TR_IN15</a> = 21, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a495b059ecd2c64f96fd5dfff1adc295f">TRIGGER_CPUSS_DW0_TR_IN16</a> = 22, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a49db366648d50ad59d8cecc7ccdc63c8">CYHAL_TRIGGER_CPUSS_DW0_TR_IN16</a> = 22, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a3bd4c9f3a1f4b020fa862295cbccc81f">TRIGGER_CPUSS_DW0_TR_IN17</a> = 23, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a7da495cdd28efe4b875491dacbf6382d">CYHAL_TRIGGER_CPUSS_DW0_TR_IN17</a> = 23, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08aa55eb7a61a600daeeda12fb75d75d378">TRIGGER_CPUSS_DW0_TR_IN18</a> = 24, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a4cad283860a09eaee80fcc557fb4aa95">CYHAL_TRIGGER_CPUSS_DW0_TR_IN18</a> = 24, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a9fc6d272b76100ac5aac8fb3303dced5">TRIGGER_CPUSS_DW0_TR_IN19</a> = 25, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a80b3fa18a303e51915e18596eba1dcd7">CYHAL_TRIGGER_CPUSS_DW0_TR_IN19</a> = 25, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08abffae9cb3750a64c654ed26d1c0eaecc">TRIGGER_CPUSS_DW0_TR_IN20</a> = 26, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08abf97b74268352c4678a4aee67f4e1b77">CYHAL_TRIGGER_CPUSS_DW0_TR_IN20</a> = 26, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08ac75491702c281fa256bfebca75f0a428">TRIGGER_CPUSS_DW0_TR_IN21</a> = 27, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a1b8a21369dc29c2a615398321683acfa">CYHAL_TRIGGER_CPUSS_DW0_TR_IN21</a> = 27, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a20b7402ce3d89e9d9b01d032235c3f42">TRIGGER_CPUSS_DW0_TR_IN22</a> = 28, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08ab0b20efbc1f55559f76a97df1673fe6e">CYHAL_TRIGGER_CPUSS_DW0_TR_IN22</a> = 28, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08ab55b362f04185b69e868b76115690814">TRIGGER_CPUSS_DW0_TR_IN23</a> = 29, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08ae2ac0c0ef77a001b35554cd41499e236">CYHAL_TRIGGER_CPUSS_DW0_TR_IN23</a> = 29, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a6e009f3f25cd59c6db6cc6c4877abde4">TRIGGER_CPUSS_DW0_TR_IN24</a> = 30, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a71e5f7582c07049ead883dd3043dcfdd">CYHAL_TRIGGER_CPUSS_DW0_TR_IN24</a> = 30, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a461201f8dfb74db58b7978cfa45695db">TRIGGER_CPUSS_DW0_TR_IN25</a> = 31, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a7457250b99e18d0279c11704dc4ccfdb">CYHAL_TRIGGER_CPUSS_DW0_TR_IN25</a> = 31, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08ac1d97254ea718f0e361b38b5bf2a667e">TRIGGER_CPUSS_DW0_TR_IN26</a> = 32, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a10ad8da36773e4863fb97b113ce169c2">CYHAL_TRIGGER_CPUSS_DW0_TR_IN26</a> = 32, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a69d5ba052ff026435ba2785f1cace927">TRIGGER_CPUSS_DW0_TR_IN27</a> = 33, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a9445f4273752ba8bdb6b1b369ea768a6">CYHAL_TRIGGER_CPUSS_DW0_TR_IN27</a> = 33, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08aaa0960cdf5aa3ff12aa1eab07bc5d9ec">TRIGGER_CPUSS_DW0_TR_IN28</a> = 34, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a9ea8965c7a57713318b26b75580d0dee">CYHAL_TRIGGER_CPUSS_DW0_TR_IN28</a> = 34, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08afa0a27805f42c9d87e96b9cc85e3646a">TRIGGER_CPUSS_DW0_TR_IN29</a> = 35, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a731a7ff2c7e782975291d52b6bd74220">CYHAL_TRIGGER_CPUSS_DW0_TR_IN29</a> = 35, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08ab505fe04f23de1a200004f118cfabafb">TRIGGER_CPUSS_DW1_TR_IN0</a> = 36, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a85519d1df5b36fb4acd064db7061aedc">CYHAL_TRIGGER_CPUSS_DW1_TR_IN0</a> = 36, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a3fba810f4d13290b23d1362cc1ae83f3">TRIGGER_CPUSS_DW1_TR_IN1</a> = 37, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a41d85824242164ce3b2fedff92ed2ff6">CYHAL_TRIGGER_CPUSS_DW1_TR_IN1</a> = 37, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a77c0f8889a44e854f61fb6cc4c6b0076">TRIGGER_CPUSS_DW1_TR_IN2</a> = 38, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a9369c02862855247f32f9985efba2ad5">CYHAL_TRIGGER_CPUSS_DW1_TR_IN2</a> = 38, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a4c81762378bd22ca089856456da02a56">TRIGGER_CPUSS_DW1_TR_IN3</a> = 39, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a8cb28a223fbcfae1f5f0f9b8292582e6">CYHAL_TRIGGER_CPUSS_DW1_TR_IN3</a> = 39, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a3be46b61bf4a52991818ecb68bcb2f44">TRIGGER_CPUSS_DW1_TR_IN4</a> = 40, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08af009e30ad0daa55eb40035c5b602b069">CYHAL_TRIGGER_CPUSS_DW1_TR_IN4</a> = 40, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a451dd1e84f93daf35c7333868f3d0d5d">TRIGGER_CPUSS_DW1_TR_IN5</a> = 41, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a8936b689aedcd2f58c1064a21a674216">CYHAL_TRIGGER_CPUSS_DW1_TR_IN5</a> = 41, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08ae2054a1573623bac8765f51ae6761e08">TRIGGER_CPUSS_DW1_TR_IN6</a> = 42, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a18d493c05c8dcd18257fba8d600c4094">CYHAL_TRIGGER_CPUSS_DW1_TR_IN6</a> = 42, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08ade09e15fb40e9ad7f6681df499e2fdc1">TRIGGER_CPUSS_DW1_TR_IN7</a> = 43, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a3e064cc3f267e9932e4b3f5ef09302ab">CYHAL_TRIGGER_CPUSS_DW1_TR_IN7</a> = 43, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a57d6eb41fa86aee35ec7da7e033af504">TRIGGER_CPUSS_DW1_TR_IN8</a> = 44, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a51714136b500b20ade76ee8faa398e04">CYHAL_TRIGGER_CPUSS_DW1_TR_IN8</a> = 44, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a067f814ad18c08fa873be6d3f6849b3a">TRIGGER_CPUSS_DW1_TR_IN9</a> = 45, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a668544e24646d9f76b07f6d3e25ee326">CYHAL_TRIGGER_CPUSS_DW1_TR_IN9</a> = 45, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08aecf96e2b9c22940c1b0a1338ecd0b33d">TRIGGER_CPUSS_DW1_TR_IN10</a> = 46, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a5ae5f60742b559a58382a03e730c5d4a">CYHAL_TRIGGER_CPUSS_DW1_TR_IN10</a> = 46, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08acb7bd06eb8ff39e5ad2663da4f88c719">TRIGGER_CPUSS_DW1_TR_IN11</a> = 47, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08abbe5a50e9f429137647f4b3bc88b372f">CYHAL_TRIGGER_CPUSS_DW1_TR_IN11</a> = 47, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a54e47997df4f9835a7eb53a1ab453641">TRIGGER_CPUSS_DW1_TR_IN12</a> = 48, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a9b5827881d07541beea365d8f63038ab">CYHAL_TRIGGER_CPUSS_DW1_TR_IN12</a> = 48, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08aceb73709ca7e6ecac650ea223e173f74">TRIGGER_CPUSS_DW1_TR_IN13</a> = 49, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08abf4ac394486669b968b5dab79df72f78">CYHAL_TRIGGER_CPUSS_DW1_TR_IN13</a> = 49, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a02517b9ce500bb0458db53aa5b8a3b07">TRIGGER_CPUSS_DW1_TR_IN14</a> = 50, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a5e5565023694ab21ce28e849b7c9610d">CYHAL_TRIGGER_CPUSS_DW1_TR_IN14</a> = 50, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a561790ee0e03a8b13c1ea3eda3d3b1f2">TRIGGER_CPUSS_DW1_TR_IN15</a> = 51, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08ad378d0141216c08505484e8990e61a3d">CYHAL_TRIGGER_CPUSS_DW1_TR_IN15</a> = 51, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08abdc35d317236767f43cf843d9e1d0f63">TRIGGER_CPUSS_DW1_TR_IN16</a> = 52, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a732b5bfc99bb6f72792bcc0bad2bb0ee">CYHAL_TRIGGER_CPUSS_DW1_TR_IN16</a> = 52, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a5e155c782bc2dac6aafae10fc7fa8411">TRIGGER_CPUSS_DW1_TR_IN17</a> = 53, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08afb41ee268a8d0a84e4d4a2f762487cd6">CYHAL_TRIGGER_CPUSS_DW1_TR_IN17</a> = 53, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a4bd5d2795447449eb7c46c1914ee3ab6">TRIGGER_CPUSS_DW1_TR_IN18</a> = 54, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a970d9530bd67aaf79f3dc0c05e716b36">CYHAL_TRIGGER_CPUSS_DW1_TR_IN18</a> = 54, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08ab109fa7ac649e9b9ef3116407cdd3900">TRIGGER_CPUSS_DW1_TR_IN19</a> = 55, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a4c7037c3e7c87aba8cd6eb1301287cfe">CYHAL_TRIGGER_CPUSS_DW1_TR_IN19</a> = 55, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08ab5b376948a1958655060d02dffbb7bb7">TRIGGER_CPUSS_DW1_TR_IN20</a> = 56, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a42a01b51f60f1f23e454e1067a08c9df">CYHAL_TRIGGER_CPUSS_DW1_TR_IN20</a> = 56, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08ae5287fd9bca470df5d18d32e2379188b">TRIGGER_CPUSS_DW1_TR_IN21</a> = 57, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08ae114f09f2fdee23dbab8753cd1cf56e5">CYHAL_TRIGGER_CPUSS_DW1_TR_IN21</a> = 57, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08aca3865406082916b4331190f9cf989b7">TRIGGER_CPUSS_DW1_TR_IN22</a> = 58, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08af60518a46ae02e13014a405e26fa7884">CYHAL_TRIGGER_CPUSS_DW1_TR_IN22</a> = 58, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a467f43061de17e09768cd104752a44b9">TRIGGER_CPUSS_DW1_TR_IN23</a> = 59, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a7f055edcbebdbe4839317c8fd188d811">CYHAL_TRIGGER_CPUSS_DW1_TR_IN23</a> = 59, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08acee92d00130c8368e0d47eda1fd503ef">TRIGGER_CPUSS_DW1_TR_IN24</a> = 60, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08af9e3d622ff2ca26a0ad87c21a5128caa">CYHAL_TRIGGER_CPUSS_DW1_TR_IN24</a> = 60, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08ab76762c550c0a13cc598b255746043a0">TRIGGER_CPUSS_DW1_TR_IN25</a> = 61, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a3443d9424f0ec1650aeeeaa5174bb07b">CYHAL_TRIGGER_CPUSS_DW1_TR_IN25</a> = 61, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a4c6fa52f32bb6f369cd06b767ad4c71a">TRIGGER_CPUSS_DW1_TR_IN26</a> = 62, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08abddcae91a200ecddad2ee6764a05a98c">CYHAL_TRIGGER_CPUSS_DW1_TR_IN26</a> = 62, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a1be1ea9a804a48039d00cb45ec5202dc">TRIGGER_CPUSS_DW1_TR_IN27</a> = 63, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a65cf7948661d193f205fa2350a786f3c">CYHAL_TRIGGER_CPUSS_DW1_TR_IN27</a> = 63, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a03859e94b2de0bd0681a744afab91952">TRIGGER_CPUSS_DW1_TR_IN28</a> = 64, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a3ec3755472d1ff91ebd71891eab88af2">CYHAL_TRIGGER_CPUSS_DW1_TR_IN28</a> = 64, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08ab75467ab37aff7cf28b9d1aa740250c5">TRIGGER_CPUSS_DW1_TR_IN29</a> = 65, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08acfe67d4659f6b3ac7b668f8f4c9e3d2f">CYHAL_TRIGGER_CPUSS_DW1_TR_IN29</a> = 65, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08afeebe9e1704081c2259f11dd856bc51e">TRIGGER_CPUSS_DW1_TR_IN30</a> = 66, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a7df1c932d15e9cd852a4f72631edf025">CYHAL_TRIGGER_CPUSS_DW1_TR_IN30</a> = 66, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a9d02eb1df3ac56f997ad27bbb8c4073f">TRIGGER_CPUSS_DW1_TR_IN31</a> = 67, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a48529bf04f6710d5db5c8a2f9043acc9">CYHAL_TRIGGER_CPUSS_DW1_TR_IN31</a> = 67, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a787a2ca2230157504dcd03be3ceff4be">TRIGGER_CSD_DSI_START</a> = 68, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a85b253f1900cba9aff5db0af50694e2e">CYHAL_TRIGGER_CSD_DSI_START</a> = 68, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a5842d189b596bb7047c84bff2d1ecc5a">TRIGGER_PASS_DSI_CTDAC_STROBE</a> = 69, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a8d9e1714ce45587d26e3690617d811b5">CYHAL_TRIGGER_PASS_DSI_CTDAC_STROBE</a> = 69, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a112498fe77fcb911bbefa0e304946196">TRIGGER_PASS_TR_SAR_IN0</a> = 70, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a7cef06c8816b12e0bf730f9fc7865d98">CYHAL_TRIGGER_PASS_TR_SAR_IN0</a> = 70, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08ad19c62f3bdd8b0fc426eccba3551b00f">TRIGGER_PASS_TR_SAR_IN1</a> = 71, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a4bf40f667c5bd84b07bd4ad059b5e3f7">CYHAL_TRIGGER_PASS_TR_SAR_IN1</a> = 71, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08adc5ebe2bb7ff2e330bece17760fc4c8f">TRIGGER_PERI_TR_DBG_FREEZE</a> = 72, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a136808a8f7429bb59583396ae1a6a39a">CYHAL_TRIGGER_PERI_TR_DBG_FREEZE</a> = 72, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a363772d05c57f57cda0107fe3bab3161">TRIGGER_PERI_TR_IO_OUTPUT0</a> = 73, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08adf01d45dad1f462cf943adf14914658f">CYHAL_TRIGGER_PERI_TR_IO_OUTPUT0</a> = 73, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08aca0e6a088350defcb49a8db1142710e0">TRIGGER_PERI_TR_IO_OUTPUT1</a> = 74, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a1ffd0ae3314e30501e656ab7af7da745">CYHAL_TRIGGER_PERI_TR_IO_OUTPUT1</a> = 74, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08aa4a08db51fc003949e989aea6e5c3e27">TRIGGER_TCPWM0_TR_ALL_CNT_IN0</a> = 75, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08addced742b1c301bdf952b4c35d936cb7">CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN0</a> = 75, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08abe83ae5ae27a3680a2a20dbf20fcee99">TRIGGER_TCPWM0_TR_ALL_CNT_IN1</a> = 76, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a28f1ccae635dd3f55443ffc1670ff17a">CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN1</a> = 76, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08af67783f1d5fc96a344665a5f249dde5d">TRIGGER_TCPWM0_TR_ALL_CNT_IN2</a> = 77, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08adf906bc6740d5fa9c672019d0d6448f5">CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN2</a> = 77, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08af757400d82aaa9fcf1a0ae3384fb0780">TRIGGER_TCPWM0_TR_ALL_CNT_IN3</a> = 78, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a486327be3a310d4b1f71c28848c897aa">CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN3</a> = 78, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a41ac11e753e2f68279bcc974de9e0ac0">TRIGGER_TCPWM0_TR_ALL_CNT_IN4</a> = 79, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08ae644577ee21d656ae22df62d2a50f354">CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN4</a> = 79, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a5f341cced32a2746907826e485e7993f">TRIGGER_TCPWM0_TR_ALL_CNT_IN5</a> = 80, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a8d850d6ae0e18de942d437d5f62592c2">CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN5</a> = 80, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a967e7dd8eebe970013a0144cfa1a63b9">TRIGGER_TCPWM0_TR_ALL_CNT_IN6</a> = 81, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08ad18caf65b1bca533c809317e58650e59">CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN6</a> = 81, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08ab2fe2b7cb6a94455b57f84e82a3d090e">TRIGGER_TCPWM0_TR_ALL_CNT_IN7</a> = 82, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a55cb62284a95e30545a88d1990ce21aa">CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN7</a> = 82, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a30c0e152712e1e90a4e14c924ef4966f">TRIGGER_TCPWM0_TR_ALL_CNT_IN8</a> = 83, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a2e9bfe123198d4154c7c4a857cd2d5fb">CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN8</a> = 83, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a76dfefa8d437bc83f85747098777b14a">TRIGGER_TCPWM0_TR_ALL_CNT_IN9</a> = 84, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a76963a9ad0c214ca23739cb983a770fc">CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN9</a> = 84, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a205789199b6b03e5204a825005b80209">TRIGGER_TCPWM0_TR_ALL_CNT_IN10</a> = 85, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08ae17f1e80557f4a3921775dc95646801a">CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN10</a> = 85, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a4c89089398ec3d2645ff3c2035b91a4b">TRIGGER_TCPWM0_TR_ALL_CNT_IN11</a> = 86, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08aa8ae67803140c8894510733aca21f404">CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN11</a> = 86, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08ae18d2ffcd6483b4b5d2b082103ea17fd">TRIGGER_TCPWM0_TR_ALL_CNT_IN12</a> = 87, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08ae435e0f7d0c64d4ffd5f1507451103bf">CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN12</a> = 87, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a8f6258f63ae7e50c91ad616957cff6d1">TRIGGER_TCPWM0_TR_ALL_CNT_IN13</a> = 88, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a4ba9e31bdab0daad93952ee2b21887c9">CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN13</a> = 88, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a258632a81195822b575ea2665b7c2c20">TRIGGER_TCPWM0_TR_ALL_CNT_IN14</a> = 89, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a0faeb5bfc85dc30f9fb4cf867e14453f">CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN14</a> = 89, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a7b858f016e2fbaf4de759fc9bc1bee6b">TRIGGER_TCPWM0_TR_ALL_CNT_IN15</a> = 90, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08ae4944eaf11f4d64a89034f5cb8d043de">CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN15</a> = 90, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a7c9eaa32da25a8b6424b119035f2e655">TRIGGER_TCPWM0_TR_ALL_CNT_IN16</a> = 91, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08aff0a51b3c4f412240d3f2f1c9901885d">CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN16</a> = 91, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a5e9a83d144163a6b0f819ca3aba5c5d1">TRIGGER_TCPWM0_TR_ALL_CNT_IN17</a> = 92, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a892e72fc6b4e5dbcd3bb373b7edd2865">CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN17</a> = 92, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a299e5ec57f17962f0f7d8135a8963f99">TRIGGER_TCPWM0_TR_ALL_CNT_IN18</a> = 93, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08afb0173b0187e4186e780d2771f58e2c3">CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN18</a> = 93, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a5bbaa64b59ffd7e0ebdfd4ddb4793913">TRIGGER_TCPWM0_TR_ALL_CNT_IN19</a> = 94, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a6c9f999ffa7f7d3063f19d8038faf447">CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN19</a> = 94, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08add38dd0d143ef78c8ab785033a913fb7">TRIGGER_TCPWM0_TR_ALL_CNT_IN20</a> = 95, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a03a49540fa0986db4b2bc69d142b0fd5">CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN20</a> = 95, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08ac434df8afbd22144ab297f3980dcea0f">TRIGGER_TCPWM0_TR_ALL_CNT_IN21</a> = 96, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a769ff1c6fa9938fd96ab65e45ab27eba">CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN21</a> = 96, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a83d15d04850e581dea9fa861a9619d0f">TRIGGER_TCPWM0_TR_ALL_CNT_IN22</a> = 97, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a8a748ff9a46cf566d82036a4d12f8676">CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN22</a> = 97, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a431bb08b02e0b87d47c92d6875c84b11">TRIGGER_TCPWM0_TR_ALL_CNT_IN23</a> = 98, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a4b1b2c3aaa628907f2b2e0374f673d86">CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN23</a> = 98, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08afd64e889731b164ca2f596a4ec48a724">TRIGGER_TCPWM0_TR_ALL_CNT_IN24</a> = 99, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a22f6eb563c8cb5101640882e95da9cff">CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN24</a> = 99, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a9a1d5818fcce18d24cfdbfd88eec43b3">TRIGGER_TCPWM0_TR_ALL_CNT_IN25</a> = 100, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a5af0a5b24e8c4f9b6b4511d90115dc87">CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN25</a> = 100, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08aeab231fe885fd035d87ecb6868b0b59c">TRIGGER_TCPWM0_TR_ALL_CNT_IN26</a> = 101, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a84360a15764126057bc29b6279b8652c">CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN26</a> = 101, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a49ec1d8813659d747dfe7ecf164949a4">TRIGGER_TCPWM0_TR_ALL_CNT_IN27</a> = 102, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a52cf7154c3e83979dd1f328faf29d269">CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN27</a> = 102, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08acc8ec4cd5d050b0a595bc09e4894244a">TRIGGER_TCPWM0_TR_DEBUG_FREEZE</a> = 103, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a69575c7ff13cecba4502528be18dda81">CYHAL_TRIGGER_TCPWM0_TR_DEBUG_FREEZE</a> = 103, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a9bb637b83181e9b9dcea288f4e7a992a">TRIGGER_USB_DMA_BURSTEND0</a> = 104, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a6bc038dbba543b332b657451ef5fc169">CYHAL_TRIGGER_USB_DMA_BURSTEND0</a> = 104, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a1b9210a959036a17c913310f8840c64d">TRIGGER_USB_DMA_BURSTEND1</a> = 105, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08af9f646d131311a828b16040bf03c040d">CYHAL_TRIGGER_USB_DMA_BURSTEND1</a> = 105, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08aa7059fa46c0eb14bd41ba7fa72b20f12">TRIGGER_USB_DMA_BURSTEND2</a> = 106, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08aa861643610f0b3d3c629864a4bf57ee2">CYHAL_TRIGGER_USB_DMA_BURSTEND2</a> = 106, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a4ccffefafbf0b050aaba36e102b40925">TRIGGER_USB_DMA_BURSTEND3</a> = 107, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08af99aa0d36ffe75209163040da6a22e6c">CYHAL_TRIGGER_USB_DMA_BURSTEND3</a> = 107, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08ad70f7ad90cddc4a7948617e6ec7585a0">TRIGGER_USB_DMA_BURSTEND4</a> = 108, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08abf9c5ab838c871e87d62eec19335406b">CYHAL_TRIGGER_USB_DMA_BURSTEND4</a> = 108, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a306ff4f4b52defbd6b9897b900c62a03">TRIGGER_USB_DMA_BURSTEND5</a> = 109, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08aab23dc9d72a50b637cb5431ad6f4423e">CYHAL_TRIGGER_USB_DMA_BURSTEND5</a> = 109, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08abc23fa750a52be075e5fd9523ef99015">TRIGGER_USB_DMA_BURSTEND6</a> = 110, 
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a0b3770f2503b6520031056c3af017678">CYHAL_TRIGGER_USB_DMA_BURSTEND6</a> = 110, 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08adb1a40940305beffa637ce761de4f419">TRIGGER_USB_DMA_BURSTEND7</a> = 111
+&#160;&#160;<a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#ggae9c98e18d33db79340bd24ec02488d08a2d8bdb40ee6cb08c9824a96b6c9f72c0">CYHAL_TRIGGER_USB_DMA_BURSTEND7</a> = 111
 <br />
  }</td></tr>
 <tr class="memdesc:gae9c98e18d33db79340bd24ec02488d08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of each output trigger.  <a href="group__group__hal__impl__triggers__psoc6__04.html#gae9c98e18d33db79340bd24ec02488d08">More...</a><br /></td></tr>
 <tr class="separator:gae9c98e18d33db79340bd24ec02488d08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="gaf248bbdcfc82d83541f1f59116553f77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf248bbdcfc82d83541f1f59116553f77">&#9670;&nbsp;</a></span>cyhal_trigger_source_psoc6_04_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__group__hal__impl__triggers__psoc6__04.html#gaf248bbdcfc82d83541f1f59116553f77">cyhal_trigger_source_psoc6_04_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Name of each input trigger. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a03a2f1af3373ec9c433c50f71ac3955d"></a>CYHAL_TRIGGER_CPUSS_ZERO&#160;</td><td class="fielddoc"><p>cpuss.zero </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a8c3bb7eca5dd1a7b23169ad3f7340db3"></a>CYHAL_TRIGGER_CANFD0_TR_DBG_DMA_REQ0&#160;</td><td class="fielddoc"><p>canfd[0].tr_dbg_dma_req[0] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a8cafb1b954d5ca1d9bb94ec04ab5145b"></a>CYHAL_TRIGGER_CANFD0_TR_FIFO00&#160;</td><td class="fielddoc"><p>canfd[0].tr_fifo0[0] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a0854e64a92a0227862500e827d1321dc"></a>CYHAL_TRIGGER_CANFD0_TR_FIFO10&#160;</td><td class="fielddoc"><p>canfd[0].tr_fifo1[0] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a1eb314d6ea8d9f3f4cbd064d6bc3a28e"></a>CYHAL_TRIGGER_CANFD0_TR_TMP_RTP_OUT0&#160;</td><td class="fielddoc"><p>canfd[0].tr_tmp_rtp_out[0] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77aab5491bbbb7a9a950091baa2420c3107"></a>CYHAL_TRIGGER_CPUSS_CTI_TR_OUT0&#160;</td><td class="fielddoc"><p>cpuss.cti_tr_out[0] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77ac2b6c09bb64506377264ef0bee087ff4"></a>CYHAL_TRIGGER_CPUSS_CTI_TR_OUT1&#160;</td><td class="fielddoc"><p>cpuss.cti_tr_out[1] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a508f0beeee9056f83c8e419a95721f2a"></a>CYHAL_TRIGGER_CPUSS_DMAC_TR_OUT0&#160;</td><td class="fielddoc"><p>cpuss.dmac_tr_out[0] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77aebb443f267af03a7eba63e12fbcb75a0"></a>CYHAL_TRIGGER_CPUSS_DMAC_TR_OUT1&#160;</td><td class="fielddoc"><p>cpuss.dmac_tr_out[1] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77af7028296eccb42d98c8e03f04fb83465"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_OUT0&#160;</td><td class="fielddoc"><p>cpuss.dw0_tr_out[0] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77af97494d0b485ba027370de2da41c1751"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_OUT1&#160;</td><td class="fielddoc"><p>cpuss.dw0_tr_out[1] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a43bcce16df21793de8f08ad57a416bfd"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_OUT2&#160;</td><td class="fielddoc"><p>cpuss.dw0_tr_out[2] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a801ab2df05eb225e0876bb5577246fb4"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_OUT3&#160;</td><td class="fielddoc"><p>cpuss.dw0_tr_out[3] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a4188e1aec9017e8b7a5b1eeaa9c1b659"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_OUT4&#160;</td><td class="fielddoc"><p>cpuss.dw0_tr_out[4] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77aac51c54b16baf729479c7818f4cd8673"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_OUT5&#160;</td><td class="fielddoc"><p>cpuss.dw0_tr_out[5] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a179105d777b7f10a95e0d1daa59d24eb"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_OUT6&#160;</td><td class="fielddoc"><p>cpuss.dw0_tr_out[6] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77aa92ac361aeaedb20622b20698d1582b1"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_OUT7&#160;</td><td class="fielddoc"><p>cpuss.dw0_tr_out[7] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a91ecb7c249e5dca5982591be14d6153f"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_OUT8&#160;</td><td class="fielddoc"><p>cpuss.dw0_tr_out[8] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a907b17d73cb8179dd5bb6c8ff61898a1"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_OUT9&#160;</td><td class="fielddoc"><p>cpuss.dw0_tr_out[9] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a56f6c6de2423ed9e469745aed37c29c0"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_OUT10&#160;</td><td class="fielddoc"><p>cpuss.dw0_tr_out[10] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77ae98c46aeb130d92442f675196ab8f897"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_OUT11&#160;</td><td class="fielddoc"><p>cpuss.dw0_tr_out[11] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a0792561264ddf86f7ac6b66fb1f73f11"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_OUT12&#160;</td><td class="fielddoc"><p>cpuss.dw0_tr_out[12] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a756a216bbb5141c2e2c24f52967c2888"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_OUT13&#160;</td><td class="fielddoc"><p>cpuss.dw0_tr_out[13] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a707d9c072d9f5f33b53f73c913df7200"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_OUT14&#160;</td><td class="fielddoc"><p>cpuss.dw0_tr_out[14] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a5d2f1ce3d40fb193816a63d109a549dc"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_OUT15&#160;</td><td class="fielddoc"><p>cpuss.dw0_tr_out[15] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77afa51ddfc2aef2246ad79cdfc85f036b3"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_OUT16&#160;</td><td class="fielddoc"><p>cpuss.dw0_tr_out[16] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77aa0bb138c6de947eec832cdf9ec7bfb0b"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_OUT17&#160;</td><td class="fielddoc"><p>cpuss.dw0_tr_out[17] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77aa51741dd58398399ea2c32b3709089f7"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_OUT18&#160;</td><td class="fielddoc"><p>cpuss.dw0_tr_out[18] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a0fedb2a492d9f77d3324c28175f2c7a7"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_OUT19&#160;</td><td class="fielddoc"><p>cpuss.dw0_tr_out[19] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77ac9b20fb569195d946f8bc2588463bc10"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_OUT20&#160;</td><td class="fielddoc"><p>cpuss.dw0_tr_out[20] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77ad9271f33440eeba5465946603675fe80"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_OUT21&#160;</td><td class="fielddoc"><p>cpuss.dw0_tr_out[21] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77ae2c27f6da0240004676a26102bc00cf9"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_OUT22&#160;</td><td class="fielddoc"><p>cpuss.dw0_tr_out[22] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a4540ed684462fb4b8fac7882b3ff6638"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_OUT23&#160;</td><td class="fielddoc"><p>cpuss.dw0_tr_out[23] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a21c0eac357baba00d3268804f3ddbe31"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_OUT24&#160;</td><td class="fielddoc"><p>cpuss.dw0_tr_out[24] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77abdc5c822191504e2738b2d61697338e5"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_OUT25&#160;</td><td class="fielddoc"><p>cpuss.dw0_tr_out[25] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a058486b3f2b27c6c388f02c0e1c3ee47"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_OUT26&#160;</td><td class="fielddoc"><p>cpuss.dw0_tr_out[26] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a2b06d2433c3a5aa5f7d010ba51d309fe"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_OUT27&#160;</td><td class="fielddoc"><p>cpuss.dw0_tr_out[27] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a27895dfb7b513ee0b5e678aee8de63c6"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_OUT28&#160;</td><td class="fielddoc"><p>cpuss.dw0_tr_out[28] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a90bf7aea5c8fdda6966d70d9e5eb6144"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_OUT29&#160;</td><td class="fielddoc"><p>cpuss.dw0_tr_out[29] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77aa5de40e60637499e351e1d903ce4acb1"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT0&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[0] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77af9cc05a471a5d92f8cc734a30eb5fcc9"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT1&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[1] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a663eb25b92d851dc16b692856d06bf92"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT2&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[2] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a5036cc9f4df7d722b018740ea11f26f4"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT3&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[3] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77acd5b05505ea4d72c32d6e8a620872d6b"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT4&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[4] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a77862f41c6dec62406ae99b9313c25a8"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT5&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[5] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77af863288abaaf0bd554064ec9a056cc80"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT6&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[6] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a75fa2a81d17cd25d1ed00523e138b160"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT7&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[7] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a8cb71b72b9c611a104946a220ca0eca1"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT8&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[8] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77ab740f8f51cf696a61e4f1436f153e4e1"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT9&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[9] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77ac8c31972dccb9c12d048a5a53ac5a734"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT10&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[10] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a91ce745ac159d6f9c6160ae8f4f6eaa4"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT11&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[11] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77af5baac2fe1d5707f16671792a16ebbbc"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT12&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[12] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a4d1c192002e0a4c6026d3eb2670be6a8"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT13&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[13] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a92a09365e7debcf74692d7a1823d04ba"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT14&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[14] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77ae2571e322f021d4fea227062432de763"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT15&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[15] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a117b3f4ac4d61cfc3edd833433c9ca11"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT16&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[16] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a8ea91de7eb55d8055d08d6a6a22386c2"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT17&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[17] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77adedc717783642ec5be482b76fd86205a"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT18&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[18] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77adefced4e0e0f85638fbacb826568fb0f"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT19&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[19] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a75476dfbc695e074c16d620d71fc7268"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT20&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[20] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77acebafb06b7b6ebe432d99ded8940bcfb"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT21&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[21] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77ad180b308488313a7d19e48b2a3b96549"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT22&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[22] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a48c8d5a139c478fc7b85e7e2b283645a"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT23&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[23] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a62b6107791b28823db9d27d2f7dc514a"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT24&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[24] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77add722229559a99c9e8fa501e3b8aa9d9"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT25&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[25] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77ad67b82ea4824b5687c51444a93efae14"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT26&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[26] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77ae3b97953510df8cb7f751ba9e0a4f528"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT27&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[27] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77aaa6611dcb62499634c79b74b9bd87032"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT28&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[28] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77aca853a251a7adc3ed94d1f5f347c81f3"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT29&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[29] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77aed96561ce3ec1804c4cd42ad0d291774"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT30&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[30] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77acd58ffff7293802efa83145f1e2065c6"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_OUT31&#160;</td><td class="fielddoc"><p>cpuss.dw1_tr_out[31] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a50689ddd7ed5a4acbfb2ca9333d6f20a"></a>CYHAL_TRIGGER_CPUSS_TR_FAULT0&#160;</td><td class="fielddoc"><p>cpuss.tr_fault[0] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a893c7719d6fba436440638e38c34cd14"></a>CYHAL_TRIGGER_CPUSS_TR_FAULT1&#160;</td><td class="fielddoc"><p>cpuss.tr_fault[1] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77af5a21590bcebceb6253dd3a3413263eb"></a>CYHAL_TRIGGER_CSD_DSI_SAMPLE_OUT&#160;</td><td class="fielddoc"><p>csd.dsi_sample_out </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a2cd506500faefa172bde77202f5b53a5"></a>CYHAL_TRIGGER_CSD_DSI_SENSE_OUT&#160;</td><td class="fielddoc"><p>csd.dsi_sense_out </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a69b7d2298f8126882c7cf063995ca90d"></a>CYHAL_TRIGGER_CSD_TR_ADC_DONE&#160;</td><td class="fielddoc"><p>csd.tr_adc_done </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a442c38b9197621b9cb6bc5cea8098b2a"></a>CYHAL_TRIGGER_LPCOMP_DSI_COMP0&#160;</td><td class="fielddoc"><p>lpcomp.dsi_comp0 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a71012b569929a6fb2d100ba3b524d597"></a>CYHAL_TRIGGER_LPCOMP_DSI_COMP1&#160;</td><td class="fielddoc"><p>lpcomp.dsi_comp1 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77aac611643ed5b3d244c6985a7360271a9"></a>CYHAL_TRIGGER_PASS_DSI_CTB_CMP0&#160;</td><td class="fielddoc"><p>pass.dsi_ctb_cmp0 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a1bd29cb30a010cf7e25750ba9dbc31e3"></a>CYHAL_TRIGGER_PASS_DSI_CTB_CMP1&#160;</td><td class="fielddoc"><p>pass.dsi_ctb_cmp1 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a3bcfecf872c7419919b759194f5ef7d9"></a>CYHAL_TRIGGER_PASS_TR_CTDAC_EMPTY&#160;</td><td class="fielddoc"><p>pass.tr_ctdac_empty </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a12e5271df96a08b69b03d1f4b4f5dbea"></a>CYHAL_TRIGGER_PASS_TR_SAR_OUT0&#160;</td><td class="fielddoc"><p>pass.tr_sar_out[0] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a100c6adf80822c75469a7a3bf00fd80d"></a>CYHAL_TRIGGER_PASS_TR_SAR_OUT1&#160;</td><td class="fielddoc"><p>pass.tr_sar_out[1] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a26451bce5df92cb870e0265da354de7f"></a>CYHAL_TRIGGER_PERI_TR_IO_INPUT0&#160;</td><td class="fielddoc"><p>peri.tr_io_input[0] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77ab4c481f8cc96914be9436c086b3540e6"></a>CYHAL_TRIGGER_PERI_TR_IO_INPUT1&#160;</td><td class="fielddoc"><p>peri.tr_io_input[1] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a0643e60170828d1cedf25ba8db34c9c0"></a>CYHAL_TRIGGER_PERI_TR_IO_INPUT2&#160;</td><td class="fielddoc"><p>peri.tr_io_input[2] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77aa73f80d11c9680ec0fca3f32ee878ed7"></a>CYHAL_TRIGGER_PERI_TR_IO_INPUT3&#160;</td><td class="fielddoc"><p>peri.tr_io_input[3] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a9072cc79db48e44eb5ec8c3cc2077d8a"></a>CYHAL_TRIGGER_PERI_TR_IO_INPUT4&#160;</td><td class="fielddoc"><p>peri.tr_io_input[4] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a8895bc3c5f47c9802b4ad8abba6e3122"></a>CYHAL_TRIGGER_PERI_TR_IO_INPUT5&#160;</td><td class="fielddoc"><p>peri.tr_io_input[5] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a70e3b3bd3c43b0dbea39b2ea0b186226"></a>CYHAL_TRIGGER_PERI_TR_IO_INPUT6&#160;</td><td class="fielddoc"><p>peri.tr_io_input[6] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77ad6a6ac3169020f2b114d0d219a7a9110"></a>CYHAL_TRIGGER_PERI_TR_IO_INPUT7&#160;</td><td class="fielddoc"><p>peri.tr_io_input[7] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a4a5963bc948fe7897f40b339a77aaa2b"></a>CYHAL_TRIGGER_PERI_TR_IO_INPUT8&#160;</td><td class="fielddoc"><p>peri.tr_io_input[8] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77ad8931dbe1fe00b8a08a8fb48f05ab499"></a>CYHAL_TRIGGER_PERI_TR_IO_INPUT9&#160;</td><td class="fielddoc"><p>peri.tr_io_input[9] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77af162e5378bf702fb0270f9db3fa704da"></a>CYHAL_TRIGGER_PERI_TR_IO_INPUT10&#160;</td><td class="fielddoc"><p>peri.tr_io_input[10] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a893aeadade372152d205ef51a6336fe6"></a>CYHAL_TRIGGER_PERI_TR_IO_INPUT11&#160;</td><td class="fielddoc"><p>peri.tr_io_input[11] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77aadca73b2ba9fff74fbf821366c87b1e7"></a>CYHAL_TRIGGER_PERI_TR_IO_INPUT12&#160;</td><td class="fielddoc"><p>peri.tr_io_input[12] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77abc83a9b16dd6ed974f2249951d7cbef1"></a>CYHAL_TRIGGER_PERI_TR_IO_INPUT13&#160;</td><td class="fielddoc"><p>peri.tr_io_input[13] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77ad1e26ed3fd5ca512ba226fea06d8f156"></a>CYHAL_TRIGGER_PERI_TR_IO_INPUT14&#160;</td><td class="fielddoc"><p>peri.tr_io_input[14] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a9d20ef772e33f5b794419aa0806b39d0"></a>CYHAL_TRIGGER_PERI_TR_IO_INPUT15&#160;</td><td class="fielddoc"><p>peri.tr_io_input[15] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77aba8056c24e31656f1bde89bd43239593"></a>CYHAL_TRIGGER_PERI_TR_IO_INPUT16&#160;</td><td class="fielddoc"><p>peri.tr_io_input[16] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77abca1cba121d3d02968868262521d9741"></a>CYHAL_TRIGGER_PERI_TR_IO_INPUT17&#160;</td><td class="fielddoc"><p>peri.tr_io_input[17] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a1636d4949151ccd9f98708911989cfa2"></a>CYHAL_TRIGGER_PERI_TR_IO_INPUT18&#160;</td><td class="fielddoc"><p>peri.tr_io_input[18] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77ad0073944ad740bcc07fda99635357e7f"></a>CYHAL_TRIGGER_PERI_TR_IO_INPUT19&#160;</td><td class="fielddoc"><p>peri.tr_io_input[19] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a867cd6982e2de5b1e9849ff5644b7266"></a>CYHAL_TRIGGER_PERI_TR_IO_INPUT20&#160;</td><td class="fielddoc"><p>peri.tr_io_input[20] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a03f7a861a9581fac845ea82673708f8c"></a>CYHAL_TRIGGER_PERI_TR_IO_INPUT21&#160;</td><td class="fielddoc"><p>peri.tr_io_input[21] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a8c21f51ea55c72199c5ee9b3b19fa273"></a>CYHAL_TRIGGER_PERI_TR_IO_INPUT22&#160;</td><td class="fielddoc"><p>peri.tr_io_input[22] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a930e987f5abbdecae411a67182b49a41"></a>CYHAL_TRIGGER_PERI_TR_IO_INPUT23&#160;</td><td class="fielddoc"><p>peri.tr_io_input[23] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77ad68105b3c814017e2b4932a206b4bd5d"></a>CYHAL_TRIGGER_SCB0_TR_I2C_SCL_FILTERED&#160;</td><td class="fielddoc"><p>scb[0].tr_i2c_scl_filtered </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77ab63f37e6b5a24679009ffbaf5eea8a15"></a>CYHAL_TRIGGER_SCB1_TR_I2C_SCL_FILTERED&#160;</td><td class="fielddoc"><p>scb[1].tr_i2c_scl_filtered </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77ab669f35409d3ec42f1ebb0a765050491"></a>CYHAL_TRIGGER_SCB2_TR_I2C_SCL_FILTERED&#160;</td><td class="fielddoc"><p>scb[2].tr_i2c_scl_filtered </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a797df717b985fd87212d4eed054136f6"></a>CYHAL_TRIGGER_SCB4_TR_I2C_SCL_FILTERED&#160;</td><td class="fielddoc"><p>scb[4].tr_i2c_scl_filtered </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a7e89f6ad3c36f27f574f836191db6d8c"></a>CYHAL_TRIGGER_SCB5_TR_I2C_SCL_FILTERED&#160;</td><td class="fielddoc"><p>scb[5].tr_i2c_scl_filtered </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77add6c8a5f832d7ff1c51c6dea7d9507f6"></a>CYHAL_TRIGGER_SCB6_TR_I2C_SCL_FILTERED&#160;</td><td class="fielddoc"><p>scb[6].tr_i2c_scl_filtered </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77afec830dc3cc313f092418ccb6a4240b0"></a>CYHAL_TRIGGER_SCB0_TR_RX_REQ&#160;</td><td class="fielddoc"><p>scb[0].tr_rx_req </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a617d6099e2b7699396a51a554070a707"></a>CYHAL_TRIGGER_SCB1_TR_RX_REQ&#160;</td><td class="fielddoc"><p>scb[1].tr_rx_req </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77ad9c912decc51b251821e8752023d5157"></a>CYHAL_TRIGGER_SCB2_TR_RX_REQ&#160;</td><td class="fielddoc"><p>scb[2].tr_rx_req </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77af8d4c9a2fe009ff7b7f749f50ff1e50c"></a>CYHAL_TRIGGER_SCB4_TR_RX_REQ&#160;</td><td class="fielddoc"><p>scb[4].tr_rx_req </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77ab71f9a2ac210a6aa316beb123993dc2e"></a>CYHAL_TRIGGER_SCB5_TR_RX_REQ&#160;</td><td class="fielddoc"><p>scb[5].tr_rx_req </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a6bdacd4ed9fc3d68da885bdd1cb2a9e6"></a>CYHAL_TRIGGER_SCB6_TR_RX_REQ&#160;</td><td class="fielddoc"><p>scb[6].tr_rx_req </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a464ad5f427aa723d9d742303777c90ce"></a>CYHAL_TRIGGER_SCB0_TR_TX_REQ&#160;</td><td class="fielddoc"><p>scb[0].tr_tx_req </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a6dd7e7b90713a011d4f3c8801df19504"></a>CYHAL_TRIGGER_SCB1_TR_TX_REQ&#160;</td><td class="fielddoc"><p>scb[1].tr_tx_req </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a0065bb4e812979d1eb9cd598316f8a84"></a>CYHAL_TRIGGER_SCB2_TR_TX_REQ&#160;</td><td class="fielddoc"><p>scb[2].tr_tx_req </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77af1701c61edf0aca9b9bcc0512b7a3a87"></a>CYHAL_TRIGGER_SCB4_TR_TX_REQ&#160;</td><td class="fielddoc"><p>scb[4].tr_tx_req </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a77d961bb413a0888a9c2d368e259c8c0"></a>CYHAL_TRIGGER_SCB5_TR_TX_REQ&#160;</td><td class="fielddoc"><p>scb[5].tr_tx_req </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77af5315fac71fdbbf66cb928867a3d586d"></a>CYHAL_TRIGGER_SCB6_TR_TX_REQ&#160;</td><td class="fielddoc"><p>scb[6].tr_tx_req </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77abdf9ccb1e03cba55b59afeaccc91c359"></a>CYHAL_TRIGGER_SMIF_TR_RX_REQ&#160;</td><td class="fielddoc"><p>smif.tr_rx_req </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77aa2b8200d8514adcb46349b9827657d72"></a>CYHAL_TRIGGER_SMIF_TR_TX_REQ&#160;</td><td class="fielddoc"><p>smif.tr_tx_req </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a51884d5ef57a7d2e3bb313bfc1b4d4f2"></a>CYHAL_TRIGGER_TCPWM0_TR_OUT00&#160;</td><td class="fielddoc"><p>tcpwm[0].tr_out0[0] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a1a939c5db392a4630b935a1d43b22b7f"></a>CYHAL_TRIGGER_TCPWM0_TR_OUT01&#160;</td><td class="fielddoc"><p>tcpwm[0].tr_out0[1] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77abba6dff7b01975948c0ef91da33ec581"></a>CYHAL_TRIGGER_TCPWM0_TR_OUT02&#160;</td><td class="fielddoc"><p>tcpwm[0].tr_out0[2] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77ac73afa86099e2c0943667f866a42eb19"></a>CYHAL_TRIGGER_TCPWM0_TR_OUT03&#160;</td><td class="fielddoc"><p>tcpwm[0].tr_out0[3] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a9e190cb8f230a1147b58ac486b5db3b9"></a>CYHAL_TRIGGER_TCPWM0_TR_OUT0256&#160;</td><td class="fielddoc"><p>tcpwm[0].tr_out0[256] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a5e410a70fbafb973bb4c22b128ca65f0"></a>CYHAL_TRIGGER_TCPWM0_TR_OUT0257&#160;</td><td class="fielddoc"><p>tcpwm[0].tr_out0[257] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77af61ef4b63f9c6af5b0f74ccb714ebc3e"></a>CYHAL_TRIGGER_TCPWM0_TR_OUT0258&#160;</td><td class="fielddoc"><p>tcpwm[0].tr_out0[258] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77ad70941d47c53f49c4b86c8b5ec00787c"></a>CYHAL_TRIGGER_TCPWM0_TR_OUT0259&#160;</td><td class="fielddoc"><p>tcpwm[0].tr_out0[259] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a61751f9d8c232c31dc4106ef20508065"></a>CYHAL_TRIGGER_TCPWM0_TR_OUT0260&#160;</td><td class="fielddoc"><p>tcpwm[0].tr_out0[260] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a40e7285298f58be6b7324cfdf2f6e95f"></a>CYHAL_TRIGGER_TCPWM0_TR_OUT0261&#160;</td><td class="fielddoc"><p>tcpwm[0].tr_out0[261] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a8c8ffb9468a8498ebf4e0fe416502404"></a>CYHAL_TRIGGER_TCPWM0_TR_OUT0262&#160;</td><td class="fielddoc"><p>tcpwm[0].tr_out0[262] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a5e1a7832cbdd3fbc3d4cd002a768c342"></a>CYHAL_TRIGGER_TCPWM0_TR_OUT0263&#160;</td><td class="fielddoc"><p>tcpwm[0].tr_out0[263] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a5ffd96b2b5e7a1bc7aa19ccf22108944"></a>CYHAL_TRIGGER_TCPWM0_TR_OUT10&#160;</td><td class="fielddoc"><p>tcpwm[0].tr_out1[0] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77aed9ec626ac9ed55f984911574c00c2f1"></a>CYHAL_TRIGGER_TCPWM0_TR_OUT11&#160;</td><td class="fielddoc"><p>tcpwm[0].tr_out1[1] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a23af1ba6edb46817a705911bc8f97ae9"></a>CYHAL_TRIGGER_TCPWM0_TR_OUT12&#160;</td><td class="fielddoc"><p>tcpwm[0].tr_out1[2] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a3e7cef9d7ea59a5dd03bf3750c693d1c"></a>CYHAL_TRIGGER_TCPWM0_TR_OUT13&#160;</td><td class="fielddoc"><p>tcpwm[0].tr_out1[3] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a9953ea466ca7f23bf3f11773877f9248"></a>CYHAL_TRIGGER_TCPWM0_TR_OUT1256&#160;</td><td class="fielddoc"><p>tcpwm[0].tr_out1[256] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a85fe0bb95dfef67b2fb3e13edd74870b"></a>CYHAL_TRIGGER_TCPWM0_TR_OUT1257&#160;</td><td class="fielddoc"><p>tcpwm[0].tr_out1[257] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a1d2cbb3925052503a22a8185c9427df5"></a>CYHAL_TRIGGER_TCPWM0_TR_OUT1258&#160;</td><td class="fielddoc"><p>tcpwm[0].tr_out1[258] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a7cc7b345412c9174623abf00acc3b45b"></a>CYHAL_TRIGGER_TCPWM0_TR_OUT1259&#160;</td><td class="fielddoc"><p>tcpwm[0].tr_out1[259] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a6d7cfd647c717c14cd5b76d9ce36e502"></a>CYHAL_TRIGGER_TCPWM0_TR_OUT1260&#160;</td><td class="fielddoc"><p>tcpwm[0].tr_out1[260] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77acbf1e4e91b1f5aa07a6d2564d0bae17c"></a>CYHAL_TRIGGER_TCPWM0_TR_OUT1261&#160;</td><td class="fielddoc"><p>tcpwm[0].tr_out1[261] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77aed58afb0e0b3845faab7d1ffe84bb5c4"></a>CYHAL_TRIGGER_TCPWM0_TR_OUT1262&#160;</td><td class="fielddoc"><p>tcpwm[0].tr_out1[262] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a0983b765a674cafbc8574e8acdccd424"></a>CYHAL_TRIGGER_TCPWM0_TR_OUT1263&#160;</td><td class="fielddoc"><p>tcpwm[0].tr_out1[263] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a1a57c1ea5c0a067812241ea09dbb4d08"></a>CYHAL_TRIGGER_USB_DMA_REQ0&#160;</td><td class="fielddoc"><p>usb.dma_req[0] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a5428d6c1a804145811efee448f494f5a"></a>CYHAL_TRIGGER_USB_DMA_REQ1&#160;</td><td class="fielddoc"><p>usb.dma_req[1] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a8d8a9ea07a2e6322e0c2106e49bc9cf0"></a>CYHAL_TRIGGER_USB_DMA_REQ2&#160;</td><td class="fielddoc"><p>usb.dma_req[2] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77adffcb79c2d388ab8f5a04b2dd22a7ac1"></a>CYHAL_TRIGGER_USB_DMA_REQ3&#160;</td><td class="fielddoc"><p>usb.dma_req[3] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77aa8005ea58211d65fedcda46a42f60e54"></a>CYHAL_TRIGGER_USB_DMA_REQ4&#160;</td><td class="fielddoc"><p>usb.dma_req[4] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77aa0905fb0a3709d764dec0759e665b47e"></a>CYHAL_TRIGGER_USB_DMA_REQ5&#160;</td><td class="fielddoc"><p>usb.dma_req[5] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a0f0fd4268b2c4756e82952137f6c1cd6"></a>CYHAL_TRIGGER_USB_DMA_REQ6&#160;</td><td class="fielddoc"><p>usb.dma_req[6] </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf248bbdcfc82d83541f1f59116553f77a468b03dcb4009b312d2821c499ac0ba0"></a>CYHAL_TRIGGER_USB_DMA_REQ7&#160;</td><td class="fielddoc"><p>usb.dma_req[7] </p>
+</td></tr>
+</table>
+
+</div>
+</div>
 <a id="gae9c98e18d33db79340bd24ec02488d08"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gae9c98e18d33db79340bd24ec02488d08">&#9670;&nbsp;</a></span>cyhal_trigger_dest_psoc6_04_t</h2>
 
@@ -349,229 +1011,229 @@ Enumerations</h2></td></tr>
 
 <p>Name of each output trigger. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a339155faa5281cfedfca0b506fa28f1f"></a>TRIGGER_CANFD0_TR_DBG_DMA_ACK0&#160;</td><td class="fielddoc"><p>CAN DW0 triggers (from DW back to CAN) - canfd[0].tr_dbg_dma_ack[0]. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a51ccd4440082579dd7f5bd6946378988"></a>CYHAL_TRIGGER_CANFD0_TR_DBG_DMA_ACK0&#160;</td><td class="fielddoc"><p>CAN DW0 triggers (from DW back to CAN) - canfd[0].tr_dbg_dma_ack[0]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08af76ec63647b902eec6da5ee30f32f218"></a>TRIGGER_CANFD0_TR_EVT_SWT_IN0&#160;</td><td class="fielddoc"><p>CAN TT Sync - canfd[0].tr_evt_swt_in[0]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a91dc76d6386efb35bb26144be05a1873"></a>CYHAL_TRIGGER_CANFD0_TR_EVT_SWT_IN0&#160;</td><td class="fielddoc"><p>CAN TT Sync - canfd[0].tr_evt_swt_in[0]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08ae8ee1cce78bd19afd33261f50275849f"></a>TRIGGER_CPUSS_CTI_TR_IN0&#160;</td><td class="fielddoc"><p>CPUSS Debug trigger multiplexer - cpuss.cti_tr_in[0]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a367b8e792b09b16887c36cdc4489f36f"></a>CYHAL_TRIGGER_CPUSS_CTI_TR_IN0&#160;</td><td class="fielddoc"><p>CPUSS Debug trigger multiplexer - cpuss.cti_tr_in[0]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a8526fd451aba4dfeea209f44a97d65ce"></a>TRIGGER_CPUSS_CTI_TR_IN1&#160;</td><td class="fielddoc"><p>CPUSS Debug trigger multiplexer - cpuss.cti_tr_in[1]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a32181ffddcd2f09be4f20ef68b8f5b3e"></a>CYHAL_TRIGGER_CPUSS_CTI_TR_IN1&#160;</td><td class="fielddoc"><p>CPUSS Debug trigger multiplexer - cpuss.cti_tr_in[1]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a13769916b8fe3a772ef0df5576d443a8"></a>TRIGGER_CPUSS_DMAC_TR_IN0&#160;</td><td class="fielddoc"><p>MDMA trigger multiplexer - cpuss.dmac_tr_in[0]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08af35c68d34cae4390274ff7145613d61a"></a>CYHAL_TRIGGER_CPUSS_DMAC_TR_IN0&#160;</td><td class="fielddoc"><p>MDMA trigger multiplexer - cpuss.dmac_tr_in[0]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a4d6ed5fe7856e51781dd71c89c3ebbfc"></a>TRIGGER_CPUSS_DMAC_TR_IN1&#160;</td><td class="fielddoc"><p>MDMA trigger multiplexer - cpuss.dmac_tr_in[1]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a38e28856631e4f3ce08a6ed5d5bf3cda"></a>CYHAL_TRIGGER_CPUSS_DMAC_TR_IN1&#160;</td><td class="fielddoc"><p>MDMA trigger multiplexer - cpuss.dmac_tr_in[1]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a59dcca31269cbdcf479d7f4348a7f8fb"></a>TRIGGER_CPUSS_DW0_TR_IN0&#160;</td><td class="fielddoc"><p>PDMA0 trigger multiplexer - cpuss.dw0_tr_in[0]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a6e02ae68d8c7b03c4a420cecb6239e65"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_IN0&#160;</td><td class="fielddoc"><p>PDMA0 trigger multiplexer - cpuss.dw0_tr_in[0]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08ac5832904e954417e7722fe916e30aed9"></a>TRIGGER_CPUSS_DW0_TR_IN1&#160;</td><td class="fielddoc"><p>PDMA0 trigger multiplexer - cpuss.dw0_tr_in[1]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a3942adec1c2d3f2365f2865b830258d2"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_IN1&#160;</td><td class="fielddoc"><p>PDMA0 trigger multiplexer - cpuss.dw0_tr_in[1]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08ab2be33a0cdf992a9aaf460ac77f34742"></a>TRIGGER_CPUSS_DW0_TR_IN2&#160;</td><td class="fielddoc"><p>PDMA0 trigger multiplexer - cpuss.dw0_tr_in[2]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08af81ec98cd041bf4ab41c72089d6c0e44"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_IN2&#160;</td><td class="fielddoc"><p>PDMA0 trigger multiplexer - cpuss.dw0_tr_in[2]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a21023fd979ffa3b92f7c32dfde08e9b5"></a>TRIGGER_CPUSS_DW0_TR_IN3&#160;</td><td class="fielddoc"><p>PDMA0 trigger multiplexer - cpuss.dw0_tr_in[3]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a94b0b31224aeedf91a37cdf99182efe7"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_IN3&#160;</td><td class="fielddoc"><p>PDMA0 trigger multiplexer - cpuss.dw0_tr_in[3]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a190d365d2ca24eaa543ddfd1c59b9070"></a>TRIGGER_CPUSS_DW0_TR_IN4&#160;</td><td class="fielddoc"><p>PDMA0 trigger multiplexer - cpuss.dw0_tr_in[4]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a50bd84857a92cef7ae85d86ac1fe4960"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_IN4&#160;</td><td class="fielddoc"><p>PDMA0 trigger multiplexer - cpuss.dw0_tr_in[4]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a7ed7ce4e16e05612710dd7fb92089e00"></a>TRIGGER_CPUSS_DW0_TR_IN5&#160;</td><td class="fielddoc"><p>PDMA0 trigger multiplexer - cpuss.dw0_tr_in[5]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a5aa0d0141df012162ba16469eb02e2ff"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_IN5&#160;</td><td class="fielddoc"><p>PDMA0 trigger multiplexer - cpuss.dw0_tr_in[5]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a405b4329111bbe3bde81ae454a9a3df1"></a>TRIGGER_CPUSS_DW0_TR_IN6&#160;</td><td class="fielddoc"><p>PDMA0 trigger multiplexer - cpuss.dw0_tr_in[6]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a777c3a2973580eeeb0b36aafffa0fd6f"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_IN6&#160;</td><td class="fielddoc"><p>PDMA0 trigger multiplexer - cpuss.dw0_tr_in[6]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a02d46b098d3bb72c5b34408b788c5b70"></a>TRIGGER_CPUSS_DW0_TR_IN7&#160;</td><td class="fielddoc"><p>PDMA0 trigger multiplexer - cpuss.dw0_tr_in[7]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a49243fb09f7c1fc4457d0ec958e24e03"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_IN7&#160;</td><td class="fielddoc"><p>PDMA0 trigger multiplexer - cpuss.dw0_tr_in[7]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a51a16f389ddd36fe8278d40fb706bb7c"></a>TRIGGER_CPUSS_DW0_TR_IN8&#160;</td><td class="fielddoc"><p>USB PDMA0 Triggers - cpuss.dw0_tr_in[8]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a6dd8a6549737d394625162febb0b679e"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_IN8&#160;</td><td class="fielddoc"><p>USB PDMA0 Triggers - cpuss.dw0_tr_in[8]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a3119ddb744391f697380a1e30b193aa1"></a>TRIGGER_CPUSS_DW0_TR_IN9&#160;</td><td class="fielddoc"><p>USB PDMA0 Triggers - cpuss.dw0_tr_in[9]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a4739257efba16654b4969a6bb917fe18"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_IN9&#160;</td><td class="fielddoc"><p>USB PDMA0 Triggers - cpuss.dw0_tr_in[9]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a048781054f7e9db1e3d1d5a36a9a3c23"></a>TRIGGER_CPUSS_DW0_TR_IN10&#160;</td><td class="fielddoc"><p>USB PDMA0 Triggers - cpuss.dw0_tr_in[10]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a3d72c4f7ad2a26b4af35cb28caee46e3"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_IN10&#160;</td><td class="fielddoc"><p>USB PDMA0 Triggers - cpuss.dw0_tr_in[10]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a50c16ac806e546d7e335ef76aad9c599"></a>TRIGGER_CPUSS_DW0_TR_IN11&#160;</td><td class="fielddoc"><p>USB PDMA0 Triggers - cpuss.dw0_tr_in[11]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a7aedf6c6ae29c4321a7f70ff30486780"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_IN11&#160;</td><td class="fielddoc"><p>USB PDMA0 Triggers - cpuss.dw0_tr_in[11]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a65660e2df19d36b599d3c733dda6a6f8"></a>TRIGGER_CPUSS_DW0_TR_IN12&#160;</td><td class="fielddoc"><p>USB PDMA0 Triggers - cpuss.dw0_tr_in[12]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a34156adb1552d963fbd220c412053960"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_IN12&#160;</td><td class="fielddoc"><p>USB PDMA0 Triggers - cpuss.dw0_tr_in[12]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a37ce1901e0d832418c7c97a88bf95269"></a>TRIGGER_CPUSS_DW0_TR_IN13&#160;</td><td class="fielddoc"><p>USB PDMA0 Triggers - cpuss.dw0_tr_in[13]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08aba64a13b2c1493803e7367783f87eb84"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_IN13&#160;</td><td class="fielddoc"><p>USB PDMA0 Triggers - cpuss.dw0_tr_in[13]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08af9e03807927c18419f0895d860ed10a7"></a>TRIGGER_CPUSS_DW0_TR_IN14&#160;</td><td class="fielddoc"><p>USB PDMA0 Triggers - cpuss.dw0_tr_in[14]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08aed5a58e0eec292c1563399f03925c9da"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_IN14&#160;</td><td class="fielddoc"><p>USB PDMA0 Triggers - cpuss.dw0_tr_in[14]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08afea88035d1b0457fa6ff23c3f50856d7"></a>TRIGGER_CPUSS_DW0_TR_IN15&#160;</td><td class="fielddoc"><p>USB PDMA0 Triggers - cpuss.dw0_tr_in[15]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08aa090f4d907f50639836e430416efeb47"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_IN15&#160;</td><td class="fielddoc"><p>USB PDMA0 Triggers - cpuss.dw0_tr_in[15]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a495b059ecd2c64f96fd5dfff1adc295f"></a>TRIGGER_CPUSS_DW0_TR_IN16&#160;</td><td class="fielddoc"><p>SCB PDMA0 Triggers - cpuss.dw0_tr_in[16]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a49db366648d50ad59d8cecc7ccdc63c8"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_IN16&#160;</td><td class="fielddoc"><p>SCB PDMA0 Triggers - cpuss.dw0_tr_in[16]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a3bd4c9f3a1f4b020fa862295cbccc81f"></a>TRIGGER_CPUSS_DW0_TR_IN17&#160;</td><td class="fielddoc"><p>SCB PDMA0 Triggers - cpuss.dw0_tr_in[17]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a7da495cdd28efe4b875491dacbf6382d"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_IN17&#160;</td><td class="fielddoc"><p>SCB PDMA0 Triggers - cpuss.dw0_tr_in[17]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08aa55eb7a61a600daeeda12fb75d75d378"></a>TRIGGER_CPUSS_DW0_TR_IN18&#160;</td><td class="fielddoc"><p>SCB PDMA0 Triggers - cpuss.dw0_tr_in[18]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a4cad283860a09eaee80fcc557fb4aa95"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_IN18&#160;</td><td class="fielddoc"><p>SCB PDMA0 Triggers - cpuss.dw0_tr_in[18]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a9fc6d272b76100ac5aac8fb3303dced5"></a>TRIGGER_CPUSS_DW0_TR_IN19&#160;</td><td class="fielddoc"><p>SCB PDMA0 Triggers - cpuss.dw0_tr_in[19]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a80b3fa18a303e51915e18596eba1dcd7"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_IN19&#160;</td><td class="fielddoc"><p>SCB PDMA0 Triggers - cpuss.dw0_tr_in[19]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08abffae9cb3750a64c654ed26d1c0eaecc"></a>TRIGGER_CPUSS_DW0_TR_IN20&#160;</td><td class="fielddoc"><p>SCB PDMA0 Triggers - cpuss.dw0_tr_in[20]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08abf97b74268352c4678a4aee67f4e1b77"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_IN20&#160;</td><td class="fielddoc"><p>SCB PDMA0 Triggers - cpuss.dw0_tr_in[20]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08ac75491702c281fa256bfebca75f0a428"></a>TRIGGER_CPUSS_DW0_TR_IN21&#160;</td><td class="fielddoc"><p>SCB PDMA0 Triggers - cpuss.dw0_tr_in[21]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a1b8a21369dc29c2a615398321683acfa"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_IN21&#160;</td><td class="fielddoc"><p>SCB PDMA0 Triggers - cpuss.dw0_tr_in[21]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a20b7402ce3d89e9d9b01d032235c3f42"></a>TRIGGER_CPUSS_DW0_TR_IN22&#160;</td><td class="fielddoc"><p>SCB PDMA0 Triggers - cpuss.dw0_tr_in[22]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08ab0b20efbc1f55559f76a97df1673fe6e"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_IN22&#160;</td><td class="fielddoc"><p>SCB PDMA0 Triggers - cpuss.dw0_tr_in[22]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08ab55b362f04185b69e868b76115690814"></a>TRIGGER_CPUSS_DW0_TR_IN23&#160;</td><td class="fielddoc"><p>SCB PDMA0 Triggers - cpuss.dw0_tr_in[23]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08ae2ac0c0ef77a001b35554cd41499e236"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_IN23&#160;</td><td class="fielddoc"><p>SCB PDMA0 Triggers - cpuss.dw0_tr_in[23]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a6e009f3f25cd59c6db6cc6c4877abde4"></a>TRIGGER_CPUSS_DW0_TR_IN24&#160;</td><td class="fielddoc"><p>SCB PDMA0 Triggers - cpuss.dw0_tr_in[24]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a71e5f7582c07049ead883dd3043dcfdd"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_IN24&#160;</td><td class="fielddoc"><p>SCB PDMA0 Triggers - cpuss.dw0_tr_in[24]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a461201f8dfb74db58b7978cfa45695db"></a>TRIGGER_CPUSS_DW0_TR_IN25&#160;</td><td class="fielddoc"><p>SCB PDMA0 Triggers - cpuss.dw0_tr_in[25]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a7457250b99e18d0279c11704dc4ccfdb"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_IN25&#160;</td><td class="fielddoc"><p>SCB PDMA0 Triggers - cpuss.dw0_tr_in[25]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08ac1d97254ea718f0e361b38b5bf2a667e"></a>TRIGGER_CPUSS_DW0_TR_IN26&#160;</td><td class="fielddoc"><p>SCB PDMA0 Triggers - cpuss.dw0_tr_in[26]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a10ad8da36773e4863fb97b113ce169c2"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_IN26&#160;</td><td class="fielddoc"><p>SCB PDMA0 Triggers - cpuss.dw0_tr_in[26]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a69d5ba052ff026435ba2785f1cace927"></a>TRIGGER_CPUSS_DW0_TR_IN27&#160;</td><td class="fielddoc"><p>SCB PDMA0 Triggers - cpuss.dw0_tr_in[27]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a9445f4273752ba8bdb6b1b369ea768a6"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_IN27&#160;</td><td class="fielddoc"><p>SCB PDMA0 Triggers - cpuss.dw0_tr_in[27]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08aaa0960cdf5aa3ff12aa1eab07bc5d9ec"></a>TRIGGER_CPUSS_DW0_TR_IN28&#160;</td><td class="fielddoc"><p>SAR0 to PDMA1 direct connect - cpuss.dw0_tr_in[28]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a9ea8965c7a57713318b26b75580d0dee"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_IN28&#160;</td><td class="fielddoc"><p>SAR0 to PDMA1 direct connect - cpuss.dw0_tr_in[28]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08afa0a27805f42c9d87e96b9cc85e3646a"></a>TRIGGER_CPUSS_DW0_TR_IN29&#160;</td><td class="fielddoc"><p>SAR1 to PDMA1 direct connect - cpuss.dw0_tr_in[29]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a731a7ff2c7e782975291d52b6bd74220"></a>CYHAL_TRIGGER_CPUSS_DW0_TR_IN29&#160;</td><td class="fielddoc"><p>SAR1 to PDMA1 direct connect - cpuss.dw0_tr_in[29]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08ab505fe04f23de1a200004f118cfabafb"></a>TRIGGER_CPUSS_DW1_TR_IN0&#160;</td><td class="fielddoc"><p>PDMA1 trigger multiplexer - cpuss.dw1_tr_in[0]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a85519d1df5b36fb4acd064db7061aedc"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN0&#160;</td><td class="fielddoc"><p>PDMA1 trigger multiplexer - cpuss.dw1_tr_in[0]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a3fba810f4d13290b23d1362cc1ae83f3"></a>TRIGGER_CPUSS_DW1_TR_IN1&#160;</td><td class="fielddoc"><p>PDMA1 trigger multiplexer - cpuss.dw1_tr_in[1]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a41d85824242164ce3b2fedff92ed2ff6"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN1&#160;</td><td class="fielddoc"><p>PDMA1 trigger multiplexer - cpuss.dw1_tr_in[1]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a77c0f8889a44e854f61fb6cc4c6b0076"></a>TRIGGER_CPUSS_DW1_TR_IN2&#160;</td><td class="fielddoc"><p>PDMA1 trigger multiplexer - cpuss.dw1_tr_in[2]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a9369c02862855247f32f9985efba2ad5"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN2&#160;</td><td class="fielddoc"><p>PDMA1 trigger multiplexer - cpuss.dw1_tr_in[2]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a4c81762378bd22ca089856456da02a56"></a>TRIGGER_CPUSS_DW1_TR_IN3&#160;</td><td class="fielddoc"><p>PDMA1 trigger multiplexer - cpuss.dw1_tr_in[3]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a8cb28a223fbcfae1f5f0f9b8292582e6"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN3&#160;</td><td class="fielddoc"><p>PDMA1 trigger multiplexer - cpuss.dw1_tr_in[3]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a3be46b61bf4a52991818ecb68bcb2f44"></a>TRIGGER_CPUSS_DW1_TR_IN4&#160;</td><td class="fielddoc"><p>PDMA1 trigger multiplexer - cpuss.dw1_tr_in[4]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08af009e30ad0daa55eb40035c5b602b069"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN4&#160;</td><td class="fielddoc"><p>PDMA1 trigger multiplexer - cpuss.dw1_tr_in[4]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a451dd1e84f93daf35c7333868f3d0d5d"></a>TRIGGER_CPUSS_DW1_TR_IN5&#160;</td><td class="fielddoc"><p>PDMA1 trigger multiplexer - cpuss.dw1_tr_in[5]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a8936b689aedcd2f58c1064a21a674216"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN5&#160;</td><td class="fielddoc"><p>PDMA1 trigger multiplexer - cpuss.dw1_tr_in[5]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08ae2054a1573623bac8765f51ae6761e08"></a>TRIGGER_CPUSS_DW1_TR_IN6&#160;</td><td class="fielddoc"><p>PDMA1 trigger multiplexer - cpuss.dw1_tr_in[6]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a18d493c05c8dcd18257fba8d600c4094"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN6&#160;</td><td class="fielddoc"><p>PDMA1 trigger multiplexer - cpuss.dw1_tr_in[6]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08ade09e15fb40e9ad7f6681df499e2fdc1"></a>TRIGGER_CPUSS_DW1_TR_IN7&#160;</td><td class="fielddoc"><p>PDMA1 trigger multiplexer - cpuss.dw1_tr_in[7]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a3e064cc3f267e9932e4b3f5ef09302ab"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN7&#160;</td><td class="fielddoc"><p>PDMA1 trigger multiplexer - cpuss.dw1_tr_in[7]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a57d6eb41fa86aee35ec7da7e033af504"></a>TRIGGER_CPUSS_DW1_TR_IN8&#160;</td><td class="fielddoc"><p>SCB PDMA1 Triggers - cpuss.dw1_tr_in[8]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a51714136b500b20ade76ee8faa398e04"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN8&#160;</td><td class="fielddoc"><p>SCB PDMA1 Triggers - cpuss.dw1_tr_in[8]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a067f814ad18c08fa873be6d3f6849b3a"></a>TRIGGER_CPUSS_DW1_TR_IN9&#160;</td><td class="fielddoc"><p>SCB PDMA1 Triggers - cpuss.dw1_tr_in[9]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a668544e24646d9f76b07f6d3e25ee326"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN9&#160;</td><td class="fielddoc"><p>SCB PDMA1 Triggers - cpuss.dw1_tr_in[9]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08aecf96e2b9c22940c1b0a1338ecd0b33d"></a>TRIGGER_CPUSS_DW1_TR_IN10&#160;</td><td class="fielddoc"><p>SCB PDMA1 Triggers - cpuss.dw1_tr_in[10]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a5ae5f60742b559a58382a03e730c5d4a"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN10&#160;</td><td class="fielddoc"><p>SCB PDMA1 Triggers - cpuss.dw1_tr_in[10]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08acb7bd06eb8ff39e5ad2663da4f88c719"></a>TRIGGER_CPUSS_DW1_TR_IN11&#160;</td><td class="fielddoc"><p>SCB PDMA1 Triggers - cpuss.dw1_tr_in[11]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08abbe5a50e9f429137647f4b3bc88b372f"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN11&#160;</td><td class="fielddoc"><p>SCB PDMA1 Triggers - cpuss.dw1_tr_in[11]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a54e47997df4f9835a7eb53a1ab453641"></a>TRIGGER_CPUSS_DW1_TR_IN12&#160;</td><td class="fielddoc"><p>SCB PDMA1 Triggers - cpuss.dw1_tr_in[12]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a9b5827881d07541beea365d8f63038ab"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN12&#160;</td><td class="fielddoc"><p>SCB PDMA1 Triggers - cpuss.dw1_tr_in[12]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08aceb73709ca7e6ecac650ea223e173f74"></a>TRIGGER_CPUSS_DW1_TR_IN13&#160;</td><td class="fielddoc"><p>SCB PDMA1 Triggers - cpuss.dw1_tr_in[13]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08abf4ac394486669b968b5dab79df72f78"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN13&#160;</td><td class="fielddoc"><p>SCB PDMA1 Triggers - cpuss.dw1_tr_in[13]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a02517b9ce500bb0458db53aa5b8a3b07"></a>TRIGGER_CPUSS_DW1_TR_IN14&#160;</td><td class="fielddoc"><p>SCB PDMA1 Triggers - cpuss.dw1_tr_in[14]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a5e5565023694ab21ce28e849b7c9610d"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN14&#160;</td><td class="fielddoc"><p>SCB PDMA1 Triggers - cpuss.dw1_tr_in[14]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a561790ee0e03a8b13c1ea3eda3d3b1f2"></a>TRIGGER_CPUSS_DW1_TR_IN15&#160;</td><td class="fielddoc"><p>SCB PDMA1 Triggers - cpuss.dw1_tr_in[15]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08ad378d0141216c08505484e8990e61a3d"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN15&#160;</td><td class="fielddoc"><p>SCB PDMA1 Triggers - cpuss.dw1_tr_in[15]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08abdc35d317236767f43cf843d9e1d0f63"></a>TRIGGER_CPUSS_DW1_TR_IN16&#160;</td><td class="fielddoc"><p>SCB PDMA1 Triggers - cpuss.dw1_tr_in[16]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a732b5bfc99bb6f72792bcc0bad2bb0ee"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN16&#160;</td><td class="fielddoc"><p>SCB PDMA1 Triggers - cpuss.dw1_tr_in[16]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a5e155c782bc2dac6aafae10fc7fa8411"></a>TRIGGER_CPUSS_DW1_TR_IN17&#160;</td><td class="fielddoc"><p>SCB PDMA1 Triggers - cpuss.dw1_tr_in[17]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08afb41ee268a8d0a84e4d4a2f762487cd6"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN17&#160;</td><td class="fielddoc"><p>SCB PDMA1 Triggers - cpuss.dw1_tr_in[17]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a4bd5d2795447449eb7c46c1914ee3ab6"></a>TRIGGER_CPUSS_DW1_TR_IN18&#160;</td><td class="fielddoc"><p>SCB PDMA1 Triggers - cpuss.dw1_tr_in[18]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a970d9530bd67aaf79f3dc0c05e716b36"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN18&#160;</td><td class="fielddoc"><p>SCB PDMA1 Triggers - cpuss.dw1_tr_in[18]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08ab109fa7ac649e9b9ef3116407cdd3900"></a>TRIGGER_CPUSS_DW1_TR_IN19&#160;</td><td class="fielddoc"><p>SCB PDMA1 Triggers - cpuss.dw1_tr_in[19]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a4c7037c3e7c87aba8cd6eb1301287cfe"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN19&#160;</td><td class="fielddoc"><p>SCB PDMA1 Triggers - cpuss.dw1_tr_in[19]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08ab5b376948a1958655060d02dffbb7bb7"></a>TRIGGER_CPUSS_DW1_TR_IN20&#160;</td><td class="fielddoc"><p>SCB PDMA1 Triggers - cpuss.dw1_tr_in[20]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a42a01b51f60f1f23e454e1067a08c9df"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN20&#160;</td><td class="fielddoc"><p>SCB PDMA1 Triggers - cpuss.dw1_tr_in[20]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08ae5287fd9bca470df5d18d32e2379188b"></a>TRIGGER_CPUSS_DW1_TR_IN21&#160;</td><td class="fielddoc"><p>SCB PDMA1 Triggers - cpuss.dw1_tr_in[21]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08ae114f09f2fdee23dbab8753cd1cf56e5"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN21&#160;</td><td class="fielddoc"><p>SCB PDMA1 Triggers - cpuss.dw1_tr_in[21]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08aca3865406082916b4331190f9cf989b7"></a>TRIGGER_CPUSS_DW1_TR_IN22&#160;</td><td class="fielddoc"><p>SMIF to PDMA1 direct connect - cpuss.dw1_tr_in[22]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08af60518a46ae02e13014a405e26fa7884"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN22&#160;</td><td class="fielddoc"><p>SMIF to PDMA1 direct connect - cpuss.dw1_tr_in[22]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a467f43061de17e09768cd104752a44b9"></a>TRIGGER_CPUSS_DW1_TR_IN23&#160;</td><td class="fielddoc"><p>SMIF to PDMA1 direct connect - cpuss.dw1_tr_in[23]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a7f055edcbebdbe4839317c8fd188d811"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN23&#160;</td><td class="fielddoc"><p>SMIF to PDMA1 direct connect - cpuss.dw1_tr_in[23]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08acee92d00130c8368e0d47eda1fd503ef"></a>TRIGGER_CPUSS_DW1_TR_IN24&#160;</td><td class="fielddoc"><p>SMIF to PDMA1 direct connect - cpuss.dw1_tr_in[24]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08af9e3d622ff2ca26a0ad87c21a5128caa"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN24&#160;</td><td class="fielddoc"><p>SMIF to PDMA1 direct connect - cpuss.dw1_tr_in[24]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08ab76762c550c0a13cc598b255746043a0"></a>TRIGGER_CPUSS_DW1_TR_IN25&#160;</td><td class="fielddoc"><p>SMIF to PDMA1 direct connect - cpuss.dw1_tr_in[25]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a3443d9424f0ec1650aeeeaa5174bb07b"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN25&#160;</td><td class="fielddoc"><p>SMIF to PDMA1 direct connect - cpuss.dw1_tr_in[25]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a4c6fa52f32bb6f369cd06b767ad4c71a"></a>TRIGGER_CPUSS_DW1_TR_IN26&#160;</td><td class="fielddoc"><p>SMIF to PDMA1 direct connect - cpuss.dw1_tr_in[26]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08abddcae91a200ecddad2ee6764a05a98c"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN26&#160;</td><td class="fielddoc"><p>SMIF to PDMA1 direct connect - cpuss.dw1_tr_in[26]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a1be1ea9a804a48039d00cb45ec5202dc"></a>TRIGGER_CPUSS_DW1_TR_IN27&#160;</td><td class="fielddoc"><p>SMIF to PDMA1 direct connect - cpuss.dw1_tr_in[27]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a65cf7948661d193f205fa2350a786f3c"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN27&#160;</td><td class="fielddoc"><p>SMIF to PDMA1 direct connect - cpuss.dw1_tr_in[27]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a03859e94b2de0bd0681a744afab91952"></a>TRIGGER_CPUSS_DW1_TR_IN28&#160;</td><td class="fielddoc"><p>SMIF to PDMA1 direct connect - cpuss.dw1_tr_in[28]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a3ec3755472d1ff91ebd71891eab88af2"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN28&#160;</td><td class="fielddoc"><p>SMIF to PDMA1 direct connect - cpuss.dw1_tr_in[28]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08ab75467ab37aff7cf28b9d1aa740250c5"></a>TRIGGER_CPUSS_DW1_TR_IN29&#160;</td><td class="fielddoc"><p>CAN PDMA1 triggers - cpuss.dw1_tr_in[29]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08acfe67d4659f6b3ac7b668f8f4c9e3d2f"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN29&#160;</td><td class="fielddoc"><p>CAN PDMA1 triggers - cpuss.dw1_tr_in[29]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08afeebe9e1704081c2259f11dd856bc51e"></a>TRIGGER_CPUSS_DW1_TR_IN30&#160;</td><td class="fielddoc"><p>CAN PDMA1 triggers - cpuss.dw1_tr_in[30]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a7df1c932d15e9cd852a4f72631edf025"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN30&#160;</td><td class="fielddoc"><p>CAN PDMA1 triggers - cpuss.dw1_tr_in[30]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a9d02eb1df3ac56f997ad27bbb8c4073f"></a>TRIGGER_CPUSS_DW1_TR_IN31&#160;</td><td class="fielddoc"><p>CAN PDMA1 triggers - cpuss.dw1_tr_in[31]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a48529bf04f6710d5db5c8a2f9043acc9"></a>CYHAL_TRIGGER_CPUSS_DW1_TR_IN31&#160;</td><td class="fielddoc"><p>CAN PDMA1 triggers - cpuss.dw1_tr_in[31]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a787a2ca2230157504dcd03be3ceff4be"></a>TRIGGER_CSD_DSI_START&#160;</td><td class="fielddoc"><p>Capsense trigger multiplexer - csd.dsi_start. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a85b253f1900cba9aff5db0af50694e2e"></a>CYHAL_TRIGGER_CSD_DSI_START&#160;</td><td class="fielddoc"><p>Capsense trigger multiplexer - csd.dsi_start. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a5842d189b596bb7047c84bff2d1ecc5a"></a>TRIGGER_PASS_DSI_CTDAC_STROBE&#160;</td><td class="fielddoc"><p>CTDAC trigger multiplexer - pass.dsi_ctdac_strobe. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a8d9e1714ce45587d26e3690617d811b5"></a>CYHAL_TRIGGER_PASS_DSI_CTDAC_STROBE&#160;</td><td class="fielddoc"><p>CTDAC trigger multiplexer - pass.dsi_ctdac_strobe. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a112498fe77fcb911bbefa0e304946196"></a>TRIGGER_PASS_TR_SAR_IN0&#160;</td><td class="fielddoc"><p>ADC trigger multiplexer - pass.tr_sar_in[0]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a7cef06c8816b12e0bf730f9fc7865d98"></a>CYHAL_TRIGGER_PASS_TR_SAR_IN0&#160;</td><td class="fielddoc"><p>ADC trigger multiplexer - pass.tr_sar_in[0]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08ad19c62f3bdd8b0fc426eccba3551b00f"></a>TRIGGER_PASS_TR_SAR_IN1&#160;</td><td class="fielddoc"><p>ADC trigger multiplexer - pass.tr_sar_in[1]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a4bf40f667c5bd84b07bd4ad059b5e3f7"></a>CYHAL_TRIGGER_PASS_TR_SAR_IN1&#160;</td><td class="fielddoc"><p>ADC trigger multiplexer - pass.tr_sar_in[1]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08adc5ebe2bb7ff2e330bece17760fc4c8f"></a>TRIGGER_PERI_TR_DBG_FREEZE&#160;</td><td class="fielddoc"><p>PERI Freeze trigger multiplexer - peri.tr_dbg_freeze. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a136808a8f7429bb59583396ae1a6a39a"></a>CYHAL_TRIGGER_PERI_TR_DBG_FREEZE&#160;</td><td class="fielddoc"><p>PERI Freeze trigger multiplexer - peri.tr_dbg_freeze. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a363772d05c57f57cda0107fe3bab3161"></a>TRIGGER_PERI_TR_IO_OUTPUT0&#160;</td><td class="fielddoc"><p>HSIOM trigger multiplexer - peri.tr_io_output[0]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08adf01d45dad1f462cf943adf14914658f"></a>CYHAL_TRIGGER_PERI_TR_IO_OUTPUT0&#160;</td><td class="fielddoc"><p>HSIOM trigger multiplexer - peri.tr_io_output[0]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08aca0e6a088350defcb49a8db1142710e0"></a>TRIGGER_PERI_TR_IO_OUTPUT1&#160;</td><td class="fielddoc"><p>HSIOM trigger multiplexer - peri.tr_io_output[1]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a1ffd0ae3314e30501e656ab7af7da745"></a>CYHAL_TRIGGER_PERI_TR_IO_OUTPUT1&#160;</td><td class="fielddoc"><p>HSIOM trigger multiplexer - peri.tr_io_output[1]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08aa4a08db51fc003949e989aea6e5c3e27"></a>TRIGGER_TCPWM0_TR_ALL_CNT_IN0&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[0]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08addced742b1c301bdf952b4c35d936cb7"></a>CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN0&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[0]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08abe83ae5ae27a3680a2a20dbf20fcee99"></a>TRIGGER_TCPWM0_TR_ALL_CNT_IN1&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[1]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a28f1ccae635dd3f55443ffc1670ff17a"></a>CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN1&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[1]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08af67783f1d5fc96a344665a5f249dde5d"></a>TRIGGER_TCPWM0_TR_ALL_CNT_IN2&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[2]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08adf906bc6740d5fa9c672019d0d6448f5"></a>CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN2&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[2]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08af757400d82aaa9fcf1a0ae3384fb0780"></a>TRIGGER_TCPWM0_TR_ALL_CNT_IN3&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[3]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a486327be3a310d4b1f71c28848c897aa"></a>CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN3&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[3]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a41ac11e753e2f68279bcc974de9e0ac0"></a>TRIGGER_TCPWM0_TR_ALL_CNT_IN4&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[4]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08ae644577ee21d656ae22df62d2a50f354"></a>CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN4&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[4]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a5f341cced32a2746907826e485e7993f"></a>TRIGGER_TCPWM0_TR_ALL_CNT_IN5&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[5]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a8d850d6ae0e18de942d437d5f62592c2"></a>CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN5&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[5]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a967e7dd8eebe970013a0144cfa1a63b9"></a>TRIGGER_TCPWM0_TR_ALL_CNT_IN6&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[6]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08ad18caf65b1bca533c809317e58650e59"></a>CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN6&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[6]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08ab2fe2b7cb6a94455b57f84e82a3d090e"></a>TRIGGER_TCPWM0_TR_ALL_CNT_IN7&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[7]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a55cb62284a95e30545a88d1990ce21aa"></a>CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN7&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[7]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a30c0e152712e1e90a4e14c924ef4966f"></a>TRIGGER_TCPWM0_TR_ALL_CNT_IN8&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[8]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a2e9bfe123198d4154c7c4a857cd2d5fb"></a>CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN8&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[8]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a76dfefa8d437bc83f85747098777b14a"></a>TRIGGER_TCPWM0_TR_ALL_CNT_IN9&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[9]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a76963a9ad0c214ca23739cb983a770fc"></a>CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN9&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[9]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a205789199b6b03e5204a825005b80209"></a>TRIGGER_TCPWM0_TR_ALL_CNT_IN10&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[10]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08ae17f1e80557f4a3921775dc95646801a"></a>CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN10&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[10]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a4c89089398ec3d2645ff3c2035b91a4b"></a>TRIGGER_TCPWM0_TR_ALL_CNT_IN11&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[11]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08aa8ae67803140c8894510733aca21f404"></a>CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN11&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[11]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08ae18d2ffcd6483b4b5d2b082103ea17fd"></a>TRIGGER_TCPWM0_TR_ALL_CNT_IN12&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[12]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08ae435e0f7d0c64d4ffd5f1507451103bf"></a>CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN12&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[12]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a8f6258f63ae7e50c91ad616957cff6d1"></a>TRIGGER_TCPWM0_TR_ALL_CNT_IN13&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[13]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a4ba9e31bdab0daad93952ee2b21887c9"></a>CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN13&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[13]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a258632a81195822b575ea2665b7c2c20"></a>TRIGGER_TCPWM0_TR_ALL_CNT_IN14&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - 2nd - tcpwm[0].tr_all_cnt_in[14]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a0faeb5bfc85dc30f9fb4cf867e14453f"></a>CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN14&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - 2nd - tcpwm[0].tr_all_cnt_in[14]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a7b858f016e2fbaf4de759fc9bc1bee6b"></a>TRIGGER_TCPWM0_TR_ALL_CNT_IN15&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - 2nd - tcpwm[0].tr_all_cnt_in[15]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08ae4944eaf11f4d64a89034f5cb8d043de"></a>CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN15&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - 2nd - tcpwm[0].tr_all_cnt_in[15]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a7c9eaa32da25a8b6424b119035f2e655"></a>TRIGGER_TCPWM0_TR_ALL_CNT_IN16&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - 2nd - tcpwm[0].tr_all_cnt_in[16]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08aff0a51b3c4f412240d3f2f1c9901885d"></a>CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN16&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - 2nd - tcpwm[0].tr_all_cnt_in[16]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a5e9a83d144163a6b0f819ca3aba5c5d1"></a>TRIGGER_TCPWM0_TR_ALL_CNT_IN17&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - 2nd - tcpwm[0].tr_all_cnt_in[17]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a892e72fc6b4e5dbcd3bb373b7edd2865"></a>CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN17&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - 2nd - tcpwm[0].tr_all_cnt_in[17]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a299e5ec57f17962f0f7d8135a8963f99"></a>TRIGGER_TCPWM0_TR_ALL_CNT_IN18&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - 2nd - tcpwm[0].tr_all_cnt_in[18]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08afb0173b0187e4186e780d2771f58e2c3"></a>CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN18&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - 2nd - tcpwm[0].tr_all_cnt_in[18]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a5bbaa64b59ffd7e0ebdfd4ddb4793913"></a>TRIGGER_TCPWM0_TR_ALL_CNT_IN19&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - 2nd - tcpwm[0].tr_all_cnt_in[19]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a6c9f999ffa7f7d3063f19d8038faf447"></a>CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN19&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - 2nd - tcpwm[0].tr_all_cnt_in[19]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08add38dd0d143ef78c8ab785033a913fb7"></a>TRIGGER_TCPWM0_TR_ALL_CNT_IN20&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - 2nd - tcpwm[0].tr_all_cnt_in[20]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a03a49540fa0986db4b2bc69d142b0fd5"></a>CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN20&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - 2nd - tcpwm[0].tr_all_cnt_in[20]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08ac434df8afbd22144ab297f3980dcea0f"></a>TRIGGER_TCPWM0_TR_ALL_CNT_IN21&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - 2nd - tcpwm[0].tr_all_cnt_in[21]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a769ff1c6fa9938fd96ab65e45ab27eba"></a>CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN21&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - 2nd - tcpwm[0].tr_all_cnt_in[21]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a83d15d04850e581dea9fa861a9619d0f"></a>TRIGGER_TCPWM0_TR_ALL_CNT_IN22&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - 2nd - tcpwm[0].tr_all_cnt_in[22]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a8a748ff9a46cf566d82036a4d12f8676"></a>CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN22&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - 2nd - tcpwm[0].tr_all_cnt_in[22]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a431bb08b02e0b87d47c92d6875c84b11"></a>TRIGGER_TCPWM0_TR_ALL_CNT_IN23&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - 2nd - tcpwm[0].tr_all_cnt_in[23]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a4b1b2c3aaa628907f2b2e0374f673d86"></a>CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN23&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - 2nd - tcpwm[0].tr_all_cnt_in[23]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08afd64e889731b164ca2f596a4ec48a724"></a>TRIGGER_TCPWM0_TR_ALL_CNT_IN24&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - 2nd - tcpwm[0].tr_all_cnt_in[24]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a22f6eb563c8cb5101640882e95da9cff"></a>CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN24&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - 2nd - tcpwm[0].tr_all_cnt_in[24]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a9a1d5818fcce18d24cfdbfd88eec43b3"></a>TRIGGER_TCPWM0_TR_ALL_CNT_IN25&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - 2nd - tcpwm[0].tr_all_cnt_in[25]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a5af0a5b24e8c4f9b6b4511d90115dc87"></a>CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN25&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - 2nd - tcpwm[0].tr_all_cnt_in[25]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08aeab231fe885fd035d87ecb6868b0b59c"></a>TRIGGER_TCPWM0_TR_ALL_CNT_IN26&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - 2nd - tcpwm[0].tr_all_cnt_in[26]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a84360a15764126057bc29b6279b8652c"></a>CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN26&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - 2nd - tcpwm[0].tr_all_cnt_in[26]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a49ec1d8813659d747dfe7ecf164949a4"></a>TRIGGER_TCPWM0_TR_ALL_CNT_IN27&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - 2nd - tcpwm[0].tr_all_cnt_in[27]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a52cf7154c3e83979dd1f328faf29d269"></a>CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN27&#160;</td><td class="fielddoc"><p>TCPWM0 trigger multiplexer - 2nd - tcpwm[0].tr_all_cnt_in[27]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08acc8ec4cd5d050b0a595bc09e4894244a"></a>TRIGGER_TCPWM0_TR_DEBUG_FREEZE&#160;</td><td class="fielddoc"><p>PERI Freeze trigger multiplexer - tcpwm[0].tr_debug_freeze. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a69575c7ff13cecba4502528be18dda81"></a>CYHAL_TRIGGER_TCPWM0_TR_DEBUG_FREEZE&#160;</td><td class="fielddoc"><p>PERI Freeze trigger multiplexer - tcpwm[0].tr_debug_freeze. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a9bb637b83181e9b9dcea288f4e7a992a"></a>TRIGGER_USB_DMA_BURSTEND0&#160;</td><td class="fielddoc"><p>USB PDMA0 Acknowledge Triggers - usb.dma_burstend[0]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a6bc038dbba543b332b657451ef5fc169"></a>CYHAL_TRIGGER_USB_DMA_BURSTEND0&#160;</td><td class="fielddoc"><p>USB PDMA0 Acknowledge Triggers - usb.dma_burstend[0]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a1b9210a959036a17c913310f8840c64d"></a>TRIGGER_USB_DMA_BURSTEND1&#160;</td><td class="fielddoc"><p>USB PDMA0 Acknowledge Triggers - usb.dma_burstend[1]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08af9f646d131311a828b16040bf03c040d"></a>CYHAL_TRIGGER_USB_DMA_BURSTEND1&#160;</td><td class="fielddoc"><p>USB PDMA0 Acknowledge Triggers - usb.dma_burstend[1]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08aa7059fa46c0eb14bd41ba7fa72b20f12"></a>TRIGGER_USB_DMA_BURSTEND2&#160;</td><td class="fielddoc"><p>USB PDMA0 Acknowledge Triggers - usb.dma_burstend[2]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08aa861643610f0b3d3c629864a4bf57ee2"></a>CYHAL_TRIGGER_USB_DMA_BURSTEND2&#160;</td><td class="fielddoc"><p>USB PDMA0 Acknowledge Triggers - usb.dma_burstend[2]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a4ccffefafbf0b050aaba36e102b40925"></a>TRIGGER_USB_DMA_BURSTEND3&#160;</td><td class="fielddoc"><p>USB PDMA0 Acknowledge Triggers - usb.dma_burstend[3]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08af99aa0d36ffe75209163040da6a22e6c"></a>CYHAL_TRIGGER_USB_DMA_BURSTEND3&#160;</td><td class="fielddoc"><p>USB PDMA0 Acknowledge Triggers - usb.dma_burstend[3]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08ad70f7ad90cddc4a7948617e6ec7585a0"></a>TRIGGER_USB_DMA_BURSTEND4&#160;</td><td class="fielddoc"><p>USB PDMA0 Acknowledge Triggers - usb.dma_burstend[4]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08abf9c5ab838c871e87d62eec19335406b"></a>CYHAL_TRIGGER_USB_DMA_BURSTEND4&#160;</td><td class="fielddoc"><p>USB PDMA0 Acknowledge Triggers - usb.dma_burstend[4]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a306ff4f4b52defbd6b9897b900c62a03"></a>TRIGGER_USB_DMA_BURSTEND5&#160;</td><td class="fielddoc"><p>USB PDMA0 Acknowledge Triggers - usb.dma_burstend[5]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08aab23dc9d72a50b637cb5431ad6f4423e"></a>CYHAL_TRIGGER_USB_DMA_BURSTEND5&#160;</td><td class="fielddoc"><p>USB PDMA0 Acknowledge Triggers - usb.dma_burstend[5]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08abc23fa750a52be075e5fd9523ef99015"></a>TRIGGER_USB_DMA_BURSTEND6&#160;</td><td class="fielddoc"><p>USB PDMA0 Acknowledge Triggers - usb.dma_burstend[6]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a0b3770f2503b6520031056c3af017678"></a>CYHAL_TRIGGER_USB_DMA_BURSTEND6&#160;</td><td class="fielddoc"><p>USB PDMA0 Acknowledge Triggers - usb.dma_burstend[6]. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08adb1a40940305beffa637ce761de4f419"></a>TRIGGER_USB_DMA_BURSTEND7&#160;</td><td class="fielddoc"><p>USB PDMA0 Acknowledge Triggers - usb.dma_burstend[7]. </p>
+<tr><td class="fieldname"><a id="ggae9c98e18d33db79340bd24ec02488d08a2d8bdb40ee6cb08c9824a96b6c9f72c0"></a>CYHAL_TRIGGER_USB_DMA_BURSTEND7&#160;</td><td class="fielddoc"><p>USB PDMA0 Acknowledge Triggers - usb.dma_burstend[7]. </p>
 </td></tr>
 </table>
 

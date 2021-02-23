@@ -89,6 +89,7 @@ $(document).ready(function(){initNavTree('group__group__hal__dma.html','');});
   <div class="summary">
 <a href="#groups">API Reference</a> &#124;
 <a href="#nested-classes">Data Structures</a> &#124;
+<a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
@@ -98,7 +99,7 @@ $(document).ready(function(){initNavTree('group__group__hal__dma.html','');});
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">General Description</h2>
 <p>High level interface for interacting with the direct memory access (DMA). </p>
-<p>The DMA driver allows for initializing and configuring a DMA channel in order to trigger data transfers to and from memory and peripherals. The transfers occur independently of the CPU and are triggered in software. Multiple channels are available with user-selectable priority and transfer characteristics.</p>
+<p>The DMA driver allows for initializing and configuring a DMA channel in order to trigger data transfers to and from memory and peripherals. The transfers occur independently of the CPU and are triggered in software. Multiple channels can be active at the same time each with their own user-selectable priority and transfer characteristics.</p>
 <h1><a class="anchor" id="section_dma_features"></a>
 Features</h1>
 <ul>
@@ -117,16 +118,16 @@ Code snippets</h1>
 <dl class="section note"><dt>Note</dt><dd>Error handling code has been intentionally left out of snippets to highlight API usage.</dd></dl>
 <h2><a class="anchor" id="subsection_dma_snippet_1"></a>
 Snippet 1: Simple DMA initialization and transfer</h2>
-<p>The following snippet initializes a DMA channel and uses it to transfer a a single block of memory. The DMA channel is reserved by calling <a class="el" href="group__group__hal__dma.html#ga77d62adf012b570ff1a157b43d134318">cyhal_dma_init</a>. It then needs to be configured with <a class="el" href="group__group__hal__dma.html#gad39f32ac4fada8bc9e757df0a22fcce4">cyhal_dma_configure</a> and then the transfer is started with <a class="el" href="group__group__hal__dma.html#gaf57a2b19848478b6604e09a3ecc3fbfc">cyhal_dma_start_transfer</a>.<br />
+<p>The following snippet initializes a DMA channel and uses it to transfer a a single block of memory. The DMA channel is reserved by calling <a class="el" href="group__group__hal__dma.html#gab9c200507a8ee87b894150416e4f5dd1">cyhal_dma_init</a>. It then needs to be configured with <a class="el" href="group__group__hal__dma.html#gad39f32ac4fada8bc9e757df0a22fcce4">cyhal_dma_configure</a> and then the transfer is started with <a class="el" href="group__group__hal__dma.html#gaf57a2b19848478b6604e09a3ecc3fbfc">cyhal_dma_start_transfer</a>.<br />
  If the DMA channel is not needed anymore, it can be released by calling <a class="el" href="group__group__hal__dma.html#ga8c1bf16caa5d53cb129e5544da1c8b21">cyhal_dma_free</a></p>
-<div class="fragment"><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> rslt;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a> dma;</div><div class="line">    <a class="code" href="group__group__hal__dma.html#structcyhal__dma__cfg__t">cyhal_dma_cfg_t</a> cfg =</div><div class="line">    {</div><div class="line">        .<a class="code" href="group__group__hal__dma.html#addcfd22935f15ed7fd86990afb2d8fe5">src_addr</a> = 0x8000000,              <span class="comment">// Start from address</span></div><div class="line">        .src_increment = 1,                 <span class="comment">// Increment source by 1 word</span></div><div class="line">        .dst_addr = 0x8001000,              <span class="comment">// Destination from address</span></div><div class="line">        .dst_increment = 1,                 <span class="comment">// Increment destination by 1 word</span></div><div class="line">        .transfer_width = 32,               <span class="comment">// 32 bit transfer</span></div><div class="line">        .length = 0x10,                     <span class="comment">// Transfer 64 bytes (16 transfers of 4 bytes)</span></div><div class="line">        .burst_size = 0,                    <span class="comment">// Transfer everything in a single burst</span></div><div class="line">        .action = <a class="code" href="group__group__hal__dma.html#gga05291825b0a7c7b9a92373ec53342b7aac422419b0c70b168a56a7bedc2bc2dad">CYHAL_DMA_TRANSFER_FULL</a>,  <span class="comment">// Notify when everything is done</span></div><div class="line">    };</div><div class="line"></div><div class="line">    <span class="comment">/* Allocate the DMA channel for use */</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__dma.html#ga77d62adf012b570ff1a157b43d134318">cyhal_dma_init</a>(&amp;dma, <a class="code" href="group__group__hal__impl__dma.html#ga81946da56dd6ba8afd28f6056b1d779a">CYHAL_DMA_PRIORITY_DEFAULT</a>, <a class="code" href="group__group__hal__dma.html#gga430c1e3ddedade3b6f7ef1f8532e665ba86dedc0ee3d9bf091e9f936040e2066a">CYHAL_DMA_DIRECTION_MEM2MEM</a>);</div><div class="line"></div><div class="line">    <span class="comment">/* Configure the channel for the upcoming transfer */</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__dma.html#gad39f32ac4fada8bc9e757df0a22fcce4">cyhal_dma_configure</a>(&amp;dma, &amp;cfg);</div><div class="line"></div><div class="line">    <span class="comment">/* Begin the transfer */</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__dma.html#gaf57a2b19848478b6604e09a3ecc3fbfc">cyhal_dma_start_transfer</a>(&amp;dma);</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">/* If the DMA channel is no longer needed, it can be freed up for other uses */</span></div><div class="line">    <span class="keywordflow">if</span> (!<a class="code" href="group__group__hal__dma.html#ga6f962c164fedb088dbd2a48e21550fd0">cyhal_dma_is_busy</a>(&amp;dma))</div><div class="line">    {</div><div class="line">        <a class="code" href="group__group__hal__dma.html#ga8c1bf16caa5d53cb129e5544da1c8b21">cyhal_dma_free</a>(&amp;dma);</div><div class="line">    }</div></div><!-- fragment --><h2><a class="anchor" id="subsection_dma_snippet_2"></a>
+<div class="fragment"><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>       rslt;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a>     dma;</div><div class="line">    <a class="code" href="group__group__hal__dma.html#structcyhal__dma__cfg__t">cyhal_dma_cfg_t</a> cfg =</div><div class="line">    {</div><div class="line">        .<a class="code" href="group__group__hal__dma.html#addcfd22935f15ed7fd86990afb2d8fe5">src_addr</a>       = 0x8000000,               <span class="comment">// Start from address</span></div><div class="line">        .src_increment  = 1,                       <span class="comment">// Increment source by 1 word</span></div><div class="line">        .dst_addr       = 0x8001000,               <span class="comment">// Destination from address</span></div><div class="line">        .dst_increment  = 1,                       <span class="comment">// Increment destination by 1 word</span></div><div class="line">        .transfer_width = 32,                      <span class="comment">// 32 bit transfer</span></div><div class="line">        .length         = 0x10,                    <span class="comment">// Transfer 64 bytes (16 transfers of 4 bytes)</span></div><div class="line">        .burst_size     = 0,                       <span class="comment">// Transfer everything in a single burst</span></div><div class="line">        .action         = <a class="code" href="group__group__hal__dma.html#gga05291825b0a7c7b9a92373ec53342b7aac422419b0c70b168a56a7bedc2bc2dad">CYHAL_DMA_TRANSFER_FULL</a>, <span class="comment">// Notify when everything is done</span></div><div class="line">    };</div><div class="line"></div><div class="line">    <span class="comment">// Allocate the DMA channel for use</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__dma.html#gab9c200507a8ee87b894150416e4f5dd1">cyhal_dma_init</a>(&amp;dma, <a class="code" href="group__group__hal__impl__dma.html#ga81946da56dd6ba8afd28f6056b1d779a">CYHAL_DMA_PRIORITY_DEFAULT</a>, <a class="code" href="group__group__hal__dma.html#gga430c1e3ddedade3b6f7ef1f8532e665ba86dedc0ee3d9bf091e9f936040e2066a">CYHAL_DMA_DIRECTION_MEM2MEM</a>);</div><div class="line"></div><div class="line">    <span class="comment">// Configure the channel for the upcoming transfer</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__dma.html#gad39f32ac4fada8bc9e757df0a22fcce4">cyhal_dma_configure</a>(&amp;dma, &amp;cfg);</div><div class="line"></div><div class="line">    <span class="comment">// Begin the transfer</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__dma.html#gaf57a2b19848478b6604e09a3ecc3fbfc">cyhal_dma_start_transfer</a>(&amp;dma);</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">// If the DMA channel is no longer needed, it can be freed up for other uses</span></div><div class="line">    <span class="keywordflow">if</span> (!<a class="code" href="group__group__hal__dma.html#ga6f962c164fedb088dbd2a48e21550fd0">cyhal_dma_is_busy</a>(&amp;dma))</div><div class="line">    {</div><div class="line">        <a class="code" href="group__group__hal__dma.html#ga8c1bf16caa5d53cb129e5544da1c8b21">cyhal_dma_free</a>(&amp;dma);</div><div class="line">    }</div></div><!-- fragment --><h2><a class="anchor" id="subsection_dma_snippet_2"></a>
 Snippet 2: Configuring the DMA channel based on memory requirements</h2>
 <p><a class="el" href="group__group__hal__dma.html#gad39f32ac4fada8bc9e757df0a22fcce4">cyhal_dma_configure</a> can be used after DMA initialization to handle a variety of memory layouts.</p>
-<div class="fragment"><div class="line"><span class="preprocessor">    #define BUFFER_SIZE (32)</span></div><div class="line"><span class="preprocessor">    #define PERIPHERAL_FIFO_ADDR (0x4001000)</span></div><div class="line"></div><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> rslt;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a> dma;</div><div class="line">    uint32_t buffer[BUFFER_SIZE];</div><div class="line"></div><div class="line">    <span class="comment">/* Allocate the DMA channel for transfering from memory to a peripheral */</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__dma.html#ga77d62adf012b570ff1a157b43d134318">cyhal_dma_init</a>(&amp;dma, <a class="code" href="group__group__hal__impl__dma.html#ga81946da56dd6ba8afd28f6056b1d779a">CYHAL_DMA_PRIORITY_DEFAULT</a>, <a class="code" href="group__group__hal__dma.html#gga430c1e3ddedade3b6f7ef1f8532e665baef4c3c201a805bc17ea57d8dcfe49f49">CYHAL_DMA_DIRECTION_MEM2PERIPH</a>);</div><div class="line"></div><div class="line">    <a class="code" href="group__group__hal__dma.html#structcyhal__dma__cfg__t">cyhal_dma_cfg_t</a> cfg =</div><div class="line">    {</div><div class="line">        .<a class="code" href="group__group__hal__dma.html#addcfd22935f15ed7fd86990afb2d8fe5">src_addr</a> = (uint32_t)buffer,       <span class="comment">// Start from address</span></div><div class="line">        .src_increment = 1,                 <span class="comment">// Increment source by 1 word</span></div><div class="line">        .dst_addr = PERIPHERAL_FIFO_ADDR,   <span class="comment">// Destination from address</span></div><div class="line">        .dst_increment = 0,                 <span class="comment">// Don&#39;t increment the destination</span></div><div class="line">        .transfer_width = 32,               <span class="comment">// 32 bit transfer</span></div><div class="line">        .length = BUFFER_SIZE,              <span class="comment">// Transfer 64 bytes (16 transfers of 4 bytes)</span></div><div class="line">        .burst_size = 0,                    <span class="comment">// Transfer everything in a single burst</span></div><div class="line">        .action = <a class="code" href="group__group__hal__dma.html#gga05291825b0a7c7b9a92373ec53342b7aac422419b0c70b168a56a7bedc2bc2dad">CYHAL_DMA_TRANSFER_FULL</a>,  <span class="comment">// Notify when everything is done</span></div><div class="line">    };</div><div class="line">    rslt = <a class="code" href="group__group__hal__dma.html#gad39f32ac4fada8bc9e757df0a22fcce4">cyhal_dma_configure</a>(&amp;dma, &amp;cfg);</div></div><!-- fragment --><h2><a class="anchor" id="subsection_dma_snippet_3"></a>
+<div class="fragment"><div class="line"><span class="preprocessor">    #define BUFFER_SIZE (32)</span></div><div class="line"><span class="preprocessor">    #define PERIPHERAL_FIFO_ADDR (0x4001000)</span></div><div class="line"></div><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>   rslt;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a> dma;</div><div class="line">    uint32_t    buffer[BUFFER_SIZE];</div><div class="line"></div><div class="line">    <span class="comment">// Allocate the DMA channel for transfering from memory to a peripheral</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__dma.html#gab9c200507a8ee87b894150416e4f5dd1">cyhal_dma_init</a>(&amp;dma, <a class="code" href="group__group__hal__impl__dma.html#ga81946da56dd6ba8afd28f6056b1d779a">CYHAL_DMA_PRIORITY_DEFAULT</a>, <a class="code" href="group__group__hal__dma.html#gga430c1e3ddedade3b6f7ef1f8532e665baef4c3c201a805bc17ea57d8dcfe49f49">CYHAL_DMA_DIRECTION_MEM2PERIPH</a>);</div><div class="line"></div><div class="line">    <a class="code" href="group__group__hal__dma.html#structcyhal__dma__cfg__t">cyhal_dma_cfg_t</a> cfg =</div><div class="line">    {</div><div class="line">        .<a class="code" href="group__group__hal__dma.html#addcfd22935f15ed7fd86990afb2d8fe5">src_addr</a>       = (uint32_t)buffer,        <span class="comment">// Start from address</span></div><div class="line">        .src_increment  = 1,                       <span class="comment">// Increment source by 1 word</span></div><div class="line">        .dst_addr       = PERIPHERAL_FIFO_ADDR,    <span class="comment">// Destination from address</span></div><div class="line">        .dst_increment  = 0,                       <span class="comment">// Don&#39;t increment the destination</span></div><div class="line">        .transfer_width = 32,                      <span class="comment">// 32 bit transfer</span></div><div class="line">        .length         = BUFFER_SIZE,             <span class="comment">// Transfer 64 bytes (16 transfers of 4 bytes)</span></div><div class="line">        .burst_size     = 0,                       <span class="comment">// Transfer everything in a single burst</span></div><div class="line">        .action         = <a class="code" href="group__group__hal__dma.html#gga05291825b0a7c7b9a92373ec53342b7aac422419b0c70b168a56a7bedc2bc2dad">CYHAL_DMA_TRANSFER_FULL</a>, <span class="comment">// Notify when everything is done</span></div><div class="line">    };</div><div class="line">    rslt = <a class="code" href="group__group__hal__dma.html#gad39f32ac4fada8bc9e757df0a22fcce4">cyhal_dma_configure</a>(&amp;dma, &amp;cfg);</div></div><!-- fragment --><h2><a class="anchor" id="subsection_dma_snippet_3"></a>
 Snippet 3: Interrupts and retriggering DMA transfers</h2>
 <p>DMA events like transfer complete or error events can be used to trigger a callback function. <br />
  This snippet uses <a class="el" href="group__group__hal__dma.html#gad39f32ac4fada8bc9e757df0a22fcce4">cyhal_dma_configure</a> to break the full transfer into multiple bursts. This allows higher priority items access to the memory bus if necessary while the DMA operation is still in progress. It then uses <a class="el" href="group__group__hal__dma.html#gad41941e505b20be164c389925e7a25dc">cyhal_dma_enable_event()</a> to enable the transfer complete event to trigger the callback function registered by <a class="el" href="group__group__hal__dma.html#gacbccbcab79700c9e17bc47c525967876">cyhal_dma_register_callback()</a>.</p>
-<div class="fragment"><div class="line"><span class="keywordtype">void</span> dma_event_callback(<span class="keywordtype">void</span> *callback_arg, <a class="code" href="group__group__hal__dma.html#gad4507e9f3660b19e1ddc3085a96279e2">cyhal_dma_event_t</a> event)</div><div class="line">{</div><div class="line">    CY_UNUSED_PARAMETER(event);</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a>* dma = (<a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a>*)callback_arg;</div><div class="line"></div><div class="line">    <span class="comment">/* Do work specific to each burst complete */</span></div><div class="line"></div><div class="line">    <span class="comment">/* If all bursts are complete, start another */</span></div><div class="line">    <span class="keywordflow">if</span> (!<a class="code" href="group__group__hal__dma.html#ga6f962c164fedb088dbd2a48e21550fd0">cyhal_dma_is_busy</a>(dma))</div><div class="line">    {</div><div class="line">        <a class="code" href="group__group__hal__dma.html#gaf57a2b19848478b6604e09a3ecc3fbfc">cyhal_dma_start_transfer</a>(dma);</div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keywordtype">void</span> snippet_cyhal_dma_events()</div><div class="line">{</div><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> rslt;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a> dma;</div><div class="line">    <a class="code" href="group__group__hal__dma.html#structcyhal__dma__cfg__t">cyhal_dma_cfg_t</a> cfg =</div><div class="line">    {</div><div class="line">        .<a class="code" href="group__group__hal__dma.html#addcfd22935f15ed7fd86990afb2d8fe5">src_addr</a> = 0x8000000,              <span class="comment">// Start from address</span></div><div class="line">        .src_increment = 1,                 <span class="comment">// Increment source by 1 word</span></div><div class="line">        .dst_addr = 0x8001000,              <span class="comment">// Destination from address</span></div><div class="line">        .dst_increment = 1,                 <span class="comment">// Increment destination by 1 word</span></div><div class="line">        .transfer_width = 32,               <span class="comment">// 32 bit transfer</span></div><div class="line">        .length = 0x10,                     <span class="comment">// Transfer 64 bytes (16 transfers of 4 bytes)</span></div><div class="line">        .burst_size = 4,                    <span class="comment">// Transfer 4 words a a time</span></div><div class="line">        .action = <a class="code" href="group__group__hal__dma.html#gga05291825b0a7c7b9a92373ec53342b7aa1d892969519c81dd0728bc5ea99c835e">CYHAL_DMA_TRANSFER_BURST</a>, <span class="comment">// Notify when each burst is done</span></div><div class="line">    };</div><div class="line"></div><div class="line">    <span class="comment">/* Allocate the DMA channel for use */</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__dma.html#ga77d62adf012b570ff1a157b43d134318">cyhal_dma_init</a>(&amp;dma, <a class="code" href="group__group__hal__impl__dma.html#ga30998fd4febd3080e00922f969b08712">CYHAL_DMA_PRIORITY_LOW</a>, <a class="code" href="group__group__hal__dma.html#gga430c1e3ddedade3b6f7ef1f8532e665ba86dedc0ee3d9bf091e9f936040e2066a">CYHAL_DMA_DIRECTION_MEM2MEM</a>);</div><div class="line">    CY_ASSERT(<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> == rslt);</div><div class="line"></div><div class="line">    <span class="comment">/* Configure the channel for the upcoming transfer */</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__dma.html#gad39f32ac4fada8bc9e757df0a22fcce4">cyhal_dma_configure</a>(&amp;dma, &amp;cfg);</div><div class="line"></div><div class="line">    <span class="comment">/* Register an event callback handler and enable events */</span></div><div class="line">    <a class="code" href="group__group__hal__dma.html#gacbccbcab79700c9e17bc47c525967876">cyhal_dma_register_callback</a>(&amp;dma, &amp;dma_event_callback, &amp;dma);</div><div class="line">    <a class="code" href="group__group__hal__dma.html#gad41941e505b20be164c389925e7a25dc">cyhal_dma_enable_event</a>(&amp;dma, <a class="code" href="group__group__hal__dma.html#ggad4507e9f3660b19e1ddc3085a96279e2ae5ed3faaed4b314d6b7115016e4c2e73">CYHAL_DMA_TRANSFER_COMPLETE</a>, <a class="code" href="group__group__hal__impl__hw__types.html#gad822a466fc63847114add720ef84c83a">CYHAL_ISR_PRIORITY_DEFAULT</a>, <span class="keyword">true</span>);</div><div class="line"></div><div class="line">    <span class="comment">/* Begin the transfer */</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__dma.html#gaf57a2b19848478b6604e09a3ecc3fbfc">cyhal_dma_start_transfer</a>(&amp;dma);</div><div class="line"></div><div class="line"></div><div class="line">}</div></div><!-- fragment --><table class="memberdecls">
+<div class="fragment"><div class="line"><span class="keywordtype">void</span> dma_event_callback(<span class="keywordtype">void</span>* callback_arg, <a class="code" href="group__group__hal__dma.html#gad4507e9f3660b19e1ddc3085a96279e2">cyhal_dma_event_t</a> event)</div><div class="line">{</div><div class="line">    CY_UNUSED_PARAMETER(event);</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a>* dma = (<a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a>*)callback_arg;</div><div class="line"></div><div class="line">    <span class="comment">// Do work specific to each burst complete</span></div><div class="line"></div><div class="line">    <span class="comment">// If all bursts are complete, start another</span></div><div class="line">    <span class="keywordflow">if</span> (!<a class="code" href="group__group__hal__dma.html#ga6f962c164fedb088dbd2a48e21550fd0">cyhal_dma_is_busy</a>(dma))</div><div class="line">    {</div><div class="line">        <a class="code" href="group__group__hal__dma.html#gaf57a2b19848478b6604e09a3ecc3fbfc">cyhal_dma_start_transfer</a>(dma);</div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line"></div><div class="line"><span class="keywordtype">void</span> snippet_cyhal_dma_events()</div><div class="line">{</div><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>       rslt;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a>     dma;</div><div class="line">    <a class="code" href="group__group__hal__dma.html#structcyhal__dma__cfg__t">cyhal_dma_cfg_t</a> cfg =</div><div class="line">    {</div><div class="line">        .<a class="code" href="group__group__hal__dma.html#addcfd22935f15ed7fd86990afb2d8fe5">src_addr</a>       = 0x8000000,                <span class="comment">// Start from address</span></div><div class="line">        .src_increment  = 1,                        <span class="comment">// Increment source by 1 word</span></div><div class="line">        .dst_addr       = 0x8001000,                <span class="comment">// Destination from address</span></div><div class="line">        .dst_increment  = 1,                        <span class="comment">// Increment destination by 1 word</span></div><div class="line">        .transfer_width = 32,                       <span class="comment">// 32 bit transfer</span></div><div class="line">        .length         = 0x10,                     <span class="comment">// Transfer 64 bytes (16 transfers of 4 bytes)</span></div><div class="line">        .burst_size     = 4,                        <span class="comment">// Transfer 4 words a a time</span></div><div class="line">        .action         = <a class="code" href="group__group__hal__dma.html#gga05291825b0a7c7b9a92373ec53342b7aa1d892969519c81dd0728bc5ea99c835e">CYHAL_DMA_TRANSFER_BURST</a>, <span class="comment">// Notify when each burst is done</span></div><div class="line">    };</div><div class="line"></div><div class="line">    <span class="comment">// Allocate the DMA channel for use</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__dma.html#gab9c200507a8ee87b894150416e4f5dd1">cyhal_dma_init</a>(&amp;dma, <a class="code" href="group__group__hal__impl__dma.html#ga30998fd4febd3080e00922f969b08712">CYHAL_DMA_PRIORITY_LOW</a>, <a class="code" href="group__group__hal__dma.html#gga430c1e3ddedade3b6f7ef1f8532e665ba86dedc0ee3d9bf091e9f936040e2066a">CYHAL_DMA_DIRECTION_MEM2MEM</a>);</div><div class="line">    CY_ASSERT(<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> == rslt);</div><div class="line"></div><div class="line">    <span class="comment">// Configure the channel for the upcoming transfer</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__dma.html#gad39f32ac4fada8bc9e757df0a22fcce4">cyhal_dma_configure</a>(&amp;dma, &amp;cfg);</div><div class="line"></div><div class="line">    <span class="comment">// Register an event callback handler and enable events</span></div><div class="line">    <a class="code" href="group__group__hal__dma.html#gacbccbcab79700c9e17bc47c525967876">cyhal_dma_register_callback</a>(&amp;dma, &amp;dma_event_callback, &amp;dma);</div><div class="line">    <a class="code" href="group__group__hal__dma.html#gad41941e505b20be164c389925e7a25dc">cyhal_dma_enable_event</a>(&amp;dma, <a class="code" href="group__group__hal__dma.html#ggad4507e9f3660b19e1ddc3085a96279e2ae5ed3faaed4b314d6b7115016e4c2e73">CYHAL_DMA_TRANSFER_COMPLETE</a>, <a class="code" href="group__group__hal__impl__hw__types.html#gad822a466fc63847114add720ef84c83a">CYHAL_ISR_PRIORITY_DEFAULT</a>, <span class="keyword">true</span>);</div><div class="line"></div><div class="line">    <span class="comment">// Begin the transfer</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__dma.html#gaf57a2b19848478b6604e09a3ecc3fbfc">cyhal_dma_start_transfer</a>(&amp;dma);</div><div class="line">}</div><div class="line"></div><div class="line"></div></div><!-- fragment --><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="groups"></a>
 API Reference</h2></td></tr>
 <tr class="memitem:group__group__hal__results__dma"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__results__dma.html">DMA HAL Results</a></td></tr>
@@ -138,6 +139,18 @@ Data Structures</h2></td></tr>
 <tr class="memitem:structcyhal__dma__cfg__t"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__dma.html#structcyhal__dma__cfg__t">cyhal_dma_cfg_t</a></td></tr>
 <tr class="memdesc:structcyhal__dma__cfg__t"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration of a DMA channel.  <a href="group__group__hal__dma.html#structcyhal__dma__cfg__t">More...</a><br /></td></tr>
 <tr class="separator:structcyhal__dma__cfg__t"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:structcyhal__dma__src__t"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__dma.html#structcyhal__dma__src__t">cyhal_dma_src_t</a></td></tr>
+<tr class="memdesc:structcyhal__dma__src__t"><td class="mdescLeft">&#160;</td><td class="mdescRight">DMA input connection information to setup while initializing the driver.  <a href="group__group__hal__dma.html#structcyhal__dma__src__t">More...</a><br /></td></tr>
+<tr class="separator:structcyhal__dma__src__t"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:structcyhal__dma__dest__t"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__dma.html#structcyhal__dma__dest__t">cyhal_dma_dest_t</a></td></tr>
+<tr class="memdesc:structcyhal__dma__dest__t"><td class="mdescLeft">&#160;</td><td class="mdescRight">DMA output connection information to setup while initializing the driver.  <a href="group__group__hal__dma.html#structcyhal__dma__dest__t">More...</a><br /></td></tr>
+<tr class="separator:structcyhal__dma__dest__t"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:gab9c200507a8ee87b894150416e4f5dd1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__dma.html#gab9c200507a8ee87b894150416e4f5dd1">cyhal_dma_init</a>(obj,  priority,  direction)&#160;&#160;&#160;(<a class="el" href="group__group__hal__dma.html#gac1ab5fd8128e928de6827c5469de598f">cyhal_dma_init_adv</a>(obj, NULL, NULL, NULL, priority, direction))</td></tr>
+<tr class="memdesc:gab9c200507a8ee87b894150416e4f5dd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the DMA peripheral.  <a href="#gab9c200507a8ee87b894150416e4f5dd1">More...</a><br /></td></tr>
+<tr class="separator:gab9c200507a8ee87b894150416e4f5dd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -182,6 +195,26 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:gad4507e9f3660b19e1ddc3085a96279e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flags enum of DMA events.  <a href="group__group__hal__dma.html#gad4507e9f3660b19e1ddc3085a96279e2">More...</a><br /></td></tr>
 <tr class="separator:gad4507e9f3660b19e1ddc3085a96279e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5d4f22832c99a570fc99e9f3e64e46c0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__dma.html#ga5d4f22832c99a570fc99e9f3e64e46c0">cyhal_dma_input_t</a> { <br />
+&#160;&#160;<a class="el" href="group__group__hal__dma.html#gga5d4f22832c99a570fc99e9f3e64e46c0a7a41409940a58fbe674d52d63c50feb9">CYHAL_DMA_INPUT_TRIGGER_SINGLE_ELEMENT</a>, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__dma.html#gga5d4f22832c99a570fc99e9f3e64e46c0a694d225d972f01dce53f3a1aaf4a4627">CYHAL_DMA_INPUT_TRIGGER_SINGLE_BURST</a>, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__dma.html#gga5d4f22832c99a570fc99e9f3e64e46c0a97c5de1470fcdfd8c5c863ad8768bdd8">CYHAL_DMA_INPUT_TRIGGER_ALL_ELEMENTS</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:ga5d4f22832c99a570fc99e9f3e64e46c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specifies the transfer type to trigger when an input signal is received.  <a href="group__group__hal__dma.html#ga5d4f22832c99a570fc99e9f3e64e46c0">More...</a><br /></td></tr>
+<tr class="separator:ga5d4f22832c99a570fc99e9f3e64e46c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga68d247465101e4ca9d62d6c1ea2343c9"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__dma.html#ga68d247465101e4ca9d62d6c1ea2343c9">cyhal_dma_output_t</a> { <br />
+&#160;&#160;<a class="el" href="group__group__hal__dma.html#gga68d247465101e4ca9d62d6c1ea2343c9a8d75b7bfccffd3c43e8e37d825642e0d">CYHAL_DMA_OUTPUT_TRIGGER_SINGLE_ELEMENT</a>, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__dma.html#gga68d247465101e4ca9d62d6c1ea2343c9a47f0861463a13062898fa526fce09e46">CYHAL_DMA_OUTPUT_TRIGGER_SINGLE_BURST</a>, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__dma.html#gga68d247465101e4ca9d62d6c1ea2343c9aca155d063903043eadb915f4dfaa5069">CYHAL_DMA_OUTPUT_TRIGGER_ALL_ELEMENTS</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:ga68d247465101e4ca9d62d6c1ea2343c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specifies the transfer completion event that triggers a signal output.  <a href="group__group__hal__dma.html#ga68d247465101e4ca9d62d6c1ea2343c9">More...</a><br /></td></tr>
+<tr class="separator:ga68d247465101e4ca9d62d6c1ea2343c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga05291825b0a7c7b9a92373ec53342b7a"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__dma.html#ga05291825b0a7c7b9a92373ec53342b7a">cyhal_dma_transfer_action_t</a> { <br />
 &#160;&#160;<a class="el" href="group__group__hal__dma.html#gga05291825b0a7c7b9a92373ec53342b7aa1d892969519c81dd0728bc5ea99c835e">CYHAL_DMA_TRANSFER_BURST</a>, 
 <br />
@@ -193,9 +226,9 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga77d62adf012b570ff1a157b43d134318"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__dma.html#ga77d62adf012b570ff1a157b43d134318">cyhal_dma_init</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a> *obj, uint8_t priority, <a class="el" href="group__group__hal__dma.html#ga430c1e3ddedade3b6f7ef1f8532e665b">cyhal_dma_direction_t</a> direction)</td></tr>
-<tr class="memdesc:ga77d62adf012b570ff1a157b43d134318"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the DMA peripheral.  <a href="#ga77d62adf012b570ff1a157b43d134318">More...</a><br /></td></tr>
-<tr class="separator:ga77d62adf012b570ff1a157b43d134318"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac1ab5fd8128e928de6827c5469de598f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__dma.html#gac1ab5fd8128e928de6827c5469de598f">cyhal_dma_init_adv</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a> *obj, <a class="el" href="group__group__hal__dma.html#structcyhal__dma__src__t">cyhal_dma_src_t</a> *src, <a class="el" href="group__group__hal__dma.html#structcyhal__dma__dest__t">cyhal_dma_dest_t</a> *dest, <a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a> *dest_source, uint8_t priority, <a class="el" href="group__group__hal__dma.html#ga430c1e3ddedade3b6f7ef1f8532e665b">cyhal_dma_direction_t</a> direction)</td></tr>
+<tr class="memdesc:gac1ab5fd8128e928de6827c5469de598f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the DMA peripheral.  <a href="#gac1ab5fd8128e928de6827c5469de598f">More...</a><br /></td></tr>
+<tr class="separator:gac1ab5fd8128e928de6827c5469de598f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga8c1bf16caa5d53cb129e5544da1c8b21"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__dma.html#ga8c1bf16caa5d53cb129e5544da1c8b21">cyhal_dma_free</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a> *obj)</td></tr>
 <tr class="memdesc:ga8c1bf16caa5d53cb129e5544da1c8b21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free the DMA object.  <a href="#ga8c1bf16caa5d53cb129e5544da1c8b21">More...</a><br /></td></tr>
 <tr class="separator:ga8c1bf16caa5d53cb129e5544da1c8b21"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -214,6 +247,18 @@ Functions</h2></td></tr>
 <tr class="memitem:gad41941e505b20be164c389925e7a25dc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__dma.html#gad41941e505b20be164c389925e7a25dc">cyhal_dma_enable_event</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a> *obj, <a class="el" href="group__group__hal__dma.html#gad4507e9f3660b19e1ddc3085a96279e2">cyhal_dma_event_t</a> event, uint8_t intr_priority, bool enable)</td></tr>
 <tr class="memdesc:gad41941e505b20be164c389925e7a25dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure DMA event enablement.  <a href="#gad41941e505b20be164c389925e7a25dc">More...</a><br /></td></tr>
 <tr class="separator:gad41941e505b20be164c389925e7a25dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2933aee1aa2f446f6aedf86ffee28040"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__dma.html#ga2933aee1aa2f446f6aedf86ffee28040">cyhal_dma_connect_digital</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a> *obj, <a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a> source, <a class="el" href="group__group__hal__dma.html#ga5d4f22832c99a570fc99e9f3e64e46c0">cyhal_dma_input_t</a> input)</td></tr>
+<tr class="memdesc:ga2933aee1aa2f446f6aedf86ffee28040"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connects a source signal and enables the specified input to the DMA channel.  <a href="#ga2933aee1aa2f446f6aedf86ffee28040">More...</a><br /></td></tr>
+<tr class="separator:ga2933aee1aa2f446f6aedf86ffee28040"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga49f5cc82d015e6798c7578fe5b837dd6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__dma.html#ga49f5cc82d015e6798c7578fe5b837dd6">cyhal_dma_enable_output</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a> *obj, <a class="el" href="group__group__hal__dma.html#ga68d247465101e4ca9d62d6c1ea2343c9">cyhal_dma_output_t</a> output, <a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a> *source)</td></tr>
+<tr class="memdesc:ga49f5cc82d015e6798c7578fe5b837dd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables the specified output signal from a DMA channel that is triggered when a transfer is completed.  <a href="#ga49f5cc82d015e6798c7578fe5b837dd6">More...</a><br /></td></tr>
+<tr class="separator:ga49f5cc82d015e6798c7578fe5b837dd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaae942b5203638d1580b23e826bb04d53"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__dma.html#gaae942b5203638d1580b23e826bb04d53">cyhal_dma_disconnect_digital</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a> *obj, <a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a> source, <a class="el" href="group__group__hal__dma.html#ga5d4f22832c99a570fc99e9f3e64e46c0">cyhal_dma_input_t</a> input)</td></tr>
+<tr class="memdesc:gaae942b5203638d1580b23e826bb04d53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disconnects a source signal and disables the specified input to the DMA channel.  <a href="#gaae942b5203638d1580b23e826bb04d53">More...</a><br /></td></tr>
+<tr class="separator:gaae942b5203638d1580b23e826bb04d53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae6e7c942c2943ae20266611f8891002e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__dma.html#gae6e7c942c2943ae20266611f8891002e">cyhal_dma_disable_output</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a> *obj, <a class="el" href="group__group__hal__dma.html#ga68d247465101e4ca9d62d6c1ea2343c9">cyhal_dma_output_t</a> output)</td></tr>
+<tr class="memdesc:gae6e7c942c2943ae20266611f8891002e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables the specified output signal from a DMA channel.  <a href="#gae6e7c942c2943ae20266611f8891002e">More...</a><br /></td></tr>
+<tr class="separator:gae6e7c942c2943ae20266611f8891002e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/><h2 class="groupheader">Data Structure Documentation</h2>
 <a name="structcyhal__dma__cfg__t" id="structcyhal__dma__cfg__t"></a>
@@ -281,6 +326,110 @@ Sets the behavior of the channel when triggered (using start_transfer). Ignored 
 
 </div>
 </div>
+<a name="structcyhal__dma__src__t" id="structcyhal__dma__src__t"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#structcyhal__dma__src__t">&#9670;&nbsp;</a></span>cyhal_dma_src_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct cyhal_dma_src_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="3">Data Fields</th></tr>
+<tr><td class="fieldtype">
+<a id="a4458236b92f369fdde9715b8b6e45b3c"></a><a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a></td>
+<td class="fieldname">
+source</td>
+<td class="fielddoc">
+Source of signal to DMA; obtained from another driver's cyhal_&lt;PERIPH&gt;_enable_output. </td></tr>
+<tr><td class="fieldtype">
+<a id="a4a84836c06db798025e21943f253659f"></a><a class="el" href="group__group__hal__dma.html#ga5d4f22832c99a570fc99e9f3e64e46c0">cyhal_dma_input_t</a></td>
+<td class="fieldname">
+input</td>
+<td class="fielddoc">
+DMA input signal to be driven. </td></tr>
+</table>
+
+</div>
+</div>
+<a name="structcyhal__dma__dest__t" id="structcyhal__dma__dest__t"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#structcyhal__dma__dest__t">&#9670;&nbsp;</a></span>cyhal_dma_dest_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct cyhal_dma_dest_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="3">Data Fields</th></tr>
+<tr><td class="fieldtype">
+<a id="a5fde47af76029eaba80edda37b16a065"></a><a class="el" href="group__group__hal__dma.html#ga68d247465101e4ca9d62d6c1ea2343c9">cyhal_dma_output_t</a></td>
+<td class="fieldname">
+output</td>
+<td class="fielddoc">
+Output signal of DMA. </td></tr>
+<tr><td class="fieldtype">
+<a id="a441e10ce6c695f05aaf2a6d128c46b81"></a><a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#gaa2df0778261ace69282e18e3ec39553c">cyhal_dest_t</a></td>
+<td class="fieldname">
+dest</td>
+<td class="fielddoc">
+Destination of DMA signal. </td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="gab9c200507a8ee87b894150416e4f5dd1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab9c200507a8ee87b894150416e4f5dd1">&#9670;&nbsp;</a></span>cyhal_dma_init</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define cyhal_dma_init</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">obj, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">priority, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">direction&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;(<a class="el" href="group__group__hal__dma.html#gac1ab5fd8128e928de6827c5469de598f">cyhal_dma_init_adv</a>(obj, NULL, NULL, NULL, priority, direction))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initialize the DMA peripheral. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">obj</td><td>Pointer to a DMA object. The caller must allocate the memory for this object but the init function will initialize its contents. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">priority</td><td>The priority of this DMA operation relative to others. The number of priority levels which are supported is hardware dependent. All implementations define a <a class="el" href="group__group__hal__impl__dma.html#ga81946da56dd6ba8afd28f6056b1d779a" title="Default DMA channel priority. ">CYHAL_DMA_PRIORITY_DEFAULT</a> constant which is always valid. If supported, implementations will also define <a class="el" href="group__group__hal__impl__dma.html#gaca50872208f80fb4625591afbaf79d70" title="High DMA channel priority. ">CYHAL_DMA_PRIORITY_HIGH</a>, <a class="el" href="group__group__hal__impl__dma.html#ga0b9bf793bb1892836a901599c26fd698" title="Medium DMA channel priority. ">CYHAL_DMA_PRIORITY_MEDIUM</a>, and <a class="el" href="group__group__hal__impl__dma.html#ga30998fd4febd3080e00922f969b08712" title="Low DMA channel priority. ">CYHAL_DMA_PRIORITY_LOW</a>. The behavior of any other value is implementation defined. See the implementation-specific DMA documentation for more details. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">direction</td><td>The direction memory is copied </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the init request </dd></dl>
+
+</div>
+</div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="ga430c1e3ddedade3b6f7ef1f8532e665b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga430c1e3ddedade3b6f7ef1f8532e665b">&#9670;&nbsp;</a></span>cyhal_dma_direction_t</h2>
@@ -345,6 +494,54 @@ Sets the behavior of the channel when triggered (using start_transfer). Ignored 
 
 </div>
 </div>
+<a id="ga5d4f22832c99a570fc99e9f3e64e46c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5d4f22832c99a570fc99e9f3e64e46c0">&#9670;&nbsp;</a></span>cyhal_dma_input_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__group__hal__dma.html#ga5d4f22832c99a570fc99e9f3e64e46c0">cyhal_dma_input_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Specifies the transfer type to trigger when an input signal is received. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga5d4f22832c99a570fc99e9f3e64e46c0a7a41409940a58fbe674d52d63c50feb9"></a>CYHAL_DMA_INPUT_TRIGGER_SINGLE_ELEMENT&#160;</td><td class="fielddoc"><p>Transfer a single element when an input signal is received. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga5d4f22832c99a570fc99e9f3e64e46c0a694d225d972f01dce53f3a1aaf4a4627"></a>CYHAL_DMA_INPUT_TRIGGER_SINGLE_BURST&#160;</td><td class="fielddoc"><p>Transfer a single burst when an input signal is received. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga5d4f22832c99a570fc99e9f3e64e46c0a97c5de1470fcdfd8c5c863ad8768bdd8"></a>CYHAL_DMA_INPUT_TRIGGER_ALL_ELEMENTS&#160;</td><td class="fielddoc"><p>Transfer all elements when an input signal is received. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="ga68d247465101e4ca9d62d6c1ea2343c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga68d247465101e4ca9d62d6c1ea2343c9">&#9670;&nbsp;</a></span>cyhal_dma_output_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__group__hal__dma.html#ga68d247465101e4ca9d62d6c1ea2343c9">cyhal_dma_output_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Specifies the transfer completion event that triggers a signal output. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga68d247465101e4ca9d62d6c1ea2343c9a8d75b7bfccffd3c43e8e37d825642e0d"></a>CYHAL_DMA_OUTPUT_TRIGGER_SINGLE_ELEMENT&#160;</td><td class="fielddoc"><p>Trigger an output when a single element is transferred. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga68d247465101e4ca9d62d6c1ea2343c9a47f0861463a13062898fa526fce09e46"></a>CYHAL_DMA_OUTPUT_TRIGGER_SINGLE_BURST&#160;</td><td class="fielddoc"><p>Trigger an output when a single burst is transferred. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga68d247465101e4ca9d62d6c1ea2343c9aca155d063903043eadb915f4dfaa5069"></a>CYHAL_DMA_OUTPUT_TRIGGER_ALL_ELEMENTS&#160;</td><td class="fielddoc"><p>Trigger an output when all elements are transferred. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
 <a id="ga05291825b0a7c7b9a92373ec53342b7a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga05291825b0a7c7b9a92373ec53342b7a">&#9670;&nbsp;</a></span>cyhal_dma_transfer_action_t</h2>
 
@@ -358,7 +555,7 @@ Sets the behavior of the channel when triggered (using start_transfer). Ignored 
 </div><div class="memdoc">
 
 <p>If burst_size is used, selects whether a single trigger of the channel transfers a single burst of burst_size or a full transfer of size length (that is, every burst is triggered). </p>
-<p>This will also select when a trigger complete event will occur; after each burst or after the full transfer </p>
+<p>This will also set the initial transfer type that will trigger an output signal on completion. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga05291825b0a7c7b9a92373ec53342b7aa1d892969519c81dd0728bc5ea99c835e"></a>CYHAL_DMA_TRANSFER_BURST&#160;</td><td class="fielddoc"><p>A single burst is triggered and a transfer completion event will occur after the burst. </p>
 </td></tr>
@@ -369,17 +566,35 @@ Sets the behavior of the channel when triggered (using start_transfer). Ignored 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ga77d62adf012b570ff1a157b43d134318"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga77d62adf012b570ff1a157b43d134318">&#9670;&nbsp;</a></span>cyhal_dma_init()</h2>
+<a id="gac1ab5fd8128e928de6827c5469de598f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac1ab5fd8128e928de6827c5469de598f">&#9670;&nbsp;</a></span>cyhal_dma_init_adv()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_dma_init </td>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_dma_init_adv </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a> *&#160;</td>
           <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__dma.html#structcyhal__dma__src__t">cyhal_dma_src_t</a> *&#160;</td>
+          <td class="paramname"><em>src</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__dma.html#structcyhal__dma__dest__t">cyhal_dma_dest_t</a> *&#160;</td>
+          <td class="paramname"><em>dest</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a> *&#160;</td>
+          <td class="paramname"><em>dest_source</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -402,9 +617,12 @@ Sets the behavior of the channel when triggered (using start_transfer). Ignored 
 </div><div class="memdoc">
 
 <p>Initialize the DMA peripheral. </p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>If a source signal is provided for <code>src</code>, this will connect the provided signal to the DMA just as would be done by calling <a class="el" href="group__group__hal__dma.html#ga2933aee1aa2f446f6aedf86ffee28040">cyhal_dma_connect_digital</a>. Similarly, if a destination target is provided for <code>dest</code> this will enable the specified output just as would be done by calling <a class="el" href="group__group__hal__dma.html#ga49f5cc82d015e6798c7578fe5b837dd6">cyhal_dma_enable_output</a>. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[out]</td><td class="paramname">obj</td><td>Pointer to a DMA object. The caller must allocate the memory for this object but the init function will initialize its contents. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">src</td><td>An optional source signal to connect to the DMA </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dest</td><td>An optional destination singal to drive from the DMA </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">dest_source</td><td>An optional pointer to user-allocated source signal object which will be initialized by enable_output. If <code>dest</code> is non-null, this must also be non-null. <code>dest_source</code> should be passed to (dis)connect_digital functions to (dis)connect the associated endpoints. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">priority</td><td>The priority of this DMA operation relative to others. The number of priority levels which are supported is hardware dependent. All implementations define a <a class="el" href="group__group__hal__impl__dma.html#ga81946da56dd6ba8afd28f6056b1d779a" title="Default DMA channel priority. ">CYHAL_DMA_PRIORITY_DEFAULT</a> constant which is always valid. If supported, implementations will also define <a class="el" href="group__group__hal__impl__dma.html#gaca50872208f80fb4625591afbaf79d70" title="High DMA channel priority. ">CYHAL_DMA_PRIORITY_HIGH</a>, <a class="el" href="group__group__hal__impl__dma.html#ga0b9bf793bb1892836a901599c26fd698" title="Medium DMA channel priority. ">CYHAL_DMA_PRIORITY_MEDIUM</a>, and <a class="el" href="group__group__hal__impl__dma.html#ga30998fd4febd3080e00922f969b08712" title="Low DMA channel priority. ">CYHAL_DMA_PRIORITY_LOW</a>. The behavior of any other value is implementation defined. See the implementation-specific DMA documentation for more details. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">direction</td><td>The direction memory is copied </td></tr>
   </table>
@@ -627,6 +845,179 @@ Sets the behavior of the channel when triggered (using start_transfer). Ignored 
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="ga2933aee1aa2f446f6aedf86ffee28040"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2933aee1aa2f446f6aedf86ffee28040">&#9670;&nbsp;</a></span>cyhal_dma_connect_digital()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_dma_connect_digital </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a>&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__dma.html#ga5d4f22832c99a570fc99e9f3e64e46c0">cyhal_dma_input_t</a>&#160;</td>
+          <td class="paramname"><em>input</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Connects a source signal and enables the specified input to the DMA channel. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The DMA object </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">source</td><td>Source signal obtained from another driver's cyhal_&lt;PERIPH&gt;_enable_output </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">input</td><td>Which input to enable </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the connection </dd></dl>
+
+</div>
+</div>
+<a id="ga49f5cc82d015e6798c7578fe5b837dd6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga49f5cc82d015e6798c7578fe5b837dd6">&#9670;&nbsp;</a></span>cyhal_dma_enable_output()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_dma_enable_output </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__dma.html#ga68d247465101e4ca9d62d6c1ea2343c9">cyhal_dma_output_t</a>&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a> *&#160;</td>
+          <td class="paramname"><em>source</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables the specified output signal from a DMA channel that is triggered when a transfer is completed. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The DMA object </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">output</td><td>Which event triggers the output </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">source</td><td>Pointer to user-allocated source signal object which will be initialized by enable_output. <code>source</code> should be passed to (dis)connect_digital functions to (dis)connect the associated endpoints. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the output enable </dd></dl>
+
+</div>
+</div>
+<a id="gaae942b5203638d1580b23e826bb04d53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaae942b5203638d1580b23e826bb04d53">&#9670;&nbsp;</a></span>cyhal_dma_disconnect_digital()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_dma_disconnect_digital </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a>&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__dma.html#ga5d4f22832c99a570fc99e9f3e64e46c0">cyhal_dma_input_t</a>&#160;</td>
+          <td class="paramname"><em>input</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Disconnects a source signal and disables the specified input to the DMA channel. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The DMA object </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">source</td><td>Source signal from cyhal_&lt;PERIPH&gt;_enable_output to disable </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">input</td><td>Which input to disable </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the disconnect </dd></dl>
+
+</div>
+</div>
+<a id="gae6e7c942c2943ae20266611f8891002e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae6e7c942c2943ae20266611f8891002e">&#9670;&nbsp;</a></span>cyhal_dma_disable_output()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_dma_disable_output </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__dma.html#ga68d247465101e4ca9d62d6c1ea2343c9">cyhal_dma_output_t</a>&#160;</td>
+          <td class="paramname"><em>output</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Disables the specified output signal from a DMA channel. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The DMA object </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">output</td><td>Which output to disable </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the disablement </dd></dl>
 
 </div>
 </div>

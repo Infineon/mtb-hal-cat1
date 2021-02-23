@@ -7,6 +7,8 @@ var searchData=
   ['en_5fmonth',['en_month',['../group__group__hal__rtc.html#aa3904e107ba274b3e28966fa87d175d1',1,'cyhal_alarm_active_t']]],
   ['en_5fsec',['en_sec',['../group__group__hal__rtc.html#aa36c2142cb8a0dead7b6d40fcd499099',1,'cyhal_alarm_active_t']]],
   ['enable_5faveraging',['enable_averaging',['../group__group__hal__adc.html#ac2dae19e04515fbcb59cd43ce2e55a72',1,'cyhal_adc_channel_config_t']]],
+  ['enable_5fcrc_5fcheck',['enable_crc_check',['../group__group__hal__sdhc.html#a53d4b0e0ce161544068ca72c7a64ac64',1,'cyhal_sdhc_cmd_config_t']]],
+  ['enable_5fidx_5fcheck',['enable_idx_check',['../group__group__hal__sdhc.html#a6b0757bad40941cb717e9152fbf35084',1,'cyhal_sdhc_cmd_config_t']]],
   ['enable_5fwake_5ffrom_5fsleep',['enable_wake_from_sleep',['../group__group__hal__ezi2c.html#a011a66a43ac709b197fb10362d867b43',1,'cyhal_ezi2c_cfg_t']]],
   ['enabled',['enabled',['../group__group__hal__adc.html#a9d33c9d35e389a0f9efe1a0118ad5743',1,'cyhal_adc_channel_config_t']]],
   ['enableledcontrol',['enableLedControl',['../group__group__hal__sdhc.html#a9a0d3720e7b0898f436fd51dc3f65ab2',1,'cyhal_sdhc_config_t']]],

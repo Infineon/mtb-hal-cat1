@@ -89,10 +89,9 @@ $(document).ready(function(){initNavTree('group__group__hal__impl__hw__types.htm
   <div class="summary">
 <a href="#nested-classes">Data Structures</a> &#124;
 <a href="#define-members">Macros</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a>  </div>
   <div class="headertitle">
-<div class="title">PSoC 6 Specific Hardware Types<div class="ingroups"><a class="el" href="group__group__hal__impl.html">PSoC 6 Implementation Specific</a></div></div>  </div>
+<div class="title">CAT1 Specific Hardware Types<div class="ingroups"><a class="el" href="group__group__hal__impl.html">CAT1 (PSoC 6) Implementation Specific</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">General Description</h2>
@@ -165,6 +164,9 @@ Data Structures</h2></td></tr>
 <tr class="memitem:structcyhal__qspi__t"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__t">cyhal_qspi_t</a></td></tr>
 <tr class="memdesc:structcyhal__qspi__t"><td class="mdescLeft">&#160;</td><td class="mdescRight">QSPI object.  <a href="group__group__hal__impl__hw__types.html#structcyhal__qspi__t">More...</a><br /></td></tr>
 <tr class="separator:structcyhal__qspi__t"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:structcyhal__quaddec__t"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__quaddec__t">cyhal_quaddec_t</a></td></tr>
+<tr class="memdesc:structcyhal__quaddec__t"><td class="mdescLeft">&#160;</td><td class="mdescRight">Quadrature Decoder object.  <a href="group__group__hal__impl__hw__types.html#structcyhal__quaddec__t">More...</a><br /></td></tr>
+<tr class="separator:structcyhal__quaddec__t"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:structcyhal__trng__t"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__trng__t">cyhal_trng_t</a></td></tr>
 <tr class="memdesc:structcyhal__trng__t"><td class="mdescLeft">&#160;</td><td class="mdescRight">RNG object.  <a href="group__group__hal__impl__hw__types.html#structcyhal__trng__t">More...</a><br /></td></tr>
 <tr class="separator:structcyhal__trng__t"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -202,11 +204,6 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__hw__types.html#gacd10538852e7575732463b1f552b73d4">cyhal_system_callback_t</a>&#160;&#160;&#160;<a class="el" href="group__group__hal__types__implementation.html#gabb967889ff74acdaad515b63d1761752">cy_stc_syspm_callback_t</a></td></tr>
 <tr class="memdesc:gacd10538852e7575732463b1f552b73d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callbacks for Sleep and Deepsleep APIs. <br /></td></tr>
 <tr class="separator:gacd10538852e7575732463b1f552b73d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:gae6e4ea4100036d96d2efc006a3f69c9b"><td class="memItemLeft" align="right" valign="top">typedef uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__hw__types.html#gae6e4ea4100036d96d2efc006a3f69c9b">cyhal_source_t</a></td></tr>
-<tr class="separator:gae6e4ea4100036d96d2efc006a3f69c9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -525,6 +522,12 @@ descriptor</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
+<a id="a6bfa3d9c7ef3bb07d45f1022bab70c87"></a>uint32_t</td>
+<td class="fieldname">
+direction</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
 <a id="ae05f049b8e40d8f1a111ec3328afc5a7"></a>uint32_t</td>
 <td class="fieldname">
 irq_cause</td>
@@ -534,6 +537,12 @@ irq_cause</td>
 <a id="a9fb6d3fe2403deb665ce86e958fb956a"></a><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__event__callback__data__t">cyhal_event_callback_data_t</a></td>
 <td class="fieldname">
 callback_data</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="a5e5aa9c3349f413a5e685a6e08bb9538"></a><a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a></td>
+<td class="fieldname">
+source</td>
 <td class="fielddoc">
 </td></tr>
 </table>
@@ -656,6 +665,12 @@ resource</td>
 <a id="aa7f9c40ac381cf1ba12d887a498938b0"></a><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__clock__t">cyhal_clock_t</a></td>
 <td class="fieldname">
 clock</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="ad47bf766941c1d44e67e70bbc239c607"></a><a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a></td>
+<td class="fieldname">
+source</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
@@ -1431,15 +1446,33 @@ pin_ios[8]</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
+<a id="a161c05ae3ec11cec6b164fb0ed1110c9"></a>en_hsiom_sel_t</td>
+<td class="fieldname">
+saved_io_hsiom[8]</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
 <a id="a69cf396fb94143caf3c17f21e77fe30a"></a><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a></td>
 <td class="fieldname">
 pin_sclk</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
+<a id="a039d89e76b2eb6fae1c3b335ae173f96"></a>en_hsiom_sel_t</td>
+<td class="fieldname">
+saved_sclk_hsiom</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
 <a id="a09ac9cc8aaeb58965a786f5a02747715"></a><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a></td>
 <td class="fieldname">
 pin_ssel[SMIF_CHIP_TOP_SPI_SEL_NR]</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="ad64f4c66642ffc40777dd6ccb1401950"></a>en_hsiom_sel_t</td>
+<td class="fieldname">
+saved_ssel_hsiom[SMIF_CHIP_TOP_SPI_SEL_NR]</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
@@ -1500,6 +1533,53 @@ pm_callback</td>
 <a id="a5271ef0f6b8a86eaefba25d7880f9f88"></a>bool</td>
 <td class="fieldname">
 pm_transition_pending</td>
+<td class="fielddoc">
+</td></tr>
+</table>
+
+</div>
+</div>
+<a name="structcyhal__quaddec__t" id="structcyhal__quaddec__t"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#structcyhal__quaddec__t">&#9670;&nbsp;</a></span>cyhal_quaddec_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct cyhal_quaddec_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="3">Data Fields</th></tr>
+<tr><td class="fieldtype">
+<a id="a43b3afb6a641da8607d642d8d68264b3"></a><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__tcpwm__t">cyhal_tcpwm_t</a></td>
+<td class="fieldname">
+tcpwm</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="a294599f4c399f8cd722db5b72bd6f60a"></a><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a></td>
+<td class="fieldname">
+phi_a</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="aedbae5253d7f7a9c2f9b02d0f1d4e856"></a><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a></td>
+<td class="fieldname">
+phi_b</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="a6dd26d89e16c27595a35fd8c9a738035"></a><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a></td>
+<td class="fieldname">
+index</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="aa02669222b74cc12e1b1442e13604188"></a>uint32_t</td>
+<td class="fieldname">
+last_counter_value</td>
 <td class="fielddoc">
 </td></tr>
 </table>
@@ -1596,15 +1676,39 @@ emmc</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
-<a id="a365b370b54b12e6754a3dce00a6df82d"></a>cy_en_sd_host_dma_type_t</td>
+<a id="a2696faa2de164ae1fc365adbfd1264f7"></a>cy_en_sd_host_dma_type_t</td>
 <td class="fieldname">
-dmaType</td>
+dma_type</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
-<a id="ad2c4ad3c7a68210914f6a180747674b9"></a>bool</td>
+<a id="ae5c013a3da89c3a2c1d0217505b21330"></a>uint8_t</td>
 <td class="fieldname">
-enableLedControl</td>
+bus_width</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="a891c4ab59571baa487e41a8ac5ac93e8"></a>bool</td>
+<td class="fieldname">
+enable_led_control</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="afbe72cbfaac37d7f9a1ba3bf43f3ba43"></a>uint8_t</td>
+<td class="fieldname">
+data_timeout_tout</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="ae4e219aa427c728d6b42ec01d4560877"></a>bool</td>
+<td class="fieldname">
+data_timeout_auto_reconfig</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="a9026782c36f460206f0dc410fb32feb2"></a>uint32_t</td>
+<td class="fieldname">
+data_timeout_card_clocks_user</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
@@ -1632,39 +1736,39 @@ pin_data[8]</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
-<a id="afe0c6a7e564b723137384810daaebea0"></a><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a></td>
+<a id="a9c730d74dc6e5e258f9c7cdb82549814"></a><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a></td>
 <td class="fieldname">
-pin_cardDetect</td>
+pin_card_detect</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
-<a id="a23e2d73cec426c5c71195c5e07209183"></a><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a></td>
+<a id="a2358776f7bc32de36efdc7aba444c8c1"></a><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a></td>
 <td class="fieldname">
-pin_ioVoltSel</td>
+pin_io_vol_sel</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
-<a id="ab0ef18346eebebc8b413ef63b9cdf2ac"></a><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a></td>
+<a id="a80635caa361609e72fda9163312e2772"></a><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a></td>
 <td class="fieldname">
-pin_cardIfPwrEn</td>
+pin_card_pwr_en</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
-<a id="a914137cebd5692f79343f6327a959148"></a><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a></td>
+<a id="a6ff0582126f8d4455bd71ff4b9108a28"></a><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a></td>
 <td class="fieldname">
-pin_cardMechWriteProt</td>
+pin_card_mech_write_prot</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
-<a id="a123619860ae2fcaeee3f350a53836a99"></a><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a></td>
+<a id="aeb60d24a9281ac912f7b2fe3a194ff89"></a><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a></td>
 <td class="fieldname">
-pin_ledCtrl</td>
+pin_led_ctrl</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
-<a id="a17154ca2e853521132aaffb9d6efa1ec"></a><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a></td>
+<a id="a1448e31374d69a2a064a1e53ea967cf9"></a><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a></td>
 <td class="fieldname">
-pin_cardEmmcReset</td>
+pin_emmc_reset</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
@@ -1689,6 +1793,42 @@ pm_transition_pending</td>
 <a id="a3fa201afda0e69b1e2d148943e651188"></a><a class="el" href="group__group__hal__syspm.html#structcyhal__syspm__callback__data__t">cyhal_syspm_callback_data_t</a></td>
 <td class="fieldname">
 pm_callback_data</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="ad47710c0eec4445c508bb3d86163e67e"></a>bool</td>
+<td class="fieldname">
+low_voltage_io_desired</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="abc21dd9fda307aa5654f2179ca15f4de"></a>bool</td>
+<td class="fieldname">
+low_voltage_io_set</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="a2e0ffedf964bbd36035d15d56fcd52bd"></a>uint32_t</td>
+<td class="fieldname">
+bus_frequency_hz</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="ad2a543b3fa9b96fd88604af32a24adac"></a>uint32_t</td>
+<td class="fieldname">
+block_source_freq_hz</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="a3583336aa27c66db9b047bb898f5d9bc"></a>bool</td>
+<td class="fieldname">
+cd_gpio_cb_enabled</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="a8851868b76a1d4f5c392452d529af5ad"></a>uint32_t</td>
+<td class="fieldname">
+adma_descriptor_tbl[2]</td>
 <td class="fielddoc">
 </td></tr>
 </table>
@@ -1721,15 +1861,21 @@ emmc</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
-<a id="ad85bb812245a8b5e46d611db6872e3f3"></a>cy_en_sd_host_dma_type_t</td>
+<a id="abc27ea73d9ee14e1bafa02013f584b24"></a>cy_en_sd_host_dma_type_t</td>
 <td class="fieldname">
-dmaType</td>
+dma_type</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
 <a id="abbfdd2921695a42d9bef2aa0bf9bbfed"></a>cy_stc_sd_host_context_t</td>
 <td class="fieldname">
 context</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="a09b73c49c719ce96250cfc7fd695ee95"></a>uint32_t</td>
+<td class="fieldname">
+adma_descriptor_tbl[2]</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
@@ -2250,22 +2396,6 @@ placeholder</td>
 
 <p>Priority that is applied by default to all drivers when initalized. </p>
 <p>Priorities can be overridden on each driver as part of enabling events. </p>
-
-</div>
-</div>
-<h2 class="groupheader">Typedef Documentation</h2>
-<a id="gae6e4ea4100036d96d2efc006a3f69c9b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gae6e4ea4100036d96d2efc006a3f69c9b">&#9670;&nbsp;</a></span>cyhal_source_t</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef uint32_t <a class="el" href="group__group__hal__impl__hw__types.html#gae6e4ea4100036d96d2efc006a3f69c9b">cyhal_source_t</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Routable signal source </p>
 
 </div>
 </div>

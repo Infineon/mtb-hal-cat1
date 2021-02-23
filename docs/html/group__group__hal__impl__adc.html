@@ -87,18 +87,44 @@ $(document).ready(function(){initNavTree('group__group__hal__impl__adc.html','')
 
 <div class="header">
   <div class="headertitle">
-<div class="title">ADC (Analog Digital Converter)<div class="ingroups"><a class="el" href="group__group__hal__impl.html">PSoC 6 Implementation Specific</a></div></div>  </div>
+<div class="title">ADC (Analog Digital Converter)<div class="ingroups"><a class="el" href="group__group__hal__impl.html">CAT1 (PSoC 6) Implementation Specific</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+<a name="details" id="details"></a><h2 class="groupheader">General Description</h2>
 <h1><a class="anchor" id="cyhal_adc_impl_features"></a>
 Features</h1>
-<p>The PSoC 6 ADC supports the following features:</p><ul>
+<p>The CAT1/CAT2 (PMG/PSoC 4/PSoC 6) ADC supports the following features:</p><ul>
 <li>Resolution: 12 bit</li>
 <li>Only <a class="el" href="group__group__hal__general__types.html#gga246fde0e79029f514ce3846b31e366d7a6f0f4df45e9cac012a2c8e5ba736241b">CYHAL_POWER_LEVEL_DEFAULT</a> and CYHAL_POWER_LEVEL_OFF are defined. The default power level will automatically adjust based on smple rate.</li>
 <li>Average counts: 2, 4, 8, 16, 32, 64, 128, 256</li>
 <li>Up to four unique acquisition times.</li>
 <li>DMA-based transfer when using <a class="el" href="group__group__hal__adc.html#ga7386fc156403ea08380c4410665b4ae2">cyhal_adc_read_async</a>. When using <a class="el" href="group__group__hal__adc.html#ga4bdd118986c58fdfe4d832123fb8a31d">cyhal_adc_read_async_uv</a>, only interrupt-driven software copy is supported. </li>
 </ul>
+<table class="memberdecls">
+<tr class="memitem:ga722f74fbfc67ef6842b9d3b1a7971c73"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__adc.html#ga722f74fbfc67ef6842b9d3b1a7971c73">CYHAL_ADC_AVG_MODE_SEQUENTIAL</a>&#160;&#160;&#160;(1u &lt;&lt; (CYHAL_ADC_AVG_MODE_MAX_SHIFT + 1u))</td></tr>
+<tr class="memdesc:ga722f74fbfc67ef6842b9d3b1a7971c73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert all samples to be averaged back to back, before proceeding to the next channel.  <a href="#ga722f74fbfc67ef6842b9d3b1a7971c73">More...</a><br /></td></tr>
+<tr class="separator:ga722f74fbfc67ef6842b9d3b1a7971c73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="ga722f74fbfc67ef6842b9d3b1a7971c73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga722f74fbfc67ef6842b9d3b1a7971c73">&#9670;&nbsp;</a></span>CYHAL_ADC_AVG_MODE_SEQUENTIAL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CYHAL_ADC_AVG_MODE_SEQUENTIAL&#160;&#160;&#160;(1u &lt;&lt; (CYHAL_ADC_AVG_MODE_MAX_SHIFT + 1u))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert all samples to be averaged back to back, before proceeding to the next channel. </p>
+<h1><a class="anchor" id="group_hal_impl_adc_interconnect"></a>
+Interconnect</h1>
+<p>In PSoC each ADC has a single input trigger which, when activated, will initiate an ADC scan. Each ADC also has an output trigger which will be activated when a scan is completed. This is the default behavior. </p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part

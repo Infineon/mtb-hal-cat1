@@ -31,6 +31,14 @@ var group__group__hal__spi =
       [ "CYHAL_SPI_MODE_11_MSB", "group__group__hal__spi.html#ggaf56d895e50b0cf0e858a1ff221c58d51a396aa7d1e3a6d7652342a4eb35f91435", null ],
       [ "CYHAL_SPI_MODE_11_LSB", "group__group__hal__spi.html#ggaf56d895e50b0cf0e858a1ff221c58d51a7987f1cca1342f6f7721c9118f7a7e26", null ]
     ] ],
+    [ "cyhal_spi_fifo_type_t", "group__group__hal__spi.html#gab265880a2da90f74b0452a837e154e0a", [
+      [ "CYHAL_SPI_FIFO_RX", "group__group__hal__spi.html#ggab265880a2da90f74b0452a837e154e0aa3537f5b7c757bfca008d47b67a9e9e05", null ],
+      [ "CYHAL_SPI_FIFO_TX", "group__group__hal__spi.html#ggab265880a2da90f74b0452a837e154e0aa6aeb741eed579066debea44d8c02b547", null ]
+    ] ],
+    [ "cyhal_spi_output_t", "group__group__hal__spi.html#ga1cfefbde3bbc587e57f79e45558ae614", [
+      [ "CYHAL_SPI_OUTPUT_TRIGGER_RX_FIFO_LEVEL_REACHED", "group__group__hal__spi.html#gga1cfefbde3bbc587e57f79e45558ae614ab78da7e222b38d5625a2b5560eaef886", null ],
+      [ "CYHAL_SPI_OUTPUT_TRIGGER_TX_FIFO_LEVEL_REACHED", "group__group__hal__spi.html#gga1cfefbde3bbc587e57f79e45558ae614a71ecee2cda10474d296873ff4030c044", null ]
+    ] ],
     [ "cyhal_spi_init", "group__group__hal__spi.html#ga20c9cdb5b051ff8b68cf313fc19b550d", null ],
     [ "cyhal_spi_free", "group__group__hal__spi.html#gab2bbcc53213e50e43a9bd223573b7870", null ],
     [ "cyhal_spi_set_frequency", "group__group__hal__spi.html#ga536ac25a0556330a35651e32b5c180cb", null ],
@@ -43,5 +51,8 @@ var group__group__hal__spi =
     [ "cyhal_spi_is_busy", "group__group__hal__spi.html#ga94cd6755137c445776a75f29af355cab", null ],
     [ "cyhal_spi_abort_async", "group__group__hal__spi.html#ga2d4d48b53480a80e11d6ae5ebd01c0c2", null ],
     [ "cyhal_spi_register_callback", "group__group__hal__spi.html#ga5efa8d542f1ab5307d7896a249581a6a", null ],
-    [ "cyhal_spi_enable_event", "group__group__hal__spi.html#ga6d53ecb445603a2470ec1fd7e456bba3", null ]
+    [ "cyhal_spi_enable_event", "group__group__hal__spi.html#ga6d53ecb445603a2470ec1fd7e456bba3", null ],
+    [ "cyhal_spi_set_fifo_level", "group__group__hal__spi.html#gaa8f39b8e84c0925cb2f3ea44668de63b", null ],
+    [ "cyhal_spi_enable_output", "group__group__hal__spi.html#ga98fbe6cea252e705ea4bd219376cc8a1", null ],
+    [ "cyhal_spi_disable_output", "group__group__hal__spi.html#gae7dae4894227e55b9315d75737fa3e24", null ]
 ];

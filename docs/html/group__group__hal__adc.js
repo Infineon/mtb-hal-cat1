@@ -39,6 +39,8 @@ var group__group__hal__adc =
       [ "CYHAL_ADC_EOS", "group__group__hal__adc.html#gga3e21dc2fe98693d72260411459e1fc6ca72cdd442365c9b501eb0144ef31beb83", null ],
       [ "CYHAL_ADC_ASYNC_READ_COMPLETE", "group__group__hal__adc.html#gga3e21dc2fe98693d72260411459e1fc6ca4a42dd67489a8b89bb8b1fefdac6c86c", null ]
     ] ],
+    [ "cyhal_adc_input_t", "group__group__hal__adc.html#gaf6e8578ca8de8d9b83acd8a30876d90a", null ],
+    [ "cyhal_adc_output_t", "group__group__hal__adc.html#ga69f05e6ad5bd4ff96d602d0ff5d0936c", null ],
     [ "cyhal_adc_init", "group__group__hal__adc.html#ga7618b26a0677cb3f8cd477e3731da510", null ],
     [ "cyhal_adc_free", "group__group__hal__adc.html#gadae8361e3e3e3d0ff96767e1e8e1d913", null ],
     [ "cyhal_adc_configure", "group__group__hal__adc.html#gae1abce4e4cfe015eb4cd4dd055ca3065", null ],
@@ -54,5 +56,9 @@ var group__group__hal__adc =
     [ "cyhal_adc_read_async_uv", "group__group__hal__adc.html#ga4bdd118986c58fdfe4d832123fb8a31d", null ],
     [ "cyhal_adc_set_async_mode", "group__group__hal__adc.html#gac00f1d333ef4023e3d41dad9dbee5413", null ],
     [ "cyhal_adc_register_callback", "group__group__hal__adc.html#ga5ab88800c80f06d91d046a3b6d3144f2", null ],
-    [ "cyhal_adc_enable_event", "group__group__hal__adc.html#ga09f4a4783a982751b0f3effc48db1c6b", null ]
+    [ "cyhal_adc_enable_event", "group__group__hal__adc.html#ga09f4a4783a982751b0f3effc48db1c6b", null ],
+    [ "cyhal_adc_connect_digital", "group__group__hal__adc.html#ga2e08a18fcedd905cb423d21e5aec869d", null ],
+    [ "cyhal_adc_enable_output", "group__group__hal__adc.html#ga0773c23aa717891206dfba927b99d38a", null ],
+    [ "cyhal_adc_disconnect_digital", "group__group__hal__adc.html#ga116e3552e0f1da20c3a40a7a52a2670b", null ],
+    [ "cyhal_adc_disable_output", "group__group__hal__adc.html#gabfb66a94f69b8d5c27da8dbe324e6a82", null ]
 ];

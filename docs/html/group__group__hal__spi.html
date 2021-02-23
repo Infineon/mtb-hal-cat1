@@ -121,13 +121,13 @@ Quick Start</h1>
 Code snippets</h1>
 <h2><a class="anchor" id="subsection_spi_snippet_1"></a>
 Snippet 1: SPI Master - Single byte transfer operation (Read and Write)</h2>
-<p>The following code snippet initializes an SPI Master interface using the <a class="el" href="group__group__hal__spi.html#ga20c9cdb5b051ff8b68cf313fc19b550d">cyhal_spi_init()</a>. The data rate of transfer is set using <a class="el" href="group__group__hal__spi.html#ga536ac25a0556330a35651e32b5c180cb">cyhal_spi_set_frequency()</a>. The code snippet shows how to transfer a single byte of data using <a class="el" href="group__group__hal__spi.html#ga24b88b94f4869a34a98a54fc0edf9e53">cyhal_spi_send()</a> and <a class="el" href="group__group__hal__spi.html#gad9e6f6399f3096426b718d58e813b0d1">cyhal_spi_recv()</a>. </p><div class="fragment"><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> rslt;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__spi__t">cyhal_spi_t</a> mSPI;</div><div class="line">    uint32_t spi_master_frequency = 1000000;</div><div class="line">    uint32_t transmit_data = 0x01;</div><div class="line">    uint32_t receive_data;</div><div class="line"></div><div class="line">    <span class="comment">/* Configuring the  SPI master:  Specify the SPI interface pins, frame size, SPI Motorola mode and master mode */</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__spi.html#ga20c9cdb5b051ff8b68cf313fc19b550d">cyhal_spi_init</a>(&amp;mSPI, CYBSP_SPI_MOSI, CYBSP_SPI_MISO, CYBSP_SPI_CLK, CYBSP_SPI_CS, NULL, 8, <a class="code" href="group__group__hal__spi.html#ggaf56d895e50b0cf0e858a1ff221c58d51a8109c5d0edd4c10a68d82e98bd76de8a">CYHAL_SPI_MODE_00_MSB</a>, <span class="keyword">false</span>);</div><div class="line"></div><div class="line">    <span class="comment">/* Set the data rate to 1 Mbps */</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__spi.html#ga536ac25a0556330a35651e32b5c180cb">cyhal_spi_set_frequency</a>(&amp;mSPI, spi_master_frequency);</div><div class="line"></div><div class="line">    <span class="comment">/* Transfer one byte of data to the slave. */</span></div><div class="line">    <span class="keywordflow">if</span> (<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> == <a class="code" href="group__group__hal__spi.html#ga24b88b94f4869a34a98a54fc0edf9e53">cyhal_spi_send</a>(&amp;mSPI, transmit_data))</div><div class="line">    {</div><div class="line">    <span class="comment">/* Receives one byte of data from the slave by transmiting a dummy byte 0xFF. */</span></div><div class="line">        <span class="keywordflow">if</span> (<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> == <a class="code" href="group__group__hal__spi.html#gad9e6f6399f3096426b718d58e813b0d1">cyhal_spi_recv</a>(&amp;mSPI, &amp;receive_data))</div><div class="line">        {</div><div class="line">            <span class="comment">/* Transfer Complete and successful */</span></div><div class="line">        }</div><div class="line">    }</div></div><!-- fragment --> <h2><a class="anchor" id="subsection_spi_snippet_2"></a>
+<p>The following code snippet initializes an SPI Master interface using the <a class="el" href="group__group__hal__spi.html#ga20c9cdb5b051ff8b68cf313fc19b550d">cyhal_spi_init()</a>. The data rate of transfer is set using <a class="el" href="group__group__hal__spi.html#ga536ac25a0556330a35651e32b5c180cb">cyhal_spi_set_frequency()</a>. The code snippet shows how to transfer a single byte of data using <a class="el" href="group__group__hal__spi.html#ga24b88b94f4869a34a98a54fc0edf9e53">cyhal_spi_send()</a> and <a class="el" href="group__group__hal__spi.html#gad9e6f6399f3096426b718d58e813b0d1">cyhal_spi_recv()</a>. </p><div class="fragment"><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>   rslt;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__spi__t">cyhal_spi_t</a> mSPI;</div><div class="line">    uint32_t    spi_master_frequency = 1000000;</div><div class="line">    uint32_t    transmit_data        = 0x01;</div><div class="line">    uint32_t    receive_data;</div><div class="line"></div><div class="line">    <span class="comment">// Configuring the  SPI master:  Specify the SPI interface pins, frame size, SPI Motorola mode</span></div><div class="line">    <span class="comment">// and master mode</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__spi.html#ga20c9cdb5b051ff8b68cf313fc19b550d">cyhal_spi_init</a>(&amp;mSPI, CYBSP_SPI_MOSI, CYBSP_SPI_MISO, CYBSP_SPI_CLK, CYBSP_SPI_CS, NULL,</div><div class="line">                          8, <a class="code" href="group__group__hal__spi.html#ggaf56d895e50b0cf0e858a1ff221c58d51a8109c5d0edd4c10a68d82e98bd76de8a">CYHAL_SPI_MODE_00_MSB</a>, <span class="keyword">false</span>);</div><div class="line"></div><div class="line">    <span class="comment">// Set the data rate to 1 Mbps</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__spi.html#ga536ac25a0556330a35651e32b5c180cb">cyhal_spi_set_frequency</a>(&amp;mSPI, spi_master_frequency);</div><div class="line"></div><div class="line">    <span class="comment">// Transfer one byte of data to the slave.</span></div><div class="line">    <span class="keywordflow">if</span> (<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> == <a class="code" href="group__group__hal__spi.html#ga24b88b94f4869a34a98a54fc0edf9e53">cyhal_spi_send</a>(&amp;mSPI, transmit_data))</div><div class="line">    {</div><div class="line">        <span class="comment">// Receives one byte of data from the slave by transmiting a dummy byte 0xFF.</span></div><div class="line">        <span class="keywordflow">if</span> (<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> == <a class="code" href="group__group__hal__spi.html#gad9e6f6399f3096426b718d58e813b0d1">cyhal_spi_recv</a>(&amp;mSPI, &amp;receive_data))</div><div class="line">        {</div><div class="line">            <span class="comment">// Transfer Complete and successful</span></div><div class="line">        }</div><div class="line">    }</div></div><!-- fragment --> <h2><a class="anchor" id="subsection_spi_snippet_2"></a>
 Snippet 2: SPI Slave - Single byte transfer operation (Read and Write)</h2>
-<p>The following code snippet initializes an SPI Slave interface using the <a class="el" href="group__group__hal__spi.html#ga20c9cdb5b051ff8b68cf313fc19b550d">cyhal_spi_init()</a>. The data rate of transfer is set using <a class="el" href="group__group__hal__spi.html#ga536ac25a0556330a35651e32b5c180cb">cyhal_spi_set_frequency</a>. The code snippet shows how to transfer a single byte of data using <a class="el" href="group__group__hal__spi.html#ga24b88b94f4869a34a98a54fc0edf9e53">cyhal_spi_send()</a> and <a class="el" href="group__group__hal__spi.html#gad9e6f6399f3096426b718d58e813b0d1">cyhal_spi_recv</a>. </p><div class="fragment"><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> rslt;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__spi__t">cyhal_spi_t</a> sSPI;</div><div class="line">    uint32_t spi_slave_frequency = 1000000;</div><div class="line">    uint32_t transmit_data = 1;</div><div class="line">    uint32_t receive_data;</div><div class="line"></div><div class="line">    <span class="comment">/* Configuring the  SPI slave:  Specify the SPI interface pins, frame size, SPI Motorola mode and slave mode */</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__spi.html#ga20c9cdb5b051ff8b68cf313fc19b550d">cyhal_spi_init</a>(&amp;sSPI, CYBSP_SPI_MOSI, CYBSP_SPI_MISO, CYBSP_SPI_CLK, CYBSP_SPI_CS, NULL, 8, <a class="code" href="group__group__hal__spi.html#ggaf56d895e50b0cf0e858a1ff221c58d51a8109c5d0edd4c10a68d82e98bd76de8a">CYHAL_SPI_MODE_00_MSB</a>, <span class="keyword">true</span>);</div><div class="line"></div><div class="line">    <span class="comment">/* Set the data rate to 1 Mbps */</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__spi.html#ga536ac25a0556330a35651e32b5c180cb">cyhal_spi_set_frequency</a>(&amp;sSPI, spi_slave_frequency);</div><div class="line"></div><div class="line">    <span class="comment">/* Place a byte in the TX FIFO to be read by the master */</span></div><div class="line">    <span class="keywordflow">if</span> (<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> == <a class="code" href="group__group__hal__spi.html#ga24b88b94f4869a34a98a54fc0edf9e53">cyhal_spi_send</a>(&amp;sSPI, transmit_data))</div><div class="line">    {</div><div class="line">        <span class="comment">/* Get a received value out of the SPI receive buffer. This API Blocks until a value is available */</span></div><div class="line">        <span class="keywordflow">if</span> (<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> == <a class="code" href="group__group__hal__spi.html#gad9e6f6399f3096426b718d58e813b0d1">cyhal_spi_recv</a>(&amp;sSPI, &amp;receive_data))</div><div class="line">        {</div><div class="line">            <span class="comment">/* Transfer successful */</span></div><div class="line">        }</div><div class="line">    }</div></div><!-- fragment --> <h2><a class="anchor" id="subsection_spi_snippet_3"></a>
+<p>The following code snippet initializes an SPI Slave interface using the <a class="el" href="group__group__hal__spi.html#ga20c9cdb5b051ff8b68cf313fc19b550d">cyhal_spi_init()</a>. The data rate of transfer is set using <a class="el" href="group__group__hal__spi.html#ga536ac25a0556330a35651e32b5c180cb">cyhal_spi_set_frequency</a>. The code snippet shows how to transfer a single byte of data using <a class="el" href="group__group__hal__spi.html#ga24b88b94f4869a34a98a54fc0edf9e53">cyhal_spi_send()</a> and <a class="el" href="group__group__hal__spi.html#gad9e6f6399f3096426b718d58e813b0d1">cyhal_spi_recv</a>. </p><div class="fragment"><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>   rslt;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__spi__t">cyhal_spi_t</a> sSPI;</div><div class="line">    uint32_t    spi_slave_frequency = 1000000;</div><div class="line">    uint32_t    transmit_data       = 1;</div><div class="line">    uint32_t    receive_data;</div><div class="line"></div><div class="line">    <span class="comment">// Configuring the  SPI slave:  Specify the SPI interface pins, frame size, SPI Motorola mode</span></div><div class="line">    <span class="comment">// and slave mode</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__spi.html#ga20c9cdb5b051ff8b68cf313fc19b550d">cyhal_spi_init</a>(&amp;sSPI, CYBSP_SPI_MOSI, CYBSP_SPI_MISO, CYBSP_SPI_CLK, CYBSP_SPI_CS, NULL,</div><div class="line">                          8, <a class="code" href="group__group__hal__spi.html#ggaf56d895e50b0cf0e858a1ff221c58d51a8109c5d0edd4c10a68d82e98bd76de8a">CYHAL_SPI_MODE_00_MSB</a>, <span class="keyword">true</span>);</div><div class="line"></div><div class="line">    <span class="comment">// Set the data rate to 1 Mbps</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__spi.html#ga536ac25a0556330a35651e32b5c180cb">cyhal_spi_set_frequency</a>(&amp;sSPI, spi_slave_frequency);</div><div class="line"></div><div class="line">    <span class="comment">// Place a byte in the TX FIFO to be read by the master</span></div><div class="line">    <span class="keywordflow">if</span> (<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> == <a class="code" href="group__group__hal__spi.html#ga24b88b94f4869a34a98a54fc0edf9e53">cyhal_spi_send</a>(&amp;sSPI, transmit_data))</div><div class="line">    {</div><div class="line">        <span class="comment">// Get a received value out of the SPI receive buffer. This API Blocks until a value is</span></div><div class="line">        <span class="comment">// available</span></div><div class="line">        <span class="keywordflow">if</span> (<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> == <a class="code" href="group__group__hal__spi.html#gad9e6f6399f3096426b718d58e813b0d1">cyhal_spi_recv</a>(&amp;sSPI, &amp;receive_data))</div><div class="line">        {</div><div class="line">            <span class="comment">// Transfer successful</span></div><div class="line">        }</div><div class="line">    }</div></div><!-- fragment --> <h2><a class="anchor" id="subsection_spi_snippet_3"></a>
 Snippet 3: SPI Block Data transfer</h2>
-<p>The following snippet sends and receives an array of data in a single SPI transaction using <a class="el" href="group__group__hal__spi.html#gad21547fa4048c45f15308c0b1ff62c1f">cyhal_spi_transfer()</a>. The example uses SPI master to transmit 5 bytes of data and receive 5 bytes of data in a single transaction. </p><div class="fragment"><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> rslt;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__spi__t">cyhal_spi_t</a> mSPI;</div><div class="line">    uint32_t spi_frequency = 1000000;</div><div class="line">    uint8_t transmit_data[5] = {0x1, 0x2, 0x3, 0x4, 0x5};</div><div class="line">    uint8_t receive_data[5];</div><div class="line"></div><div class="line">    <span class="comment">/* BSP-1637 workaround  */</span></div><div class="line">    memset(&amp;mSPI, 0, <span class="keyword">sizeof</span>(mSPI));</div><div class="line"></div><div class="line">    <span class="comment">/* Configuring the  SPI interface:  Specify the SPI interface pins, frame size, SPI Motorola mode and master/slave mode */</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__spi.html#ga20c9cdb5b051ff8b68cf313fc19b550d">cyhal_spi_init</a>(&amp;mSPI, CYBSP_SPI_MOSI, CYBSP_SPI_MISO, CYBSP_SPI_CLK, CYBSP_SPI_CS, NULL, 8, <a class="code" href="group__group__hal__spi.html#ggaf56d895e50b0cf0e858a1ff221c58d51a8109c5d0edd4c10a68d82e98bd76de8a">CYHAL_SPI_MODE_00_MSB</a>, <span class="keyword">false</span>);</div><div class="line"></div><div class="line">    <span class="comment">/* Set the data rate to 1 Mbps */</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__spi.html#ga536ac25a0556330a35651e32b5c180cb">cyhal_spi_set_frequency</a>(&amp;mSPI, spi_frequency);</div><div class="line"></div><div class="line">    <span class="comment">/* Master: Starts a data transfer. Slave: Prepares the slave for data transfer. It is a blocking function */</span></div><div class="line">    <span class="keywordflow">if</span> (<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> ==  <a class="code" href="group__group__hal__spi.html#gad21547fa4048c45f15308c0b1ff62c1f">cyhal_spi_transfer</a>(&amp;mSPI, transmit_data, 5u, receive_data, 5u, 0xFF))</div><div class="line">    {</div><div class="line">        <span class="comment">/* Transfer Complete */</span></div><div class="line">    }</div></div><!-- fragment --> <h2><a class="anchor" id="subsection_spi_snippet_4"></a>
+<p>The following snippet sends and receives an array of data in a single SPI transaction using <a class="el" href="group__group__hal__spi.html#gad21547fa4048c45f15308c0b1ff62c1f">cyhal_spi_transfer()</a>. The example uses SPI master to transmit 5 bytes of data and receive 5 bytes of data in a single transaction. </p><div class="fragment"><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>   rslt;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__spi__t">cyhal_spi_t</a> mSPI;</div><div class="line">    uint32_t    spi_frequency    = 1000000;</div><div class="line">    uint8_t     transmit_data[5] = { 0x1, 0x2, 0x3, 0x4, 0x5 };</div><div class="line">    uint8_t     receive_data[5];</div><div class="line"></div><div class="line">    <span class="comment">// BSP-1637 workaround</span></div><div class="line">    memset(&amp;mSPI, 0, <span class="keyword">sizeof</span>(mSPI));</div><div class="line"></div><div class="line">    <span class="comment">// Configuring the  SPI interface:  Specify the SPI interface pins, frame size, SPI Motorola</span></div><div class="line">    <span class="comment">// mode and master/slave mode</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__spi.html#ga20c9cdb5b051ff8b68cf313fc19b550d">cyhal_spi_init</a>(&amp;mSPI, CYBSP_SPI_MOSI, CYBSP_SPI_MISO, CYBSP_SPI_CLK, CYBSP_SPI_CS, NULL,</div><div class="line">                          8, <a class="code" href="group__group__hal__spi.html#ggaf56d895e50b0cf0e858a1ff221c58d51a8109c5d0edd4c10a68d82e98bd76de8a">CYHAL_SPI_MODE_00_MSB</a>, <span class="keyword">false</span>);</div><div class="line"></div><div class="line">    <span class="comment">// Set the data rate to 1 Mbps</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__spi.html#ga536ac25a0556330a35651e32b5c180cb">cyhal_spi_set_frequency</a>(&amp;mSPI, spi_frequency);</div><div class="line"></div><div class="line">    <span class="comment">// Master: Starts a data transfer. Slave: Prepares the slave for data transfer. It is a blocking</span></div><div class="line">    <span class="comment">// function</span></div><div class="line">    <span class="keywordflow">if</span> (<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> == <a class="code" href="group__group__hal__spi.html#gad21547fa4048c45f15308c0b1ff62c1f">cyhal_spi_transfer</a>(&amp;mSPI, transmit_data, 5u, receive_data, 5u, 0xFF))</div><div class="line">    {</div><div class="line">        <span class="comment">// Transfer Complete</span></div><div class="line">    }</div></div><!-- fragment --> <h2><a class="anchor" id="subsection_spi_snippet_4"></a>
 Snippet 4: Interrupts on SPI events</h2>
-<p>SPI interrupt events ( <a class="el" href="group__group__hal__spi.html#gae8f0cf0233d0225a80815f8282d87b85">cyhal_spi_event_t</a>) can be mapped to an interrupt and assigned to a callback function. The callback function needs to be first registered and then the event needs to be enabled. The following snippet initialises a SPI master to perform a block transfer using <a class="el" href="group__group__hal__spi.html#ga3cbcb44263ba6af2668f8847b8c90210">cyhal_spi_transfer_async()</a>. This is a non-blocking function. A callback function is registered using <a class="el" href="group__group__hal__spi.html#ga5efa8d542f1ab5307d7896a249581a6a">cyhal_spi_register_callback</a> to notify whenever the SPI transfer is complete. </p><div class="fragment"><div class="line"></div><div class="line"><span class="keywordtype">void</span> spi_interrupt_callback(<span class="keywordtype">void</span> *arg, <a class="code" href="group__group__hal__spi.html#gae8f0cf0233d0225a80815f8282d87b85">cyhal_spi_event_t</a> event)</div><div class="line">{</div><div class="line">    (void)arg;</div><div class="line">    <span class="keywordflow">if</span> ((event &amp; <a class="code" href="group__group__hal__spi.html#ggae8f0cf0233d0225a80815f8282d87b85a3f926937b0199cc8729c443d8e71f91b">CYHAL_SPI_IRQ_DONE</a> ) != 0u)</div><div class="line">    {</div><div class="line">        <span class="comment">/* Transmission is complete. Handle Event */</span></div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keywordtype">void</span> snippet_cyhal_interrupt_callback_events(<span class="keywordtype">void</span>)</div><div class="line">{</div><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> rslt;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__spi__t">cyhal_spi_t</a> mSPI;</div><div class="line">    uint32_t spi_frequency = 1000000;</div><div class="line">    uint32_t rx_transfer_count = 5, tx_transfer_count = 5;</div><div class="line">    uint8_t receive_data[5];</div><div class="line">    uint8_t transmit_data[5] = {0x1, 0x2, 0x3, 0x4, 0x5};</div><div class="line"></div><div class="line">    <span class="comment">/* Configuring the  SPI interface:  Specify the SPI interface pins, frame size, SPI Motorola mode and master/slave mode */</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__spi.html#ga20c9cdb5b051ff8b68cf313fc19b550d">cyhal_spi_init</a>(&amp;mSPI, CYBSP_SPI_MOSI, CYBSP_SPI_MISO, CYBSP_SPI_CLK, CYBSP_SPI_CS, NULL, 8, <a class="code" href="group__group__hal__spi.html#ggaf56d895e50b0cf0e858a1ff221c58d51a8109c5d0edd4c10a68d82e98bd76de8a">CYHAL_SPI_MODE_00_MSB</a>, <span class="keyword">false</span>);</div><div class="line">    CY_ASSERT(<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> == rslt);</div><div class="line"></div><div class="line">    <span class="comment">/* Set the data rate to 1 Mbps */</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__spi.html#ga536ac25a0556330a35651e32b5c180cb">cyhal_spi_set_frequency</a>(&amp;mSPI, spi_frequency);</div><div class="line">    CY_ASSERT(<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> == rslt);</div><div class="line"></div><div class="line">    <span class="comment">/* Register a callback function to be called when the interrupt fires */</span></div><div class="line">    <a class="code" href="group__group__hal__spi.html#ga5efa8d542f1ab5307d7896a249581a6a">cyhal_spi_register_callback</a>(&amp;mSPI, (<a class="code" href="group__group__hal__spi.html#ga49db139205e26d6150dc9a83338d8a1c">cyhal_spi_event_callback_t</a>) spi_interrupt_callback, NULL);</div><div class="line"></div><div class="line">    <span class="comment">/* Enable the events that will trigger the call back function */</span></div><div class="line">    <a class="code" href="group__group__hal__spi.html#ga6d53ecb445603a2470ec1fd7e456bba3">cyhal_spi_enable_event</a>(&amp;mSPI, <a class="code" href="group__group__hal__spi.html#ggae8f0cf0233d0225a80815f8282d87b85a3f926937b0199cc8729c443d8e71f91b">CYHAL_SPI_IRQ_DONE</a>, 3, <span class="keyword">true</span>);</div><div class="line"></div><div class="line">    <span class="comment">/* Master: Initiates a data transfer. Slave: Prepares the slave for data transfer. It is a non-blocking function  */</span></div><div class="line">    <span class="keywordflow">if</span> (<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> == <a class="code" href="group__group__hal__spi.html#ga3cbcb44263ba6af2668f8847b8c90210">cyhal_spi_transfer_async</a>(&amp;mSPI, transmit_data, rx_transfer_count, receive_data, tx_transfer_count))</div><div class="line">    {</div><div class="line">        <span class="comment">/* SPI Master: Transfer started. SPI Slave: Prepares for data transfer */</span></div><div class="line">    }</div><div class="line">}</div></div><!-- fragment --> <h1><a class="anchor" id="subsection_spi_moreinfor"></a>
+<p>SPI interrupt events ( <a class="el" href="group__group__hal__spi.html#gae8f0cf0233d0225a80815f8282d87b85">cyhal_spi_event_t</a>) can be mapped to an interrupt and assigned to a callback function. The callback function needs to be first registered and then the event needs to be enabled. The following snippet initialises a SPI master to perform a block transfer using <a class="el" href="group__group__hal__spi.html#ga3cbcb44263ba6af2668f8847b8c90210">cyhal_spi_transfer_async()</a>. This is a non-blocking function. A callback function is registered using <a class="el" href="group__group__hal__spi.html#ga5efa8d542f1ab5307d7896a249581a6a">cyhal_spi_register_callback</a> to notify whenever the SPI transfer is complete. </p><div class="fragment"><div class="line"></div><div class="line"><span class="keywordtype">void</span> spi_interrupt_callback(<span class="keywordtype">void</span>* arg, <a class="code" href="group__group__hal__spi.html#gae8f0cf0233d0225a80815f8282d87b85">cyhal_spi_event_t</a> event)</div><div class="line">{</div><div class="line">    (void)arg;</div><div class="line">    <span class="keywordflow">if</span> ((event &amp; <a class="code" href="group__group__hal__spi.html#ggae8f0cf0233d0225a80815f8282d87b85a3f926937b0199cc8729c443d8e71f91b">CYHAL_SPI_IRQ_DONE</a>) != 0u)</div><div class="line">    {</div><div class="line">        <span class="comment">// Transmission is complete. Handle Event</span></div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line"></div><div class="line"><span class="keywordtype">void</span> snippet_cyhal_interrupt_callback_events(<span class="keywordtype">void</span>)</div><div class="line">{</div><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>   rslt;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__spi__t">cyhal_spi_t</a> mSPI;</div><div class="line">    uint32_t    spi_frequency = 1000000;</div><div class="line">    uint32_t    rx_transfer_count = 5, tx_transfer_count = 5;</div><div class="line">    uint8_t     receive_data[5];</div><div class="line">    uint8_t     transmit_data[5] = { 0x1, 0x2, 0x3, 0x4, 0x5 };</div><div class="line"></div><div class="line">    <span class="comment">// Configuring the  SPI interface:  Specify the SPI interface pins, frame size, SPI Motorola</span></div><div class="line">    <span class="comment">// mode and master/slave mode</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__spi.html#ga20c9cdb5b051ff8b68cf313fc19b550d">cyhal_spi_init</a>(&amp;mSPI, CYBSP_SPI_MOSI, CYBSP_SPI_MISO, CYBSP_SPI_CLK, CYBSP_SPI_CS, NULL,</div><div class="line">                          8, <a class="code" href="group__group__hal__spi.html#ggaf56d895e50b0cf0e858a1ff221c58d51a8109c5d0edd4c10a68d82e98bd76de8a">CYHAL_SPI_MODE_00_MSB</a>, <span class="keyword">false</span>);</div><div class="line">    CY_ASSERT(<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> == rslt);</div><div class="line"></div><div class="line">    <span class="comment">// Set the data rate to 1 Mbps</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__spi.html#ga536ac25a0556330a35651e32b5c180cb">cyhal_spi_set_frequency</a>(&amp;mSPI, spi_frequency);</div><div class="line">    CY_ASSERT(<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> == rslt);</div><div class="line"></div><div class="line">    <span class="comment">// Register a callback function to be called when the interrupt fires</span></div><div class="line">    <a class="code" href="group__group__hal__spi.html#ga5efa8d542f1ab5307d7896a249581a6a">cyhal_spi_register_callback</a>(&amp;mSPI, (<a class="code" href="group__group__hal__spi.html#ga49db139205e26d6150dc9a83338d8a1c">cyhal_spi_event_callback_t</a>)spi_interrupt_callback, NULL);</div><div class="line"></div><div class="line">    <span class="comment">// Enable the events that will trigger the call back function</span></div><div class="line">    <a class="code" href="group__group__hal__spi.html#ga6d53ecb445603a2470ec1fd7e456bba3">cyhal_spi_enable_event</a>(&amp;mSPI, <a class="code" href="group__group__hal__spi.html#ggae8f0cf0233d0225a80815f8282d87b85a3f926937b0199cc8729c443d8e71f91b">CYHAL_SPI_IRQ_DONE</a>, 3, <span class="keyword">true</span>);</div><div class="line"></div><div class="line">    <span class="comment">// Master: Initiates a data transfer. Slave: Prepares the slave for data transfer. It is a</span></div><div class="line">    <span class="comment">// non-blocking function</span></div><div class="line">    <span class="keywordflow">if</span> (<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> ==</div><div class="line">        <a class="code" href="group__group__hal__spi.html#ga3cbcb44263ba6af2668f8847b8c90210">cyhal_spi_transfer_async</a>(&amp;mSPI, transmit_data, rx_transfer_count, receive_data,</div><div class="line">                                 tx_transfer_count))</div><div class="line">    {</div><div class="line">        <span class="comment">// SPI Master: Transfer started. SPI Slave: Prepares for data transfer</span></div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line"></div></div><!-- fragment --> <h1><a class="anchor" id="subsection_spi_moreinfor"></a>
 More Information</h1>
 <ul>
 <li><a href="https://github.com/cypresssemiconductorco/mtb-example-psoc6-spi-master"><b>mtb-example-psoc6-spi-master</b></a>: This example project demonstrates use of SPI (HAL) resource in PSoC® 6 MCU in Master mode to write data to an SPI slave. </li>
@@ -210,6 +210,22 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:gaf56d895e50b0cf0e858a1ff221c58d51"><td class="mdescLeft">&#160;</td><td class="mdescRight">SPI operating modes.  <a href="group__group__hal__spi.html#gaf56d895e50b0cf0e858a1ff221c58d51">More...</a><br /></td></tr>
 <tr class="separator:gaf56d895e50b0cf0e858a1ff221c58d51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab265880a2da90f74b0452a837e154e0a"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__spi.html#gab265880a2da90f74b0452a837e154e0a">cyhal_spi_fifo_type_t</a> { <br />
+&#160;&#160;<a class="el" href="group__group__hal__spi.html#ggab265880a2da90f74b0452a837e154e0aa3537f5b7c757bfca008d47b67a9e9e05">CYHAL_SPI_FIFO_RX</a>, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__spi.html#ggab265880a2da90f74b0452a837e154e0aa6aeb741eed579066debea44d8c02b547">CYHAL_SPI_FIFO_TX</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:gab265880a2da90f74b0452a837e154e0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">SPI FIFO type.  <a href="group__group__hal__spi.html#gab265880a2da90f74b0452a837e154e0a">More...</a><br /></td></tr>
+<tr class="separator:gab265880a2da90f74b0452a837e154e0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1cfefbde3bbc587e57f79e45558ae614"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__spi.html#ga1cfefbde3bbc587e57f79e45558ae614">cyhal_spi_output_t</a> { <br />
+&#160;&#160;<a class="el" href="group__group__hal__spi.html#gga1cfefbde3bbc587e57f79e45558ae614ab78da7e222b38d5625a2b5560eaef886">CYHAL_SPI_OUTPUT_TRIGGER_RX_FIFO_LEVEL_REACHED</a>, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__spi.html#gga1cfefbde3bbc587e57f79e45558ae614a71ecee2cda10474d296873ff4030c044">CYHAL_SPI_OUTPUT_TRIGGER_TX_FIFO_LEVEL_REACHED</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:ga1cfefbde3bbc587e57f79e45558ae614"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum of possible output signals from an SPI.  <a href="group__group__hal__spi.html#ga1cfefbde3bbc587e57f79e45558ae614">More...</a><br /></td></tr>
+<tr class="separator:ga1cfefbde3bbc587e57f79e45558ae614"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -252,6 +268,15 @@ Functions</h2></td></tr>
 <tr class="memitem:ga6d53ecb445603a2470ec1fd7e456bba3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__spi.html#ga6d53ecb445603a2470ec1fd7e456bba3">cyhal_spi_enable_event</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__spi__t">cyhal_spi_t</a> *obj, <a class="el" href="group__group__hal__spi.html#gae8f0cf0233d0225a80815f8282d87b85">cyhal_spi_event_t</a> event, uint8_t intr_priority, bool enable)</td></tr>
 <tr class="memdesc:ga6d53ecb445603a2470ec1fd7e456bba3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure SPI interrupt.  <a href="#ga6d53ecb445603a2470ec1fd7e456bba3">More...</a><br /></td></tr>
 <tr class="separator:ga6d53ecb445603a2470ec1fd7e456bba3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa8f39b8e84c0925cb2f3ea44668de63b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__spi.html#gaa8f39b8e84c0925cb2f3ea44668de63b">cyhal_spi_set_fifo_level</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__spi__t">cyhal_spi_t</a> *obj, <a class="el" href="group__group__hal__spi.html#gab265880a2da90f74b0452a837e154e0a">cyhal_spi_fifo_type_t</a> type, uint16_t level)</td></tr>
+<tr class="memdesc:gaa8f39b8e84c0925cb2f3ea44668de63b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a threshold level for a FIFO that will generate an interrupt and a trigger output.  <a href="#gaa8f39b8e84c0925cb2f3ea44668de63b">More...</a><br /></td></tr>
+<tr class="separator:gaa8f39b8e84c0925cb2f3ea44668de63b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga98fbe6cea252e705ea4bd219376cc8a1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__spi.html#ga98fbe6cea252e705ea4bd219376cc8a1">cyhal_spi_enable_output</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__spi__t">cyhal_spi_t</a> *obj, <a class="el" href="group__group__hal__spi.html#ga1cfefbde3bbc587e57f79e45558ae614">cyhal_spi_output_t</a> output, <a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a> *source)</td></tr>
+<tr class="memdesc:ga98fbe6cea252e705ea4bd219376cc8a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables the specified output signal from an SPI.  <a href="#ga98fbe6cea252e705ea4bd219376cc8a1">More...</a><br /></td></tr>
+<tr class="separator:ga98fbe6cea252e705ea4bd219376cc8a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae7dae4894227e55b9315d75737fa3e24"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__spi.html#gae7dae4894227e55b9315d75737fa3e24">cyhal_spi_disable_output</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__spi__t">cyhal_spi_t</a> *obj, <a class="el" href="group__group__hal__spi.html#ga1cfefbde3bbc587e57f79e45558ae614">cyhal_spi_output_t</a> output)</td></tr>
+<tr class="memdesc:gae7dae4894227e55b9315d75737fa3e24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables the specified output signal from an SPI.  <a href="#gae7dae4894227e55b9315d75737fa3e24">More...</a><br /></td></tr>
+<tr class="separator:gae7dae4894227e55b9315d75737fa3e24"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/><h2 class="groupheader">Data Structure Documentation</h2>
 <a name="structcyhal__spi__cfg__t" id="structcyhal__spi__cfg__t"></a>
@@ -469,6 +494,50 @@ Whether the peripheral is operating as slave or master. </td></tr>
 <tr><td class="fieldname"><a id="ggaf56d895e50b0cf0e858a1ff221c58d51a396aa7d1e3a6d7652342a4eb35f91435"></a>CYHAL_SPI_MODE_11_MSB&#160;</td><td class="fielddoc"><p>Standard motorola SPI CPOL=1, CPHA=1 with MSB first operation. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ggaf56d895e50b0cf0e858a1ff221c58d51a7987f1cca1342f6f7721c9118f7a7e26"></a>CYHAL_SPI_MODE_11_LSB&#160;</td><td class="fielddoc"><p>Standard motorola SPI CPOL=1, CPHA=1 with LSB first operation. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="gab265880a2da90f74b0452a837e154e0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab265880a2da90f74b0452a837e154e0a">&#9670;&nbsp;</a></span>cyhal_spi_fifo_type_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__group__hal__spi.html#gab265880a2da90f74b0452a837e154e0a">cyhal_spi_fifo_type_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>SPI FIFO type. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ggab265880a2da90f74b0452a837e154e0aa3537f5b7c757bfca008d47b67a9e9e05"></a>CYHAL_SPI_FIFO_RX&#160;</td><td class="fielddoc"><p>Set RX FIFO level. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggab265880a2da90f74b0452a837e154e0aa6aeb741eed579066debea44d8c02b547"></a>CYHAL_SPI_FIFO_TX&#160;</td><td class="fielddoc"><p>Set TX FIFO level. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="ga1cfefbde3bbc587e57f79e45558ae614"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1cfefbde3bbc587e57f79e45558ae614">&#9670;&nbsp;</a></span>cyhal_spi_output_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__group__hal__spi.html#ga1cfefbde3bbc587e57f79e45558ae614">cyhal_spi_output_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enum of possible output signals from an SPI. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga1cfefbde3bbc587e57f79e45558ae614ab78da7e222b38d5625a2b5560eaef886"></a>CYHAL_SPI_OUTPUT_TRIGGER_RX_FIFO_LEVEL_REACHED&#160;</td><td class="fielddoc"><p>Output the RX FIFO signal which is triggered when the receive FIFO has more entries than the configured level. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1cfefbde3bbc587e57f79e45558ae614a71ecee2cda10474d296873ff4030c044"></a>CYHAL_SPI_OUTPUT_TRIGGER_TX_FIFO_LEVEL_REACHED&#160;</td><td class="fielddoc"><p>Output the TX FIFO signal which is triggered when the transmit FIFO has less entries than the configured level. </p>
 </td></tr>
 </table>
 
@@ -1106,6 +1175,135 @@ Whether the peripheral is operating as slave or master. </td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="gaa8f39b8e84c0925cb2f3ea44668de63b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa8f39b8e84c0925cb2f3ea44668de63b">&#9670;&nbsp;</a></span>cyhal_spi_set_fifo_level()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_spi_set_fifo_level </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__spi__t">cyhal_spi_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__spi.html#gab265880a2da90f74b0452a837e154e0a">cyhal_spi_fifo_type_t</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>level</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets a threshold level for a FIFO that will generate an interrupt and a trigger output. </p>
+<p>The RX FIFO interrupt and trigger will be activated when the receive FIFO has more entries than the threshold. The TX FIFO interrupt and trigger will be activated when the transmit FIFO has less entries than the threshold.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The SPI object </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>FIFO type to set level for </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">level</td><td>Level threshold to set </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the level set </dd></dl>
+
+</div>
+</div>
+<a id="ga98fbe6cea252e705ea4bd219376cc8a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga98fbe6cea252e705ea4bd219376cc8a1">&#9670;&nbsp;</a></span>cyhal_spi_enable_output()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_spi_enable_output </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__spi__t">cyhal_spi_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__spi.html#ga1cfefbde3bbc587e57f79e45558ae614">cyhal_spi_output_t</a>&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a> *&#160;</td>
+          <td class="paramname"><em>source</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables the specified output signal from an SPI. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The SPI object </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">output</td><td>Which output signal to enable </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">source</td><td>Pointer to user-allocated source signal object which will be initialized by enable_output. <code>source</code> should be passed to (dis)connect_digital functions to (dis)connect the associated endpoints. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the output enable </dd></dl>
+
+</div>
+</div>
+<a id="gae7dae4894227e55b9315d75737fa3e24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae7dae4894227e55b9315d75737fa3e24">&#9670;&nbsp;</a></span>cyhal_spi_disable_output()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_spi_disable_output </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__spi__t">cyhal_spi_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__spi.html#ga1cfefbde3bbc587e57f79e45558ae614">cyhal_spi_output_t</a>&#160;</td>
+          <td class="paramname"><em>output</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Disables the specified output signal from an SPI. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The SPI object </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">output</td><td>Which output signal to disable </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the output disable </dd></dl>
 
 </div>
 </div>

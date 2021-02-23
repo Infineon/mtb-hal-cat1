@@ -129,10 +129,10 @@ Code Snippets</h1>
 Snippet 1: Initialization and Configuration</h2>
 <p>The following snippet initializes the UART block and assigns the <b>tx</b>, <b>rx</b> pins and sets the baudrate.</p>
 <p>The snippet also shows how to use <a class="el" href="group__group__hal__uart.html#ga2be8141bcc5fcc349b0dce1c09c4e98f">cyhal_uart_write</a>, <a class="el" href="group__group__hal__uart.html#ga2184202b0b3995fcf625caf9f8c3dc05">cyhal_uart_putc</a>, <a class="el" href="group__group__hal__uart.html#gae436ac5108e3bc92f439c66c315e07ca">cyhal_uart_read</a> API.</p>
-<div class="fragment"><div class="line"><span class="preprocessor">    #define DATA_BITS_8     8</span></div><div class="line"><span class="preprocessor">    #define STOP_BITS_1     1</span></div><div class="line"><span class="preprocessor">    #define BAUD_RATE       115200</span></div><div class="line"><span class="preprocessor">    #define UART_DELAY      10u</span></div><div class="line"><span class="preprocessor">    #define RX_BUF_SIZE     4</span></div><div class="line"><span class="preprocessor">    #define TX_BUF_SIZE     4</span></div><div class="line"></div><div class="line">    <span class="comment">/* Variable Declarations */</span></div><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> rslt;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__uart__t">cyhal_uart_t</a> uart_obj;</div><div class="line">    uint32_t actualbaud;</div><div class="line">    uint8_t tx_buf[TX_BUF_SIZE] = {<span class="charliteral">&#39;1&#39;</span>,<span class="charliteral">&#39;2&#39;</span>,<span class="charliteral">&#39;3&#39;</span>,<span class="charliteral">&#39;4&#39;</span>};</div><div class="line">    uint8_t rx_buf[RX_BUF_SIZE];</div><div class="line">    <span class="keywordtype">size_t</span> tx_length = TX_BUF_SIZE;</div><div class="line">    <span class="keywordtype">size_t</span> rx_length = RX_BUF_SIZE;</div><div class="line">    uint32_t value = <span class="charliteral">&#39;A&#39;</span>;</div><div class="line"></div><div class="line">    <span class="comment">/* Initialize the UART configuration structure */</span></div><div class="line">    <span class="keyword">const</span> <a class="code" href="group__group__hal__uart.html#structcyhal__uart__cfg__t">cyhal_uart_cfg_t</a> uart_config =</div><div class="line">    {</div><div class="line">        .<a class="code" href="group__group__hal__uart.html#a3360061aafad236eb9a9d347f9154643">data_bits</a> = DATA_BITS_8,</div><div class="line">        .stop_bits = STOP_BITS_1,</div><div class="line">        .parity = <a class="code" href="group__group__hal__uart.html#gga410f06ac3fe5576220caf146fda6b77ba327098a8b49fceb10e330d561019d8cb">CYHAL_UART_PARITY_NONE</a>,</div><div class="line">        .rx_buffer = rx_buf,</div><div class="line">        .rx_buffer_size = RX_BUF_SIZE</div><div class="line">    };</div><div class="line"></div><div class="line">    <span class="comment">/* Initialize the UART Block */</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__uart.html#gae62874a1a5484721c90ea53993d791d6">cyhal_uart_init</a>(&amp;uart_obj, CYBSP_DEBUG_UART_TX, CYBSP_DEBUG_UART_RX, NULL, &amp;uart_config);</div><div class="line"></div><div class="line">    <span class="comment">/* Set the baud rate */</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__uart.html#ga14dcad3682e9b49e70b7f1e77cd862cc">cyhal_uart_set_baud</a>(&amp;uart_obj, BAUD_RATE, &amp;actualbaud);</div><div class="line"></div><div class="line">    <span class="comment">/* Begin Tx Transfer */</span></div><div class="line">    <a class="code" href="group__group__hal__uart.html#ga2be8141bcc5fcc349b0dce1c09c4e98f">cyhal_uart_write</a>(&amp;uart_obj, (<span class="keywordtype">void</span>*)tx_buf, &amp;tx_length);</div><div class="line">    <a class="code" href="group__group__hal__system.html#ga5f450769c1207d98134a9ced39adfdda">cyhal_system_delay_ms</a>(UART_DELAY);</div><div class="line"></div><div class="line">    <span class="comment">/* Send a Character */</span></div><div class="line">    <a class="code" href="group__group__hal__uart.html#ga2184202b0b3995fcf625caf9f8c3dc05">cyhal_uart_putc</a>(&amp;uart_obj, value);</div><div class="line">    <a class="code" href="group__group__hal__system.html#ga5f450769c1207d98134a9ced39adfdda">cyhal_system_delay_ms</a>(UART_DELAY);</div><div class="line"></div><div class="line">    <span class="comment">/* Begin Rx Transfer */</span></div><div class="line">    <a class="code" href="group__group__hal__uart.html#gae436ac5108e3bc92f439c66c315e07ca">cyhal_uart_read</a>(&amp;uart_obj, (<span class="keywordtype">void</span>*)rx_buf, &amp;rx_length);</div><div class="line">    <a class="code" href="group__group__hal__system.html#ga5f450769c1207d98134a9ced39adfdda">cyhal_system_delay_ms</a>(UART_DELAY);</div><div class="line"></div></div><!-- fragment --> <h2><a class="anchor" id="subsection_uart_snippet_2"></a>
+<div class="fragment"><div class="line"><span class="preprocessor">    #define DATA_BITS_8     8</span></div><div class="line"><span class="preprocessor">    #define STOP_BITS_1     1</span></div><div class="line"><span class="preprocessor">    #define BAUD_RATE       115200</span></div><div class="line"><span class="preprocessor">    #define UART_DELAY      10u</span></div><div class="line"><span class="preprocessor">    #define RX_BUF_SIZE     4</span></div><div class="line"><span class="preprocessor">    #define TX_BUF_SIZE     4</span></div><div class="line"></div><div class="line">    <span class="comment">// Variable Declarations</span></div><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>    rslt;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__uart__t">cyhal_uart_t</a> uart_obj;</div><div class="line">    uint32_t     actualbaud;</div><div class="line">    uint8_t      tx_buf[TX_BUF_SIZE] = { <span class="charliteral">&#39;1&#39;</span>, <span class="charliteral">&#39;2&#39;</span>, <span class="charliteral">&#39;3&#39;</span>, <span class="charliteral">&#39;4&#39;</span> };</div><div class="line">    uint8_t      rx_buf[RX_BUF_SIZE];</div><div class="line">    <span class="keywordtype">size_t</span>       tx_length = TX_BUF_SIZE;</div><div class="line">    <span class="keywordtype">size_t</span>       rx_length = RX_BUF_SIZE;</div><div class="line">    uint32_t     value     = <span class="charliteral">&#39;A&#39;</span>;</div><div class="line"></div><div class="line">    <span class="comment">// Initialize the UART configuration structure</span></div><div class="line">    <span class="keyword">const</span> <a class="code" href="group__group__hal__uart.html#structcyhal__uart__cfg__t">cyhal_uart_cfg_t</a> uart_config =</div><div class="line">    {</div><div class="line">        .<a class="code" href="group__group__hal__uart.html#a3360061aafad236eb9a9d347f9154643">data_bits</a>      = DATA_BITS_8,</div><div class="line">        .stop_bits      = STOP_BITS_1,</div><div class="line">        .parity         = <a class="code" href="group__group__hal__uart.html#gga410f06ac3fe5576220caf146fda6b77ba327098a8b49fceb10e330d561019d8cb">CYHAL_UART_PARITY_NONE</a>,</div><div class="line">        .rx_buffer      = rx_buf,</div><div class="line">        .rx_buffer_size = RX_BUF_SIZE</div><div class="line">    };</div><div class="line"></div><div class="line">    <span class="comment">// Initialize the UART Block</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__uart.html#gae62874a1a5484721c90ea53993d791d6">cyhal_uart_init</a>(&amp;uart_obj, CYBSP_DEBUG_UART_TX, CYBSP_DEBUG_UART_RX, NULL, &amp;uart_config);</div><div class="line"></div><div class="line">    <span class="comment">// Set the baud rate</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__uart.html#ga14dcad3682e9b49e70b7f1e77cd862cc">cyhal_uart_set_baud</a>(&amp;uart_obj, BAUD_RATE, &amp;actualbaud);</div><div class="line"></div><div class="line">    <span class="comment">// Begin Tx Transfer</span></div><div class="line">    <a class="code" href="group__group__hal__uart.html#ga2be8141bcc5fcc349b0dce1c09c4e98f">cyhal_uart_write</a>(&amp;uart_obj, (<span class="keywordtype">void</span>*)tx_buf, &amp;tx_length);</div><div class="line">    <a class="code" href="group__group__hal__system.html#ga5f450769c1207d98134a9ced39adfdda">cyhal_system_delay_ms</a>(UART_DELAY);</div><div class="line"></div><div class="line">    <span class="comment">// Send a Character</span></div><div class="line">    <a class="code" href="group__group__hal__uart.html#ga2184202b0b3995fcf625caf9f8c3dc05">cyhal_uart_putc</a>(&amp;uart_obj, value);</div><div class="line">    <a class="code" href="group__group__hal__system.html#ga5f450769c1207d98134a9ced39adfdda">cyhal_system_delay_ms</a>(UART_DELAY);</div><div class="line"></div><div class="line">    <span class="comment">// Begin Rx Transfer</span></div><div class="line">    <a class="code" href="group__group__hal__uart.html#gae436ac5108e3bc92f439c66c315e07ca">cyhal_uart_read</a>(&amp;uart_obj, (<span class="keywordtype">void</span>*)rx_buf, &amp;rx_length);</div><div class="line">    <a class="code" href="group__group__hal__system.html#ga5f450769c1207d98134a9ced39adfdda">cyhal_system_delay_ms</a>(UART_DELAY);</div><div class="line"></div></div><!-- fragment --> <h2><a class="anchor" id="subsection_uart_snippet_2"></a>
 Snippet 2: Interrupts on UART events</h2>
 <p>In the following snippet, UART events are handled in a callback function. The callback function has to be registered and then the events have to be enabled.</p>
-<div class="fragment"><div class="line"><span class="comment">/* Event handler callback function */</span></div><div class="line"><span class="keywordtype">void</span> uart_event_handler(<span class="keywordtype">void</span> *handler_arg, <a class="code" href="group__group__hal__uart.html#gaf307283f3d358e4b6048846034df19aa">cyhal_uart_event_t</a> event)</div><div class="line">{</div><div class="line">    (void) handler_arg;</div><div class="line"></div><div class="line">    <span class="keywordflow">if</span> ((event &amp; <a class="code" href="group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaa9984c9f5e7f3b57c9740d390c35388db">CYHAL_UART_IRQ_TX_ERROR</a>) == <a class="code" href="group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaa9984c9f5e7f3b57c9740d390c35388db">CYHAL_UART_IRQ_TX_ERROR</a>)</div><div class="line">    {</div><div class="line">        <span class="comment">/* An error occurred in Tx */</span></div><div class="line">        <span class="comment">/* Insert application code to handle Tx error */</span></div><div class="line">    }</div><div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> ((event &amp; <a class="code" href="group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaa656718b2b8343a46a64478b1d415bfc4">CYHAL_UART_IRQ_TX_DONE</a>) == <a class="code" href="group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaa656718b2b8343a46a64478b1d415bfc4">CYHAL_UART_IRQ_TX_DONE</a>)</div><div class="line">    {</div><div class="line">        <span class="comment">/* All Tx data has been transmitted */</span></div><div class="line">        <span class="comment">/* Insert application code to handle Tx done */</span></div><div class="line">    }</div><div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> ((event &amp; <a class="code" href="group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaac2db86894106691360ad64c35d33b578">CYHAL_UART_IRQ_RX_DONE</a>) == <a class="code" href="group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaac2db86894106691360ad64c35d33b578">CYHAL_UART_IRQ_RX_DONE</a>)</div><div class="line">    {</div><div class="line">        <span class="comment">/* All Rx data has been received */</span></div><div class="line">        <span class="comment">/* Insert application code to handle Rx done */</span></div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keywordtype">void</span> snippet_cyhal_uart_event()</div><div class="line">{</div><div class="line">    <span class="comment">/* Macro Definitions */</span></div><div class="line"><span class="preprocessor">    #define BAUD_RATE       115200</span></div><div class="line"><span class="preprocessor">    #define UART_DELAY      10u</span></div><div class="line"><span class="preprocessor">    #define TX_BUF_SIZE     4</span></div><div class="line"><span class="preprocessor">    #define INT_PRIORITY    3</span></div><div class="line"><span class="preprocessor">    #define DATA_BITS_8     8</span></div><div class="line"><span class="preprocessor">    #define STOP_BITS_1     1</span></div><div class="line"></div><div class="line">    <span class="comment">/* Variable Declarations */</span></div><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> rslt;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__uart__t">cyhal_uart_t</a> uart_obj;</div><div class="line">    uint8_t tx_buf[TX_BUF_SIZE] = {<span class="charliteral">&#39;1&#39;</span>,<span class="charliteral">&#39;2&#39;</span>,<span class="charliteral">&#39;3&#39;</span>,<span class="charliteral">&#39;4&#39;</span>};</div><div class="line">    <span class="keywordtype">size_t</span> tx_length = TX_BUF_SIZE;</div><div class="line"></div><div class="line">    <span class="comment">/* Initialize the UART configuration structure */</span></div><div class="line">    <span class="keyword">const</span> <a class="code" href="group__group__hal__uart.html#structcyhal__uart__cfg__t">cyhal_uart_cfg_t</a> uart_config =</div><div class="line">    {</div><div class="line">        .<a class="code" href="group__group__hal__uart.html#a3360061aafad236eb9a9d347f9154643">data_bits</a> = DATA_BITS_8,</div><div class="line">        .stop_bits = STOP_BITS_1,</div><div class="line">        .parity = <a class="code" href="group__group__hal__uart.html#gga410f06ac3fe5576220caf146fda6b77ba327098a8b49fceb10e330d561019d8cb">CYHAL_UART_PARITY_NONE</a>,</div><div class="line">        .rx_buffer = NULL,</div><div class="line">        .rx_buffer_size = 0</div><div class="line">    };</div><div class="line"></div><div class="line">    <span class="comment">/* Initialize the UART Block */</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__uart.html#gae62874a1a5484721c90ea53993d791d6">cyhal_uart_init</a>(&amp;uart_obj, CYBSP_DEBUG_UART_TX, CYBSP_DEBUG_UART_RX, NULL, &amp;uart_config);</div><div class="line">    CY_ASSERT(<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> == rslt);</div><div class="line"></div><div class="line">    <span class="comment">/* The UART callback handler registration */</span></div><div class="line">    <a class="code" href="group__group__hal__uart.html#gae26bab64811713b1d69170352fe32c20">cyhal_uart_register_callback</a>(&amp;uart_obj, uart_event_handler, NULL);</div><div class="line"></div><div class="line">    <span class="comment">/* Enable required UART events */</span></div><div class="line">    <a class="code" href="group__group__hal__uart.html#ga4dae4cef7dbf1d7935fe6dd6d31f282e">cyhal_uart_enable_event</a>(&amp;uart_obj, (<a class="code" href="group__group__hal__uart.html#gaf307283f3d358e4b6048846034df19aa">cyhal_uart_event_t</a>)(<a class="code" href="group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaa656718b2b8343a46a64478b1d415bfc4">CYHAL_UART_IRQ_TX_DONE</a> | <a class="code" href="group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaa9984c9f5e7f3b57c9740d390c35388db">CYHAL_UART_IRQ_TX_ERROR</a> | <a class="code" href="group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaac2db86894106691360ad64c35d33b578">CYHAL_UART_IRQ_RX_DONE</a>), INT_PRIORITY, <span class="keyword">true</span>);</div><div class="line"></div><div class="line">    <span class="comment">/* Begin asynchronous TX transfer */</span></div><div class="line">    <a class="code" href="group__group__hal__uart.html#gab569e52660c519b775e3a15f3e2dbb46">cyhal_uart_write_async</a>(&amp;uart_obj, (<span class="keywordtype">void</span>*) tx_buf, tx_length);</div><div class="line">    <a class="code" href="group__group__hal__system.html#ga5f450769c1207d98134a9ced39adfdda">cyhal_system_delay_ms</a>(UART_DELAY);</div><div class="line">}</div></div><!-- fragment --><table class="memberdecls">
+<div class="fragment"><div class="line"><span class="comment">// Event handler callback function</span></div><div class="line"><span class="keywordtype">void</span> uart_event_handler(<span class="keywordtype">void</span>* handler_arg, <a class="code" href="group__group__hal__uart.html#gaf307283f3d358e4b6048846034df19aa">cyhal_uart_event_t</a> event)</div><div class="line">{</div><div class="line">    (void)handler_arg;</div><div class="line"></div><div class="line">    <span class="keywordflow">if</span> ((event &amp; <a class="code" href="group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaa9984c9f5e7f3b57c9740d390c35388db">CYHAL_UART_IRQ_TX_ERROR</a>) == <a class="code" href="group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaa9984c9f5e7f3b57c9740d390c35388db">CYHAL_UART_IRQ_TX_ERROR</a>)</div><div class="line">    {</div><div class="line">        <span class="comment">// An error occurred in Tx</span></div><div class="line">        <span class="comment">// Insert application code to handle Tx error</span></div><div class="line">    }</div><div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> ((event &amp; <a class="code" href="group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaa656718b2b8343a46a64478b1d415bfc4">CYHAL_UART_IRQ_TX_DONE</a>) == <a class="code" href="group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaa656718b2b8343a46a64478b1d415bfc4">CYHAL_UART_IRQ_TX_DONE</a>)</div><div class="line">    {</div><div class="line">        <span class="comment">// All Tx data has been transmitted</span></div><div class="line">        <span class="comment">// Insert application code to handle Tx done</span></div><div class="line">    }</div><div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> ((event &amp; <a class="code" href="group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaac2db86894106691360ad64c35d33b578">CYHAL_UART_IRQ_RX_DONE</a>) == <a class="code" href="group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaac2db86894106691360ad64c35d33b578">CYHAL_UART_IRQ_RX_DONE</a>)</div><div class="line">    {</div><div class="line">        <span class="comment">// All Rx data has been received</span></div><div class="line">        <span class="comment">// Insert application code to handle Rx done</span></div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line"></div><div class="line"><span class="keywordtype">void</span> snippet_cyhal_uart_event()</div><div class="line">{</div><div class="line">    <span class="comment">// Macro Definitions</span></div><div class="line"><span class="preprocessor">    #define BAUD_RATE       115200</span></div><div class="line"><span class="preprocessor">    #define UART_DELAY      10u</span></div><div class="line"><span class="preprocessor">    #define TX_BUF_SIZE     4</span></div><div class="line"><span class="preprocessor">    #define INT_PRIORITY    3</span></div><div class="line"><span class="preprocessor">    #define DATA_BITS_8     8</span></div><div class="line"><span class="preprocessor">    #define STOP_BITS_1     1</span></div><div class="line"></div><div class="line">    <span class="comment">// Variable Declarations</span></div><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>    rslt;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__uart__t">cyhal_uart_t</a> uart_obj;</div><div class="line">    uint8_t      tx_buf[TX_BUF_SIZE] = { <span class="charliteral">&#39;1&#39;</span>, <span class="charliteral">&#39;2&#39;</span>, <span class="charliteral">&#39;3&#39;</span>, <span class="charliteral">&#39;4&#39;</span> };</div><div class="line">    <span class="keywordtype">size_t</span>       tx_length           = TX_BUF_SIZE;</div><div class="line"></div><div class="line">    <span class="comment">// Initialize the UART configuration structure</span></div><div class="line">    <span class="keyword">const</span> <a class="code" href="group__group__hal__uart.html#structcyhal__uart__cfg__t">cyhal_uart_cfg_t</a> uart_config =</div><div class="line">    {</div><div class="line">        .<a class="code" href="group__group__hal__uart.html#a3360061aafad236eb9a9d347f9154643">data_bits</a>      = DATA_BITS_8,</div><div class="line">        .stop_bits      = STOP_BITS_1,</div><div class="line">        .parity         = <a class="code" href="group__group__hal__uart.html#gga410f06ac3fe5576220caf146fda6b77ba327098a8b49fceb10e330d561019d8cb">CYHAL_UART_PARITY_NONE</a>,</div><div class="line">        .rx_buffer      = NULL,</div><div class="line">        .rx_buffer_size = 0</div><div class="line">    };</div><div class="line"></div><div class="line">    <span class="comment">// Initialize the UART Block</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__uart.html#gae62874a1a5484721c90ea53993d791d6">cyhal_uart_init</a>(&amp;uart_obj, CYBSP_DEBUG_UART_TX, CYBSP_DEBUG_UART_RX, NULL, &amp;uart_config);</div><div class="line">    CY_ASSERT(<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> == rslt);</div><div class="line"></div><div class="line">    <span class="comment">// The UART callback handler registration</span></div><div class="line">    <a class="code" href="group__group__hal__uart.html#gae26bab64811713b1d69170352fe32c20">cyhal_uart_register_callback</a>(&amp;uart_obj, uart_event_handler, NULL);</div><div class="line"></div><div class="line">    <span class="comment">// Enable required UART events</span></div><div class="line">    <a class="code" href="group__group__hal__uart.html#ga4dae4cef7dbf1d7935fe6dd6d31f282e">cyhal_uart_enable_event</a>(&amp;uart_obj,</div><div class="line">                            (<a class="code" href="group__group__hal__uart.html#gaf307283f3d358e4b6048846034df19aa">cyhal_uart_event_t</a>)(<a class="code" href="group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaa656718b2b8343a46a64478b1d415bfc4">CYHAL_UART_IRQ_TX_DONE</a> | <a class="code" href="group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaa9984c9f5e7f3b57c9740d390c35388db">CYHAL_UART_IRQ_TX_ERROR</a> |</div><div class="line">                                                 <a class="code" href="group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaac2db86894106691360ad64c35d33b578">CYHAL_UART_IRQ_RX_DONE</a>),</div><div class="line">                            INT_PRIORITY, <span class="keyword">true</span>);</div><div class="line"></div><div class="line">    <span class="comment">// Begin asynchronous TX transfer</span></div><div class="line">    <a class="code" href="group__group__hal__uart.html#gab569e52660c519b775e3a15f3e2dbb46">cyhal_uart_write_async</a>(&amp;uart_obj, (<span class="keywordtype">void</span>*)tx_buf, tx_length);</div><div class="line">    <a class="code" href="group__group__hal__system.html#ga5f450769c1207d98134a9ced39adfdda">cyhal_system_delay_ms</a>(UART_DELAY);</div><div class="line">}</div><div class="line"></div><div class="line"></div></div><!-- fragment --><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="groups"></a>
 API Reference</h2></td></tr>
 <tr class="memitem:group__group__hal__results__uart"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__results__uart.html">UART HAL Results</a></td></tr>
@@ -197,6 +197,22 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:gaf307283f3d358e4b6048846034df19aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum to enable/disable/report interrupt cause flags.  <a href="group__group__hal__uart.html#gaf307283f3d358e4b6048846034df19aa">More...</a><br /></td></tr>
 <tr class="separator:gaf307283f3d358e4b6048846034df19aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga17602199b64430d4b5503e14340c4ca0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__uart.html#ga17602199b64430d4b5503e14340c4ca0">cyhal_uart_fifo_type_t</a> { <br />
+&#160;&#160;<a class="el" href="group__group__hal__uart.html#gga17602199b64430d4b5503e14340c4ca0ae0cb3a0275909eb435e1d892dcc6703c">CYHAL_UART_FIFO_RX</a>, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__uart.html#gga17602199b64430d4b5503e14340c4ca0a2e87281f1bf6b951e55f23edc21e606e">CYHAL_UART_FIFO_TX</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:ga17602199b64430d4b5503e14340c4ca0"><td class="mdescLeft">&#160;</td><td class="mdescRight">UART FIFO type.  <a href="group__group__hal__uart.html#ga17602199b64430d4b5503e14340c4ca0">More...</a><br /></td></tr>
+<tr class="separator:ga17602199b64430d4b5503e14340c4ca0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga79c475fe87b88afece099da885605075"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__uart.html#ga79c475fe87b88afece099da885605075">cyhal_uart_output_t</a> { <br />
+&#160;&#160;<a class="el" href="group__group__hal__uart.html#gga79c475fe87b88afece099da885605075a726f4bf351f0fd57da573087def9745c">CYHAL_UART_OUTPUT_TRIGGER_RX_FIFO_LEVEL_REACHED</a>, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__uart.html#gga79c475fe87b88afece099da885605075a3466e7af5b491da0ab48f0d50711e193">CYHAL_UART_OUTPUT_TRIGGER_TX_FIFO_LEVEL_REACHED</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:ga79c475fe87b88afece099da885605075"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum of possible output signals from a UART.  <a href="group__group__hal__uart.html#ga79c475fe87b88afece099da885605075">More...</a><br /></td></tr>
+<tr class="separator:ga79c475fe87b88afece099da885605075"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -260,6 +276,15 @@ Functions</h2></td></tr>
 <tr class="memitem:ga4dae4cef7dbf1d7935fe6dd6d31f282e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__uart.html#ga4dae4cef7dbf1d7935fe6dd6d31f282e">cyhal_uart_enable_event</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__uart__t">cyhal_uart_t</a> *obj, <a class="el" href="group__group__hal__uart.html#gaf307283f3d358e4b6048846034df19aa">cyhal_uart_event_t</a> event, uint8_t intr_priority, bool enable)</td></tr>
 <tr class="memdesc:ga4dae4cef7dbf1d7935fe6dd6d31f282e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable or disable specified UART events.  <a href="#ga4dae4cef7dbf1d7935fe6dd6d31f282e">More...</a><br /></td></tr>
 <tr class="separator:ga4dae4cef7dbf1d7935fe6dd6d31f282e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaea15b10b90d93252206f19b1bbdd0f47"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__uart.html#gaea15b10b90d93252206f19b1bbdd0f47">cyhal_uart_set_fifo_level</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__uart__t">cyhal_uart_t</a> *obj, <a class="el" href="group__group__hal__uart.html#ga17602199b64430d4b5503e14340c4ca0">cyhal_uart_fifo_type_t</a> type, uint16_t level)</td></tr>
+<tr class="memdesc:gaea15b10b90d93252206f19b1bbdd0f47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a threshold level for a FIFO that will generate an interrupt and a trigger output.  <a href="#gaea15b10b90d93252206f19b1bbdd0f47">More...</a><br /></td></tr>
+<tr class="separator:gaea15b10b90d93252206f19b1bbdd0f47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac26f415eecf9b66b490bac95bddab362"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__uart.html#gac26f415eecf9b66b490bac95bddab362">cyhal_uart_enable_output</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__uart__t">cyhal_uart_t</a> *obj, <a class="el" href="group__group__hal__uart.html#ga79c475fe87b88afece099da885605075">cyhal_uart_output_t</a> output, <a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a> *source)</td></tr>
+<tr class="memdesc:gac26f415eecf9b66b490bac95bddab362"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables the specified output signal from a UART.  <a href="#gac26f415eecf9b66b490bac95bddab362">More...</a><br /></td></tr>
+<tr class="separator:gac26f415eecf9b66b490bac95bddab362"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga858d1257386c23c97da3b3aff539a162"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__uart.html#ga858d1257386c23c97da3b3aff539a162">cyhal_uart_disable_output</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__uart__t">cyhal_uart_t</a> *obj, <a class="el" href="group__group__hal__uart.html#ga79c475fe87b88afece099da885605075">cyhal_uart_output_t</a> output)</td></tr>
+<tr class="memdesc:ga858d1257386c23c97da3b3aff539a162"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables the specified output signal from a UART.  <a href="#ga858d1257386c23c97da3b3aff539a162">More...</a><br /></td></tr>
+<tr class="separator:ga858d1257386c23c97da3b3aff539a162"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/><h2 class="groupheader">Data Structure Documentation</h2>
 <a name="structcyhal__uart__cfg__t" id="structcyhal__uart__cfg__t"></a>
@@ -365,6 +390,50 @@ The number of bytes in the rx software buffer. </td></tr>
 <tr><td class="fieldname"><a id="ggaf307283f3d358e4b6048846034df19aaa9b64ead890054ee5943b58bafc0f367e"></a>CYHAL_UART_IRQ_RX_NOT_EMPTY&#160;</td><td class="fielddoc"><p>The rx hardware buffer is not empty. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ggaf307283f3d358e4b6048846034df19aaa0c7868cf2a2719db7fc2cb8c357e47a9"></a>CYHAL_UART_IRQ_TX_EMPTY&#160;</td><td class="fielddoc"><p>The tx hardware buffer is empty. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="ga17602199b64430d4b5503e14340c4ca0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga17602199b64430d4b5503e14340c4ca0">&#9670;&nbsp;</a></span>cyhal_uart_fifo_type_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__group__hal__uart.html#ga17602199b64430d4b5503e14340c4ca0">cyhal_uart_fifo_type_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>UART FIFO type. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga17602199b64430d4b5503e14340c4ca0ae0cb3a0275909eb435e1d892dcc6703c"></a>CYHAL_UART_FIFO_RX&#160;</td><td class="fielddoc"><p>Set RX FIFO level. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga17602199b64430d4b5503e14340c4ca0a2e87281f1bf6b951e55f23edc21e606e"></a>CYHAL_UART_FIFO_TX&#160;</td><td class="fielddoc"><p>Set TX FIFO level. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="ga79c475fe87b88afece099da885605075"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga79c475fe87b88afece099da885605075">&#9670;&nbsp;</a></span>cyhal_uart_output_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__group__hal__uart.html#ga79c475fe87b88afece099da885605075">cyhal_uart_output_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enum of possible output signals from a UART. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga79c475fe87b88afece099da885605075a726f4bf351f0fd57da573087def9745c"></a>CYHAL_UART_OUTPUT_TRIGGER_RX_FIFO_LEVEL_REACHED&#160;</td><td class="fielddoc"><p>Output the RX FIFO signal which is triggered when the receive FIFO has more entries than the configured level. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga79c475fe87b88afece099da885605075a3466e7af5b491da0ab48f0d50711e193"></a>CYHAL_UART_OUTPUT_TRIGGER_TX_FIFO_LEVEL_REACHED&#160;</td><td class="fielddoc"><p>Output the TX FIFO signal which is triggered when the transmit FIFO has less entries than the configured level. </p>
 </td></tr>
 </table>
 
@@ -1141,6 +1210,135 @@ The number of bytes in the rx software buffer. </td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="gaea15b10b90d93252206f19b1bbdd0f47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaea15b10b90d93252206f19b1bbdd0f47">&#9670;&nbsp;</a></span>cyhal_uart_set_fifo_level()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_uart_set_fifo_level </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__uart__t">cyhal_uart_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__uart.html#ga17602199b64430d4b5503e14340c4ca0">cyhal_uart_fifo_type_t</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>level</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets a threshold level for a FIFO that will generate an interrupt and a trigger output. </p>
+<p>The RX FIFO interrupt and trigger will be activated when the receive FIFO has more entries than the threshold. The TX FIFO interrupt and trigger will be activated when the transmit FIFO has less entries than the threshold.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The UART object </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>FIFO type to set level for </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">level</td><td>Level threshold to set </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the level set </dd></dl>
+
+</div>
+</div>
+<a id="gac26f415eecf9b66b490bac95bddab362"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac26f415eecf9b66b490bac95bddab362">&#9670;&nbsp;</a></span>cyhal_uart_enable_output()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_uart_enable_output </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__uart__t">cyhal_uart_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__uart.html#ga79c475fe87b88afece099da885605075">cyhal_uart_output_t</a>&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a> *&#160;</td>
+          <td class="paramname"><em>source</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables the specified output signal from a UART. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The UART object </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">output</td><td>Which output signal to enable </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">source</td><td>Pointer to user-allocated source signal object which will be initialized by enable_output. <code>source</code> should be passed to (dis)connect_digital functions to (dis)connect the associated endpoints. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the output enable </dd></dl>
+
+</div>
+</div>
+<a id="ga858d1257386c23c97da3b3aff539a162"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga858d1257386c23c97da3b3aff539a162">&#9670;&nbsp;</a></span>cyhal_uart_disable_output()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_uart_disable_output </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__uart__t">cyhal_uart_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__uart.html#ga79c475fe87b88afece099da885605075">cyhal_uart_output_t</a>&#160;</td>
+          <td class="paramname"><em>output</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Disables the specified output signal from a UART. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The UART object </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">output</td><td>Which output signal to disable </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the output disable </dd></dl>
 
 </div>
 </div>

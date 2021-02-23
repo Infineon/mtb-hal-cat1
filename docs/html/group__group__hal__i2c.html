@@ -121,16 +121,16 @@ Code Snippets</h1>
 <h2><a class="anchor" id="subsection_i2c_snippet_1"></a>
 Snippet 1: I2C Initialization and Configuration</h2>
 <p>This snippet initializes an I2C resource as master or slave and assigns the <b>sda</b> and <b>scl</b> pins.</p>
-<p>Initializing as I2C master </p><div class="fragment"><div class="line">    <span class="comment">/* Declare variables */</span></div><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> rslt;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__i2c__t">cyhal_i2c_t</a> i2c_master_obj;</div><div class="line"></div><div class="line">    <span class="comment">/* Define frequency */</span></div><div class="line">    uint32_t I2C_MASTER_FREQUENCY = 100000u;</div><div class="line"></div><div class="line">    <span class="comment">/* Define the I2C master configuration structure */</span></div><div class="line">    <a class="code" href="group__group__hal__i2c.html#structcyhal__i2c__cfg__t">cyhal_i2c_cfg_t</a> i2c_master_config = {<a class="code" href="group__group__hal__i2c.html#gae8ce31deae8ac6078af98b52249e0089">CYHAL_I2C_MODE_MASTER</a>, 0 <span class="comment">/* address is not used for master mode */</span>, I2C_MASTER_FREQUENCY};</div><div class="line"></div><div class="line">    <span class="comment">/* Initialize I2C master, set the SDA and SCL pins and assign a new clock */</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__i2c.html#gac2885a21905af9d1d48aae34a6032a61">cyhal_i2c_init</a>(&amp;i2c_master_obj, CYBSP_I2C_SDA, CYBSP_I2C_SCL , NULL);</div><div class="line"></div><div class="line">    <span class="comment">/* Configure the I2C resource to be master */</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__i2c.html#ga37a35abcb9bf2d0ecf2a52b2fa5bce64">cyhal_i2c_configure</a>(&amp;i2c_master_obj, &amp;i2c_master_config);</div></div><!-- fragment --><p> Initializing as I2C slave </p><div class="fragment"><div class="line">    <span class="comment">/* Declare variables */</span></div><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> rslt;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__i2c__t">cyhal_i2c_t</a> i2c_slave_obj;</div><div class="line"></div><div class="line">    <span class="comment">/* Define address */</span></div><div class="line">    uint16_t I2C_SLAVE_ADDRESS = 0x08u;</div><div class="line">    <span class="comment">/* Define frequency */</span></div><div class="line">    uint32_t I2C_SLAVE_FREQUENCY = 100000u;</div><div class="line"></div><div class="line">    <span class="comment">/* Define the slave configuration structure */</span></div><div class="line">    <a class="code" href="group__group__hal__i2c.html#structcyhal__i2c__cfg__t">cyhal_i2c_cfg_t</a> i2c_slave_config = {<a class="code" href="group__group__hal__i2c.html#gad2ea1e12f91892dfd0d6695b11f1d4a5">CYHAL_I2C_MODE_SLAVE</a>, I2C_SLAVE_ADDRESS, I2C_SLAVE_FREQUENCY};</div><div class="line"></div><div class="line">    <span class="comment">/* Initialize I2C slave, set the SDA and SCL pins and assign a new clock */</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__i2c.html#gac2885a21905af9d1d48aae34a6032a61">cyhal_i2c_init</a>(&amp;i2c_slave_obj, CYBSP_I2C_SDA, CYBSP_I2C_SCL, NULL);</div><div class="line"></div><div class="line">    <span class="comment">/* Configure the I2C resource to be slave */</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__i2c.html#ga37a35abcb9bf2d0ecf2a52b2fa5bce64">cyhal_i2c_configure</a>(&amp;i2c_slave_obj, &amp;i2c_slave_config);</div></div><!-- fragment --> <h2><a class="anchor" id="subsection_i2c_snippet_2"></a>
+<p>Initializing as I2C master </p><div class="fragment"><div class="line">    <span class="comment">// Declare variables</span></div><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>   rslt;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__i2c__t">cyhal_i2c_t</a> i2c_master_obj;</div><div class="line"></div><div class="line">    <span class="comment">// Define frequency</span></div><div class="line">    uint32_t I2C_MASTER_FREQUENCY = 100000u;</div><div class="line"></div><div class="line">    <span class="comment">// Define the I2C master configuration structure</span></div><div class="line">    <a class="code" href="group__group__hal__i2c.html#structcyhal__i2c__cfg__t">cyhal_i2c_cfg_t</a> i2c_master_config =</div><div class="line">    {</div><div class="line">        <a class="code" href="group__group__hal__i2c.html#gae8ce31deae8ac6078af98b52249e0089">CYHAL_I2C_MODE_MASTER</a>,</div><div class="line">        0, <span class="comment">// address is not used for master mode</span></div><div class="line">        I2C_MASTER_FREQUENCY</div><div class="line">    };</div><div class="line"></div><div class="line">    <span class="comment">// Initialize I2C master, set the SDA and SCL pins and assign a new clock</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__i2c.html#gac2885a21905af9d1d48aae34a6032a61">cyhal_i2c_init</a>(&amp;i2c_master_obj, CYBSP_I2C_SDA, CYBSP_I2C_SCL, NULL);</div><div class="line"></div><div class="line">    <span class="comment">// Configure the I2C resource to be master</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__i2c.html#ga37a35abcb9bf2d0ecf2a52b2fa5bce64">cyhal_i2c_configure</a>(&amp;i2c_master_obj, &amp;i2c_master_config);</div></div><!-- fragment --><p> Initializing as I2C slave </p><div class="fragment"><div class="line">    <span class="comment">// Declare variables</span></div><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>   rslt;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__i2c__t">cyhal_i2c_t</a> i2c_slave_obj;</div><div class="line"></div><div class="line">    <span class="comment">// Define address</span></div><div class="line">    uint16_t I2C_SLAVE_ADDRESS = 0x08u;</div><div class="line">    <span class="comment">// Define frequency</span></div><div class="line">    uint32_t I2C_SLAVE_FREQUENCY = 100000u;</div><div class="line"></div><div class="line">    <span class="comment">// Define the slave configuration structure</span></div><div class="line">    <a class="code" href="group__group__hal__i2c.html#structcyhal__i2c__cfg__t">cyhal_i2c_cfg_t</a> i2c_slave_config =</div><div class="line">        { <a class="code" href="group__group__hal__i2c.html#gad2ea1e12f91892dfd0d6695b11f1d4a5">CYHAL_I2C_MODE_SLAVE</a>, I2C_SLAVE_ADDRESS, I2C_SLAVE_FREQUENCY };</div><div class="line"></div><div class="line">    <span class="comment">// Initialize I2C slave, set the SDA and SCL pins and assign a new clock</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__i2c.html#gac2885a21905af9d1d48aae34a6032a61">cyhal_i2c_init</a>(&amp;i2c_slave_obj, CYBSP_I2C_SDA, CYBSP_I2C_SCL, NULL);</div><div class="line"></div><div class="line">    <span class="comment">// Configure the I2C resource to be slave</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__i2c.html#ga37a35abcb9bf2d0ecf2a52b2fa5bce64">cyhal_i2c_configure</a>(&amp;i2c_slave_obj, &amp;i2c_slave_config);</div></div><!-- fragment --> <h2><a class="anchor" id="subsection_i2c_snippet_2"></a>
 Snippet 2: Handling events</h2>
 <p>This snippet shows how to enable and handle I2C events using <a class="el" href="group__group__hal__i2c.html#ga6216658331d13dd8a854a23e96141fc7">cyhal_i2c_enable_event</a> and <a class="el" href="group__group__hal__i2c.html#gacf738716af52c484873e35331b9a30b7">cyhal_i2c_register_callback</a>.<br />
  The <b>callback</b> parameter of <a class="el" href="group__group__hal__i2c.html#gacf738716af52c484873e35331b9a30b7">cyhal_i2c_register_callback</a> is used to pass the callback handler that will be invoked when an event occurs.<br />
  The <b>event</b> parameter of <a class="el" href="group__group__hal__i2c.html#ga6216658331d13dd8a854a23e96141fc7">cyhal_i2c_enable_event</a> is used to pass the bitmasks of events ( <a class="el" href="group__group__hal__i2c.html#gaaba7daccaa3861c32a4b0284e8194a79">cyhal_i2c_event_t</a>) to be enabled.</p>
-<div class="fragment"><div class="line"></div><div class="line"><span class="keywordtype">void</span> handle_i2c_events(<span class="keywordtype">void</span> *callback_arg, <a class="code" href="group__group__hal__i2c.html#gaaba7daccaa3861c32a4b0284e8194a79">cyhal_i2c_event_t</a> event)</div><div class="line">{</div><div class="line">    <span class="comment">/* To remove unused variable warning */</span></div><div class="line">    (void) callback_arg;</div><div class="line"></div><div class="line">    <span class="comment">/* Check write complete event */</span></div><div class="line">    <span class="keywordflow">if</span> (0UL != (<a class="code" href="group__group__hal__i2c.html#ggaaba7daccaa3861c32a4b0284e8194a79aed43708fe51a3270699f80f21dde4bac">CYHAL_I2C_SLAVE_WR_CMPLT_EVENT</a> &amp; event))</div><div class="line">    {</div><div class="line">        <span class="comment">/* Perform the required functions */</span></div><div class="line">    }</div><div class="line">    <span class="comment">/* Check read complete event */</span></div><div class="line">    <span class="keywordflow">if</span> (0UL != (<a class="code" href="group__group__hal__i2c.html#ggaaba7daccaa3861c32a4b0284e8194a79af3743e0bae6fc016ae15741d69b765e8">CYHAL_I2C_SLAVE_RD_CMPLT_EVENT</a> &amp; event))</div><div class="line">    {</div><div class="line">        <span class="comment">/* Perform the required functions */</span></div><div class="line">    }</div><div class="line">    <span class="comment">/* Check for errors */</span></div><div class="line">    <span class="keywordflow">if</span> (0UL == (<a class="code" href="group__group__hal__i2c.html#ggaaba7daccaa3861c32a4b0284e8194a79aba7cb8e07c8f47bd41a74af1373c7d04">CYHAL_I2C_SLAVE_ERR_EVENT</a> &amp; event))</div><div class="line">    {</div><div class="line">        <span class="comment">/* Perform the required function */</span></div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keywordtype">void</span> snippet_cyhal_i2c_slave_callback_init()</div><div class="line">{</div><div class="line">    <span class="comment">/* Declare variables */</span></div><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> rslt;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__i2c__t">cyhal_i2c_t</a> i2c_slave_obj;</div><div class="line"></div><div class="line">    <span class="comment">/* Define the slave configuration structure */</span></div><div class="line">    <a class="code" href="group__group__hal__i2c.html#structcyhal__i2c__cfg__t">cyhal_i2c_cfg_t</a> i2c_slave_config = {<a class="code" href="group__group__hal__i2c.html#gad2ea1e12f91892dfd0d6695b11f1d4a5">CYHAL_I2C_MODE_SLAVE</a>, 0x08u, 100000u };</div><div class="line"></div><div class="line">    <span class="comment">/* Initialize I2C slave, set the SDA and SCL pins and assign a new clock */</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__i2c.html#gac2885a21905af9d1d48aae34a6032a61">cyhal_i2c_init</a>(&amp;i2c_slave_obj, CYBSP_I2C_SDA, CYBSP_I2C_SCL, NULL);</div><div class="line">    CY_ASSERT(<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> == rslt);</div><div class="line"></div><div class="line">    <span class="comment">/* Configure the I2C resource to be slave */</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__i2c.html#ga37a35abcb9bf2d0ecf2a52b2fa5bce64">cyhal_i2c_configure</a>(&amp;i2c_slave_obj, &amp;i2c_slave_config);</div><div class="line">    CY_ASSERT(<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> == rslt);</div><div class="line"></div><div class="line">    <span class="comment">/* Register I2C slave event callback */</span></div><div class="line">    <a class="code" href="group__group__hal__i2c.html#gacf738716af52c484873e35331b9a30b7">cyhal_i2c_register_callback</a>(&amp;i2c_slave_obj, (<a class="code" href="group__group__hal__i2c.html#ga67df812388aae9fcc3b3b1986dab7a09">cyhal_i2c_event_callback_t</a>) handle_i2c_events, NULL);</div><div class="line"></div><div class="line">    <span class="comment">/* Enable I2C Events */</span></div><div class="line">    <a class="code" href="group__group__hal__i2c.html#ga6216658331d13dd8a854a23e96141fc7">cyhal_i2c_enable_event</a>(&amp;i2c_slave_obj, (<a class="code" href="group__group__hal__i2c.html#gaaba7daccaa3861c32a4b0284e8194a79">cyhal_i2c_event_t</a>)   \</div><div class="line">                                 (<a class="code" href="group__group__hal__i2c.html#ggaaba7daccaa3861c32a4b0284e8194a79aed43708fe51a3270699f80f21dde4bac">CYHAL_I2C_SLAVE_WR_CMPLT_EVENT</a> \</div><div class="line">                                | <a class="code" href="group__group__hal__i2c.html#ggaaba7daccaa3861c32a4b0284e8194a79af3743e0bae6fc016ae15741d69b765e8">CYHAL_I2C_SLAVE_RD_CMPLT_EVENT</a> \</div><div class="line">                                | <a class="code" href="group__group__hal__i2c.html#ggaaba7daccaa3861c32a4b0284e8194a79aba7cb8e07c8f47bd41a74af1373c7d04">CYHAL_I2C_SLAVE_ERR_EVENT</a>),    \</div><div class="line">                                3u , <span class="keyword">true</span>);</div><div class="line">}</div><div class="line"></div></div><!-- fragment --> <h2><a class="anchor" id="subsection_i2c_snippet_3"></a>
+<div class="fragment"><div class="line"></div><div class="line"><span class="keywordtype">void</span> handle_i2c_events(<span class="keywordtype">void</span>* callback_arg, <a class="code" href="group__group__hal__i2c.html#gaaba7daccaa3861c32a4b0284e8194a79">cyhal_i2c_event_t</a> event)</div><div class="line">{</div><div class="line">    <span class="comment">// To remove unused variable warning</span></div><div class="line">    (void)callback_arg;</div><div class="line"></div><div class="line">    <span class="comment">// Check write complete event</span></div><div class="line">    <span class="keywordflow">if</span> (0UL != (<a class="code" href="group__group__hal__i2c.html#ggaaba7daccaa3861c32a4b0284e8194a79aed43708fe51a3270699f80f21dde4bac">CYHAL_I2C_SLAVE_WR_CMPLT_EVENT</a> &amp; event))</div><div class="line">    {</div><div class="line">        <span class="comment">// Perform the required functions</span></div><div class="line">    }</div><div class="line">    <span class="comment">// Check read complete event</span></div><div class="line">    <span class="keywordflow">if</span> (0UL != (<a class="code" href="group__group__hal__i2c.html#ggaaba7daccaa3861c32a4b0284e8194a79af3743e0bae6fc016ae15741d69b765e8">CYHAL_I2C_SLAVE_RD_CMPLT_EVENT</a> &amp; event))</div><div class="line">    {</div><div class="line">        <span class="comment">// Perform the required functions</span></div><div class="line">    }</div><div class="line">    <span class="comment">// Check for errors</span></div><div class="line">    <span class="keywordflow">if</span> (0UL == (<a class="code" href="group__group__hal__i2c.html#ggaaba7daccaa3861c32a4b0284e8194a79aba7cb8e07c8f47bd41a74af1373c7d04">CYHAL_I2C_SLAVE_ERR_EVENT</a> &amp; event))</div><div class="line">    {</div><div class="line">        <span class="comment">// Perform the required function</span></div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line"></div><div class="line"><span class="keywordtype">void</span> snippet_cyhal_i2c_slave_callback_init()</div><div class="line">{</div><div class="line">    <span class="comment">// Declare variables</span></div><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>   rslt;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__i2c__t">cyhal_i2c_t</a> i2c_slave_obj;</div><div class="line"></div><div class="line">    <span class="comment">// Define the slave configuration structure</span></div><div class="line">    <a class="code" href="group__group__hal__i2c.html#structcyhal__i2c__cfg__t">cyhal_i2c_cfg_t</a> i2c_slave_config = { <a class="code" href="group__group__hal__i2c.html#gad2ea1e12f91892dfd0d6695b11f1d4a5">CYHAL_I2C_MODE_SLAVE</a>, 0x08u, 100000u };</div><div class="line"></div><div class="line">    <span class="comment">// Initialize I2C slave, set the SDA and SCL pins and assign a new clock</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__i2c.html#gac2885a21905af9d1d48aae34a6032a61">cyhal_i2c_init</a>(&amp;i2c_slave_obj, CYBSP_I2C_SDA, CYBSP_I2C_SCL, NULL);</div><div class="line">    CY_ASSERT(<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> == rslt);</div><div class="line"></div><div class="line">    <span class="comment">// Configure the I2C resource to be slave</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__i2c.html#ga37a35abcb9bf2d0ecf2a52b2fa5bce64">cyhal_i2c_configure</a>(&amp;i2c_slave_obj, &amp;i2c_slave_config);</div><div class="line">    CY_ASSERT(<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> == rslt);</div><div class="line"></div><div class="line">    <span class="comment">// Register I2C slave event callback</span></div><div class="line">    <a class="code" href="group__group__hal__i2c.html#gacf738716af52c484873e35331b9a30b7">cyhal_i2c_register_callback</a>(&amp;i2c_slave_obj, (<a class="code" href="group__group__hal__i2c.html#ga67df812388aae9fcc3b3b1986dab7a09">cyhal_i2c_event_callback_t</a>)handle_i2c_events,</div><div class="line">                                NULL);</div><div class="line"></div><div class="line">    <span class="comment">// Enable I2C Events</span></div><div class="line">    <a class="code" href="group__group__hal__i2c.html#ga6216658331d13dd8a854a23e96141fc7">cyhal_i2c_enable_event</a>(&amp;i2c_slave_obj, (<a class="code" href="group__group__hal__i2c.html#gaaba7daccaa3861c32a4b0284e8194a79">cyhal_i2c_event_t</a>)   \</div><div class="line">                           (<a class="code" href="group__group__hal__i2c.html#ggaaba7daccaa3861c32a4b0284e8194a79aed43708fe51a3270699f80f21dde4bac">CYHAL_I2C_SLAVE_WR_CMPLT_EVENT</a> \</div><div class="line">                            | <a class="code" href="group__group__hal__i2c.html#ggaaba7daccaa3861c32a4b0284e8194a79af3743e0bae6fc016ae15741d69b765e8">CYHAL_I2C_SLAVE_RD_CMPLT_EVENT</a> \</div><div class="line">                            | <a class="code" href="group__group__hal__i2c.html#ggaaba7daccaa3861c32a4b0284e8194a79aba7cb8e07c8f47bd41a74af1373c7d04">CYHAL_I2C_SLAVE_ERR_EVENT</a>),    \</div><div class="line">                           3u, <span class="keyword">true</span>);</div><div class="line">}</div><div class="line"></div><div class="line"></div></div><!-- fragment --> <h2><a class="anchor" id="subsection_i2c_snippet_3"></a>
 Snippet 3: I2C Master Asynchronous Transfer</h2>
 <p>This snippet shows how to implement asynchronous transfers using <a class="el" href="group__group__hal__i2c.html#gad6cd59cead5f7de0cf87571ceb656054">cyhal_i2c_master_transfer_async</a>.<br />
  <a class="el" href="group__group__hal__i2c.html#ga5ee41d9e5c6dc83376291ff5275c942a">cyhal_i2c_abort_async</a> is used to stop the transfer, in this case when an error occurs.</p>
-<div class="fragment"><div class="line"><span class="comment">/* Declare variables */</span></div><div class="line"><a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__i2c__t">cyhal_i2c_t</a> i2c_master_obj;</div><div class="line">uint8_t tx_buff[3] = {1, 2, 3};</div><div class="line">uint8_t rx_buff[3];</div><div class="line"></div><div class="line"><span class="comment">/* Defining master callback handler */</span></div><div class="line"><span class="keywordtype">void</span> master_event_handler(<span class="keywordtype">void</span> *callback_arg, <a class="code" href="group__group__hal__i2c.html#gaaba7daccaa3861c32a4b0284e8194a79">cyhal_i2c_event_t</a> event)</div><div class="line">{</div><div class="line">    <span class="comment">/* To remove unused variable warning */</span></div><div class="line">    (void) callback_arg;</div><div class="line"></div><div class="line">    <span class="comment">/* Check write complete event */</span></div><div class="line">    <span class="keywordflow">if</span> (0UL != (<a class="code" href="group__group__hal__i2c.html#ggaaba7daccaa3861c32a4b0284e8194a79aed43708fe51a3270699f80f21dde4bac">CYHAL_I2C_SLAVE_WR_CMPLT_EVENT</a> &amp; event))</div><div class="line">    {</div><div class="line">        <span class="comment">/* Perform the required functions */</span></div><div class="line">    }</div><div class="line">    <span class="comment">/* Check read complete event */</span></div><div class="line">    <span class="keywordflow">if</span> (0UL != (<a class="code" href="group__group__hal__i2c.html#ggaaba7daccaa3861c32a4b0284e8194a79af3743e0bae6fc016ae15741d69b765e8">CYHAL_I2C_SLAVE_RD_CMPLT_EVENT</a> &amp; event))</div><div class="line">    {</div><div class="line">        <span class="comment">/* Perform the required functions */</span></div><div class="line">    }</div><div class="line">    <span class="keywordflow">if</span> (0UL != (<a class="code" href="group__group__hal__i2c.html#ggaaba7daccaa3861c32a4b0284e8194a79aba7cb8e07c8f47bd41a74af1373c7d04">CYHAL_I2C_SLAVE_ERR_EVENT</a> &amp; event))</div><div class="line">    {</div><div class="line">        <span class="comment">/* In case of error abort transfer */</span></div><div class="line">        <a class="code" href="group__group__hal__i2c.html#ga5ee41d9e5c6dc83376291ff5275c942a">cyhal_i2c_abort_async</a>(&amp;i2c_master_obj);</div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keywordtype">void</span> snippet_cyhal_async_transfer(<span class="keywordtype">void</span>)</div><div class="line">{</div><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> rslt;</div><div class="line"></div><div class="line">    <span class="comment">/* Define address */</span></div><div class="line">    uint16_t I2C_SLAVE_ADDRESS = 0x08u;</div><div class="line">    <span class="comment">/* Define frequency */</span></div><div class="line">    uint32_t I2C_MASTER_FREQUENCY = 100000u;</div><div class="line"></div><div class="line">    <span class="comment">/* Configure I2C Master */</span></div><div class="line">    <a class="code" href="group__group__hal__i2c.html#structcyhal__i2c__cfg__t">cyhal_i2c_cfg_t</a> i2c_master_config = {<a class="code" href="group__group__hal__i2c.html#gae8ce31deae8ac6078af98b52249e0089">CYHAL_I2C_MODE_MASTER</a>, 0, I2C_MASTER_FREQUENCY};</div><div class="line"></div><div class="line">    rslt = <a class="code" href="group__group__hal__i2c.html#gac2885a21905af9d1d48aae34a6032a61">cyhal_i2c_init</a>(&amp;i2c_master_obj, CYBSP_I2C_SDA, CYBSP_I2C_SCL, NULL);</div><div class="line">    CY_ASSERT(<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> == rslt);</div><div class="line"></div><div class="line">    rslt = <a class="code" href="group__group__hal__i2c.html#ga37a35abcb9bf2d0ecf2a52b2fa5bce64">cyhal_i2c_configure</a>(&amp;i2c_master_obj, &amp;i2c_master_config);</div><div class="line">    CY_ASSERT(<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> == rslt);</div><div class="line"></div><div class="line">    <a class="code" href="group__group__hal__i2c.html#gacf738716af52c484873e35331b9a30b7">cyhal_i2c_register_callback</a>(&amp;i2c_master_obj, (<a class="code" href="group__group__hal__i2c.html#ga67df812388aae9fcc3b3b1986dab7a09">cyhal_i2c_event_callback_t</a>) master_event_handler, NULL);</div><div class="line">    <a class="code" href="group__group__hal__i2c.html#ga6216658331d13dd8a854a23e96141fc7">cyhal_i2c_enable_event</a>(&amp;i2c_master_obj, (<a class="code" href="group__group__hal__i2c.html#gaaba7daccaa3861c32a4b0284e8194a79">cyhal_i2c_event_t</a>)   \</div><div class="line">                                 (<a class="code" href="group__group__hal__i2c.html#ggaaba7daccaa3861c32a4b0284e8194a79aed43708fe51a3270699f80f21dde4bac">CYHAL_I2C_SLAVE_WR_CMPLT_EVENT</a> \</div><div class="line">                                | <a class="code" href="group__group__hal__i2c.html#ggaaba7daccaa3861c32a4b0284e8194a79af3743e0bae6fc016ae15741d69b765e8">CYHAL_I2C_SLAVE_RD_CMPLT_EVENT</a> \</div><div class="line">                                | <a class="code" href="group__group__hal__i2c.html#ggaaba7daccaa3861c32a4b0284e8194a79aba7cb8e07c8f47bd41a74af1373c7d04">CYHAL_I2C_SLAVE_ERR_EVENT</a>),    \</div><div class="line">                                3u , <span class="keyword">true</span>);</div><div class="line"></div><div class="line">    <span class="comment">/* Initiate master write and read transfer using tx_buff and rx_buff respectively. */</span></div><div class="line">    <a class="code" href="group__group__hal__i2c.html#gad6cd59cead5f7de0cf87571ceb656054">cyhal_i2c_master_transfer_async</a>(&amp;i2c_master_obj, I2C_SLAVE_ADDRESS, tx_buff, 3, rx_buff, 3);</div><div class="line">}</div><div class="line"></div></div><!-- fragment --> <h1><a class="anchor" id="subsection_i2c_moreinformation"></a>
+<div class="fragment"><div class="line"><span class="comment">// Declare variables</span></div><div class="line"><a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__i2c__t">cyhal_i2c_t</a> i2c_master_obj;</div><div class="line">uint8_t     tx_buff[3] = { 1, 2, 3 };</div><div class="line">uint8_t     rx_buff[3];</div><div class="line"></div><div class="line"><span class="comment">// Defining master callback handler</span></div><div class="line"><span class="keywordtype">void</span> master_event_handler(<span class="keywordtype">void</span>* callback_arg, <a class="code" href="group__group__hal__i2c.html#gaaba7daccaa3861c32a4b0284e8194a79">cyhal_i2c_event_t</a> event)</div><div class="line">{</div><div class="line">    <span class="comment">// To remove unused variable warning</span></div><div class="line">    (void)callback_arg;</div><div class="line"></div><div class="line">    <span class="comment">// Check write complete event</span></div><div class="line">    <span class="keywordflow">if</span> (0UL != (<a class="code" href="group__group__hal__i2c.html#ggaaba7daccaa3861c32a4b0284e8194a79a0365270204869bfe80a2015258c979e1">CYHAL_I2C_MASTER_WR_CMPLT_EVENT</a> &amp; event))</div><div class="line">    {</div><div class="line">        <span class="comment">// Perform the required functions</span></div><div class="line">    }</div><div class="line">    <span class="comment">// Check read complete event</span></div><div class="line">    <span class="keywordflow">if</span> (0UL != (<a class="code" href="group__group__hal__i2c.html#ggaaba7daccaa3861c32a4b0284e8194a79ac5b8050af1c08b0d00a21539c5286435">CYHAL_I2C_MASTER_RD_CMPLT_EVENT</a> &amp; event))</div><div class="line">    {</div><div class="line">        <span class="comment">// Perform the required functions</span></div><div class="line">    }</div><div class="line">    <span class="keywordflow">if</span> (0UL != (<a class="code" href="group__group__hal__i2c.html#ggaaba7daccaa3861c32a4b0284e8194a79a4bda40d48c2d7ca1c7556367b532920f">CYHAL_I2C_MASTER_ERR_EVENT</a> &amp; event))</div><div class="line">    {</div><div class="line">        <span class="comment">// In case of error abort transfer</span></div><div class="line">        <a class="code" href="group__group__hal__i2c.html#ga5ee41d9e5c6dc83376291ff5275c942a">cyhal_i2c_abort_async</a>(&amp;i2c_master_obj);</div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line"></div><div class="line"><span class="keywordtype">void</span> snippet_cyhal_async_transfer(<span class="keywordtype">void</span>)</div><div class="line">{</div><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> rslt;</div><div class="line"></div><div class="line">    <span class="comment">// Define address</span></div><div class="line">    uint16_t I2C_SLAVE_ADDRESS = 0x08u;</div><div class="line">    <span class="comment">// Define frequency</span></div><div class="line">    uint32_t I2C_MASTER_FREQUENCY = 100000u;</div><div class="line"></div><div class="line">    <span class="comment">// Configure I2C Master</span></div><div class="line">    <a class="code" href="group__group__hal__i2c.html#structcyhal__i2c__cfg__t">cyhal_i2c_cfg_t</a> i2c_master_config = { <a class="code" href="group__group__hal__i2c.html#gae8ce31deae8ac6078af98b52249e0089">CYHAL_I2C_MODE_MASTER</a>, 0, I2C_MASTER_FREQUENCY };</div><div class="line"></div><div class="line">    rslt = <a class="code" href="group__group__hal__i2c.html#gac2885a21905af9d1d48aae34a6032a61">cyhal_i2c_init</a>(&amp;i2c_master_obj, CYBSP_I2C_SDA, CYBSP_I2C_SCL, NULL);</div><div class="line">    CY_ASSERT(<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> == rslt);</div><div class="line"></div><div class="line">    rslt = <a class="code" href="group__group__hal__i2c.html#ga37a35abcb9bf2d0ecf2a52b2fa5bce64">cyhal_i2c_configure</a>(&amp;i2c_master_obj, &amp;i2c_master_config);</div><div class="line">    CY_ASSERT(<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> == rslt);</div><div class="line"></div><div class="line">    <a class="code" href="group__group__hal__i2c.html#gacf738716af52c484873e35331b9a30b7">cyhal_i2c_register_callback</a>(&amp;i2c_master_obj, (<a class="code" href="group__group__hal__i2c.html#ga67df812388aae9fcc3b3b1986dab7a09">cyhal_i2c_event_callback_t</a>)master_event_handler,</div><div class="line">                                NULL);</div><div class="line">    <a class="code" href="group__group__hal__i2c.html#ga6216658331d13dd8a854a23e96141fc7">cyhal_i2c_enable_event</a>(&amp;i2c_master_obj, (<a class="code" href="group__group__hal__i2c.html#gaaba7daccaa3861c32a4b0284e8194a79">cyhal_i2c_event_t</a>)   \</div><div class="line">                           (<a class="code" href="group__group__hal__i2c.html#ggaaba7daccaa3861c32a4b0284e8194a79a0365270204869bfe80a2015258c979e1">CYHAL_I2C_MASTER_WR_CMPLT_EVENT</a> \</div><div class="line">                            | <a class="code" href="group__group__hal__i2c.html#ggaaba7daccaa3861c32a4b0284e8194a79ac5b8050af1c08b0d00a21539c5286435">CYHAL_I2C_MASTER_RD_CMPLT_EVENT</a> \</div><div class="line">                            | <a class="code" href="group__group__hal__i2c.html#ggaaba7daccaa3861c32a4b0284e8194a79a4bda40d48c2d7ca1c7556367b532920f">CYHAL_I2C_MASTER_ERR_EVENT</a>),    \</div><div class="line">                           3u, <span class="keyword">true</span>);</div><div class="line"></div><div class="line">    <span class="comment">// Initiate master write and read transfer using tx_buff and rx_buff respectively.</span></div><div class="line">    <a class="code" href="group__group__hal__i2c.html#gad6cd59cead5f7de0cf87571ceb656054">cyhal_i2c_master_transfer_async</a>(&amp;i2c_master_obj, I2C_SLAVE_ADDRESS, tx_buff, 3, rx_buff, 3);</div><div class="line">}</div><div class="line"></div><div class="line"></div></div><!-- fragment --> <h1><a class="anchor" id="subsection_i2c_moreinformation"></a>
 More Information</h1>
 <p><b>Peripheral Driver Library (PDL)</b></p><ul>
 <li><a href="https://cypresssemiconductorco.github.io/psoc6pdl/pdl_api_reference_manual/html/group__group__scb.html"><b> PSoC 6 PDL: SCB (Serial Communication Block)</b></a></li>
@@ -198,6 +198,22 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:gaaba7daccaa3861c32a4b0284e8194a79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum to enable/disable/report interrupt cause flags.  <a href="group__group__hal__i2c.html#gaaba7daccaa3861c32a4b0284e8194a79">More...</a><br /></td></tr>
 <tr class="separator:gaaba7daccaa3861c32a4b0284e8194a79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa59a59acf36a7815929230f07ea3f8e9"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__i2c.html#gaa59a59acf36a7815929230f07ea3f8e9">cyhal_i2c_fifo_type_t</a> { <br />
+&#160;&#160;<a class="el" href="group__group__hal__i2c.html#ggaa59a59acf36a7815929230f07ea3f8e9ab0def432120ebd7d53251a7ca0538c60">CYHAL_I2C_FIFO_RX</a>, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__i2c.html#ggaa59a59acf36a7815929230f07ea3f8e9a7b975cb6cde74026ffc091a52a32cf42">CYHAL_I2C_FIFO_TX</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:gaa59a59acf36a7815929230f07ea3f8e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">I2C FIFO type.  <a href="group__group__hal__i2c.html#gaa59a59acf36a7815929230f07ea3f8e9">More...</a><br /></td></tr>
+<tr class="separator:gaa59a59acf36a7815929230f07ea3f8e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga67be23b92e99d5314fe8158d8ea51611"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__i2c.html#ga67be23b92e99d5314fe8158d8ea51611">cyhal_i2c_output_t</a> { <br />
+&#160;&#160;<a class="el" href="group__group__hal__i2c.html#gga67be23b92e99d5314fe8158d8ea51611a15a22f5be41fbbe6ca9fb9a59aeb7bd5">CYHAL_I2C_OUTPUT_TRIGGER_RX_FIFO_LEVEL_REACHED</a>, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__i2c.html#gga67be23b92e99d5314fe8158d8ea51611a1c425697142c9aad19da2114788bbf08">CYHAL_I2C_OUTPUT_TRIGGER_TX_FIFO_LEVEL_REACHED</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:ga67be23b92e99d5314fe8158d8ea51611"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum of possible output signals from an I2C.  <a href="group__group__hal__i2c.html#ga67be23b92e99d5314fe8158d8ea51611">More...</a><br /></td></tr>
+<tr class="separator:ga67be23b92e99d5314fe8158d8ea51611"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -241,6 +257,15 @@ Functions</h2></td></tr>
 <tr class="memitem:ga6216658331d13dd8a854a23e96141fc7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__i2c.html#ga6216658331d13dd8a854a23e96141fc7">cyhal_i2c_enable_event</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__i2c__t">cyhal_i2c_t</a> *obj, <a class="el" href="group__group__hal__i2c.html#gaaba7daccaa3861c32a4b0284e8194a79">cyhal_i2c_event_t</a> event, uint8_t intr_priority, bool enable)</td></tr>
 <tr class="memdesc:ga6216658331d13dd8a854a23e96141fc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure and Enable or Disable I2C Interrupt.  <a href="#ga6216658331d13dd8a854a23e96141fc7">More...</a><br /></td></tr>
 <tr class="separator:ga6216658331d13dd8a854a23e96141fc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga28d8b90e912067afa2be1ad63e0e26bf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__i2c.html#ga28d8b90e912067afa2be1ad63e0e26bf">cyhal_i2c_set_fifo_level</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__i2c__t">cyhal_i2c_t</a> *obj, <a class="el" href="group__group__hal__i2c.html#gaa59a59acf36a7815929230f07ea3f8e9">cyhal_i2c_fifo_type_t</a> type, uint16_t level)</td></tr>
+<tr class="memdesc:ga28d8b90e912067afa2be1ad63e0e26bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a threshold level for a FIFO that will generate an interrupt and a trigger output.  <a href="#ga28d8b90e912067afa2be1ad63e0e26bf">More...</a><br /></td></tr>
+<tr class="separator:ga28d8b90e912067afa2be1ad63e0e26bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf2012311623f37e679e8af020481429a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__i2c.html#gaf2012311623f37e679e8af020481429a">cyhal_i2c_enable_output</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__i2c__t">cyhal_i2c_t</a> *obj, <a class="el" href="group__group__hal__i2c.html#ga67be23b92e99d5314fe8158d8ea51611">cyhal_i2c_output_t</a> output, <a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a> *source)</td></tr>
+<tr class="memdesc:gaf2012311623f37e679e8af020481429a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables the specified output signal from an I2C.  <a href="#gaf2012311623f37e679e8af020481429a">More...</a><br /></td></tr>
+<tr class="separator:gaf2012311623f37e679e8af020481429a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf1b47ca281e0d070cd62b7ad1ba6a576"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__i2c.html#gaf1b47ca281e0d070cd62b7ad1ba6a576">cyhal_i2c_disable_output</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__i2c__t">cyhal_i2c_t</a> *obj, <a class="el" href="group__group__hal__i2c.html#ga67be23b92e99d5314fe8158d8ea51611">cyhal_i2c_output_t</a> output)</td></tr>
+<tr class="memdesc:gaf1b47ca281e0d070cd62b7ad1ba6a576"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables the specified output signal from an I2C.  <a href="#gaf1b47ca281e0d070cd62b7ad1ba6a576">More...</a><br /></td></tr>
+<tr class="separator:gaf1b47ca281e0d070cd62b7ad1ba6a576"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/><h2 class="groupheader">Data Structure Documentation</h2>
 <a name="structcyhal__i2c__cfg__t" id="structcyhal__i2c__cfg__t"></a>
@@ -350,6 +375,50 @@ Frequency that the I2C bus runs at (I2C data rate in bits per second) <br />
 <tr><td class="fieldname"><a id="ggaaba7daccaa3861c32a4b0284e8194a79ac5b8050af1c08b0d00a21539c5286435"></a>CYHAL_I2C_MASTER_RD_CMPLT_EVENT&#160;</td><td class="fielddoc"><p>The master read started by cyhal_i2c_master_transfer_async is complete. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ggaaba7daccaa3861c32a4b0284e8194a79a4bda40d48c2d7ca1c7556367b532920f"></a>CYHAL_I2C_MASTER_ERR_EVENT&#160;</td><td class="fielddoc"><p>Indicates the I2C hardware has detected an error. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="gaa59a59acf36a7815929230f07ea3f8e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa59a59acf36a7815929230f07ea3f8e9">&#9670;&nbsp;</a></span>cyhal_i2c_fifo_type_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__group__hal__i2c.html#gaa59a59acf36a7815929230f07ea3f8e9">cyhal_i2c_fifo_type_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>I2C FIFO type. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ggaa59a59acf36a7815929230f07ea3f8e9ab0def432120ebd7d53251a7ca0538c60"></a>CYHAL_I2C_FIFO_RX&#160;</td><td class="fielddoc"><p>Set RX FIFO level. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaa59a59acf36a7815929230f07ea3f8e9a7b975cb6cde74026ffc091a52a32cf42"></a>CYHAL_I2C_FIFO_TX&#160;</td><td class="fielddoc"><p>Set TX FIFO level. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="ga67be23b92e99d5314fe8158d8ea51611"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga67be23b92e99d5314fe8158d8ea51611">&#9670;&nbsp;</a></span>cyhal_i2c_output_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__group__hal__i2c.html#ga67be23b92e99d5314fe8158d8ea51611">cyhal_i2c_output_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enum of possible output signals from an I2C. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga67be23b92e99d5314fe8158d8ea51611a15a22f5be41fbbe6ca9fb9a59aeb7bd5"></a>CYHAL_I2C_OUTPUT_TRIGGER_RX_FIFO_LEVEL_REACHED&#160;</td><td class="fielddoc"><p>Output the RX FIFO signal which is triggered when the receive FIFO has more entries than the configured level. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga67be23b92e99d5314fe8158d8ea51611a1c425697142c9aad19da2114788bbf08"></a>CYHAL_I2C_OUTPUT_TRIGGER_TX_FIFO_LEVEL_REACHED&#160;</td><td class="fielddoc"><p>Output the TX FIFO signal which is triggered when the transmit FIFO has less entries than the configured level. </p>
 </td></tr>
 </table>
 
@@ -1047,6 +1116,135 @@ Frequency that the I2C bus runs at (I2C data rate in bits per second) <br />
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="ga28d8b90e912067afa2be1ad63e0e26bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga28d8b90e912067afa2be1ad63e0e26bf">&#9670;&nbsp;</a></span>cyhal_i2c_set_fifo_level()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_i2c_set_fifo_level </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__i2c__t">cyhal_i2c_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__i2c.html#gaa59a59acf36a7815929230f07ea3f8e9">cyhal_i2c_fifo_type_t</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>level</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets a threshold level for a FIFO that will generate an interrupt and a trigger output. </p>
+<p>The RX FIFO interrupt and trigger will be activated when the receive FIFO has more entries than the threshold. The TX FIFO interrupt and trigger will be activated when the transmit FIFO has less entries than the threshold.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The I2C object </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>FIFO type to set level for </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">level</td><td>Level threshold to set </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the level set </dd></dl>
+
+</div>
+</div>
+<a id="gaf2012311623f37e679e8af020481429a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf2012311623f37e679e8af020481429a">&#9670;&nbsp;</a></span>cyhal_i2c_enable_output()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_i2c_enable_output </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__i2c__t">cyhal_i2c_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__i2c.html#ga67be23b92e99d5314fe8158d8ea51611">cyhal_i2c_output_t</a>&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a> *&#160;</td>
+          <td class="paramname"><em>source</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enables the specified output signal from an I2C. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The I2C object </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">output</td><td>Which output signal to enable </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">source</td><td>Pointer to user-allocated source signal object which will be initialized by enable_output. <code>source</code> should be passed to (dis)connect_digital functions to (dis)connect the associated endpoints. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the output enable </dd></dl>
+
+</div>
+</div>
+<a id="gaf1b47ca281e0d070cd62b7ad1ba6a576"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf1b47ca281e0d070cd62b7ad1ba6a576">&#9670;&nbsp;</a></span>cyhal_i2c_disable_output()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_i2c_disable_output </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__i2c__t">cyhal_i2c_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__i2c.html#ga67be23b92e99d5314fe8158d8ea51611">cyhal_i2c_output_t</a>&#160;</td>
+          <td class="paramname"><em>output</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Disables the specified output signal from an I2C. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The I2C object </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">output</td><td>Which output signal to disable </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the output disable </dd></dl>
 
 </div>
 </div>

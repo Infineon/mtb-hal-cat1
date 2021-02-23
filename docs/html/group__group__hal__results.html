@@ -123,6 +123,9 @@ API Reference</h2></td></tr>
 <tr class="memitem:group__group__hal__results__flash"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__results__flash.html">Flash HAL Results</a></td></tr>
 <tr class="memdesc:group__group__hal__results__flash"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flash specific return codes. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__group__hal__results__gpio"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__results__gpio.html">GPIO HAL Results</a></td></tr>
+<tr class="memdesc:group__group__hal__results__gpio"><td class="mdescLeft">&#160;</td><td class="mdescRight">GPIO specific return codes. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__group__hal__results__hwmgr"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__results__hwmgr.html">HWMGR HAL Results</a></td></tr>
 <tr class="memdesc:group__group__hal__results__hwmgr"><td class="mdescLeft">&#160;</td><td class="mdescRight">HWMGR specific return codes. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -149,6 +152,9 @@ API Reference</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__group__hal__results__qspi"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__results__qspi.html">QSPI HAL Results</a></td></tr>
 <tr class="memdesc:group__group__hal__results__qspi"><td class="mdescLeft">&#160;</td><td class="mdescRight">QSPI specific return codes. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__group__hal__results__quaddec"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__results__quaddec.html">Quadrature Decoder HAL Results</a></td></tr>
+<tr class="memdesc:group__group__hal__results__quaddec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Quadrature Decoder specific return codes. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__group__hal__results__rtc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__results__rtc.html">RTC HAL Results</a></td></tr>
 <tr class="memdesc:group__group__hal__results__rtc"><td class="mdescLeft">&#160;</td><td class="mdescRight">RTC specific return codes. <br /></td></tr>
@@ -240,35 +246,15 @@ Enumerations</h2></td></tr>
 <br />
 &#160;&#160;<a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a608cd624d7042ae5d77c6134f7ea382f">CYHAL_RSLT_MODULE_USB</a> = (0x1C &lt;&lt; 8), 
 <br />
-&#160;&#160;<a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a012172915d19c167e1db5ff7e188adba">CYHAL_RSLT_MODULE_WDT</a> = (0x1D &lt;&lt; 8)
+&#160;&#160;<a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a012172915d19c167e1db5ff7e188adba">CYHAL_RSLT_MODULE_WDT</a> = (0x1D &lt;&lt; 8), 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005af99e4705ecb46e6ebf1ce9e9fb73c171">CYHAL_RSLT_MODULE_IMPL_TCPWM</a> = (0x1E &lt;&lt; 8), 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005aa7ba6553c921351f322f391838049f91">CYHAL_RSLT_MODULE_IMPL_SCB</a> = (0x1F &lt;&lt; 8)
 <br />
  }</td></tr>
 <tr class="memdesc:ga84f32ecb6376e2088d4f048e35f52005"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum to specify module IDs for <a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> values returned from the HAL.  <a href="group__group__hal__results.html#ga84f32ecb6376e2088d4f048e35f52005">More...</a><br /></td></tr>
 <tr class="separator:ga84f32ecb6376e2088d4f048e35f52005"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga6df5063be354515111d4f0b83d6128fc"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__results.html#ga6df5063be354515111d4f0b83d6128fc">cyhal_signal_digital_out_t</a> { <br />
-&#160;&#160;<a class="el" href="group__group__hal__results.html#gga6df5063be354515111d4f0b83d6128fca77fc0320fd94c1f567d132da16ad6c17">CYHAL_SIGNAL_DMA_COMPLETE</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__results.html#gga6df5063be354515111d4f0b83d6128fca86855c5139f1ea6ac9be84697cb7f90e">CYHAL_SIGNAL_PWM_OUT</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__results.html#gga6df5063be354515111d4f0b83d6128fcae87e5c2a20f8964b4f9ac093b1e015b2">CYHAL_SIGNAL_PWM_OUT_INV</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__results.html#gga6df5063be354515111d4f0b83d6128fcab07be6c470d4f803ff79c9cfd451988f">CYHAL_SIGNAL_PWM_OVERFLOW</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__results.html#gga6df5063be354515111d4f0b83d6128fca3f85859058fa1d7fcfa1c07a83840d7e">CYHAL_SIGNAL_PWM_UNDERFLOW</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__results.html#gga6df5063be354515111d4f0b83d6128fca556443e4d7743e14a440132443f3123b">CYHAL_SIGNAL_PWM_COMPARE</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__results.html#gga6df5063be354515111d4f0b83d6128fca821dcc36128ba42217739d4200718d24">CYHAL_SIGNAL_TIMER_OVERFLOW</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__results.html#gga6df5063be354515111d4f0b83d6128fcac9b5a151b6c7a0c1863adda936a6d64e">CYHAL_SIGNAL_TIMER_UNDERFLOW</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__results.html#gga6df5063be354515111d4f0b83d6128fca1a4bd1ac07a758ff59a55ed7fd59395a">CYHAL_SIGNAL_TIMER_CAPTURE</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__results.html#gga6df5063be354515111d4f0b83d6128fca2fb4e32464abcfca83fa33fb1c7a3e40">CYHAL_SIGNAL_QUADDEC_TC</a>
-<br />
- }</td></tr>
-<tr class="memdesc:ga6df5063be354515111d4f0b83d6128fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum to specify all of the digital output signals supported by different hardware peripherals.  <a href="group__group__hal__results.html#ga6df5063be354515111d4f0b83d6128fc">More...</a><br /></td></tr>
-<tr class="separator:ga6df5063be354515111d4f0b83d6128fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="ga84f32ecb6376e2088d4f048e35f52005"></a>
@@ -343,44 +329,9 @@ Enumerations</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="gga84f32ecb6376e2088d4f048e35f52005a012172915d19c167e1db5ff7e188adba"></a>CYHAL_RSLT_MODULE_WDT&#160;</td><td class="fielddoc"><p>An error occurred in WDT module. </p>
 </td></tr>
-</table>
-
-</div>
-</div>
-<a id="ga6df5063be354515111d4f0b83d6128fc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga6df5063be354515111d4f0b83d6128fc">&#9670;&nbsp;</a></span>cyhal_signal_digital_out_t</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="group__group__hal__results.html#ga6df5063be354515111d4f0b83d6128fc">cyhal_signal_digital_out_t</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Enum to specify all of the digital output signals supported by different hardware peripherals. </p>
-<p>These can be used as inputs to other peripherals if the selected device has internal routing resources. </p>
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga6df5063be354515111d4f0b83d6128fca77fc0320fd94c1f567d132da16ad6c17"></a>CYHAL_SIGNAL_DMA_COMPLETE&#160;</td><td class="fielddoc"><p>DMA complete signal. </p>
+<tr><td class="fieldname"><a id="gga84f32ecb6376e2088d4f048e35f52005af99e4705ecb46e6ebf1ce9e9fb73c171"></a>CYHAL_RSLT_MODULE_IMPL_TCPWM&#160;</td><td class="fielddoc"><p>An error occurred in TCPWM module (TCPWM based drivers are: Timer, PWM, Quadrature Decoder) </p>
 </td></tr>
-<tr><td class="fieldname"><a id="gga6df5063be354515111d4f0b83d6128fca86855c5139f1ea6ac9be84697cb7f90e"></a>CYHAL_SIGNAL_PWM_OUT&#160;</td><td class="fielddoc"><p>PWM output signal. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga6df5063be354515111d4f0b83d6128fcae87e5c2a20f8964b4f9ac093b1e015b2"></a>CYHAL_SIGNAL_PWM_OUT_INV&#160;</td><td class="fielddoc"><p>PWM output signal inverted. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga6df5063be354515111d4f0b83d6128fcab07be6c470d4f803ff79c9cfd451988f"></a>CYHAL_SIGNAL_PWM_OVERFLOW&#160;</td><td class="fielddoc"><p>PWM overflow signal. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga6df5063be354515111d4f0b83d6128fca3f85859058fa1d7fcfa1c07a83840d7e"></a>CYHAL_SIGNAL_PWM_UNDERFLOW&#160;</td><td class="fielddoc"><p>PWM underflow signal. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga6df5063be354515111d4f0b83d6128fca556443e4d7743e14a440132443f3123b"></a>CYHAL_SIGNAL_PWM_COMPARE&#160;</td><td class="fielddoc"><p>PWM period match signal. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga6df5063be354515111d4f0b83d6128fca821dcc36128ba42217739d4200718d24"></a>CYHAL_SIGNAL_TIMER_OVERFLOW&#160;</td><td class="fielddoc"><p>Timer overflow signal. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga6df5063be354515111d4f0b83d6128fcac9b5a151b6c7a0c1863adda936a6d64e"></a>CYHAL_SIGNAL_TIMER_UNDERFLOW&#160;</td><td class="fielddoc"><p>Timer underflow signal. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga6df5063be354515111d4f0b83d6128fca1a4bd1ac07a758ff59a55ed7fd59395a"></a>CYHAL_SIGNAL_TIMER_CAPTURE&#160;</td><td class="fielddoc"><p>Timer capture match signal. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga6df5063be354515111d4f0b83d6128fca2fb4e32464abcfca83fa33fb1c7a3e40"></a>CYHAL_SIGNAL_QUADDEC_TC&#160;</td><td class="fielddoc"><p>Quadrature Decoder terminal count signal. High on index event, or when counter reaches min/max value. </p>
+<tr><td class="fieldname"><a id="gga84f32ecb6376e2088d4f048e35f52005aa7ba6553c921351f322f391838049f91"></a>CYHAL_RSLT_MODULE_IMPL_SCB&#160;</td><td class="fielddoc"><p>An error occurred in SCB module (SCB based drivers are: I2C, SPI, UART) </p>
 </td></tr>
 </table>
 

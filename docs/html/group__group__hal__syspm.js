@@ -45,7 +45,7 @@ var group__group__hal__syspm =
     ] ],
     [ "cyhal_syspm_hibernate", "group__group__hal__syspm.html#ga507445e44ab6aae0f4cbaabaec6c5a3f", null ],
     [ "cyhal_syspm_set_system_state", "group__group__hal__syspm.html#gaae0157682bad1b2155738e73347afa87", null ],
-    [ "cyhal_syspm_get_system_state", "group__group__hal__syspm.html#gaf5aec2878d9a38835444befb25e274fe", null ],
+    [ "cyhal_syspm_get_system_state", "group__group__hal__syspm.html#gaaf3fe209bb106f490f207394bb35043a", null ],
     [ "cyhal_syspm_register_callback", "group__group__hal__syspm.html#ga5d1637ece9b27528636981acfc893fd3", null ],
     [ "cyhal_syspm_unregister_callback", "group__group__hal__syspm.html#gae069670790199a668edffa9ec01fd538", null ],
     [ "cyhal_syspm_sleep", "group__group__hal__syspm.html#gac3e07ce98d215865b0f7f0149073bae2", null ],

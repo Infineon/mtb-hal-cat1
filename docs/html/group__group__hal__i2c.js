@@ -23,6 +23,14 @@ var group__group__hal__i2c =
       [ "CYHAL_I2C_MASTER_RD_CMPLT_EVENT", "group__group__hal__i2c.html#ggaaba7daccaa3861c32a4b0284e8194a79ac5b8050af1c08b0d00a21539c5286435", null ],
       [ "CYHAL_I2C_MASTER_ERR_EVENT", "group__group__hal__i2c.html#ggaaba7daccaa3861c32a4b0284e8194a79a4bda40d48c2d7ca1c7556367b532920f", null ]
     ] ],
+    [ "cyhal_i2c_fifo_type_t", "group__group__hal__i2c.html#gaa59a59acf36a7815929230f07ea3f8e9", [
+      [ "CYHAL_I2C_FIFO_RX", "group__group__hal__i2c.html#ggaa59a59acf36a7815929230f07ea3f8e9ab0def432120ebd7d53251a7ca0538c60", null ],
+      [ "CYHAL_I2C_FIFO_TX", "group__group__hal__i2c.html#ggaa59a59acf36a7815929230f07ea3f8e9a7b975cb6cde74026ffc091a52a32cf42", null ]
+    ] ],
+    [ "cyhal_i2c_output_t", "group__group__hal__i2c.html#ga67be23b92e99d5314fe8158d8ea51611", [
+      [ "CYHAL_I2C_OUTPUT_TRIGGER_RX_FIFO_LEVEL_REACHED", "group__group__hal__i2c.html#gga67be23b92e99d5314fe8158d8ea51611a15a22f5be41fbbe6ca9fb9a59aeb7bd5", null ],
+      [ "CYHAL_I2C_OUTPUT_TRIGGER_TX_FIFO_LEVEL_REACHED", "group__group__hal__i2c.html#gga67be23b92e99d5314fe8158d8ea51611a1c425697142c9aad19da2114788bbf08", null ]
+    ] ],
     [ "cyhal_i2c_init", "group__group__hal__i2c.html#gac2885a21905af9d1d48aae34a6032a61", null ],
     [ "cyhal_i2c_free", "group__group__hal__i2c.html#ga3335fac7601fb3a6e4210d24e55cca61", null ],
     [ "cyhal_i2c_configure", "group__group__hal__i2c.html#ga37a35abcb9bf2d0ecf2a52b2fa5bce64", null ],
@@ -35,5 +43,8 @@ var group__group__hal__i2c =
     [ "cyhal_i2c_master_transfer_async", "group__group__hal__i2c.html#gad6cd59cead5f7de0cf87571ceb656054", null ],
     [ "cyhal_i2c_abort_async", "group__group__hal__i2c.html#ga5ee41d9e5c6dc83376291ff5275c942a", null ],
     [ "cyhal_i2c_register_callback", "group__group__hal__i2c.html#gacf738716af52c484873e35331b9a30b7", null ],
-    [ "cyhal_i2c_enable_event", "group__group__hal__i2c.html#ga6216658331d13dd8a854a23e96141fc7", null ]
+    [ "cyhal_i2c_enable_event", "group__group__hal__i2c.html#ga6216658331d13dd8a854a23e96141fc7", null ],
+    [ "cyhal_i2c_set_fifo_level", "group__group__hal__i2c.html#ga28d8b90e912067afa2be1ad63e0e26bf", null ],
+    [ "cyhal_i2c_enable_output", "group__group__hal__i2c.html#gaf2012311623f37e679e8af020481429a", null ],
+    [ "cyhal_i2c_disable_output", "group__group__hal__i2c.html#gaf1b47ca281e0d070cd62b7ad1ba6a576", null ]
 ];

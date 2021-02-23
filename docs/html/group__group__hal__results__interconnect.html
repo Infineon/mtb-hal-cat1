@@ -89,7 +89,7 @@ $(document).ready(function(){initNavTree('group__group__hal__results__interconne
   <div class="summary">
 <a href="#define-members">Macros</a>  </div>
   <div class="headertitle">
-<div class="title">Interconnect HAL Results<div class="ingroups"><a class="el" href="group__group__hal.html">HAL Drivers</a> &raquo; <a class="el" href="group__group__hal__interconnect.html">INTERCONNECT (Internal digital routing)</a><a class="el" href="group__group__hal__types.html">HAL General Types/Macros</a> &raquo; <a class="el" href="group__group__hal__general__types.html">General Types</a> &raquo;  &#124; <a class="el" href="group__group__hal__results.html">Result Codes</a></div></div>  </div>
+<div class="title">Interconnect HAL Results<div class="ingroups"><a class="el" href="group__group__hal.html">HAL Drivers</a> &raquo; <a class="el" href="group__group__hal__interconnect.html">Interconnect (Internal Digital Routing)</a><a class="el" href="group__group__hal__types.html">HAL General Types/Macros</a> &raquo; <a class="el" href="group__group__hal__general__types.html">General Types</a> &raquo;  &#124; <a class="el" href="group__group__hal__results.html">Result Codes</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">General Description</h2>
@@ -97,19 +97,36 @@ $(document).ready(function(){initNavTree('group__group__hal__results__interconne
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:ga06e2a17327bc70766baaa7444effbf2d"><td class="memItemLeft" align="right" valign="top"><a id="ga06e2a17327bc70766baaa7444effbf2d"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__results__interconnect.html#ga06e2a17327bc70766baaa7444effbf2d">CYHAL_CONNECT_RSLT_NO_CONNECTION</a>&#160;&#160;&#160;(CYHAL_RSLT_CREATE(<a class="el" href="group__group__result.html#ga8d656d344524464af71296f2140a7b37">CY_RSLT_TYPE_ERROR</a>, <a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005ab9373b6613ccb00bd4dedab0ae06d11c">CYHAL_RSLT_MODULE_INTERCONNECT</a>, 0))</td></tr>
-<tr class="memdesc:ga06e2a17327bc70766baaa7444effbf2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">No connection is available. <br /></td></tr>
-<tr class="separator:ga06e2a17327bc70766baaa7444effbf2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae531065e9aa44a0bbb5f4945186125de"><td class="memItemLeft" align="right" valign="top"><a id="gae531065e9aa44a0bbb5f4945186125de"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__results__interconnect.html#gae531065e9aa44a0bbb5f4945186125de">CYHAL_CONNECT_RSLT_ALREADY_CONNECTED</a>&#160;&#160;&#160;(CYHAL_RSLT_CREATE(<a class="el" href="group__group__result.html#ga8d656d344524464af71296f2140a7b37">CY_RSLT_TYPE_ERROR</a>, <a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005ab9373b6613ccb00bd4dedab0ae06d11c">CYHAL_RSLT_MODULE_INTERCONNECT</a>, 1))</td></tr>
-<tr class="memdesc:gae531065e9aa44a0bbb5f4945186125de"><td class="mdescLeft">&#160;</td><td class="mdescRight">The connections source and destination are already connected. <br /></td></tr>
-<tr class="separator:gae531065e9aa44a0bbb5f4945186125de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gacbf273b2e176cfaf0a6fa8e02f23a602"><td class="memItemLeft" align="right" valign="top"><a id="gacbf273b2e176cfaf0a6fa8e02f23a602"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__results__interconnect.html#gacbf273b2e176cfaf0a6fa8e02f23a602">CYHAL_CONNECT_RSLT_INVALID_TRIGGER_CONNECTION</a>&#160;&#160;&#160;(CYHAL_RSLT_CREATE(<a class="el" href="group__group__result.html#ga8d656d344524464af71296f2140a7b37">CY_RSLT_TYPE_ERROR</a>, <a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005ab9373b6613ccb00bd4dedab0ae06d11c">CYHAL_RSLT_MODULE_INTERCONNECT</a>, 2))</td></tr>
-<tr class="memdesc:gacbf273b2e176cfaf0a6fa8e02f23a602"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invalid trigger connection. <br /></td></tr>
-<tr class="separator:gacbf273b2e176cfaf0a6fa8e02f23a602"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4f8944b083521a543e3902faa328d14d"><td class="memItemLeft" align="right" valign="top"><a id="ga4f8944b083521a543e3902faa328d14d"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__results__interconnect.html#ga4f8944b083521a543e3902faa328d14d">CYHAL_INTERCONNECT_RSLT_ALREADY_CONNECTED</a>&#160;&#160;&#160;(CYHAL_RSLT_CREATE(<a class="el" href="group__group__result.html#ga8d656d344524464af71296f2140a7b37">CY_RSLT_TYPE_ERROR</a>, <a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005ab9373b6613ccb00bd4dedab0ae06d11c">CYHAL_RSLT_MODULE_INTERCONNECT</a>, 0))</td></tr>
+<tr class="memdesc:ga4f8944b083521a543e3902faa328d14d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The source and destination are already connected. <br /></td></tr>
+<tr class="separator:ga4f8944b083521a543e3902faa328d14d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga18fae6781a3dd4134063ff7807c1ebb9"><td class="memItemLeft" align="right" valign="top"><a id="ga18fae6781a3dd4134063ff7807c1ebb9"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__results__interconnect.html#ga18fae6781a3dd4134063ff7807c1ebb9">CYHAL_INTERCONNECT_RSLT_INVALID_CONNECTION</a>&#160;&#160;&#160;(CYHAL_RSLT_CREATE(<a class="el" href="group__group__result.html#ga8d656d344524464af71296f2140a7b37">CY_RSLT_TYPE_ERROR</a>, <a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005ab9373b6613ccb00bd4dedab0ae06d11c">CYHAL_RSLT_MODULE_INTERCONNECT</a>, 1))</td></tr>
+<tr class="memdesc:ga18fae6781a3dd4134063ff7807c1ebb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connection is invalid. <br /></td></tr>
+<tr class="separator:ga18fae6781a3dd4134063ff7807c1ebb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2f50054a0c7ee8c9bf2682c95366bf93"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__results__interconnect.html#ga2f50054a0c7ee8c9bf2682c95366bf93">CYHAL_INTERCONNECT_RSLT_CANNOT_DISCONNECT</a>&#160;&#160;&#160;(CYHAL_RSLT_CREATE(<a class="el" href="group__group__result.html#ga8d656d344524464af71296f2140a7b37">CY_RSLT_TYPE_ERROR</a>, <a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005ab9373b6613ccb00bd4dedab0ae06d11c">CYHAL_RSLT_MODULE_INTERCONNECT</a>, 2))</td></tr>
+<tr class="memdesc:ga2f50054a0c7ee8c9bf2682c95366bf93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cannot disconnect.  <a href="#ga2f50054a0c7ee8c9bf2682c95366bf93">More...</a><br /></td></tr>
+<tr class="separator:ga2f50054a0c7ee8c9bf2682c95366bf93"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="ga2f50054a0c7ee8c9bf2682c95366bf93"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2f50054a0c7ee8c9bf2682c95366bf93">&#9670;&nbsp;</a></span>CYHAL_INTERCONNECT_RSLT_CANNOT_DISCONNECT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CYHAL_INTERCONNECT_RSLT_CANNOT_DISCONNECT&#160;&#160;&#160;(CYHAL_RSLT_CREATE(<a class="el" href="group__group__result.html#ga8d656d344524464af71296f2140a7b37">CY_RSLT_TYPE_ERROR</a>, <a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005ab9373b6613ccb00bd4dedab0ae06d11c">CYHAL_RSLT_MODULE_INTERCONNECT</a>, 2))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Cannot disconnect. </p>
+<p>Either no connection in the first place or a bad argument </p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part

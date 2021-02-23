@@ -36,8 +36,6 @@ Additionally, all peripherals provide a function (`cyhal_<peripheral>_set_power_
 ## Compile Time Dependencies
 The HAL public interface is consistent across all platforms that the HAL supports. However, the HAL interface does depend on types that are defined by platform-specific HAL implementations (for example, the driver-specific "handle" types). Additionally, a HAL implementation may be compile-time dependent on device-specific data structures (for example, mapping pins to peripheral instances). This means that in order to compile an application that depends on the HAL, it must build against a platform-specific implementation of the HAL, specifying a particular device. The resulting application will be source (but not binary) compatible with a HAL implementation for any other platform.
 
-Some HAL driver's may have slightly different behavior when run in an RTOS environment. This is typically found in operations that need to wait for a significant period of time. In an RTOS aware environment, the function will attempt to wait using the RTOS. This allows other threads in the application to run while the current operation is waiting. In non-RTOS aware environments (eg: bare metal environments) the functions will instead rely on busy waits for operations to complete. To inform the HAL that an RTOS environment is being used the `RTOS_AWARE` component (COMPONENTS+=RTOS_AWARE) or the `CY_RTOS_AWARE` define (DEFINES+=CY_RTOS_AWARE) must be set. When set, the HAL will use  the [RTOS Abstraction](https://github.com/cypresssemiconductorco/abstraction-rtos) APIs to wait.
-
 ## Event Handling
 Many HAL drivers provide an API for registering a callback which is invoked when certain (driver-specific) events occur. These drivers also often provide an API for enabling or disabling specific types of events. Unless otherwise documented, the callback will only be invoked for events that occur while that event type is enabled. Specifically, events that occur while a given event type is disabled are not queued and will not trigger a callback when that event type is (re)enabled.
 
@@ -48,6 +46,12 @@ The HAL driver headers provide macros corresponding to codes for common error si
 
 For more details on interacting with `cy_rslt_t` see [Result Type](docs/html/group__group__result.html).
 
+## RTOS Integration
+Some HAL driver's may have slightly different behavior when run in an RTOS environment. This is typically found in operations that need to wait for a significant period of time. In an RTOS aware environment, the function will attempt to wait using the RTOS. This allows other threads in the application to run while the current operation is waiting. In non-RTOS aware environments (eg: bare metal environments) the functions will instead rely on busy waits for operations to complete. To inform the HAL that an RTOS environment is being used the `RTOS_AWARE` component (COMPONENTS+=RTOS_AWARE) or the `CY_RTOS_AWARE` define (DEFINES+=CY_RTOS_AWARE) must be set. When set, the HAL will use the [RTOS Abstraction](https://github.com/cypresssemiconductorco/abstraction-rtos) APIs to wait.
+
+When using HAL in an RTOS environment with the `RTOS_AWARE` component enabled, initialization of the HAL drivers must be done after the RTOS has been initialized in order to ensure that the RTOS modules such as semaphores used by the HAL drivers are initialized properly. A temporary exception to this is the SDIO HAL driver that is initialized as a part of cybsp_init() and will be addressed in future releases.
+
+
 ## More information
 * [API Reference Guide](https://cypresssemiconductorco.github.io/mtb-hal-cat1/html/modules.html)
 * [Cypress Semiconductor, an Infineon Technologies Company](http://www.cypress.com)
@@ -55,4 +59,4 @@ For more details on interacting with `cy_rslt_t` see [Result Type](docs/html/gro
 * [ModusToolbox](https://www.cypress.com/products/modustoolbox-software-environment)
 
 ---
-© Cypress Semiconductor Corporation, 2019-2020.
+© Cypress Semiconductor Corporation, 2019-2021.

@@ -88,10 +88,10 @@ $(document).ready(function(){initNavTree('group__group__hal__interconnect.html',
 <div class="header">
   <div class="summary">
 <a href="#groups">API Reference</a> &#124;
-<a href="#define-members">Macros</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">INTERCONNECT (Internal digital routing)<div class="ingroups"><a class="el" href="group__group__hal.html">HAL Drivers</a></div></div>  </div>
+<div class="title">Interconnect (Internal Digital Routing)<div class="ingroups"><a class="el" href="group__group__hal.html">HAL Drivers</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">General Description</h2>
@@ -100,7 +100,7 @@ $(document).ready(function(){initNavTree('group__group__hal__interconnect.html',
 Features</h1>
 <p>Facilities for runtime manipulation of the on chip routing. The following types of connections are supported:</p><ul>
 <li>Connection from a peripheral to a pin. (A dedicated connection must exist between the pin and the peripheral; see the device datasheet for more details)</li>
-<li>Experimental support for connecting between two on-chip "trigger" terminals.</li>
+<li>Connecting two peripherals in hardware using the on-chip trigger signaling</li>
 </ul>
 <h1><a class="anchor" id="subsection_interconnect_quickstart"></a>
 Quick Start</h1>
@@ -112,20 +112,26 @@ Quick Start</h1>
 Code Snippets</h1>
 <h2><a class="anchor" id="subsection_interconnect_snippet1"></a>
 Snippet 1: Connecting a pin to TCPWM block</h2>
-<p>The following code snippet demonstrates connecting a GPIO pin to an active TCPWM block on a PSoC 6 device. using the <a class="el" href="group__group__hal__interconnect.html#gaeb7156c33f00a7c21867a46e401d59ef">cyhal_connect_pin</a>. It is assumed that the TCPWM is already configured and active.<br />
- </p><div class="fragment"><div class="line"></div><div class="line">    <span class="comment">/* Find out the resource block that connects the specified pins from the</span></div><div class="line"><span class="comment">     * provided resource pin mapping table cyhal_pin_map_tcpwm_line. This example connects the</span></div><div class="line"><span class="comment">     * pin to the TCPWM line pin */</span></div><div class="line">    <span class="keyword">const</span> <a class="code" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a> *map = _CYHAL_UTILS_GET_RESOURCE(<a class="code" href="group__group__hal__impl__pin__package__psoc6__01__116__bga__ble.html#ggaf78d7d92acc4005cc057d8a9b48e6f28a23caba03df025df5b87712d5563a2b7c">P13_6</a>, <a class="code" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga3c9ce6350bc5c02bb97df5040ca8b6e6">cyhal_pin_map_tcpwm_line</a>);</div><div class="line"></div><div class="line">    <span class="comment">/* Obtain the GPIO pin resource */</span></div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__resource__inst__t">cyhal_resource_inst_t</a> pin_rsc = _cyhal_utils_get_gpio_resource(<a class="code" href="group__group__hal__impl__pin__package__psoc6__01__116__bga__ble.html#ggaf78d7d92acc4005cc057d8a9b48e6f28a23caba03df025df5b87712d5563a2b7c">P13_6</a>);</div><div class="line"></div><div class="line">    <span class="comment">/* Reserve the resource in hardware manager to prevent other HAL blocks</span></div><div class="line"><span class="comment">     * from using it */</span></div><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> status = <a class="code" href="group__group__hal__hwmgr.html#ga33e7c9bb9beaedeb87825dadf604a0b9">cyhal_hwmgr_reserve</a>(&amp;pin_rsc);</div><div class="line">    <span class="keywordflow">if</span> (<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> == status)</div><div class="line">    {</div><div class="line">        <span class="comment">/* The resource is free, connect it to the block */</span></div><div class="line">        status = <a class="code" href="group__group__hal__interconnect.html#gaeb7156c33f00a7c21867a46e401d59ef">cyhal_connect_pin</a>(map);</div><div class="line">        <span class="keywordflow">if</span> (<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> != status)</div><div class="line">        {</div><div class="line">            <a class="code" href="group__group__hal__hwmgr.html#gaa1979bd596d90251c7b861a7e94b884f">cyhal_hwmgr_free</a>(&amp;pin_rsc);</div><div class="line">        }</div><div class="line">    }</div><div class="line"></div></div><!-- fragment --><table class="memberdecls">
+<p>The following code snippet demonstrates connecting a GPIO pin to an active TCPWM block on a device using the <a class="el" href="group__group__hal__interconnect.html#gaeb7156c33f00a7c21867a46e401d59ef">cyhal_connect_pin</a>. It is assumed that the TCPWM is already configured and active.<br />
+ </p><div class="fragment"><div class="line"></div><div class="line">    <span class="comment">// Find out the resource block that connects the specified pins from the provided resource pin</span></div><div class="line">    <span class="comment">// mapping table cyhal_pin_map_tcpwm_line. This example connects the pin to the TCPWM line pin</span></div><div class="line">    <span class="keyword">const</span> <a class="code" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a>* map =</div><div class="line">        _CYHAL_UTILS_GET_RESOURCE(<a class="code" href="group__group__hal__impl__pin__package__psoc6__01__124__bga.html#gga07a8171f98ca709c496f6054afa5e568aa1814d6db2865c42fb3c7fc7688ab5c5">P2_4</a>, <a class="code" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga3c9ce6350bc5c02bb97df5040ca8b6e6">cyhal_pin_map_tcpwm_line</a>);</div><div class="line"></div><div class="line">    <span class="comment">// Obtain the GPIO pin resource</span></div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__resource__inst__t">cyhal_resource_inst_t</a> pin_rsc = _cyhal_utils_get_gpio_resource(<a class="code" href="group__group__hal__impl__pin__package__psoc6__01__124__bga.html#gga07a8171f98ca709c496f6054afa5e568aa1814d6db2865c42fb3c7fc7688ab5c5">P2_4</a>);</div><div class="line"></div><div class="line">    <span class="comment">// Reserve the resource in hardware manager to prevent other HAL blocks from using it</span></div><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> status = <a class="code" href="group__group__hal__hwmgr.html#ga33e7c9bb9beaedeb87825dadf604a0b9">cyhal_hwmgr_reserve</a>(&amp;pin_rsc);</div><div class="line">    <span class="keywordflow">if</span> (<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> == status)</div><div class="line">    {</div><div class="line">        <span class="comment">// The resource is free, connect it to the block</span></div><div class="line">        status = <a class="code" href="group__group__hal__interconnect.html#gaeb7156c33f00a7c21867a46e401d59ef">cyhal_connect_pin</a>(map);</div><div class="line">        <span class="keywordflow">if</span> (<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> != status)</div><div class="line">        {</div><div class="line">            <a class="code" href="group__group__hal__hwmgr.html#gaa1979bd596d90251c7b861a7e94b884f">cyhal_hwmgr_free</a>(&amp;pin_rsc);</div><div class="line">        }</div><div class="line">    }</div><div class="line"></div></div><!-- fragment --> <h2><a class="anchor" id="subsection_interconnect_snippet2"></a>
+Snippet 2: Connecting a Timer output signal to a DMA input signal</h2>
+<p>The following code snippet demonstrates configuring and connecting a Timer which will overflow every 2 seconds and, in doing so, trigger a DMA channel start. </p><div class="fragment"><div class="line">    <a class="code" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a> timer_source;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a>    dma;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__timer__t">cyhal_timer_t</a>  timer;</div><div class="line"></div><div class="line">    uint32_t src_arr[] = { 100, 200 };</div><div class="line">    uint32_t dst_arr[] = { 0, 0 };</div><div class="line"></div><div class="line">    <span class="keyword">const</span> <a class="code" href="group__group__hal__timer.html#structcyhal__timer__cfg__t">cyhal_timer_cfg_t</a> timer_cfg =</div><div class="line">    {</div><div class="line">        .<a class="code" href="group__group__hal__timer.html#a2fb1a2da36b09c9a1febca770afe3190">compare_value</a> = 0,</div><div class="line">        .period        = 20000,</div><div class="line">        .direction     = <a class="code" href="group__group__hal__timer.html#ggaeb28a1b2d8914e9ad63bb0a68c321ff6a1f50f295ead6dbdb36edefc03a183810">CYHAL_TIMER_DIR_UP</a>,</div><div class="line">        .is_compare    = <span class="keyword">false</span>,</div><div class="line">        .is_continuous = <span class="keyword">true</span>,</div><div class="line">        .value         = 0</div><div class="line">    };</div><div class="line"></div><div class="line">    <span class="keyword">const</span> <a class="code" href="group__group__hal__dma.html#structcyhal__dma__cfg__t">cyhal_dma_cfg_t</a> dma_cfg =</div><div class="line">    {</div><div class="line">        .<a class="code" href="group__group__hal__dma.html#addcfd22935f15ed7fd86990afb2d8fe5">src_addr</a>       = (uint32_t)src_arr,</div><div class="line">        .src_increment  = 1,</div><div class="line">        .dst_addr       = (uint32_t)dst_arr,</div><div class="line">        .dst_increment  = 1,</div><div class="line">        .transfer_width = 32,</div><div class="line">        .length         = 2,</div><div class="line">        .burst_size     = 0,</div><div class="line">        .action         = <a class="code" href="group__group__hal__dma.html#gga05291825b0a7c7b9a92373ec53342b7aac422419b0c70b168a56a7bedc2bc2dad">CYHAL_DMA_TRANSFER_FULL</a>,</div><div class="line">    };</div><div class="line"></div><div class="line">    <span class="comment">// Configure simple dma transfer from src_arr to dst_arr</span></div><div class="line">    <a class="code" href="group__group__hal__dma.html#gab9c200507a8ee87b894150416e4f5dd1">cyhal_dma_init</a>(&amp;dma, <a class="code" href="group__group__hal__impl__dma.html#ga81946da56dd6ba8afd28f6056b1d779a">CYHAL_DMA_PRIORITY_DEFAULT</a>, <a class="code" href="group__group__hal__dma.html#gga430c1e3ddedade3b6f7ef1f8532e665ba86dedc0ee3d9bf091e9f936040e2066a">CYHAL_DMA_DIRECTION_MEM2MEM</a>);</div><div class="line">    <a class="code" href="group__group__hal__dma.html#gad39f32ac4fada8bc9e757df0a22fcce4">cyhal_dma_configure</a>(&amp;dma, &amp;dma_cfg);</div><div class="line"></div><div class="line">    <span class="comment">// Setup timer to run continously, overflowing every 2 seconds</span></div><div class="line">    <a class="code" href="group__group__hal__timer.html#gaa8ca8e199bc9848f8729ff78953bb0fa">cyhal_timer_init</a>(&amp;timer, <a class="code" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#gga707195ce0627016bf371643bdd9caa51a3dbd1016ea99d087d747530418b89a01">NC</a>, NULL);</div><div class="line">    <a class="code" href="group__group__hal__timer.html#ga03e9a7839ffd4e8cad90f97fab176813">cyhal_timer_configure</a>(&amp;timer, &amp;timer_cfg);</div><div class="line">    <a class="code" href="group__group__hal__timer.html#ga38ed4c91e655b8b4f5e446c63327ffe5">cyhal_timer_set_frequency</a>(&amp;timer, 10000);</div><div class="line"></div><div class="line">    <span class="comment">// Connect timer overflow trigger to DMA start</span></div><div class="line">    <a class="code" href="group__group__hal__timer.html#ga0e7450df4a250d811d1ce60cb69285f8">cyhal_timer_enable_output</a>(&amp;timer, <a class="code" href="group__group__hal__timer.html#gga3b82fcbb7e540b55f1923f0cc4c77c30a46034ce48203bb1afe267c91a0f73e6e">CYHAL_TIMER_OUTPUT_OVERFLOW</a>, &amp;timer_source);</div><div class="line">    <a class="code" href="group__group__hal__dma.html#ga2933aee1aa2f446f6aedf86ffee28040">cyhal_dma_connect_digital</a>(&amp;dma, timer_source, <a class="code" href="group__group__hal__dma.html#gga5d4f22832c99a570fc99e9f3e64e46c0a97c5de1470fcdfd8c5c863ad8768bdd8">CYHAL_DMA_INPUT_TRIGGER_ALL_ELEMENTS</a>);</div><div class="line"></div><div class="line">    <span class="comment">// Once timer is started, a DMA transfer will be triggered every 2 seconds (when the timer</span></div><div class="line">    <span class="comment">// overflows) until the connection is disabled.</span></div><div class="line">    <a class="code" href="group__group__hal__timer.html#gaff09b3ffee75893da00d0a7dae2d9cb2">cyhal_timer_start</a>(&amp;timer);</div><div class="line"></div><div class="line">    <span class="comment">// Disable the connection</span></div><div class="line">    <a class="code" href="group__group__hal__timer.html#ga5f81dff94142cbb1e2fa28506bd00491">cyhal_timer_disable_output</a>(&amp;timer, <a class="code" href="group__group__hal__timer.html#gga3b82fcbb7e540b55f1923f0cc4c77c30a46034ce48203bb1afe267c91a0f73e6e">CYHAL_TIMER_OUTPUT_OVERFLOW</a>);</div><div class="line">    <a class="code" href="group__group__hal__dma.html#gaae942b5203638d1580b23e826bb04d53">cyhal_dma_disconnect_digital</a>(&amp;dma, timer_source, <a class="code" href="group__group__hal__dma.html#gga5d4f22832c99a570fc99e9f3e64e46c0a97c5de1470fcdfd8c5c863ad8768bdd8">CYHAL_DMA_INPUT_TRIGGER_ALL_ELEMENTS</a>);</div><div class="line"></div><div class="line">    <a class="code" href="group__group__hal__timer.html#ga94944664f47b8ff7c093719116b35cdc">cyhal_timer_free</a>(&amp;timer);</div><div class="line">    <a class="code" href="group__group__hal__dma.html#ga8c1bf16caa5d53cb129e5544da1c8b21">cyhal_dma_free</a>(&amp;dma);</div><div class="line"></div></div><!-- fragment --><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="groups"></a>
 API Reference</h2></td></tr>
 <tr class="memitem:group__group__hal__results__interconnect"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__results__interconnect.html">Interconnect HAL Results</a></td></tr>
 <tr class="memdesc:group__group__hal__results__interconnect"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interconnect specific return codes. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:gaffe612e67138b9f3185fafaf81f40a2d"><td class="memItemLeft" align="right" valign="top"><a id="gaffe612e67138b9f3185fafaf81f40a2d"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__interconnect.html#gaffe612e67138b9f3185fafaf81f40a2d">CYHAL_INTERCONNECT_MUX_NOT_CONTINUATION</a>&#160;&#160;&#160;0xFF</td></tr>
-<tr class="memdesc:gaffe612e67138b9f3185fafaf81f40a2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates that a mux output does not continue to another mux. <br /></td></tr>
-<tr class="separator:gaffe612e67138b9f3185fafaf81f40a2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:ga801c21c8f1d529c8d189990ce6825080"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__interconnect.html#ga801c21c8f1d529c8d189990ce6825080">cyhal_signal_type_t</a> { <br />
+&#160;&#160;<a class="el" href="group__group__hal__interconnect.html#gga801c21c8f1d529c8d189990ce6825080aa9353d53eb66a3c2e9ebdddf5d0a2592">CYHAL_SIGNAL_TYPE_LEVEL</a> = 0, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__interconnect.html#gga801c21c8f1d529c8d189990ce6825080a58d09b40c703bb1d09ac9d635c096cd9">CYHAL_SIGNAL_TYPE_EDGE</a> = 1
+<br />
+ }</td></tr>
+<tr class="memdesc:ga801c21c8f1d529c8d189990ce6825080"><td class="mdescLeft">&#160;</td><td class="mdescRight">Trigger type.  <a href="group__group__hal__interconnect.html#ga801c21c8f1d529c8d189990ce6825080">More...</a><br /></td></tr>
+<tr class="separator:ga801c21c8f1d529c8d189990ce6825080"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -135,9 +141,30 @@ Functions</h2></td></tr>
 <tr class="memitem:ga62898739384ebb41a8b3e2c4d491a0cc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__interconnect.html#ga62898739384ebb41a8b3e2c4d491a0cc">cyhal_disconnect_pin</a> (<a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a> pin)</td></tr>
 <tr class="memdesc:ga62898739384ebb41a8b3e2c4d491a0cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disconnect a peripheral from a pin.  <a href="#ga62898739384ebb41a8b3e2c4d491a0cc">More...</a><br /></td></tr>
 <tr class="separator:ga62898739384ebb41a8b3e2c4d491a0cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab686907d86a19472f1abb56788227f9a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__interconnect.html#gab686907d86a19472f1abb56788227f9a">cyhal_connect_trigger</a> (<a class="el" href="group__group__hal__impl__hw__types.html#gae6e4ea4100036d96d2efc006a3f69c9b">cyhal_source_t</a> source, <a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#gaa2df0778261ace69282e18e3ec39553c">cyhal_dest_t</a> dest)</td></tr>
-<tr class="separator:gab686907d86a19472f1abb56788227f9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="ga801c21c8f1d529c8d189990ce6825080"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga801c21c8f1d529c8d189990ce6825080">&#9670;&nbsp;</a></span>cyhal_signal_type_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__group__hal__interconnect.html#ga801c21c8f1d529c8d189990ce6825080">cyhal_signal_type_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Trigger type. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga801c21c8f1d529c8d189990ce6825080aa9353d53eb66a3c2e9ebdddf5d0a2592"></a>CYHAL_SIGNAL_TYPE_LEVEL&#160;</td><td class="fielddoc"><p>Level triggered. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga801c21c8f1d529c8d189990ce6825080a58d09b40c703bb1d09ac9d635c096cd9"></a>CYHAL_SIGNAL_TYPE_EDGE&#160;</td><td class="fielddoc"><p>Edge triggered. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="gaeb7156c33f00a7c21867a46e401d59ef"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gaeb7156c33f00a7c21867a46e401d59ef">&#9670;&nbsp;</a></span>cyhal_connect_pin()</h2>
@@ -191,44 +218,6 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The status of the disconnect request </dd></dl>
-
-</div>
-</div>
-<a id="gab686907d86a19472f1abb56788227f9a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gab686907d86a19472f1abb56788227f9a">&#9670;&nbsp;</a></span>cyhal_connect_trigger()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_connect_trigger </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#gae6e4ea4100036d96d2efc006a3f69c9b">cyhal_source_t</a>&#160;</td>
-          <td class="paramname"><em>source</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#gaa2df0778261ace69282e18e3ec39553c">cyhal_dest_t</a>&#160;</td>
-          <td class="paramname"><em>dest</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="section warning"><dt>Warning</dt><dd>WORK IN PROGRESS. This function is not yet fully implemented.<br />
-</dd></dl>
-<p>Connects two digital terminals on the device using any internal interconnect. A single source can drive multiple destinations, but a destination can be driven by only one source. If the destination is already connected, or the connection can not be established an error will be returned. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">source</td><td>The source of the signal to connect </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">dest</td><td>The destination of the signal to connect </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The status of the connect request </dd></dl>
 
 </div>
 </div>

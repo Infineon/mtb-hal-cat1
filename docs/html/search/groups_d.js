@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['sdhc_20_28sd_20host_20controller_29',['SDHC (SD Host Controller)',['../group__group__hal__impl__sdhc.html',1,'']]],
   ['system_20power_20management',['System Power Management',['../group__group__hal__impl__syspm.html',1,'']]],
   ['sdhc_20hal_20results',['SDHC HAL Results',['../group__group__hal__results__sdhc.html',1,'']]],
   ['sdio_20hal_20results',['SDIO HAL Results',['../group__group__hal__results__sdio.html',1,'']]],

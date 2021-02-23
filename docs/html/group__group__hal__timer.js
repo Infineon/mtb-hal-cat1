@@ -22,6 +22,19 @@ var group__group__hal__timer =
       [ "CYHAL_TIMER_IRQ_CAPTURE_COMPARE", "group__group__hal__timer.html#gga39a171d6680fe30685a6e27a333db8e9a90cf556247ca96952af696c0a4d53e15", null ],
       [ "CYHAL_TIMER_IRQ_ALL", "group__group__hal__timer.html#gga39a171d6680fe30685a6e27a333db8e9a3b6afa3bcff5af8b040f479eda3aaf35", null ]
     ] ],
+    [ "cyhal_timer_input_t", "group__group__hal__timer.html#gadb5da20c0e7111025f4091339dd36fc4", [
+      [ "CYHAL_TIMER_INPUT_START", "group__group__hal__timer.html#ggadb5da20c0e7111025f4091339dd36fc4a39572bdfb86d6dadc6d9d08480590ec3", null ],
+      [ "CYHAL_TIMER_INPUT_STOP", "group__group__hal__timer.html#ggadb5da20c0e7111025f4091339dd36fc4a7d545c6eded78a0ed888498ab4c5fe61", null ],
+      [ "CYHAL_TIMER_INPUT_RELOAD", "group__group__hal__timer.html#ggadb5da20c0e7111025f4091339dd36fc4ac402b6500fe2fcc1af7438b007cdf3fd", null ],
+      [ "CYHAL_TIMER_INPUT_COUNT", "group__group__hal__timer.html#ggadb5da20c0e7111025f4091339dd36fc4a6233db4685faff6dda6280f0cd52eccd", null ],
+      [ "CYHAL_TIMER_INPUT_CAPTURE", "group__group__hal__timer.html#ggadb5da20c0e7111025f4091339dd36fc4a5ff68c52fe77347327cf5bf47d070ced", null ]
+    ] ],
+    [ "cyhal_timer_output_t", "group__group__hal__timer.html#ga3b82fcbb7e540b55f1923f0cc4c77c30", [
+      [ "CYHAL_TIMER_OUTPUT_OVERFLOW", "group__group__hal__timer.html#gga3b82fcbb7e540b55f1923f0cc4c77c30a46034ce48203bb1afe267c91a0f73e6e", null ],
+      [ "CYHAL_TIMER_OUTPUT_UNDERFLOW", "group__group__hal__timer.html#gga3b82fcbb7e540b55f1923f0cc4c77c30ad83649c73f9d095d18155c034a228b45", null ],
+      [ "CYHAL_TIMER_OUTPUT_COMPARE_MATCH", "group__group__hal__timer.html#gga3b82fcbb7e540b55f1923f0cc4c77c30a50d874faf93ea7d2ad764b7f92d9c777", null ],
+      [ "CYHAL_TIMER_OUTPUT_TERMINAL_COUNT", "group__group__hal__timer.html#gga3b82fcbb7e540b55f1923f0cc4c77c30aa9b363110f2ed6190d1775dbe7f9c673", null ]
+    ] ],
     [ "cyhal_timer_init", "group__group__hal__timer.html#gaa8ca8e199bc9848f8729ff78953bb0fa", null ],
     [ "cyhal_timer_free", "group__group__hal__timer.html#ga94944664f47b8ff7c093719116b35cdc", null ],
     [ "cyhal_timer_configure", "group__group__hal__timer.html#ga03e9a7839ffd4e8cad90f97fab176813", null ],
@@ -31,5 +44,9 @@ var group__group__hal__timer =
     [ "cyhal_timer_reset", "group__group__hal__timer.html#ga86878ca8f781c3ed1a50fbee9e37987f", null ],
     [ "cyhal_timer_read", "group__group__hal__timer.html#ga0be5bf53c214ffcb3c4e962e71af1e6d", null ],
     [ "cyhal_timer_register_callback", "group__group__hal__timer.html#ga928ffe0a3a1549c94752db7c68306424", null ],
-    [ "cyhal_timer_enable_event", "group__group__hal__timer.html#ga4b97fe48330e9b8034ab7c2f56078002", null ]
+    [ "cyhal_timer_enable_event", "group__group__hal__timer.html#ga4b97fe48330e9b8034ab7c2f56078002", null ],
+    [ "cyhal_timer_connect_digital", "group__group__hal__timer.html#ga66869e4eb30aa72affa0ce7fda47da8c", null ],
+    [ "cyhal_timer_enable_output", "group__group__hal__timer.html#ga0e7450df4a250d811d1ce60cb69285f8", null ],
+    [ "cyhal_timer_disconnect_digital", "group__group__hal__timer.html#ga4ca94d6326a64dfe56ad6616ee1524a1", null ],
+    [ "cyhal_timer_disable_output", "group__group__hal__timer.html#ga5f81dff94142cbb1e2fa28506bd00491", null ]
 ];

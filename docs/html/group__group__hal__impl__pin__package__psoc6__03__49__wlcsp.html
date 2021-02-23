@@ -93,7 +93,7 @@ $(document).ready(function(){initNavTree('group__group__hal__impl__pin__package_
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
-<div class="title">PSoC6_03 49-WLCSP<div class="ingroups"><a class="el" href="group__group__hal__impl.html">PSoC 6 Implementation Specific</a> &raquo; <a class="el" href="group__group__hal__impl__pin__package.html">Pins</a></div></div>  </div>
+<div class="title">PSoC6_03 49-WLCSP<div class="ingroups"><a class="el" href="group__group__hal__impl.html">CAT1 (PSoC 6) Implementation Specific</a> &raquo; <a class="el" href="group__group__hal__impl__pin__package.html">Pins</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">General Description</h2>
@@ -143,6 +143,14 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#ga8d41ec91abdcddb2a9baef178a478585">CYHAL_PIN_MAP_PASS_SARMUX_PADS</a></td></tr>
 <tr class="memdesc:ga8d41ec91abdcddb2a9baef178a478585"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates that a pin map exists for pass_sarmux_pads. <br /></td></tr>
 <tr class="separator:ga8d41ec91abdcddb2a9baef178a478585"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga42331d8c4f9ef4ba5c201457389022a9"><td class="memItemLeft" align="right" valign="top"><a id="ga42331d8c4f9ef4ba5c201457389022a9"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#ga42331d8c4f9ef4ba5c201457389022a9">CYHAL_PIN_MAP_PERI_TR_IO_INPUT</a></td></tr>
+<tr class="memdesc:ga42331d8c4f9ef4ba5c201457389022a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates that a pin map exists for peri_tr_io_input. <br /></td></tr>
+<tr class="separator:ga42331d8c4f9ef4ba5c201457389022a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga533130ca58f08100fa2fed454b59d447"><td class="memItemLeft" align="right" valign="top"><a id="ga533130ca58f08100fa2fed454b59d447"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#ga533130ca58f08100fa2fed454b59d447">CYHAL_PIN_MAP_PERI_TR_IO_OUTPUT</a></td></tr>
+<tr class="memdesc:ga533130ca58f08100fa2fed454b59d447"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates that a pin map exists for peri_tr_io_output. <br /></td></tr>
+<tr class="separator:ga533130ca58f08100fa2fed454b59d447"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga0155b73c36dce3c1a28846d3d01c078e"><td class="memItemLeft" align="right" valign="top"><a id="ga0155b73c36dce3c1a28846d3d01c078e"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#ga0155b73c36dce3c1a28846d3d01c078e">CYHAL_PIN_MAP_SCB_I2C_SCL</a></td></tr>
 <tr class="memdesc:ga0155b73c36dce3c1a28846d3d01c078e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates that a pin map exists for scb_i2c_scl. <br /></td></tr>
@@ -315,6 +323,8 @@ Enumerations</h2></td></tr>
 <br />
 &#160;&#160;<a class="el" href="group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#ggab34299e57f3dd222f98b18549fab3ecaa8c239764fe5c947cad341b176d49eb73">P0_1</a> = CYHAL_GET_GPIO(CYHAL_PORT_0, 1), 
 <br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#ggab34299e57f3dd222f98b18549fab3ecaa8f9331cecf3c8f1bf81bc66386c8b4c1">P0_4</a> = CYHAL_GET_GPIO(CYHAL_PORT_0, 4), 
+<br />
 &#160;&#160;<a class="el" href="group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#ggab34299e57f3dd222f98b18549fab3ecaaeeaaeb6232b5bd27b3d18c1699737e31">P2_0</a> = CYHAL_GET_GPIO(CYHAL_PORT_2, 0), 
 <br />
 &#160;&#160;<a class="el" href="group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#ggab34299e57f3dd222f98b18549fab3ecaa33daef487e90b1d8ee897624249d060e">P2_1</a> = CYHAL_GET_GPIO(CYHAL_PORT_2, 1), 
@@ -409,15 +419,21 @@ Variables</h2></td></tr>
 <tr class="memitem:gad7f85813b4ade6853540c4b4fc07c11a"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#gad7f85813b4ade6853540c4b4fc07c11a">cyhal_pin_map_pass_sarmux_pads</a> [6]</td></tr>
 <tr class="memdesc:gad7f85813b4ade6853540c4b4fc07c11a"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of valid pin to peripheral connections for the pass_sarmux_pads signal.  <a href="#gad7f85813b4ade6853540c4b4fc07c11a">More...</a><br /></td></tr>
 <tr class="separator:gad7f85813b4ade6853540c4b4fc07c11a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaed526cdd7d7f22df1a01e5592a1b90bf"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#gaed526cdd7d7f22df1a01e5592a1b90bf">cyhal_pin_map_peri_tr_io_input</a> [15]</td></tr>
+<tr class="memdesc:gaed526cdd7d7f22df1a01e5592a1b90bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of valid pin to peripheral connections for the peri_tr_io_input signal.  <a href="#gaed526cdd7d7f22df1a01e5592a1b90bf">More...</a><br /></td></tr>
+<tr class="separator:gaed526cdd7d7f22df1a01e5592a1b90bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa1dbeef2f82f51aa3f7a969afd4e3847"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#gaa1dbeef2f82f51aa3f7a969afd4e3847">cyhal_pin_map_peri_tr_io_output</a> [5]</td></tr>
+<tr class="memdesc:gaa1dbeef2f82f51aa3f7a969afd4e3847"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of valid pin to peripheral connections for the peri_tr_io_output signal.  <a href="#gaa1dbeef2f82f51aa3f7a969afd4e3847">More...</a><br /></td></tr>
+<tr class="separator:gaa1dbeef2f82f51aa3f7a969afd4e3847"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga9b9c0a983abb18b58992331807bc780f"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#ga9b9c0a983abb18b58992331807bc780f">cyhal_pin_map_scb_i2c_scl</a> [6]</td></tr>
 <tr class="memdesc:ga9b9c0a983abb18b58992331807bc780f"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of valid pin to peripheral connections for the scb_i2c_scl signal.  <a href="#ga9b9c0a983abb18b58992331807bc780f">More...</a><br /></td></tr>
 <tr class="separator:ga9b9c0a983abb18b58992331807bc780f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4f2b0d51798f9a8f269723248ea66078"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#ga4f2b0d51798f9a8f269723248ea66078">cyhal_pin_map_scb_i2c_sda</a> [6]</td></tr>
 <tr class="memdesc:ga4f2b0d51798f9a8f269723248ea66078"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of valid pin to peripheral connections for the scb_i2c_sda signal.  <a href="#ga4f2b0d51798f9a8f269723248ea66078">More...</a><br /></td></tr>
 <tr class="separator:ga4f2b0d51798f9a8f269723248ea66078"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga9b49369b7924de5d225cf78e125fe6e1"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#ga9b49369b7924de5d225cf78e125fe6e1">cyhal_pin_map_scb_spi_m_clk</a> [7]</td></tr>
-<tr class="memdesc:ga9b49369b7924de5d225cf78e125fe6e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of valid pin to peripheral connections for the scb_spi_m_clk signal.  <a href="#ga9b49369b7924de5d225cf78e125fe6e1">More...</a><br /></td></tr>
-<tr class="separator:ga9b49369b7924de5d225cf78e125fe6e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1e65ff836100f2dd7bfdd50e3d169492"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#ga1e65ff836100f2dd7bfdd50e3d169492">cyhal_pin_map_scb_spi_m_clk</a> [8]</td></tr>
+<tr class="memdesc:ga1e65ff836100f2dd7bfdd50e3d169492"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of valid pin to peripheral connections for the scb_spi_m_clk signal.  <a href="#ga1e65ff836100f2dd7bfdd50e3d169492">More...</a><br /></td></tr>
+<tr class="separator:ga1e65ff836100f2dd7bfdd50e3d169492"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gacb3c8a576d0045bed5af0e894204ede1"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#gacb3c8a576d0045bed5af0e894204ede1">cyhal_pin_map_scb_spi_m_miso</a> [6]</td></tr>
 <tr class="memdesc:gacb3c8a576d0045bed5af0e894204ede1"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of valid pin to peripheral connections for the scb_spi_m_miso signal.  <a href="#gacb3c8a576d0045bed5af0e894204ede1">More...</a><br /></td></tr>
 <tr class="separator:gacb3c8a576d0045bed5af0e894204ede1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -436,9 +452,9 @@ Variables</h2></td></tr>
 <tr class="memitem:ga6933389eea119bdb3eba5e60dde65d5e"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#ga6933389eea119bdb3eba5e60dde65d5e">cyhal_pin_map_scb_spi_m_select3</a> [1]</td></tr>
 <tr class="memdesc:ga6933389eea119bdb3eba5e60dde65d5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of valid pin to peripheral connections for the scb_spi_m_select3 signal.  <a href="#ga6933389eea119bdb3eba5e60dde65d5e">More...</a><br /></td></tr>
 <tr class="separator:ga6933389eea119bdb3eba5e60dde65d5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaccfbb1eee046d034c118cd420e7d49a1"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#gaccfbb1eee046d034c118cd420e7d49a1">cyhal_pin_map_scb_spi_s_clk</a> [7]</td></tr>
-<tr class="memdesc:gaccfbb1eee046d034c118cd420e7d49a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of valid pin to peripheral connections for the scb_spi_s_clk signal.  <a href="#gaccfbb1eee046d034c118cd420e7d49a1">More...</a><br /></td></tr>
-<tr class="separator:gaccfbb1eee046d034c118cd420e7d49a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae992a512d6f3c995fe4aaee830846d46"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#gae992a512d6f3c995fe4aaee830846d46">cyhal_pin_map_scb_spi_s_clk</a> [8]</td></tr>
+<tr class="memdesc:gae992a512d6f3c995fe4aaee830846d46"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of valid pin to peripheral connections for the scb_spi_s_clk signal.  <a href="#gae992a512d6f3c995fe4aaee830846d46">More...</a><br /></td></tr>
+<tr class="separator:gae992a512d6f3c995fe4aaee830846d46"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga271ffa5165e73de7c419aa41541a3722"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#ga271ffa5165e73de7c419aa41541a3722">cyhal_pin_map_scb_spi_s_miso</a> [6]</td></tr>
 <tr class="memdesc:ga271ffa5165e73de7c419aa41541a3722"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of valid pin to peripheral connections for the scb_spi_s_miso signal.  <a href="#ga271ffa5165e73de7c419aa41541a3722">More...</a><br /></td></tr>
 <tr class="separator:ga271ffa5165e73de7c419aa41541a3722"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -460,9 +476,9 @@ Variables</h2></td></tr>
 <tr class="memitem:gad7dd0d3b213b68c419c783e9c015e11f"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#gad7dd0d3b213b68c419c783e9c015e11f">cyhal_pin_map_scb_uart_cts</a> [6]</td></tr>
 <tr class="memdesc:gad7dd0d3b213b68c419c783e9c015e11f"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of valid pin to peripheral connections for the scb_uart_cts signal.  <a href="#gad7dd0d3b213b68c419c783e9c015e11f">More...</a><br /></td></tr>
 <tr class="separator:gad7dd0d3b213b68c419c783e9c015e11f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaac3bd9031d2cb575dc6e4bed1f0a32f0"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#gaac3bd9031d2cb575dc6e4bed1f0a32f0">cyhal_pin_map_scb_uart_rts</a> [6]</td></tr>
-<tr class="memdesc:gaac3bd9031d2cb575dc6e4bed1f0a32f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of valid pin to peripheral connections for the scb_uart_rts signal.  <a href="#gaac3bd9031d2cb575dc6e4bed1f0a32f0">More...</a><br /></td></tr>
-<tr class="separator:gaac3bd9031d2cb575dc6e4bed1f0a32f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6dce25d5567455e9cb45fcbeabebf959"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#ga6dce25d5567455e9cb45fcbeabebf959">cyhal_pin_map_scb_uart_rts</a> [7]</td></tr>
+<tr class="memdesc:ga6dce25d5567455e9cb45fcbeabebf959"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of valid pin to peripheral connections for the scb_uart_rts signal.  <a href="#ga6dce25d5567455e9cb45fcbeabebf959">More...</a><br /></td></tr>
+<tr class="separator:ga6dce25d5567455e9cb45fcbeabebf959"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaf1e7858e10ab250b67a8f1433d63d2ed"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#gaf1e7858e10ab250b67a8f1433d63d2ed">cyhal_pin_map_scb_uart_rx</a> [5]</td></tr>
 <tr class="memdesc:gaf1e7858e10ab250b67a8f1433d63d2ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of valid pin to peripheral connections for the scb_uart_rx signal.  <a href="#gaf1e7858e10ab250b67a8f1433d63d2ed">More...</a><br /></td></tr>
 <tr class="separator:gaf1e7858e10ab250b67a8f1433d63d2ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -514,9 +530,9 @@ Variables</h2></td></tr>
 <tr class="memitem:gad29c4248430c8f6e8d78ad8f644b1e5c"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#gad29c4248430c8f6e8d78ad8f644b1e5c">cyhal_pin_map_smif_spi_select2</a> [1]</td></tr>
 <tr class="memdesc:gad29c4248430c8f6e8d78ad8f644b1e5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of valid pin to peripheral connections for the smif_spi_select2 signal.  <a href="#gad29c4248430c8f6e8d78ad8f644b1e5c">More...</a><br /></td></tr>
 <tr class="separator:gad29c4248430c8f6e8d78ad8f644b1e5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gabb4834c1474f41e3e8029189fdbb8308"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#gabb4834c1474f41e3e8029189fdbb8308">cyhal_pin_map_tcpwm_line</a> [38]</td></tr>
-<tr class="memdesc:gabb4834c1474f41e3e8029189fdbb8308"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of valid pin to peripheral connections for the tcpwm_line signal.  <a href="#gabb4834c1474f41e3e8029189fdbb8308">More...</a><br /></td></tr>
-<tr class="separator:gabb4834c1474f41e3e8029189fdbb8308"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5160f69106fbb9d6661618e1f8dcb96a"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#ga5160f69106fbb9d6661618e1f8dcb96a">cyhal_pin_map_tcpwm_line</a> [40]</td></tr>
+<tr class="memdesc:ga5160f69106fbb9d6661618e1f8dcb96a"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of valid pin to peripheral connections for the tcpwm_line signal.  <a href="#ga5160f69106fbb9d6661618e1f8dcb96a">More...</a><br /></td></tr>
+<tr class="separator:ga5160f69106fbb9d6661618e1f8dcb96a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gafcf780a8c050a1c5247a90c66e3d4218"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#gafcf780a8c050a1c5247a90c66e3d4218">cyhal_pin_map_tcpwm_line_compl</a> [36]</td></tr>
 <tr class="memdesc:gafcf780a8c050a1c5247a90c66e3d4218"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of valid pin to peripheral connections for the tcpwm_line_compl signal.  <a href="#gafcf780a8c050a1c5247a90c66e3d4218">More...</a><br /></td></tr>
 <tr class="separator:gafcf780a8c050a1c5247a90c66e3d4218"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -606,6 +622,8 @@ The HSIOM configuration value. </td></tr>
 <tr><td class="fieldname"><a id="ggab34299e57f3dd222f98b18549fab3ecaa23d505c049c81443b12e53d5b00b1be9"></a>P0_0&#160;</td><td class="fielddoc"><p>Port 0 Pin 0. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ggab34299e57f3dd222f98b18549fab3ecaa8c239764fe5c947cad341b176d49eb73"></a>P0_1&#160;</td><td class="fielddoc"><p>Port 0 Pin 1. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggab34299e57f3dd222f98b18549fab3ecaa8f9331cecf3c8f1bf81bc66386c8b4c1"></a>P0_4&#160;</td><td class="fielddoc"><p>Port 0 Pin 4. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ggab34299e57f3dd222f98b18549fab3ecaaeeaaeb6232b5bd27b3d18c1699737e31"></a>P2_0&#160;</td><td class="fielddoc"><p>Port 2 Pin 0. </p>
 </td></tr>
@@ -778,6 +796,38 @@ The HSIOM configuration value. </td></tr>
 
 </div>
 </div>
+<a id="gaed526cdd7d7f22df1a01e5592a1b90bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaed526cdd7d7f22df1a01e5592a1b90bf">&#9670;&nbsp;</a></span>cyhal_pin_map_peri_tr_io_input</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a> cyhal_pin_map_peri_tr_io_input[15]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>List of valid pin to peripheral connections for the peri_tr_io_input signal. </p>
+
+</div>
+</div>
+<a id="gaa1dbeef2f82f51aa3f7a969afd4e3847"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa1dbeef2f82f51aa3f7a969afd4e3847">&#9670;&nbsp;</a></span>cyhal_pin_map_peri_tr_io_output</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a> cyhal_pin_map_peri_tr_io_output[5]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>List of valid pin to peripheral connections for the peri_tr_io_output signal. </p>
+
+</div>
+</div>
 <a id="ga9b9c0a983abb18b58992331807bc780f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga9b9c0a983abb18b58992331807bc780f">&#9670;&nbsp;</a></span>cyhal_pin_map_scb_i2c_scl</h2>
 
@@ -810,14 +860,14 @@ The HSIOM configuration value. </td></tr>
 
 </div>
 </div>
-<a id="ga9b49369b7924de5d225cf78e125fe6e1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga9b49369b7924de5d225cf78e125fe6e1">&#9670;&nbsp;</a></span>cyhal_pin_map_scb_spi_m_clk</h2>
+<a id="ga1e65ff836100f2dd7bfdd50e3d169492"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1e65ff836100f2dd7bfdd50e3d169492">&#9670;&nbsp;</a></span>cyhal_pin_map_scb_spi_m_clk</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a> cyhal_pin_map_scb_spi_m_clk[7]</td>
+          <td class="memname">const <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a> cyhal_pin_map_scb_spi_m_clk[8]</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -922,14 +972,14 @@ The HSIOM configuration value. </td></tr>
 
 </div>
 </div>
-<a id="gaccfbb1eee046d034c118cd420e7d49a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaccfbb1eee046d034c118cd420e7d49a1">&#9670;&nbsp;</a></span>cyhal_pin_map_scb_spi_s_clk</h2>
+<a id="gae992a512d6f3c995fe4aaee830846d46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae992a512d6f3c995fe4aaee830846d46">&#9670;&nbsp;</a></span>cyhal_pin_map_scb_spi_s_clk</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a> cyhal_pin_map_scb_spi_s_clk[7]</td>
+          <td class="memname">const <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a> cyhal_pin_map_scb_spi_s_clk[8]</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1050,14 +1100,14 @@ The HSIOM configuration value. </td></tr>
 
 </div>
 </div>
-<a id="gaac3bd9031d2cb575dc6e4bed1f0a32f0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaac3bd9031d2cb575dc6e4bed1f0a32f0">&#9670;&nbsp;</a></span>cyhal_pin_map_scb_uart_rts</h2>
+<a id="ga6dce25d5567455e9cb45fcbeabebf959"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6dce25d5567455e9cb45fcbeabebf959">&#9670;&nbsp;</a></span>cyhal_pin_map_scb_uart_rts</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a> cyhal_pin_map_scb_uart_rts[6]</td>
+          <td class="memname">const <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a> cyhal_pin_map_scb_uart_rts[7]</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1338,14 +1388,14 @@ The HSIOM configuration value. </td></tr>
 
 </div>
 </div>
-<a id="gabb4834c1474f41e3e8029189fdbb8308"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gabb4834c1474f41e3e8029189fdbb8308">&#9670;&nbsp;</a></span>cyhal_pin_map_tcpwm_line</h2>
+<a id="ga5160f69106fbb9d6661618e1f8dcb96a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5160f69106fbb9d6661618e1f8dcb96a">&#9670;&nbsp;</a></span>cyhal_pin_map_tcpwm_line</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a> cyhal_pin_map_tcpwm_line[38]</td>
+          <td class="memname">const <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#structcyhal__resource__pin__mapping__t">cyhal_resource_pin_mapping_t</a> cyhal_pin_map_tcpwm_line[40]</td>
         </tr>
       </table>
 </div><div class="memdoc">
