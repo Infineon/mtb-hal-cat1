@@ -27,6 +27,7 @@ This release of the CAT1 HAL includes support for the following drivers:
 * SDIO
 * SPI
 * System
+* TDM
 * Timer
 * True Random Number Generator (TRNG)
 * UART
@@ -34,6 +35,12 @@ This release of the CAT1 HAL includes support for the following drivers:
 * WDT
 
 ### What Changed?
+#### v1.6.0
+* Added new TDM driver
+* Added support for 1.8v devices to SDHC/SDIO drivers
+* Extended System driver to support registering for other interrupts
+* Fixed issues with level trigger signals to the DMA driver
+* Fixed a few bugs in various drivers
 #### v1.5.0
 * Added new Quadrature Decoder (QuadDec) driver
 * Added digital hardware connection APIs to drivers
@@ -91,8 +98,8 @@ This version of the CAT1 Hardware Abstraction Layer was validated for compatibil
 
 | Software and Tools                        | Version |
 | :---                                      | :----:  |
-| ModusToolbox Software Environment         | 2.1     |
-| GCC Compiler                              | 9.2     |
+| ModusToolbox Software Environment         | 2.2.1   |
+| GCC Compiler                              | 9.3.1   |
 | IAR Compiler                              | 8.4     |
 | ARM Compiler                              | 6.11    |
 

@@ -50,19 +50,19 @@
 * \section subsection_gpio_sample_snippets Code Snippets
 *
 * \subsection subsection_gpio_snippet_1 Snippet 1: Reading value from GPIO
-* The following snippet initializes GPIO pin \ref P0_0 as an input with high impedance digital drive mode and initial value = <b>false</b> (low). A value is read
+* The following snippet initializes GPIO pin as an input with high impedance digital drive mode and initial value = <b>false</b> (low). A value is read
 * from the pin and stored to a uint8_t variable (<b>read_val</b>).
 
 * \snippet hal_gpio.c snippet_cyhal_gpio_read
 
 * \subsection subsection_gpio_snippet_2 Snippet 2: Writing value to a GPIO
-* The following snippet initializes GPIO pin \ref P0_0 as an output pin with strong drive mode and initial value = <b>false</b> (low).
+* The following snippet initializes GPIO pin as an output pin with strong drive mode and initial value = <b>false</b> (low).
 * A value = <b>true</b> (high) is written to the output driver.
 
 * \snippet hal_gpio.c snippet_cyhal_gpio_write
 
 * \subsection subsection_gpio_snippet_3 Snippet 3: Reconfiguring a GPIO
-* The following snippet shows how to reconfigure a GPIO pin during run-time using the firmware. The GPIO pin \ref P0_0
+* The following snippet shows how to reconfigure a GPIO pin during run-time using the firmware. The GPIO pin
 * is first initialized as an output pin with strong drive mode. The pin is then reconfigured as an input with high impedance digital drive mode.
 * \note \ref cyhal_gpio_configure only changes the <b>direction</b> and the <b>drive_mode</b>
 * of the pin. Previously set pin value is retained.
@@ -72,7 +72,7 @@
 * \subsection subsection_gpio_snippet_4 Snippet 4: Interrupts on GPIO events
 * GPIO events can be mapped to an interrupt and assigned to a callback function. The callback function needs to be first registered and
 * then the event needs to be enabled.
-** The following snippet initializes GPIO pin \ref P0_0 as an input pin. It registers a callback function and enables detection
+** The following snippet initializes GPIO pin as an input pin. It registers a callback function and enables detection
 * of a falling edge event to trigger the callback.
 * \note If no argument needs to be passed to the callback function then a NULL can be passed during registering. <br>
 *
@@ -85,7 +85,6 @@
 #include <stdbool.h>
 #include "cy_result.h"
 #include "cyhal_hw_types.h"
-#include "cyhal_interconnect.h"
 
 #if defined(__cplusplus)
 extern "C" {
@@ -103,6 +102,9 @@ extern "C" {
 /** The specified pin has no supported output signal */
 #define CYHAL_GPIO_RSLT_ERR_NO_OUTPUT_SIGNAL \
     (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_GPIO, 1))
+/** The parameter is invalid */
+#define CYHAL_GPIO_RSLT_ERR_BAD_PARAM \
+    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_GPIO, 2))
 
 /**
  * \}

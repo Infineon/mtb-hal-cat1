@@ -19,5 +19,9 @@ var group__group__hal__general__types =
       [ "CYHAL_POWER_LEVEL_MEDIUM", "group__group__hal__general__types.html#gga246fde0e79029f514ce3846b31e366d7ae189a666d589f8acf4c64142365def61", null ],
       [ "CYHAL_POWER_LEVEL_HIGH", "group__group__hal__general__types.html#gga246fde0e79029f514ce3846b31e366d7a4d8ce140c28177e31de20cf8da8e2a99", null ],
       [ "CYHAL_POWER_LEVEL_DEFAULT", "group__group__hal__general__types.html#gga246fde0e79029f514ce3846b31e366d7a6f0f4df45e9cac012a2c8e5ba736241b", null ]
+    ] ],
+    [ "cyhal_signal_type_t", "group__group__hal__general__types.html#ga801c21c8f1d529c8d189990ce6825080", [
+      [ "CYHAL_SIGNAL_TYPE_LEVEL", "group__group__hal__general__types.html#gga801c21c8f1d529c8d189990ce6825080aa9353d53eb66a3c2e9ebdddf5d0a2592", null ],
+      [ "CYHAL_SIGNAL_TYPE_EDGE", "group__group__hal__general__types.html#gga801c21c8f1d529c8d189990ce6825080a58d09b40c703bb1d09ac9d635c096cd9", null ]
     ] ]
 ];

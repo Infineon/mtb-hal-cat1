@@ -2,9 +2,9 @@
 
 ## Overview
 
-The Hardware Abstraction Layer (HAL) provides a high-level interface to configure and use hardware blocks on PSoC MCUs. It is a generic interface that can be used across multiple product families. The focus on ease-of-use and portability means the HAL does not expose all of the low-level peripheral functionality. The HAL can be combined with platform-specific libraries (such as the PSoC 4/6 Peripheral Driver Library (PDL)) within a single application. You can leverage the HAL's simpler and more generic interface for most of an application, even if one portion requires finer-grained control.
+The Hardware Abstraction Layer (HAL) provides a high-level interface to configure and use hardware blocks on ModusToolbox MCUs. It is a generic interface that can be used across multiple product families. The focus on ease-of-use and portability means the HAL does not expose all of the low-level peripheral functionality. The HAL can be combined with platform-specific libraries (such as the PSoC 4/6 Peripheral Driver Library (PDL)) within a single application. You can leverage the HAL's simpler and more generic interface for most of an application, even if one portion requires finer-grained control.
 
-To use code from the HAL, the specific driver header file can be included or the top level `cyhal.h` header can be include to allow access to any driver.
+To use code from the HAL, the specific driver header file can be included or the top level `cyhal.h` header can be include to allow access to any driver. Additionally, a few system wide drivers should be initialized at device startup. This includes `cyhal_hwmgr_init()` and `cyhal_syspm_init`.
 
 ## API Structure
 The API functions for each HAL driver can be divided into the following categories:

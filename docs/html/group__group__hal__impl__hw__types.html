@@ -89,6 +89,7 @@ $(document).ready(function(){initNavTree('group__group__hal__impl__hw__types.htm
   <div class="summary">
 <a href="#nested-classes">Data Structures</a> &#124;
 <a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a>  </div>
   <div class="headertitle">
 <div class="title">CAT1 Specific Hardware Types<div class="ingroups"><a class="el" href="group__group__hal__impl.html">CAT1 (PSoC 6) Implementation Specific</a></div></div>  </div>
@@ -120,6 +121,12 @@ Data Structures</h2></td></tr>
 <tr class="separator:unioncyhal__dma__t_8descriptor__config"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:unioncyhal__dma__t_8descriptor"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__hw__types.html#unioncyhal__dma__t_8descriptor">cyhal_dma_t.descriptor</a></td></tr>
 <tr class="separator:unioncyhal__dma__t_8descriptor"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__cyhal__audioss__interface__t.html">_cyhal_audioss_interface_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interface to abstract away the driver-specific differences between TDM and I2S.  <a href="struct__cyhal__audioss__interface__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:struct__cyhal__audioss__t"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__hw__types.html#struct__cyhal__audioss__t">_cyhal_audioss_t</a></td></tr>
+<tr class="memdesc:struct__cyhal__audioss__t"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shared data between i2s and tdm.  <a href="group__group__hal__impl__hw__types.html#struct__cyhal__audioss__t">More...</a><br /></td></tr>
+<tr class="separator:struct__cyhal__audioss__t"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:structcyhal__adc__t"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__adc__t">cyhal_adc_t</a></td></tr>
 <tr class="memdesc:structcyhal__adc__t"><td class="mdescLeft">&#160;</td><td class="mdescRight">ADC object.  <a href="group__group__hal__impl__hw__types.html#structcyhal__adc__t">More...</a><br /></td></tr>
 <tr class="separator:structcyhal__adc__t"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -149,9 +156,9 @@ Data Structures</h2></td></tr>
 <tr class="memitem:structcyhal__ezi2c__t"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__ezi2c__t">cyhal_ezi2c_t</a></td></tr>
 <tr class="memdesc:structcyhal__ezi2c__t"><td class="mdescLeft">&#160;</td><td class="mdescRight">EZI2C object.  <a href="group__group__hal__impl__hw__types.html#structcyhal__ezi2c__t">More...</a><br /></td></tr>
 <tr class="separator:structcyhal__ezi2c__t"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:structcyhal__i2s__t"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__i2s__t">cyhal_i2s_t</a></td></tr>
-<tr class="memdesc:structcyhal__i2s__t"><td class="mdescLeft">&#160;</td><td class="mdescRight">I2S object.  <a href="group__group__hal__impl__hw__types.html#structcyhal__i2s__t">More...</a><br /></td></tr>
-<tr class="separator:structcyhal__i2s__t"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:structcyhal__keyscan__t"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__keyscan__t">cyhal_keyscan_t</a></td></tr>
+<tr class="memdesc:structcyhal__keyscan__t"><td class="mdescLeft">&#160;</td><td class="mdescRight">KeyScan object.  <a href="group__group__hal__impl__hw__types.html#structcyhal__keyscan__t">More...</a><br /></td></tr>
+<tr class="separator:structcyhal__keyscan__t"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:structcyhal__lptimer__t"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__lptimer__t">cyhal_lptimer_t</a></td></tr>
 <tr class="memdesc:structcyhal__lptimer__t"><td class="mdescLeft">&#160;</td><td class="mdescRight">LPTIMER object.  <a href="group__group__hal__impl__hw__types.html#structcyhal__lptimer__t">More...</a><br /></td></tr>
 <tr class="separator:structcyhal__lptimer__t"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -198,17 +205,28 @@ Data Structures</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:gad822a466fc63847114add720ef84c83a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__hw__types.html#gad822a466fc63847114add720ef84c83a">CYHAL_ISR_PRIORITY_DEFAULT</a>&#160;&#160;&#160;(7)</td></tr>
-<tr class="memdesc:gad822a466fc63847114add720ef84c83a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Priority that is applied by default to all drivers when initalized.  <a href="#gad822a466fc63847114add720ef84c83a">More...</a><br /></td></tr>
+<tr class="memdesc:gad822a466fc63847114add720ef84c83a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Priority that is applied by default to all drivers when initialized.  <a href="#gad822a466fc63847114add720ef84c83a">More...</a><br /></td></tr>
 <tr class="separator:gad822a466fc63847114add720ef84c83a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gacd10538852e7575732463b1f552b73d4"><td class="memItemLeft" align="right" valign="top"><a id="gacd10538852e7575732463b1f552b73d4"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__hw__types.html#gacd10538852e7575732463b1f552b73d4">cyhal_system_callback_t</a>&#160;&#160;&#160;<a class="el" href="group__group__hal__types__implementation.html#gabb967889ff74acdaad515b63d1761752">cy_stc_syspm_callback_t</a></td></tr>
 <tr class="memdesc:gacd10538852e7575732463b1f552b73d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callbacks for Sleep and Deepsleep APIs. <br /></td></tr>
 <tr class="separator:gacd10538852e7575732463b1f552b73d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:ga5c90028db813f9efe2a9e95b16caded4"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="group__group__hal__impl__hw__types.html#struct__cyhal__audioss__t">_cyhal_audioss_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__hw__types.html#ga5c90028db813f9efe2a9e95b16caded4">cyhal_i2s_t</a></td></tr>
+<tr class="memdesc:ga5c90028db813f9efe2a9e95b16caded4"><td class="mdescLeft">&#160;</td><td class="mdescRight">I2S object.  <a href="#ga5c90028db813f9efe2a9e95b16caded4">More...</a><br /></td></tr>
+<tr class="separator:ga5c90028db813f9efe2a9e95b16caded4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0feb1843e60080c101c7a35fe884fe73"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="group__group__hal__impl__hw__types.html#struct__cyhal__audioss__t">_cyhal_audioss_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__hw__types.html#ga0feb1843e60080c101c7a35fe884fe73">cyhal_tdm_t</a></td></tr>
+<tr class="memdesc:ga0feb1843e60080c101c7a35fe884fe73"><td class="mdescLeft">&#160;</td><td class="mdescRight">TDM object.  <a href="#ga0feb1843e60080c101c7a35fe884fe73">More...</a><br /></td></tr>
+<tr class="separator:ga0feb1843e60080c101c7a35fe884fe73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:ga63b023ea7b5e73db59ddc0423c77975b"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__hw__types.html#ga63b023ea7b5e73db59ddc0423c77975b">cyhal_resource_t</a> { <br />
 &#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga63b023ea7b5e73db59ddc0423c77975ba612bee18e656ba78a4ca633f8913249d">CYHAL_RSC_ADC</a>, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga63b023ea7b5e73db59ddc0423c77975ba0a16c7812ccaba345ba94d92fbc3e26e">CYHAL_RSC_ADCMIC</a>, 
 <br />
 &#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga63b023ea7b5e73db59ddc0423c77975bac10abc82f19b0a06a14a98e30a75b74d">CYHAL_RSC_BLESS</a>, 
 <br />
@@ -226,11 +244,19 @@ Enumerations</h2></td></tr>
 <br />
 &#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga63b023ea7b5e73db59ddc0423c77975ba1f6f00a8d9b758e0ea4a1ad8da3f5dd0">CYHAL_RSC_DW</a>, 
 <br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga63b023ea7b5e73db59ddc0423c77975ba8c2913af9005b4c7df4bf78466e5768d">CYHAL_RSC_ETH</a>, 
+<br />
 &#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga63b023ea7b5e73db59ddc0423c77975ba5f4259788e0fc887772496df602d7549">CYHAL_RSC_GPIO</a>, 
 <br />
 &#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga63b023ea7b5e73db59ddc0423c77975ba6b93380724a9f1c695cf1f7a2e993a90">CYHAL_RSC_I2S</a>, 
 <br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga63b023ea7b5e73db59ddc0423c77975ba2a7f33149ef80053123f7241d82f54ae">CYHAL_RSC_I3C</a>, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga63b023ea7b5e73db59ddc0423c77975ba80269a16f097ec14da8581cffee6fc6c">CYHAL_RSC_KEYSCAN</a>, 
+<br />
 &#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga63b023ea7b5e73db59ddc0423c77975ba66e93a0a9834e5b16a3156d87ad993e4">CYHAL_RSC_LCD</a>, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga63b023ea7b5e73db59ddc0423c77975ba2f8d1b23b0adbf9da955873088a109b3">CYHAL_RSC_LIN</a>, 
 <br />
 &#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga63b023ea7b5e73db59ddc0423c77975ba66b3400d94288b89d49def6194537bbe">CYHAL_RSC_LPCOMP</a>, 
 <br />
@@ -248,7 +274,11 @@ Enumerations</h2></td></tr>
 <br />
 &#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga63b023ea7b5e73db59ddc0423c77975baf35ab7112b4bcd054bdb0874a441155a">CYHAL_RSC_SDHC</a>, 
 <br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga63b023ea7b5e73db59ddc0423c77975bacf1bf2d42c5a1e89c1e4acca4988c752">CYHAL_RSC_SDIODEV</a>, 
+<br />
 &#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga63b023ea7b5e73db59ddc0423c77975baa445456a2983f23d4be55613f2d09eb6">CYHAL_RSC_TCPWM</a>, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga63b023ea7b5e73db59ddc0423c77975ba4f5bf99fff8a2e7d669855fd7a86a4ed">CYHAL_RSC_TDM</a>, 
 <br />
 &#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga63b023ea7b5e73db59ddc0423c77975ba446a3390d41bd50e12d0b8f0c1715a53">CYHAL_RSC_UDB</a>, 
 <br />
@@ -259,62 +289,133 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:ga63b023ea7b5e73db59ddc0423c77975b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resource types that the hardware manager supports.  <a href="group__group__hal__impl__hw__types.html#ga63b023ea7b5e73db59ddc0423c77975b">More...</a><br /></td></tr>
 <tr class="separator:ga63b023ea7b5e73db59ddc0423c77975b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga1968e793be1599de10dec9e2d48f66d6"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__hw__types.html#ga1968e793be1599de10dec9e2d48f66d6">cyhal_clock_block_t</a> { <br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga1968e793be1599de10dec9e2d48f66d6aa2ad8d65e54305da7b44a31098766bd0">CYHAL_CLOCK_BLOCK_PERIPHERAL_8BIT</a> = CY_SYSCLK_DIV_8_BIT, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga1968e793be1599de10dec9e2d48f66d6ad7a5eb2a34cbaf931bf1aaab6f844689">CYHAL_CLOCK_BLOCK_PERIPHERAL_16BIT</a> = CY_SYSCLK_DIV_16_BIT, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga1968e793be1599de10dec9e2d48f66d6a60962f330adb0e70b04db75c73f13b29">CYHAL_CLOCK_BLOCK_PERIPHERAL_16_5BIT</a> = CY_SYSCLK_DIV_16_5_BIT, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga1968e793be1599de10dec9e2d48f66d6ac1db33a815241ce8130e4d10c04ecd6f">CYHAL_CLOCK_BLOCK_PERIPHERAL_24_5BIT</a> = CY_SYSCLK_DIV_24_5_BIT, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga1968e793be1599de10dec9e2d48f66d6acebb813360b499d38240f371cb561d25">CYHAL_CLOCK_BLOCK_IMO</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga1968e793be1599de10dec9e2d48f66d6a569f417eb328cc49ce9273c67a2c156c">CYHAL_CLOCK_BLOCK_ECO</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga1968e793be1599de10dec9e2d48f66d6ade160370a906f1fc83b35b16a6304ba1">CYHAL_CLOCK_BLOCK_EXT</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga1968e793be1599de10dec9e2d48f66d6a74961f9f75b8f9db755f985bd232f214">CYHAL_CLOCK_BLOCK_ALTHF</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga1968e793be1599de10dec9e2d48f66d6a980d225119a02ae8e8cd097377b2efb9">CYHAL_CLOCK_BLOCK_ALTLF</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga1968e793be1599de10dec9e2d48f66d6ad0a58702a8cbdca688e6e511ca1f07d8">CYHAL_CLOCK_BLOCK_ILO</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga1968e793be1599de10dec9e2d48f66d6a0d35ecdf452b2e4230ad24fa260d85b1">CYHAL_CLOCK_BLOCK_PILO</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga1968e793be1599de10dec9e2d48f66d6af1e5156df9893f46f841c501a44e15a9">CYHAL_CLOCK_BLOCK_WCO</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga1968e793be1599de10dec9e2d48f66d6a45e87fa3881a5f5f04152d86554ef472">CYHAL_CLOCK_BLOCK_MFO</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga1968e793be1599de10dec9e2d48f66d6a63443ebb72d1f623ec03192bd61ae6a3">CYHAL_CLOCK_BLOCK_PATHMUX</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga1968e793be1599de10dec9e2d48f66d6a3400dbd378560315601e80fafb271309">CYHAL_CLOCK_BLOCK_FLL</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga1968e793be1599de10dec9e2d48f66d6a72bcc11752a8d6a317f3f0d007b243b5">CYHAL_CLOCK_BLOCK_PLL</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga1968e793be1599de10dec9e2d48f66d6a2e58d5538b15cb4e62710429dc12cf3b">CYHAL_CLOCK_BLOCK_LF</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga1968e793be1599de10dec9e2d48f66d6ad12d89f860467b420f97751dd04177de">CYHAL_CLOCK_BLOCK_MF</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga1968e793be1599de10dec9e2d48f66d6a1507c454c996026a54ff09cf67be74f5">CYHAL_CLOCK_BLOCK_HF</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga1968e793be1599de10dec9e2d48f66d6a3e574cdce2f00e7445b8c8a722e11382">CYHAL_CLOCK_BLOCK_PUMP</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga1968e793be1599de10dec9e2d48f66d6a3f1e682cc21f1111141edca3b980a766">CYHAL_CLOCK_BLOCK_BAK</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga1968e793be1599de10dec9e2d48f66d6af95128613464988bea875bcc3dde0f2a">CYHAL_CLOCK_BLOCK_TIMER</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga1968e793be1599de10dec9e2d48f66d6a461e7c674bf0783647f330e6e4ddec77">CYHAL_CLOCK_BLOCK_ALT_SYS_TICK</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga1968e793be1599de10dec9e2d48f66d6aa108a2f435cd0685525c0f6c0eb40efd">CYHAL_CLOCK_BLOCK_FAST</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga1968e793be1599de10dec9e2d48f66d6a758c14746dfb2b0c29e2cbb34debea58">CYHAL_CLOCK_BLOCK_PERI</a>, 
-<br />
-&#160;&#160;<a class="el" href="group__group__hal__impl__hw__types.html#gga1968e793be1599de10dec9e2d48f66d6ac5aab6717e8f989277c9a25720907bfb">CYHAL_CLOCK_BLOCK_SLOW</a>
-<br />
- }</td></tr>
+<tr class="memitem:ga1968e793be1599de10dec9e2d48f66d6"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__hw__types.html#ga1968e793be1599de10dec9e2d48f66d6">cyhal_clock_block_t</a> </td></tr>
 <tr class="memdesc:ga1968e793be1599de10dec9e2d48f66d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum for the different types of clocks that exist on the device.  <a href="group__group__hal__impl__hw__types.html#ga1968e793be1599de10dec9e2d48f66d6">More...</a><br /></td></tr>
 <tr class="separator:ga1968e793be1599de10dec9e2d48f66d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab7b277f7243da4199aaf63f304dbb213"><td class="memItemLeft" align="right" valign="top"><a id="gab7b277f7243da4199aaf63f304dbb213"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#gab7b277f7243da4199aaf63f304dbb213">CYHAL_DRIVER_AVAILABLE_CLOCK</a>&#160;&#160;&#160;(1)</td></tr>
+<tr class="memdesc:gab7b277f7243da4199aaf63f304dbb213"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the Clock driver is available for the current device. <br /></td></tr>
+<tr class="separator:gab7b277f7243da4199aaf63f304dbb213"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac065212a08722e9fe4d44bffd41296c7"><td class="memItemLeft" align="right" valign="top"><a id="gac065212a08722e9fe4d44bffd41296c7"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#gac065212a08722e9fe4d44bffd41296c7">CYHAL_DRIVER_AVAILABLE_COMP</a>&#160;&#160;&#160;(CY_IP_MXLPCOMP_INSTANCES || CY_IP_MXS40PASS_CTB_INSTANCES)</td></tr>
+<tr class="memdesc:gac065212a08722e9fe4d44bffd41296c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the COMP driver is available for the current device. <br /></td></tr>
+<tr class="separator:gac065212a08722e9fe4d44bffd41296c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga34ccfba8df596cb51121cd939f5dc8e7"><td class="memItemLeft" align="right" valign="top"><a id="ga34ccfba8df596cb51121cd939f5dc8e7"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#ga34ccfba8df596cb51121cd939f5dc8e7">CYHAL_DRIVER_AVAILABLE_CRC</a>&#160;&#160;&#160;(CY_IP_MXCRYPTO_INSTANCES || CPUSS_CRYPTO_PRESENT)</td></tr>
+<tr class="memdesc:ga34ccfba8df596cb51121cd939f5dc8e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the CRC driver is available for the current device. <br /></td></tr>
+<tr class="separator:ga34ccfba8df596cb51121cd939f5dc8e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga11e5b6567243892d3b7ee5ea3d636923"><td class="memItemLeft" align="right" valign="top"><a id="ga11e5b6567243892d3b7ee5ea3d636923"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#ga11e5b6567243892d3b7ee5ea3d636923">CYHAL_DRIVER_AVAILABLE_DAC</a>&#160;&#160;&#160;(CY_IP_MXS40PASS_CTDAC)</td></tr>
+<tr class="memdesc:ga11e5b6567243892d3b7ee5ea3d636923"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the DAC driver is available for the current device. <br /></td></tr>
+<tr class="separator:ga11e5b6567243892d3b7ee5ea3d636923"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab6ff6036bf3f1646f562f687d3341eaf"><td class="memItemLeft" align="right" valign="top"><a id="gab6ff6036bf3f1646f562f687d3341eaf"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#gab6ff6036bf3f1646f562f687d3341eaf">CYHAL_DRIVER_AVAILABLE_DMA</a>&#160;&#160;&#160;(CY_IP_M4CPUSS_DMAC || CY_IP_M4CPUSS_DMA || CY_IP_MXAHBDMAC || CY_IP_MXDW)</td></tr>
+<tr class="memdesc:gab6ff6036bf3f1646f562f687d3341eaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the DMA driver is available for the current device. <br /></td></tr>
+<tr class="separator:gab6ff6036bf3f1646f562f687d3341eaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5d668f66e4de981f1b6016b0b9842e97"><td class="memItemLeft" align="right" valign="top"><a id="ga5d668f66e4de981f1b6016b0b9842e97"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#ga5d668f66e4de981f1b6016b0b9842e97">CYHAL_DRIVER_AVAILABLE_EZI2C</a>&#160;&#160;&#160;(CY_IP_MXSCB)</td></tr>
+<tr class="memdesc:ga5d668f66e4de981f1b6016b0b9842e97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the EzI2C driver is available for the current device. <br /></td></tr>
+<tr class="separator:ga5d668f66e4de981f1b6016b0b9842e97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga144cd0560450d7a2ba7cbd41004c9514"><td class="memItemLeft" align="right" valign="top"><a id="ga144cd0560450d7a2ba7cbd41004c9514"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#ga144cd0560450d7a2ba7cbd41004c9514">CYHAL_DRIVER_AVAILABLE_FLASH</a>&#160;&#160;&#160;(1)</td></tr>
+<tr class="memdesc:ga144cd0560450d7a2ba7cbd41004c9514"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the Flash driver is available for the current device. <br /></td></tr>
+<tr class="separator:ga144cd0560450d7a2ba7cbd41004c9514"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5b7df65b88b9c989f06505501808208b"><td class="memItemLeft" align="right" valign="top"><a id="ga5b7df65b88b9c989f06505501808208b"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#ga5b7df65b88b9c989f06505501808208b">CYHAL_DRIVER_AVAILABLE_GPIO</a>&#160;&#160;&#160;(1)</td></tr>
+<tr class="memdesc:ga5b7df65b88b9c989f06505501808208b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the GPIO driver is available for the current device. <br /></td></tr>
+<tr class="separator:ga5b7df65b88b9c989f06505501808208b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa097ddb6e6636ab99420a10fd4d7f755"><td class="memItemLeft" align="right" valign="top"><a id="gaa097ddb6e6636ab99420a10fd4d7f755"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#gaa097ddb6e6636ab99420a10fd4d7f755">CYHAL_DRIVER_AVAILABLE_HWMGR</a>&#160;&#160;&#160;(1)</td></tr>
+<tr class="memdesc:gaa097ddb6e6636ab99420a10fd4d7f755"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the HwMgr driver is available for the current device. <br /></td></tr>
+<tr class="separator:gaa097ddb6e6636ab99420a10fd4d7f755"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0303725f9eb5eb434e9c44e571522011"><td class="memItemLeft" align="right" valign="top"><a id="ga0303725f9eb5eb434e9c44e571522011"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#ga0303725f9eb5eb434e9c44e571522011">CYHAL_DRIVER_AVAILABLE_I2C</a>&#160;&#160;&#160;(CY_IP_MXSCB)</td></tr>
+<tr class="memdesc:ga0303725f9eb5eb434e9c44e571522011"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the I2C driver is available for the current device. <br /></td></tr>
+<tr class="separator:ga0303725f9eb5eb434e9c44e571522011"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga210ced42a57d492248d9bdeba661bae2"><td class="memItemLeft" align="right" valign="top"><a id="ga210ced42a57d492248d9bdeba661bae2"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#ga210ced42a57d492248d9bdeba661bae2">CYHAL_DRIVER_AVAILABLE_I2S</a>&#160;&#160;&#160;(CY_IP_MXAUDIOSS || CY_IP_MXTDM)</td></tr>
+<tr class="memdesc:ga210ced42a57d492248d9bdeba661bae2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the I2S driver is available for the current device. <br /></td></tr>
+<tr class="separator:ga210ced42a57d492248d9bdeba661bae2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga041bcd4b56db60b5d357c4235e3d40ec"><td class="memItemLeft" align="right" valign="top"><a id="ga041bcd4b56db60b5d357c4235e3d40ec"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#ga041bcd4b56db60b5d357c4235e3d40ec">CYHAL_DRIVER_AVAILABLE_INTERCONNECT</a>&#160;&#160;&#160;(1)</td></tr>
+<tr class="memdesc:ga041bcd4b56db60b5d357c4235e3d40ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the Interconnect driver is available for the current device. <br /></td></tr>
+<tr class="separator:ga041bcd4b56db60b5d357c4235e3d40ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9ffca2ce9483512e1965f9a3e44f5988"><td class="memItemLeft" align="right" valign="top"><a id="ga9ffca2ce9483512e1965f9a3e44f5988"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#ga9ffca2ce9483512e1965f9a3e44f5988">CYHAL_DRIVER_AVAILABLE_KEYSCAN</a>&#160;&#160;&#160;(CY_IP_MXKEYSCAN)</td></tr>
+<tr class="memdesc:ga9ffca2ce9483512e1965f9a3e44f5988"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the KeyScan driver is available for the current device. <br /></td></tr>
+<tr class="separator:ga9ffca2ce9483512e1965f9a3e44f5988"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0e41620de863d089ea326a746cdd0f81"><td class="memItemLeft" align="right" valign="top"><a id="ga0e41620de863d089ea326a746cdd0f81"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#ga0e41620de863d089ea326a746cdd0f81">CYHAL_DRIVER_AVAILABLE_LPTIMER</a>&#160;&#160;&#160;(1)</td></tr>
+<tr class="memdesc:ga0e41620de863d089ea326a746cdd0f81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the LPTimer driver is available for the current device. <br /></td></tr>
+<tr class="separator:ga0e41620de863d089ea326a746cdd0f81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7bbb16792ea84db0206beb498aa7e9df"><td class="memItemLeft" align="right" valign="top"><a id="ga7bbb16792ea84db0206beb498aa7e9df"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#ga7bbb16792ea84db0206beb498aa7e9df">CYHAL_DRIVER_AVAILABLE_OPAMP</a>&#160;&#160;&#160;(CY_IP_MXS40PASS_CTB_INSTANCES)</td></tr>
+<tr class="memdesc:ga7bbb16792ea84db0206beb498aa7e9df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the OpAmp driver is available for the current device. <br /></td></tr>
+<tr class="separator:ga7bbb16792ea84db0206beb498aa7e9df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7e9103a244e1554f48171d1c7474f037"><td class="memItemLeft" align="right" valign="top"><a id="ga7e9103a244e1554f48171d1c7474f037"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#ga7e9103a244e1554f48171d1c7474f037">CYHAL_DRIVER_AVAILABLE_PDMPCM</a>&#160;&#160;&#160;(CY_IP_MXAUDIOSS || CY_IP_MXPDM)</td></tr>
+<tr class="memdesc:ga7e9103a244e1554f48171d1c7474f037"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the PDM/PCM driver is available for the current device. <br /></td></tr>
+<tr class="separator:ga7e9103a244e1554f48171d1c7474f037"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab3a98cf6a3644b2069a9439764f4f021"><td class="memItemLeft" align="right" valign="top"><a id="gab3a98cf6a3644b2069a9439764f4f021"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#gab3a98cf6a3644b2069a9439764f4f021">CYHAL_DRIVER_AVAILABLE_PWM</a>&#160;&#160;&#160;(CY_IP_MXTCPWM)</td></tr>
+<tr class="memdesc:gab3a98cf6a3644b2069a9439764f4f021"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the PWM driver is available for the current device. <br /></td></tr>
+<tr class="separator:gab3a98cf6a3644b2069a9439764f4f021"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad3e20aa4251aa62dc0371f0615ae3ad3"><td class="memItemLeft" align="right" valign="top"><a id="gad3e20aa4251aa62dc0371f0615ae3ad3"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#gad3e20aa4251aa62dc0371f0615ae3ad3">CYHAL_DRIVER_AVAILABLE_QSPI</a>&#160;&#160;&#160;(CY_IP_MXSMIF)</td></tr>
+<tr class="memdesc:gad3e20aa4251aa62dc0371f0615ae3ad3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the QSPI driver is available for the current device. <br /></td></tr>
+<tr class="separator:gad3e20aa4251aa62dc0371f0615ae3ad3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae597756d528e2a2a0e5590b66ab15b05"><td class="memItemLeft" align="right" valign="top"><a id="gae597756d528e2a2a0e5590b66ab15b05"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#gae597756d528e2a2a0e5590b66ab15b05">CYHAL_DRIVER_AVAILABLE_QUADDEC</a>&#160;&#160;&#160;(CY_IP_MXTCPWM)</td></tr>
+<tr class="memdesc:gae597756d528e2a2a0e5590b66ab15b05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the QuadDec driver is available for the current device. <br /></td></tr>
+<tr class="separator:gae597756d528e2a2a0e5590b66ab15b05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa2d11bfc0756f86ab20e67b63440723a"><td class="memItemLeft" align="right" valign="top"><a id="gaa2d11bfc0756f86ab20e67b63440723a"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#gaa2d11bfc0756f86ab20e67b63440723a">CYHAL_DRIVER_AVAILABLE_RTC</a>&#160;&#160;&#160;(CY_IP_MXS40SRSS_RTC || CY_IP_MXS40SSRSS)</td></tr>
+<tr class="memdesc:gaa2d11bfc0756f86ab20e67b63440723a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the RTC driver is available for the current device. <br /></td></tr>
+<tr class="separator:gaa2d11bfc0756f86ab20e67b63440723a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae04cb2342d4832ed58a9ebb501a8ddf2"><td class="memItemLeft" align="right" valign="top"><a id="gae04cb2342d4832ed58a9ebb501a8ddf2"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#gae04cb2342d4832ed58a9ebb501a8ddf2">CYHAL_DRIVER_AVAILABLE_SDHC</a>&#160;&#160;&#160;(CY_IP_MXSDHC)</td></tr>
+<tr class="memdesc:gae04cb2342d4832ed58a9ebb501a8ddf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the SDHC driver is available for the current device. <br /></td></tr>
+<tr class="separator:gae04cb2342d4832ed58a9ebb501a8ddf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga34d490d013103cd54a492df567f16ad7"><td class="memItemLeft" align="right" valign="top"><a id="ga34d490d013103cd54a492df567f16ad7"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#ga34d490d013103cd54a492df567f16ad7">CYHAL_DRIVER_AVAILABLE_SDIO</a>&#160;&#160;&#160;(CY_IP_MXSDHC || CYHAL_UDB_SDIO)</td></tr>
+<tr class="memdesc:ga34d490d013103cd54a492df567f16ad7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the SDIO driver is available for the current device. <br /></td></tr>
+<tr class="separator:ga34d490d013103cd54a492df567f16ad7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2864729e542a1b4f9aba48579ee6b654"><td class="memItemLeft" align="right" valign="top"><a id="ga2864729e542a1b4f9aba48579ee6b654"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#ga2864729e542a1b4f9aba48579ee6b654">CYHAL_DRIVER_AVAILABLE_SPI</a>&#160;&#160;&#160;(CY_IP_MXSCB)</td></tr>
+<tr class="memdesc:ga2864729e542a1b4f9aba48579ee6b654"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the SPI driver is available for the current device. <br /></td></tr>
+<tr class="separator:ga2864729e542a1b4f9aba48579ee6b654"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga086d627b651b34fa50e15badbb2108c9"><td class="memItemLeft" align="right" valign="top"><a id="ga086d627b651b34fa50e15badbb2108c9"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#ga086d627b651b34fa50e15badbb2108c9">CYHAL_DRIVER_AVAILABLE_SYSPM</a>&#160;&#160;&#160;(1)</td></tr>
+<tr class="memdesc:ga086d627b651b34fa50e15badbb2108c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the SysPM driver is available for the current device. <br /></td></tr>
+<tr class="separator:ga086d627b651b34fa50e15badbb2108c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae8d9f6c5a92ee3bcf678bfb8e93397cf"><td class="memItemLeft" align="right" valign="top"><a id="gae8d9f6c5a92ee3bcf678bfb8e93397cf"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#gae8d9f6c5a92ee3bcf678bfb8e93397cf">CYHAL_DRIVER_AVAILABLE_SYSTEM</a>&#160;&#160;&#160;(1)</td></tr>
+<tr class="memdesc:gae8d9f6c5a92ee3bcf678bfb8e93397cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the System driver is available for the current device. <br /></td></tr>
+<tr class="separator:gae8d9f6c5a92ee3bcf678bfb8e93397cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8012ab1f5bc286fe9d462b38857631f1"><td class="memItemLeft" align="right" valign="top"><a id="ga8012ab1f5bc286fe9d462b38857631f1"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#ga8012ab1f5bc286fe9d462b38857631f1">CYHAL_DRIVER_AVAILABLE_TDM</a>&#160;&#160;&#160;(CY_IP_MXAUDIOSS || CY_IP_MXTDM)</td></tr>
+<tr class="memdesc:ga8012ab1f5bc286fe9d462b38857631f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the TDM driver is available for the current device. <br /></td></tr>
+<tr class="separator:ga8012ab1f5bc286fe9d462b38857631f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae0e73ed13f557e489e6ed79b9b4025a7"><td class="memItemLeft" align="right" valign="top"><a id="gae0e73ed13f557e489e6ed79b9b4025a7"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#gae0e73ed13f557e489e6ed79b9b4025a7">CYHAL_DRIVER_AVAILABLE_TIMER</a>&#160;&#160;&#160;(CY_IP_MXTCPWM)</td></tr>
+<tr class="memdesc:gae0e73ed13f557e489e6ed79b9b4025a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the Timer driver is available for the current device. <br /></td></tr>
+<tr class="separator:gae0e73ed13f557e489e6ed79b9b4025a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga62fb3ca240efe27c10ffd8489ea18714"><td class="memItemLeft" align="right" valign="top"><a id="ga62fb3ca240efe27c10ffd8489ea18714"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#ga62fb3ca240efe27c10ffd8489ea18714">CYHAL_DRIVER_AVAILABLE_TRNG</a>&#160;&#160;&#160;(CY_IP_MXCRYPTO_INSTANCES || CPUSS_CRYPTO_PRESENT)</td></tr>
+<tr class="memdesc:ga62fb3ca240efe27c10ffd8489ea18714"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the TRNG driver is available for the current device. <br /></td></tr>
+<tr class="separator:ga62fb3ca240efe27c10ffd8489ea18714"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4fde53d7b3403ca345ea93986aed7312"><td class="memItemLeft" align="right" valign="top"><a id="ga4fde53d7b3403ca345ea93986aed7312"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#ga4fde53d7b3403ca345ea93986aed7312">CYHAL_DRIVER_AVAILABLE_UART</a>&#160;&#160;&#160;(CY_IP_MXSCB)</td></tr>
+<tr class="memdesc:ga4fde53d7b3403ca345ea93986aed7312"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the UART driver is available for the current device. <br /></td></tr>
+<tr class="separator:ga4fde53d7b3403ca345ea93986aed7312"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga684b8b73042ae9142e14d4da5f22f427"><td class="memItemLeft" align="right" valign="top"><a id="ga684b8b73042ae9142e14d4da5f22f427"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#ga684b8b73042ae9142e14d4da5f22f427">CYHAL_DRIVER_AVAILABLE_USB_DEV</a>&#160;&#160;&#160;(CY_IP_MXUSBFS)</td></tr>
+<tr class="memdesc:ga684b8b73042ae9142e14d4da5f22f427"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the USB Dev driver is available for the current device. <br /></td></tr>
+<tr class="separator:ga684b8b73042ae9142e14d4da5f22f427"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac9caca2293c6a9e6788b022f94884737"><td class="memItemLeft" align="right" valign="top"><a id="gac9caca2293c6a9e6788b022f94884737"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__availability.html#gac9caca2293c6a9e6788b022f94884737">CYHAL_DRIVER_AVAILABLE_WDT</a>&#160;&#160;&#160;(1)</td></tr>
+<tr class="memdesc:gac9caca2293c6a9e6788b022f94884737"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the WDT driver is available for the current device. <br /></td></tr>
+<tr class="separator:gac9caca2293c6a9e6788b022f94884737"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/><h2 class="groupheader">Data Structure Documentation</h2>
 <a name="structcyhal__clock__t" id="structcyhal__clock__t"></a>
@@ -522,6 +623,12 @@ descriptor</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
+<a id="ada48a4096fb83a7e69cd10f079c250bb"></a>uint16_t</td>
+<td class="fieldname">
+expected_bursts</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
 <a id="a6bfa3d9c7ef3bb07d45f1022bab70c87"></a>uint32_t</td>
 <td class="fieldname">
 direction</td>
@@ -636,6 +743,29 @@ dmac</td>
 
 </div>
 </div>
+<a name="struct__cyhal__audioss__t" id="struct__cyhal__audioss__t"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#struct__cyhal__audioss__t">&#9670;&nbsp;</a></span>_cyhal_audioss_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct _cyhal_audioss_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="3">Data Fields</th></tr>
+<tr><td class="fieldtype">
+<a id="a31b0deb4b681c9978a07c36ce594c395"></a>void *</td>
+<td class="fieldname">
+empty</td>
+<td class="fielddoc">
+</td></tr>
+</table>
+
+</div>
+</div>
 <a name="structcyhal__adc__t" id="structcyhal__adc__t"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#structcyhal__adc__t">&#9670;&nbsp;</a></span>cyhal_adc_t</h2>
 
@@ -656,6 +786,12 @@ base</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
+<a id="a80387c168decb163670d999d25ab9861"></a>struct _cyhal_adc_channel_s *</td>
+<td class="fieldname">
+channel_config[CY_SAR_MAX_NUM_CHANNELS]</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
 <a id="a9343981a568de936a5c729c9b94e3888"></a><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__resource__inst__t">cyhal_resource_inst_t</a></td>
 <td class="fieldname">
 resource</td>
@@ -668,21 +804,9 @@ clock</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
-<a id="ad47bf766941c1d44e67e70bbc239c607"></a><a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a></td>
-<td class="fieldname">
-source</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
 <a id="a1446fcf0c070b58ba0a02a6d1ad0e167"></a>bool</td>
 <td class="fieldname">
 dedicated_clock</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
-<a id="a503d77d3c3fe26ec55140a57dcf67b69"></a>bool</td>
-<td class="fieldname">
-continuous_scanning</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
@@ -692,9 +816,9 @@ conversion_complete</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
-<a id="a80387c168decb163670d999d25ab9861"></a>struct _cyhal_adc_channel_s *</td>
+<a id="adf8fd7f1cde5ed931d5fdebf5b8928c6"></a>bool</td>
 <td class="fieldname">
-channel_config[CY_SAR_MAX_NUM_CHANNELS]</td>
+stop_after_scan</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
@@ -707,24 +831,6 @@ user_enabled_events</td>
 <a id="a215032cbf5b0e332de57edc6e08b967b"></a><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__event__callback__data__t">cyhal_event_callback_data_t</a></td>
 <td class="fieldname">
 callback_data</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
-<a id="a1ab5d42ceff21bf6a5983839ec19cdcc"></a><a class="el" href="group__group__hal__general__types.html#gab2d2acfb82599df54152be0b170c6ec2">cyhal_async_mode_t</a></td>
-<td class="fieldname">
-async_mode</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
-<a id="a9b7bf7fcde35981ece224554ad22f10d"></a><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a></td>
-<td class="fieldname">
-dma</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
-<a id="af162a27f19cd19a089fb5e2c49ae800a"></a>int32_t *</td>
-<td class="fieldname">
-async_buff_orig</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
@@ -743,6 +849,36 @@ async_transfer_in_uv</td>
 <a id="a1460a01df6bff30e507cd971dd8b908d"></a>size_t</td>
 <td class="fieldname">
 async_scans_remaining</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="a503d77d3c3fe26ec55140a57dcf67b69"></a>bool</td>
+<td class="fieldname">
+continuous_scanning</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="a1ab5d42ceff21bf6a5983839ec19cdcc"></a><a class="el" href="group__group__hal__general__types.html#gab2d2acfb82599df54152be0b170c6ec2">cyhal_async_mode_t</a></td>
+<td class="fieldname">
+async_mode</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="a9b7bf7fcde35981ece224554ad22f10d"></a><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a></td>
+<td class="fieldname">
+dma</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="ad47bf766941c1d44e67e70bbc239c607"></a><a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a></td>
+<td class="fieldname">
+source</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="af162a27f19cd19a089fb5e2c49ae800a"></a>int32_t *</td>
+<td class="fieldname">
+async_buff_orig</td>
 <td class="fielddoc">
 </td></tr>
 </table>
@@ -775,15 +911,15 @@ vplus</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
-<a id="abcc1d2644dbd56211ea3c8741fdf9178"></a><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a></td>
-<td class="fieldname">
-vminus</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
 <a id="a6bf6a5d80c620d0c1ffd7e281f4ff5e1"></a>uint8_t</td>
 <td class="fieldname">
 channel_idx</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="abcc1d2644dbd56211ea3c8741fdf9178"></a><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a></td>
+<td class="fieldname">
+vminus</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
@@ -980,39 +1116,9 @@ pin</td>
 <table class="fieldtable">
 <tr><th colspan="3">Data Fields</th></tr>
 <tr><td class="fieldtype">
-<a id="ac3675bc630cea19d2882aac355eebc34"></a>CTBM_Type *</td>
+<a id="a3a6e0147f14eeb36a7f4f969f114da1e"></a>void *</td>
 <td class="fieldname">
-base</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
-<a id="a5fc84ff1731b7aabe0724eafe2b80748"></a><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__resource__inst__t">cyhal_resource_inst_t</a></td>
-<td class="fieldname">
-resource</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
-<a id="aff04f2bc53ca5d8d6827d7699b18e372"></a><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a></td>
-<td class="fieldname">
-pin_vin_p</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
-<a id="a787d97da72ce6ce10b5bec605d0382a3"></a><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a></td>
-<td class="fieldname">
-pin_vin_m</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
-<a id="aa2cc2ea2267eb1ec5d95dc41b31748d4"></a><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a></td>
-<td class="fieldname">
-pin_vout</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
-<a id="ae25bcc43d16a511756d5805bfe1b8d61"></a>bool</td>
-<td class="fieldname">
-is_init_success</td>
+empty</td>
 <td class="fielddoc">
 </td></tr>
 </table>
@@ -1220,21 +1326,21 @@ callback_data</td>
 
 </div>
 </div>
-<a name="structcyhal__i2s__t" id="structcyhal__i2s__t"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#structcyhal__i2s__t">&#9670;&nbsp;</a></span>cyhal_i2s_t</h2>
+<a name="structcyhal__keyscan__t" id="structcyhal__keyscan__t"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#structcyhal__keyscan__t">&#9670;&nbsp;</a></span>cyhal_keyscan_t</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct cyhal_i2s_t</td>
+          <td class="memname">struct cyhal_keyscan_t</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <table class="fieldtable">
 <tr><th colspan="3">Data Fields</th></tr>
 <tr><td class="fieldtype">
-<a id="aa7ec2ea7a9d469b29f3542c287b21e88"></a>void *</td>
+<a id="a9e691cfada88c6ac502b18667761a681"></a>void *</td>
 <td class="fieldname">
 empty</td>
 <td class="fielddoc">
@@ -1280,6 +1386,12 @@ callback_data</td>
 clear_int_mask</td>
 <td class="fielddoc">
 </td></tr>
+<tr><td class="fieldtype">
+<a id="ab62c0a56c05ca7bebd85e2e2e1f33ff4"></a>bool</td>
+<td class="fieldname">
+isr_call_user_cb</td>
+<td class="fielddoc">
+</td></tr>
 </table>
 
 </div>
@@ -1319,6 +1431,18 @@ pin_data</td>
 <a id="a5bda25c3b6a6a3af16cb102e29696a69"></a><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a></td>
 <td class="fieldname">
 pin_clk</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="a840ad1ac3cc05d9c732dd7d4f78a0002"></a><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__clock__t">cyhal_clock_t</a></td>
+<td class="fieldname">
+clock</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="a6739c9fea07cfd73598c1f6590a77e28"></a>bool</td>
+<td class="fieldname">
+is_clock_owned</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
@@ -1927,6 +2051,12 @@ pin_data3</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
+<a id="aa4ee690a90bb273527b3272b2fca6896"></a><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a></td>
+<td class="fieldname">
+pin_io_vol_sel</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
 <a id="a1575bc5e8889960f5d34d3e7926a1931"></a>uint32_t</td>
 <td class="fieldname">
 frequencyhal_hz</td>
@@ -1942,6 +2072,12 @@ block_size</td>
 <a id="aa69c64759bc59b3836ce07317ca735bc"></a>uint32_t</td>
 <td class="fieldname">
 irq_cause</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="ad9a2886bca4431ff0eaeeba0c0b62d74"></a>bool</td>
+<td class="fieldname">
+low_voltage_io_set</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
@@ -2394,8 +2530,43 @@ placeholder</td>
       </table>
 </div><div class="memdoc">
 
-<p>Priority that is applied by default to all drivers when initalized. </p>
+<p>Priority that is applied by default to all drivers when initialized. </p>
 <p>Priorities can be overridden on each driver as part of enabling events. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="ga5c90028db813f9efe2a9e95b16caded4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5c90028db813f9efe2a9e95b16caded4">&#9670;&nbsp;</a></span>cyhal_i2s_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="group__group__hal__impl__hw__types.html#struct__cyhal__audioss__t">_cyhal_audioss_t</a> <a class="el" href="group__group__hal__impl__hw__types.html#ga5c90028db813f9efe2a9e95b16caded4">cyhal_i2s_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>I2S object. </p>
+<p>Application code should not rely on the specific contents of this struct. They are considered an implementation detail which is subject to change between platforms and/or HAL releases. </p>
+
+</div>
+</div>
+<a id="ga0feb1843e60080c101c7a35fe884fe73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0feb1843e60080c101c7a35fe884fe73">&#9670;&nbsp;</a></span>cyhal_tdm_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="group__group__hal__impl__hw__types.html#struct__cyhal__audioss__t">_cyhal_audioss_t</a> <a class="el" href="group__group__hal__impl__hw__types.html#ga0feb1843e60080c101c7a35fe884fe73">cyhal_tdm_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>TDM object. </p>
+<p>Application code should not rely on the specific contents of this struct. They are considered an implementation detail which is subject to change between platforms and/or HAL releases. </p>
 
 </div>
 </div>
@@ -2416,6 +2587,8 @@ placeholder</td>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga63b023ea7b5e73db59ddc0423c77975ba612bee18e656ba78a4ca633f8913249d"></a>CYHAL_RSC_ADC&#160;</td><td class="fielddoc"><p>Analog to digital converter </p>
 </td></tr>
+<tr><td class="fieldname"><a id="gga63b023ea7b5e73db59ddc0423c77975ba0a16c7812ccaba345ba94d92fbc3e26e"></a>CYHAL_RSC_ADCMIC&#160;</td><td class="fielddoc"><p>Analog to digital converter with Analog Mic support </p>
+</td></tr>
 <tr><td class="fieldname"><a id="gga63b023ea7b5e73db59ddc0423c77975bac10abc82f19b0a06a14a98e30a75b74d"></a>CYHAL_RSC_BLESS&#160;</td><td class="fielddoc"><p>Bluetooth communications block </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga63b023ea7b5e73db59ddc0423c77975ba1b775f74aa64eb24531a8669a6e25546"></a>CYHAL_RSC_CAN&#160;</td><td class="fielddoc"><p>CAN communication block </p>
@@ -2432,11 +2605,19 @@ placeholder</td>
 </td></tr>
 <tr><td class="fieldname"><a id="gga63b023ea7b5e73db59ddc0423c77975ba1f6f00a8d9b758e0ea4a1ad8da3f5dd0"></a>CYHAL_RSC_DW&#160;</td><td class="fielddoc"><p>Datawire DMA controller </p>
 </td></tr>
+<tr><td class="fieldname"><a id="gga63b023ea7b5e73db59ddc0423c77975ba8c2913af9005b4c7df4bf78466e5768d"></a>CYHAL_RSC_ETH&#160;</td><td class="fielddoc"><p>Ethernet communications block </p>
+</td></tr>
 <tr><td class="fieldname"><a id="gga63b023ea7b5e73db59ddc0423c77975ba5f4259788e0fc887772496df602d7549"></a>CYHAL_RSC_GPIO&#160;</td><td class="fielddoc"><p>General purpose I/O pin </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga63b023ea7b5e73db59ddc0423c77975ba6b93380724a9f1c695cf1f7a2e993a90"></a>CYHAL_RSC_I2S&#160;</td><td class="fielddoc"><p>I2S communications block </p>
 </td></tr>
+<tr><td class="fieldname"><a id="gga63b023ea7b5e73db59ddc0423c77975ba2a7f33149ef80053123f7241d82f54ae"></a>CYHAL_RSC_I3C&#160;</td><td class="fielddoc"><p>I3C communications block </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga63b023ea7b5e73db59ddc0423c77975ba80269a16f097ec14da8581cffee6fc6c"></a>CYHAL_RSC_KEYSCAN&#160;</td><td class="fielddoc"><p>KeyScan block </p>
+</td></tr>
 <tr><td class="fieldname"><a id="gga63b023ea7b5e73db59ddc0423c77975ba66e93a0a9834e5b16a3156d87ad993e4"></a>CYHAL_RSC_LCD&#160;</td><td class="fielddoc"><p>Segment LCD controller </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga63b023ea7b5e73db59ddc0423c77975ba2f8d1b23b0adbf9da955873088a109b3"></a>CYHAL_RSC_LIN&#160;</td><td class="fielddoc"><p>LIN communications block </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga63b023ea7b5e73db59ddc0423c77975ba66b3400d94288b89d49def6194537bbe"></a>CYHAL_RSC_LPCOMP&#160;</td><td class="fielddoc"><p>Low power comparator </p>
 </td></tr>
@@ -2454,7 +2635,11 @@ placeholder</td>
 </td></tr>
 <tr><td class="fieldname"><a id="gga63b023ea7b5e73db59ddc0423c77975baf35ab7112b4bcd054bdb0874a441155a"></a>CYHAL_RSC_SDHC&#160;</td><td class="fielddoc"><p>SD Host Controller </p>
 </td></tr>
+<tr><td class="fieldname"><a id="gga63b023ea7b5e73db59ddc0423c77975bacf1bf2d42c5a1e89c1e4acca4988c752"></a>CYHAL_RSC_SDIODEV&#160;</td><td class="fielddoc"><p>SDIO Device Block </p>
+</td></tr>
 <tr><td class="fieldname"><a id="gga63b023ea7b5e73db59ddc0423c77975baa445456a2983f23d4be55613f2d09eb6"></a>CYHAL_RSC_TCPWM&#160;</td><td class="fielddoc"><p>Timer/Counter/PWM block </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga63b023ea7b5e73db59ddc0423c77975ba4f5bf99fff8a2e7d669855fd7a86a4ed"></a>CYHAL_RSC_TDM&#160;</td><td class="fielddoc"><p>TDM block </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga63b023ea7b5e73db59ddc0423c77975ba446a3390d41bd50e12d0b8f0c1715a53"></a>CYHAL_RSC_UDB&#160;</td><td class="fielddoc"><p>UDB Array </p>
 </td></tr>
@@ -2479,60 +2664,6 @@ placeholder</td>
 </div><div class="memdoc">
 
 <p>Enum for the different types of clocks that exist on the device. </p>
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga1968e793be1599de10dec9e2d48f66d6aa2ad8d65e54305da7b44a31098766bd0"></a>CYHAL_CLOCK_BLOCK_PERIPHERAL_8BIT&#160;</td><td class="fielddoc"><p>8bit Peripheral Divider </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga1968e793be1599de10dec9e2d48f66d6ad7a5eb2a34cbaf931bf1aaab6f844689"></a>CYHAL_CLOCK_BLOCK_PERIPHERAL_16BIT&#160;</td><td class="fielddoc"><p>16bit Peripheral Divider </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga1968e793be1599de10dec9e2d48f66d6a60962f330adb0e70b04db75c73f13b29"></a>CYHAL_CLOCK_BLOCK_PERIPHERAL_16_5BIT&#160;</td><td class="fielddoc"><p>16.5bit Peripheral Divider </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga1968e793be1599de10dec9e2d48f66d6ac1db33a815241ce8130e4d10c04ecd6f"></a>CYHAL_CLOCK_BLOCK_PERIPHERAL_24_5BIT&#160;</td><td class="fielddoc"><p>24.5bit Peripheral Divider </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga1968e793be1599de10dec9e2d48f66d6acebb813360b499d38240f371cb561d25"></a>CYHAL_CLOCK_BLOCK_IMO&#160;</td><td class="fielddoc"><p>Internal Main Oscillator Input Clock </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga1968e793be1599de10dec9e2d48f66d6a569f417eb328cc49ce9273c67a2c156c"></a>CYHAL_CLOCK_BLOCK_ECO&#160;</td><td class="fielddoc"><p>External Crystal Oscillator Input Clock </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga1968e793be1599de10dec9e2d48f66d6ade160370a906f1fc83b35b16a6304ba1"></a>CYHAL_CLOCK_BLOCK_EXT&#160;</td><td class="fielddoc"><p>External Input Clock </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga1968e793be1599de10dec9e2d48f66d6a74961f9f75b8f9db755f985bd232f214"></a>CYHAL_CLOCK_BLOCK_ALTHF&#160;</td><td class="fielddoc"><p>Alternate High Frequency Input Clock </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga1968e793be1599de10dec9e2d48f66d6a980d225119a02ae8e8cd097377b2efb9"></a>CYHAL_CLOCK_BLOCK_ALTLF&#160;</td><td class="fielddoc"><p>Alternate Low Frequency Input Clock </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga1968e793be1599de10dec9e2d48f66d6ad0a58702a8cbdca688e6e511ca1f07d8"></a>CYHAL_CLOCK_BLOCK_ILO&#160;</td><td class="fielddoc"><p>Internal Low Speed Oscillator Input Clock </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga1968e793be1599de10dec9e2d48f66d6a0d35ecdf452b2e4230ad24fa260d85b1"></a>CYHAL_CLOCK_BLOCK_PILO&#160;</td><td class="fielddoc"><p>Precision ILO Input Clock </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga1968e793be1599de10dec9e2d48f66d6af1e5156df9893f46f841c501a44e15a9"></a>CYHAL_CLOCK_BLOCK_WCO&#160;</td><td class="fielddoc"><p>Watch Crystal Oscillator Input Clock </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga1968e793be1599de10dec9e2d48f66d6a45e87fa3881a5f5f04152d86554ef472"></a>CYHAL_CLOCK_BLOCK_MFO&#160;</td><td class="fielddoc"><p>Medium Frequency Oscillator Clock </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga1968e793be1599de10dec9e2d48f66d6a63443ebb72d1f623ec03192bd61ae6a3"></a>CYHAL_CLOCK_BLOCK_PATHMUX&#160;</td><td class="fielddoc"><p>Path selection mux for input to FLL/PLLs </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga1968e793be1599de10dec9e2d48f66d6a3400dbd378560315601e80fafb271309"></a>CYHAL_CLOCK_BLOCK_FLL&#160;</td><td class="fielddoc"><p>Frequency-Locked Loop Clock </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga1968e793be1599de10dec9e2d48f66d6a72bcc11752a8d6a317f3f0d007b243b5"></a>CYHAL_CLOCK_BLOCK_PLL&#160;</td><td class="fielddoc"><p>Phase-Locked Loop Clock </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga1968e793be1599de10dec9e2d48f66d6a2e58d5538b15cb4e62710429dc12cf3b"></a>CYHAL_CLOCK_BLOCK_LF&#160;</td><td class="fielddoc"><p>Low Frequency Clock </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga1968e793be1599de10dec9e2d48f66d6ad12d89f860467b420f97751dd04177de"></a>CYHAL_CLOCK_BLOCK_MF&#160;</td><td class="fielddoc"><p>Medium Frequency Clock </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga1968e793be1599de10dec9e2d48f66d6a1507c454c996026a54ff09cf67be74f5"></a>CYHAL_CLOCK_BLOCK_HF&#160;</td><td class="fielddoc"><p>High Frequency Clock </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga1968e793be1599de10dec9e2d48f66d6a3e574cdce2f00e7445b8c8a722e11382"></a>CYHAL_CLOCK_BLOCK_PUMP&#160;</td><td class="fielddoc"><p>Analog Pump Clock </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga1968e793be1599de10dec9e2d48f66d6a3f1e682cc21f1111141edca3b980a766"></a>CYHAL_CLOCK_BLOCK_BAK&#160;</td><td class="fielddoc"><p>Backup Power Domain Clock </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga1968e793be1599de10dec9e2d48f66d6af95128613464988bea875bcc3dde0f2a"></a>CYHAL_CLOCK_BLOCK_TIMER&#160;</td><td class="fielddoc"><p>Timer Clock </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga1968e793be1599de10dec9e2d48f66d6a461e7c674bf0783647f330e6e4ddec77"></a>CYHAL_CLOCK_BLOCK_ALT_SYS_TICK&#160;</td><td class="fielddoc"><p>Alternative SysTick Clock </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga1968e793be1599de10dec9e2d48f66d6aa108a2f435cd0685525c0f6c0eb40efd"></a>CYHAL_CLOCK_BLOCK_FAST&#160;</td><td class="fielddoc"><p>Fast Clock for CM4 </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga1968e793be1599de10dec9e2d48f66d6a758c14746dfb2b0c29e2cbb34debea58"></a>CYHAL_CLOCK_BLOCK_PERI&#160;</td><td class="fielddoc"><p>Peripheral Clock </p>
-</td></tr>
-<tr><td class="fieldname"><a id="gga1968e793be1599de10dec9e2d48f66d6ac5aab6717e8f989277c9a25720907bfb"></a>CYHAL_CLOCK_BLOCK_SLOW&#160;</td><td class="fielddoc"><p>Slow Clock for CM0+ </p>
-</td></tr>
-</table>
 
 </div>
 </div>

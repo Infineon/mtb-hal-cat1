@@ -25,7 +25,9 @@ var group__group__hal__uart =
       [ "CYHAL_UART_IRQ_RX_DONE", "group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaac2db86894106691360ad64c35d33b578", null ],
       [ "CYHAL_UART_IRQ_RX_ERROR", "group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaa7f5d1f47a602c8ac0df06c121bf4ce46", null ],
       [ "CYHAL_UART_IRQ_RX_NOT_EMPTY", "group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaa9b64ead890054ee5943b58bafc0f367e", null ],
-      [ "CYHAL_UART_IRQ_TX_EMPTY", "group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaa0c7868cf2a2719db7fc2cb8c357e47a9", null ]
+      [ "CYHAL_UART_IRQ_TX_EMPTY", "group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaa0c7868cf2a2719db7fc2cb8c357e47a9", null ],
+      [ "CYHAL_UART_IRQ_TX_FIFO", "group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaac116ebc0ab3ebc77dffd457f904ae029", null ],
+      [ "CYHAL_UART_IRQ_RX_FIFO", "group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaa1f0edecb2e607d340d868cdd997a16d3", null ]
     ] ],
     [ "cyhal_uart_fifo_type_t", "group__group__hal__uart.html#ga17602199b64430d4b5503e14340c4ca0", [
       [ "CYHAL_UART_FIFO_RX", "group__group__hal__uart.html#gga17602199b64430d4b5503e14340c4ca0ae0cb3a0275909eb435e1d892dcc6703c", null ],

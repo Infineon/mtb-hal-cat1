@@ -120,6 +120,12 @@ extern "C" {
 /** SDIO Configuration error. */
 #define CYHAL_SDIO_RSLT_ERR_CONFIG                     \
     (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SDIO, 5))
+/** Another SDIO IO volt select pin already configured. */
+#define CYHAL_SDIO_RSLT_ERR_IO_VOLT_SEL_PIN_CONFIGURED \
+    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SDIO, 6))
+/** Error occured during I/O voltage switch sequence. */
+#define CYHAL_SDIO_RSLT_ERR_IO_VOLT_SWITCH_SEQ          \
+    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SDIO, 7))
 
 /**
  * \}
@@ -137,6 +143,7 @@ typedef enum
     CYHAL_SDIO_CMD_SEND_RELATIVE_ADDR =  3, //!< Send a relative address
     CYHAL_SDIO_CMD_IO_SEND_OP_COND    =  5, //!< Send an OP IO
     CYHAL_SDIO_CMD_SELECT_CARD        =  7, //!< Send a card select
+    CYHAL_SDIO_CMD_VOLTAGE_SWITCH     = 11, //!< Voltage switch
     CYHAL_SDIO_CMD_GO_INACTIVE_STATE  = 15, //!< Go to inactive state
     CYHAL_SDIO_CMD_IO_RW_DIRECT       = 52, //!< Perform a direct read/write
     CYHAL_SDIO_CMD_IO_RW_EXTENDED     = 53, //!< Perform an extended read/write
@@ -176,6 +183,19 @@ typedef enum {
     CYHAL_SDIO_ALL_INTERRUPTS = 0x0E1FF,  //!< Is used to enable/disable all interrupts events
 } cyhal_sdio_event_t;
 
+/** I/O voltage levels */
+typedef enum
+{
+    CYHAL_SDIO_IO_VOLTAGE_3_3V                  = 0U,   //!< I/O voltage is 3.3V.
+    CYHAL_SDIO_IO_VOLTAGE_1_8V                  = 1U    //!< I/O voltage is 1.8V.
+} cyhal_sdio_io_voltage_t;
+
+/** SDIO I/O voltage select principle */
+typedef enum
+{
+    CYHAL_SDIO_IO_VOLT_ACTION_SWITCH_SEQ_ONLY   = 1U,   //!< HAL driver performs switching sequence (if voltage is being switched to 1.8V) and changes io_volt_sel pin level accordingly. No commands are being send to the card in this mode.
+    CYHAL_SDIO_IO_VOLT_ACTION_NONE              = 2U,   //!< I/O voltage is changed by changing io_volt_sel pin's level. No commands are being send to the card in this mode.
+} cyhal_sdio_io_volt_action_type_t;
 
 /*******************************************************************************
 *       Data Structures
@@ -324,6 +344,21 @@ void cyhal_sdio_register_callback(cyhal_sdio_t *obj, cyhal_sdio_event_callback_t
  * Refer \ref subsection_sdio_use_case_2 for more information.
  */
 void cyhal_sdio_enable_event(cyhal_sdio_t *obj, cyhal_sdio_event_t event, uint8_t intr_priority, bool enable);
+
+/** Sets the voltage level of the I/O lines.
+ *
+ * @param[in]  obj                  The SDIO object
+ * @param[in]  io_volt_sel          The pin connected to the io_volt_sel signal. This pin changes the logic level on the
+ *  sd_io_volt_sel line. It assumes that this line is used to control a regulator connected to the VDDIO of the MCU.
+ *  This regulator allows for switching between the 3.3V and 1.8V signaling. High level on the pin stands for
+ *  1.8V signaling, while low - for 3.3V.
+ *  This pin can be NC.
+ * @param[in]  io_voltage           I/O voltage to be set on lines
+ * @param[in]  io_switch_type       Defines how I/O voltage will be switched
+ * @return The status of the operation
+ */
+cy_rslt_t cyhal_sdio_set_io_voltage(cyhal_sdio_t *obj, cyhal_gpio_t io_volt_sel, cyhal_sdio_io_voltage_t io_voltage,
+                                    cyhal_sdio_io_volt_action_type_t io_switch_type);
 
 /*******************************************************************************
 * Backward compatibility macro. The following code is DEPRECATED and must

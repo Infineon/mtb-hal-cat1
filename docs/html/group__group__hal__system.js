@@ -1,5 +1,6 @@
 var group__group__hal__system =
 [
+    [ "cyhal_irq_handler", "group__group__hal__system.html#ga9979d69ab0f4abc5a7822e0f45b64098", null ],
     [ "cyhal_reset_reason_t", "group__group__hal__system.html#ga53ba6a7416574a1b03890d23b7a90264", [
       [ "CYHAL_SYSTEM_RESET_NONE", "group__group__hal__system.html#gga53ba6a7416574a1b03890d23b7a90264a95a4c3cce365341fe7bca673720a2d93", null ],
       [ "CYHAL_SYSTEM_RESET_WDT", "group__group__hal__system.html#gga53ba6a7416574a1b03890d23b7a90264a28d2eb1bf90f731f930c487d8dcd8079", null ],
@@ -16,5 +17,6 @@ var group__group__hal__system =
     [ "cyhal_system_delay_ms", "group__group__hal__system.html#ga5f450769c1207d98134a9ced39adfdda", null ],
     [ "cyhal_system_delay_us", "group__group__hal__system.html#ga25235eff5e6695bfdcc9943e7095a83b", null ],
     [ "cyhal_system_get_reset_reason", "group__group__hal__system.html#ga9a7b601e0b06a896860f411103a4abc6", null ],
-    [ "cyhal_system_clear_reset_reason", "group__group__hal__system.html#ga9a935d5e4f43343e7bbb4f9a86a10df0", null ]
+    [ "cyhal_system_clear_reset_reason", "group__group__hal__system.html#ga9a935d5e4f43343e7bbb4f9a86a10df0", null ],
+    [ "cyhal_system_set_isr", "group__group__hal__system.html#ga208f2774fd0143000cea9e488035c337", null ]
 ];

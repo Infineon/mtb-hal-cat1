@@ -7,5 +7,6 @@ var group__group__hal__results__dma =
     [ "CYHAL_DMA_RSLT_ERR_INVALID_BURST_SIZE", "group__group__hal__results__dma.html#gaa6faad501be814ecf834fb164de05a02", null ],
     [ "CYHAL_DMA_RSLT_ERR_CHANNEL_BUSY", "group__group__hal__results__dma.html#ga4a5db2232d3cdda8b1680c1d24891a17", null ],
     [ "CYHAL_DMA_RSLT_WARN_TRANSFER_ALREADY_STARTED", "group__group__hal__results__dma.html#ga2eb08384825380516ae141ec3e719d8f", null ],
-    [ "CYHAL_DMA_RSLT_FATAL_UNSUPPORTED_HARDWARE", "group__group__hal__results__dma.html#gae9b5dac93c1ca8dfea78883f4063a169", null ]
+    [ "CYHAL_DMA_RSLT_FATAL_UNSUPPORTED_HARDWARE", "group__group__hal__results__dma.html#gae9b5dac93c1ca8dfea78883f4063a169", null ],
+    [ "CYHAL_DMA_RSLT_ERR_INVALID_TRANSFER_SIZE", "group__group__hal__results__dma.html#ga0195058758f7a93e4a190a89cc342ed9", null ]
 ];

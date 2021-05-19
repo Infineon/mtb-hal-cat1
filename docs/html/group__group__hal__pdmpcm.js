@@ -6,8 +6,8 @@ var group__group__hal__pdmpcm =
       [ "decimation_rate", "group__group__hal__pdmpcm.html#a1d94274f6ae0d514c0140866ea7b5c7e", null ],
       [ "mode", "group__group__hal__pdmpcm.html#a7be7271c85209a9f567a1335f58d05ba", null ],
       [ "word_length", "group__group__hal__pdmpcm.html#a5847815ce526fa0d67e4a5a9d9de21dd", null ],
-      [ "left_gain", "group__group__hal__pdmpcm.html#ae3d723bf938a3328bc79f265b7527cd8", null ],
-      [ "right_gain", "group__group__hal__pdmpcm.html#a9d50a87f1363f1f15aec15552facbc21", null ]
+      [ "left_gain", "group__group__hal__pdmpcm.html#a28e191d9695e078f30e4d4f79a127883", null ],
+      [ "right_gain", "group__group__hal__pdmpcm.html#af376c72ce6f362046ab97bed60bbc984", null ]
     ] ],
     [ "cyhal_pdm_pcm_event_callback_t", "group__group__hal__pdmpcm.html#gac01795c2aaebf0b8c73bb6d82c4be198", null ],
     [ "cyhal_pdm_pcm_event_t", "group__group__hal__pdmpcm.html#gae66c80c5bbcd3bb7bcfea6821fd009b7", [
@@ -27,7 +27,7 @@ var group__group__hal__pdmpcm =
     [ "cyhal_pdm_pcm_start", "group__group__hal__pdmpcm.html#gabbab5aafb181de83230b834074994b61", null ],
     [ "cyhal_pdm_pcm_stop", "group__group__hal__pdmpcm.html#gae3832916c19f3031dddcee394047e499", null ],
     [ "cyhal_pdm_pcm_is_enabled", "group__group__hal__pdmpcm.html#ga70af22e5c029ef0899d14da93253fcc1", null ],
-    [ "cyhal_pdm_pcm_set_gain", "group__group__hal__pdmpcm.html#gad2dc5543b500a97a938d6c642932e772", null ],
+    [ "cyhal_pdm_pcm_set_gain", "group__group__hal__pdmpcm.html#ga3c945cac4f1db9813d62f35b640fb13b", null ],
     [ "cyhal_pdm_pcm_clear", "group__group__hal__pdmpcm.html#ga4f6559e37a2ea3facdffe3cac6241356", null ],
     [ "cyhal_pdm_pcm_read", "group__group__hal__pdmpcm.html#ga5694092b3f4bc66a0a649829d346d1c7", null ],
     [ "cyhal_pdm_pcm_read_async", "group__group__hal__pdmpcm.html#gab67389b3ca9173afb980824564dba031", null ],

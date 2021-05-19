@@ -30,6 +30,7 @@ var group__group__hal__dma =
     [ "cyhal_dma_event_t", "group__group__hal__dma.html#gad4507e9f3660b19e1ddc3085a96279e2", [
       [ "CYHAL_DMA_NO_INTR", "group__group__hal__dma.html#ggad4507e9f3660b19e1ddc3085a96279e2a31943df9f42ee4e594f2701f9daf16af", null ],
       [ "CYHAL_DMA_TRANSFER_COMPLETE", "group__group__hal__dma.html#ggad4507e9f3660b19e1ddc3085a96279e2ae5ed3faaed4b314d6b7115016e4c2e73", null ],
+      [ "CYHAL_DMA_DESCRIPTOR_COMPLETE", "group__group__hal__dma.html#ggad4507e9f3660b19e1ddc3085a96279e2a9832d2d5e5b138030ec765f9d1377730", null ],
       [ "CYHAL_DMA_SRC_BUS_ERROR", "group__group__hal__dma.html#ggad4507e9f3660b19e1ddc3085a96279e2aed1388898b5c44164b69c29226461c4f", null ],
       [ "CYHAL_DMA_DST_BUS_ERROR", "group__group__hal__dma.html#ggad4507e9f3660b19e1ddc3085a96279e2a28e6e742cdc81f90dc1a0af854edcfa2", null ],
       [ "CYHAL_DMA_SRC_MISAL", "group__group__hal__dma.html#ggad4507e9f3660b19e1ddc3085a96279e2ac02b14f1884befe2fc3c736ca09b5063", null ],
@@ -50,11 +51,15 @@ var group__group__hal__dma =
     ] ],
     [ "cyhal_dma_transfer_action_t", "group__group__hal__dma.html#ga05291825b0a7c7b9a92373ec53342b7a", [
       [ "CYHAL_DMA_TRANSFER_BURST", "group__group__hal__dma.html#gga05291825b0a7c7b9a92373ec53342b7aa1d892969519c81dd0728bc5ea99c835e", null ],
-      [ "CYHAL_DMA_TRANSFER_FULL", "group__group__hal__dma.html#gga05291825b0a7c7b9a92373ec53342b7aac422419b0c70b168a56a7bedc2bc2dad", null ]
+      [ "CYHAL_DMA_TRANSFER_FULL", "group__group__hal__dma.html#gga05291825b0a7c7b9a92373ec53342b7aac422419b0c70b168a56a7bedc2bc2dad", null ],
+      [ "CYHAL_DMA_TRANSFER_BURST_DISABLE", "group__group__hal__dma.html#gga05291825b0a7c7b9a92373ec53342b7aa55e4b28b43c89e9125984fe81ea70f43", null ],
+      [ "CYHAL_DMA_TRANSFER_FULL_DISABLE", "group__group__hal__dma.html#gga05291825b0a7c7b9a92373ec53342b7aa2fa9971511772bcd18e1892eaad29b99", null ]
     ] ],
     [ "cyhal_dma_init_adv", "group__group__hal__dma.html#gac1ab5fd8128e928de6827c5469de598f", null ],
     [ "cyhal_dma_free", "group__group__hal__dma.html#ga8c1bf16caa5d53cb129e5544da1c8b21", null ],
     [ "cyhal_dma_configure", "group__group__hal__dma.html#gad39f32ac4fada8bc9e757df0a22fcce4", null ],
+    [ "cyhal_dma_enable", "group__group__hal__dma.html#gaf115ccd96b17d81f93e084c17ed23675", null ],
+    [ "cyhal_dma_disable", "group__group__hal__dma.html#gaad1fd14761365d64ba9ddbd236f17582", null ],
     [ "cyhal_dma_start_transfer", "group__group__hal__dma.html#gaf57a2b19848478b6604e09a3ecc3fbfc", null ],
     [ "cyhal_dma_is_busy", "group__group__hal__dma.html#ga6f962c164fedb088dbd2a48e21550fd0", null ],
     [ "cyhal_dma_register_callback", "group__group__hal__dma.html#gacbccbcab79700c9e17bc47c525967876", null ],

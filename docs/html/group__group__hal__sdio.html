@@ -117,13 +117,13 @@ Code Snippets</h1>
 <h2><a class="anchor" id="subsection_sdio_use_case_1"></a>
 Snippet1: Simple SDIO Initialization example</h2>
 <p>The following snippet shows how to initialize the SDIO interface with a pre-defined configuration</p>
-<div class="fragment"><div class="line"></div><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>    rslt;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__sdio__t">cyhal_sdio_t</a> sdio_obj;</div><div class="line"></div><div class="line"><span class="preprocessor">    #define BLOCK_SIZE     (512)</span></div><div class="line"><span class="preprocessor">    #define SDIO_FREQ_HF   (100000000UL)</span></div><div class="line"></div><div class="line">    <a class="code" href="group__group__hal__sdio.html#structcyhal__sdio__cfg__t">cyhal_sdio_cfg_t</a> my_sdio_cfg =</div><div class="line">    {</div><div class="line">        .<a class="code" href="group__group__hal__sdio.html#a918b317033419d8b40d052a4f88aa91c">block_size</a>      = BLOCK_SIZE,</div><div class="line">        .frequencyhal_hz = SDIO_FREQ_HF</div><div class="line">    };</div><div class="line"></div><div class="line">    rslt = <a class="code" href="group__group__hal__sdio.html#gaf415afd3b0052aa8196ecab0a7a12f9d">cyhal_sdio_init</a>(&amp;sdio_obj,</div><div class="line">                           SDIO_CMD_PIN,</div><div class="line">                           SDIO_CLK_PIN,</div><div class="line">                           SDIO_DATA0_PIN,</div><div class="line">                           SDIO_DATA1_PIN,</div><div class="line">                           SDIO_DATA2_PIN,</div><div class="line">                           SDIO_DATA3_PIN);</div><div class="line"></div><div class="line">    rslt = <a class="code" href="group__group__hal__sdio.html#ga4ca458e716e90490bb6773f88d5c35be">cyhal_sdio_configure</a>(&amp;sdio_obj, &amp;my_sdio_cfg);</div><div class="line"></div></div><!-- fragment --> <h2><a class="anchor" id="subsection_sdio_use_case_2"></a>
+<div class="fragment"><div class="line"></div><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>    rslt;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__sdio__t">cyhal_sdio_t</a> sdio_object;</div><div class="line"></div><div class="line"><span class="preprocessor">    #define BLOCK_SIZE     (512)</span></div><div class="line"><span class="preprocessor">    #define SDIO_FREQ_HF   (100000000UL)</span></div><div class="line"></div><div class="line">    <a class="code" href="group__group__hal__sdio.html#structcyhal__sdio__cfg__t">cyhal_sdio_cfg_t</a> my_sdio_cfg =</div><div class="line">    {</div><div class="line">        .<a class="code" href="group__group__hal__sdio.html#a918b317033419d8b40d052a4f88aa91c">block_size</a>      = BLOCK_SIZE,</div><div class="line">        .frequencyhal_hz = SDIO_FREQ_HF</div><div class="line">    };</div><div class="line"></div><div class="line">    rslt = <a class="code" href="group__group__hal__sdio.html#gaf415afd3b0052aa8196ecab0a7a12f9d">cyhal_sdio_init</a>(&amp;sdio_object,</div><div class="line">                           SDIO_CMD_PIN,</div><div class="line">                           SDIO_CLK_PIN,</div><div class="line">                           SDIO_DATA0_PIN,</div><div class="line">                           SDIO_DATA1_PIN,</div><div class="line">                           SDIO_DATA2_PIN,</div><div class="line">                           SDIO_DATA3_PIN);</div><div class="line"></div><div class="line">    rslt = <a class="code" href="group__group__hal__sdio.html#ga4ca458e716e90490bb6773f88d5c35be">cyhal_sdio_configure</a>(&amp;sdio_object, &amp;my_sdio_cfg);</div><div class="line"></div></div><!-- fragment --> <h2><a class="anchor" id="subsection_sdio_use_case_2"></a>
 Snippet2: Configure Interrupt</h2>
 <p>The following snippet shows how to configure an interrupt and handle specific events. Refer <a class="el" href="group__group__hal__sdio.html#gaabd12f41a517ee8a5097479ec0101d3a">cyhal_sdio_event_t</a> for different types of events.</p>
-<div class="fragment"><div class="line"></div><div class="line"><span class="comment">// Event handler callback function</span></div><div class="line"><span class="keywordtype">void</span> sdio_event_handler(<span class="keywordtype">void</span>* handler_arg, <a class="code" href="group__group__hal__sdio.html#gaabd12f41a517ee8a5097479ec0101d3a">cyhal_sdio_event_t</a> event)</div><div class="line">{</div><div class="line">    CY_UNUSED_PARAMETER(handler_arg);</div><div class="line">    CY_UNUSED_PARAMETER(event);</div><div class="line"></div><div class="line">    <span class="keywordflow">switch</span> (event)</div><div class="line">    {</div><div class="line">        <span class="keywordflow">case</span> <a class="code" href="group__group__hal__sdio.html#ggaabd12f41a517ee8a5097479ec0101d3aa420ab7a48b4069ab3e40bb73d4d8fe0d">CYHAL_SDIO_CARD_INSERTION</a>:</div><div class="line">        {</div><div class="line">            <span class="comment">// Triggered when card insertion is detected in present state</span></div><div class="line">            <span class="comment">// Insert application code to handle events</span></div><div class="line">            <span class="keywordflow">break</span>;</div><div class="line">        }</div><div class="line"></div><div class="line">        <span class="keywordflow">case</span> <a class="code" href="group__group__hal__sdio.html#ggaabd12f41a517ee8a5097479ec0101d3aa33a10369852ac53d71ff2c5828d03c5a">CYHAL_SDIO_CMD_COMPLETE</a>:</div><div class="line">        {</div><div class="line">            <span class="comment">// Triggered when command transfer is complete</span></div><div class="line">            <span class="comment">// Insert application code to handle events</span></div><div class="line">            <span class="keywordflow">break</span>;</div><div class="line">        }</div><div class="line"></div><div class="line">        <span class="keywordflow">case</span> <a class="code" href="group__group__hal__sdio.html#ggaabd12f41a517ee8a5097479ec0101d3aa8b6b40006ded2bc54775075d2fdd1ca2">CYHAL_SDIO_XFER_COMPLETE</a>:</div><div class="line">        {</div><div class="line">            <span class="comment">// Triggered when host read/write transfer is complete</span></div><div class="line">            <span class="comment">// Insert application code to handle events</span></div><div class="line">            <span class="keywordflow">break</span>;</div><div class="line">        }</div><div class="line"></div><div class="line">        <span class="keywordflow">default</span>:</div><div class="line">        {</div><div class="line">            <span class="comment">// Anything for other commands</span></div><div class="line">            <span class="keywordflow">break</span>;</div><div class="line">        }</div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line"></div><div class="line"><span class="keywordtype">void</span> snippet_cyhal_sdio_interrupt_init()</div><div class="line">{</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__sdio__t">cyhal_sdio_t</a> sdio_obj;</div><div class="line"><span class="preprocessor">    #define INTERRUPT_PRIORITY (3u)</span></div><div class="line"></div><div class="line">    <span class="comment">// Register the event callback</span></div><div class="line">    <a class="code" href="group__group__hal__sdio.html#ga578b8e176f1aa9444c2da358547ec3df">cyhal_sdio_register_callback</a>(&amp;sdio_obj, &amp;sdio_event_handler, NULL);</div><div class="line"></div><div class="line">    <span class="comment">// Enable events that should trigger the callback</span></div><div class="line">    <a class="code" href="group__group__hal__sdio.html#gad89734727c93fb79714fd94ced75cce5">cyhal_sdio_enable_event</a>(&amp;sdio_obj, <a class="code" href="group__group__hal__sdio.html#ggaabd12f41a517ee8a5097479ec0101d3aad5f6c3ce3ac2fcdb157d51edeb47cb04">CYHAL_SDIO_ALL_INTERRUPTS</a>, INTERRUPT_PRIORITY, <span class="keyword">true</span>);</div><div class="line">}</div><div class="line"></div><div class="line"></div></div><!-- fragment --> <h2><a class="anchor" id="subsection_sdio_use_case_3"></a>
+<div class="fragment"><div class="line"></div><div class="line"><span class="comment">// Event handler callback function</span></div><div class="line"><span class="keywordtype">void</span> sdio_event_handler(<span class="keywordtype">void</span>* handler_arg, <a class="code" href="group__group__hal__sdio.html#gaabd12f41a517ee8a5097479ec0101d3a">cyhal_sdio_event_t</a> event)</div><div class="line">{</div><div class="line">    CY_UNUSED_PARAMETER(handler_arg);</div><div class="line">    CY_UNUSED_PARAMETER(event);</div><div class="line"></div><div class="line">    <span class="keywordflow">switch</span> (event)</div><div class="line">    {</div><div class="line">        <span class="keywordflow">case</span> <a class="code" href="group__group__hal__sdio.html#ggaabd12f41a517ee8a5097479ec0101d3aa420ab7a48b4069ab3e40bb73d4d8fe0d">CYHAL_SDIO_CARD_INSERTION</a>:</div><div class="line">        {</div><div class="line">            <span class="comment">// Triggered when card insertion is detected in present state</span></div><div class="line">            <span class="comment">// Insert application code to handle events</span></div><div class="line">            <span class="keywordflow">break</span>;</div><div class="line">        }</div><div class="line"></div><div class="line">        <span class="keywordflow">case</span> <a class="code" href="group__group__hal__sdio.html#ggaabd12f41a517ee8a5097479ec0101d3aa33a10369852ac53d71ff2c5828d03c5a">CYHAL_SDIO_CMD_COMPLETE</a>:</div><div class="line">        {</div><div class="line">            <span class="comment">// Triggered when command transfer is complete</span></div><div class="line">            <span class="comment">// Insert application code to handle events</span></div><div class="line">            <span class="keywordflow">break</span>;</div><div class="line">        }</div><div class="line"></div><div class="line">        <span class="keywordflow">case</span> <a class="code" href="group__group__hal__sdio.html#ggaabd12f41a517ee8a5097479ec0101d3aa8b6b40006ded2bc54775075d2fdd1ca2">CYHAL_SDIO_XFER_COMPLETE</a>:</div><div class="line">        {</div><div class="line">            <span class="comment">// Triggered when host read/write transfer is complete</span></div><div class="line">            <span class="comment">// Insert application code to handle events</span></div><div class="line">            <span class="keywordflow">break</span>;</div><div class="line">        }</div><div class="line"></div><div class="line">        <span class="keywordflow">default</span>:</div><div class="line">        {</div><div class="line">            <span class="comment">// Anything for other commands</span></div><div class="line">            <span class="keywordflow">break</span>;</div><div class="line">        }</div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line"></div><div class="line"><span class="keywordtype">void</span> snippet_cyhal_sdio_interrupt_init()</div><div class="line">{</div><div class="line"><span class="preprocessor">    #define INTERRUPT_PRIORITY (3u)</span></div><div class="line"></div><div class="line">    <span class="comment">// Register the event callback</span></div><div class="line">    <a class="code" href="group__group__hal__sdio.html#ga578b8e176f1aa9444c2da358547ec3df">cyhal_sdio_register_callback</a>(&amp;sdio_obj, &amp;sdio_event_handler, NULL);</div><div class="line"></div><div class="line">    <span class="comment">// Enable events that should trigger the callback</span></div><div class="line">    <a class="code" href="group__group__hal__sdio.html#gad89734727c93fb79714fd94ced75cce5">cyhal_sdio_enable_event</a>(&amp;sdio_obj, <a class="code" href="group__group__hal__sdio.html#ggaabd12f41a517ee8a5097479ec0101d3aad5f6c3ce3ac2fcdb157d51edeb47cb04">CYHAL_SDIO_ALL_INTERRUPTS</a>, INTERRUPT_PRIORITY, <span class="keyword">true</span>);</div><div class="line">}</div><div class="line"></div><div class="line"></div></div><!-- fragment --> <h2><a class="anchor" id="subsection_sdio_use_case_3"></a>
 Snippet3: Sending Commands</h2>
 <p>The following snippet shows how to send a particular command. Some steps of the card initialization have been provided for reference. Refer <a class="el" href="group__group__hal__sdio.html#ga25cddf5200bffe914579005c59d0c0e3">cyhal_sdio_command_t</a> for different commands.</p>
-<div class="fragment"><div class="line"></div><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>    rslt;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__sdio__t">cyhal_sdio_t</a> sdio_obj;</div><div class="line">    uint32_t     response;</div><div class="line">    <span class="keywordtype">bool</span>         f8Flag = <span class="keyword">false</span>; <span class="comment">// The CMD8 valid flag.</span></div><div class="line"></div><div class="line"><span class="preprocessor">    #define MY_SDIO_CMD_NO_ARG               (0u)</span></div><div class="line"><span class="preprocessor">    #define MY_SDIO_CMD8                     ((cyhal_sdio_command_t)8u)</span></div><div class="line"><span class="preprocessor">    #define MY_SDIO_CMD8_VHS_27_36           (0x100UL) // CMD8 voltage supplied 2.7-3.6 V.</span></div><div class="line"><span class="preprocessor">    #define MY_SDIO_CMD8_PATTERN_MASK        (0xFFUL)</span></div><div class="line"><span class="preprocessor">    #define MY_SDIO_CMD8_CHECK_PATTERN       (0xAAUL)</span></div><div class="line"></div><div class="line">    <span class="comment">// Start the card initialization process</span></div><div class="line"></div><div class="line">    <span class="comment">// Reset Card (CMD0).</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__sdio.html#ga529363b14c8363fc11165c963e03fef0">cyhal_sdio_send_cmd</a>(&amp;sdio_obj, <a class="code" href="group__group__hal__sdio.html#ggad220f74b1594b8832349e120fd7e2b91a52c3859afab58f7656ceb99a9688d3b7">CYHAL_WRITE</a>, <a class="code" href="group__group__hal__sdio.html#gga25cddf5200bffe914579005c59d0c0e3a7ca2dcd36a054cc8727854674fac25ab">CYHAL_SDIO_CMD_GO_IDLE_STATE</a>,</div><div class="line">                               MY_SDIO_CMD_NO_ARG, &amp;response);</div><div class="line"></div><div class="line">    <span class="comment">// Voltage check (CMD8).</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__sdio.html#ga529363b14c8363fc11165c963e03fef0">cyhal_sdio_send_cmd</a>(&amp;sdio_obj, <a class="code" href="group__group__hal__sdio.html#ggad220f74b1594b8832349e120fd7e2b91a52c3859afab58f7656ceb99a9688d3b7">CYHAL_WRITE</a>, MY_SDIO_CMD8, MY_SDIO_CMD8_VHS_27_36 |</div><div class="line">                               MY_SDIO_CMD8_CHECK_PATTERN, &amp;response);</div><div class="line"></div><div class="line">    <span class="comment">// Check the pattern.</span></div><div class="line">    <span class="keywordflow">if</span> (MY_SDIO_CMD8_CHECK_PATTERN == (response &amp; MY_SDIO_CMD8_PATTERN_MASK))</div><div class="line">    {</div><div class="line">        <span class="comment">// The pattern is valid.</span></div><div class="line">        f8Flag = <span class="keyword">true</span>;</div><div class="line">    }</div><div class="line">    <span class="keywordflow">else</span></div><div class="line">    {</div><div class="line">        <span class="comment">// SDIO Card is unusable</span></div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keywordflow">if</span> (f8Flag)</div><div class="line">    {</div><div class="line">        <span class="comment">// Add further initialization commands based on SDIO card</span></div><div class="line">    }</div><div class="line"></div></div><!-- fragment --> <h2><a class="anchor" id="subsection_sdio_use_case_4"></a>
+<div class="fragment"><div class="line"></div><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>    rslt;</div><div class="line">    uint32_t     response;</div><div class="line">    <span class="keywordtype">bool</span>         f8Flag = <span class="keyword">false</span>; <span class="comment">// The CMD8 valid flag.</span></div><div class="line"></div><div class="line"><span class="preprocessor">    #define MY_SDIO_CMD_NO_ARG               (0u)</span></div><div class="line"><span class="preprocessor">    #define MY_SDIO_CMD8                     ((cyhal_sdio_command_t)8u)</span></div><div class="line"><span class="preprocessor">    #define MY_SDIO_CMD8_VHS_27_36           (0x100UL) // CMD8 voltage supplied 2.7-3.6 V.</span></div><div class="line"><span class="preprocessor">    #define MY_SDIO_CMD8_PATTERN_MASK        (0xFFUL)</span></div><div class="line"><span class="preprocessor">    #define MY_SDIO_CMD8_CHECK_PATTERN       (0xAAUL)</span></div><div class="line"></div><div class="line">    <span class="comment">// Start the card initialization process</span></div><div class="line"></div><div class="line">    <span class="comment">// Reset Card (CMD0).</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__sdio.html#ga529363b14c8363fc11165c963e03fef0">cyhal_sdio_send_cmd</a>(&amp;sdio_obj, <a class="code" href="group__group__hal__sdio.html#ggad220f74b1594b8832349e120fd7e2b91a52c3859afab58f7656ceb99a9688d3b7">CYHAL_WRITE</a>, <a class="code" href="group__group__hal__sdio.html#gga25cddf5200bffe914579005c59d0c0e3a7ca2dcd36a054cc8727854674fac25ab">CYHAL_SDIO_CMD_GO_IDLE_STATE</a>,</div><div class="line">                               MY_SDIO_CMD_NO_ARG, &amp;response);</div><div class="line"></div><div class="line">    <span class="comment">// Voltage check (CMD8).</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__sdio.html#ga529363b14c8363fc11165c963e03fef0">cyhal_sdio_send_cmd</a>(&amp;sdio_obj, <a class="code" href="group__group__hal__sdio.html#ggad220f74b1594b8832349e120fd7e2b91a52c3859afab58f7656ceb99a9688d3b7">CYHAL_WRITE</a>, MY_SDIO_CMD8, MY_SDIO_CMD8_VHS_27_36 |</div><div class="line">                               MY_SDIO_CMD8_CHECK_PATTERN, &amp;response);</div><div class="line"></div><div class="line">    <span class="comment">// Check the pattern.</span></div><div class="line">    <span class="keywordflow">if</span> (MY_SDIO_CMD8_CHECK_PATTERN == (response &amp; MY_SDIO_CMD8_PATTERN_MASK))</div><div class="line">    {</div><div class="line">        <span class="comment">// The pattern is valid.</span></div><div class="line">        f8Flag = <span class="keyword">true</span>;</div><div class="line">    }</div><div class="line">    <span class="keywordflow">else</span></div><div class="line">    {</div><div class="line">        <span class="comment">// SDIO Card is unusable</span></div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keywordflow">if</span> (f8Flag)</div><div class="line">    {</div><div class="line">        <span class="comment">// Add further initialization commands based on SDIO card</span></div><div class="line">    }</div><div class="line"></div></div><!-- fragment --> <h2><a class="anchor" id="subsection_sdio_use_case_4"></a>
 Snippet4: Bulk Data Transfer</h2>
 <p>The following snippet shows how to start a bulk data transfer.</p>
 <div class="fragment"><div class="line"><span class="preprocessor">    #define DATA_LENGTH                      (5u)</span></div><div class="line"><span class="preprocessor">    #define MY_SDIO_CMD_NO_ARG               (0u)</span></div><div class="line"></div><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> rslt;</div><div class="line">    uint32_t  data[DATA_LENGTH] = { <span class="charliteral">&#39;1&#39;</span>, <span class="charliteral">&#39;2&#39;</span>, <span class="charliteral">&#39;3&#39;</span>, <span class="charliteral">&#39;4&#39;</span>, <span class="charliteral">&#39;5&#39;</span> };</div><div class="line">    uint32_t  response;</div><div class="line"></div><div class="line">    <span class="comment">// Begin bulk data transfer</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__sdio.html#gaa2568f2eac68b9a4dcf95580d6da68d0">cyhal_sdio_bulk_transfer</a>(&amp;sdio_obj, <a class="code" href="group__group__hal__sdio.html#ggad220f74b1594b8832349e120fd7e2b91a52c3859afab58f7656ceb99a9688d3b7">CYHAL_WRITE</a>, MY_SDIO_CMD_NO_ARG, data, DATA_LENGTH,</div><div class="line">                                    &amp;response);</div><div class="line"></div></div><!-- fragment --> <h2><a class="anchor" id="subsection_sdio_use_case_5"></a>
@@ -158,6 +158,8 @@ Enumerations</h2></td></tr>
 &#160;&#160;<a class="el" href="group__group__hal__sdio.html#gga25cddf5200bffe914579005c59d0c0e3ae2bc26a3263f71c0aa63abd1623de9b0">CYHAL_SDIO_CMD_IO_SEND_OP_COND</a> = 5, 
 <br />
 &#160;&#160;<a class="el" href="group__group__hal__sdio.html#gga25cddf5200bffe914579005c59d0c0e3a4085b09bebe2f8e8de956350dd9f48ba">CYHAL_SDIO_CMD_SELECT_CARD</a> = 7, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__sdio.html#gga25cddf5200bffe914579005c59d0c0e3af06d030b2219569339c70369e6b5bbe2">CYHAL_SDIO_CMD_VOLTAGE_SWITCH</a> = 11, 
 <br />
 &#160;&#160;<a class="el" href="group__group__hal__sdio.html#gga25cddf5200bffe914579005c59d0c0e3a6ab62c273618b890f74562018f867ca5">CYHAL_SDIO_CMD_GO_INACTIVE_STATE</a> = 15, 
 <br />
@@ -218,6 +220,22 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:gaabd12f41a517ee8a5097479ec0101d3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Types of events that could be asserted by SDIO.  <a href="group__group__hal__sdio.html#gaabd12f41a517ee8a5097479ec0101d3a">More...</a><br /></td></tr>
 <tr class="separator:gaabd12f41a517ee8a5097479ec0101d3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga774da6bb6f7f85a45e993702ea73c3ea"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__sdio.html#ga774da6bb6f7f85a45e993702ea73c3ea">cyhal_sdio_io_voltage_t</a> { <br />
+&#160;&#160;<a class="el" href="group__group__hal__sdio.html#gga774da6bb6f7f85a45e993702ea73c3eaa072d4c0f2cc080b654fb8bcc96754051">CYHAL_SDIO_IO_VOLTAGE_3_3V</a> = 0U, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__sdio.html#gga774da6bb6f7f85a45e993702ea73c3eaa1cbbd26dc98ba1a0004e05d76ce751bf">CYHAL_SDIO_IO_VOLTAGE_1_8V</a> = 1U
+<br />
+ }</td></tr>
+<tr class="memdesc:ga774da6bb6f7f85a45e993702ea73c3ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">I/O voltage levels.  <a href="group__group__hal__sdio.html#ga774da6bb6f7f85a45e993702ea73c3ea">More...</a><br /></td></tr>
+<tr class="separator:ga774da6bb6f7f85a45e993702ea73c3ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab06e88f3b9dbb2cc6d5cf55b9955e9c3"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__sdio.html#gab06e88f3b9dbb2cc6d5cf55b9955e9c3">cyhal_sdio_io_volt_action_type_t</a> { <br />
+&#160;&#160;<a class="el" href="group__group__hal__sdio.html#ggab06e88f3b9dbb2cc6d5cf55b9955e9c3a3501a439fa0c383f6e01b4f2d5a263a5">CYHAL_SDIO_IO_VOLT_ACTION_SWITCH_SEQ_ONLY</a> = 1U, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__sdio.html#ggab06e88f3b9dbb2cc6d5cf55b9955e9c3a92b7e1c057a65314c5244e6ab3608298">CYHAL_SDIO_IO_VOLT_ACTION_NONE</a> = 2U
+<br />
+ }</td></tr>
+<tr class="memdesc:gab06e88f3b9dbb2cc6d5cf55b9955e9c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">SDIO I/O voltage select principle.  <a href="group__group__hal__sdio.html#gab06e88f3b9dbb2cc6d5cf55b9955e9c3">More...</a><br /></td></tr>
+<tr class="separator:gab06e88f3b9dbb2cc6d5cf55b9955e9c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -251,6 +269,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gad89734727c93fb79714fd94ced75cce5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__sdio.html#gad89734727c93fb79714fd94ced75cce5">cyhal_sdio_enable_event</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__sdio__t">cyhal_sdio_t</a> *obj, <a class="el" href="group__group__hal__sdio.html#gaabd12f41a517ee8a5097479ec0101d3a">cyhal_sdio_event_t</a> event, uint8_t intr_priority, bool enable)</td></tr>
 <tr class="memdesc:gad89734727c93fb79714fd94ced75cce5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables callbacks to be triggered for specified SDIO events.  <a href="#gad89734727c93fb79714fd94ced75cce5">More...</a><br /></td></tr>
 <tr class="separator:gad89734727c93fb79714fd94ced75cce5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gacc9d44ba6179ef30ef017bb10fcc161d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__sdio.html#gacc9d44ba6179ef30ef017bb10fcc161d">cyhal_sdio_set_io_voltage</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__sdio__t">cyhal_sdio_t</a> *obj, <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a> io_volt_sel, <a class="el" href="group__group__hal__sdio.html#ga774da6bb6f7f85a45e993702ea73c3ea">cyhal_sdio_io_voltage_t</a> io_voltage, <a class="el" href="group__group__hal__sdio.html#gab06e88f3b9dbb2cc6d5cf55b9955e9c3">cyhal_sdio_io_volt_action_type_t</a> io_switch_type)</td></tr>
+<tr class="memdesc:gacc9d44ba6179ef30ef017bb10fcc161d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the voltage level of the I/O lines.  <a href="#gacc9d44ba6179ef30ef017bb10fcc161d">More...</a><br /></td></tr>
+<tr class="separator:gacc9d44ba6179ef30ef017bb10fcc161d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/><h2 class="groupheader">Data Structure Documentation</h2>
 <a name="structcyhal__sdio__cfg__t" id="structcyhal__sdio__cfg__t"></a>
@@ -304,6 +325,8 @@ Block size. </td></tr>
 <tr><td class="fieldname"><a id="gga25cddf5200bffe914579005c59d0c0e3ae2bc26a3263f71c0aa63abd1623de9b0"></a>CYHAL_SDIO_CMD_IO_SEND_OP_COND&#160;</td><td class="fielddoc"><p>Send an OP IO. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga25cddf5200bffe914579005c59d0c0e3a4085b09bebe2f8e8de956350dd9f48ba"></a>CYHAL_SDIO_CMD_SELECT_CARD&#160;</td><td class="fielddoc"><p>Send a card select. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga25cddf5200bffe914579005c59d0c0e3af06d030b2219569339c70369e6b5bbe2"></a>CYHAL_SDIO_CMD_VOLTAGE_SWITCH&#160;</td><td class="fielddoc"><p>Voltage switch. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga25cddf5200bffe914579005c59d0c0e3a6ab62c273618b890f74562018f867ca5"></a>CYHAL_SDIO_CMD_GO_INACTIVE_STATE&#160;</td><td class="fielddoc"><p>Go to inactive state. </p>
 </td></tr>
@@ -388,6 +411,50 @@ Block size. </td></tr>
 <tr><td class="fieldname"><a id="ggaabd12f41a517ee8a5097479ec0101d3aa3f5a26c4b478aa2caf355a1436e8c13f"></a>CYHAL_SDIO_COMING_UP&#160;</td><td class="fielddoc"><p>The interface is back up (eg: came back from a low power state) </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ggaabd12f41a517ee8a5097479ec0101d3aad5f6c3ce3ac2fcdb157d51edeb47cb04"></a>CYHAL_SDIO_ALL_INTERRUPTS&#160;</td><td class="fielddoc"><p>Is used to enable/disable all interrupts events. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="ga774da6bb6f7f85a45e993702ea73c3ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga774da6bb6f7f85a45e993702ea73c3ea">&#9670;&nbsp;</a></span>cyhal_sdio_io_voltage_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__group__hal__sdio.html#ga774da6bb6f7f85a45e993702ea73c3ea">cyhal_sdio_io_voltage_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>I/O voltage levels. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga774da6bb6f7f85a45e993702ea73c3eaa072d4c0f2cc080b654fb8bcc96754051"></a>CYHAL_SDIO_IO_VOLTAGE_3_3V&#160;</td><td class="fielddoc"><p>I/O voltage is 3.3V. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga774da6bb6f7f85a45e993702ea73c3eaa1cbbd26dc98ba1a0004e05d76ce751bf"></a>CYHAL_SDIO_IO_VOLTAGE_1_8V&#160;</td><td class="fielddoc"><p>I/O voltage is 1.8V. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="gab06e88f3b9dbb2cc6d5cf55b9955e9c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab06e88f3b9dbb2cc6d5cf55b9955e9c3">&#9670;&nbsp;</a></span>cyhal_sdio_io_volt_action_type_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__group__hal__sdio.html#gab06e88f3b9dbb2cc6d5cf55b9955e9c3">cyhal_sdio_io_volt_action_type_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>SDIO I/O voltage select principle. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ggab06e88f3b9dbb2cc6d5cf55b9955e9c3a3501a439fa0c383f6e01b4f2d5a263a5"></a>CYHAL_SDIO_IO_VOLT_ACTION_SWITCH_SEQ_ONLY&#160;</td><td class="fielddoc"><p>HAL driver performs switching sequence (if voltage is being switched to 1.8V) and changes io_volt_sel pin level accordingly. No commands are being send to the card in this mode. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggab06e88f3b9dbb2cc6d5cf55b9955e9c3a92b7e1c057a65314c5244e6ab3608298"></a>CYHAL_SDIO_IO_VOLT_ACTION_NONE&#160;</td><td class="fielddoc"><p>I/O voltage is changed by changing io_volt_sel pin's level. No commands are being send to the card in this mode. </p>
 </td></tr>
 </table>
 
@@ -879,6 +946,58 @@ Block size. </td></tr>
   </dd>
 </dl>
 <p>Refer <a class="el" href="group__group__hal__sdio.html#subsection_sdio_use_case_2">Snippet2: Configure Interrupt</a> for more information. </p>
+
+</div>
+</div>
+<a id="gacc9d44ba6179ef30ef017bb10fcc161d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gacc9d44ba6179ef30ef017bb10fcc161d">&#9670;&nbsp;</a></span>cyhal_sdio_set_io_voltage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_sdio_set_io_voltage </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__sdio__t">cyhal_sdio_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a>&#160;</td>
+          <td class="paramname"><em>io_volt_sel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__sdio.html#ga774da6bb6f7f85a45e993702ea73c3ea">cyhal_sdio_io_voltage_t</a>&#160;</td>
+          <td class="paramname"><em>io_voltage</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__sdio.html#gab06e88f3b9dbb2cc6d5cf55b9955e9c3">cyhal_sdio_io_volt_action_type_t</a>&#160;</td>
+          <td class="paramname"><em>io_switch_type</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the voltage level of the I/O lines. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The SDIO object </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">io_volt_sel</td><td>The pin connected to the io_volt_sel signal. This pin changes the logic level on the sd_io_volt_sel line. It assumes that this line is used to control a regulator connected to the VDDIO of the MCU. This regulator allows for switching between the 3.3V and 1.8V signaling. High level on the pin stands for 1.8V signaling, while low - for 3.3V. This pin can be NC. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">io_voltage</td><td>I/O voltage to be set on lines </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">io_switch_type</td><td>Defines how I/O voltage will be switched </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the operation </dd></dl>
 
 </div>
 </div>

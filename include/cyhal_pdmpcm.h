@@ -134,8 +134,8 @@ typedef struct
     uint8_t decimation_rate;    /**< PDM decimation rate */
     cyhal_pdm_pcm_mode_t mode;  /**< left, right, or stereo */
     uint8_t word_length;        /**< PCM word length in bits, see the implementation specific documentation for valid range */
-    int8_t left_gain;           /**< PGA in 0.5 dB increment, for example a value of 5 would mean +2.5 dB. The closest fit value will be used, see the implementation specific documentation for valid ranges. This may be negative if the implementation supports it. */
-    int8_t right_gain;          /**< PGA in 0.5 dB increment, for example a value of 5 would mean +2.5 dB. The closest fit value will be used, see the implementation specific documentation for valid ranges. This may be negative if the implementation supports it. */
+    int16_t left_gain;           /**< PGA in 0.5 dB increment, for example a value of 5 would mean +2.5 dB. The closest fit value will be used, see the implementation specific documentation for valid ranges. This may be negative if the implementation supports it. */
+    int16_t right_gain;          /**< PGA in 0.5 dB increment, for example a value of 5 would mean +2.5 dB. The closest fit value will be used, see the implementation specific documentation for valid ranges. This may be negative if the implementation supports it. */
 } cyhal_pdm_pcm_cfg_t;
 
 /** Handler for PDM/PCM interrupts */
@@ -201,7 +201,7 @@ bool cyhal_pdm_pcm_is_enabled(cyhal_pdm_pcm_t *obj);
  * @param[in] gain_right The gain of the right channel in units of 0.5 dB
  * @return The status of the set gain operation. An error will be returned if the value is outside of range supported by HW.
  */
-cy_rslt_t cyhal_pdm_pcm_set_gain(cyhal_pdm_pcm_t *obj, int8_t gain_left, int8_t gain_right);
+cy_rslt_t cyhal_pdm_pcm_set_gain(cyhal_pdm_pcm_t *obj, int16_t gain_left, int16_t gain_right);
 
 /** Clears the hardware buffer
  *

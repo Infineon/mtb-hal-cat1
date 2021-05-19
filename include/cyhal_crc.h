@@ -135,6 +135,8 @@ void cyhal_crc_free(cyhal_crc_t *obj);
  * @param[in] algorithm     The CRC algorithm to use for computations Refer \ref crc_algorithm_t.
  * @return The status of the compute request
  *
+ * \note The state of the CRC Block will be reset to the state provided by in the argument algorithm.
+ *
  * Returns \ref CY_RSLT_SUCCESS if the operation was successful.
  */
 cy_rslt_t cyhal_crc_start(cyhal_crc_t *obj, const crc_algorithm_t *algorithm);

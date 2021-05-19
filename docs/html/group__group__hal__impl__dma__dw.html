@@ -106,6 +106,12 @@ Functions</h2></td></tr>
 <tr class="memitem:ga319fc2473bb85e38b0a5c73558a51ca5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__dma__dw.html#ga319fc2473bb85e38b0a5c73558a51ca5">_cyhal_dma_dw_configure</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a> *obj, const <a class="el" href="group__group__hal__dma.html#structcyhal__dma__cfg__t">cyhal_dma_cfg_t</a> *cfg)</td></tr>
 <tr class="memdesc:ga319fc2473bb85e38b0a5c73558a51ca5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setup a Datawire descriptor for the dma resource.  <a href="#ga319fc2473bb85e38b0a5c73558a51ca5">More...</a><br /></td></tr>
 <tr class="separator:ga319fc2473bb85e38b0a5c73558a51ca5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga69e7112f566034c8881145d9ca97ca85"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__dma__dw.html#ga69e7112f566034c8881145d9ca97ca85">_cyhal_dma_dw_enable</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a> *obj)</td></tr>
+<tr class="memdesc:ga69e7112f566034c8881145d9ca97ca85"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable the DataWire transfer so that it can start transfering data when triggered.  <a href="#ga69e7112f566034c8881145d9ca97ca85">More...</a><br /></td></tr>
+<tr class="separator:ga69e7112f566034c8881145d9ca97ca85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga59e7abe7af795d53433f6025f610f578"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__dma__dw.html#ga59e7abe7af795d53433f6025f610f578">_cyhal_dma_dw_disable</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a> *obj)</td></tr>
+<tr class="memdesc:ga59e7abe7af795d53433f6025f610f578"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disable the DataWire transfer so that it does not continue to trigger.  <a href="#ga59e7abe7af795d53433f6025f610f578">More...</a><br /></td></tr>
+<tr class="separator:ga59e7abe7af795d53433f6025f610f578"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga36f61612b84d2760b763e88d6847257e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__dma__dw.html#ga36f61612b84d2760b763e88d6847257e">_cyhal_dma_dw_start_transfer</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a> *obj)</td></tr>
 <tr class="memdesc:ga36f61612b84d2760b763e88d6847257e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start a Datawire transfer.  <a href="#ga36f61612b84d2760b763e88d6847257e">More...</a><br /></td></tr>
 <tr class="separator:ga36f61612b84d2760b763e88d6847257e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -243,6 +249,60 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The status of the configure request </dd></dl>
+
+</div>
+</div>
+<a id="ga69e7112f566034c8881145d9ca97ca85"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga69e7112f566034c8881145d9ca97ca85">&#9670;&nbsp;</a></span>_cyhal_dma_dw_enable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> _cyhal_dma_dw_enable </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enable the DataWire transfer so that it can start transfering data when triggered. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The DMA object </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the enable request </dd></dl>
+
+</div>
+</div>
+<a id="ga59e7abe7af795d53433f6025f610f578"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga59e7abe7af795d53433f6025f610f578">&#9670;&nbsp;</a></span>_cyhal_dma_dw_disable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> _cyhal_dma_dw_disable </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__dma__t">cyhal_dma_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Disable the DataWire transfer so that it does not continue to trigger. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The DMA object </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the enable request </dd></dl>
 
 </div>
 </div>

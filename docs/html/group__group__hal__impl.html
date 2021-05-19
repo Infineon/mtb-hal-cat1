@@ -150,14 +150,16 @@ HAL Resource Hardware Mapping</h1>
 <tr class="markdownTableBody" class="markdownTableRowEven">
 <td class="markdownTableBodyNone">System  </td><td class="markdownTableBodyNone">cy_syslib  </td><td class="markdownTableBodyNone">System Resources   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">TDM  </td><td class="markdownTableBodyNone">cy_i2s  </td><td class="markdownTableBodyNone">I2S   </td></tr>
+<tr class="markdownTableBody" class="markdownTableRowEven">
 <td class="markdownTableBodyNone">Timer  </td><td class="markdownTableBodyNone">cy_tcpwm_counter  </td><td class="markdownTableBodyNone">TCPWM   </td></tr>
-<tr class="markdownTableBody" class="markdownTableRowEven">
+<tr class="markdownTableBody" class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">TRNG  </td><td class="markdownTableBodyNone">cy_crypto_core_trng  </td><td class="markdownTableBodyNone">Crypto   </td></tr>
-<tr class="markdownTableBody" class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">UART  </td><td class="markdownTableBodyNone">cy_scb_uart  </td><td class="markdownTableBodyNone">SCB   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowEven">
-<td class="markdownTableBodyNone">USB Device  </td><td class="markdownTableBodyNone">cy_usbfs_dev_drv  </td><td class="markdownTableBodyNone">USB-FS   </td></tr>
+<td class="markdownTableBodyNone">UART  </td><td class="markdownTableBodyNone">cy_scb_uart  </td><td class="markdownTableBodyNone">SCB   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">USB Device  </td><td class="markdownTableBodyNone">cy_usbfs_dev_drv  </td><td class="markdownTableBodyNone">USB-FS   </td></tr>
+<tr class="markdownTableBody" class="markdownTableRowEven">
 <td class="markdownTableBodyNone">WDT  </td><td class="markdownTableBodyNone">cy_wdt  </td><td class="markdownTableBodyNone">WDT   </td></tr>
 </table>
 <h1><a class="anchor" id="group_hal_impl_errors"></a>
@@ -166,6 +168,9 @@ Device Specific Errors</h1>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="groups"></a>
 API Reference</h2></td></tr>
+<tr class="memitem:group__group__hal__impl__deprecated"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__deprecated.html">Deprecated</a></td></tr>
+<tr class="memdesc:group__group__hal__impl__deprecated"><td class="mdescLeft">&#160;</td><td class="mdescRight">The following CAT1 specific items have been deprecated and replaced by more generic items. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__group__hal__impl__clock"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__clock.html">Clocks</a></td></tr>
 <tr class="memdesc:group__group__hal__impl__clock"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implementation specific interface for using the Clock driver. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -174,9 +179,6 @@ API Reference</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__group__hal__comp__lp"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__comp__lp.html">COMP (LP Comparator block)</a></td></tr>
 <tr class="memdesc:group__group__hal__comp__lp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implementation of the analog comparator (COMP) driver on top of the LP (low power) comparator. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__group__hal__impl__deprecated"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__deprecated.html">Deprecated</a></td></tr>
-<tr class="memdesc:group__group__hal__impl__deprecated"><td class="mdescLeft">&#160;</td><td class="mdescRight">The following CAT1 specific items have been deprecated and replaced by more generic items. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__group__hal__impl__dma"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__dma.html">DMA (Direct Memory Access)</a></td></tr>
 <tr class="memdesc:group__group__hal__impl__dma"><td class="mdescLeft">&#160;</td><td class="mdescRight">DW (DataWire) is one of two DMA hardware implementations for CAT1 (PSoC 6). <br /></td></tr>
@@ -205,6 +207,8 @@ API Reference</h2></td></tr>
 <tr class="memitem:group__group__hal__impl__wdt"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__wdt.html">WDT (Watchdog Timer)</a></td></tr>
 <tr class="memdesc:group__group__hal__impl__wdt"><td class="mdescLeft">&#160;</td><td class="mdescRight">The CAT1 (PSoC 6) WDT is only capable of supporting certain timeout ranges below its maximum timeout. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__group__hal__impl__adcmic"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__adcmic.html">ADC (Analog Digital Converter)</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__group__hal__impl__adc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__adc.html">ADC (Analog Digital Converter)</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__group__hal__impl__comp"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__comp.html">COMP (Analog Comparator)</a></td></tr>
@@ -213,7 +217,7 @@ API Reference</h2></td></tr>
 <tr class="memitem:group__group__hal__impl__dac"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__dac.html">DAC</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__group__hal__impl__i2s"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__i2s.html">I2S (Inter-IC Sound)</a></td></tr>
-<tr class="memdesc:group__group__hal__impl__i2s"><td class="mdescLeft">&#160;</td><td class="mdescRight">The CAT1 (PSoC 6) I2S Supports the following values for word and channel lengths (with the constraint that word length must be less than or equal to channel length): <br /></td></tr>
+<tr class="memdesc:group__group__hal__impl__i2s"><td class="mdescLeft">&#160;</td><td class="mdescRight">The CAT1 (PSoC 6) I2S Supports the following values for word lengths: <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__group__hal__impl__lptimer"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__lptimer.html">LPTIMER</a></td></tr>
 <tr class="memdesc:group__group__hal__impl__lptimer"><td class="mdescLeft">&#160;</td><td class="mdescRight">The maximum number of ticks that can set to an LPTIMER is 0xFFF0FFFF. <br /></td></tr>
@@ -221,7 +225,7 @@ API Reference</h2></td></tr>
 <tr class="memitem:group__group__hal__impl__opamp"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__opamp.html">Opamp</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__group__hal__impl__pdmpcm"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__pdmpcm.html">PDM/PCM (Pulse Density Modulation to Pulse Code Modulation Converter)</a></td></tr>
-<tr class="memdesc:group__group__hal__impl__pdmpcm"><td class="mdescLeft">&#160;</td><td class="mdescRight">The CAT1 (PSoC 6) PDM/PCM Supports the following conversion parameters: <br /></td></tr>
+<tr class="memdesc:group__group__hal__impl__pdmpcm"><td class="mdescLeft">&#160;</td><td class="mdescRight">The CAT1A PDM/PCM Supports the following conversion parameters: <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__group__hal__impl__pwm"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__pwm.html">PWM (Pulse Width Modulator)</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -232,6 +236,9 @@ API Reference</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__group__hal__impl__sdhc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__sdhc.html">SDHC (SD Host Controller)</a></td></tr>
 <tr class="memdesc:group__group__hal__impl__sdhc"><td class="mdescLeft">&#160;</td><td class="mdescRight">The SHDC HAL implemenation for PSoC 6 provides implementations for the following weak functions specified by the PDL to make their usage in SDHC HAL driver more flexible by providing user ability to use card detect, write protect, pwr en, and io select signals on custom pins instead of dedicated SDHC block pins. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__group__hal__impl__tdm"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__tdm.html">TDM (Time Division Multiplexing)</a></td></tr>
+<tr class="memdesc:group__group__hal__impl__tdm"><td class="mdescLeft">&#160;</td><td class="mdescRight">The CAT1 (PSoC 6) TDM Supports the following values for word lengths: <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__group__hal__impl__udb__sdio"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__udb__sdio.html">UDB SDIO (Secure Digital Input Output)</a></td></tr>
 <tr class="memdesc:group__group__hal__impl__udb__sdio"><td class="mdescLeft">&#160;</td><td class="mdescRight">The UDB based SDIO interface allows for communicating between a PSoC 6 and a Cypress wireless device such as the CYW4343W, CYW43438, or CYW43012. <br /></td></tr>

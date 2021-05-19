@@ -89,13 +89,6 @@ extern "C" {
  * \}
  */
 
-/** Trigger type */
-typedef enum
-{
-    CYHAL_SIGNAL_TYPE_LEVEL = 0, //!< Level triggered
-    CYHAL_SIGNAL_TYPE_EDGE  = 1, //!< Edge triggered
-} cyhal_signal_type_t;
-
 /** Connect a pin to a peripheral terminal. This will route a direct connection from the pin to the peripheral.
  * Any previous direct connection from the pin will be overriden.<br>
  * See \ref subsection_interconnect_snippet1

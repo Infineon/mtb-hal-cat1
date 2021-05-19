@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['quaddec_20_28quadrature_20decoder_29',['QuadDec (Quadrature Decoder)',['../group__group__hal__impl__quaddec.html',1,'']]],
-  ['qspi_20_28quad_20serial_20peripheral_20interface_29',['QSPI (Quad Serial Peripheral Interface)',['../group__group__hal__qspi.html',1,'']]],
-  ['quadrature_20decoder',['Quadrature Decoder',['../group__group__hal__quaddec.html',1,'']]],
-  ['qspi_20hal_20results',['QSPI HAL Results',['../group__group__hal__results__qspi.html',1,'']]],
-  ['quadrature_20decoder_20hal_20results',['Quadrature Decoder HAL Results',['../group__group__hal__results__quaddec.html',1,'']]]
+  ['opamp',['Opamp',['../group__group__hal__impl__opamp.html',1,'']]],
+  ['opamp_20_28operational_20amplifier_29',['Opamp (Operational Amplifier)',['../group__group__hal__opamp.html',1,'']]],
+  ['overrideable_20macros',['Overrideable Macros',['../group__group__hal__override.html',1,'']]],
+  ['opamp_20hal_20results',['Opamp HAL Results',['../group__group__hal__results__opamp.html',1,'']]]
 ];

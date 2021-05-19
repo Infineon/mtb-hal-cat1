@@ -16,8 +16,10 @@ var group__group__hal__impl__pin__package =
     [ "PSoC6_03 100-TQFP", "group__group__hal__impl__pin__package__psoc6__03__100__tqfp.html", "group__group__hal__impl__pin__package__psoc6__03__100__tqfp" ],
     [ "PSoC6_03 49-WLCSP", "group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html", "group__group__hal__impl__pin__package__psoc6__03__49__wlcsp" ],
     [ "PSoC6_03 68-QFN", "group__group__hal__impl__pin__package__psoc6__03__68__qfn.html", "group__group__hal__impl__pin__package__psoc6__03__68__qfn" ],
-    [ "PSoC6_04 64-TQFP-EPAD", "group__group__hal__impl__pin__package__psoc6__04__64__tqfp__epad.html", "group__group__hal__impl__pin__package__psoc6__04__64__tqfp__epad" ],
+    [ "PSoC6_04 64-TQFP", "group__group__hal__impl__pin__package__psoc6__04__64__tqfp.html", "group__group__hal__impl__pin__package__psoc6__04__64__tqfp" ],
     [ "PSoC6_04 68-QFN", "group__group__hal__impl__pin__package__psoc6__04__68__qfn.html", "group__group__hal__impl__pin__package__psoc6__04__68__qfn" ],
     [ "PSoC6_04 80-TQFP", "group__group__hal__impl__pin__package__psoc6__04__80__tqfp.html", "group__group__hal__impl__pin__package__psoc6__04__80__tqfp" ],
+    [ "CYW20829 56-QFN", "group__group__hal__impl__pin__package__cyw20829__56__qfn.html", "group__group__hal__impl__pin__package__cyw20829__56__qfn" ],
+    [ "MXS28PLAYERMCUSS 128-TQFP", "group__group__hal__impl__pin__package__mxs28playermcuss__128__tqfp.html", "group__group__hal__impl__pin__package__mxs28playermcuss__128__tqfp" ],
     [ "cyhal_port_t", "group__group__hal__impl__pin__package.html#gac30c50b470a38324d9a19057ac1eb0be", null ]
 ];

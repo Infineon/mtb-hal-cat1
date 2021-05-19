@@ -48,6 +48,14 @@
 */
 
 /**
+* \addtogroup group_hal_availability HAL Driver Availability
+* This section documents the macros that can be used to check if a specific driver is available
+* for the current device. This includes macros for all HAL drivers that exist for any device, even 
+* those that are not applicable (included) with this library. This is intended to help write code 
+* that port between device categories that might not have the same drivers available.
+*/
+
+/**
 * \addtogroup group_hal HAL Drivers
 * This section documents the drivers which form the stable API of the Cypress HAL.
 * In order to remain portable across platforms and HAL versions, applications should
@@ -63,3 +71,76 @@
 #include "cyhal_general_types.h"
 #include "cyhal_hw_types.h"
 #include "cyhal_drivers.h"
+
+
+/**
+* \ingroup group_hal_availability
+* \{
+*/
+
+/** Macro specifying whether the ADC driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_ADC 
+*/
+/** Macro specifying whether the Clock driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_CLOCK 
+*/
+/** Macro specifying whether the COMP driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_COMP 
+*/
+/** Macro specifying whether the CRC driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_CRC
+*/
+/** Macro specifying whether the DAC driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_DAC
+*/
+/** Macro specifying whether the DMA driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_DMA
+*/
+/** Macro specifying whether the EzI2C driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_EZI2C
+*/
+/** Macro specifying whether the Flash driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_FLASH
+*/
+/** Macro specifying whether the GPIO driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_GPIO
+*/
+/** Macro specifying whether the HwMgr driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_HWMGR
+*/
+/** Macro specifying whether the I2C driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_I2C
+*/
+/** Macro specifying whether the I2S driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_I2S
+*/
+/** Macro specifying whether the Interconnect driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_INTERCONNECT
+*/
+/** Macro specifying whether the KeyScan driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_KEYSCAN 
+*/
+/** Macro specifying whether the LPTimer driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_LPTIMER 
+*/
+/** Macro specifying whether the OpAmp driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_OPAMP 
+*/
+/** Macro specifying whether the PDM/PCM driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_PDMPCM
+*/
+/** Macro specifying whether the PWM driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_PWM 
+*/
+/** Macro specifying whether the QSPI driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_QSPI
+*/
+/** Macro specifying whether the QuadDec driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_QUADDEC
+*/
+/** Macro specifying whether the RTC driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_RTC 
+*/
+/** Macro specifying whether the SDHC driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_SDHC
+*/
+/** Macro specifying whether the SDIO driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_SDIO
+*/
+/** Macro specifying whether the SPI driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_SPI 
+*/
+/** Macro specifying whether the SysPM driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_SYSPM 
+*/
+/** Macro specifying whether the System driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_SYSTEM
+*/
+/** Macro specifying whether the TDM driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_TDM
+*/
+/** Macro specifying whether the Timer driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_TIMER
+*/
+/** Macro specifying whether the TRNG driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_TRNG
+*/
+/** Macro specifying whether the UART driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_UART
+*/
+/** Macro specifying whether the USB Dev driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_USB_DEV
+*/
+/** Macro specifying whether the WDT driver is available for the current device \def CYHAL_DRIVER_AVAILABLE_WDT
+*/
+
+/** \} group_hal_availability */

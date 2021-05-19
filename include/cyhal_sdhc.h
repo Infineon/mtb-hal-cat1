@@ -150,8 +150,8 @@ typedef enum {
 /** I/O voltage levels */
 typedef enum
 {
-    CYHAL_SDHC_IO_VOLTAGE_3_3V,                 //!< I/O voltage is 3.3V.
-    CYHAL_SDHC_IO_VOLTAGE_1_8V                  //!< I/O voltage is 1.8V.
+    CYHAL_SDHC_IO_VOLTAGE_3_3V                  = 0U,   //!< I/O voltage is 3.3V.
+    CYHAL_SDHC_IO_VOLTAGE_1_8V                  = 1U    //!< I/O voltage is 1.8V.
 } cyhal_sdhc_io_voltage_t;
 
 /** SDHC I/O voltage select principle */

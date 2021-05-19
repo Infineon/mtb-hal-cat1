@@ -13,6 +13,15 @@ var searchData=
   ['enabled',['enabled',['../group__group__hal__adc.html#a9d33c9d35e389a0f9efe1a0118ad5743',1,'cyhal_adc_channel_config_t']]],
   ['enableledcontrol',['enableLedControl',['../group__group__hal__sdhc.html#a9a0d3720e7b0898f436fd51dc3f65ab2',1,'cyhal_sdhc_config_t']]],
   ['erase_5fvalue',['erase_value',['../group__group__hal__flash.html#a736a77cdecefcca007609dd7b73b9996',1,'cyhal_flash_block_info_t']]],
+  ['err_5fclock',['err_clock',['../struct__cyhal__audioss__interface__t.html#a3f83605d15a9fc3b51a97693074ce041',1,'_cyhal_audioss_interface_t']]],
+  ['err_5finvalid_5farg',['err_invalid_arg',['../struct__cyhal__audioss__interface__t.html#a165f5d2699fa7454c60ff05255439027',1,'_cyhal_audioss_interface_t']]],
+  ['err_5finvalid_5fpin',['err_invalid_pin',['../struct__cyhal__audioss__interface__t.html#ae494185e0ccae1a2e238c7025764bbf9',1,'_cyhal_audioss_interface_t']]],
+  ['event_5fmask_5fempty',['event_mask_empty',['../struct__cyhal__audioss__interface__t.html#a25b71f7a381aa9e56f0ecf5fc1fe9e89',1,'_cyhal_audioss_interface_t']]],
+  ['event_5fmask_5ffull',['event_mask_full',['../struct__cyhal__audioss__interface__t.html#ac678187b982a338f7881f6c08d313c7c',1,'_cyhal_audioss_interface_t']]],
+  ['event_5fmask_5fhalf_5fempty',['event_mask_half_empty',['../struct__cyhal__audioss__interface__t.html#ac9e41dd6253b3f8de07634e49e891f44',1,'_cyhal_audioss_interface_t']]],
+  ['event_5fmask_5fhalf_5ffull',['event_mask_half_full',['../struct__cyhal__audioss__interface__t.html#a86f8875bf98bf422e046a85bd9a72240',1,'_cyhal_audioss_interface_t']]],
+  ['event_5frx_5fcomplete',['event_rx_complete',['../struct__cyhal__audioss__interface__t.html#a48cf21d9a99302dbeb3e479866caae3a',1,'_cyhal_audioss_interface_t']]],
+  ['event_5ftx_5fcomplete',['event_tx_complete',['../struct__cyhal__audioss__interface__t.html#aa5d98affaae5cf6475ccf5d5ac7588c6',1,'_cyhal_audioss_interface_t']]],
   ['ext_5fvref',['ext_vref',['../group__group__hal__adc.html#a1e330ef5d05f2e0fb824f7060a398fb7',1,'cyhal_adc_config_t']]],
   ['ext_5fvref_5fmv',['ext_vref_mv',['../group__group__hal__adc.html#a97998569cedf9c1ee8f2e9cf0d199972',1,'cyhal_adc_config_t']]]
 ];

@@ -43,6 +43,7 @@ var group__group__hal__syspm =
       [ "CYHAL_VOLTAGE_SUPPLY_VDDA", "group__group__hal__syspm.html#gga843f8267deb62a570fff3ce7ebf1a6c4af5c399ada3960bb3f5e6784be9bdccc9", null ],
       [ "CYHAL_VOLTAGE_SUPPLY_MAX", "group__group__hal__syspm.html#gga843f8267deb62a570fff3ce7ebf1a6c4a072774e669a76b4999d596b27bf897b0", null ]
     ] ],
+    [ "cyhal_syspm_init", "group__group__hal__syspm.html#ga299e36096b0ad36b29afe3c5bb02a6d7", null ],
     [ "cyhal_syspm_hibernate", "group__group__hal__syspm.html#ga507445e44ab6aae0f4cbaabaec6c5a3f", null ],
     [ "cyhal_syspm_set_system_state", "group__group__hal__syspm.html#gaae0157682bad1b2155738e73347afa87", null ],
     [ "cyhal_syspm_get_system_state", "group__group__hal__syspm.html#gaaf3fe209bb106f490f207394bb35043a", null ],

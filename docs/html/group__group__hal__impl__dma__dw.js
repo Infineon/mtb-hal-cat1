@@ -3,6 +3,8 @@ var group__group__hal__impl__dma__dw =
     [ "_cyhal_dma_dw_init", "group__group__hal__impl__dma__dw.html#ga62fa25ce2658d072df86527c143caa0f", null ],
     [ "_cyhal_dma_dw_free", "group__group__hal__impl__dma__dw.html#ga016e88948a62a63acfee633303f0b2c0", null ],
     [ "_cyhal_dma_dw_configure", "group__group__hal__impl__dma__dw.html#ga319fc2473bb85e38b0a5c73558a51ca5", null ],
+    [ "_cyhal_dma_dw_enable", "group__group__hal__impl__dma__dw.html#ga69e7112f566034c8881145d9ca97ca85", null ],
+    [ "_cyhal_dma_dw_disable", "group__group__hal__impl__dma__dw.html#ga59e7abe7af795d53433f6025f610f578", null ],
     [ "_cyhal_dma_dw_start_transfer", "group__group__hal__impl__dma__dw.html#ga36f61612b84d2760b763e88d6847257e", null ],
     [ "_cyhal_dma_dw_enable_event", "group__group__hal__impl__dma__dw.html#ga36761737e1b884aaa5d8de2459b1394e", null ],
     [ "_cyhal_dma_dw_is_busy", "group__group__hal__impl__dma__dw.html#ga9d6c2163f193304a3b64cb387dc04e9d", null ],

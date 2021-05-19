@@ -35,7 +35,8 @@
 * level. The system wide API (this) allows the user to interact with the product
 * as a whole. Additionally, each peripheral keeps track of what its state is and
 * whether it can safely move to a new state while still maintaining any current
-* operations.
+* operations. To initialize the system wide power management, \ref cyhal_syspm_init
+* should be called as part of the initial device startup.
 *
 * At the System level, the APIs are intended to allow the application to specify
 * exactly what is happening. It can request changes to both the MCU Power State
@@ -232,6 +233,18 @@ typedef enum
     CYHAL_VOLTAGE_SUPPLY_VDDA = 0u,                       //!< VDDA - Analog supply voltage
     CYHAL_VOLTAGE_SUPPLY_MAX  = CYHAL_VOLTAGE_SUPPLY_VDDA //!< Alias for the highest value in this enum
 } cyhal_syspm_voltage_supply_t;
+
+/**
+ * Performs any system wide power management initialization that is needed for future operations.
+ * This can include things like unlocking IOs that might have been frozen when entering a low
+ * power state or registering callback functions that are necessary to allow notifications of
+ * power events. This should be called as part of initializing the device in a Board Support Package
+ * (BSP).
+ *
+ * @return Returns CY_RSLT_SUCCESS if the processor successfully entered the hibernate mode,
+ * otherwise error.
+ */
+cy_rslt_t cyhal_syspm_init(void);
 
  /** Sets the system mode to hibernate.
  *

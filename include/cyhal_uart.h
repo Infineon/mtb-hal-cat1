@@ -119,6 +119,12 @@ extern "C" {
 /** The actual baud rate is greater than 10% off the requested baud rate */
 #define CY_RSLT_WRN_CSP_UART_BAUD_TOLERANCE             \
     (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_WARNING, CYHAL_RSLT_MODULE_UART, 3))
+/** The requested configuration is not supported on the current hardware */
+#define CYHAL_UART_RSLT_ERR_UNSUPPORTED_CONFIG \
+    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_UART, 4))
+/** The requested operation is not supported on the current hardware */
+#define CYHAL_UART_RSLT_ERR_UNSUPPORTED_OPERATION \
+    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_UART, 5))
 
 /**
  * \}
@@ -147,14 +153,16 @@ typedef enum
 typedef enum
 {
     CYHAL_UART_IRQ_NONE                = 0, //!< No interrupt
-    CYHAL_UART_IRQ_TX_TRANSMIT_IN_FIFO = 1 << 1, //!< All tx data from transmit has been moved to UART FIFO
-    CYHAL_UART_IRQ_TX_DONE             = 1 << 2, //!< All tx data has been transmitted
-    CYHAL_UART_IRQ_TX_ERROR            = 1 << 3, //!< An error occurred in tx
-    CYHAL_UART_IRQ_RX_FULL             = 1 << 4, //!< The rx software buffer is full, additional data are store into fifo buffer.
-    CYHAL_UART_IRQ_RX_DONE             = 1 << 5, //!< All rx data has been received
-    CYHAL_UART_IRQ_RX_ERROR            = 1 << 6, //!< An error occurred in rx
-    CYHAL_UART_IRQ_RX_NOT_EMPTY        = 1 << 7, //!< The rx hardware buffer is not empty
-    CYHAL_UART_IRQ_TX_EMPTY            = 1 << 8, //!< The tx hardware buffer is empty
+    CYHAL_UART_IRQ_TX_TRANSMIT_IN_FIFO = 1 << 1, //!< All TX data from transmit has been moved to the HW TX FIFO buffer
+    CYHAL_UART_IRQ_TX_DONE             = 1 << 2, //!< All TX data has been transmitted (applicable only for cyhal_uart_write_async)
+    CYHAL_UART_IRQ_TX_ERROR            = 1 << 3, //!< An error occurred during TX
+    CYHAL_UART_IRQ_RX_FULL             = 1 << 4, //!< The SW RX buffer (if used) is full. Additional data will be stored in the HW RX FIFO buffer
+    CYHAL_UART_IRQ_RX_DONE             = 1 << 5, //!< All RX data has been received (applicable only for cyhal_uart_read_async)
+    CYHAL_UART_IRQ_RX_ERROR            = 1 << 6, //!< An error occurred during RX
+    CYHAL_UART_IRQ_RX_NOT_EMPTY        = 1 << 7, //!< The HW RX FIFO buffer is not empty
+    CYHAL_UART_IRQ_TX_EMPTY            = 1 << 8, //!< The HW TX FIFO buffer is empty
+    CYHAL_UART_IRQ_TX_FIFO             = 1 << 9, //!< Number of entries in the HW TX FIFO is less than the TX FIFO trigger level 
+    CYHAL_UART_IRQ_RX_FIFO             = 1 << 10, //!< Number of entries in the HW RX FIFO is more than the RX FIFO trigger level 
 } cyhal_uart_event_t;
 
 /** UART FIFO type */
@@ -249,7 +257,7 @@ cy_rslt_t cyhal_uart_configure(cyhal_uart_t *obj, const cyhal_uart_cfg_t *cfg);
  */
 cy_rslt_t cyhal_uart_getc(cyhal_uart_t *obj, uint8_t *value, uint32_t timeout);
 
-/** Send a character. This is a blocking call which waits till the character is sent out from the UART completley.
+/** Send a character. This is a blocking call which waits till the character is sent out from the UART completely.
  *
  * @param[in] obj The UART object
  * @param[in] value The character to be sent
@@ -278,7 +286,7 @@ uint32_t cyhal_uart_writable(cyhal_uart_t *obj);
  */
 cy_rslt_t cyhal_uart_clear(cyhal_uart_t *obj);
 
-/** Configure the UART for the flow control. It sets flow control in the hardware
+/** Configure the UART for flow control. It sets flow control in the hardware
  *  if a UART peripheral supports it, otherwise software emulation is used.
  *
  * @param[in,out] obj    The UART object
@@ -292,7 +300,7 @@ cy_rslt_t cyhal_uart_set_flow_control(cyhal_uart_t *obj, cyhal_gpio_t cts, cyhal
  *
  * This will write either `length` bytes or until the write buffer is full, whichever is less,
  * then return. The value pointed to by `length` will be updated to reflect the number of bytes
- * that were actually written.
+ * that was actually written.
  *
  * @param[in]     obj        The UART object
  * @param[in]     tx         The transmit buffer
@@ -305,7 +313,7 @@ cy_rslt_t cyhal_uart_write(cyhal_uart_t *obj, void *tx, size_t *tx_length);
  *
  * This will read either `length` bytes or the number of bytes that are currently available in the
  * receive buffer, whichever is less, then return. The value pointed to by `length` will be updated
- * to reflect the number of bytes that were actually read.
+ * to reflect the number of bytes that was actually read.
  *
  * @param[in]     obj       The UART object
  * @param[in]     rx        The receive buffer
@@ -316,8 +324,8 @@ cy_rslt_t cyhal_uart_read(cyhal_uart_t *obj, void *rx, size_t *rx_length);
 
 /** Begin asynchronous TX transfer.
  *
- * This will transfer `length` bytes into the buffer pointed to by `rx` in the background. When the
- * requested quantity of data has been read, the @ref CYHAL_UART_IRQ_TX_TRANSMIT_IN_FIFO event will
+ * This will transfer `length` bytes into the buffer pointed to by `tx` in the background. When the
+ * requested quantity of data has been transferred, the @ref CYHAL_UART_IRQ_TX_TRANSMIT_IN_FIFO event will
  * be raised. The transmit buffer is a user defined buffer that will be sent on the UART. The user
  * must register a callback with \ref cyhal_uart_register_callback. If desired, TX callback
  * events can be enabled using \ref cyhal_uart_enable_event with the appropriate events.
@@ -332,7 +340,7 @@ cy_rslt_t cyhal_uart_write_async(cyhal_uart_t *obj, void *tx, size_t length);
 /** Begin asynchronous RX transfer.
  *
  * This will transfer `length` bytes into the buffer pointed to by `rx` in the background. When the
- * requested quantity of data has been read, the @ref CYHAL_UART_IRQ_RX_DONE event will be raised.
+ * requested quantity of data has been transferred, the @ref CYHAL_UART_IRQ_RX_DONE event will be raised.
  * Received data is placed in the user specified buffer. The user must register a callback with
  * \ref cyhal_uart_register_callback. RX callback events can be enabled using \ref
  * cyhal_uart_enable_event with the appropriate events.
@@ -344,30 +352,32 @@ cy_rslt_t cyhal_uart_write_async(cyhal_uart_t *obj, void *tx, size_t length);
  */
 cy_rslt_t cyhal_uart_read_async(cyhal_uart_t *obj, void *rx, size_t length);
 
-/** Attempts to determine if the UART peripheral is already in use for TX
+/** Determines if the UART peripheral is currently in use for TX
  *
  * @param[in]  obj    The UART object
- * @return Is the TX channel active
+ * @return TX channel active status (active=true)
  */
 bool cyhal_uart_is_tx_active(cyhal_uart_t *obj);
 
-/** Attempts to determine if the UART peripheral is already in use for RX
+/** Determines if the UART peripheral is currently in use for RX
  *
  * @param[in]  obj    The UART object
- * @return Is the RX channel active
+ * @return RX channel active status (active=true)
  */
 bool cyhal_uart_is_rx_active(cyhal_uart_t *obj);
 
-/** Abort the ongoing TX transaction. It disables the enabled interupt for TX and
- *  flushes the TX hardware buffer if TX FIFO is used
+/** Abort the ongoing TX transaction. 
+ * 
+ * Disables the TX interrupt and flushes the TX hardware buffer if TX FIFO is used.
  *
  * @param[in] obj The UART object
  * @return The status of the tx_abort request
  */
 cy_rslt_t cyhal_uart_write_abort(cyhal_uart_t *obj);
 
-/** Abort the ongoing read transaction. It disables the enabled interrupt for RX and
- *  flushes the RX hardware buffer if RX FIFO is used
+/** Abort the ongoing read transaction.
+ * 
+ * Disables the RX interrupt and flushes the RX hardware buffer if RX FIFO is used.
  *
  * @param[in] obj The UART object
  * @return The status of the read_abort request
@@ -396,7 +406,9 @@ void cyhal_uart_register_callback(cyhal_uart_t *obj, cyhal_uart_event_callback_t
 void cyhal_uart_enable_event(cyhal_uart_t *obj, cyhal_uart_event_t event, uint8_t intr_priority, bool enable);
 
 /** Sets a threshold level for a FIFO that will generate an interrupt and a
- * trigger output. The RX FIFO interrupt and trigger will be activated when
+ * trigger output. 
+ * 
+ * The RX FIFO interrupt and trigger will be activated when
  * the receive FIFO has more entries than the threshold. The TX FIFO interrupt
  * and trigger will be activated when the transmit FIFO has less entries than
  * the threshold.

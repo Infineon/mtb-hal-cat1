@@ -9,6 +9,8 @@ var searchData=
   ['clocks',['Clocks',['../group__group__hal__impl__clock.html',1,'']]],
   ['comp_20_28analog_20comparator_29',['COMP (Analog Comparator)',['../group__group__hal__impl__comp.html',1,'']]],
   ['cat1_20specific_20hardware_20types',['CAT1 Specific Hardware Types',['../group__group__hal__impl__hw__types.html',1,'']]],
+  ['cyw20829_2056_2dqfn',['CYW20829 56-QFN',['../group__group__hal__impl__pin__package__cyw20829__56__qfn.html',1,'']]],
+  ['cyw20829',['CYW20829',['../group__group__hal__impl__triggers__cyw20829.html',1,'']]],
   ['clock_20hal_20results',['Clock HAL Results',['../group__group__hal__results__clock.html',1,'']]],
   ['comparator_20hal_20results',['Comparator HAL Results',['../group__group__hal__results__comp.html',1,'']]],
   ['crc_20hal_20results',['CRC HAL Results',['../group__group__hal__results__crc.html',1,'']]],

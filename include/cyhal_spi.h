@@ -212,9 +212,14 @@ typedef struct
     bool is_slave; //!< Whether the peripheral is operating as slave or master
 } cyhal_spi_cfg_t;
 
-/** Initialize the SPI peripheral
+/** Initialize the SPI peripheral.
  *
- * Configures the pins used by SPI, sets a default format and frequency, and enables the peripheral
+ * Configures the pins used by SPI, sets a default format and frequency, and enables the peripheral.
+ * Depending on the configuration, some pins may not be needed.
+ * Master mode: MOSI used, MISO unused: SCLK & SSEL are both optional
+ * Master mode: MISO used, MOSI unused: SCLK is mandatory, SSEL is optional
+ * Slave  mode: MOSI or MISO are used:  SCLK & SSEL are both mandatory
+ *
  * @param[out] obj  Pointer to a SPI object. The caller must allocate the memory
  *  for this object but the init function will initialize its contents.
  * @param[in]  mosi The pin to use for MOSI
@@ -222,7 +227,7 @@ typedef struct
  * @param[in]  miso The pin to use for MISO
  * @note At least MOSI or MISO pin should be non-NC
  * @param[in]  sclk The pin to use for SCLK
- * @note This pin cannot be NC
+ * @note This pin can be NC if in master mode with only MOSI used
  * @param[in]  ssel The pin to use for SSEL
  * @note Provided pin will be configured for \ref CYHAL_SPI_SSEL_ACTIVE_LOW polarity and set as active. This can be changed
  * (as well as additional ssel pins can be added) by \ref cyhal_spi_slave_select_config and \ref cyhal_spi_select_active_ssel

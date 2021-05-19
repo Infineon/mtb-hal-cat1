@@ -47,12 +47,18 @@ extern "C" {
 * built on top of a lower level driver. In this case the errors returned from the
 * HAL could be one of the values below or a value from that lower level driver.
 * See the device specific documentation for details about the other error codes.
+* The HAL uses the same \ref CY_RSLT_CREATE macro to define result codes using
+* the standard \ref cy_rslt_t format. All HAL results use the module ID \ref
+* CY_RSLT_MODULE_ABSTRACTION_HAL. Driver distinction is done as part of the 16-bit
+* code field. The HAL splits this into individual bytes. The upper byte signifies
+* the HAL driver using values from the \ref cyhal_rslt_module_chip enum. The lower
+* byte is defined by each HAL driver.
 */
 
 /** \cond INTERNAL */
 /** Generate a result code specific to the HAL driver */
 #define CYHAL_RSLT_CREATE(type, driver, code)           \
-    (CY_RSLT_CREATE(type, CY_RSLT_MODULE_ABSTRACTION_HAL_BASE, ((uint16_t)driver | (uint16_t)code)))
+    (CY_RSLT_CREATE(type, CY_RSLT_MODULE_ABSTRACTION_HAL, ((uint16_t)driver | (uint16_t)code)))
 /** \endcond */
 
 /**
@@ -84,14 +90,17 @@ enum cyhal_rslt_module_chip
     CYHAL_RSLT_MODULE_SPI           = (0x16 << 8),  //!< An error occurred in SPI module
     CYHAL_RSLT_MODULE_SYSPM         = (0x17 << 8),  //!< An error occurred in SysPM module
     CYHAL_RSLT_MODULE_SYSTEM        = (0x18 << 8),  //!< An error occurred in System module
-    CYHAL_RSLT_MODULE_TIMER         = (0x19 << 8),  //!< An error occurred in Timer module
-    CYHAL_RSLT_MODULE_TRNG          = (0x1A << 8),  //!< An error occurred in RNG module
-    CYHAL_RSLT_MODULE_UART          = (0x1B << 8),  //!< An error occurred in UART module
-    CYHAL_RSLT_MODULE_USB           = (0x1C << 8),  //!< An error occurred in USB module
-    CYHAL_RSLT_MODULE_WDT           = (0x1D << 8),  //!< An error occurred in WDT module
+    CYHAL_RSLT_MODULE_TDM           = (0x19 << 8),  //!< An error occurred in Timer module
+    CYHAL_RSLT_MODULE_TIMER         = (0x1A << 8),  //!< An error occurred in Timer module
+    CYHAL_RSLT_MODULE_TRNG          = (0x1B << 8),  //!< An error occurred in RNG module
+    CYHAL_RSLT_MODULE_UART          = (0x1C << 8),  //!< An error occurred in UART module
+    CYHAL_RSLT_MODULE_USB           = (0x1D << 8),  //!< An error occurred in USB module
+    CYHAL_RSLT_MODULE_WDT           = (0x1E << 8),  //!< An error occurred in WDT module
     // Implementation specific section
-    CYHAL_RSLT_MODULE_IMPL_TCPWM    = (0x1E << 8),  //!< An error occurred in TCPWM module (TCPWM based drivers are: Timer, PWM, Quadrature Decoder)
-    CYHAL_RSLT_MODULE_IMPL_SCB      = (0x1F << 8),  //!< An error occurred in SCB module (SCB based drivers are: I2C, SPI, UART)
+    CYHAL_RSLT_MODULE_IMPL_TCPWM    = (0x1F << 8),  //!< An error occurred in TCPWM module (TCPWM based drivers are: Timer, PWM, Quadrature Decoder)
+    CYHAL_RSLT_MODULE_IMPL_SCB      = (0x20 << 8),  //!< An error occurred in SCB module (SCB based drivers are: I2C, SPI, UART)
+    // MXS40SV2
+    CYHAL_RSLT_MODULE_KEYSCAN       = (0x21 << 8),  //!< An error occurred in KeyScan module
 };
 
 /**
@@ -143,6 +152,13 @@ typedef enum
     /** Default comparator power and speed */
     CYHAL_POWER_LEVEL_DEFAULT
 } cyhal_power_level_t;
+
+/** Signal trigger type */
+typedef enum
+{
+    CYHAL_SIGNAL_TYPE_LEVEL = 0, //!< Level triggered
+    CYHAL_SIGNAL_TYPE_EDGE  = 1, //!< Edge triggered
+} cyhal_signal_type_t;
 
 /**
  * \addtogroup group_hal_syspm System Power Management
