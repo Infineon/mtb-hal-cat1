@@ -2,12 +2,14 @@
 * File Name: cyhal_pdmpcm.c
 *
 * Description:
-* Provides a high level interface for interacting with the Cypress I2C. This is
+* Provides a high level interface for interacting with the Infineon I2C. This is
 * a wrapper around the lower level PDL API.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -54,6 +56,11 @@
 * <li>Left/Right Gain Amplifier: -12dB to +10.5dB in 1.5dB steps.</li>
 * </ul>
 *
+* \note If the PDM/PCM block is initialized using the \ref cyhal_pdm_pcm_init function and
+* the "channel recording swap" option is selected, the @ref CYHAL_PDM_PCM_MODE_LEFT and
+* @ref CYHAL_PDM_PCM_MODE_RIGHT enum members refer to the origin left and right channels
+* before the swap is applied.
+*
 * The CAT1B PDM/PCM Supports the following conversion parameters:<ul>
 * <li>Mode: Mono Left, Mono Right, Stereo
 * <li>Word Length: 8/10/12/14/16/18/20/24/32 bits</li>
@@ -66,10 +73,13 @@
 * </ul>
 * \note On CAT1B devices, if stereo mode is selected, the length of all read operations
 * should be a multiple of two so that the left and right channels are read together.
+*
+* \note On CAT1B devices, when multiple channels are configured in a configurator, each channel
+* should be initialized via a separate call to \ref cyhal_pdm_pcm_init_cfg.
 * \} group_hal_impl_pdmpcm
 */
 
-#if defined(CY_IP_MXAUDIOSS_INSTANCES) || defined(CY_IP_MXPDM_INSTANCES)
+#if (CYHAL_DRIVER_AVAILABLE_PDMPCM)
 
 #if defined(CY_IP_MXAUDIOSS_INSTANCES)
 #define _CYHAL_PDM_INSTANCES (CY_IP_MXAUDIOSS_INSTANCES)
@@ -107,7 +117,7 @@
 #endif
 
 #define _CYHAL_PDM_PCM_HALF_FIFO (0x20U)
-#define _CYHAL_PDM_PCM_MAX_FIR1_SCALE (31u)
+#define _CYHAL_PDM_PCM_MAX_FIR1_SCALE (31)
 
 #else
 #error "Unsupported PDM IP"
@@ -331,6 +341,59 @@ static inline int16_t _cyhal_pdm_pcm_get_paired_channel(cyhal_pdm_pcm_t* obj, bo
     return _CYHAL_PDM_PCM_UNPAIRED;
 }
 
+static cyhal_pdm_pcm_t* _cyhal_pdm_pcm_find_existing_obj(uint8_t block_num)
+{
+    cyhal_pdm_pcm_t* existing_obj = NULL;
+    /* Reserve this instance if there are no existing channels */
+    for(int i = 0; NULL == existing_obj && i < _cyhal_pdm_num_channels[block_num]; ++i)
+    {
+        existing_obj = _cyhal_pdm_pcm_config_structs[block_num][i];
+    }
+    return existing_obj;
+}
+
+static inline uint32_t _cyhal_pdm_pcm_get_pdl_event_mask(cyhal_pdm_pcm_event_t event)
+{
+    static const uint32_t status_map[] =
+    {
+        0u,                                     // Default, no value
+        (uint32_t)CY_PDM_PCM_INTR_RX_TRIGGER,   // CYHAL_PDM_PCM_RX_HALF_FULL
+#if defined(CY_IP_MXAUDIOSS)
+        (uint32_t)CY_PDM_PCM_INTR_RX_NOT_EMPTY, // CYHAL_PDM_PCM_RX_NOT_EMPTY
+#elif defined(CY_IP_MXPDM)
+        0u,
+#endif
+        (uint32_t)CY_PDM_PCM_INTR_RX_OVERFLOW,  // CYHAL_PDM_PCM_RX_OVERFLOW
+        (uint32_t)CY_PDM_PCM_INTR_RX_UNDERFLOW, // CYHAL_PDM_PCM_RX_UNDERFLOW
+    };
+    return _cyhal_utils_convert_flags(status_map, sizeof(status_map) / sizeof(uint32_t), (uint32_t)event);
+}
+
+static inline cyhal_pdm_pcm_event_t _cyhal_pdm_pcm_get_hal_event(uint32_t pdl_event)
+{
+    cyhal_pdm_pcm_event_t hal_event = (cyhal_pdm_pcm_event_t)0u;
+    if(0u != (pdl_event & CY_PDM_PCM_INTR_RX_TRIGGER))
+    {
+        hal_event |= CYHAL_PDM_PCM_RX_HALF_FULL;
+    }
+#if defined(CY_IP_MXAUDIOSS)
+    if(0u != (pdl_event & CY_PDM_PCM_INTR_RX_NOT_EMPTY))
+    {
+        hal_event |= CYHAL_PDM_PCM_RX_NOT_EMPTY;
+    }
+#endif
+    if(0u != (pdl_event & CY_PDM_PCM_INTR_RX_OVERFLOW))
+    {
+        hal_event |= CYHAL_PDM_PCM_RX_OVERFLOW;
+    }
+    if(0u != (pdl_event & CY_PDM_PCM_INTR_RX_UNDERFLOW))
+    {
+        hal_event |= CYHAL_PDM_PCM_RX_UNDERFLOW;
+    }
+    return hal_event;
+}
+
+
 static inline void _cyhal_pdm_pcm_clear_interrupt(cyhal_pdm_pcm_t* obj, uint32_t interrupt)
 {
 #if defined(CY_IP_MXAUDIOSS)
@@ -364,6 +427,11 @@ static inline void _cyhal_pdm_pcm_set_rx_fifo_level(cyhal_pdm_pcm_t *obj, uint8_
     PDM_PCM_RX_FIFO_CTL(obj->base) = _VAL2FLD(PDM_RX_FIFO_CTL_TRIGGER_LEVEL, fifo_level - 1);
 #elif defined(CY_IP_MXPDM)
     PDM_PCM_RX_FIFO_CTL(obj->base, obj->resource.channel_num) = _VAL2FLD(PDM_CH_RX_FIFO_CTL_TRIGGER_LEVEL, fifo_level - 1);
+    int16_t paired_channel = _cyhal_pdm_pcm_get_paired_channel(obj, true);
+    if(paired_channel >= 0)
+    {
+        PDM_PCM_RX_FIFO_CTL(obj->base, obj->resource.channel_num) = _VAL2FLD(PDM_CH_RX_FIFO_CTL_TRIGGER_LEVEL, fifo_level - 1);
+    }
 #endif
     _cyhal_pdm_pcm_clear_interrupt(obj, CY_PDM_PCM_INTR_RX_TRIGGER);
 }
@@ -386,6 +454,7 @@ static bool _cyhal_pdm_pcm_pm_callback(cyhal_syspm_callback_state_t state, cyhal
             obj->pm_transition_ready = false;
             break;
         default:
+            CY_ASSERT(false);
             break;
     }
     return obj->pm_transition_ready;
@@ -412,8 +481,8 @@ static inline void _cyhal_pdm_pcm_try_read_async(cyhal_pdm_pcm_t *obj)
 static inline cy_rslt_t _cyhal_pdm_pcm_dma_start(cyhal_pdm_pcm_t *obj)
 {
     cy_rslt_t rslt;
-    size_t transfer_size = _CYHAL_PDM_PCM_HALF_FIFO;
-    if (obj->async_read_remaining <= _CYHAL_PDM_PCM_HALF_FIFO)
+    size_t transfer_size = obj->user_trigger_level;
+    if (obj->async_read_remaining <= obj->user_trigger_level)
     {
         transfer_size = obj->async_read_remaining;
         // Only want the user callback to be called on the last dma transfer.
@@ -440,6 +509,11 @@ static inline cy_rslt_t _cyhal_pdm_pcm_dma_start(cyhal_pdm_pcm_t *obj)
 
     rslt = cyhal_dma_configure(&(obj->dma), &dma_cfg);
 
+    if (CY_RSLT_SUCCESS == rslt)
+    {
+        rslt = cyhal_dma_enable(&(obj->dma));
+    }
+
 #if defined(CY_IP_MXPDM)
     if(paired_channel >= 0 && CY_RSLT_SUCCESS == rslt)
     {
@@ -459,6 +533,11 @@ static inline cy_rslt_t _cyhal_pdm_pcm_dma_start(cyhal_pdm_pcm_t *obj)
         };
 
         rslt = cyhal_dma_configure(&(obj->dma_paired), &dma_cfg_paired);
+
+        if (CY_RSLT_SUCCESS == rslt)
+        {
+            rslt = cyhal_dma_enable(&(obj->dma_paired));
+        }
     }
 #endif
 
@@ -491,8 +570,9 @@ static void _cyhal_pdm_pcm_hw_irq_handler(void)
         uint32_t irq_status = Cy_PDM_PCM_Channel_GetInterruptStatus(obj->base, obj->resource.channel_num);
 #endif
         _cyhal_pdm_pcm_clear_interrupt(obj, irq_status);
-        cyhal_pdm_pcm_event_t event = _CYHAL_PDM_PCM_EVENT_NONE;
-        if((CY_PDM_PCM_INTR_RX_TRIGGER & irq_status) || (CY_PDM_PCM_INTR_RX_OVERFLOW & irq_status))
+        cyhal_pdm_pcm_event_t event = _cyhal_pdm_pcm_get_hal_event(irq_status);
+
+        if((CYHAL_PDM_PCM_RX_HALF_FULL & event) || (CYHAL_PDM_PCM_RX_OVERFLOW & event))
         {
             if (obj->stabilized)
             {
@@ -529,13 +609,11 @@ static void _cyhal_pdm_pcm_hw_irq_handler(void)
                         }
                     }
                 }
-                if (CY_PDM_PCM_INTR_RX_TRIGGER & irq_status)
-                {
-                    event |= CYHAL_PDM_PCM_RX_HALF_FULL;
-                }
             }
             else
             {
+                /* Filter out the events that aren't applicable until we've stabilized */
+                event &= ~(CYHAL_PDM_PCM_RX_HALF_FULL | CYHAL_PDM_PCM_RX_OVERFLOW);
                 // The PDM/PCM block alternates between left and right in stereo.
                 // To preserve oddness and eveness of left and right, removes an even number of elements.
                 for (int i = 0; i < _CYHAL_PDM_PCM_STABILIZATION_FS; i++)
@@ -551,28 +629,13 @@ static void _cyhal_pdm_pcm_hw_irq_handler(void)
                     }
 #endif
                 }
-                _cyhal_pdm_pcm_set_rx_fifo_level(obj, _CYHAL_PDM_PCM_HALF_FIFO);
+                _cyhal_pdm_pcm_set_rx_fifo_level(obj, obj->user_trigger_level);
                 if (!cyhal_pdm_pcm_is_pending(obj) && !(CYHAL_PDM_PCM_RX_HALF_FULL & obj->irq_cause))
                 {
                     _cyhal_pdm_pcm_set_interrupt_mask(obj, _cyhal_pdm_pcm_get_interrupt_mask(obj) & ~CY_PDM_PCM_INTR_RX_TRIGGER);
                 }
                 obj->stabilized = true;
             }
-        }
-
-#if defined(CY_IP_MXAUDIOSS)
-        if (CY_PDM_PCM_INTR_RX_NOT_EMPTY & irq_status)
-        {
-            event |= CYHAL_PDM_PCM_RX_NOT_EMPTY;
-        }
-#endif
-        if (CY_PDM_PCM_INTR_RX_OVERFLOW & irq_status)
-        {
-            event |= CYHAL_PDM_PCM_RX_OVERFLOW;
-        }
-        if (CY_PDM_PCM_INTR_RX_UNDERFLOW & irq_status)
-        {
-            event |= CYHAL_PDM_PCM_RX_UNDERFLOW;
         }
 
         event &= obj->irq_cause;
@@ -602,9 +665,55 @@ static inline cy_en_pdm_pcm_gain_t _cyhal_pdm_pcm_scale_gain_value(int8_t gain_v
     return (cy_en_pdm_pcm_gain_t) ((gain_value + 25) / 3);
 }
 
+static inline uint8_t _cyhal_pdm_pcm_word_length_from_pdl(cy_en_pdm_pcm_word_len_t pdl_length)
+{
+    switch(pdl_length)
+    {
+        case CY_PDM_PCM_WLEN_16_BIT:
+            return 16u;
+        case CY_PDM_PCM_WLEN_18_BIT:
+            return 18u;
+        case CY_PDM_PCM_WLEN_20_BIT:
+            return 20u;
+        case CY_PDM_PCM_WLEN_24_BIT:
+            return 24u;
+        default:
+            CY_ASSERT(false);
+            return 24u;
+    }
+}
+
 #elif defined(CY_IP_MXPDM)
 
-static inline cy_rslt_t _cyhal_pdm_pcm_convert_word_length(uint8_t word_length, cy_en_pdm_pcm_word_size_t *pdl_length)
+static inline uint8_t _cyhal_pdm_pcm_word_length_from_pdl(cy_en_pdm_pcm_word_size_t pdl_length)
+{
+    switch(pdl_length)
+    {
+        case CY_PDM_PCM_WSIZE_8_BIT:
+            return 8u;
+        case CY_PDM_PCM_WSIZE_10_BIT:
+            return 10u;
+        case CY_PDM_PCM_WSIZE_12_BIT:
+            return 12u;
+        case CY_PDM_PCM_WSIZE_14_BIT:
+            return 14u;
+        case CY_PDM_PCM_WSIZE_16_BIT:
+            return 16u;
+        case CY_PDM_PCM_WSIZE_18_BIT:
+            return 18u;
+        case CY_PDM_PCM_WSIZE_20_BIT:
+            return 20u;
+        case CY_PDM_PCM_WSIZE_24_BIT:
+            return 24u;
+        case CY_PDM_PCM_WSIZE_32_BIT:
+            return 32u;
+        default:
+            CY_ASSERT(false);
+            return 32u;
+    }
+
+}
+static inline cy_rslt_t _cyhal_pdm_pcm_word_length_to_pdl(uint8_t word_length, cy_en_pdm_pcm_word_size_t *pdl_length)
 {
     switch(word_length)
     {
@@ -675,10 +784,10 @@ static inline int _cyhal_pdm_pcm_gain_to_scale(int16_t gain_val)
      /* Cmath only provides ln and log10, need to compute log_2 in terms of those */
      const int FIR1_GAIN = 13921;
      /* Gain is specified in 0.5 db steps in the interface */
-     float desired_gain = ((double)gain_val) * 0.5;
-     float inner_value = FIR1_GAIN / (pow(10, (desired_gain / 20)));
-     float scale = log(inner_value) / log(2);
-     int scale_rounded = (uint8_t)(scale + 0.5);
+     float desired_gain = ((float)gain_val) * 0.5f;
+     float inner_value = FIR1_GAIN / (powf(10, (desired_gain / 20)));
+     float scale = logf(inner_value) / logf(2);
+     int scale_rounded = (uint8_t)(scale + 0.5f);
      return scale_rounded;
 }
 
@@ -849,7 +958,7 @@ static inline cy_rslt_t _cyhal_pdm_pcm_set_pdl_config_struct(cyhal_pdm_pcm_t* ob
          * When we're in stereo, we sample left on the "primary" channel and right on the paired one */
         pdl_chan_config->sampledelay = (CYHAL_PDM_PCM_MODE_RIGHT == cfg->mode) ? clkDiv / 2 : clkDiv;
         pdl_chan_config->fir1_scale = fir1_scale;
-        result = _cyhal_pdm_pcm_convert_word_length(cfg->word_length, &pdl_chan_config->wordSize);
+        result = _cyhal_pdm_pcm_word_length_to_pdl(cfg->word_length, &pdl_chan_config->wordSize);
     }
 
     if(CY_RSLT_SUCCESS == result)
@@ -881,23 +990,6 @@ static inline cy_rslt_t _cyhal_pdm_pcm_set_pdl_config_struct(cyhal_pdm_pcm_t* ob
 // - Update clocking confguration
 // - Handle word length
 
-static inline uint32_t _cyhal_pdm_pcm_get_pdl_event_mask(cyhal_pdm_pcm_event_t event)
-{
-    static const uint32_t status_map[] =
-    {
-        0u,                                     // Default, no value
-        (uint32_t)CY_PDM_PCM_INTR_RX_TRIGGER,   // CYHAL_PDM_PCM_RX_HALF_FULL
-#if defined(CY_IP_MXAUDIOSS)
-        (uint32_t)CY_PDM_PCM_INTR_RX_NOT_EMPTY, // CYHAL_PDM_PCM_RX_NOT_EMPTY
-#elif defined(CY_IP_MXPDM)
-        0u,
-#endif
-        (uint32_t)CY_PDM_PCM_INTR_RX_OVERFLOW,  // CYHAL_PDM_PCM_RX_OVERFLOW
-        (uint32_t)CY_PDM_PCM_INTR_RX_UNDERFLOW, // CYHAL_PDM_PCM_RX_UNDERFLOW
-    };
-    return _cyhal_utils_convert_flags(status_map, sizeof(status_map) / sizeof(uint32_t), (uint32_t)event);
-}
-
 static void _cyhal_pdm_pcm_dma_callback(void *callback_arg, cyhal_dma_event_t event)
 {
     CY_UNUSED_PARAMETER(event);
@@ -920,126 +1012,47 @@ static void _cyhal_pdm_pcm_dma_callback(void *callback_arg, cyhal_dma_event_t ev
     }
 }
 
-cy_rslt_t cyhal_pdm_pcm_init(cyhal_pdm_pcm_t *obj, cyhal_gpio_t pin_data, cyhal_gpio_t pin_clk,
-                const cyhal_clock_t *clk_source, const cyhal_pdm_pcm_cfg_t *cfg)
+
+static cy_rslt_t _cyhal_pdm_pcm_init_clock(cyhal_pdm_pcm_t *obj, const cyhal_clock_t* clk_source, cyhal_pdm_pcm_t* existing_obj)
 {
-    CY_ASSERT(NULL != obj);
-    memset(obj, 0, sizeof(cyhal_pdm_pcm_t));
     cy_rslt_t result = CY_RSLT_SUCCESS;
-
-    /* Explicitly marked not allocated resources as invalid to prevent freeing them. */
-    obj->resource.type = CYHAL_RSC_INVALID;
-    obj->pin_data = CYHAL_NC_PIN_VALUE;
-    obj->pin_clk = CYHAL_NC_PIN_VALUE;
-    obj->dma.resource.type = CYHAL_RSC_INVALID;
-#if defined(CY_IP_MXPDM)
-    obj->dma_paired.resource.type = CYHAL_RSC_INVALID;
-#endif
-
-    /* Reserve the PDM-PCM */
-#if defined(CY_IP_MXAUDIOSS)
-    const cyhal_resource_pin_mapping_t *data_map = _CYHAL_UTILS_GET_RESOURCE(pin_data, cyhal_pin_map_audioss_pdm_data);
-    const cyhal_resource_pin_mapping_t *clk_map = _CYHAL_UTILS_GET_RESOURCE(pin_clk, cyhal_pin_map_audioss_pdm_clk);
-#elif defined(CY_IP_MXTDM)
-    const cyhal_resource_pin_mapping_t *data_map = _CYHAL_UTILS_GET_RESOURCE(pin_data, cyhal_pin_map_pdm_pdm_data);
-    const cyhal_resource_pin_mapping_t *clk_map = _CYHAL_UTILS_GET_RESOURCE(pin_clk, cyhal_pin_map_pdm_pdm_clk);
-#endif
-
-    if ((NULL == data_map) || (NULL == clk_map) || !_cyhal_utils_resources_equal(data_map->inst, clk_map->inst))
+    if(NULL != existing_obj)
     {
-        result = CYHAL_PDM_PCM_RSLT_ERR_INVALID_PIN;
-    }
-
-    cyhal_pdm_pcm_t* existing_obj = NULL;
-    int paired_channel =  _CYHAL_PDM_PCM_UNPAIRED;
-    if(CY_RSLT_SUCCESS == result)
-    {
-        obj->resource = *(data_map->inst);
-        obj->base = _cyhal_pdm_pcm_base[obj->resource.block_num];
-        if(CYHAL_PDM_PCM_MODE_STEREO == cfg->mode)
+        /* Either both use auto-allocated clock source or they both use the same manually specified source */
+        if((true == existing_obj->is_clock_owned) != (clk_source == NULL))
         {
-            /* Need to also reserve the adjacent receiver */
-            paired_channel = _cyhal_pdm_pcm_get_paired_channel(obj, false);
-        }
-
-        if((NULL != _cyhal_pdm_pcm_config_structs[obj->resource.block_num][obj->resource.channel_num]) ||
-           (paired_channel >= 0 && (NULL != _cyhal_pdm_pcm_config_structs[obj->resource.block_num][paired_channel])))
-        {
-            /* This channel is already consumed */
-            result = CYHAL_HWMGR_RSLT_ERR_INUSE;
+            result = CYHAL_PDM_PCM_RSLT_ERR_INVALID_CONFIG_PARAM;
         }
         else
         {
-            /* Reserve this instance if there are no existing channels */
-            for(int i = 0; NULL == existing_obj && i < _cyhal_pdm_num_channels[obj->resource.block_num]; ++i)
+            /* Copy over the existing clock settings */
+            obj->clock = existing_obj->clock;
+            obj->is_clock_owned = existing_obj->is_clock_owned;
+            if(false == existing_obj->is_clock_owned)
             {
-                existing_obj = _cyhal_pdm_pcm_config_structs[obj->resource.block_num][i];
-            }
-
-            if(NULL == existing_obj)
-            {
-                result = cyhal_hwmgr_reserve(&(obj->resource));
+                /* Custom clocks must be the same */
+                if((clk_source->block != existing_obj->clock.block) ||
+                   (clk_source->channel != existing_obj->clock.channel))
+               {
+                    result = CYHAL_PDM_PCM_RSLT_ERR_INVALID_CONFIG_PARAM;
+               }
             }
         }
     }
-
-    /* Reserve the pdm in pin */
-    if (CY_RSLT_SUCCESS == result)
+    else if (clk_source != NULL)
     {
-        result = _cyhal_utils_reserve_and_connect(pin_data, data_map);
-        if (result == CY_RSLT_SUCCESS)
-            obj->pin_data = pin_data;
+        obj->clock = *clk_source;
     }
-
-    /* Reserve the clk pin */
-    if (CY_RSLT_SUCCESS == result)
+    else
     {
-        result = _cyhal_utils_reserve_and_connect(pin_clk, clk_map);
-        if (result == CY_RSLT_SUCCESS)
-            obj->pin_clk = pin_clk;
-    }
-
-    /* Clock init needs to happen before we perform the PDL config so that we know our source frequency */
-    if (CY_RSLT_SUCCESS == result)
-    {
-        if(NULL != existing_obj)
+        // On CAT1A, we're hard-wired to an HFCLK so the divider type doesn't apply. On all current CAT1B hardware,
+        // we happen to be wired to a PERI group with a 16.5 bit divider, but we're not terribly picky so just ask
+        // for a 16-bit divider.
+        result = _cyhal_utils_allocate_clock(&(obj->clock), &(obj->resource), CYHAL_CLOCK_BLOCK_PERIPHERAL_16BIT, true);
+        if(CY_RSLT_SUCCESS == result)
         {
-            /* Either both use auto-allocated clock source or they both use the same manually specified source */
-            if((true == existing_obj->is_clock_owned) != (clk_source == NULL))
-            {
-                result = CYHAL_PDM_PCM_RSLT_ERR_INVALID_CONFIG_PARAM;
-            }
-            else
-            {
-                /* Copy over the existing clock settings */
-                obj->clock = existing_obj->clock;
-                obj->is_clock_owned = existing_obj->is_clock_owned;
-                if(false == existing_obj->is_clock_owned)
-                {
-                    /* Custom clocks must be the same */
-                    if((clk_source->block != existing_obj->clock.block) ||
-                       (clk_source->channel != existing_obj->clock.channel))
-                   {
-                        result = CYHAL_PDM_PCM_RSLT_ERR_INVALID_CONFIG_PARAM;
-                   }
-                }
-            }
-        }
-        else if (clk_source != NULL)
-        {
-            obj->clock = *clk_source;
-        }
-        else
-        {
-            // On CAT1A, we're hard-wired to an HFCLK so the divider type doesn't apply. On all current CAT1B hardware,
-            // we happen to be wired to a PERI group with a 16.5 bit divider, but we're not terribly picky so just ask
-            // for a 16-bit divider.
-            result = _cyhal_utils_allocate_clock(&(obj->clock), &(obj->resource), CYHAL_CLOCK_BLOCK_PERIPHERAL_16BIT, true);
-            if(CY_RSLT_SUCCESS == result)
-            {
-                obj->is_clock_owned = true;
-                result = cyhal_clock_set_enabled(&(obj->clock), true, true);
-            }
+            obj->is_clock_owned = true;
+            result = cyhal_clock_set_enabled(&(obj->clock), true, true);
         }
     }
 
@@ -1052,67 +1065,63 @@ cy_rslt_t cyhal_pdm_pcm_init(cyhal_pdm_pcm_t *obj, cyhal_gpio_t pin_data, cyhal_
     }
 #endif
 
-    if (result == CY_RSLT_SUCCESS)
-    {
-#if defined(CY_IP_MXAUDIOSS)
-        cy_stc_pdm_pcm_config_t pdl_struct = _cyhal_pdm_pcm_default_config;
-        result = _cyhal_pdm_pcm_set_pdl_config_struct(obj, cfg, &pdl_struct);
-#elif defined(CY_IP_MXPDM)
-        cy_stc_pdm_pcm_config_v2_t pdl_struct = _cyhal_pdm_pcm_default_config;
-        cy_stc_pdm_pcm_channel_config_t pdl_chan_struct = _cyhal_pdm_pcm_default_channel_config;
-        cy_stc_pdm_pcm_channel_config_t pdl_chan_struct_paired = _cyhal_pdm_pcm_default_channel_config;
-        result = _cyhal_pdm_pcm_set_pdl_config_struct(obj, cfg, (NULL != existing_obj), &pdl_struct,
-                    &pdl_chan_struct, paired_channel >= 0 ? &pdl_chan_struct_paired : NULL);
-#endif
-        if (CY_RSLT_SUCCESS == result)
-        {
-            if(NULL == existing_obj)
-            {
-                result = (cy_rslt_t)Cy_PDM_PCM_Init(obj->base, &pdl_struct);
-            }
-#if defined(CY_IP_MXPDM)
-            else if(paired_channel >= 0)
-            {
-                /* Update the route register to point the paired channel to the primary channel's pins */
+    return result;
+}
 
-                PDM_PCM_ROUTE_CTL(obj->base) |= (1 << paired_channel);
-            }
+static cy_rslt_t _cyhal_pdm_pcm_init_hw(cyhal_pdm_pcm_t *obj, int paired_channel, cyhal_pdm_pcm_t* existing_obj,
+#if defined(CY_IP_MXAUDIOSS_INSTANCES)
+                                        const cy_stc_pdm_pcm_config_t* pdl_struct)
+#elif defined(CY_IP_MXTDM_INSTANCES)
+                                        const cy_stc_pdm_pcm_config_v2_t* pdl_struct,
+                                        const cy_stc_pdm_pcm_channel_config_t* pdl_chan_struct,
+                                        const cy_stc_pdm_pcm_channel_config_t* pdl_chan_struct_paired)
 #endif
-        }
-#if defined(CY_IP_MXPDM)
-        if (CY_RSLT_SUCCESS == result)
-        {
-            result = (cy_rslt_t)Cy_PDM_PCM_Channel_Init(obj->base, &pdl_chan_struct, obj->resource.channel_num);
-        }
-        if(CY_RSLT_SUCCESS == result && paired_channel >= 0)
-        {
-            result = (cy_rslt_t)Cy_PDM_PCM_Channel_Init(obj->base, &pdl_chan_struct_paired, paired_channel);
-        }
-        if (CY_RSLT_SUCCESS == result)
-        {
-            Cy_PDM_PCM_Channel_Enable(obj->base, obj->resource.channel_num);
-            if(paired_channel >= 0)
-            {
-                Cy_PDM_PCM_Channel_Enable(obj->base, paired_channel);
-            }
-        }
-#endif
+{
+    cy_rslt_t result = CY_RSLT_SUCCESS;
+    obj->base = _cyhal_pdm_pcm_base[obj->resource.block_num];
+    if(NULL == existing_obj)
+    {
+        result = (cy_rslt_t)Cy_PDM_PCM_Init(obj->base, pdl_struct);
     }
 
-    if (result == CY_RSLT_SUCCESS)
+#if defined(CY_IP_MXPDM)
+    if (CY_RSLT_SUCCESS == result)
+    {
+        result = (cy_rslt_t)Cy_PDM_PCM_Channel_Init(obj->base, pdl_chan_struct, obj->resource.channel_num);
+    }
+    if(CY_RSLT_SUCCESS == result && paired_channel >= 0)
+    {
+        result = (cy_rslt_t)Cy_PDM_PCM_Channel_Init(obj->base, pdl_chan_struct_paired, paired_channel);
+    }
+    if (CY_RSLT_SUCCESS == result)
+    {
+        Cy_PDM_PCM_Channel_Enable(obj->base, obj->resource.channel_num);
+        if(paired_channel >= 0)
+        {
+            Cy_PDM_PCM_Channel_Enable(obj->base, paired_channel);
+        }
+    }
+#elif defined(CY_IP_MXAUDIOSS)
+    CY_UNUSED_PARAMETER(paired_channel);
+#endif
+
+    if (CY_RSLT_SUCCESS == result)
     {
         _cyhal_pdm_pcm_config_structs[obj->resource.block_num][obj->resource.channel_num] = obj;
-#if defined(CY_IP_MXPDM)
+#if defined(CY_IP_MXAUDIOSS)
+        uint8_t word_length = _cyhal_pdm_pcm_word_length_from_pdl(pdl_struct->wordLen);
+#elif defined(CY_IP_MXPDM)
         if(paired_channel >= 0)
         {
             _cyhal_pdm_pcm_config_structs[obj->resource.block_num][paired_channel] = obj;
         }
+        uint8_t word_length = _cyhal_pdm_pcm_word_length_from_pdl(pdl_chan_struct->wordSize);
 #endif
-        if(cfg->word_length <= 8)
+        if(word_length <= 8)
         {
             obj->word_size = 1;
         }
-        else if(cfg->word_length <= 16)
+        else if(word_length <= 16)
         {
             obj->word_size = 2;
         }
@@ -1122,12 +1131,13 @@ cy_rslt_t cyhal_pdm_pcm_init(cyhal_pdm_pcm_t *obj, cyhal_gpio_t pin_data, cyhal_
         }
         obj->callback_data.callback = NULL;
         obj->callback_data.callback_arg = NULL;
-        obj->irq_cause = _CYHAL_PDM_PCM_EVENT_NONE;
 #if defined(CY_IP_MXAUDIOSS)
+        /* No irq mask in the config struct for MXTDM */
+        obj->irq_cause = (uint32_t)_cyhal_pdm_pcm_get_hal_event(pdl_struct->interruptMask);
         obj->stabilized = false;
 #elif defined(CY_IP_MXTDM)
         obj->stabilized = true;
-        _cyhal_pdm_pcm_set_rx_fifo_level(obj, _CYHAL_PDM_PCM_HALF_FIFO);
+        _cyhal_pdm_pcm_set_rx_fifo_level(obj, obj->user_trigger_level);
 #endif
         obj->pm_transition_ready = false;
 
@@ -1148,10 +1158,169 @@ cy_rslt_t cyhal_pdm_pcm_init(cyhal_pdm_pcm_t *obj, cyhal_gpio_t pin_data, cyhal_
         cyhal_pdm_pcm_clear(obj);
     }
 
-    if (result != CY_RSLT_SUCCESS)
+    return result;
+}
+
+cy_rslt_t cyhal_pdm_pcm_init(cyhal_pdm_pcm_t *obj, cyhal_gpio_t pin_data, cyhal_gpio_t pin_clk,
+                const cyhal_clock_t *clk_source, const cyhal_pdm_pcm_cfg_t *cfg)
+{
+    CY_ASSERT(NULL != obj);
+    memset(obj, 0, sizeof(cyhal_pdm_pcm_t));
+    cy_rslt_t result = CY_RSLT_SUCCESS;
+
+    /* Explicitly marked not allocated resources as invalid to prevent freeing them. */
+    obj->resource.type = CYHAL_RSC_INVALID;
+    obj->pin_data = CYHAL_NC_PIN_VALUE;
+    obj->pin_clk = CYHAL_NC_PIN_VALUE;
+    obj->dma.resource.type = CYHAL_RSC_INVALID;
+#if defined(CY_IP_MXPDM)
+    obj->dma_paired.resource.type = CYHAL_RSC_INVALID;
+#endif
+
+    obj->user_trigger_level = _CYHAL_PDM_PCM_HALF_FIFO;
+
+    /* Reserve the PDM-PCM */
+#if defined(CY_IP_MXAUDIOSS)
+    const cyhal_resource_pin_mapping_t *data_map = _CYHAL_UTILS_GET_RESOURCE(pin_data, cyhal_pin_map_audioss_pdm_data);
+    const cyhal_resource_pin_mapping_t *clk_map = _CYHAL_UTILS_GET_RESOURCE(pin_clk, cyhal_pin_map_audioss_pdm_clk);
+    uint8_t data_dm = CYHAL_PIN_MAP_DRIVE_MODE_AUDIOSS_PDM_DATA;
+    uint8_t clk_dm = CYHAL_PIN_MAP_DRIVE_MODE_AUDIOSS_PDM_CLK;
+#elif defined(CY_IP_MXTDM)
+    const cyhal_resource_pin_mapping_t *data_map = _CYHAL_UTILS_GET_RESOURCE(pin_data, cyhal_pin_map_pdm_pdm_data);
+    const cyhal_resource_pin_mapping_t *clk_map = _CYHAL_UTILS_GET_RESOURCE(pin_clk, cyhal_pin_map_pdm_pdm_clk);
+    uint8_t data_dm = CYHAL_PIN_MAP_DRIVE_MODE_PDM_PDM_DATA;
+    uint8_t clk_dm = CYHAL_PIN_MAP_DRIVE_MODE_PDM_PDM_CLK;
+#endif
+
+    if ((NULL == data_map) || (NULL == clk_map) || !_cyhal_utils_map_resources_equal(data_map, clk_map))
+    {
+        result = CYHAL_PDM_PCM_RSLT_ERR_INVALID_PIN;
+    }
+
+    cyhal_pdm_pcm_t* existing_obj = NULL;
+    int paired_channel = _CYHAL_PDM_PCM_UNPAIRED;
+    if(CY_RSLT_SUCCESS == result)
+    {
+        _CYHAL_UTILS_ASSIGN_RESOURCE(obj->resource, CYHAL_RSC_PDM, data_map);
+        obj->base = _cyhal_pdm_pcm_base[obj->resource.block_num];
+        if(CYHAL_PDM_PCM_MODE_STEREO == cfg->mode)
+        {
+            /* Need to also reserve the adjacent receiver */
+            paired_channel = _cyhal_pdm_pcm_get_paired_channel(obj, false);
+        }
+
+        if((NULL != _cyhal_pdm_pcm_config_structs[obj->resource.block_num][obj->resource.channel_num]) ||
+           (paired_channel >= 0 && (NULL != _cyhal_pdm_pcm_config_structs[obj->resource.block_num][paired_channel])))
+        {
+            /* This channel is already consumed */
+            result = CYHAL_HWMGR_RSLT_ERR_INUSE;
+        }
+        else
+        {
+            existing_obj = _cyhal_pdm_pcm_find_existing_obj(obj->resource.block_num);
+            if(NULL == existing_obj)
+            {
+                result = cyhal_hwmgr_reserve(&(obj->resource));
+            }
+        }
+    }
+
+    /* Reserve the pdm in pin */
+    if (CY_RSLT_SUCCESS == result)
+    {
+        result = _cyhal_utils_reserve_and_connect(data_map, data_dm);
+        if (CY_RSLT_SUCCESS == result)
+            obj->pin_data = pin_data;
+    }
+
+    /* Reserve the clk pin */
+    if (CY_RSLT_SUCCESS == result)
+    {
+        result = _cyhal_utils_reserve_and_connect(clk_map, clk_dm);
+        if (CY_RSLT_SUCCESS == result)
+            obj->pin_clk = pin_clk;
+    }
+
+    /* Clock init needs to happen before we perform the PDL config so that we know our source frequency */
+    if (CY_RSLT_SUCCESS == result)
+    {
+        result = _cyhal_pdm_pcm_init_clock(obj, clk_source, existing_obj);
+    }
+
+    if (CY_RSLT_SUCCESS == result)
+    {
+#if defined(CY_IP_MXAUDIOSS)
+        cy_stc_pdm_pcm_config_t pdl_struct = _cyhal_pdm_pcm_default_config;
+        result = _cyhal_pdm_pcm_set_pdl_config_struct(obj, cfg, &pdl_struct);
+#elif defined(CY_IP_MXPDM)
+        cy_stc_pdm_pcm_config_v2_t pdl_struct = _cyhal_pdm_pcm_default_config;
+        cy_stc_pdm_pcm_channel_config_t pdl_chan_struct = _cyhal_pdm_pcm_default_channel_config;
+        cy_stc_pdm_pcm_channel_config_t pdl_chan_struct_paired = _cyhal_pdm_pcm_default_channel_config;
+        result = _cyhal_pdm_pcm_set_pdl_config_struct(obj, cfg, (NULL != existing_obj), &pdl_struct,
+                    &pdl_chan_struct, paired_channel >= 0 ? &pdl_chan_struct_paired : NULL);
+#endif
+        if (CY_RSLT_SUCCESS == result)
+        {
+#if defined(CY_IP_MXAUDIOSS)
+            result = _cyhal_pdm_pcm_init_hw(obj, paired_channel, existing_obj, &pdl_struct);
+#elif defined(CY_IP_MXTDM)
+            result = _cyhal_pdm_pcm_init_hw(obj, paired_channel, existing_obj, &pdl_struct,
+                        &pdl_chan_struct, &pdl_chan_struct_paired);
+
+        if(NULL != existing_obj && paired_channel >= 0)
+        {
+            /* Update the route register to point the paired channel to the primary channel's pins */
+
+            PDM_PCM_ROUTE_CTL(obj->base) |= (1 << paired_channel);
+        }
+#endif
+        }
+    }
+
+    if (CY_RSLT_SUCCESS != result)
     {
         cyhal_pdm_pcm_free(obj);
     }
+    return result;
+}
+
+cy_rslt_t cyhal_pdm_pcm_init_cfg(cyhal_pdm_pcm_t *obj, const cyhal_pdm_pcm_configurator_t* cfg)
+{
+    CY_ASSERT(NULL != obj);
+    memset(obj, 0, sizeof(cyhal_pdm_pcm_t));
+    obj->resource = *cfg->resource;
+    obj->pin_data = CYHAL_NC_PIN_VALUE;
+    obj->pin_clk = CYHAL_NC_PIN_VALUE;
+    obj->dma.resource.type = CYHAL_RSC_INVALID;
+#if defined(CY_IP_MXPDM)
+    obj->dma_paired.resource.type = CYHAL_RSC_INVALID;
+#endif
+    obj->owned_by_configurator = true;
+
+    /* Trigger fires when the FIFO has one more entry than the configured level */
+#if defined(CY_IP_MXAUDIOSS)
+    obj->user_trigger_level = cfg->config->rxFifoTriggerLevel + 1;
+#elif defined(CY_IP_MXTDM)
+    obj->user_trigger_level = cfg->chan_config->rxFifoTriggerLevel + 1;
+#endif
+
+    cyhal_pdm_pcm_t* existing_obj = _cyhal_pdm_pcm_find_existing_obj(obj->resource.block_num);
+    cy_rslt_t result = _cyhal_pdm_pcm_init_clock(obj, cfg->clock, existing_obj);
+
+    if(CY_RSLT_SUCCESS == result)
+    {
+        /* When initializing from configurator, separate channels are always configured independently */
+#if defined(CY_IP_MXAUDIOSS)
+        result = _cyhal_pdm_pcm_init_hw(obj, _CYHAL_PDM_PCM_UNPAIRED, existing_obj, cfg->config);
+#elif defined(CY_IP_MXTDM)
+        result = _cyhal_pdm_pcm_init_hw(obj, _CYHAL_PDM_PCM_UNPAIRED, existing_obj, cfg->config, cfg->chan_config, NULL);
+#endif
+    }
+    if(CY_RSLT_SUCCESS != result)
+    {
+        cyhal_pdm_pcm_free(obj);
+    }
+
     return result;
 }
 
@@ -1205,15 +1374,18 @@ void cyhal_pdm_pcm_free(cyhal_pdm_pcm_t *obj)
         }
 #endif
 
-        if(last_remaining)
+        if(last_remaining && false == obj->owned_by_configurator)
         {
             cyhal_hwmgr_free(&(obj->resource));
         }
         obj->base = NULL;
         obj->resource.type = CYHAL_RSC_INVALID;
 
-        _cyhal_utils_release_if_used(&(obj->pin_data));
-        _cyhal_utils_release_if_used(&(obj->pin_clk));
+        if(false == obj->owned_by_configurator)
+        {
+            _cyhal_utils_release_if_used(&(obj->pin_data));
+            _cyhal_utils_release_if_used(&(obj->pin_clk));
+        }
 
         if(last_remaining && obj->is_clock_owned)
         {
@@ -1310,7 +1482,7 @@ cy_rslt_t cyhal_pdm_pcm_set_gain(cyhal_pdm_pcm_t *obj, int16_t gain_left, int16_
     }
 
     int fir1_scale_right = _cyhal_pdm_pcm_gain_to_scale(gain_right);
-    if(CY_RSLT_SUCCESS == result && (gain_right < 0 || gain_right > _CYHAL_PDM_PCM_MAX_FIR1_SCALE))
+    if(CY_RSLT_SUCCESS == result && (fir1_scale_right < 0 || fir1_scale_right > _CYHAL_PDM_PCM_MAX_FIR1_SCALE))
     {
         result = CYHAL_PDM_PCM_RSLT_ERR_INVALID_CONFIG_PARAM;
     }
@@ -1601,4 +1773,4 @@ cy_rslt_t cyhal_pdm_pcm_set_async_mode(cyhal_pdm_pcm_t *obj, cyhal_async_mode_t 
 }
 #endif
 
-#endif /* defined(CY_IP_MXAUDIOSS_INSTANCES) || defined(CY_IP_MXPDM) */
+#endif /* CYHAL_DRIVER_AVAILABLE_PDMPCM */

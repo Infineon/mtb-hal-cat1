@@ -2,14 +2,16 @@
 * \file cyhal_spi.h
 *
 * \brief
-* Provides a high level interface for interacting with the Cypress SPI.
+* Provides a high level interface for interacting with the Infineon SPI.
 * This interface abstracts out the chip specific details. If any chip specific
 * functionality is necessary, or performance is critical the low level functions
 * can be used directly.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -80,7 +82,7 @@
 
 * \section subsection_spi_moreinfor More Information
 *
-* * <a href="https://github.com/cypresssemiconductorco/mtb-example-psoc6-spi-master"><b>mtb-example-psoc6-spi-master</b></a>: This example project demonstrates
+* * <a href="https://github.com/infineon/mtb-example-psoc6-spi-master"><b>mtb-example-psoc6-spi-master</b></a>: This example project demonstrates
 * use of SPI (HAL) resource in PSoC® 6 MCU in Master mode to write data to an SPI slave.
 *
 */
@@ -104,31 +106,34 @@ extern "C" {
 
 /** Bad argument */
 #define CYHAL_SPI_RSLT_BAD_ARGUMENT                     \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SPI, 0))
-/** Failed to initialize SPI clock */
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SPI, 0))
+/** Failed to initialize SPI clock or can't make changes in user-provided clock */
 #define CYHAL_SPI_RSLT_CLOCK_ERROR                      \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SPI, 1))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SPI, 1))
 /** Failed to Transfer SPI data */
 #define CYHAL_SPI_RSLT_TRANSFER_ERROR                   \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SPI, 2))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SPI, 2))
 /** Provided clock is not supported by SPI */
 #define CYHAL_SPI_RSLT_CLOCK_NOT_SUPPORTED              \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SPI, 3))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SPI, 3))
 /** Provided PIN configuration is not supported by SPI */
 #define CYHAL_SPI_RSLT_PIN_CONFIG_NOT_SUPPORTED         \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SPI, 5))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SPI, 5))
 /** Provided PIN configuration is not supported by SPI */
 #define CYHAL_SPI_RSLT_INVALID_PIN_API_NOT_SUPPORTED    \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SPI, 6))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SPI, 6))
 /** The requested resource type is invalid */
 #define CYHAL_SPI_RSLT_ERR_INVALID_PIN                  \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SPI, 7))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SPI, 7))
 /** Cannot configure SSEL signal */
 #define CYHAL_SPI_RSLT_ERR_CANNOT_CONFIG_SSEL           \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SPI, 8))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SPI, 8))
 /** Cannot switch SSEL - device is busy or incorrect pin provided */
 #define CYHAL_SPI_RSLT_ERR_CANNOT_SWITCH_SSEL           \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SPI, 9))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SPI, 9))
+/** Provided configuration is not supported */
+#define CYHAL_SPI_RSLT_ERR_CFG_NOT_SUPPORTED            \
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SPI, 10))
 
 /**
  * \}
@@ -240,7 +245,7 @@ typedef struct
  * @return The status of the init request
  */
 cy_rslt_t cyhal_spi_init(cyhal_spi_t *obj, cyhal_gpio_t mosi, cyhal_gpio_t miso, cyhal_gpio_t sclk, cyhal_gpio_t ssel,
-                        const cyhal_clock_t *clk, uint8_t bits, cyhal_spi_mode_t mode, bool is_slave);
+                         const cyhal_clock_t *clk, uint8_t bits, cyhal_spi_mode_t mode, bool is_slave);
 
 /** Release a SPI object
  *
@@ -415,13 +420,13 @@ cy_rslt_t cyhal_spi_enable_output(cyhal_spi_t *obj, cyhal_spi_output_t output, c
  * */
 cy_rslt_t cyhal_spi_disable_output(cyhal_spi_t *obj, cyhal_spi_output_t output);
 
-/*******************************************************************************
-* Backward compatibility macro. The following code is DEPRECATED and must
-* not be used in new projects
-*******************************************************************************/
-/** \cond INTERNAL */
-typedef cyhal_spi_event_t             cyhal_spi_irq_event_t;
-/** \endcond */
+/** Initialize the SPI peripheral using a configurator generated configuration struct.
+ *
+ * @param[in]  obj                  The SPI peripheral to configure
+ * @param[in]  cfg                  Configuration structure generated by a configurator.
+ * @return The status of the operation
+ */
+cy_rslt_t cyhal_spi_init_cfg(cyhal_spi_t *obj, const cyhal_spi_configurator_t *cfg);
 
 #if defined(__cplusplus)
 }

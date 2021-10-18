@@ -2,14 +2,16 @@
 * File Name: cyhal_usb_dev.c
 *
 * \brief
-* Provides a high level interface for interacting with the Cypress USB Device.
+* Provides a high level interface for interacting with the Infineon USB Device.
 * This interface abstracts out the chip specific details.
 * If any chip specific functionality is necessary, or performance is critical
 * the low level functions can be used directly.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2019-2021 Cypress Semiconductor Corporation
+* Copyright 2019-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,9 +32,10 @@
 #include "cyhal_gpio.h"
 #include "cyhal_hwmgr.h"
 #include "cyhal_syspm.h"
+#include "cyhal_clock.h"
 #include "cyhal_utils.h"
 
-#if defined(CY_IP_MXUSBFS)
+#if (CYHAL_DRIVER_AVAILABLE_USB_DEV)
 
 #if defined(__cplusplus)
 extern "C"
@@ -342,7 +345,7 @@ static cy_rslt_t _cyhal_usb_dev_peri_clock_setup(cyhal_usb_dev_t *obj, const cyh
         obj->shared_clock = false;
 
         /* USB bus reset clock must be 100KHz. Usual peri clock frequency is > 26 MHz, which requires 16-bit divider */
-        result = cyhal_hwmgr_allocate_clock(&(obj->clock), CY_SYSCLK_DIV_16_BIT, true);
+        result = _cyhal_utils_allocate_clock(&(obj->clock), &(obj->resource), CYHAL_CLOCK_BLOCK_PERIPHERAL_16BIT, true);
 
         if (CY_RSLT_SUCCESS == result)
         {
@@ -378,17 +381,17 @@ static cy_rslt_t _cyhal_usb_dev_pin_setup(cyhal_usb_dev_t *obj, cyhal_gpio_t dp,
     const cyhal_resource_pin_mapping_t *dp_map = _CYHAL_UTILS_GET_RESOURCE(dp, cyhal_pin_map_usb_usb_dp_pad);
     const cyhal_resource_pin_mapping_t *dm_map = _CYHAL_UTILS_GET_RESOURCE(dm, cyhal_pin_map_usb_usb_dm_pad);
 
-    if ((NULL != dp_map) && (NULL != dm_map) && _cyhal_utils_resources_equal(dp_map->inst, dm_map->inst))
+    if ((NULL != dp_map) && (NULL != dm_map) && _cyhal_utils_map_resources_equal(dp_map, dm_map))
     {
-        obj->resource = *dp_map->inst;
+        _CYHAL_UTILS_ASSIGN_RESOURCE(obj->resource, CYHAL_RSC_USB, dp_map);
 
         /* reserve DM and DP pins */
-        result = _cyhal_utils_reserve_and_connect(dp, dp_map);
+        result = _cyhal_utils_reserve_and_connect(dp_map, CYHAL_PIN_MAP_DRIVE_MODE_USB_USB_DP_PAD);
         if (CY_RSLT_SUCCESS == result)
         {
             obj->pin_dp = dp;
 
-            result = _cyhal_utils_reserve_and_connect(dm, dm_map);
+            result = _cyhal_utils_reserve_and_connect(dm_map, CYHAL_PIN_MAP_DRIVE_MODE_USB_USB_DM_PAD);
             if (CY_RSLT_SUCCESS == result)
             {
                 obj->pin_dm = dm;
@@ -407,7 +410,7 @@ static void _cyhal_usb_dev_free_resources(cyhal_usb_dev_t *obj)
     if (CYHAL_RSC_INVALID != obj->pll_resource.type)
         cyhal_hwmgr_free(&(obj->pll_resource));
     if (!obj->shared_clock)
-        cyhal_hwmgr_free_clock(&(obj->clock));
+        cyhal_clock_free(&(obj->clock));
 
     _cyhal_utils_release_if_used(&(obj->pin_dp));
     _cyhal_utils_release_if_used(&(obj->pin_dm));
@@ -758,7 +761,7 @@ cy_rslt_t cyhal_usb_dev_register_irq_callback(cyhal_usb_dev_t *obj, cyhal_usb_de
     config.intrSrc = _CYHAL_USB_DEV_IRQ_N[instance];
 
     /* Setup interrupt in NVIC to trigger the callback */
-    return (CY_SYSINT_SUCCESS == Cy_SysInt_Init(&config, (cy_israddress)callback)) 
+    return (CY_SYSINT_SUCCESS == Cy_SysInt_Init(&config, (cy_israddress)callback))
                 ? CY_RSLT_SUCCESS : CYHAL_USB_DEV_RSLT_ERR;
 }
 
@@ -790,4 +793,4 @@ void cyhal_usb_dev_register_endpoint_callback(cyhal_usb_dev_t *obj, cyhal_usb_de
 }
 #endif
 
-#endif /* CY_IP_MXUSBFS) */
+#endif /* CYHAL_DRIVER_AVAILABLE_USB_DEV */

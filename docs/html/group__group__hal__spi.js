@@ -54,5 +54,6 @@ var group__group__hal__spi =
     [ "cyhal_spi_enable_event", "group__group__hal__spi.html#ga6d53ecb445603a2470ec1fd7e456bba3", null ],
     [ "cyhal_spi_set_fifo_level", "group__group__hal__spi.html#gaa8f39b8e84c0925cb2f3ea44668de63b", null ],
     [ "cyhal_spi_enable_output", "group__group__hal__spi.html#ga98fbe6cea252e705ea4bd219376cc8a1", null ],
-    [ "cyhal_spi_disable_output", "group__group__hal__spi.html#gae7dae4894227e55b9315d75737fa3e24", null ]
+    [ "cyhal_spi_disable_output", "group__group__hal__spi.html#gae7dae4894227e55b9315d75737fa3e24", null ],
+    [ "cyhal_spi_init_cfg", "group__group__hal__spi.html#ga325d0890195400a2d1e4e994cd24fa09", null ]
 ];

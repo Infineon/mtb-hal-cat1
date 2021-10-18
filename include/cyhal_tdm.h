@@ -2,14 +2,16 @@
 * \file cyhal_tdm.h
 *
 * \brief
-* Provides a high level interface for interacting with the Cypress TDM.
+* Provides a high level interface for interacting with the Infineon TDM.
 * This interface abstracts out the chip specific details. If any chip specific
 * functionality is necessary, or performance is critical the low level functions
 * can be used directly.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,6 +36,10 @@
 * The TDM protocol is a asynchronous serial interface protocol. This driver supports
 * both transmit and receive modes of operation. The communication frequency, sample rate,
 * word size, and number of channels can all be configured.
+*
+* \note Certain platforms may not support all of the functionality and configuration options
+* provided by this driver. Please refer to implementation specific documentation for details
+* on available options.
 *
 * \section section_tdm_features Features
 *
@@ -89,8 +95,8 @@
 * \section subsection_tdm_moreinformation More Information
 *
 * <b>Code examples (Github)</b>
-* * <a href="https://github.com/cypresssemiconductorco/mtb-example-psoc6-tdm" ><b>
-PSoC 6 MCU: Time Division Multiplexing (TDM)</b></a>
+* * <a href="https://github.com/infineon/mtb-example-psoc6-tdm" ><b>
+PSoC™ 6 MCU: Time Division Multiplexing (TDM)</b></a>
 */
 
 #pragma once
@@ -116,19 +122,23 @@ extern "C" {
 
 /** An invalid pin location was specified */
 #define CYHAL_TDM_RSLT_ERR_INVALID_PIN        \
-  (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_TDM, 0))
+  (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_TDM, 0))
 
 /** An argument was provided */
 #define CYHAL_TDM_RSLT_ERR_INVALID_ARG        \
-  (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_TDM, 1))
+  (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_TDM, 1))
 
 /** Initialization of the TDM hardware failed*/
 #define CYHAL_TDM_RSLT_ERR_INIT_FAILED        \
-  (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_TDM, 2))
+  (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_TDM, 2))
 
 /** The requested clock frequency could not be achieved */
 #define CYHAL_TDM_RSLT_ERR_CLOCK \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_TDM, 3))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_TDM, 3))
+
+/** The requested configuration is not supported. */
+#define CYHAL_TDM_RSLT_NOT_SUPPORTED \
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_TDM, 4))
 
 /** * \} */
 
@@ -160,11 +170,22 @@ typedef enum {
     CYHAL_TDM_ASYNC_RX_COMPLETE   = 1 << 11,
 } cyhal_tdm_event_t;
 
+/** Selections for TDM output signals  */
+typedef enum
+{
+    /** An output signal should be triggered when the receive buffer is half full */
+    CYHAL_TDM_TRIGGER_RX_HALF_FULL,
+    /** An output signal should be triggered when the transmit buffer is half empty */
+    CYHAL_TDM_TRIGGER_TX_HALF_EMPTY,
+}
+cyhal_tdm_output_t;
+
 /** Pins to use for one TDM direction */
 typedef struct {
     cyhal_gpio_t sck;   //!< Clock pin
     cyhal_gpio_t ws;    //!< Word select
     cyhal_gpio_t data;  //!< Data pin (sdo or sdi)
+    cyhal_gpio_t mclk;  //!< Mclk input pin. Set to NC if an internal clock source should be used
 } cyhal_tdm_pins_t;
 
 /** Word select pulse width */
@@ -185,8 +206,8 @@ typedef struct {
     /** Word select pulse width for RX direction */
     cyhal_tdm_word_select_width_t rx_ws_width;
     /** Frequency, in hertz, of the master clock if it is provided by an external pin.
-     * If the mclk pin is not NC, this must be nonzero.
-     * If the mclk pin is NC, this must be zero.
+     * If at least one mclk pin is not NC, this must be nonzero.
+     * If both mclk pins are NC, this must be zero.
      */
     uint32_t mclk_hz;
     /** Number of bits in each channel. See the implementation specific documentation for supported values. */
@@ -226,14 +247,21 @@ typedef void (*cyhal_tdm_event_callback_t)(void *callback_arg, cyhal_tdm_event_t
  *                            for this object but the init function will initialize its contents.
  * @param[in]  tx_pins      Pins for TDM transmit. If NULL, transmit functionality will be disabled.
  * @param[in]  rx_pins      Pins for TDM receive. If NULL, receive functionality will be disabled.
- * @param[in]  mclk         The master clock input pin, if an external clock should be used for the TDM block. Set to NC if an internal
- *                          clock source should be used.
  * @param[in]  config       Initial block configuration
  * @param[in]  clk          Clock source to use for this instance. If NULL, a dedicated clock divider will be allocated for this instance.
  * @return The status of the init request
  */
-cy_rslt_t cyhal_tdm_init(cyhal_tdm_t *obj, const cyhal_tdm_pins_t* tx_pins, const cyhal_tdm_pins_t* rx_pins, cyhal_gpio_t mclk,
+cy_rslt_t cyhal_tdm_init(cyhal_tdm_t *obj, const cyhal_tdm_pins_t* tx_pins, const cyhal_tdm_pins_t* rx_pins,
                          const cyhal_tdm_config_t* config, cyhal_clock_t* clk);
+
+/** Initialize the TDM peripheral using a configurator generated configuration struct
+  *
+ * @param[out] obj              Pointer to a TDM object. The caller must allocate the memory
+ *                              for this object but the init function will initialize its contents.
+ * @param[in] cfg               Configuration structure generated by a configurator.
+ * @return The status of the init request
+ */
+ cy_rslt_t cyhal_tdm_init_cfg(cyhal_tdm_t *obj, const cyhal_tdm_configurator_t *cfg);
 
 /** Deinitialize the tdm object
  *
@@ -475,6 +503,26 @@ void cyhal_tdm_register_callback(cyhal_tdm_t *obj, cyhal_tdm_event_callback_t ca
  */
 void cyhal_tdm_enable_event(cyhal_tdm_t *obj, cyhal_tdm_event_t event, uint8_t intr_priority, bool enable);
 
+/** Enables the specified output signal
+ *
+ * @param[in]  obj          The TDM object
+ * @param[in]  output       Which output signal to enable
+ * @param[out] source       Pointer to user-allocated source signal object
+ * which will be initialized by enable_output. \p source should be passed to
+ * (dis)connect_digital functions to (dis)connect the associated endpoints.
+  * @return The status of the output enable
+ */
+cy_rslt_t cyhal_tdm_enable_output(cyhal_tdm_t *obj, cyhal_tdm_output_t output, cyhal_source_t *source);
+
+/** Disables the specified output signal
+ *
+ * @param[in]  obj          The TDM object
+ * @param[in]  output       Which output signal to disable
+ *
+ * @return The status of the disablement
+ */
+cy_rslt_t cyhal_tdm_disable_output(cyhal_tdm_t *obj, cyhal_tdm_output_t output);
+
 #if defined(__cplusplus)
 }
 #endif
@@ -483,4 +531,4 @@ void cyhal_tdm_enable_event(cyhal_tdm_t *obj, cyhal_tdm_event_t event, uint8_t i
 #include CYHAL_TDM_IMPL_HEADER
 #endif /* CYHAL_TDM_IMPL_HEADER */
 
-/** \} group_hal_i2s */
+/** \} group_hal_tdm */

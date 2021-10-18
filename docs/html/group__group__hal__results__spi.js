@@ -8,5 +8,6 @@ var group__group__hal__results__spi =
     [ "CYHAL_SPI_RSLT_INVALID_PIN_API_NOT_SUPPORTED", "group__group__hal__results__spi.html#gaa2f2c07a304037d61976de24dafdc54c", null ],
     [ "CYHAL_SPI_RSLT_ERR_INVALID_PIN", "group__group__hal__results__spi.html#ga9be0aaa5888dea007b9080f8e6508761", null ],
     [ "CYHAL_SPI_RSLT_ERR_CANNOT_CONFIG_SSEL", "group__group__hal__results__spi.html#ga4d1d1f93434e3948b5c04cac6a4316ff", null ],
-    [ "CYHAL_SPI_RSLT_ERR_CANNOT_SWITCH_SSEL", "group__group__hal__results__spi.html#ga4a5ee16eae3c7b63cc93e5f763600482", null ]
+    [ "CYHAL_SPI_RSLT_ERR_CANNOT_SWITCH_SSEL", "group__group__hal__results__spi.html#ga4a5ee16eae3c7b63cc93e5f763600482", null ],
+    [ "CYHAL_SPI_RSLT_ERR_CFG_NOT_SUPPORTED", "group__group__hal__results__spi.html#gac864864c47aa774c27dfdecc9047825d", null ]
 ];

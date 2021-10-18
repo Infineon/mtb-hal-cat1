@@ -2,14 +2,16 @@
 * \file cyhal_dma.h
 *
 * \brief
-* Provides a high level interface for interacting with the Cypress DMA.
+* Provides a high level interface for interacting with the Infineon DMA.
 * This interface abstracts out the chip specific details. If any chip specific
 * functionality is necessary, or performance is critical the low level functions
 * can be used directly.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -47,9 +49,10 @@
  * The operational flow of the driver is listed below. This shows the basic order in which each of
  * the functions would generally be called. While Initialize must always be first and Release always
  * last, with care, the other functions can be reordered based on the implementation needs.
- * -# Initialize: \ref cyhal_dma_init or \ref cyhal_dma_init_adv
- * -# Setup: \ref cyhal_dma_register_callback, \ref cyhal_dma_enable_event, \ref cyhal_dma_connect_digital, or \ref cyhal_dma_enable_output
+ * -# Initialize: \ref cyhal_dma_init or \ref cyhal_dma_init_adv or \ref cyhal_dma_init_cfg
  * -# Configure: \ref cyhal_dma_configure
+ * -# Setup: \ref cyhal_dma_register_callback, \ref cyhal_dma_enable_event, \ref cyhal_dma_connect_digital, or \ref cyhal_dma_enable_output
+ * -# Enable: \ref cyhal_dma_enable
  * -# Trigger: \ref cyhal_dma_start_transfer or via a hardware signal
  * -# Status/ReEnable (optional): \ref cyhal_dma_is_busy, \ref cyhal_dma_enable
  * -# Cleanup (optional): \ref cyhal_dma_disable, \ref cyhal_dma_enable_event, \ref cyhal_dma_disconnect_digital, or \ref cyhal_dma_disable_output
@@ -128,31 +131,31 @@ extern "C" {
 
 /** Invalid transfer width parameter error */
 #define CYHAL_DMA_RSLT_ERR_INVALID_TRANSFER_WIDTH       \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_DMA, 0))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_DMA, 0))
 /** Invalid parameter error */
 #define CYHAL_DMA_RSLT_ERR_INVALID_PARAMETER            \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_DMA, 1))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_DMA, 1))
 /** Invalid priority parameter error */
 #define CYHAL_DMA_RSLT_ERR_INVALID_PRIORITY             \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_DMA, 2))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_DMA, 2))
 /** Invalid src or dst addr alignment error */
 #define CYHAL_DMA_RSLT_ERR_INVALID_ALIGNMENT            \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_DMA, 3))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_DMA, 3))
 /** Invalid burst_size paramenter error */
 #define CYHAL_DMA_RSLT_ERR_INVALID_BURST_SIZE           \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_DMA, 4))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_DMA, 4))
 /** Channel busy error */
 #define CYHAL_DMA_RSLT_ERR_CHANNEL_BUSY                 \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_DMA, 5))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_DMA, 5))
 /** Transfer has already been started warning */
 #define CYHAL_DMA_RSLT_WARN_TRANSFER_ALREADY_STARTED    \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_WARNING, CYHAL_RSLT_MODULE_DMA, 6))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_WARNING, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_DMA, 6))
 /** Unsupported hardware error */
 #define CYHAL_DMA_RSLT_FATAL_UNSUPPORTED_HARDWARE       \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_FATAL, CYHAL_RSLT_MODULE_DMA, 7))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_FATAL, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_DMA, 7))
 /** Requested transfer size is not supported */
 #define CYHAL_DMA_RSLT_ERR_INVALID_TRANSFER_SIZE        \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_FATAL, CYHAL_RSLT_MODULE_DMA, 8))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_FATAL, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_DMA, 8))
 
 /**
  * \}
@@ -307,6 +310,18 @@ cy_rslt_t cyhal_dma_init_adv(cyhal_dma_t *obj, cyhal_dma_src_t *src, cyhal_dma_d
  */
 #define cyhal_dma_init(obj, priority, direction)    (cyhal_dma_init_adv(obj, NULL, NULL, NULL, priority, direction))
 
+/** Initialize the DMA peripheral using data provided by the configurator.
+ *
+ * \note Depending on what the configurator allows filling it, it is likely that at least the source
+ * and destination addresses of the transfer(s) still need to be setup.
+ *
+ * @param[out] obj  Pointer to a DMA object. The caller must allocate the memory for this
+ * object but the init function will initialize its contents.
+ * @param[in]  cfg  Configuration structure generated by a configurator.
+ * @return The status of the init request
+ */
+cy_rslt_t cyhal_dma_init_cfg(cyhal_dma_t *obj, const cyhal_dma_configurator_t *cfg);
+
 /** Free the DMA object. Freeing a DMA object while a transfer is in progress
  * (\ref cyhal_dma_is_busy) is invalid.
  *
@@ -322,6 +337,7 @@ void cyhal_dma_free(cyhal_dma_t *obj);
  * this function to ensure the handlers are in place before the transfer can happen.
  * \note The automatic enablement of the channel as part of this function is expected to change
  * in a future update. This would only happen on a new major release (eg: 1.0 -> 2.0).
+ * \note If the DMA was setup using \ref cyhal_dma_init_cfg, this function should not be used.
  *
  * @param[in] obj    The DMA object
  * @param[in] cfg    Configuration parameters for the transfer

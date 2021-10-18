@@ -16,6 +16,7 @@ var searchData=
   ['err_5fclock',['err_clock',['../struct__cyhal__audioss__interface__t.html#a3f83605d15a9fc3b51a97693074ce041',1,'_cyhal_audioss_interface_t']]],
   ['err_5finvalid_5farg',['err_invalid_arg',['../struct__cyhal__audioss__interface__t.html#a165f5d2699fa7454c60ff05255439027',1,'_cyhal_audioss_interface_t']]],
   ['err_5finvalid_5fpin',['err_invalid_pin',['../struct__cyhal__audioss__interface__t.html#ae494185e0ccae1a2e238c7025764bbf9',1,'_cyhal_audioss_interface_t']]],
+  ['err_5fnot_5fsupported',['err_not_supported',['../struct__cyhal__audioss__interface__t.html#a71534ffd0564650b16f451961a704544',1,'_cyhal_audioss_interface_t']]],
   ['event_5fmask_5fempty',['event_mask_empty',['../struct__cyhal__audioss__interface__t.html#a25b71f7a381aa9e56f0ecf5fc1fe9e89',1,'_cyhal_audioss_interface_t']]],
   ['event_5fmask_5ffull',['event_mask_full',['../struct__cyhal__audioss__interface__t.html#ac678187b982a338f7881f6c08d313c7c',1,'_cyhal_audioss_interface_t']]],
   ['event_5fmask_5fhalf_5fempty',['event_mask_half_empty',['../struct__cyhal__audioss__interface__t.html#ac9e41dd6253b3f8de07634e49e891f44',1,'_cyhal_audioss_interface_t']]],

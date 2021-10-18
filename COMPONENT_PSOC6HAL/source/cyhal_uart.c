@@ -2,12 +2,14 @@
 * File Name: cyhal_uart.c
 *
 * Description:
-* Provides a high level interface for interacting with the Cypress UART. This is
+* Provides a high level interface for interacting with the Infineon UART. This is
 * a wrapper around the lower level PDL API.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,8 +34,9 @@
 #include "cyhal_hwmgr.h"
 #include "cyhal_syspm.h"
 #include "cyhal_clock.h"
+#include "cyhal_interconnect.h"
 
-#if defined (CY_IP_MXSCB) || defined(CY_IP_M0S8SCB)
+#if (CYHAL_DRIVER_AVAILABLE_UART)
 
 #if defined(__cplusplus)
 extern "C"
@@ -205,7 +208,7 @@ static bool _cyhal_uart_pm_callback_instance(void *obj_ptr, cyhal_syspm_callback
     // The output pins need to be set to high before going to deepsleep.
     // Otherwise the UART on the other side would see incoming data as '0'.
     GPIO_PRT_Type *txport = obj->pin_tx != NC ? CYHAL_GET_PORTADDR(obj->pin_tx) : NULL;
-    GPIO_PRT_Type *rtsport = obj->pin_rts != NC ? CYHAL_GET_PORTADDR(obj->pin_rts) : NULL;
+    GPIO_PRT_Type *rtsport = ((obj->pin_rts != NC) && obj->rts_enabled) ? CYHAL_GET_PORTADDR(obj->pin_rts) : NULL;
     uint8_t txpin = (uint8_t)CYHAL_GET_PIN(obj->pin_tx);
     uint8_t rtspin = (uint8_t)CYHAL_GET_PIN(obj->pin_rts);
 
@@ -343,49 +346,103 @@ static uint8_t _cyhal_uart_best_oversample(const cyhal_resource_inst_t *resource
     return best_oversample;
 }
 
-
-
-cy_rslt_t cyhal_uart_init(cyhal_uart_t *obj, cyhal_gpio_t tx, cyhal_gpio_t rx, const cyhal_clock_t *clk, const cyhal_uart_cfg_t *cfg)
+static cy_rslt_t _cyhal_uart_setup_resources(cyhal_uart_t *obj, cyhal_gpio_t tx, cyhal_gpio_t rx, cyhal_gpio_t cts,
+                                             cyhal_gpio_t rts, const cyhal_clock_t *clk)
 {
-    CY_ASSERT(NULL != obj);
-    memset(obj, 0, sizeof(cyhal_uart_t));
+    cy_rslt_t result;
 
     // Explicitly marked not allocated resources as invalid to prevent freeing them.
     obj->resource.type = CYHAL_RSC_INVALID;
-    obj->is_user_clock = true;
+    obj->is_clock_owned = false;
     obj->pin_rx = CYHAL_NC_PIN_VALUE;
     obj->pin_tx = CYHAL_NC_PIN_VALUE;
     obj->pin_cts = CYHAL_NC_PIN_VALUE;
     obj->pin_rts = CYHAL_NC_PIN_VALUE;
 
-    cy_rslt_t result = CY_RSLT_SUCCESS;
-
-    // Reserve the UART
-    const cyhal_resource_pin_mapping_t *tx_map = _CYHAL_SCB_FIND_MAP(tx, cyhal_pin_map_scb_uart_tx);
-    const cyhal_resource_pin_mapping_t *rx_map = _CYHAL_SCB_FIND_MAP(rx, cyhal_pin_map_scb_uart_rx);
-    if (NULL == tx_map || NULL == rx_map || !_cyhal_utils_resources_equal(tx_map->inst, rx_map->inst))
+    uint32_t saved_intr_status = cyhal_system_critical_section_enter();
+    // pins_blocks will contain bit representation of blocks, that are connected to specified pin
+    // 1 block - 1 bit, so, for example, pin_blocks = 0x00000006 means that certain pin
+    // can belong to next non-reserved blocks SCB2 and SCB1
+    uint32_t pins_blocks = _CYHAL_SCB_CHECK_AFFILIATION(tx, cyhal_pin_map_scb_uart_tx);
+    pins_blocks &= _CYHAL_SCB_CHECK_AFFILIATION(rx, cyhal_pin_map_scb_uart_rx);
+    if (NC != cts)
     {
+        pins_blocks &= _CYHAL_SCB_CHECK_AFFILIATION(cts, cyhal_pin_map_scb_uart_cts);
+    }
+    if (NC != rts)
+    {
+        pins_blocks &= _CYHAL_SCB_CHECK_AFFILIATION(rts, cyhal_pin_map_scb_uart_rts);
+    }
+    // One (or more) pin does not belong to any SCB instance or all corresponding SCB instances
+    // are reserved
+    if (0 == pins_blocks)
+    {
+        cyhal_system_critical_section_exit(saved_intr_status);
         return CYHAL_UART_RSLT_ERR_INVALID_PIN;
     }
 
-    cyhal_resource_inst_t rsc = *rx_map->inst;
-    if (CY_RSLT_SUCCESS != (result = cyhal_hwmgr_reserve(&rsc)))
-        return result;
+    uint8_t found_block_idx = 0;
+    while(((pins_blocks >> found_block_idx) & 0x1) == 0)
+    {
+        found_block_idx++;
+    }
 
-    obj->resource = rsc;
-    obj->base = _CYHAL_SCB_BASE_ADDRESSES[obj->resource.block_num];
+    cyhal_resource_inst_t uart_rsc = { CYHAL_RSC_SCB, found_block_idx, 0 };
+
+    // Reserve the UART
+    const cyhal_resource_pin_mapping_t *tx_map = _CYHAL_SCB_FIND_MAP_BLOCK(tx, cyhal_pin_map_scb_uart_tx, &uart_rsc);
+    const cyhal_resource_pin_mapping_t *rx_map = _CYHAL_SCB_FIND_MAP_BLOCK(rx, cyhal_pin_map_scb_uart_rx, &uart_rsc);
+    const cyhal_resource_pin_mapping_t *cts_map = _CYHAL_SCB_FIND_MAP_BLOCK(cts, cyhal_pin_map_scb_uart_cts, &uart_rsc);
+    const cyhal_resource_pin_mapping_t *rts_map = _CYHAL_SCB_FIND_MAP_BLOCK(rts, cyhal_pin_map_scb_uart_rts, &uart_rsc);
+
+    if (NULL == tx_map || NULL == rx_map || (NC != cts && NULL == cts_map) || (NC != rts && NULL == rts_map))
+    {
+        // Should never enter here, as _CYHAL_SCB_CHECK_AFFILIATION above garantee that all of these pin maps exist.
+        CY_ASSERT(false);
+    }
+
+    result = cyhal_hwmgr_reserve(&uart_rsc);
+    cyhal_system_critical_section_exit(saved_intr_status);
+    if (CY_RSLT_SUCCESS != result)
+    {
+        return result;
+    }
+
+    obj->resource = uart_rsc;
 
     // reserve the TX pin
-    result = _cyhal_utils_reserve_and_connect(tx, tx_map);
+    result = _cyhal_utils_reserve_and_connect(tx_map, CYHAL_PIN_MAP_DRIVE_MODE_SCB_UART_TX);
     if (result == CY_RSLT_SUCCESS)
     {
         obj->pin_tx = tx;
 
         //reseve the RX pin
-        result = _cyhal_utils_reserve_and_connect(rx, rx_map);
+        result = _cyhal_utils_reserve_and_connect(rx_map, CYHAL_PIN_MAP_DRIVE_MODE_SCB_UART_RX);
         if (result == CY_RSLT_SUCCESS)
         {
             obj->pin_rx = rx;
+        }
+    }
+
+    if ((result == CY_RSLT_SUCCESS) && (NULL != cts_map))
+    {
+        // reserve the CTS pin
+        result = _cyhal_utils_reserve_and_connect(cts_map, CYHAL_PIN_MAP_DRIVE_MODE_SCB_UART_CTS);
+        if (result == CY_RSLT_SUCCESS)
+        {
+            obj->cts_enabled = true;
+            obj->pin_cts = cts;
+        }
+    }
+
+    if ((result == CY_RSLT_SUCCESS) && (NULL != rts_map))
+    {
+        // reserve the RTS pin
+        result = _cyhal_utils_reserve_and_connect(rts_map, CYHAL_PIN_MAP_DRIVE_MODE_SCB_UART_RTS);
+        if (result == CY_RSLT_SUCCESS)
+        {
+            obj->rts_enabled = true;
+            obj->pin_rts = rts;
         }
     }
 
@@ -393,14 +450,13 @@ cy_rslt_t cyhal_uart_init(cyhal_uart_t *obj, cyhal_gpio_t tx, cyhal_gpio_t rx, c
     {
         if (clk == NULL)
         {
-            obj->is_user_clock = false;
-            result = _cyhal_utils_allocate_clock(&(obj->clock), &rsc, CYHAL_CLOCK_BLOCK_PERIPHERAL_16BIT, true);
+            result = _cyhal_utils_allocate_clock(&(obj->clock), &obj->resource, CYHAL_CLOCK_BLOCK_PERIPHERAL_16BIT, true);
+            obj->is_clock_owned = (CY_RSLT_SUCCESS == result);
         }
         else
         {
-            obj->is_user_clock = true;
+            obj->is_clock_owned = false;
             obj->clock = *clk;
-            _cyhal_utils_update_clock_format(&(obj->clock));
         }
     }
 
@@ -410,26 +466,17 @@ cy_rslt_t cyhal_uart_init(cyhal_uart_t *obj, cyhal_gpio_t tx, cyhal_gpio_t rx, c
             _cyhal_scb_get_clock_index(obj->resource.block_num), &(obj->clock));
     }
 
-    if (result == CY_RSLT_SUCCESS)
+    return result;
+}
+
+static cy_rslt_t _cyhal_uart_init_hw(cyhal_uart_t *obj)
+{
+    obj->base = _CYHAL_SCB_BASE_ADDRESSES[obj->resource.block_num];
+
+    cy_rslt_t result = (cy_rslt_t) Cy_SCB_UART_Init(obj->base, &(obj->config), &(obj->context));
+
+    if (CY_RSLT_SUCCESS == result)
     {
-        obj->config = _cyhal_uart_default_config;
-
-        if (cfg == NULL)
-        {
-            Cy_SCB_UART_Init(obj->base, &(obj->config), &(obj->context));
-        }
-        else
-        {
-            obj->config.dataWidth = cfg->data_bits;
-            obj->config.stopBits = _cyhal_uart_convert_stopbits((uint8_t)cfg->stop_bits);
-            obj->config.parity = _cyhal_uart_convert_parity(cfg->parity);
-            Cy_SCB_UART_Init(obj->base, &(obj->config), &(obj->context));
-            if (cfg->rx_buffer != NULL)
-            {
-                Cy_SCB_UART_StartRingBuffer(obj->base, cfg->rx_buffer, cfg->rx_buffer_size, &(obj->context));
-            }
-        }
-
         obj->callback_data.callback = NULL;
         obj->callback_data.callback_arg = NULL;
         obj->irq_cause = CYHAL_UART_IRQ_NONE;
@@ -440,26 +487,87 @@ cy_rslt_t cyhal_uart_init(cyhal_uart_t *obj, cyhal_gpio_t tx, cyhal_gpio_t rx, c
 
         _cyhal_scb_update_instance_data(obj->resource.block_num, (void*)obj, &_cyhal_uart_pm_callback_instance);
 
-        if (obj->is_user_clock)
+        Cy_SCB_UART_Enable(obj->base);
+    }
+
+    return result;
+}
+
+cy_rslt_t cyhal_uart_init(cyhal_uart_t *obj, cyhal_gpio_t tx, cyhal_gpio_t rx, cyhal_gpio_t cts, cyhal_gpio_t rts,
+                          const cyhal_clock_t *clk, const cyhal_uart_cfg_t *cfg)
+{
+    CY_ASSERT(NULL != obj);
+    memset(obj, 0, sizeof(cyhal_uart_t));
+
+    obj->dc_configured = false;
+    cy_rslt_t result = _cyhal_uart_setup_resources(obj, tx, rx, cts, rts, clk);
+
+    if (CY_RSLT_SUCCESS == result)
+    {
+        obj->config = _cyhal_uart_default_config;
+        obj->config.enableCts = obj->cts_enabled;
+
+        if (cfg != NULL)
         {
-            Cy_SCB_UART_Enable(obj->base);
+            obj->config.dataWidth = cfg->data_bits;
+            obj->config.stopBits = _cyhal_uart_convert_stopbits((uint8_t)cfg->stop_bits);
+            obj->config.parity = _cyhal_uart_convert_parity(cfg->parity);
         }
-        else
+
+        result = _cyhal_uart_init_hw(obj);
+    }
+
+    if (CY_RSLT_SUCCESS == result)
+    {
+        if ((cfg != NULL) && (cfg->rx_buffer != NULL))
+        {
+            cyhal_uart_config_software_buffer(obj, cfg->rx_buffer, cfg->rx_buffer_size);
+        }
+
+        if (obj->is_clock_owned)
         {
             result = cyhal_uart_set_baud(obj, CYHAL_UART_DEFAULT_BAUD, NULL);
         }
     }
 
-    if (result != CY_RSLT_SUCCESS)
+    if (CY_RSLT_SUCCESS != result)
     {
         cyhal_uart_free(obj);
     }
     return result;
 }
 
+cy_rslt_t cyhal_uart_init_cfg(cyhal_uart_t *obj, const cyhal_uart_configurator_t *cfg)
+{
+    CY_ASSERT(NULL != obj);
+    CY_ASSERT(NULL != cfg);
+    CY_ASSERT(NULL != cfg->config);
+    memset(obj, 0, sizeof(cyhal_uart_t));
+
+    obj->resource = *cfg->resource;
+    obj->clock = *cfg->clock;
+    obj->is_clock_owned = false;
+    obj->pin_tx = cfg->gpios.pin_tx;
+    obj->pin_rts = cfg->gpios.pin_rts;
+    obj->pin_cts = cfg->gpios.pin_cts;
+    obj->dc_configured = true;
+    obj->cts_enabled = cfg->config->enableCts;
+    obj->rts_enabled = (NC != cfg->gpios.pin_rts);
+
+    obj->config = *cfg->config;
+    return _cyhal_uart_init_hw(obj);
+}
+
 void cyhal_uart_free(cyhal_uart_t *obj)
 {
     CY_ASSERT(NULL != obj);
+
+    if (NULL != obj->base)
+    {
+        Cy_SCB_UART_Disable(obj->base, &obj->context);
+        Cy_SCB_UART_DeInit(obj->base);
+        obj->base = NULL;
+    }
 
     if (obj->resource.type != CYHAL_RSC_INVALID)
     {
@@ -467,81 +575,99 @@ void cyhal_uart_free(cyhal_uart_t *obj)
         NVIC_DisableIRQ(irqn);
 
         _cyhal_scb_update_instance_data(obj->resource.block_num, NULL, NULL);
-        Cy_SCB_UART_DeInit(obj->base);
-        cyhal_hwmgr_free(&(obj->resource));
+
+        if (false == obj->dc_configured)
+        {
+            cyhal_hwmgr_free(&(obj->resource));
+        }
+
+        obj->resource.type = CYHAL_RSC_INVALID;
     }
 
-    _cyhal_utils_release_if_used(&(obj->pin_rx));
-    _cyhal_utils_release_if_used(&(obj->pin_tx));
-    _cyhal_utils_release_if_used(&(obj->pin_rts));
-    _cyhal_utils_release_if_used(&(obj->pin_cts));
-
-    if (!(obj->is_user_clock))
+    if (false == obj->dc_configured)
     {
-        cyhal_clock_free(&(obj->clock));
+        _cyhal_utils_release_if_used(&(obj->pin_rx));
+        _cyhal_utils_release_if_used(&(obj->pin_tx));
+        _cyhal_utils_release_if_used(&(obj->pin_rts));
+        _cyhal_utils_release_if_used(&(obj->pin_cts));
+
+        if (obj->is_clock_owned)
+        {
+            cyhal_clock_free(&(obj->clock));
+        }
     }
 }
 
 cy_rslt_t cyhal_uart_set_baud(cyhal_uart_t *obj, uint32_t baudrate, uint32_t *actualbaud)
 {
     cy_rslt_t status;
-    uint8_t oversample_value;
-    uint32_t calculated_baud;
-    uint32_t divider;
 
-    Cy_SCB_UART_Disable(obj->base, NULL);
-    status = cyhal_clock_set_enabled(&(obj->clock), false, false);
-    if(status != CY_RSLT_SUCCESS)
+    if (obj->is_clock_owned)
     {
-        Cy_SCB_UART_Enable(obj->base);
-        return status;
-    }
+        uint8_t oversample_value;
+        uint32_t calculated_baud;
+        uint32_t divider;
 
-    oversample_value = _cyhal_uart_best_oversample(&(obj->resource), baudrate);
-    obj->config.oversample = oversample_value;
+        Cy_SCB_UART_Disable(obj->base, NULL);
+        status = cyhal_clock_set_enabled(&(obj->clock), false, false);
+        if(status != CY_RSLT_SUCCESS)
+        {
+            Cy_SCB_UART_Enable(obj->base);
+            return status;
+        }
 
-    divider = _cyhal_utils_divider_value(&(obj->resource), baudrate * oversample_value, 0);
+        oversample_value = _cyhal_uart_best_oversample(&(obj->resource), baudrate);
+        obj->config.oversample = oversample_value;
 
-    /* Set baud rate */
-    status = cyhal_clock_set_divider(&(obj->clock), divider);
-    if(status != CY_RSLT_SUCCESS)
-    {
-        cyhal_clock_set_enabled(&(obj->clock), true, false);
-        Cy_SCB_UART_Enable(obj->base);
-        return status;
-    }
+        divider = _cyhal_utils_divider_value(&(obj->resource), baudrate * oversample_value, 0);
 
-    calculated_baud = _cyhal_uart_actual_baud(&(obj->resource), divider, oversample_value);
+        /* Set baud rate */
+        status = cyhal_clock_set_divider(&(obj->clock), divider);
+        if(status != CY_RSLT_SUCCESS)
+        {
+            cyhal_clock_set_enabled(&(obj->clock), true, false);
+            Cy_SCB_UART_Enable(obj->base);
+            return status;
+        }
 
-    if (actualbaud != NULL)
-        *actualbaud = calculated_baud;
-    uint32_t baud_difference = _cyhal_uart_baud_perdif(baudrate, calculated_baud);
-    if (baud_difference > CYHAL_UART_MAX_BAUD_PERCENT_DIFFERENCE)
-        status = CY_RSLT_WRN_CSP_UART_BAUD_TOLERANCE;
+        calculated_baud = _cyhal_uart_actual_baud(&(obj->resource), divider, oversample_value);
 
-    status = cyhal_clock_set_enabled(&(obj->clock), true, false);
+        if (actualbaud != NULL)
+            *actualbaud = calculated_baud;
+        uint32_t baud_difference = _cyhal_uart_baud_perdif(baudrate, calculated_baud);
+        if (baud_difference > CYHAL_UART_MAX_BAUD_PERCENT_DIFFERENCE)
+            status = CY_RSLT_WRN_CSP_UART_BAUD_TOLERANCE;
 
-    /* Configure the UART interface */
-    #if (CY_IP_MXSCB_VERSION >= 2) /* Versions 2 and later */
-    uint32_t mem_width = (obj->config.dataWidth <= CY_SCB_BYTE_WIDTH)
-        #if defined(COMPONENT_CAT1)
-        ? CY_SCB_MEM_WIDTH_BYTE : CY_SCB_MEM_WIDTH_HALFWORD;
-        #elif defined(COMPONENT_CAT2)
-        ? CY_SCB_CTRL_MEM_WIDTH_BYTE : CY_SCB_CTRL_MEM_WIDTH_HALFWORD;
+        status = cyhal_clock_set_enabled(&(obj->clock), true, false);
+
+        /* Configure the UART interface */
+        #if (CY_IP_MXSCB_VERSION >= 2) /* Versions 2 and later */
+        uint32_t mem_width = (obj->config.dataWidth <= CY_SCB_BYTE_WIDTH)
+            #if defined(COMPONENT_CAT1)
+            ? CY_SCB_MEM_WIDTH_BYTE : CY_SCB_MEM_WIDTH_HALFWORD;
+            #elif defined(COMPONENT_CAT2)
+            ? CY_SCB_CTRL_MEM_WIDTH_BYTE : CY_SCB_CTRL_MEM_WIDTH_HALFWORD;
+            #endif
+
+        SCB_CTRL(obj->base) = _BOOL2FLD(SCB_CTRL_ADDR_ACCEPT, obj->config.acceptAddrInFifo)     |
+                    _BOOL2FLD(SCB_CTRL_MEM_WIDTH, mem_width)                                    |
+                    _VAL2FLD(SCB_CTRL_OVS, oversample_value - 1)                                |
+                    _VAL2FLD(SCB_CTRL_MODE, CY_SCB_CTRL_MODE_UART);
+        #else /* Older versions of the block */
+        SCB_CTRL(obj->base) = _BOOL2FLD(SCB_CTRL_ADDR_ACCEPT, obj->config.acceptAddrInFifo)     |
+                    _BOOL2FLD(SCB_CTRL_BYTE_MODE, (obj->config.dataWidth <= CY_SCB_BYTE_WIDTH)) |
+                    _VAL2FLD(SCB_CTRL_OVS, oversample_value - 1)                                |
+                    _VAL2FLD(SCB_CTRL_MODE, CY_SCB_CTRL_MODE_UART);
         #endif
 
-    SCB_CTRL(obj->base) = _BOOL2FLD(SCB_CTRL_ADDR_ACCEPT, obj->config.acceptAddrInFifo)     |
-                _BOOL2FLD(SCB_CTRL_MEM_WIDTH, mem_width)                                    |
-                _VAL2FLD(SCB_CTRL_OVS, oversample_value - 1)                                |
-                _VAL2FLD(SCB_CTRL_MODE, CY_SCB_CTRL_MODE_UART);
-    #else /* Older versions of the block */
-    SCB_CTRL(obj->base) = _BOOL2FLD(SCB_CTRL_ADDR_ACCEPT, obj->config.acceptAddrInFifo)     |
-                _BOOL2FLD(SCB_CTRL_BYTE_MODE, (obj->config.dataWidth <= CY_SCB_BYTE_WIDTH)) |
-                _VAL2FLD(SCB_CTRL_OVS, oversample_value - 1)                                |
-                _VAL2FLD(SCB_CTRL_MODE, CY_SCB_CTRL_MODE_UART);
-    #endif
+        Cy_SCB_UART_Enable(obj->base);
+    }
+    else
+    {
+        /* Not able to make changes in user-provided clock */
+        status = CYHAL_UART_RSLT_CLOCK_ERROR;
+    }
 
-    Cy_SCB_UART_Enable(obj->base);
     return status;
 }
 
@@ -553,6 +679,7 @@ cy_rslt_t cyhal_uart_configure(cyhal_uart_t *obj, const cyhal_uart_cfg_t *cfg)
     obj->config.dataWidth = cfg->data_bits;
     obj->config.stopBits = _cyhal_uart_convert_stopbits((uint8_t)cfg->stop_bits);
     obj->config.parity = _cyhal_uart_convert_parity(cfg->parity);
+    obj->config.enableCts = obj->cts_enabled;
     // Do not pass obj->context here because Cy_SCB_UART_Init will destroy it
     Cy_SCB_UART_Init(obj->base, &(obj->config), NULL);
     Cy_SCB_UART_Enable(obj->base);
@@ -628,69 +755,80 @@ cy_rslt_t cyhal_uart_clear(cyhal_uart_t *obj)
     return CY_RSLT_SUCCESS;
 }
 
-cy_rslt_t cyhal_uart_set_flow_control(cyhal_uart_t *obj, cyhal_gpio_t cts, cyhal_gpio_t rts)
+cy_rslt_t cyhal_uart_enable_flow_control(cyhal_uart_t *obj, bool enable_cts, bool enable_rts)
 {
     cy_rslt_t result = CY_RSLT_SUCCESS;
 
-    if (cts != obj->pin_cts)
+    if (obj->pin_cts != NC)
     {
-        if (NC == cts)
+        if (enable_cts && (false == obj->cts_enabled))
         {
-            if (obj->pin_cts != NC)
+            const cyhal_resource_pin_mapping_t *cts_map = _CYHAL_SCB_FIND_MAP_BLOCK(obj->pin_cts, cyhal_pin_map_scb_uart_cts, &obj->resource);
+            if (false == obj->dc_configured)
             {
-                _cyhal_utils_disconnect_and_free(obj->pin_cts);
-                Cy_SCB_UART_DisableCts(obj->base);
+                result = _cyhal_utils_reserve_and_connect(cts_map, CYHAL_PIN_MAP_DRIVE_MODE_SCB_UART_CTS);
             }
-        }
-        else
-        {
-            const cyhal_resource_pin_mapping_t *cts_map = _CYHAL_UTILS_GET_RESOURCE(cts, cyhal_pin_map_scb_uart_cts);
-            if (!_cyhal_utils_resources_equal(&(obj->resource), cts_map->inst))
+            else
             {
-                return CYHAL_UART_RSLT_ERR_INVALID_PIN;
+                result = cyhal_connect_pin(cts_map, CYHAL_PIN_MAP_DRIVE_MODE_SCB_UART_CTS);
             }
-
-            result = _cyhal_utils_reserve_and_connect(cts, cts_map);
             if (CY_RSLT_SUCCESS == result)
             {
                 Cy_SCB_UART_EnableCts(obj->base);
+                obj->cts_enabled = true;
             }
         }
-
-        if (result != CY_RSLT_SUCCESS)
+        else if (!enable_cts)
         {
-            return result;
+            if (false == obj->dc_configured)
+            {
+                _cyhal_utils_disconnect_and_free(obj->pin_cts);
+            }
+            else
+            {
+                result = cyhal_disconnect_pin(obj->pin_cts);
+            }
+            if (CY_RSLT_SUCCESS == result)
+            {
+                Cy_SCB_UART_DisableCts(obj->base);
+                obj->cts_enabled = false;
+            }
         }
-        obj->pin_cts = cts;
     }
 
-    if (rts != obj->pin_rts)
+    if ((CY_RSLT_SUCCESS == result) && (obj->pin_rts != NC))
     {
-        if (NC == rts)
+        if (enable_rts && (false == obj->rts_enabled))
         {
-            if (obj->pin_rts != NC)
+            const cyhal_resource_pin_mapping_t *rts_map = _CYHAL_SCB_FIND_MAP_BLOCK(obj->pin_rts, cyhal_pin_map_scb_uart_rts, &obj->resource);
+            if (false == obj->dc_configured)
+            {
+                result = _cyhal_utils_reserve_and_connect(rts_map, CYHAL_PIN_MAP_DRIVE_MODE_SCB_UART_RTS);
+            }
+            else
+            {
+                result = cyhal_connect_pin(rts_map, CYHAL_PIN_MAP_DRIVE_MODE_SCB_UART_RTS);
+            }
+            obj->rts_enabled = (CY_RSLT_SUCCESS == result);
+        }
+        else if (!enable_rts)
+        {
+            if (false == obj->dc_configured)
             {
                 _cyhal_utils_disconnect_and_free(obj->pin_rts);
             }
-        }
-        else
-        {
-            const cyhal_resource_pin_mapping_t *rts_map = _CYHAL_UTILS_GET_RESOURCE(rts, cyhal_pin_map_scb_uart_rts);
-            if (!_cyhal_utils_resources_equal(&(obj->resource), rts_map->inst))
+            else
             {
-                return CYHAL_UART_RSLT_ERR_INVALID_PIN;
+                result = cyhal_disconnect_pin(obj->pin_rts);
             }
-
-            result = _cyhal_utils_reserve_and_connect(rts, rts_map);
+            if (CY_RSLT_SUCCESS == result)
+            {
+                obj->rts_enabled = false;
+            }
         }
-
-        if (result != CY_RSLT_SUCCESS)
-        {
-            return result;
-        }
-        obj->pin_rts = rts;
     }
-    return CY_RSLT_SUCCESS;
+
+    return result;
 }
 
 cy_rslt_t cyhal_uart_write(cyhal_uart_t *obj, void *tx, size_t *tx_length)
@@ -870,16 +1008,27 @@ cy_rslt_t cyhal_uart_set_fifo_level(cyhal_uart_t *obj, cyhal_uart_fifo_type_t ty
 
 cy_rslt_t cyhal_uart_enable_output(cyhal_uart_t *obj, cyhal_uart_output_t output, cyhal_source_t *source)
 {
-    return _cyhal_scb_enable_output(obj->base, obj->resource, (cyhal_scb_output_t)output, source);
+    return _cyhal_scb_enable_output(obj->resource, (cyhal_scb_output_t)output, source);
 }
 
 cy_rslt_t cyhal_uart_disable_output(cyhal_uart_t *obj, cyhal_uart_output_t output)
 {
-    return _cyhal_scb_disable_output(obj->base, obj->resource, (cyhal_scb_output_t)output);
+    CY_UNUSED_PARAMETER(obj);
+    return _cyhal_scb_disable_output((cyhal_scb_output_t)output);
+}
+
+cy_rslt_t cyhal_uart_config_software_buffer(cyhal_uart_t *obj, uint8_t *rx_buffer, uint32_t rx_buffer_size)
+{
+    CY_ASSERT(NULL != obj);
+    CY_ASSERT(NULL != rx_buffer);
+
+    Cy_SCB_UART_StartRingBuffer(obj->base, rx_buffer, rx_buffer_size, &(obj->context));
+
+    return CY_RSLT_SUCCESS;
 }
 
 #if defined(__cplusplus)
 }
 #endif
 
-#endif /* CY_IP_MXSCB */
+#endif /* CYHAL_DRIVER_AVAILABLE_UART */

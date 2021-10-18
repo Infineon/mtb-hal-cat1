@@ -18,9 +18,9 @@ var group__group__hal__clock =
       [ "CYHAL_TOLERANCE_PPM", "group__group__hal__clock.html#ggafb9a1aeacf13f74784613724596a040fabc9ebdb36d6908b87b3f7dcc69ac4d5e", null ],
       [ "CYHAL_TOLERANCE_PERCENT", "group__group__hal__clock.html#ggafb9a1aeacf13f74784613724596a040faaeb9d27160dad7a64dbc3d9c51198489", null ]
     ] ],
-    [ "cyhal_clock_allocate", "group__group__hal__clock.html#gaa265dd236fc90f0f90b9776e16991058", null ],
     [ "cyhal_clock_get", "group__group__hal__clock.html#gae94ce0d50bec8e53aa9386248f96c448", null ],
-    [ "cyhal_clock_init", "group__group__hal__clock.html#ga5ddc152a762e3dcc6f1700d7bea66b5a", null ],
+    [ "cyhal_clock_reserve", "group__group__hal__clock.html#ga6e284be927d4b576585846848a036f21", null ],
+    [ "cyhal_clock_allocate", "group__group__hal__clock.html#gaa265dd236fc90f0f90b9776e16991058", null ],
     [ "cyhal_clock_get_features", "group__group__hal__clock.html#ga8f446024e921c474e423e6667931cf64", null ],
     [ "cyhal_clock_is_enabled", "group__group__hal__clock.html#ga095e3002105bcd15a5b814f1abe873e8", null ],
     [ "cyhal_clock_set_enabled", "group__group__hal__clock.html#ga00a4176391fe0e66d4665dde1919079d", null ],

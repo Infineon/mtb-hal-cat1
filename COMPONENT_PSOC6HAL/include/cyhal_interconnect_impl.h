@@ -2,11 +2,13 @@
 * \file cyhal_interconnect_impl.h
 *
 * \brief
-* Implementation details for the PSoC4 interconnect.
+* Implementation details for the PSoC™ 4 interconnect.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -46,24 +48,24 @@
 
 #if defined(COMPONENT_CAT1A)
 /*
- * <b>PSoC 6S1 Triggers:</b>
+ * <b>PSoC™ 6S1 Triggers:</b>
  * \image html psoc6able2_trigger_layout.png width=800px
- * <b>PSoC 6S2 Triggers:</b>
+ * <b>PSoC™ 6S2 Triggers:</b>
  * \image html psoc6a2m_trigger_layout.png width=800px
- * <b>PSoC 6S3 Triggers:</b>
+ * <b>PSoC™ 6S3 Triggers:</b>
  * \image html psoc6a512k_trigger_layout.png width=800px
- * <b>PSoC 6S4 Triggers:</b>
+ * <b>PSoC™ 6S4 Triggers:</b>
  * \image html psoc6a256k_trigger_layout.png width=800px
  */
 #elif defined(COMPONENT_CAT2)
 /*
- * <b>PSoC 4000S Triggers:</b>
+ * <b>PSoC™ 4000S Triggers:</b>
  * \image html psoc4000s_trigger_layout.png width=540px
- * <b>PSoC 4100S Triggers:</b>
+ * <b>PSoC™ 4100S Triggers:</b>
  * \image html psoc4100s_trigger_layout.png width=540px
- * <b>PSoC 4100S Plus Triggers:</b>
+ * <b>PSoC™ 4100S Plus Triggers:</b>
  * \image html psoc4100sp_trigger_layout.png width=540px
- * <b>PSoC 4100S Plus 256k Triggers:</b>
+ * <b>PSoC™ 4100S Plus 256k Triggers:</b>
  * \image html psoc4100sp256k_trigger_layout.png width=540px
  */
 #endif /* defined(COMPONENT_CAT1A) */
@@ -83,10 +85,9 @@ extern "C" {
  * connection can not be established an error will be returned.
  * @param[in] source The source of the signal to connect
  * @param[in] dest   The destination of the signal to connect
- * @param[in] type   Whether the signal is edge or level triggered
  * @return The status of the connect request
  */
-cy_rslt_t _cyhal_connect_signal(cyhal_source_t source, cyhal_dest_t dest, cyhal_signal_type_t type);
+cy_rslt_t _cyhal_connect_signal(cyhal_source_t source, cyhal_dest_t dest);
 
 /** Disconnects two digital signals on the device that were previously
  * connected using the internal interconnect.

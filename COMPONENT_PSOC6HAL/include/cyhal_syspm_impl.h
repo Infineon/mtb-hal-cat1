@@ -2,14 +2,16 @@
 * \file cyhal_syspm_impl.h
 *
 * \brief
-* Provides a PSoC Specific interface for interacting with the Cypress power
+* Provides a PSoC™ Specific interface for interacting with the Infineon power
 * management and system clock configuration. This interface abstracts out the
 * chip specific details. If any chip specific functionality is necessary, or
 * performance is critical the low level functions can be used directly.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,11 +29,18 @@
 
 #pragma once
 
+#if defined(COMPONENT_CAT1)
 /**
 * \addtogroup group_hal_impl_syspm System Power Management
 * \ingroup group_hal_impl
 * \{
-* The CAT1 (PSoC 6) Power Management has the following characteristics:
+* On CAT1 devices, the Pin based Hibernate wakeup sources (\ref CYHAL_SYSPM_HIBERNATE_PINA_LOW,
+* \ref CYHAL_SYSPM_HIBERNATE_PINA_HIGH, \ref CYHAL_SYSPM_HIBERNATE_PINB_LOW, and \ref
+* CYHAL_SYSPM_HIBERNATE_PINB_HIGH) are mapped to datsheet capabilities as follows:<br>
+* PINA = hibernate_wakeup[0]<br>
+* PINB = hibernate_wakeup[1]
+*
+* The CAT1 (PSoC™ 6) Power Management has the following characteristics:<br>
 * \ref CYHAL_SYSPM_SYSTEM_NORMAL equates to the Low Power mode<br>
 * \ref CYHAL_SYSPM_SYSTEM_LOW equates to the Ultra Low Power mode
 *
@@ -54,6 +63,7 @@
 * ULP mode.
 * \} group_hal_impl_syspm
 */
+#endif
 
 #if defined(__cplusplus)
 extern "C" {
@@ -75,8 +85,12 @@ cy_rslt_t cyhal_syspm_tickless_sleep_deepsleep(cyhal_lptimer_t *obj, uint32_t de
 #if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B)
 #define cyhal_syspm_sleep()              Cy_SysPm_CpuEnterSleep(CY_SYSPM_WAIT_FOR_INTERRUPT)
 #define cyhal_syspm_deepsleep()          Cy_SysPm_CpuEnterDeepSleep(CY_SYSPM_WAIT_FOR_INTERRUPT)
+#if defined(COMPONENT_CAT1A)
 #define cyhal_syspm_get_system_state()   (Cy_SysPm_IsSystemUlp() ? CYHAL_SYSPM_SYSTEM_LOW : CYHAL_SYSPM_SYSTEM_NORMAL)
-#elif defined(COMPONENT_CAT2)
+#elif defined(COMPONENT_CAT1B)
+#define cyhal_syspm_get_system_state()   (CYHAL_SYSPM_SYSTEM_NORMAL)
+#endif
+#elif defined(COMPONENT_CAT2) /* defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) */
 #define cyhal_syspm_sleep()              Cy_SysPm_CpuEnterSleep()
 #define cyhal_syspm_deepsleep()          Cy_SysPm_CpuEnterDeepSleep()
 #define cyhal_syspm_get_system_state()   (CYHAL_SYSPM_SYSTEM_NORMAL)

@@ -2,7 +2,7 @@
 * \file cyhal_wdt.c
 *
 * \brief
-* Provides a high level interface for interacting with the Cypress Watchdog Timer.
+* Provides a high level interface for interacting with the Infineon Watchdog Timer.
 * This interface abstracts out the chip specific details. If any chip specific
 * functionality is necessary, or performance is critical the low level functions
 * can be used directly.
@@ -10,7 +10,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2019-2021 Cypress Semiconductor Corporation
+* Copyright 2019-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,6 +33,8 @@
 #include "cyhal_wdt_impl.h"
 #include "cy_wdt.h"
 #include "cy_utils.h"
+
+#if (CYHAL_DRIVER_AVAILABLE_WDT)
 
 #if defined(__cplusplus)
 extern "C" {
@@ -132,7 +136,7 @@ cy_rslt_t cyhal_wdt_init(cyhal_wdt_t *obj, uint32_t timeout_ms)
     Cy_WDT_SetMatch(_cyhal_wdt_timeout_to_match(_cyhal_wdt_rounded_timeout_ms, _cyhal_wdt_ignore_bits));
     cyhal_wdt_start(obj);
     _cyhal_wdt_initialized = true;
-    
+
     return CY_RSLT_SUCCESS;
 }
 
@@ -187,3 +191,5 @@ bool cyhal_wdt_is_enabled(cyhal_wdt_t *obj)
 #if defined(__cplusplus)
 }
 #endif
+
+#endif // CYHAL_DRIVER_AVAILABLE_WDT

@@ -6,7 +6,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,6 +27,8 @@
 #pragma once
 
 #include "cyhal_hw_resources.h"
+
+#if (CYHAL_DRIVER_AVAILABLE_CLOCK)
 
 #if defined(__cplusplus)
 extern "C"
@@ -57,95 +61,216 @@ extern "C"
 /** \endcond */
 
 /** Internal Main Oscillator: This is a fixed-frequency clock that is commonly used as a general purpose source for clocks that do not require specific frequencies or very high accuracy. This clock is stopped in the deep sleep and hibernate power modes. */
-extern const cyhal_resource_inst_t CYHAL_CLOCK_IMO;
+extern const cyhal_clock_t CYHAL_CLOCK_IMO;
+/** Internal Main Oscillator: This is a fixed-frequency clock that is commonly used as a general purpose source for clocks that do not require specific frequencies or very high accuracy. This clock is stopped in the deep sleep and hibernate power modes. */
+extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_IMO;
+
 /** External Clock: This is an off-chip clock (not an oscillator). This clock is stopped in the deep sleep and hibernate power modes. */
-extern const cyhal_resource_inst_t CYHAL_CLOCK_EXT;
+extern const cyhal_clock_t CYHAL_CLOCK_EXT;
+/** External Clock: This is an off-chip clock (not an oscillator). This clock is stopped in the deep sleep and hibernate power modes. */
+extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_EXT;
+
 /** Internal Low Speed Oscillator: This is a low accuracy fixed-frequency clock in the kilohertz range that is available in sleep, deep sleep and hibernate power modes. */
-extern const cyhal_resource_inst_t CYHAL_CLOCK_ILO;
+extern const cyhal_clock_t CYHAL_CLOCK_ILO;
+/** Internal Low Speed Oscillator: This is a low accuracy fixed-frequency clock in the kilohertz range that is available in sleep, deep sleep and hibernate power modes. */
+extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_ILO;
+
 #if SRSS_ECO_PRESENT
 /** External Crystal Oscillator: This is an off-chip clock source that is used when specific frequencies and/or very high accuracy is required. This clock is stopped in the deep sleep and hibernate power modes. */
-extern const cyhal_resource_inst_t CYHAL_CLOCK_ECO;
+extern const cyhal_clock_t CYHAL_CLOCK_ECO;
+/** External Crystal Oscillator: This is an off-chip clock source that is used when specific frequencies and/or very high accuracy is required. This clock is stopped in the deep sleep and hibernate power modes. */
+extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_ECO;
 #endif
 #if SRSS_ALTHF_PRESENT
 /** Alternate High Frequency Clock: A high speed clock input provided by a subsystem outside the clocking system. This clock is stopped in the deep sleep and hibernate power modes. */
-extern const cyhal_resource_inst_t CYHAL_CLOCK_ALTHF;
+extern const cyhal_clock_t CYHAL_CLOCK_ALTHF;
+/** Alternate High Frequency Clock: A high speed clock input provided by a subsystem outside the clocking system. This clock is stopped in the deep sleep and hibernate power modes. */
+extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_ALTHF;
 #endif
 #if SRSS_ALTLF_PRESENT
 /** Alternate Low Frequency Clock: A low speed clock input provided by a subsystem outside the clocking system. This clock is the hibernate power mode. */
-extern const cyhal_resource_inst_t CYHAL_CLOCK_ALTLF;
+extern const cyhal_clock_t CYHAL_CLOCK_ALTLF;
+/** Alternate Low Frequency Clock: A low speed clock input provided by a subsystem outside the clocking system. This clock is the hibernate power mode. */
+extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_ALTLF;
 #endif
 #if SRSS_PILO_PRESENT
 /** Precision ILO: An additional source that can provide a much more accurate 32.768kHz clock than ILO when periodically calibrated using a high-accuracy clock such as the ECO. This clock is stopped in the hibernate power mode. */
-extern const cyhal_resource_inst_t CYHAL_CLOCK_PILO;
+extern const cyhal_clock_t CYHAL_CLOCK_PILO;
+/** Precision ILO: An additional source that can provide a much more accurate 32.768kHz clock than ILO when periodically calibrated using a high-accuracy clock such as the ECO. This clock is stopped in the hibernate power mode. */
+extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_PILO;
 #endif
 #if SRSS_BACKUP_PRESENT
 /** Watch Crystal Oscillator: This source is driven from an off-chip watch crystal that provides an extremely accurate source. This clock is stopped in the hibernate power mode. */
-extern const cyhal_resource_inst_t CYHAL_CLOCK_WCO;
+extern const cyhal_clock_t CYHAL_CLOCK_WCO;
+/** Watch Crystal Oscillator: This source is driven from an off-chip watch crystal that provides an extremely accurate source. This clock is stopped in the hibernate power mode. */
+extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_WCO;
 #endif
 #if SRSS_S40E_LPECO_PRESENT
 /** Low Power External Crystal Oscillator: This source is driven from an off-chip external crystal that provides an extremely accurate source. This clock is stopped in the hibernate power mode. */
-extern const cyhal_resource_inst_t CYHAL_CLOCK_LPECO_PRESCALER;
+extern const cyhal_clock_t CYHAL_CLOCK_LPECO_PRESCALER;
+/** Low Power External Crystal Oscillator: This source is driven from an off-chip external crystal that provides an extremely accurate source. This clock is stopped in the hibernate power mode. */
+extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_LPECO_PRESCALER;
 #endif
 #if defined(COMPONENT_CAT1B) || (SRSS_MFO_PRESENT)
 /** Medium Frequency Oscillator: This source produced by dividing the IMO by 4. The MFO works down to DeepSleep, and the IMO does not turn off if this clock requires it. */
-extern const cyhal_resource_inst_t CYHAL_CLOCK_MFO;
+extern const cyhal_clock_t CYHAL_CLOCK_MFO;
+/** Medium Frequency Oscillator: This source produced by dividing the IMO by 4. The MFO works down to DeepSleep, and the IMO does not turn off if this clock requires it. */
+extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_MFO;
+
 /** Medium Frequency Clock: This clock is a medium frequency, between the Low Frequency Clock (LF) and High Frequency Clock (HF). */
-extern const cyhal_resource_inst_t CYHAL_CLOCK_MF;
+extern const cyhal_clock_t CYHAL_CLOCK_MF;
+/** Medium Frequency Clock: This clock is a medium frequency, between the Low Frequency Clock (LF) and High Frequency Clock (HF). */
+extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_MF;
 #endif
 
 /** Low Frequency Clock: This clock is the source for the multi-counter watchdog timers (MCWDT), and can also be a source for the RTC. */
-extern const cyhal_resource_inst_t CYHAL_CLOCK_LF;
+extern const cyhal_clock_t CYHAL_CLOCK_LF;
+/** Low Frequency Clock: This clock is the source for the multi-counter watchdog timers (MCWDT), and can also be a source for the RTC. */
+extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_LF;
+
 /** Analog Pump Clock: This clock ensures precision analog performance in low voltage applications. */
-extern const cyhal_resource_inst_t CYHAL_CLOCK_PUMP;
+extern const cyhal_clock_t CYHAL_CLOCK_PUMP;
+/** Analog Pump Clock: This clock ensures precision analog performance in low voltage applications. */
+extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_PUMP;
+
 /** Backup Clock: This clock is available to the backup domain. Typically useful if an external WCO is not available. */
-extern const cyhal_resource_inst_t CYHAL_CLOCK_BAK;
+extern const cyhal_clock_t CYHAL_CLOCK_BAK;
+/** Backup Clock: This clock is available to the backup domain. Typically useful if an external WCO is not available. */
+extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_BAK;
+
 /** AltSysTickClk: Provides an optional external source for the CM4/CM0+ SysTick timers. */
-extern const cyhal_resource_inst_t CYHAL_CLOCK_ALT_SYS_TICK;
+extern const cyhal_clock_t CYHAL_CLOCK_ALT_SYS_TICK;
+/** AltSysTickClk: Provides an optional external source for the CM4/CM0+ SysTick timers. */
+extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_ALT_SYS_TICK;
 
 #if (SRSS_NUM_CLKPATH > 0)
 /** Path mux selection: A clock source for high frequency clocks. */
-extern const cyhal_resource_inst_t CYHAL_CLOCK_PATHMUX[SRSS_NUM_CLKPATH];
+extern const cyhal_clock_t CYHAL_CLOCK_PATHMUX[SRSS_NUM_CLKPATH];
+/** Path mux selection: A clock source for high frequency clocks. */
+extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_PATHMUX[SRSS_NUM_CLKPATH];
 #endif
 
 #if defined(COMPONENT_CAT1A)
 /** Fast Clock: This clock is used for the CM4 and associated AHB-Lite bus infrastructure. */
-extern const cyhal_resource_inst_t CYHAL_CLOCK_FAST;
+extern const cyhal_clock_t CYHAL_CLOCK_FAST;
+/** Fast Clock: This clock is used for the CM4 and associated AHB-Lite bus infrastructure. */
+extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_FAST;
+
 /** Peripheral Clock: This is the source clock for any divided clock in the design. */
-extern const cyhal_resource_inst_t CYHAL_CLOCK_PERI;
+extern const cyhal_clock_t CYHAL_CLOCK_PERI;
+/** Peripheral Clock: This is the source clock for any divided clock in the design. */
+extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_PERI;
+
 /** Timer Clock: This clock is intended as a source for high-frequency timers, such as the Energy Profiler and CPU SysTick clock. This clock is stopped in the hibernate power mode. */
-extern const cyhal_resource_inst_t CYHAL_CLOCK_TIMER;
+extern const cyhal_clock_t CYHAL_CLOCK_TIMER;
+/** Timer Clock: This clock is intended as a source for high-frequency timers, such as the Energy Profiler and CPU SysTick clock. This clock is stopped in the hibernate power mode. */
+extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_TIMER;
+
 /** Slow Clock: This clock is used for the CM0+ CPU, Datawire and CRYPTO components and the associated CPUSS slow infrastructure. */
-extern const cyhal_resource_inst_t CYHAL_CLOCK_SLOW;
+extern const cyhal_clock_t CYHAL_CLOCK_SLOW;
+/** Slow Clock: This clock is used for the CM0+ CPU, Datawire and CRYPTO components and the associated CPUSS slow infrastructure. */
+extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_SLOW;
 #elif defined(COMPONENT_CAT1B)
 /** Internal High-Speed Oscillator: This is a fixed-frequency clock that is commonly used as a general purpose source for clocks that do not require specific frequencies or very high accuracy. This clock is stopped in the deep sleep and hibernate power modes. */
-extern const cyhal_resource_inst_t CYHAL_CLOCK_IHO;
+extern const cyhal_clock_t CYHAL_CLOCK_IHO;
+/** Internal High-Speed Oscillator: This is a fixed-frequency clock that is commonly used as a general purpose source for clocks that do not require specific frequencies or very high accuracy. This clock is stopped in the deep sleep and hibernate power modes. */
+extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_IHO;
+
 /** Peripheral Clock: This is the source clock for any divided clock in the design. */
-extern const cyhal_resource_inst_t CYHAL_CLOCK_PERI[CY_PERI_GROUP_NR];
+extern const cyhal_clock_t CYHAL_CLOCK_PERI[CY_PERI_GROUP_NR];
+/** Peripheral Clock: This is the source clock for any divided clock in the design. */
+extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_PERI[CY_PERI_GROUP_NR];
 #endif
 
 #if defined(COMPONENT_CAT1A) || (SRSS_FLL_PRESENT)
 /** Frequency-Locked Loop: This is a high-frequency clock suitable for most on-chip purposes.  It is similar to a PLL, but starts up much faster and consumes less current. This clock is stopped in the deep sleep and hibernate power modes. */
-extern const cyhal_resource_inst_t CYHAL_CLOCK_FLL;
+extern const cyhal_clock_t CYHAL_CLOCK_FLL;
+/** Frequency-Locked Loop: This is a high-frequency clock suitable for most on-chip purposes.  It is similar to a PLL, but starts up much faster and consumes less current. This clock is stopped in the deep sleep and hibernate power modes. */
+extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_FLL;
 #endif
 
 #if (SRSS_NUM_PLL > 0)
 /** Phase-Locked Loop: A high-frequency clock able to generate a wide range of clock frequencies making it suitable for most on-chip purposes. This clock is stopped in the deep sleep and hibernate power modes. */
-extern const cyhal_resource_inst_t CYHAL_CLOCK_PLL[SRSS_NUM_PLL];
+extern const cyhal_clock_t CYHAL_CLOCK_PLL[SRSS_NUM_PLL];
+/** Phase-Locked Loop: A high-frequency clock able to generate a wide range of clock frequencies making it suitable for most on-chip purposes. This clock is stopped in the deep sleep and hibernate power modes. */
+extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_PLL[SRSS_NUM_PLL];
 #endif
 #if (SRSS_NUM_PLL200M > 0)
 /** 200MHz Phase-Locked Loop: A high-frequency clock able to generate a wide range of clock frequencies making it suitable for most on-chip purposes. This clock is stopped in the deep sleep and hibernate power modes. */
-extern const cyhal_resource_inst_t CYHAL_CLOCK_PLL[SRSS_NUM_PLL200M];
+extern const cyhal_clock_t CYHAL_CLOCK_PLL[SRSS_NUM_PLL200M];
+/** 200MHz Phase-Locked Loop: A high-frequency clock able to generate a wide range of clock frequencies making it suitable for most on-chip purposes. This clock is stopped in the deep sleep and hibernate power modes. */
+extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_PLL[SRSS_NUM_PLL200M];
 #endif
 #if (SRSS_NUM_PLL400M > 0)
 /** 400MHz Phase-Locked Loop: A high-frequency clock able to generate a wide range of clock frequencies making it suitable for most on-chip purposes. This clock is stopped in the deep sleep and hibernate power modes. */
-extern const cyhal_resource_inst_t CYHAL_CLOCK_PLL[SRSS_NUM_PLL400M];
+extern const cyhal_clock_t CYHAL_CLOCK_PLL[SRSS_NUM_PLL400M];
+/** 400MHz Phase-Locked Loop: A high-frequency clock able to generate a wide range of clock frequencies making it suitable for most on-chip purposes. This clock is stopped in the deep sleep and hibernate power modes. */
+extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_PLL[SRSS_NUM_PLL400M];
 #endif
 
 /** High Frequency Clock: A high-frequency clock output driving specific peripherals. */
-extern const cyhal_resource_inst_t CYHAL_CLOCK_HF[SRSS_NUM_HFROOT];
+extern const cyhal_clock_t CYHAL_CLOCK_HF[SRSS_NUM_HFROOT];
+/** High Frequency Clock: A high-frequency clock output driving specific peripherals. */
+extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_HF[SRSS_NUM_HFROOT];
 
 /** \} group_hal_impl_clock */
+
+
+#if defined(PERI_PERI_PCLK_PCLK_GROUP_NR)
+#define _CYHAL_CLOCK_PERI_GROUPS 	PERI_PERI_PCLK_PCLK_GROUP_NR
+#else
+#define _CYHAL_CLOCK_PERI_GROUPS 	1
+#endif
+
+cy_rslt_t _cyhal_clock_allocate_channel(cyhal_clock_t *clock, cyhal_clock_block_t block, const void* funcs);
+
+const void* _cyhal_clock_get_funcs_pathmux(void);
+#if (SRSS_NUM_PLL > 0)
+const void* _cyhal_clock_get_funcs_pll(void);
+#endif
+const void* _cyhal_clock_get_funcs_hf(void);
+const void* _cyhal_clock_get_funcs_peripheral(void);
+
+
+static inline const void* _cyhal_clock_get_funcs(cyhal_clock_block_t block)
+{
+    switch (block)
+    {
+        case CYHAL_CLOCK_BLOCK_PATHMUX:
+            return _cyhal_clock_get_funcs_pathmux();
+#if (SRSS_NUM_PLL > 0)
+        case CYHAL_CLOCK_BLOCK_PLL:
+            return _cyhal_clock_get_funcs_pll();
+#endif
+        case CYHAL_CLOCK_BLOCK_HF:
+            return _cyhal_clock_get_funcs_hf();
+        default:
+            return (block < 4 * _CYHAL_CLOCK_PERI_GROUPS)
+                ? _cyhal_clock_get_funcs_peripheral()
+                : NULL;
+    }
+}
+static inline cy_rslt_t _cyhal_clock_allocate(cyhal_clock_t *clock, cyhal_clock_block_t block)
+{
+    CY_ASSERT(NULL != clock);
+
+    const void* funcs = _cyhal_clock_get_funcs(block);
+    return (NULL == funcs)
+        ? CYHAL_CLOCK_RSLT_ERR_NOT_SUPPORTED
+        : _cyhal_clock_allocate_channel(clock, block, funcs);
+}
+static inline cy_rslt_t _cyhal_clock_allocate_peri(cyhal_clock_t *clock, cyhal_clock_block_t block)
+{
+    CY_ASSERT(NULL != clock);
+
+    const void* funcs = _cyhal_clock_get_funcs_peripheral();
+    return _cyhal_clock_allocate_channel(clock, block, funcs);
+}
+
+#define cyhal_clock_allocate(clock, block)	_cyhal_clock_allocate(clock, block)
 
 #if defined(__cplusplus)
 }
 #endif
+
+#endif // CYHAL_DRIVER_AVAILABLE_CLOCK

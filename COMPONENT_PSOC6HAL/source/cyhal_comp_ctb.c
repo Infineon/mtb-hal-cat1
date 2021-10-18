@@ -6,7 +6,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,53 +29,79 @@
 #include "cyhal_gpio.h"
 #include "cyhal_analog_common.h"
 #include "cyhal_hwmgr.h"
-#include "cyhal_system.h"
 
-#if defined(CY_IP_MXS40PASS_CTB_INSTANCES) && (CY_IP_MXS40PASS_CTB_INSTANCES > 0)
+#if (_CYHAL_DRIVER_AVAILABLE_COMP_CTB)
 
-#define _CYHAL_COMP_CTB_DEFAULT_LEVEL CY_CTB_COMP_DSI_TRIGGER_OUT_LEVEL
-#define _CYHAL_COMP_CTB_DEFAULT_BYPASS CY_CTB_COMP_BYPASS_NO_SYNC
+#if defined(__cplusplus)
+extern "C"
+{
+#endif
+
+#define _CYHAL_OPAMP_PER_CTB (2u)
 
 static const cy_stc_ctb_opamp_config_t _cyhal_comp_ctb_default_config =
 {
     /* oaPower is specified in init */
+#if defined(CY_IP_MXS40PASS_CTB_INSTANCES)
     .deepSleep    = CY_CTB_DEEPSLEEP_ENABLE,
     .oaMode       = CY_CTB_MODE_COMP,
-    .oaPump       = CY_CTB_PUMP_ENABLE,
+    .oaPump       = _CYHAL_CTB_PUMP_ENABLE,
     .oaCompEdge   = CY_CTB_COMP_EDGE_DISABLE,
-    .oaCompLevel  = _CYHAL_COMP_CTB_DEFAULT_LEVEL,
+    .oaCompLevel  = CY_CTB_COMP_DSI_TRIGGER_OUT_LEVEL,
     .oaCompBypass = _CYHAL_COMP_CTB_DEFAULT_BYPASS,
     /* oaCompHyst is specified in init */
     .oaCompIntrEn = true,
+#else
+    .outputMode = CY_CTB_MODE_COMP,
+    .pump       = _CYHAL_CTB_PUMP_ENABLE,
+    .compEdge   = CY_CTB_COMP_EDGE_DISABLE,
+    .compLevel  = CY_CTB_COMP_TRIGGER_OUT_LEVEL,
+    .compBypass = _CYHAL_COMP_CTB_DEFAULT_BYPASS,
+    /* compHyst is specified in init */
+    .compIntrEn = true,
+#endif
 };
 
-static cyhal_comp_t* _cyhal_comp_ctb_config_structs[CY_IP_MXS40PASS_CTB_INSTANCES * _CYHAL_OPAMP_PER_CTB];
+static cyhal_comp_t* _cyhal_comp_ctb_config_structs[_CYHAL_CTB_INSTANCES * _CYHAL_OPAMP_PER_CTB] = { NULL };
 
 static const IRQn_Type _cyhal_ctb_irq_n[] =
 {
 #if (CY_IP_MXS40PASS_CTB_INSTANCES == 1)
     pass_interrupt_ctbs_IRQn,
-#endif
-#if (CY_IP_MXS40PASS_CTB_INSTANCES > 1)
+#elif (CY_IP_M0S8PASS4A_CTB_INSTANCES == 1)
+    pass_0_interrupt_ctbs_IRQn,
+#elif (_CYHAL_CTB_INSTANCES == 2)
+    pass_0_interrupt_ctbs_IRQn,
+    pass_1_interrupt_ctbs_IRQn,
+#else
     #error Unhandled CTB instance count
 #endif
 };
 
 /** Get the comp config struct for the opamp that caused the current interrupt */
-static cyhal_comp_t* _cyhal_ctb_get_interrupt_source()
+static cyhal_comp_t* _cyhal_ctb_get_interrupt_source(void)
 {
-    uint32_t cause_register_value = PASS->INTR_CAUSE;
-    for(uint8_t ctb_num = 0; ctb_num < CY_IP_MXS40PASS_CTB_INSTANCES; ++ctb_num)
+    uint32_t ctb_num = 0;
+#if (_CYHAL_CTB_INSTANCES > 1)
+    IRQn_Type irqn = _CYHAL_UTILS_GET_CURRENT_IRQN();
+    for (uint32_t i = 0; i < sizeof(_cyhal_ctb_irq_n) / sizeof(IRQn_Type); i++)
     {
-        if(cause_register_value & (1u << ctb_num))
+        if (_cyhal_ctb_irq_n[i] == irqn)
         {
-            for(uint8_t oa_num = 0; oa_num < _CYHAL_OPAMP_PER_CTB; ++oa_num)
+            ctb_num = i;
+        }
+    }
+#endif
+
+    CTBM_Type *ctbm = _cyhal_ctb_base[ctb_num];
+    for(uint8_t oa_num = 0; oa_num < _CYHAL_OPAMP_PER_CTB; ++oa_num)
+    {
+        if(Cy_CTB_GetInterruptStatusMasked(ctbm, _cyhal_opamp_convert_sel(oa_num)))
+        {
+            cyhal_comp_t* inst = _cyhal_comp_ctb_config_structs[(ctb_num * _CYHAL_OPAMP_PER_CTB) + oa_num];
+            if (NULL != inst)
             {
-                cyhal_comp_t* inst = _cyhal_comp_ctb_config_structs[(ctb_num * _CYHAL_OPAMP_PER_CTB) + oa_num];
-                if(inst != NULL && Cy_CTB_GetInterruptStatusMasked(inst->base_ctb, _cyhal_opamp_convert_sel(oa_num)))
-                {
-                    return inst;
-                }
+                return inst;
             }
         }
     }
@@ -83,7 +111,7 @@ static cyhal_comp_t* _cyhal_ctb_get_interrupt_source()
 
 static cyhal_comp_event_t _cyhal_comp_ctb_get_enabled_events(cyhal_comp_t * obj)
 {
-    uint32_t edge_config_val = (0u == obj->resource.block_num)
+    uint32_t edge_config_val = (0u == obj->resource.channel_num)
         ? (CTBM_OA_RES0_CTRL(obj->base_ctb) & CTBM_OA_RES0_CTRL_OA0_COMPINT_Msk)
         : (CTBM_OA_RES1_CTRL(obj->base_ctb) & CTBM_OA_RES1_CTRL_OA1_COMPINT_Msk);
 
@@ -124,7 +152,7 @@ static cy_en_ctb_comp_edge_t _cyhal_comp_ctb_convert_hal_event(cyhal_comp_event_
 static void _cyhal_comp_ctb_irq_handler(void)
 {
     cyhal_comp_t* obj = _cyhal_ctb_get_interrupt_source();
-    Cy_CTB_ClearInterrupt(obj->base_ctb, _cyhal_opamp_convert_sel(obj->resource.block_num));
+    Cy_CTB_ClearInterrupt(obj->base_ctb, _cyhal_opamp_convert_sel(obj->resource.channel_num));
     cyhal_comp_event_callback_t callback = (cyhal_comp_event_callback_t)obj->callback_data.callback;
     if(NULL != callback)
     {
@@ -132,6 +160,28 @@ static void _cyhal_comp_ctb_irq_handler(void)
         cyhal_comp_event_t event = _cyhal_comp_ctb_get_enabled_events(obj);
         callback(obj->callback_data.callback_arg, event);
     }
+}
+
+cy_rslt_t _cyhal_comp_ctb_init_hw(cyhal_comp_t *obj, const cy_stc_ctb_opamp_config_t* cfg)
+{
+    obj->base_ctb = _cyhal_ctb_base[obj->resource.block_num];
+    cy_rslt_t result = Cy_CTB_OpampInit(obj->base_ctb, _cyhal_opamp_convert_sel(obj->resource.channel_num), cfg);
+    if(CY_RSLT_SUCCESS == result)
+    {
+        /* Initialize the programmable analog */
+        cyhal_analog_ctb_init(obj->base_ctb);
+
+        cy_stc_sysint_t irqCfg = { _cyhal_ctb_irq_n[obj->resource.block_num], CYHAL_ISR_PRIORITY_DEFAULT };
+        Cy_SysInt_Init(&irqCfg, _cyhal_comp_ctb_irq_handler);
+        NVIC_EnableIRQ(_cyhal_ctb_irq_n[obj->resource.block_num]);
+        _cyhal_comp_ctb_config_structs[(obj->resource.block_num * _CYHAL_OPAMP_PER_CTB) + obj->resource.channel_num] = obj;
+    }
+    else
+    {
+        obj->base_ctb = NULL;
+    }
+
+    return result;
 }
 
 cy_rslt_t _cyhal_comp_ctb_init(cyhal_comp_t *obj, cyhal_gpio_t vin_p, cyhal_gpio_t vin_m, cyhal_gpio_t output, cyhal_comp_config_t *cfg)
@@ -161,30 +211,23 @@ cy_rslt_t _cyhal_comp_ctb_init(cyhal_comp_t *obj, cyhal_gpio_t vin_p, cyhal_gpio
         obj->pin_vin_p = vin_p;
         obj->pin_vin_m = vin_m;
         obj->pin_out = output;
-        obj->base_ctb = _cyhal_ctb_base[obj->resource.block_num / _CYHAL_OPAMP_PER_CTB];
         cy_stc_ctb_opamp_config_t config = _cyhal_comp_ctb_default_config;
+#if defined(CY_IP_MXS40PASS_CTB_INSTANCES)
         config.oaPower = (cy_en_ctb_power_t)_cyhal_opamp_convert_power(cfg->power);
-        config.oaCompHyst = cfg->hysteresis ? CY_CTB_COMP_HYST_10MV : CY_CTB_COMP_HYST_DISABLE;
-        result = Cy_CTB_OpampInit(obj->base_ctb, _cyhal_opamp_convert_sel(obj->resource.block_num), &config);
+        config.oaCompHyst = _CYHAL_COMP_CTB_HIST(cfg->hysteresis);
+#else
+        config.power = (cy_en_ctb_power_t)_cyhal_opamp_convert_power(cfg->power);
+        config.compHyst = _CYHAL_COMP_CTB_HIST(cfg->hysteresis);
+#endif
+
+        result = _cyhal_comp_ctb_init_hw(obj, &config);
     }
 
     if (result == CY_RSLT_SUCCESS)
     {
-        /* Initialize the programmable analog */
-        cyhal_analog_ctb_init(obj->base_ctb);
-
         /* OPAMP Routing. Close input switches for OA0 or OA1. */
-        Cy_CTB_SetAnalogSwitch(obj->base_ctb, _cyhal_opamp_convert_switch(obj->resource.block_num), _cyhal_opamp_pin_to_mask(obj->resource.block_num % _CYHAL_OPAMP_PER_CTB, vin_p, vin_m, NC), CY_CTB_SWITCH_CLOSE);
-        _cyhal_opamp_set_isolation_switch(obj->resource.block_num % _CYHAL_OPAMP_PER_CTB, obj->base_ctb, CY_CTB_SWITCH_CLOSE);
-        _cyhal_comp_ctb_config_structs[obj->resource.block_num] = obj;
-
-        cy_stc_sysint_t irqCfg = { _cyhal_ctb_irq_n[obj->resource.block_num / _CYHAL_OPAMP_PER_CTB], CYHAL_ISR_PRIORITY_DEFAULT };
-        Cy_SysInt_Init(&irqCfg, _cyhal_comp_ctb_irq_handler);
-        NVIC_EnableIRQ(_cyhal_ctb_irq_n[obj->resource.block_num / _CYHAL_OPAMP_PER_CTB]);
-    }
-    else
-    {
-        obj->base_ctb = NULL;
+        Cy_CTB_SetAnalogSwitch(obj->base_ctb, _cyhal_opamp_convert_switch(obj->resource.channel_num), _cyhal_opamp_pin_to_mask(obj->resource.channel_num, vin_p, vin_m, NC), _CYHAL_CTB_SW_CLOSE);
+        _cyhal_opamp_set_isolation_switch(obj->resource.channel_num, obj->base_ctb, true);
     }
 
     /* Free OPAMP in case of failure */
@@ -195,27 +238,44 @@ cy_rslt_t _cyhal_comp_ctb_init(cyhal_comp_t *obj, cyhal_gpio_t vin_p, cyhal_gpio
     return result;
 }
 
+cy_rslt_t _cyhal_comp_ctb_init_cfg(cyhal_comp_t *obj, const cyhal_comp_configurator_t *cfg)
+{
+    cy_rslt_t result = _cyhal_comp_ctb_init_hw(obj, cfg->opamp);
+    if(CY_RSLT_SUCCESS != result)
+    {
+        _cyhal_comp_ctb_free(obj);
+    }
+
+    return result;
+}
+
 void _cyhal_comp_ctb_free(cyhal_comp_t *obj)
 {
     CY_ASSERT(NULL != obj);
 
     if(CYHAL_RSC_INVALID != obj->resource.type)
     {
-        Cy_CTB_SetAnalogSwitch(obj->base_ctb, _cyhal_opamp_convert_switch(obj->resource.block_num), _cyhal_opamp_pin_to_mask(obj->resource.block_num % _CYHAL_OPAMP_PER_CTB, obj->pin_vin_p, obj->pin_vin_m, NC), CY_CTB_SWITCH_OPEN);
-        _cyhal_opamp_set_isolation_switch(obj->resource.block_num % _CYHAL_OPAMP_PER_CTB, obj->base_ctb, CY_CTB_SWITCH_OPEN);
+        if(false == obj->owned_by_configurator)
+        {
+            Cy_CTB_SetAnalogSwitch(obj->base_ctb, _cyhal_opamp_convert_switch(obj->resource.channel_num), _cyhal_opamp_pin_to_mask(obj->resource.channel_num, obj->pin_vin_p, obj->pin_vin_m, NC), _CYHAL_CTB_SW_OPEN);
+            _cyhal_opamp_set_isolation_switch(obj->resource.channel_num, obj->base_ctb, false);
+        }
         cyhal_analog_ctb_free(obj->base_ctb);
 
-        _cyhal_comp_ctb_config_structs[obj->resource.block_num] = NULL;
+        _cyhal_comp_ctb_config_structs[(obj->resource.block_num * _CYHAL_OPAMP_PER_CTB) + obj->resource.channel_num] = NULL;
 
-        uint8_t ctb_num = obj->resource.block_num / _CYHAL_OPAMP_PER_CTB;
+        uint8_t ctb_num = obj->resource.block_num;
         /* If neither opamp in this ctb is in use, disable the ISR */
-        if(NULL == _cyhal_comp_ctb_config_structs[ctb_num * _CYHAL_OPAMP_PER_CTB]
-            && NULL == _cyhal_comp_ctb_config_structs[(ctb_num * _CYHAL_OPAMP_PER_CTB) + 1])
+        if((NULL == _cyhal_comp_ctb_config_structs[ctb_num * _CYHAL_OPAMP_PER_CTB])
+            && (NULL == _cyhal_comp_ctb_config_structs[(ctb_num * _CYHAL_OPAMP_PER_CTB) + 1]))
         {
-            NVIC_DisableIRQ(_cyhal_ctb_irq_n[obj->resource.block_num / _CYHAL_OPAMP_PER_CTB]);
+            NVIC_DisableIRQ(_cyhal_ctb_irq_n[obj->resource.block_num]);
         }
 
-        cyhal_hwmgr_free(&(obj->resource));
+        if(false == obj->owned_by_configurator)
+        {
+            cyhal_hwmgr_free(&(obj->resource));
+        }
         obj->base_ctb = NULL;
         obj->resource.type = CYHAL_RSC_INVALID;
     }
@@ -230,7 +290,7 @@ cy_rslt_t _cyhal_comp_ctb_set_power(cyhal_comp_t *obj, cyhal_power_level_t power
     CY_ASSERT(NULL != obj);
 
     cy_en_ctb_power_t power_level = (cy_en_ctb_power_t)_cyhal_opamp_convert_power(power);
-    Cy_CTB_SetPower(obj->base_ctb, _cyhal_opamp_convert_sel(obj->resource.block_num), power_level, CY_CTB_PUMP_ENABLE);
+    Cy_CTB_SetPower(obj->base_ctb, _cyhal_opamp_convert_sel(obj->resource.channel_num), power_level, _CYHAL_CTB_PUMP_ENABLE);
     return CY_RSLT_SUCCESS;
 }
 
@@ -238,13 +298,20 @@ cy_rslt_t _cyhal_comp_ctb_configure(cyhal_comp_t *obj, cyhal_comp_config_t *cfg)
 {
     CY_ASSERT(NULL != obj);
 
+#if defined(CY_IP_MXS40PASS_CTB_INSTANCES)
     cy_rslt_t result = _cyhal_comp_ctb_set_power(obj, cfg->power);
     if(CY_RSLT_SUCCESS == result)
     {
-        Cy_CTB_CompSetConfig(obj->base_ctb, _cyhal_opamp_convert_sel(obj->resource.block_num),
-            _CYHAL_COMP_CTB_DEFAULT_LEVEL, _CYHAL_COMP_CTB_DEFAULT_BYPASS,
-            cfg->hysteresis ? CY_CTB_COMP_HYST_10MV : CY_CTB_COMP_HYST_DISABLE);
+        Cy_CTB_CompSetConfig(obj->base_ctb, _cyhal_opamp_convert_sel(obj->resource.channel_num),
+            CY_CTB_COMP_DSI_TRIGGER_OUT_LEVEL, _CYHAL_COMP_CTB_DEFAULT_BYPASS, _CYHAL_COMP_CTB_HIST(cfg->hysteresis));
     }
+#else
+    cy_stc_ctb_opamp_config_t config = _cyhal_comp_ctb_default_config;
+    config.power = (cy_en_ctb_power_t)_cyhal_opamp_convert_power(cfg->power);
+    config.compHyst = _CYHAL_COMP_CTB_HIST(cfg->hysteresis);
+    cy_rslt_t result = Cy_CTB_OpampInit(obj->base_ctb, _cyhal_opamp_convert_sel(obj->resource.channel_num), &config);
+#endif
+
     return result;
 }
 
@@ -252,7 +319,7 @@ bool _cyhal_comp_ctb_read(cyhal_comp_t *obj)
 {
     CY_ASSERT(NULL != obj);
 
-    return (1UL == Cy_CTB_CompGetStatus(obj->base_ctb, _cyhal_opamp_convert_sel(obj->resource.block_num)));
+    return (1UL == Cy_CTB_CompGetStatus(obj->base_ctb, _cyhal_opamp_convert_sel(obj->resource.channel_num)));
 }
 
 void _cyhal_comp_ctb_enable_event(cyhal_comp_t *obj, cyhal_comp_event_t event, uint8_t intr_priority, bool enable)
@@ -268,11 +335,15 @@ void _cyhal_comp_ctb_enable_event(cyhal_comp_t *obj, cyhal_comp_event_t event, u
         enabled_events &= (~event);
     }
 
-    IRQn_Type irqn = _cyhal_ctb_irq_n[obj->resource.block_num / _CYHAL_OPAMP_PER_CTB];
+    IRQn_Type irqn = _cyhal_ctb_irq_n[obj->resource.block_num];
     NVIC_SetPriority(irqn, intr_priority);
 
     cy_en_ctb_comp_edge_t pdl_event = _cyhal_comp_ctb_convert_hal_event(enabled_events);
-    Cy_CTB_CompSetInterruptEdgeType(obj->base_ctb, _cyhal_opamp_convert_sel(obj->resource.block_num), pdl_event);
+    Cy_CTB_CompSetInterruptEdgeType(obj->base_ctb, _cyhal_opamp_convert_sel(obj->resource.channel_num), pdl_event);
 }
 
-#endif /* defined(CY_IP_MXS40PASS_CTB_INSTANCES) && (CY_IP_MXS40PASS_CTB_INSTANCES > 0) */
+#if defined(__cplusplus)
+}
+#endif
+
+#endif /* _CYHAL_DRIVER_AVAILABLE_COMP_CTB */

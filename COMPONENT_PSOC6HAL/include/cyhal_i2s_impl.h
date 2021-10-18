@@ -2,12 +2,14 @@
 * \file cyhal_i2s_impl.h
 *
 * Description:
-* Provides a high level interface for interacting with the Cypress I2S. This is
+* Provides a high level interface for interacting with the Infineon I2S. This is
 * a wrapper around the lower level PDL API.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,9 +27,13 @@
 
 #pragma once
 
-#if defined(CY_IP_MXAUDIOSS) || defined(CY_IP_MXTDM)
-
 #include "cyhal_audio_common.h"
+
+#if (CYHAL_DRIVER_AVAILABLE_I2S)
+
+#if defined(__cplusplus)
+extern "C" {
+#endif /* __cplusplus */
 
 #define cyhal_i2s_free(obj) (_cyhal_audioss_free((_cyhal_audioss_t *)(obj)))
 
@@ -72,4 +78,8 @@
 #define cyhal_i2s_abort_read_async(obj) _cyhal_audioss_abort_read_async((_cyhal_audioss_t *)(obj))
 #define cyhal_i2s_abort_write_async(obj) _cyhal_audioss_abort_write_async((_cyhal_audioss_t *)(obj))
 
-#endif /* defined(CY_IP_MXAUDIOSS) || defined(CY_IP_MXTDM) */
+#if defined(__cplusplus)
+}
+#endif /* __cplusplus */
+
+#endif /* CYHAL_DRIVER_AVAILABLE_I2S */

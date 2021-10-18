@@ -2,11 +2,13 @@
 * \file cyhal_tcpwm_common.h
 *
 * \brief
-* Code shared between the Cypress Timer/Counter and PWM.
+* Code shared between the Infineon Timer/Counter and PWM.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2019-2021 Cypress Semiconductor Corporation
+* Copyright 2019-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,7 +29,7 @@
  * \addtogroup group_hal_impl_tcpwm_common TCPWM Common Functionality
  * \ingroup group_hal_impl
  * \{
- * Code shared between the Cypress Timer / Counter and PWM.
+ * Code shared between the Infineon Timer / Counter and PWM.
  */
 
 #pragma once
@@ -68,15 +70,15 @@ extern "C" {
     #define _CYHAL_TCPWM_TRIGGER_INPUTS_IDX_OFFSET (2)
     #define _CYHAL_TCPWM_TRIGGER_INPUTS_PER_BLOCK (16 - _CYHAL_TCPWM_TRIGGER_INPUTS_IDX_OFFSET)
 #elif (CY_IP_MXTCPWM_VERSION == 2U)
-    // PSoC6 devices with trigmux vers2 also have a number of reserved input
+    // PSoC™ 6 devices with trigmux vers2 also have a number of reserved input
     // lines defined by TCPWM_TR_ONE_CNT_NR.
     // Note: These devices also have support for up to 256 trigger lines total,
-    // but only 14 input triggers (on top of the 2 + TCPWM_TR_ONE_CNT_NR) are
-    // currently available.
+    // but only 28 input triggers (on top of the 2 + TCPWM_TR_ONE_CNT_NR) are
+    // currently available, so we only support that to save RAM.
     #define _CYHAL_TCPWM_TRIGGER_INPUTS_IDX_OFFSET (2 + TCPWM_TR_ONE_CNT_NR)
-    #define _CYHAL_TCPWM_TRIGGER_INPUTS_PER_BLOCK (14)
+    #define _CYHAL_TCPWM_TRIGGER_INPUTS_PER_BLOCK (TCPWM_TR_ALL_CNT_NR)
 #else // (CY_IP_M0S8TCPWM_VERSION == 2)
-    // PSoC4 devices have a number of reserved input lines coming directly from
+    // PSoC™ 4 devices have a number of reserved input lines coming directly from
     // GPIO triggers (depending on exact architecture).
     #if defined(CY_DEVICE_PSOC4AS1)
         // 12 GPIO trigger lines reserved (but some may be unused, depending on
@@ -99,13 +101,13 @@ extern "C" {
 
 /** Bad argument. eg: null pointer */
 #define CYHAL_TCPWM_RSLT_ERR_BAD_ARGUMENT                   \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_IMPL_TCPWM, 0))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_IMPL_TCPWM, 0))
 /** Failed to find free input signal */
 #define CYHAL_TCPWM_RSLT_ERR_NO_FREE_INPUT_SIGNALS          \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_IMPL_TCPWM, 1))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_IMPL_TCPWM, 1))
 /** Failed to find free output signal */
 #define CYHAL_TCPWM_RSLT_ERR_NO_FREE_OUTPUT_SIGNALS         \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_IMPL_TCPWM, 2))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_IMPL_TCPWM, 2))
 
 /**
  * \}
@@ -152,9 +154,6 @@ typedef struct {
 
 /** Contains data about all of the TCPWMs */
 extern const _cyhal_tcpwm_data_t _CYHAL_TCPWM_DATA[_CYHAL_TCPWM_INSTANCES];
-
-/** Bitfield that contains in use data for all TCPWM input trigger lines */
-extern uint32_t _CYHAL_INPUT_TRIGGERS_USED[_CYHAL_TCPWM_INSTANCES][(_CYHAL_TCPWM_TRIGGER_INPUTS_PER_BLOCK / 32) + 1];
 
 #ifdef CY_DEVICE_PSOC6A256K
 /** Contains bitfield of in use data for all TCPWM output trigger lines. There
@@ -206,10 +205,9 @@ bool _cyhal_tcpwm_pm_transition_pending(void);
  * @param[in] obj      TCPWM HAL object
  * @param[in] source   Source signal obtained from another driver's cyhal_<PERIPH>_enable_output
  * @param[in] signal   The TCPWM input signal
- * @param[in] type     The TCPWM input signal edge type
  * @return The status of the connection
  * */
-cy_rslt_t _cyhal_tcpwm_connect_digital(cyhal_tcpwm_t *obj, cyhal_source_t source, cyhal_tcpwm_input_t signal, cyhal_edge_type_t type);
+cy_rslt_t _cyhal_tcpwm_connect_digital(cyhal_tcpwm_t *obj, cyhal_source_t source, cyhal_tcpwm_input_t signal);
 
 /** Enables the specified output signal from a TCPWM that will be triggered
  * when the corresponding event occurs. Multiple output signals can be
@@ -241,6 +239,17 @@ cy_rslt_t _cyhal_tcpwm_disconnect_digital(cyhal_tcpwm_t *obj, cyhal_source_t sou
  * @return The status of the output disable
  * */
 cy_rslt_t _cyhal_tcpwm_disable_output(cyhal_tcpwm_t *obj, cyhal_tcpwm_output_t signal);
+
+#if (defined(CY_IP_M0S8PERI_TR) || defined(CY_IP_MXPERI_TR) || defined(CY_IP_MXSPERI)) && \
+    ((CY_IP_MXTCPWM_VERSION == 1) || (CY_IP_MXTCPWM_VERSION == 2) || (CY_IP_M0S8TCPWM_VERSION == 2))
+/** Get the destination reference for the provided TCPWM block and trigger
+ *
+ * @param[in]  block        TCPWM block number
+ * @param[in]  trig_index   The trigger index to get the destination for
+ * @return A destination that a signal can be connected to for the specified TCPWM block
+ * */
+cyhal_dest_t _cyhal_tpwm_calculate_dest(uint8_t block, uint8_t trig_index);
+#endif
 
 #if defined(__cplusplus)
 }

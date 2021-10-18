@@ -2,12 +2,14 @@
 * File Name: cyhal_crc.c
 *
 * Description:
-* Provides a high level interface for interacting with the Cypress CRC. This is
+* Provides a high level interface for interacting with the Infineon CRC. This is
 * a wrapper around the lower level PDL API.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,16 +25,19 @@
 * limitations under the License.
 *******************************************************************************/
 
-#include "cy_crypto_core_crc.h"
 #include "cyhal_crypto_common.h"
 #include "cyhal_crc_impl.h"
 #include "cyhal_hwmgr.h"
 
-#if defined(CY_IP_MXCRYPTO)
+#if (CYHAL_DRIVER_AVAILABLE_CRC)
 
 #if defined(__cplusplus)
 extern "C"
 {
+#endif
+
+#if defined(CY_IP_M0S8CRYPTO)
+cy_stc_crypto_crc_context_t _cyhal_crc_context[CY_IP_M0S8CRYPTO_INSTANCES];
 #endif
 
 /*******************************************************************************
@@ -48,6 +53,7 @@ cy_rslt_t cyhal_crc_init(cyhal_crc_t *obj)
 void cyhal_crc_free(cyhal_crc_t *obj)
 {
     CY_ASSERT(NULL != obj || obj->resource.type != CYHAL_RSC_CRYPTO);
+    _cyhal_crc_calc_free(obj->base);
     if (obj->resource.type != CYHAL_RSC_INVALID)
     {
         cyhal_crypto_free(obj->base, &(obj->resource), CYHAL_CRYPTO_CRC);
@@ -58,4 +64,4 @@ void cyhal_crc_free(cyhal_crc_t *obj)
 }
 #endif
 
-#endif /* defined(CY_IP_MXCRYPTO) */
+#endif /* CYHAL_DRIVER_AVAILABLE_CRC */

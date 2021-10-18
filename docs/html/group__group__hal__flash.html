@@ -465,7 +465,8 @@ Array of the distinct flash blocks. </td></tr>
 
 <p>This function erases the page and writes the new data into the page starting at a defined address. </p>
 <p>The address must be at page boundary. This will block until the write operation is complete.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__group__hal__flash.html#gaab923541b1d1f71b0b9545306a9c559a" title="Gets flash characteristics like the start address, size, erase values etc. ">cyhal_flash_get_info()</a> to get the flash characteristics for legal address values and the page write size. The provided data buffer must be at least as large as the flash page_size.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__group__hal__flash.html#gaab923541b1d1f71b0b9545306a9c559a" title="Gets flash characteristics like the start address, size, erase values etc. ">cyhal_flash_get_info()</a> to get the flash characteristics for legal address values and the page write size. The provided data buffer must be at least as large as the flash page_size. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Generally the <code>data</code> to be written must be located in the SRAM memory region.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The flash object </td></tr>
@@ -513,7 +514,8 @@ Array of the distinct flash blocks. </td></tr>
 
 <p>Program one page with given data starting at defined address. </p>
 <p>The address must be at page boundary. This will block until the write operation is complete. </p><dl class="section note"><dt>Note</dt><dd>This function does not erase the page prior to writing. The page must be erased first via a separate call to erase.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__group__hal__flash.html#gaab923541b1d1f71b0b9545306a9c559a" title="Gets flash characteristics like the start address, size, erase values etc. ">cyhal_flash_get_info()</a> to get the flash characteristics for legal address values and the total page size. The provided data buffer must be at least as large as the flash page_size.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__group__hal__flash.html#gaab923541b1d1f71b0b9545306a9c559a" title="Gets flash characteristics like the start address, size, erase values etc. ">cyhal_flash_get_info()</a> to get the flash characteristics for legal address values and the total page size. The provided data buffer must be at least as large as the flash page_size. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Generally the <code>data</code> to be programmed must be located in the SRAM memory region.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The flash object </td></tr>
@@ -601,7 +603,8 @@ Array of the distinct flash blocks. </td></tr>
 
 <p>Starts an asynchronous write to a single page of flash. </p>
 <p>Returns immediately and reports a successful start or reason for failure. The address must be aligned on a page boundary.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__group__hal__flash.html#gaab923541b1d1f71b0b9545306a9c559a" title="Gets flash characteristics like the start address, size, erase values etc. ">cyhal_flash_get_info()</a> to get the flash characteristics for legal address values and the page write size. The provided data buffer must be at least as large as the flash page_size.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__group__hal__flash.html#gaab923541b1d1f71b0b9545306a9c559a" title="Gets flash characteristics like the start address, size, erase values etc. ">cyhal_flash_get_info()</a> to get the flash characteristics for legal address values and the page write size. The provided data buffer must be at least as large as the flash page_size. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Generally the <code>data</code> to be written must be located in the SRAM memory region.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The Flash object being operated on </td></tr>
@@ -650,7 +653,8 @@ Array of the distinct flash blocks. </td></tr>
 <p>Starts asynchronous programming of a single page of flash. </p>
 <p>Returns immediately and reports a successful start or reason for failure.</p>
 <dl class="section note"><dt>Note</dt><dd>Perform erase operation prior to calling this.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__group__hal__flash.html#gaab923541b1d1f71b0b9545306a9c559a" title="Gets flash characteristics like the start address, size, erase values etc. ">cyhal_flash_get_info()</a> to get the flash characteristics for legal address values and the total page size. The provided data buffer must be at least as large as the flash page_size.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__group__hal__flash.html#gaab923541b1d1f71b0b9545306a9c559a" title="Gets flash characteristics like the start address, size, erase values etc. ">cyhal_flash_get_info()</a> to get the flash characteristics for legal address values and the total page size. The provided data buffer must be at least as large as the flash page_size. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Generally the <code>data</code> to be programmed must be located in the SRAM memory region.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The Flash object being operated on </td></tr>

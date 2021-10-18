@@ -36,6 +36,7 @@ var group__group__hal__timer =
       [ "CYHAL_TIMER_OUTPUT_TERMINAL_COUNT", "group__group__hal__timer.html#gga3b82fcbb7e540b55f1923f0cc4c77c30aa9b363110f2ed6190d1775dbe7f9c673", null ]
     ] ],
     [ "cyhal_timer_init", "group__group__hal__timer.html#gaa8ca8e199bc9848f8729ff78953bb0fa", null ],
+    [ "cyhal_timer_init_cfg", "group__group__hal__timer.html#ga0ecbd9618bb7cedb7f4b77525e274b09", null ],
     [ "cyhal_timer_free", "group__group__hal__timer.html#ga94944664f47b8ff7c093719116b35cdc", null ],
     [ "cyhal_timer_configure", "group__group__hal__timer.html#ga03e9a7839ffd4e8cad90f97fab176813", null ],
     [ "cyhal_timer_set_frequency", "group__group__hal__timer.html#ga38ed4c91e655b8b4f5e446c63327ffe5", null ],
@@ -45,7 +46,7 @@ var group__group__hal__timer =
     [ "cyhal_timer_read", "group__group__hal__timer.html#ga0be5bf53c214ffcb3c4e962e71af1e6d", null ],
     [ "cyhal_timer_register_callback", "group__group__hal__timer.html#ga928ffe0a3a1549c94752db7c68306424", null ],
     [ "cyhal_timer_enable_event", "group__group__hal__timer.html#ga4b97fe48330e9b8034ab7c2f56078002", null ],
-    [ "cyhal_timer_connect_digital", "group__group__hal__timer.html#ga66869e4eb30aa72affa0ce7fda47da8c", null ],
+    [ "cyhal_timer_connect_digital", "group__group__hal__timer.html#ga5458a719692e938b056150351b287967", null ],
     [ "cyhal_timer_enable_output", "group__group__hal__timer.html#ga0e7450df4a250d811d1ce60cb69285f8", null ],
     [ "cyhal_timer_disconnect_digital", "group__group__hal__timer.html#ga4ca94d6326a64dfe56ad6616ee1524a1", null ],
     [ "cyhal_timer_disable_output", "group__group__hal__timer.html#ga5f81dff94142cbb1e2fa28506bd00491", null ]

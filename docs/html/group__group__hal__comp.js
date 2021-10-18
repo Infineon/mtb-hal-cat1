@@ -11,6 +11,7 @@ var group__group__hal__comp =
       [ "CYHAL_COMP_FALLING_EDGE", "group__group__hal__comp.html#gga9ce3883df3861eb47c5b1e3c079edc37a77b4bfbf8689a798c2baeb7d054e0e96", null ]
     ] ],
     [ "cyhal_comp_init", "group__group__hal__comp.html#ga5cc60c08506afdf99bd847289b67bd7d", null ],
+    [ "cyhal_comp_init_cfg", "group__group__hal__comp.html#gac984ec1ca88e0de51a47aa70601549a6", null ],
     [ "cyhal_comp_free", "group__group__hal__comp.html#ga22b207c986cfda6121fea3a00a5baf67", null ],
     [ "cyhal_comp_set_power", "group__group__hal__comp.html#ga3808f1cb24f0dd6dc9d16152667649de", null ],
     [ "cyhal_comp_configure", "group__group__hal__comp.html#ga05458b0c95ab66c699787f5fe118fa99", null ],

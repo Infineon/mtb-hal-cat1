@@ -2,12 +2,14 @@
 * File Name: cyhal_trng.c
 *
 * Description:
-* Provides a high level interface for interacting with the Cypress True Random
+* Provides a high level interface for interacting with the Infineon True Random
 * Number Generator. This is a wrapper around the lower level PDL API.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,9 +28,8 @@
 #include "cyhal_hwmgr.h"
 #include "cyhal_crypto_common.h"
 #include "cyhal_trng_impl.h"
-#include "cy_utils.h"
 
-#if defined(CY_IP_MXCRYPTO)
+#if (CYHAL_DRIVER_AVAILABLE_TRNG)
 
 #if defined(__cplusplus)
 extern "C"
@@ -57,4 +58,4 @@ void cyhal_trng_free(cyhal_trng_t *obj)
 }
 #endif
 
-#endif /* defined(CY_IP_MXCRYPTO) */
+#endif /* CYHAL_DRIVER_AVAILABLE_TRNG */

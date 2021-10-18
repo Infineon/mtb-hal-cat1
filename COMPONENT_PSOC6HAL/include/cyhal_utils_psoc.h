@@ -6,7 +6,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -56,11 +58,11 @@ static inline cyhal_resource_inst_t _cyhal_utils_get_gpio_resource(cyhal_gpio_t 
 }
 
 /** Attempts to reserve the specified pin and then initialize it to connect to the item defined by the provided mapping object.
- * @param[in] pin        The pin to reserve and connect
  * @param[in] mapping    The pin/hardware block connection mapping information
+ * @param[in] drive_mode The drive mode for the pin
  * @return CY_RSLT_SUCCESS if everything was ok, else an error.
  */
-cy_rslt_t _cyhal_utils_reserve_and_connect(cyhal_gpio_t pin, const cyhal_resource_pin_mapping_t *mapping);
+cy_rslt_t _cyhal_utils_reserve_and_connect(const cyhal_resource_pin_mapping_t *mapping, uint8_t drive_mode);
 
 /** Disconnects any routing for the pin from the interconnect driver and then free's the pin from the hwmgr.
  *
@@ -145,49 +147,6 @@ cy_en_syspm_callback_mode_t _cyhal_utils_convert_haltopdl_pm_mode(cyhal_syspm_ca
 cyhal_syspm_callback_mode_t _cyhal_utils_convert_pdltohal_pm_mode(cy_en_syspm_callback_mode_t mode);
 
 /**
- * Utility method to check if the clock is using the new data format (true) or the old
- * format (false).
- * @param[out] clock    The clock instance to check which format it is using.
- * @return Indication of whether the provided clock is using the new format (true) or old (false)
- */
-static inline bool _cyhal_utils_is_new_clock_format(const cyhal_clock_t *clock)
-{
-    #if defined(COMPONENT_CAT1A)
-    return (((cyhal_clock_block_t)clock->div_type == clock->block) && (clock->div_num == clock->channel));
-    #else
-    CY_UNUSED_PARAMETER(clock);
-    return true;
-    #endif
-}
-
-/**
- * Utility method to update clock format to new format if the clock is using the old data format.
- *
- * @param[out] clock    The clock instance to check which format it is using.
- */
-static inline void _cyhal_utils_update_clock_format(cyhal_clock_t *clock)
-{
-    #if defined(COMPONENT_CAT1A)
-    if(((cyhal_clock_block_t)clock->div_type != clock->block) || (clock->div_num != clock->channel))
-    {
-        clock->block = (cyhal_clock_block_t)clock->div_type;
-        clock->channel = clock->div_num;
-    }
-    #else
-    CY_UNUSED_PARAMETER(clock);
-    #endif
-}
-
-/** Gets the peripheral divider information from a provided clock instance. The clock can be using either
- * the new or the old format for clocks.
- *
- * @param[in]   clock               The clock to get peripheral divider information from
- * @param[out]  div_type            The divider type the clock instance represents
- * @param[out]  div_num             The divider number the clock instance represents
- */
-void _cyhal_utils_get_peri_clock_details(const cyhal_clock_t *clock, cy_en_divider_types_t *div_type, uint32_t *div_num);
-
-/**
  * Calculates clock tolerance in the specified units given a desired and actual frequency
  *
  * @param[in] type                  tolerance type
@@ -210,11 +169,19 @@ int32_t _cyhal_utils_calculate_tolerance(cyhal_clock_tolerance_unit_t type, uint
 cy_rslt_t _cyhal_utils_allocate_clock(cyhal_clock_t *clock, const cyhal_resource_inst_t *clocked_item,
                         cyhal_clock_block_t div, bool accept_larger);
 
-#if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B)
-/** Function for finding most suitable divider for provided clock */
-typedef cy_rslt_t (*_cyhal_utils_clk_div_func_t)(uint32_t hz_src, uint32_t desired_hz,
-                        const cyhal_clock_tolerance_t *tolerance, bool only_below_desired, uint32_t *div);
+/**
+ * Attempts to set the clock to the specified frequency. This is similar to cyhal_clock_set_frequency,
+ * but it will also make an attempt to set the frequency for HFCLK outputs, which are not supported by the public
+ * API due to their limited range of supported dividers (1, 2, 4, 8)
+ *
+ * @param[in] clock                 The clock instance to set the frequency for.
+ * @param[in] hz                    The frequency, in hertz, to set the clock to.
+ * @param[in] tolerance             The allowed tolerance from the desired hz that is acceptable, use NULL if no
+ *                                  tolerance check is required.
+ */
+cy_rslt_t _cyhal_utils_set_clock_frequency(cyhal_clock_t* clock, uint32_t hz, const cyhal_clock_tolerance_t *tolerance);
 
+#if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B)
 /**
  * Finds best divider for HF clock according to source and desired frequency data
  *
@@ -229,17 +196,9 @@ typedef cy_rslt_t (*_cyhal_utils_clk_div_func_t)(uint32_t hz_src, uint32_t desir
 cy_rslt_t _cyhal_utils_find_hf_clk_div(uint32_t hz_src, uint32_t desired_hz, const cyhal_clock_tolerance_t *tolerance,
                         bool only_below_desired, uint32_t *div);
 
-/**
- * Attempts to set the clock to the specified frequency. This is similar to cyhal_clock_set_frequency,
- * but it will also make an attempt to set the frequency for HFCLK outputs, which are not supported by the public
- * API due to their limited range of supported dividers (1, 2, 4, 8)
- *
- * @param[in] clock                 The clock instance to set the frequency for.
- * @param[in] hz                    The frequency, in hertz, to set the clock to.
- * @param[in] tolerance             The allowed tolerance from the desired hz that is acceptable, use NULL if no
- *                                  tolerance check is required.
- */
-cy_rslt_t _cyhal_utils_set_clock_frequency(cyhal_clock_t* clock, uint32_t hz, const cyhal_clock_tolerance_t *tolerance);
+/** Function for finding most suitable divider for provided clock */
+typedef cy_rslt_t (*_cyhal_utils_clk_div_func_t)(uint32_t hz_src, uint32_t desired_hz,
+                        const cyhal_clock_tolerance_t *tolerance, bool only_below_desired, uint32_t *div);
 
 /**
  * Finds for provided HF clock most suitable source to achieve target clock frequency and returns it with
@@ -286,7 +245,7 @@ cy_rslt_t _cyhal_utils_set_clock_frequency2(cyhal_clock_t *clock, uint32_t hz, c
 
 static inline cy_rslt_t _cyhal_utils_peri_pclk_set_divider(en_clk_dst_t clk_dest, const cyhal_clock_t *clock, uint32_t div)
 {
-    #if (COMPONENT_CAT1B)
+    #if defined(COMPONENT_CAT1B)
     return Cy_SysClk_PeriPclkSetDivider(clk_dest, _CYHAL_PERIPHERAL_GROUP_GET_DIVIDER_TYPE(clock->block), clock->channel, div);
     #else
     CY_UNUSED_PARAMETER(clk_dest);
@@ -295,7 +254,7 @@ static inline cy_rslt_t _cyhal_utils_peri_pclk_set_divider(en_clk_dst_t clk_dest
 }
 static inline uint32_t _cyhal_utils_peri_pclk_get_divider(en_clk_dst_t clk_dest, const cyhal_clock_t *clock)
 {
-    #if (COMPONENT_CAT1B)
+    #if defined(COMPONENT_CAT1B)
     return Cy_SysClk_PeriPclkGetDivider(clk_dest, _CYHAL_PERIPHERAL_GROUP_GET_DIVIDER_TYPE(clock->block), clock->channel);
     #else
     CY_UNUSED_PARAMETER(clk_dest);
@@ -304,7 +263,7 @@ static inline uint32_t _cyhal_utils_peri_pclk_get_divider(en_clk_dst_t clk_dest,
 }
 static inline cy_rslt_t _cyhal_utils_peri_pclk_set_frac_divider(en_clk_dst_t clk_dest, const cyhal_clock_t *clock, uint32_t div_int, uint32_t div_frac)
 {
-    #if (COMPONENT_CAT1B)
+    #if defined(COMPONENT_CAT1B)
     return Cy_SysClk_PeriPclkSetFracDivider(clk_dest, _CYHAL_PERIPHERAL_GROUP_GET_DIVIDER_TYPE(clock->block), clock->channel, div_int, div_frac);
     #else
     CY_UNUSED_PARAMETER(clk_dest);
@@ -313,7 +272,7 @@ static inline cy_rslt_t _cyhal_utils_peri_pclk_set_frac_divider(en_clk_dst_t clk
 }
 static inline void _cyhal_utils_peri_pclk_get_frac_divider(en_clk_dst_t clk_dest, const cyhal_clock_t *clock, uint32_t *div_int, uint32_t *div_frac)
 {
-    #if (COMPONENT_CAT1B)
+    #if defined(COMPONENT_CAT1B)
     Cy_SysClk_PeriPclkGetFracDivider(clk_dest, _CYHAL_PERIPHERAL_GROUP_GET_DIVIDER_TYPE(clock->block), clock->channel, div_int, div_frac);
     #else
     CY_UNUSED_PARAMETER(clk_dest);
@@ -322,7 +281,7 @@ static inline void _cyhal_utils_peri_pclk_get_frac_divider(en_clk_dst_t clk_dest
 }
 static inline uint32_t _cyhal_utils_peri_pclk_get_frequency(en_clk_dst_t clk_dest, const cyhal_clock_t *clock)
 {
-    #if (COMPONENT_CAT1B)
+    #if defined(COMPONENT_CAT1B)
     return Cy_SysClk_PeriPclkGetFrequency(clk_dest, _CYHAL_PERIPHERAL_GROUP_GET_DIVIDER_TYPE(clock->block), clock->channel);
     #else
     CY_UNUSED_PARAMETER(clk_dest);
@@ -331,7 +290,7 @@ static inline uint32_t _cyhal_utils_peri_pclk_get_frequency(en_clk_dst_t clk_des
 }
 static inline cy_rslt_t _cyhal_utils_peri_pclk_assign_divider(en_clk_dst_t clk_dest, const cyhal_clock_t *clock)
 {
-    #if (COMPONENT_CAT1B)
+    #if defined(COMPONENT_CAT1B)
         return Cy_SysClk_PeriPclkAssignDivider(clk_dest, _CYHAL_PERIPHERAL_GROUP_GET_DIVIDER_TYPE(clock->block), clock->channel);
     #else
         return Cy_SysClk_PeriphAssignDivider(clk_dest, _CYHAL_PERIPHERAL_GROUP_GET_DIVIDER_TYPE(clock->block), clock->channel);
@@ -339,7 +298,7 @@ static inline cy_rslt_t _cyhal_utils_peri_pclk_assign_divider(en_clk_dst_t clk_d
 }
 static inline uint32_t _cyhal_utils_peri_pclk_get_assigned_divider(en_clk_dst_t clk_dest)
 {
-    #if (COMPONENT_CAT1B)
+    #if defined(COMPONENT_CAT1B)
         return Cy_SysClk_PeriPclkGetAssignedDivider(clk_dest);
     #else
         return Cy_SysClk_PeriphGetAssignedDivider(clk_dest);
@@ -347,7 +306,7 @@ static inline uint32_t _cyhal_utils_peri_pclk_get_assigned_divider(en_clk_dst_t 
 }
 static inline cy_rslt_t _cyhal_utils_peri_pclk_enable_divider(en_clk_dst_t clk_dest, const cyhal_clock_t *clock)
 {
-    #if (COMPONENT_CAT1B)
+    #if defined(COMPONENT_CAT1B)
     return Cy_SysClk_PeriPclkEnableDivider(clk_dest, _CYHAL_PERIPHERAL_GROUP_GET_DIVIDER_TYPE(clock->block), clock->channel);
     #else
     CY_UNUSED_PARAMETER(clk_dest);
@@ -356,7 +315,7 @@ static inline cy_rslt_t _cyhal_utils_peri_pclk_enable_divider(en_clk_dst_t clk_d
 }
 static inline cy_rslt_t _cyhal_utils_peri_pclk_disable_divider(en_clk_dst_t clk_dest, const cyhal_clock_t *clock)
 {
-    #if (COMPONENT_CAT1B)
+    #if defined(COMPONENT_CAT1B)
     return Cy_SysClk_PeriPclkDisableDivider(clk_dest, _CYHAL_PERIPHERAL_GROUP_GET_DIVIDER_TYPE(clock->block), clock->channel);
     #else
     CY_UNUSED_PARAMETER(clk_dest);
@@ -365,7 +324,7 @@ static inline cy_rslt_t _cyhal_utils_peri_pclk_disable_divider(en_clk_dst_t clk_
 }
 static inline cy_rslt_t _cyhal_utils_peri_pclk_enable_phase_align_divider(en_clk_dst_t clk_dest, const cyhal_clock_t *clock, const cyhal_clock_t *clock2)
 {
-    #if (COMPONENT_CAT1B)
+    #if defined(COMPONENT_CAT1B)
     return Cy_SysClk_PeriPclkEnablePhaseAlignDivider(clk_dest, _CYHAL_PERIPHERAL_GROUP_GET_DIVIDER_TYPE(clock->block), clock->channel,
                                                     _CYHAL_PERIPHERAL_GROUP_GET_DIVIDER_TYPE(clock2->block), clock2->channel);
     #else
@@ -376,9 +335,9 @@ static inline cy_rslt_t _cyhal_utils_peri_pclk_enable_phase_align_divider(en_clk
 }
 static inline bool _cyhal_utils_peri_pclk_is_divider_enabled(en_clk_dst_t clk_dest, const cyhal_clock_t *clock)
 {
-    #if (COMPONENT_CAT1B)
+    #if defined(COMPONENT_CAT1B)
     return Cy_SysClk_PeriPclkGetDividerEnabled(clk_dest, _CYHAL_PERIPHERAL_GROUP_GET_DIVIDER_TYPE(clock->block), clock->channel);
-    #elif (COMPONENT_CAT2)
+    #elif defined(COMPONENT_CAT2)
     CY_UNUSED_PARAMETER(clk_dest);
     return Cy_SysClk_PeriphDividerIsEnabled(_CYHAL_PERIPHERAL_GROUP_GET_DIVIDER_TYPE(clock->block), clock->channel);
     #else

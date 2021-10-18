@@ -6,7 +6,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -60,7 +62,7 @@ extern "C" {
  */
 /** Bad argument */
 #define CYHAL_SCB_RSLT_ERR_BAD_ARGUMENT                     \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_IMPL_SCB, 0))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_IMPL_SCB, 0))
 
 /**
  * \}
@@ -99,15 +101,15 @@ uint8_t cyhal_scb_get_block_from_irqn(IRQn_Type irqn);
  */
 void *_cyhal_scb_get_irq_obj(void);
 
-/** Sets the desired clocks & data rate to achieve the specified frequency
- * @param[in] base      The I2C object to configure the peri divider for
- * @param[in] block_num The SCB block number being used
- * @praam[in] clock     The clock configuration to apply
+/** Sets the desired clocks & data rate to achieve the specified frequency. Configuration of clock is not changed if
+ * driver does not own it.
+ * @param[in] obj       The I2C or EZI2C object to configure the peri divider for
+ * @param[in] is_i2c    Whether driver to be configured is I2C or EZI2C (I2C is true)
  * @praam[in] freq      The desired frequency
  * @param[in] is_slave  Is this an I2C slave (true) or master (false)
  * @return The achieved data rate in Hz, or 0 if there was an error.
  */
-uint32_t _cyhal_i2c_set_peri_divider(CySCB_Type *base, uint32_t block_num, cyhal_clock_t *clock, uint32_t freq, bool is_slave);
+uint32_t _cyhal_i2c_set_peri_divider(void *obj, bool is_i2c, uint32_t freq, bool is_slave);
 
 /** Find an available SCB instance that matches 'pin'.
  * @param pin Pin
@@ -117,6 +119,16 @@ uint32_t _cyhal_i2c_set_peri_divider(CySCB_Type *base, uint32_t block_num, cyhal
  */
 const cyhal_resource_pin_mapping_t* _cyhal_scb_find_map(cyhal_gpio_t pin, const cyhal_resource_pin_mapping_t *pin_map,
                     size_t count, const cyhal_resource_inst_t *block_res);
+
+/** Find all available SCB instances that matches 'pin'.
+ * @param pin Pin
+ * @param pin_map Pin mapping array
+ * @param count Number of entries in pin_map
+ * @return Bit representation of SCB blocks, that can be wired with specified pin. 1 block - 1 bit, LSB corresponds to
+ * SCB0. Only free for reserve blocks are returned. Example, output value 0x00000006 means that certain pin can belong
+ * to next non-reserved blocks: SCB2 and SCB1.
+ */
+uint32_t _cyhal_scb_check_pin_affiliation(cyhal_gpio_t pin, const cyhal_resource_pin_mapping_t *pin_map, size_t count);
 
 /** Sets a threshold level for a FIFO that will generate an interrupt and a
  * trigger output. The RX FIFO interrupt and trigger will be activated when
@@ -133,7 +145,6 @@ cy_rslt_t _cyhal_scb_set_fifo_level(CySCB_Type *base, cyhal_scb_fifo_type_t type
 
 /** Enables the specified output signal from an scb.
  *
- * @param[in]  base       SCB base
  * @param[in]  resource   SCB resource
  * @param[in]  output     Which output signal to enable
  * @param[out] source     Pointer to user-allocated source signal object which
@@ -141,21 +152,21 @@ cy_rslt_t _cyhal_scb_set_fifo_level(CySCB_Type *base, cyhal_scb_fifo_type_t type
  * (dis)connect_digital functions to (dis)connect the associated endpoints.
  * @return The status of the output enable
  * */
-cy_rslt_t _cyhal_scb_enable_output(CySCB_Type *base, cyhal_resource_inst_t resource, cyhal_scb_output_t output, cyhal_source_t *source);
+cy_rslt_t _cyhal_scb_enable_output(cyhal_resource_inst_t resource, cyhal_scb_output_t output, cyhal_source_t *source);
 
 /** Disables the specified output signal from an scb
  *
- * @param[in]  base       SCB base
- * @param[in]  resource   SCB resource
  * @param[in]  output     Which output signal to disable
  * @return The status of the output disable
  * */
-cy_rslt_t _cyhal_scb_disable_output(CySCB_Type *base, cyhal_resource_inst_t resource, cyhal_scb_output_t output);
+cy_rslt_t _cyhal_scb_disable_output(cyhal_scb_output_t output);
 
 #define _CYHAL_SCB_FIND_MAP(pin, pin_map) \
                     _cyhal_scb_find_map(pin, pin_map, sizeof(pin_map)/sizeof(cyhal_resource_pin_mapping_t), NULL)
 #define _CYHAL_SCB_FIND_MAP_BLOCK(pin, pin_map, block) \
                     _cyhal_scb_find_map(pin, pin_map, sizeof(pin_map)/sizeof(cyhal_resource_pin_mapping_t), block)
+#define _CYHAL_SCB_CHECK_AFFILIATION(pin, pin_map) \
+                    _cyhal_scb_check_pin_affiliation(pin, pin_map, sizeof(pin_map)/sizeof(cyhal_resource_pin_mapping_t))
 
 /**
  * Function pointer to determine a specific scb instance can is ready for low power transition.

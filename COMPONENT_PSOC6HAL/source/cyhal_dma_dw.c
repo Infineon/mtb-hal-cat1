@@ -2,11 +2,13 @@
 * \file cyhal_dma_dw.c
 *
 * \brief
-* Implements a high level interface for interacting with the Cypress Datawire DMA.
+* Implements a high level interface for interacting with the Infineon Datawire DMA.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,18 +27,17 @@
 #include "cyhal_dma.h"
 #include "cyhal_dma_dw.h"
 #include "cyhal_dma_impl.h"
-#include "cyhal_hwmgr.h"
 #include "cyhal_hwmgr_impl.h"
 #include "cyhal_interconnect.h"
 #include "cyhal_syspm.h"
 #include "cyhal_utils.h"
 #include "cyhal_triggers.h"
 
+#if (_CYHAL_DRIVER_AVAILABLE_DMA_DW)
+
 #if defined(__cplusplus)
 extern "C" {
 #endif
-
-#if defined(CY_IP_M4CPUSS_DMA) || defined(CY_IP_MXDW)
 
 #if (CPUSS_DW0_PRESENT==1) && (CPUSS_DW1_PRESENT==1)
 #define _CYHAL_DMA_DW_NUM_CHANNELS (CPUSS_DW0_CH_NR + CPUSS_DW1_CH_NR)
@@ -130,6 +131,7 @@ static bool _cyhal_dma_dw_pm_callback(cyhal_syspm_callback_state_t state, cyhal_
             _cyhal_dma_dw_pm_transition_pending = false;
             break;
         default:
+            CY_ASSERT(false);
             break;
     }
     return _cyhal_dma_dw_pm_transition_pending;
@@ -162,7 +164,7 @@ static inline uint8_t _cyhal_dma_dw_get_block_from_irqn(IRQn_Type irqn)
         return 0;
 #if (CYHAL_DMA_DW0_MAX_CONTIGUOUS_IRQ != CPUSS_DW0_CH_NR)
     if ((irqn >= _CYHAL_DMA_GET_CPUSS_IRQN(0, CYHAL_DMA_DW0_MAX_CONTIGUOUS_IRQ)) &&
-        (irqn < (_CYHAL_DMA_GET_CPUSS_IRQN(0, CYHAL_DMA_DW0_MAX_CONTIGUOUS_IRQ) + CPUSS_DW0_CH_NR - CYHAL_DMA_DW0_MAX_CONTIGUOUS_IRQ)))
+        (irqn < (IRQn_Type)(_CYHAL_DMA_GET_CPUSS_IRQN(0, CYHAL_DMA_DW0_MAX_CONTIGUOUS_IRQ) + CPUSS_DW0_CH_NR - CYHAL_DMA_DW0_MAX_CONTIGUOUS_IRQ)))
         return 0;
 #endif
 #endif
@@ -171,7 +173,7 @@ static inline uint8_t _cyhal_dma_dw_get_block_from_irqn(IRQn_Type irqn)
         return 1;
 #if (CYHAL_DMA_DW1_MAX_CONTIGUOUS_IRQ != CPUSS_DW1_CH_NR)
     if ((irqn >= _CYHAL_DMA_GET_CPUSS_IRQN(1, CYHAL_DMA_DW1_MAX_CONTIGUOUS_IRQ)) &&
-        (irqn < (_CYHAL_DMA_GET_CPUSS_IRQN(1, CYHAL_DMA_DW1_MAX_CONTIGUOUS_IRQ) + CPUSS_DW1_CH_NR - CYHAL_DMA_DW1_MAX_CONTIGUOUS_IRQ)))
+        (irqn < (IRQn_Type)(_CYHAL_DMA_GET_CPUSS_IRQN(1, CYHAL_DMA_DW1_MAX_CONTIGUOUS_IRQ) + CPUSS_DW1_CH_NR - CYHAL_DMA_DW1_MAX_CONTIGUOUS_IRQ)))
         return 1;
 #endif
 #endif
@@ -188,7 +190,7 @@ static inline uint8_t _cyhal_dma_dw_get_channel_from_irqn(IRQn_Type irqn)
         return (uint8_t)(irqn - cpuss_interrupts_dw0_0_IRQn);
 #if (CYHAL_DMA_DW0_MAX_CONTIGUOUS_IRQ != CPUSS_DW0_CH_NR)
     if ((irqn >= _CYHAL_DMA_GET_CPUSS_IRQN(0, CYHAL_DMA_DW0_MAX_CONTIGUOUS_IRQ)) &&
-        (irqn < (_CYHAL_DMA_GET_CPUSS_IRQN(0, CYHAL_DMA_DW0_MAX_CONTIGUOUS_IRQ) + CPUSS_DW0_CH_NR - CYHAL_DMA_DW0_MAX_CONTIGUOUS_IRQ)))
+        (irqn < (IRQn_Type)(_CYHAL_DMA_GET_CPUSS_IRQN(0, CYHAL_DMA_DW0_MAX_CONTIGUOUS_IRQ) + CPUSS_DW0_CH_NR - CYHAL_DMA_DW0_MAX_CONTIGUOUS_IRQ)))
         return CYHAL_DMA_DW0_MAX_CONTIGUOUS_IRQ + irqn - _CYHAL_DMA_GET_CPUSS_IRQN(0, CYHAL_DMA_DW0_MAX_CONTIGUOUS_IRQ);
 #endif
 #endif
@@ -197,7 +199,7 @@ static inline uint8_t _cyhal_dma_dw_get_channel_from_irqn(IRQn_Type irqn)
         return (uint8_t)(irqn - cpuss_interrupts_dw1_0_IRQn);
 #if (CYHAL_DMA_DW1_MAX_CONTIGUOUS_IRQ != CPUSS_DW1_CH_NR)
     if ((irqn >= _CYHAL_DMA_GET_CPUSS_IRQN(1, CYHAL_DMA_DW1_MAX_CONTIGUOUS_IRQ)) &&
-        (irqn < (_CYHAL_DMA_GET_CPUSS_IRQN(1, CYHAL_DMA_DW1_MAX_CONTIGUOUS_IRQ) + CPUSS_DW1_CH_NR - CYHAL_DMA_DW1_MAX_CONTIGUOUS_IRQ)))
+        (irqn < (IRQn_Type)(_CYHAL_DMA_GET_CPUSS_IRQN(1, CYHAL_DMA_DW1_MAX_CONTIGUOUS_IRQ) + CPUSS_DW1_CH_NR - CYHAL_DMA_DW1_MAX_CONTIGUOUS_IRQ)))
         return CYHAL_DMA_DW1_MAX_CONTIGUOUS_IRQ + irqn - _CYHAL_DMA_GET_CPUSS_IRQN(1, CYHAL_DMA_DW1_MAX_CONTIGUOUS_IRQ);
 #endif
 #endif
@@ -244,6 +246,7 @@ static inline DW_Type* _cyhal_dma_dw_get_base(uint8_t block_num)
 #if (CPUSS_DW1_PRESENT==1)
     return block_num == 0 ? DW0 : DW1;
 #else
+    CY_UNUSED_PARAMETER(block_num);
     return DW0;
 #endif
 }
@@ -272,7 +275,7 @@ static inline uint32_t _cyhal_dma_dw_get_trigger_line(uint8_t block_num, uint8_t
      * Bits   30: Input/output bit. Set to 1 for output.
      * Bits 12-8: Trigger group selection.
      * Bits  7-0: Select the output trigger number in the trigger group. */
-    return PERI_TR_CMD_OUT_SEL_Msk | (uint32_t)(trig_group << 8) | cyhal_mux_dest_index[trigger];
+    return PERI_TR_CMD_OUT_SEL_Msk | (uint32_t)((uint32_t)trig_group << 8) | cyhal_mux_dest_index[trigger];
 }
 
 /** Convert PDL interrupt cause to hal dma event */
@@ -342,6 +345,44 @@ static cyhal_dest_t _cyhal_dma_dw_get_dest(uint8_t block_num, uint8_t channel_nu
     return (cyhal_dest_t)(CYHAL_TRIGGER_CPUSS_DW0_TR_IN0 + (block_num * CPUSS_DW0_CH_NR) + channel_num);
 }
 
+cy_rslt_t _cyhal_dma_dw_stage(cyhal_dma_t *obj)
+{
+    if(CY_DMA_SUCCESS != Cy_DMA_Descriptor_Init(&obj->descriptor.dw, &obj->descriptor_config.dw))
+        return CYHAL_DMA_RSLT_ERR_INVALID_PARAMETER;
+
+    /* Setup channel and enable */
+    DW_Type* base = _cyhal_dma_dw_get_base(obj->resource.block_num);
+    if(CY_DMA_SUCCESS != Cy_DMA_Channel_Init(base, obj->resource.channel_num, &obj->channel_config.dw))
+        return CYHAL_DMA_RSLT_ERR_INVALID_PARAMETER;
+
+    Cy_DMA_Channel_SetInterruptMask (base, obj->resource.channel_num, CY_DMA_INTR_MASK);
+
+    Cy_DMA_Enable(base);
+
+    /* src_misal and dst_misal interrupts are triggered immediately on enable
+     * so return those errors here */
+    uint32_t status = Cy_DMA_Channel_GetInterruptStatus(base, obj->resource.channel_num);
+    if((status == CY_DMA_INTR_CAUSE_SRC_MISAL) ||
+       (status == CY_DMA_INTR_CAUSE_DST_MISAL))
+    {
+        Cy_DMA_Channel_ClearInterrupt(base, obj->resource.channel_num);
+        return CYHAL_DMA_RSLT_ERR_INVALID_ALIGNMENT;
+    }
+
+    /* Enable interrupt for this channel; preserve user priority if they enabled an interrupt */
+    IRQn_Type irqn = _cyhal_dma_dw_get_irqn(obj);
+    uint32_t priority = (CYHAL_DMA_NO_INTR == obj->irq_cause)
+        ? CYHAL_ISR_PRIORITY_DEFAULT
+        : NVIC_GetPriority(irqn);
+
+    cy_stc_sysint_t irqCfg = { irqn, priority };
+    if(CY_SYSINT_SUCCESS != Cy_SysInt_Init(&irqCfg, _cyhal_dma_dw_irq_handler))
+        return CYHAL_DMA_RSLT_ERR_INVALID_PARAMETER;
+    NVIC_EnableIRQ(irqCfg.intrSrc);
+
+    return CY_RSLT_SUCCESS;
+}
+
 cy_rslt_t _cyhal_dma_dw_init(cyhal_dma_t *obj, cyhal_source_t *src, cyhal_dest_t *dest, uint8_t priority)
 {
     if(!CY_DMA_IS_PRIORITY_VALID(priority))
@@ -366,6 +407,32 @@ cy_rslt_t _cyhal_dma_dw_init(cyhal_dma_t *obj, cyhal_source_t *src, cyhal_dest_t
     _cyhal_dma_dw_set_obj(obj);
 
     return CY_RSLT_SUCCESS;
+}
+
+cy_rslt_t _cyhal_dma_dw_init_cfg(cyhal_dma_t *obj, const cyhal_dma_configurator_t *cfg)
+{
+    if (_cyhal_dma_dw_pm_transition_pending)
+    {
+        return CYHAL_SYSPM_RSLT_ERR_PM_PENDING;
+    }
+
+    obj->resource = *(cfg->resource);
+    obj->callback_data.callback = NULL;
+
+    /* Setup descriptor and channel configs */
+    obj->descriptor_config.dw = *(cfg->dw_descriptor_config);
+    obj->channel_config.dw = *(cfg->dw_channel_config);
+    obj->channel_config.dw.descriptor = &obj->descriptor.dw;
+    obj->expected_bursts = cfg->dw_descriptor_config->yCount;
+
+    if (!_cyhal_dma_dw_has_enabled())
+    {
+        _cyhal_syspm_register_peripheral_callback(&cyhal_dma_dw_pm_callback_args);
+    }
+
+    _cyhal_dma_dw_set_obj(obj);
+
+    return _cyhal_dma_dw_stage(obj);
 }
 
 void _cyhal_dma_dw_free(cyhal_dma_t *obj)
@@ -470,37 +537,7 @@ cy_rslt_t _cyhal_dma_dw_configure(cyhal_dma_t *obj, const cyhal_dma_cfg_t *cfg)
             obj->descriptor_config.dw.triggerInType = CY_DMA_DESCR;
     }
 
-    if(CY_DMA_SUCCESS != Cy_DMA_Descriptor_Init(&obj->descriptor.dw, &obj->descriptor_config.dw))
-        return CYHAL_DMA_RSLT_ERR_INVALID_PARAMETER;
-
-    /* Setup channel and enable */
-    DW_Type* base = _cyhal_dma_dw_get_base(obj->resource.block_num);
-    if(CY_DMA_SUCCESS != Cy_DMA_Channel_Init(base, obj->resource.channel_num, &obj->channel_config.dw))
-        return CYHAL_DMA_RSLT_ERR_INVALID_PARAMETER;
-    Cy_DMA_Channel_SetDescriptor(base, obj->resource.channel_num, &obj->descriptor.dw);
-    Cy_DMA_Channel_SetPriority(base, obj->resource.channel_num, obj->channel_config.dw.priority);
-    Cy_DMA_Channel_Enable(base, obj->resource.channel_num);
-    Cy_DMA_Channel_SetInterruptMask (base, obj->resource.channel_num, CY_DMA_INTR_MASK);
-
-    Cy_DMA_Enable(base);
-
-    /* src_misal and dst_misal interrupts are triggered immediately on enable
-     * so return those errors here */
-    uint32_t status = Cy_DMA_Channel_GetInterruptStatus(base, obj->resource.channel_num);
-    if((status == CY_DMA_INTR_CAUSE_SRC_MISAL) ||
-       (status == CY_DMA_INTR_CAUSE_DST_MISAL))
-    {
-        Cy_DMA_Channel_ClearInterrupt(base, obj->resource.channel_num);
-        return CYHAL_DMA_RSLT_ERR_INVALID_ALIGNMENT;
-    }
-
-    /* Enable interrupt for this channel */
-    cy_stc_sysint_t irqCfg = { _cyhal_dma_dw_get_irqn(obj), CYHAL_ISR_PRIORITY_DEFAULT };
-    if(CY_SYSINT_SUCCESS != Cy_SysInt_Init(&irqCfg, _cyhal_dma_dw_irq_handler))
-        return CYHAL_DMA_RSLT_ERR_INVALID_PARAMETER;
-    NVIC_EnableIRQ(irqCfg.intrSrc);
-
-    return CY_RSLT_SUCCESS;
+    return _cyhal_dma_dw_stage(obj);
 }
 
 cy_rslt_t _cyhal_dma_dw_enable(cyhal_dma_t *obj)
@@ -577,10 +614,11 @@ static cy_en_dma_trigger_type_t _cyhal_convert_input_t(cyhal_dma_input_t input)
             return CY_DMA_X_LOOP;
         case CYHAL_DMA_INPUT_TRIGGER_ALL_ELEMENTS:
             return CY_DMA_DESCR;
+        default:
+            // Should never reach here. Just silencing compiler warnings.
+            CY_ASSERT(false);
+            return CY_DMA_DESCR;
     }
-    // Should never reach here. Just silencing compiler warnings.
-    CY_ASSERT(false);
-    return CY_DMA_DESCR;
 }
 
 static cy_en_dma_trigger_type_t _cyhal_convert_output_t(cyhal_dma_output_t output)
@@ -593,10 +631,11 @@ static cy_en_dma_trigger_type_t _cyhal_convert_output_t(cyhal_dma_output_t outpu
             return CY_DMA_X_LOOP;
         case CYHAL_DMA_OUTPUT_TRIGGER_ALL_ELEMENTS:
             return CY_DMA_DESCR;
+        default:
+            // Should never reach here. Just silencing compiler warnings.
+            CY_ASSERT(false);
+            return CY_DMA_DESCR;
     }
-    // Should never reach here. Just silencing compiler warnings.
-    CY_ASSERT(false);
-    return CY_DMA_DESCR;
 }
 
 cy_rslt_t _cyhal_dma_dw_connect_digital(cyhal_dma_t *obj, cyhal_source_t source, cyhal_dma_input_t input)
@@ -614,8 +653,7 @@ cy_rslt_t _cyhal_dma_dw_connect_digital(cyhal_dma_t *obj, cyhal_source_t source,
 
     cyhal_dest_t dest = _cyhal_dma_dw_get_dest(obj->resource.block_num, obj->resource.channel_num);
 
-    cyhal_signal_type_t signal_type = (cyhal_signal_type_t)_CYHAL_TRIGGER_GET_SOURCE_TYPE(source);
-    cy_rslt_t rslt = _cyhal_connect_signal(source, dest, signal_type);
+    cy_rslt_t rslt = _cyhal_connect_signal(source, dest);
     if (CY_RSLT_SUCCESS == rslt)
     {
         obj->source = source;
@@ -679,8 +717,8 @@ cy_rslt_t _cyhal_dma_dw_disable_output(cyhal_dma_t *obj, cyhal_dma_output_t outp
     return CY_RSLT_SUCCESS;
 }
 
-#endif /* CY_IP_M4CPUSS_DMA */
-
 #if defined(__cplusplus)
 }
 #endif
+
+#endif /* _CYHAL_DRIVER_AVAILABLE_DMA_DW */

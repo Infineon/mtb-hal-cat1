@@ -2,14 +2,16 @@
 * \file cyhal_timer.c
 *
 * \brief
-* Provides a high level interface for interacting with the Cypress Timer/Counter.
+* Provides a high level interface for interacting with the Infineon Timer/Counter.
 * This interface abstracts out the chip specific details. If any chip specific
 * functionality is necessary, or performance is critical the low level functions
 * can be used directly.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,7 +35,7 @@
 #include "cyhal_syspm.h"
 #include "cyhal_clock.h"
 
-#if defined(CY_IP_MXTCPWM_INSTANCES) || defined(CY_IP_M0S8TCPWM_INSTANCES)
+#if (CYHAL_DRIVER_AVAILABLE_TIMER)
 
 #if defined(__cplusplus)
 extern "C" {
@@ -77,13 +79,60 @@ static inline uint32_t _cyhal_timer_convert_direction(cyhal_timer_direction_t di
             return CY_TCPWM_COUNTER_COUNT_DOWN;
         case CYHAL_TIMER_DIR_UP_DOWN:
             return CY_TCPWM_COUNTER_COUNT_UP_DOWN_2;
+        default:
+            CY_ASSERT(false);
+            return CY_TCPWM_COUNTER_COUNT_UP;
     }
-    return CY_TCPWM_COUNTER_COUNT_UP;
 }
 
 /*******************************************************************************
 *       Timer HAL Functions
 *******************************************************************************/
+
+cy_rslt_t _cyhal_timer_init_hw(cyhal_timer_t *obj, const cy_stc_tcpwm_counter_config_t *config, const cyhal_clock_t *clk)
+{
+    cy_rslt_t result = CY_RSLT_SUCCESS;
+
+    cyhal_resource_inst_t *timer = &obj->tcpwm.resource;
+    obj->tcpwm.base = _CYHAL_TCPWM_DATA[timer->block_num].base;
+
+    en_clk_dst_t pclk = (en_clk_dst_t)(_CYHAL_TCPWM_DATA[timer->block_num].clock_dst + timer->channel_num);
+
+    if (NULL != clk)
+    {
+        obj->tcpwm.clock = *clk;
+        obj->tcpwm.clock_hz = cyhal_clock_get_frequency(&obj->tcpwm.clock);
+        if (CY_SYSCLK_SUCCESS != _cyhal_utils_peri_pclk_assign_divider(pclk, &(obj->tcpwm.clock)))
+        {
+            result = CYHAL_TIMER_RSLT_ERR_CLOCK_INIT;
+        }
+    }
+    else if (CY_RSLT_SUCCESS == (result = _cyhal_utils_allocate_clock(&(obj->tcpwm.clock), timer, CYHAL_CLOCK_BLOCK_PERIPHERAL_16BIT, true)))
+    {
+        obj->tcpwm.dedicated_clock = true;
+        result = cyhal_timer_set_frequency(obj, CYHAL_TIMER_DEFAULT_FREQ);
+        if (CY_RSLT_SUCCESS == result)
+        {
+            if (CY_SYSCLK_SUCCESS != _cyhal_utils_peri_pclk_assign_divider(pclk, &(obj->tcpwm.clock)))
+            {
+                result = CYHAL_TIMER_RSLT_ERR_CLOCK_INIT;
+            }
+        }
+    }
+
+    if (CY_RSLT_SUCCESS == result)
+    {
+        result = Cy_TCPWM_Counter_Init(obj->tcpwm.base, _CYHAL_TCPWM_CNT_NUMBER(obj->tcpwm.resource), config);
+    }
+
+    if (result == CY_RSLT_SUCCESS)
+    {
+        _cyhal_tcpwm_init_data(&obj->tcpwm);
+        Cy_TCPWM_Counter_Enable(obj->tcpwm.base, _CYHAL_TCPWM_CNT_NUMBER(obj->tcpwm.resource));
+    }
+
+    return result;
+}
 
 cy_rslt_t cyhal_timer_init(cyhal_timer_t *obj, cyhal_gpio_t pin, const cyhal_clock_t *clk)
 {
@@ -94,53 +143,32 @@ cy_rslt_t cyhal_timer_init(cyhal_timer_t *obj, cyhal_gpio_t pin, const cyhal_clo
         return CYHAL_TIMER_RSLT_ERR_BAD_ARGUMENT;
 
     memset(obj, 0, sizeof(cyhal_timer_t));
+    obj->tcpwm.resource.type = CYHAL_RSC_INVALID;
     cy_rslt_t result = cyhal_hwmgr_allocate(CYHAL_RSC_TCPWM, &obj->tcpwm.resource);
     if (CY_RSLT_SUCCESS == result)
     {
-        cyhal_resource_inst_t *timer = &obj->tcpwm.resource;
-        obj->tcpwm.base = _CYHAL_TCPWM_DATA[timer->block_num].base;
-        en_clk_dst_t pclk = (en_clk_dst_t)(_CYHAL_TCPWM_DATA[timer->block_num].clock_dst + timer->channel_num);
-
-        if (NULL != clk)
-        {
-            obj->tcpwm.clock = *clk;
-            _cyhal_utils_update_clock_format(&obj->tcpwm.clock);
-            obj->tcpwm.clock_hz = cyhal_clock_get_frequency(&obj->tcpwm.clock);
-            if (CY_SYSCLK_SUCCESS != _cyhal_utils_peri_pclk_assign_divider(pclk, &(obj->tcpwm.clock)))
-            {
-                result = CYHAL_TIMER_RSLT_ERR_CLOCK_INIT;
-            }
-        }
-        else if (CY_RSLT_SUCCESS == (result = _cyhal_utils_allocate_clock(&(obj->tcpwm.clock), timer, CYHAL_CLOCK_BLOCK_PERIPHERAL_16BIT, true)))
-        {
-            obj->tcpwm.dedicated_clock = true;
-            result = cyhal_timer_set_frequency(obj, CYHAL_TIMER_DEFAULT_FREQ);
-            if (CY_RSLT_SUCCESS == result)
-            {
-                if (CY_SYSCLK_SUCCESS != _cyhal_utils_peri_pclk_assign_divider(pclk, &(obj->tcpwm.clock)))
-                {
-                    result = CYHAL_TIMER_RSLT_ERR_CLOCK_INIT;
-                }
-            }
-        }
-
-        if (CY_RSLT_SUCCESS == result)
-        {
-            result = Cy_TCPWM_Counter_Init(obj->tcpwm.base, _CYHAL_TCPWM_CNT_NUMBER(obj->tcpwm.resource), &_cyhal_timer_default_config);
-        }
-
-        if (result == CY_RSLT_SUCCESS)
-        {
-            _cyhal_tcpwm_init_data(&obj->tcpwm);
-            Cy_TCPWM_SetInterruptMask(obj->tcpwm.base, _CYHAL_TCPWM_CNT_NUMBER(obj->tcpwm.resource), CY_TCPWM_INT_NONE);
-            Cy_TCPWM_Counter_Enable(obj->tcpwm.base, _CYHAL_TCPWM_CNT_NUMBER(obj->tcpwm.resource));
-        }
-        else
-        {
-            cyhal_timer_free(obj);
-        }
+        result = _cyhal_timer_init_hw(obj, &_cyhal_timer_default_config, clk);
     }
 
+    if (CY_RSLT_SUCCESS != result)
+    {
+        cyhal_timer_free(obj);
+    }
+
+    return result;
+}
+
+cy_rslt_t cyhal_timer_init_cfg(cyhal_timer_t *obj, const cyhal_timer_configurator_t *cfg)
+{
+    memset(obj, 0, sizeof(cyhal_timer_t));
+    obj->tcpwm.resource = *cfg->resource;
+    obj->tcpwm.owned_by_configurator = true;
+    cy_rslt_t result = _cyhal_timer_init_hw(obj, cfg->config, cfg->clock);
+
+    if(CY_RSLT_SUCCESS != result)
+    {
+        cyhal_timer_free(obj);
+    }
     return result;
 }
 
@@ -248,9 +276,10 @@ static cyhal_tcpwm_input_t _cyhal_timer_translate_input_signal(cyhal_timer_input
             return CYHAL_TCPWM_INPUT_COUNT;
         case CYHAL_TIMER_INPUT_CAPTURE:
             return CYHAL_TCPWM_INPUT_CAPTURE;
+        default:
+            CY_ASSERT(false);
+            return (cyhal_tcpwm_input_t)0;
     }
-    CY_ASSERT(false);
-    return (cyhal_tcpwm_input_t)0;
 }
 
 static cyhal_tcpwm_output_t _cyhal_timer_translate_output_signal(cyhal_timer_output_t signal)
@@ -265,15 +294,16 @@ static cyhal_tcpwm_output_t _cyhal_timer_translate_output_signal(cyhal_timer_out
             return CYHAL_TCPWM_OUTPUT_COMPARE_MATCH;
         case CYHAL_TIMER_OUTPUT_TERMINAL_COUNT:
             return CYHAL_TCPWM_OUTPUT_TERMINAL_COUNT;
+        default:
+            CY_ASSERT(false);
+            return (cyhal_tcpwm_output_t)0;
     }
-    CY_ASSERT(false);
-    return (cyhal_tcpwm_output_t)0;
 }
 
-cy_rslt_t cyhal_timer_connect_digital(cyhal_timer_t *obj, cyhal_source_t source, cyhal_timer_input_t signal, cyhal_edge_type_t type)
+cy_rslt_t cyhal_timer_connect_digital(cyhal_timer_t *obj, cyhal_source_t source, cyhal_timer_input_t signal)
 {
     cyhal_tcpwm_input_t tcpwm_signal = _cyhal_timer_translate_input_signal(signal);
-    return _cyhal_tcpwm_connect_digital(&(obj->tcpwm), source, tcpwm_signal, type);
+    return _cyhal_tcpwm_connect_digital(&(obj->tcpwm), source, tcpwm_signal);
 }
 
 cy_rslt_t cyhal_timer_enable_output(cyhal_timer_t *obj, cyhal_timer_output_t signal, cyhal_source_t *source)
@@ -296,4 +326,4 @@ cy_rslt_t cyhal_timer_disable_output(cyhal_timer_t *obj, cyhal_timer_output_t si
 }
 #endif
 
-#endif /* defined(CY_IP_MXTCPWM_INSTANCES) */
+#endif /* CYHAL_DRIVER_AVAILABLE_TIMER */

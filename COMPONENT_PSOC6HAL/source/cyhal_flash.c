@@ -2,12 +2,14 @@
 * \file cyhal_flash.c
 *
 * Description:
-* Provides a high level interface for interacting with the Cypress Flash. This
+* Provides a high level interface for interacting with the Infineon Flash. This
 * is wrapper around the lower level PDL API.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,6 +32,8 @@
 #include "cyhal_syspm.h"
 #include <string.h>
 
+#if (CYHAL_DRIVER_AVAILABLE_FLASH)
+
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
@@ -40,8 +44,6 @@ extern "C" {
 #else
 #define _CYHAL_FLASH_SUPPORTED      0
 #endif
-
-#if (_CYHAL_FLASH_SUPPORTED)
 
 typedef cy_en_flashdrv_status_t (*_cyhal_flash_operation)(uint32_t rowAddr, const uint32_t* data);
 
@@ -75,7 +77,6 @@ static const cyhal_flash_block_info_t _CYHAL_FLASH_BLOCKS[_CYHAL_INTERNAL_MEMORY
 #endif
 };
 
-static uint8_t _cyhal_flash_write_buf[CY_FLASH_SIZEOF_ROW];
 static bool _cyhal_flash_pending_pm_change = false;
 
 static uint16_t _cyhal_flash_init_count = 0;
@@ -155,18 +156,9 @@ static cy_rslt_t _cyhal_flash_run_operation(
         status = CYHAL_SYSPM_RSLT_ERR_PM_PENDING;
     else
     {
-        const uint32_t* buffer;
-        if (_cyhal_flash_is_sram_address((uint32_t)data))
-        {
-            buffer = data;
-        }
-        else
-        {
-            memcpy(_cyhal_flash_write_buf, (const void *)data, CY_FLASH_SIZEOF_ROW);
-            buffer = (const uint32_t*)_cyhal_flash_write_buf;
-        }
-
-        status = (cy_rslt_t)_cyhal_flash_convert_status((cy_rslt_t)operation(address, buffer));
+        status = (_cyhal_flash_is_sram_address((uint32_t)data))
+            ? (cy_rslt_t)_cyhal_flash_convert_status((cy_rslt_t)operation(address, data))
+            : CYHAL_FLASH_RSLT_ERR_ADDRESS;
         if (clearCache)
         {
             Cy_SysLib_ClearFlashCacheAndBuffer();
@@ -176,13 +168,11 @@ static cy_rslt_t _cyhal_flash_run_operation(
     return status;
 }
 
-#endif /* (_CYHAL_FLASH_SUPPORTED) */
-
 cy_rslt_t cyhal_flash_init(cyhal_flash_t *obj)
 {
     CY_UNUSED_PARAMETER(obj);
     CY_ASSERT(NULL != obj);
-#if (_CYHAL_FLASH_SUPPORTED)
+
 #if defined(CY_IP_S8SRSSLT) && CY_FLASH_NON_BLOCKING_SUPPORTED
     /* Configure Flash interrupt */
     cy_stc_sysint_t irqCfg = {cpuss_interrupt_spcif_IRQn, 0u};
@@ -193,16 +183,12 @@ cy_rslt_t cyhal_flash_init(cyhal_flash_t *obj)
         _cyhal_syspm_register_peripheral_callback(&_cyhal_flash_internal_pm_cb);
     _cyhal_flash_init_count++;
     return CY_RSLT_SUCCESS;
-#else
-    return CYHAL_FLASH_RSLT_ERR_NOT_SUPPORTED;
-#endif
 }
 
 void cyhal_flash_free(cyhal_flash_t *obj)
 {
     CY_UNUSED_PARAMETER(obj);
     CY_ASSERT(NULL != obj);
-#if (_CYHAL_FLASH_SUPPORTED)
 #if defined(CY_IP_S8SRSSLT) && CY_FLASH_NON_BLOCKING_SUPPORTED
     NVIC_DisableIRQ(cpuss_interrupt_spcif_IRQn);
 #endif
@@ -210,7 +196,6 @@ void cyhal_flash_free(cyhal_flash_t *obj)
     _cyhal_flash_init_count--;
     if(_cyhal_flash_init_count == 0)
         _cyhal_syspm_unregister_peripheral_callback(&_cyhal_flash_internal_pm_cb);
-#endif
 }
 
 void cyhal_flash_get_info(const cyhal_flash_t *obj, cyhal_flash_info_t *info)
@@ -218,29 +203,21 @@ void cyhal_flash_get_info(const cyhal_flash_t *obj, cyhal_flash_info_t *info)
     CY_UNUSED_PARAMETER(obj);
     CY_ASSERT(NULL != obj);
 
-#if (_CYHAL_FLASH_SUPPORTED)
     info->block_count = _CYHAL_INTERNAL_MEMORY_BLOCKS;
     info->blocks = &_CYHAL_FLASH_BLOCKS[0];
-#else
-    info->block_count = 0;
-    info->blocks = NULL;
-#endif
 }
 
 cy_rslt_t cyhal_flash_read(cyhal_flash_t *obj, uint32_t address, uint8_t *data, size_t size)
 {
     CY_UNUSED_PARAMETER(obj);
     CY_ASSERT(NULL != obj);
-#if (_CYHAL_FLASH_SUPPORTED)
+
     if (!_cyhal_flash_is_flash_address(address) || !_cyhal_flash_is_flash_address(address + size - 1))
     {
         return CYHAL_FLASH_RSLT_ERR_ADDRESS;
     }
     memcpy(data, (void *)address, size);
     return CY_RSLT_SUCCESS;
-#else
-    return CYHAL_FLASH_RSLT_ERR_NOT_SUPPORTED;
-#endif
 }
 
 cy_rslt_t cyhal_flash_erase(cyhal_flash_t *obj, uint32_t address)
@@ -269,15 +246,11 @@ cy_rslt_t cyhal_flash_write(cyhal_flash_t *obj, uint32_t address, const uint32_t
     CY_UNUSED_PARAMETER(obj);
     CY_ASSERT(NULL != obj);
 
-#if (_CYHAL_FLASH_SUPPORTED)
     cy_rslt_t status = _cyhal_flash_is_flash_address(address)
         ? _cyhal_flash_run_operation(Cy_Flash_WriteRow, address, data, true)
         : CYHAL_FLASH_RSLT_ERR_ADDRESS;
 
     return (status);
-#else
-    return CYHAL_FLASH_RSLT_ERR_NOT_SUPPORTED;
-#endif
 }
 
 cy_rslt_t cyhal_flash_program(cyhal_flash_t *obj, uint32_t address, const uint32_t *data)
@@ -369,3 +342,5 @@ bool cyhal_flash_is_operation_complete(cyhal_flash_t *obj)
 #if defined(__cplusplus)
 }
 #endif /* __cplusplus */
+
+#endif /* (_CYHAL_FLASH_SUPPORTED) */

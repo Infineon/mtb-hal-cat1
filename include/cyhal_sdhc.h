@@ -2,14 +2,16 @@
 * \file cyhal_sdhc.h
 *
 * \brief
-* Provides a high level interface for interacting with the Cypress SDHC.
+* Provides a high level interface for interacting with the Infineon SDHC.
 * This interface abstracts out the chip specific details. If any chip specific
 * functionality is necessary, or performance is critical the low level functions
 * can be used directly.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -85,28 +87,31 @@ extern "C" {
 
 /** Pin related Error. */
 #define CYHAL_SDHC_RSLT_ERR_PIN                         \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SDHC, 0))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SDHC, 0))
 /** Requested feature is not supported on this hardware. */
 #define CYHAL_SDHC_RSLT_ERR_UNSUPPORTED                 \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SDHC, 1))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SDHC, 1))
 /** Timeout during waiting for erase complete. */
 #define CYHAL_SDHC_RSLT_ERR_ERASE_CMPLT_TIMEOUT         \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SDHC, 2))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SDHC, 2))
 /** Block count cannot be retrieved. */
 #define CYHAL_SDHC_RSLT_ERR_BLOCK_COUNT_GET_FAILURE     \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SDHC, 3))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SDHC, 3))
 /** Cannot set desired SD bus frequency. */
 #define CYHAL_SDHC_RSLT_ERR_SET_FREQ                    \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SDHC, 4))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SDHC, 4))
 /** Incorrect function parameter. */
 #define CYHAL_SDHC_RSLT_ERR_WRONG_PARAM                 \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SDHC, 5))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SDHC, 5))
 /** Error occured during I/O voltage switch sequence. */
 #define CYHAL_SDHC_RSLT_ERR_IO_VOLT_SWITCH_SEQ          \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SDHC, 6))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SDHC, 6))
 /** Cannot configure data timeout. */
 #define CYHAL_SDHC_RSLT_ERR_TOUT_CFG                    \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SDHC, 7))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SDHC, 7))
+/** Cannot make changes in user provided clock configuration or provided clock is incorrect. */
+#define CYHAL_SDHC_RSLT_ERR_CLOCK                       \
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SDHC, 8))
 
 /**
  * \}
@@ -328,6 +333,7 @@ typedef struct
  *  This pin can be NC.
  * @param[in]  led_ctrl             The pin connected to the led_ctrl signal. This pin can be NC.
  * @param[in]  emmc_reset           The pin connected to the emmc_reset signal. This pin can be NC.
+ * @param[in]  block_clk            The clock to use can be shared, if not provided a new clock will be allocated
  * @return The status of the init request
  *
  */
@@ -348,7 +354,8 @@ cy_rslt_t cyhal_sdhc_init_hw(cyhal_sdhc_t *obj,
                         cyhal_gpio_t card_pwr_en,
                         cyhal_gpio_t card_mech_write_prot,
                         cyhal_gpio_t led_ctrl,
-                        cyhal_gpio_t emmc_reset);
+                        cyhal_gpio_t emmc_reset,
+                        cyhal_clock_t *block_clk);
 
 /** Initialize the connected card.
  * \note This function should be called after \ref cyhal_sdhc_init_hw
@@ -381,6 +388,7 @@ cy_rslt_t cyhal_sdhc_init_card(cyhal_sdhc_t *obj);
  * @param[in]  card_mech_write_prot The pin connected to the card_mech_write_prot signal
  * @param[in]  led_ctrl             The pin connected to the led_ctrl signal
  * @param[in]  emmc_reset           The pin connected to the emmc_reset signal
+ * @param[in]  block_clk            The clock to use can be shared, if not provided a new clock will be allocated
  * @return The status of the init request
  *
  */
@@ -401,7 +409,8 @@ cy_rslt_t cyhal_sdhc_init(cyhal_sdhc_t *obj,
                           cyhal_gpio_t card_pwr_en,
                           cyhal_gpio_t card_mech_write_prot,
                           cyhal_gpio_t led_ctrl,
-                          cyhal_gpio_t emmc_reset);
+                          cyhal_gpio_t emmc_reset,
+                          cyhal_clock_t *block_clk);
 
 /** Release the SDHC peripheral, not currently invoked. It requires further
  *  resource management.
@@ -424,7 +433,7 @@ void cyhal_sdhc_free(cyhal_sdhc_t *obj);
  * @param[in,out] length            Number of 512 byte blocks to read, updated with the number actually read
  * @return The status of the read request
  */
-cy_rslt_t cyhal_sdhc_read(const cyhal_sdhc_t *obj, uint32_t address, uint8_t *data, size_t *length);
+cy_rslt_t cyhal_sdhc_read(cyhal_sdhc_t *obj, uint32_t address, uint8_t *data, size_t *length);
 
 /** Attempts to write data synchronously over SDHC peripheral
  *
@@ -441,17 +450,20 @@ cy_rslt_t cyhal_sdhc_read(const cyhal_sdhc_t *obj, uint32_t address, uint8_t *da
  * @return The status of the write request
  *
  */
-cy_rslt_t cyhal_sdhc_write(const cyhal_sdhc_t *obj, uint32_t address, const uint8_t *data, size_t *length);
+cy_rslt_t cyhal_sdhc_write(cyhal_sdhc_t *obj, uint32_t address, const uint8_t *data, size_t *length);
 
 /** Erases a block of data over the SDHC peripheral
  *
  * @param[in] obj                   The SDHC object
  * @param[in] start_addr            Is the address of the first byte to erase
  * @param[in] length                Number of 512 byte blocks (starting at start_addr) to erase
+ * @param[in] timeout_ms            Timeout value in ms for waiting/polling operations. If zero is provided
+ * for this parameter the default value will be used. See implementation specific 
+ * documentation for timeout details.
  * @return The status of the erase request
  *
  */
-cy_rslt_t cyhal_sdhc_erase(const cyhal_sdhc_t *obj, uint32_t start_addr, size_t length);
+cy_rslt_t cyhal_sdhc_erase(cyhal_sdhc_t *obj, uint32_t start_addr, size_t length, uint32_t timeout_ms);
 
 /** Start SDHC asynchronous read
  *
@@ -465,7 +477,7 @@ cy_rslt_t cyhal_sdhc_erase(const cyhal_sdhc_t *obj, uint32_t start_addr, size_t 
  * @param[in,out] length            Number of 512 byte blocks to read, updated with the number actually read
  * @return The status of the read_async request
  */
-cy_rslt_t cyhal_sdhc_read_async(const cyhal_sdhc_t *obj, uint32_t address, uint8_t *data, size_t *length);
+cy_rslt_t cyhal_sdhc_read_async(cyhal_sdhc_t *obj, uint32_t address, uint8_t *data, size_t *length);
 
 /** Start asynchronous SDHC write
  *
@@ -479,7 +491,7 @@ cy_rslt_t cyhal_sdhc_read_async(const cyhal_sdhc_t *obj, uint32_t address, uint8
  * @param[in,out] length            The number of 512 byte blocks to write, updated with the number actually written
  * @return The status of the write_async request
  */
-cy_rslt_t cyhal_sdhc_write_async(const cyhal_sdhc_t *obj, uint32_t address, const uint8_t *data, size_t *length);
+cy_rslt_t cyhal_sdhc_write_async(cyhal_sdhc_t *obj, uint32_t address, const uint8_t *data, size_t *length);
 
 /** Checks if the specified SDHC peripheral is in use
  *
@@ -493,7 +505,7 @@ bool cyhal_sdhc_is_busy(const cyhal_sdhc_t *obj);
  * @param[in] obj                   The SDHC peripheral to stop
  * @return The status of the abort_async request
  */
-cy_rslt_t cyhal_sdhc_abort_async(const cyhal_sdhc_t *obj);
+cy_rslt_t cyhal_sdhc_abort_async(cyhal_sdhc_t *obj);
 
 /** Register an SDHC callback handler
  *
@@ -681,6 +693,14 @@ void cyhal_sdhc_software_reset(cyhal_sdhc_t *obj);
  * @return The status of the operation
  */
 cy_rslt_t cyhal_sdhc_enable_card_power(cyhal_sdhc_t *obj, bool enable);
+
+/** Initialize the SDHC peripheral using a configurator generated configuration struct.
+ *
+ * @param[in]  obj                  The SDHC peripheral to configure
+ * @param[in]  cfg                  Configuration structure generated by a configurator.
+ * @return The status of the operation
+ */
+cy_rslt_t cyhal_sdhc_init_cfg(cyhal_sdhc_t *obj, const cyhal_sdhc_configurator_t *cfg);
 
 #if defined(__cplusplus)
 }

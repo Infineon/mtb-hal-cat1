@@ -7,7 +7,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,9 +32,29 @@
 #include "cyhal_general_types.h"
 #include "cyhal_gpio.h"
 
-#if defined(CY_IP_MXS40PASS_CTB_INSTANCES) && (CY_IP_MXS40PASS_CTB_INSTANCES > 0)
+#if (_CYHAL_DRIVER_AVAILABLE_COMP_CTB)
 #include "cy_ctb.h"
+
+#if defined(CY_IP_MXS40PASS_CTB_INSTANCES)
+    #define _CYHAL_CTB_INSTANCES                CY_IP_MXS40PASS_CTB_INSTANCES
+    #define _CYHAL_CTB_SW_OPEN                  CY_CTB_SWITCH_OPEN
+    #define _CYHAL_CTB_SW_CLOSE                 CY_CTB_SWITCH_CLOSE
+    #define _CYHAL_CTB_PUMP_ENABLE              CY_CTB_PUMP_ENABLE
+    #define _CYHAL_COMP_CTB_DEFAULT_BYPASS      CY_CTB_COMP_BYPASS_NO_SYNC
+    #define _CYHAL_COMP_CTB_HIST(hysteresis)    ((hysteresis) ? CY_CTB_COMP_HYST_10MV : CY_CTB_COMP_HYST_DISABLE)
+#elif defined(CY_IP_M0S8PASS4A_CTB_INSTANCES)
+    #define _CYHAL_CTB_INSTANCES                CY_IP_M0S8PASS4A_CTB_INSTANCES
+    #define _CYHAL_CTB_SW_OPEN                  false
+    #define _CYHAL_CTB_SW_CLOSE                 true
+    #define _CYHAL_CTB_PUMP_ENABLE              true
+    #define _CYHAL_COMP_CTB_DEFAULT_BYPASS      false
+    #define _CYHAL_COMP_CTB_HIST(hysteresis)    (hysteresis)
+#else
+    #error Unhandled PASS IP Block
 #endif
+#endif
+
+#if (_CYHAL_DRIVER_AVAILABLE_PASS)
 
 #if defined(__cplusplus)
 extern "C" {
@@ -50,9 +72,7 @@ void _cyhal_analog_init(void);
  */
 void _cyhal_analog_free(void);
 
-#if defined(CY_IP_MXS40PASS_CTB_INSTANCES) && (CY_IP_MXS40PASS_CTB_INSTANCES > 0)
-
-#define _CYHAL_OPAMP_PER_CTB (2u)
+#if (_CYHAL_DRIVER_AVAILABLE_COMP_CTB)
 
 /**
  * Initialize the programmable analog for CTB. This utilizes reference counting to avoid
@@ -110,8 +130,9 @@ cy_rslt_t _cyhal_opamp_init_common(cyhal_resource_inst_t* rsc, cy_rslt_t bad_arg
   */
 uint32_t _cyhal_opamp_convert_power(cyhal_power_level_t hal_power);
 
+#if defined(COMPONENT_CAT1)
 /**
-  * Converts an opamp number into a PDL-level `cy_en_ctb_opamp_sel` value.
+  * Converts an opamp number into a PDL-level `cy_en_ctb_switch_register_sel_t` value.
   *
   * @param[in] oa_num the opamp number within its CTB(m)
   * @return the PDL-level `cy_en_ctb_switch_register_sel_t` value.
@@ -121,6 +142,19 @@ __STATIC_INLINE cy_en_ctb_switch_register_sel_t _cyhal_opamp_convert_switch(uint
     CY_ASSERT(oa_num < 2);
     return (oa_num == 0) ? CY_CTB_SWITCH_OA0_SW : CY_CTB_SWITCH_OA1_SW;
 }
+#else
+/**
+  * Converts an opamp number into a PDL-level `cy_en_ctb_opamp_sel_t` value.
+  *
+  * @param[in] oa_num the opamp number within its CTB(m)
+  * @return the PDL-level `cy_en_ctb_switch_register_sel_t` value.
+  */
+__STATIC_INLINE cy_en_ctb_opamp_sel_t _cyhal_opamp_convert_switch(uint8_t oa_num)
+{
+    CY_ASSERT(oa_num < 2);
+    return (oa_num == 0) ? CY_CTB_OPAMP_0 : CY_CTB_OPAMP_1;
+}
+#endif
 
 /**
   * Converts an opamp number into a PDL-level `cy_en_ctb_opamp_sel` value.
@@ -138,20 +172,30 @@ __STATIC_INLINE cy_en_ctb_opamp_sel_t _cyhal_opamp_convert_sel(uint8_t oa_num)
  * Opens or closes the isolation switch if an opamp requires it
  *
  * @param[in] oa_num The opamp number within its CTB(m)
- * @param[in] state  Whether to open or close the switch
+ * @param[in] close  Whether to close (true) or open (false) the switch
  */
-__STATIC_INLINE void _cyhal_opamp_set_isolation_switch(uint8_t oa_num, CTBM_Type *base, cy_en_ctb_switch_state_t state)
+__STATIC_INLINE void _cyhal_opamp_set_isolation_switch(uint8_t oa_num, CTBM_Type *base, bool close)
 {
+#if defined(COMPONENT_CAT1)
     if(0u == oa_num)
     {
         // OA0 has an additional isolation switch (CIS) on its vplus line
-        Cy_CTB_SetAnalogSwitch(base, CY_CTB_SWITCH_CTD_SW, CY_CTB_SW_CTD_CHOLD_OA0_POS_ISOLATE_MASK, state);
+        Cy_CTB_SetAnalogSwitch(base, CY_CTB_SWITCH_CTD_SW, CY_CTB_SW_CTD_CHOLD_OA0_POS_ISOLATE_MASK,
+            close ? CY_CTB_SWITCH_CLOSE : CY_CTB_SWITCH_OPEN);
     }
+#else
+    // These devices don't have the isolation switch
+    CY_UNUSED_PARAMETER(oa_num);
+    CY_UNUSED_PARAMETER(base);
+    CY_UNUSED_PARAMETER(close);
+#endif
 }
 
 
-#endif
+#endif // _CYHAL_DRIVER_AVAILABLE_COMP_CTB
 
 #if defined(__cplusplus)
 }
 #endif
+
+#endif // _CYHAL_DRIVER_AVAILABLE_PASS

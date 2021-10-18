@@ -2,14 +2,16 @@
 * \file cyhal_dac.c
 *
 * \brief
-* Provides a high level interface for interacting with the Cypress Digital/Analog converter.
+* Provides a high level interface for interacting with the Infineon Digital/Analog converter.
 * This interface abstracts out the chip specific details. If any chip specific
 * functionality is necessary, or performance is critical the low level functions
 * can be used directly.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,6 +29,7 @@
 
 #include <limits.h>
 #include <math.h>
+#include <string.h> // For memset
 
 #include "cyhal_analog_common.h"
 #include "cyhal_dac.h"
@@ -37,7 +40,7 @@
 #include "cy_pdl.h"
 
 /**
-* \addtogroup group_hal_impl_dac DAC
+* \addtogroup group_hal_impl_dac DAC (Digital to Analog Converter)
 * \ingroup group_hal_impl
 *
 * \section group_hal_impl_dac_power Power Level Mapping
@@ -56,10 +59,20 @@
 * If AREF voltage reference source is selected cyhal_dac takes care of reserving and configuring the opamp (OA1).
 * By default cyhal_dac use VDDA voltage reference source. Use @ref cyhal_dac_set_reference() to change
 * between @ref CYHAL_DAC_REF_VDDA and @ref CYHAL_DAC_REF_VREF voltage reference sources.
+*
+* \note When initializing the DAC via @ref cyhal_dac_init_cfg, if opamps are required (either for buffered output
+* or for buffering the AREF output when @ref CYHAL_DAC_REF_VREF is used) then they must be separately configured
+* via @ref cyhal_opamp_init_cfg before the DAC is initialized. However, once the DAC is initialized, the
+* @ref cyhal_dac_set_power function will update the power mode for the opamp(s) in the same manner that it
+* does for DAC instances initialized via @ref cyhal_dac_init.
+* \note When the DAC has been initialized via @ref cyhal_dac_init_cfg, the @ref cyhal_dac_set_reference function
+* is not supported and will return @ref CYHAL_DAC_RSLT_INVALID_CONFIGURATOR. This is because the @ref
+* cyhal_dac_set_reference function needs to manipulate the configuration and routing for OA1, and in this scenario
+* that configuration and routing is owned by the configurator.
 */
 
 
-#if defined(CY_IP_MXS40PASS_CTDAC_INSTANCES)
+#if (CYHAL_DRIVER_AVAILABLE_DAC)
 
 #if defined(__cplusplus)
 extern "C"
@@ -114,26 +127,26 @@ static const cy_stc_ctb_opamp_config_t cyhal_opamp_default_config =
     .oaCompHyst   = CY_CTB_COMP_HYST_DISABLE,
     .oaCompIntrEn = true,
 };
+
+/* We can safely assume these indices even if we're owned by a configurator, because
+ * the hardware does not support any other connections to the vout and ref in terminals */
+static const uint8_t OPAMP_IDX_OUTPUT = 0;
+static const uint8_t OPAMP_IDX_REF    = 1;
 #endif
 
-static void _cyhal_dac_unbuffered_set_power(cyhal_dac_t *obj, cyhal_power_level_t hal_power)
+#if defined(CY_IP_MXS40PASS_CTB)
+static bool _cyhal_dac_is_output_buffered(const cyhal_dac_t *obj)
 {
-    switch(hal_power)
-        {
-            case CYHAL_POWER_LEVEL_OFF:
-                Cy_CTDAC_Disable(obj->base_dac);
-                break;
-            case CYHAL_POWER_LEVEL_LOW:
-            case CYHAL_POWER_LEVEL_MEDIUM:
-            case CYHAL_POWER_LEVEL_HIGH:
-            case CYHAL_POWER_LEVEL_DEFAULT:
-                Cy_CTDAC_Enable(obj->base_dac);
-                break;
-            default:
-                CY_ASSERT(false);
-                Cy_CTDAC_Disable(obj->base_dac);
-                break;
-        }
+    /* C06 enables the voutsw terminal on the CTDAC block, which is hard-wired to a pin */
+    return (0u == (obj->base_dac->CTDAC_SW & CTDAC_CTDAC_SW_CTDO_CO6_Msk));
+}
+#endif /* defined(CY_IP_MXS40PASS_CTB) */
+
+static bool _cyhal_dac_is_external_reference(const cyhal_dac_t *obj)
+{
+    /* CVD connects the DAC reference input to VDDA. It will be opened if the DAC is driven
+     * by an external reference (buffered through OA1) instead */
+    return (0u == (obj->base_dac->CTDAC_SW & CTDAC_CTDAC_SW_CTDD_CVD_Msk));
 }
 
 static uint32_t _cyhal_dac_convert_reference(cyhal_dac_ref_t ref)
@@ -151,9 +164,10 @@ static uint32_t _cyhal_dac_convert_reference(cyhal_dac_ref_t ref)
 }
 
 #if defined(CY_IP_MXS40PASS_CTB)
-static uint32_t _cyhal_dac_configure_oa0(cyhal_dac_t *obj, bool init)
+static cy_rslt_t _cyhal_dac_configure_oa0(cyhal_dac_t *obj, bool init)
 {
     cy_rslt_t result = CY_RSLT_SUCCESS;
+    CY_ASSERT(false == obj->owned_by_configurator);
     if (init && (CYHAL_RSC_INVALID != obj->resource_opamp.type))
     {
         /* Configure OA0 for buffered output */
@@ -175,9 +189,11 @@ static uint32_t _cyhal_dac_configure_oa0(cyhal_dac_t *obj, bool init)
     return result;
 }
 
-static uint32_t _cyhal_dac_configure_oa1(cyhal_dac_t *obj, bool init)
+static cy_rslt_t _cyhal_dac_configure_oa1(cyhal_dac_t *obj, bool init)
 {
     cy_rslt_t result = CY_RSLT_SUCCESS;
+    CY_ASSERT(false == obj->owned_by_configurator);
+
     if (init && (CYHAL_RSC_INVALID != obj->resource_aref_opamp.type))
     {
         /* Configure OA1 for buffered (AREF) voltage reference source */
@@ -200,20 +216,42 @@ static uint32_t _cyhal_dac_configure_oa1(cyhal_dac_t *obj, bool init)
 /*******************************************************************************
 *       DAC HAL Functions
 *******************************************************************************/
+cy_rslt_t _cyhal_dac_init_hw(cyhal_dac_t *obj, const cy_stc_ctdac_config_t *config)
+{
+    obj->base_dac = _cyhal_dac_base[obj->resource_dac.block_num];
+    #if (_CYHAL_DRIVER_AVAILABLE_COMP_CTB)
+    obj->base_opamp = _cyhal_ctb_base[obj->resource_dac.block_num];
+    #endif // _CYHAL_DRIVER_AVAILABLE_COMP_CTB
+    cy_rslt_t result = (cy_rslt_t)Cy_CTDAC_Init(obj->base_dac, config);
+
+    /* We deliberately don't initialize the opamp(s), if any, here. In the configurator
+     * flow, these are initialized by the application via separate calls to
+     * cyhal_opamp_init_cfg */
+
+    if (CY_RSLT_SUCCESS == result)
+    {
+        _cyhal_analog_init();
+        Cy_CTDAC_Enable(obj->base_dac);
+    }
+
+    return result;
+}
+
 cy_rslt_t cyhal_dac_init(cyhal_dac_t *obj, cyhal_gpio_t pin)
 {
     CY_ASSERT(NULL != obj);
 
     /* Initial values */
     cy_rslt_t result = CY_RSLT_SUCCESS;
+    memset(obj, 0, sizeof(cyhal_dac_t));
     obj->resource_dac.type = CYHAL_RSC_INVALID;
     obj->resource_opamp.type = CYHAL_RSC_INVALID;
     obj->pin = CYHAL_NC_PIN_VALUE;
     obj->resource_aref_opamp.type = CYHAL_RSC_INVALID;
 
-    const cyhal_resource_pin_mapping_t *opamp_map=NULL;
+    const cyhal_resource_pin_mapping_t *opamp_map = NULL;
 
-    #ifdef CYHAL_PIN_MAP_DAC_CTDAC_VOUTSW
+    #ifdef CYHAL_PIN_MAP_DRIVE_MODE_DAC_CTDAC_VOUTSW
     const cyhal_resource_pin_mapping_t *dac_map = _CYHAL_UTILS_GET_RESOURCE(pin, cyhal_pin_map_dac_ctdac_voutsw);
     #else
     const cyhal_resource_pin_mapping_t *dac_map = NULL;
@@ -221,7 +259,7 @@ cy_rslt_t cyhal_dac_init(cyhal_dac_t *obj, cyhal_gpio_t pin)
     if (NULL == dac_map)
     {
         /* Try to get buffered output pin if unbuffered is not specified.  */
-        #ifdef CYHAL_PIN_MAP_OPAMP_OUT_10X
+        #ifdef CYHAL_PIN_MAP_DRIVE_MODE_OPAMP_OUT_10X
         opamp_map = _CYHAL_UTILS_GET_RESOURCE(pin, cyhal_pin_map_opamp_out_10x);
         #endif
     }
@@ -234,7 +272,7 @@ cy_rslt_t cyhal_dac_init(cyhal_dac_t *obj, cyhal_gpio_t pin)
 
 #if defined(CY_IP_MXS40PASS_CTB)
     /* Verify if opamp instance 0 is selected, buffered output can be connected to OA0 */
-    if ((NULL != opamp_map) && (0 != (opamp_map->inst->block_num % _CYHAL_OPAMP_PER_CTB)))
+    if ((NULL != opamp_map) && (OPAMP_IDX_OUTPUT != (opamp_map->channel_num)))
     {
         result = CYHAL_DAC_RSLT_BAD_ARGUMENT;
     }
@@ -247,12 +285,13 @@ cy_rslt_t cyhal_dac_init(cyhal_dac_t *obj, cyhal_gpio_t pin)
     if (NULL != opamp_map)
     {
         dac_instance.type = CYHAL_RSC_DAC;
-        dac_instance.block_num = opamp_map->inst->block_num % _CYHAL_OPAMP_PER_CTB;
+        dac_instance.block_num = opamp_map->block_num;
+        dac_instance.channel_num = 0;
     }
     else if (CY_RSLT_SUCCESS == result)
     {
 #endif
-        dac_instance = *dac_map->inst;
+        _CYHAL_UTILS_ASSIGN_RESOURCE(dac_instance, CYHAL_RSC_DAC, dac_map);
 #if defined(CY_IP_MXS40PASS_CTB)
     }
 #endif
@@ -269,7 +308,7 @@ cy_rslt_t cyhal_dac_init(cyhal_dac_t *obj, cyhal_gpio_t pin)
 
     if ((NULL != opamp_map) && (CY_RSLT_SUCCESS == result))
     {
-        opamp_instance = *opamp_map->inst;
+        _CYHAL_UTILS_ASSIGN_RESOURCE(opamp_instance, CYHAL_RSC_OPAMP, opamp_map);
         result = cyhal_hwmgr_reserve(&opamp_instance);
         if (CY_RSLT_SUCCESS == result)
         {
@@ -279,23 +318,18 @@ cy_rslt_t cyhal_dac_init(cyhal_dac_t *obj, cyhal_gpio_t pin)
 
     if (CY_RSLT_SUCCESS == result)
     {
-        obj->base_dac = _cyhal_dac_base[dac_instance.block_num];
-#if defined(CY_IP_MXS40PASS_CTB)
-        obj->base_opamp = _cyhal_ctb_base[dac_instance.block_num];
-#endif
-
+#if defined(CYHAL_PIN_MAP_DRIVE_MODE_DAC_CTDAC_VOUTSW)
         if (NULL != dac_map)
         {
-            result = _cyhal_utils_reserve_and_connect(pin, dac_map);
+            result = _cyhal_utils_reserve_and_connect(dac_map, CYHAL_PIN_MAP_DRIVE_MODE_DAC_CTDAC_VOUTSW);
         }
-        else if (NULL != opamp_map)
+#endif
+#if defined(CYHAL_PIN_MAP_DRIVE_MODE_OPAMP_OUT_10X)
+        if (NULL != opamp_map)
         {
-            result = _cyhal_utils_reserve_and_connect(pin, opamp_map);
+            result = _cyhal_utils_reserve_and_connect(opamp_map, CYHAL_PIN_MAP_DRIVE_MODE_OPAMP_OUT_10X);
         }
-        else
-        {
-            result =  CYHAL_DAC_RSLT_BAD_ARGUMENT;
-        }
+#endif
 
         if (CY_RSLT_SUCCESS == result)
         {
@@ -308,29 +342,37 @@ cy_rslt_t cyhal_dac_init(cyhal_dac_t *obj, cyhal_gpio_t pin)
         /* Verify is output buffered or not */
         cy_stc_ctdac_config_t config = _CYHAL_DAC_DEFAULT_CONFIG;
         config.outputBuffer = (obj->resource_opamp.type != CYHAL_RSC_INVALID) ? CY_CTDAC_OUTPUT_BUFFERED : CY_CTDAC_OUTPUT_UNBUFFERED;
-        result = (cy_rslt_t)Cy_CTDAC_Init(obj->base_dac, &config);
+        result = _cyhal_dac_init_hw(obj, &config);
     }
 
 #if defined(CY_IP_MXS40PASS_CTB)
     if ((CY_RSLT_SUCCESS == result) && (obj->resource_opamp.type != CYHAL_RSC_INVALID))
     {
-        /* Init OA0 is for buffered output, don't touch OA1 im may be used by opamp or comp */
+        /* Init OA0 for buffered output, don't touch OA1 it may be used by opamp or comp */
         result = _cyhal_dac_configure_oa0(obj, true);
     }
 #endif
 
-    if (CY_RSLT_SUCCESS == result)
-    {
-        _cyhal_analog_init();
-    }
-
-    if (result == CY_RSLT_SUCCESS)
-    {
-        Cy_CTDAC_Enable(obj->base_dac);
-    }
-    else
+    if(CY_RSLT_SUCCESS != result)
     {
         /* Freeup resources in case of failure */
+        cyhal_dac_free(obj);
+    }
+    return result;
+}
+
+ cy_rslt_t cyhal_dac_init_cfg(cyhal_dac_t *obj, const cyhal_dac_configurator_t *cfg)
+ {
+    memset(obj, 0, sizeof(cyhal_dac_t));
+    obj->owned_by_configurator = true;
+    obj->resource_dac = *cfg->resource;
+    obj->resource_opamp.type = CYHAL_RSC_INVALID;
+    obj->resource_aref_opamp.type = CYHAL_RSC_INVALID;
+    obj->pin = CYHAL_NC_PIN_VALUE;
+    cy_rslt_t result = _cyhal_dac_init_hw(obj, cfg->config);
+
+    if(CY_RSLT_SUCCESS != result)
+    {
         cyhal_dac_free(obj);
     }
     return result;
@@ -342,17 +384,23 @@ void cyhal_dac_free(cyhal_dac_t *obj)
     {
 #if defined(CY_IP_MXS40PASS_CTB)
         /* Power off OA1 if used */
-        if (obj->resource_aref_opamp.type != CYHAL_RSC_INVALID)
+        if (_cyhal_dac_is_external_reference(obj))
         {
-            Cy_CTB_SetPower(obj->base_opamp, CY_CTB_OPAMP_1, (cy_en_ctb_power_t)_cyhal_opamp_convert_power(CYHAL_POWER_LEVEL_OFF), CY_CTB_PUMP_ENABLE);
-            (void)_cyhal_dac_configure_oa1(obj, false);
+            Cy_CTB_SetPower(obj->base_opamp, _cyhal_opamp_convert_sel(OPAMP_IDX_REF), (cy_en_ctb_power_t)_cyhal_opamp_convert_power(CYHAL_POWER_LEVEL_OFF), CY_CTB_PUMP_ENABLE);
+            if(false == obj->owned_by_configurator)
+            {
+                (void)_cyhal_dac_configure_oa1(obj, false);
+            }
         }
 
         /* Power off OA0 if used */
-        if (obj->resource_opamp.type != CYHAL_RSC_INVALID)
+        if (_cyhal_dac_is_output_buffered(obj))
         {
-            Cy_CTB_SetPower(obj->base_opamp, CY_CTB_OPAMP_0, (cy_en_ctb_power_t)_cyhal_opamp_convert_power(CYHAL_POWER_LEVEL_OFF), CY_CTB_PUMP_ENABLE);
-            (void)_cyhal_dac_configure_oa0(obj, false);
+            Cy_CTB_SetPower(obj->base_opamp, _cyhal_opamp_convert_sel(OPAMP_IDX_OUTPUT), (cy_en_ctb_power_t)_cyhal_opamp_convert_power(CYHAL_POWER_LEVEL_OFF), CY_CTB_PUMP_ENABLE);
+            if(false == obj->owned_by_configurator)
+            {
+                (void)_cyhal_dac_configure_oa0(obj, false);
+            }
         }
 #endif
 
@@ -360,17 +408,20 @@ void cyhal_dac_free(cyhal_dac_t *obj)
 
         Cy_CTDAC_Disable(obj->base_dac);
 
-        cyhal_hwmgr_free(&obj->resource_dac);
-        if(CYHAL_RSC_INVALID != obj->resource_opamp.type)
+        if(false == obj->owned_by_configurator)
         {
-            cyhal_hwmgr_free(&obj->resource_opamp);
-        }
-        if(CYHAL_RSC_INVALID != obj->resource_aref_opamp.type)
-        {
-            cyhal_hwmgr_free(&obj->resource_aref_opamp);
-        }
+            cyhal_hwmgr_free(&obj->resource_dac);
+            if(CYHAL_RSC_INVALID != obj->resource_opamp.type)
+            {
+                cyhal_hwmgr_free(&obj->resource_opamp);
+            }
+            if(CYHAL_RSC_INVALID != obj->resource_aref_opamp.type)
+            {
+                cyhal_hwmgr_free(&obj->resource_aref_opamp);
+            }
 
-        _cyhal_utils_release_if_used(&(obj->pin));
+            _cyhal_utils_release_if_used(&(obj->pin));
+        }
 
         obj->base_dac = NULL;
         obj->base_opamp = NULL;
@@ -388,7 +439,7 @@ cy_rslt_t cyhal_dac_write_mv(const cyhal_dac_t *obj, uint16_t value)
     cy_rslt_t result = CY_RSLT_SUCCESS;
     uint32_t reference_voltage_mv = 0;
 
-    if (obj->resource_aref_opamp.type == CYHAL_RSC_INVALID)
+    if (_cyhal_dac_is_external_reference(obj))
     {
         reference_voltage_mv = cyhal_syspm_get_supply_voltage(CYHAL_VOLTAGE_SUPPLY_VDDA);
 
@@ -423,49 +474,58 @@ cy_rslt_t cyhal_dac_set_reference(cyhal_dac_t *obj, cyhal_dac_ref_t ref)
 {
     cy_rslt_t result = CY_RSLT_SUCCESS;
 
-    if (CYHAL_DAC_REF_VDDA == ref)
+    if(false == obj->owned_by_configurator)
     {
+        if (CYHAL_DAC_REF_VDDA == ref)
+        {
 #if defined(CY_IP_MXS40PASS_CTB) /* If no opamps we just need to check that ref is VDDA, the only supported value */
-        /* Unreserve OA1, not needed for VDDA */
-        if (obj->resource_aref_opamp.type != CYHAL_RSC_INVALID)
-        {
-            cyhal_hwmgr_free(&obj->resource_aref_opamp);
-            obj->resource_aref_opamp.type = CYHAL_RSC_INVALID;
-
-            /* Freeup OA1. Not needed when VDDA reference is set  */
-            result = _cyhal_dac_configure_oa1(obj, false);
-        }
-    }
-    else if (CYHAL_DAC_REF_VREF == ref)
-    {
-        if (obj->resource_aref_opamp.type == CYHAL_RSC_INVALID)
-        {
-            /* Reserve OA1 to be able connect to AREF voltage source */
-            obj->resource_aref_opamp.type = CYHAL_RSC_OPAMP;
-            obj->resource_aref_opamp.block_num = (obj->resource_dac.block_num * _CYHAL_OPAMP_PER_CTB) + 1;
-            obj->resource_aref_opamp.channel_num = 0;
-
-            result = cyhal_hwmgr_reserve(&obj->resource_aref_opamp);
-            if (CY_RSLT_SUCCESS != result)
+            /* Unreserve OA1, not needed for VDDA */
+            if (obj->resource_aref_opamp.type != CYHAL_RSC_INVALID)
             {
+                cyhal_hwmgr_free(&obj->resource_aref_opamp);
                 obj->resource_aref_opamp.type = CYHAL_RSC_INVALID;
-            }
-            else
-            {
-                /* Init OA1 to be able connect to AREF voltage source. OA0 is untouched */
-                result = _cyhal_dac_configure_oa1(obj, true);
+
+                /* Freeup OA1. Not needed when VDDA reference is set  */
+                result = _cyhal_dac_configure_oa1(obj, false);
             }
         }
+        else if (CYHAL_DAC_REF_VREF == ref)
+        {
+            if (obj->resource_aref_opamp.type == CYHAL_RSC_INVALID)
+            {
+                /* Reserve OA1 to be able connect to AREF voltage source */
+                obj->resource_aref_opamp.type = CYHAL_RSC_OPAMP;
+                obj->resource_aref_opamp.block_num = obj->resource_dac.block_num;
+                obj->resource_aref_opamp.channel_num = OPAMP_IDX_REF;
+
+                result = cyhal_hwmgr_reserve(&obj->resource_aref_opamp);
+                if (CY_RSLT_SUCCESS != result)
+                {
+                    obj->resource_aref_opamp.type = CYHAL_RSC_INVALID;
+                }
+                else
+                {
+                    /* Init OA1 to be able connect to AREF voltage source. OA0 is untouched */
+                    result = _cyhal_dac_configure_oa1(obj, true);
+                }
+            }
 #endif
+        }
+        else
+        {
+            result = CYHAL_DAC_RSLT_BAD_REF_VOLTAGE;
+        }
+
+        if (result == CY_RSLT_SUCCESS)
+        {
+            Cy_CTDAC_SetRef(obj->base_dac, (cy_en_ctdac_ref_source_t)_cyhal_dac_convert_reference(ref));
+        }
     }
     else
     {
-        result = CYHAL_DAC_RSLT_BAD_REF_VOLTAGE;
-    }
-
-    if (result == CY_RSLT_SUCCESS)
-    {
-        Cy_CTDAC_SetRef(obj->base_dac, (cy_en_ctdac_ref_source_t)_cyhal_dac_convert_reference(ref));
+        /* We don't own the configuration and routing of OA1, so we can't init/free it and open/close
+         * switches to it, as would be required to change the reference */
+        result = CYHAL_DAC_RSLT_INVALID_CONFIGURATOR;
     }
 
     return result;
@@ -474,30 +534,41 @@ cy_rslt_t cyhal_dac_set_reference(cyhal_dac_t *obj, cyhal_dac_ref_t ref)
 cy_rslt_t cyhal_dac_set_power(cyhal_dac_t *obj, cyhal_power_level_t power)
 {
 #if defined(CY_IP_MXS40PASS_CTB)
-    if ((obj->resource_opamp.type != CYHAL_RSC_INVALID) || (obj->resource_aref_opamp.type != CYHAL_RSC_INVALID))
+    if (_cyhal_dac_is_output_buffered(obj) || _cyhal_dac_is_external_reference(obj))
     {
         /* Safe convert power level from HAL (cyhal_power_level_t) to PDL (cy_en_ctb_power_t) */
         cy_en_ctb_power_t power_level = (cy_en_ctb_power_t)_cyhal_opamp_convert_power(power);
-        Cy_CTB_SetPower(obj->base_opamp, _cyhal_opamp_convert_sel(obj->resource_opamp.block_num), power_level, CY_CTB_PUMP_ENABLE);
+        if(_cyhal_dac_is_output_buffered(obj))
+        {
+            Cy_CTB_SetPower(obj->base_opamp, _cyhal_opamp_convert_sel(OPAMP_IDX_OUTPUT), power_level, CY_CTB_PUMP_ENABLE);
+        }
+        if(_cyhal_dac_is_external_reference(obj))
+        {
+            Cy_CTB_SetPower(obj->base_opamp, _cyhal_opamp_convert_sel(OPAMP_IDX_REF), power_level, CY_CTB_PUMP_ENABLE);
+        }
 
-        if (CYHAL_POWER_LEVEL_OFF == power)
+        bool full_ctb_owned = _cyhal_dac_is_output_buffered(obj) || _cyhal_dac_is_external_reference(obj);
+        if(full_ctb_owned)
         {
-            Cy_CTB_Disable(obj->base_opamp);
-            Cy_CTDAC_Disable(obj->base_dac);
+            if (CYHAL_POWER_LEVEL_OFF == power)
+            {
+                Cy_CTB_Disable(obj->base_opamp);
+            }
+            else
+            {
+                Cy_CTB_Enable(obj->base_opamp);
+            }
         }
-        else
-        {
-            Cy_CTB_Enable(obj->base_opamp);
-            Cy_CTDAC_Enable(obj->base_dac);
-        }
+    }
+#endif
+    if (CYHAL_POWER_LEVEL_OFF == power)
+    {
+        Cy_CTDAC_Disable(obj->base_dac);
     }
     else
     {
-#endif
-        _cyhal_dac_unbuffered_set_power(obj, power);
-#if defined(CY_IP_MXS40PASS_CTB)
+        Cy_CTDAC_Enable(obj->base_dac);
     }
-#endif
     return CY_RSLT_SUCCESS;
 }
 
@@ -505,4 +576,4 @@ cy_rslt_t cyhal_dac_set_power(cyhal_dac_t *obj, cyhal_power_level_t power)
 }
 #endif
 
-#endif /* defined(CY_IP_MXS40PASS_CTDAC_INSTANCES) */
+#endif /* CYHAL_DRIVER_AVAILABLE_DAC */

@@ -6,6 +6,7 @@ var group__group__hal__dac =
       [ "CYHAL_DAC_REF_VREF", "group__group__hal__dac.html#ggab8bd602f1b7d91eacd4126873148e5a3af87f660f3058a173c6fbdeb24528e46f", null ]
     ] ],
     [ "cyhal_dac_init", "group__group__hal__dac.html#gaa33e893eccc66deff01287434a847687", null ],
+    [ "cyhal_dac_init_cfg", "group__group__hal__dac.html#ga3909980f08a38f08035617bd38c6e918", null ],
     [ "cyhal_dac_free", "group__group__hal__dac.html#gae157cda193ce7fc45eb5b390e40d0d0b", null ],
     [ "cyhal_dac_set_reference", "group__group__hal__dac.html#ga0fd4a8c9b2b5e3b712904d3e63ed8a41", null ],
     [ "cyhal_dac_write", "group__group__hal__dac.html#gabb6bdec361f3805b7086cef3ea3b9d56", null ],

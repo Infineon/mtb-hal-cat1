@@ -156,7 +156,6 @@ var group__group__hal__impl__triggers__cyw20829 =
       [ "CYHAL_TRIGGER_PDM_TR_DBG_FREEZE", "group__group__hal__impl__triggers__cyw20829.html#gga9cba01e91c1016ae2eaa0eaa14f602beaa753bda0d5982d7288adff2683ed2a5c", null ],
       [ "CYHAL_TRIGGER_PERI_TR_DBG_FREEZE", "group__group__hal__impl__triggers__cyw20829.html#gga9cba01e91c1016ae2eaa0eaa14f602bea136808a8f7429bb59583396ae1a6a39a", null ],
       [ "CYHAL_TRIGGER_SRSS_TR_DEBUG_FREEZE_MCWDT0", "group__group__hal__impl__triggers__cyw20829.html#gga9cba01e91c1016ae2eaa0eaa14f602bea30d24431d3281d6697ccb8a15f22ad56", null ],
-      [ "CYHAL_TRIGGER_SRSS_TR_DEBUG_FREEZE_WDT", "group__group__hal__impl__triggers__cyw20829.html#gga9cba01e91c1016ae2eaa0eaa14f602beab2c37e1eadc5571e075a67d98f6c574a", null ],
       [ "CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN0", "group__group__hal__impl__triggers__cyw20829.html#gga9cba01e91c1016ae2eaa0eaa14f602beaddced742b1c301bdf952b4c35d936cb7", null ],
       [ "CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN1", "group__group__hal__impl__triggers__cyw20829.html#gga9cba01e91c1016ae2eaa0eaa14f602bea28f1ccae635dd3f55443ffc1670ff17a", null ],
       [ "CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN2", "group__group__hal__impl__triggers__cyw20829.html#gga9cba01e91c1016ae2eaa0eaa14f602beadf906bc6740d5fa9c672019d0d6448f5", null ],

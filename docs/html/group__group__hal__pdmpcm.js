@@ -23,6 +23,7 @@ var group__group__hal__pdmpcm =
       [ "CYHAL_PDM_PCM_MODE_STEREO", "group__group__hal__pdmpcm.html#ggac81a68ee166ff48752095f82e6852565a3422b29a54a23f1133a62c2b566196dc", null ]
     ] ],
     [ "cyhal_pdm_pcm_init", "group__group__hal__pdmpcm.html#gac2baa0d5162498463cc5228e0ab70909", null ],
+    [ "cyhal_pdm_pcm_init_cfg", "group__group__hal__pdmpcm.html#gadeb410fdf58134fa1f692e6aeab69708", null ],
     [ "cyhal_pdm_pcm_free", "group__group__hal__pdmpcm.html#ga89ce18cbdd29884ea093ea413df76c6f", null ],
     [ "cyhal_pdm_pcm_start", "group__group__hal__pdmpcm.html#gabbab5aafb181de83230b834074994b61", null ],
     [ "cyhal_pdm_pcm_stop", "group__group__hal__pdmpcm.html#gae3832916c19f3031dddcee394047e499", null ],

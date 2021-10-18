@@ -2,12 +2,14 @@
 * File Name: cyhal_crypto_common.c
 *
 * Description:
-* Provides a high level interface for interacting with the Cypress Crypto Accelerator.
+* Provides a high level interface for interacting with the Infineon Crypto Accelerator.
 * This is a wrapper around the lower level PDL API.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,7 +28,7 @@
 #include "cyhal_hwmgr.h"
 #include "cyhal_crypto_common.h"
 
-#if defined(CY_IP_MXCRYPTO)
+#if (_CYHAL_DRIVER_AVAILABLE_CRYPTO)
 
 #if defined(__cplusplus)
 extern "C"
@@ -45,13 +47,13 @@ static CRYPTO_Type* const _CYHAL_CRYPTO_BASE_ADDRESSES[CYHAL_CRYPTO_INST_COUNT] 
 
 // Defines for maximum available features in Crypto block
 #define _CYHAL_CRYPTO_FEATURE_CRC_MAX_VAL         (1u)
-#define cyhal_crypto_feature_tRNG_MAX_VAL        (1u)
+#define _CYHAL_CRYPTO_FEATURE_TRNG_MAX_VAL        (1u)
 #define _CYHAL_CRYPTO_FEATURE_VU_MAX_VAL          (256u)
 #define _CYHAL_CRYPTO_FEATURE_COMMON_MAX_VAL      (256u)
 
 static uint16_t _cyhal_crypto_features[CYHAL_CRYPTO_INST_COUNT][_CYHAL_CRYPTO_FEATURES_NUM] = {{0}};
 static uint16_t _cyhal_crypto_features_max_val[_CYHAL_CRYPTO_FEATURES_NUM] = {_CYHAL_CRYPTO_FEATURE_CRC_MAX_VAL,
-                                                                     cyhal_crypto_feature_tRNG_MAX_VAL,
+                                                                     _CYHAL_CRYPTO_FEATURE_TRNG_MAX_VAL,
                                                                      _CYHAL_CRYPTO_FEATURE_VU_MAX_VAL,
                                                                      _CYHAL_CRYPTO_FEATURE_COMMON_MAX_VAL};
 
@@ -86,7 +88,11 @@ cy_rslt_t cyhal_crypto_reserve(CRYPTO_Type** base, cyhal_resource_inst_t *resour
                 result = cyhal_hwmgr_reserve(resource);
                 if (result == CY_RSLT_SUCCESS)
                 {
+#if defined(CY_IP_MXCRYPTO)
                     Cy_Crypto_Core_Enable(*base);
+#elif defined(CY_IP_M0S8CRYPTO) || defined(CY_IP_M0S8CRYPTOLITE)
+                    Cy_Crypto_Enable(*base);
+#endif
                 }
             }
 
@@ -110,10 +116,19 @@ void cyhal_crypto_free(CRYPTO_Type* base, cyhal_resource_inst_t *resource, cyhal
     //If this was the last feature then free the underlying crypto block as well.
     if (!_cyhal_crypto_enabled(resource->block_num))
     {
+#if defined(CY_IP_MXCRYPTO)
         if (Cy_Crypto_Core_IsEnabled(base))
         {
             Cy_Crypto_Core_Disable(base);
         }
+#elif defined(CY_IP_M0S8CRYPTO) || defined(CY_IP_M0S8CRYPTOLITE)
+        if (Cy_Crypto_IsEnabled(base))
+        {
+            Cy_Crypto_Disable(base);
+        }
+#else
+        CY_UNUSED_PARAMETER(base);
+#endif
         cyhal_hwmgr_free(resource);
         resource->type = CYHAL_RSC_INVALID;
     }
@@ -123,4 +138,4 @@ void cyhal_crypto_free(CRYPTO_Type* base, cyhal_resource_inst_t *resource, cyhal
 }
 #endif
 
-#endif /* defined(CY_IP_MXCRYPTO) */
+#endif /* _CYHAL_DRIVER_AVAILABLE_CRYPTO */

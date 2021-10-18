@@ -6,7 +6,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,7 +37,7 @@ extern "C"
  * \ingroup group_hal_impl_adc
  * \{
  * \section group_hal_impl_adc_interconnect Interconnect
- * In PSoC each ADC has a single input trigger which, when activated, will
+ * In PSoC™ each ADC has a single input trigger which, when activated, will
  * initiate an ADC scan. Each ADC also has an output trigger which will be
  * activated when a scan is completed.
  */

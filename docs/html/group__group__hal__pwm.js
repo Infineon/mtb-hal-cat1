@@ -28,6 +28,7 @@ var group__group__hal__pwm =
       [ "CYHAL_PWM_OUTPUT_LINE_OUT", "group__group__hal__pwm.html#ggadfe1c35104f1fe901d41bef508fa2f1bab2b29c612b286ab1ded5c119dae9e701", null ]
     ] ],
     [ "cyhal_pwm_init_adv", "group__group__hal__pwm.html#gacbeddfe75ccc849d27bec32ce010eceb", null ],
+    [ "cyhal_pwm_init_cfg", "group__group__hal__pwm.html#ga81aee9136b71f0d3228a30caea794712", null ],
     [ "cyhal_pwm_free", "group__group__hal__pwm.html#ga3e4e8aa7a73d02a15dcf386c335b1598", null ],
     [ "cyhal_pwm_set_period", "group__group__hal__pwm.html#gaab0dc18eb0b1c51623df07f2c275a578", null ],
     [ "cyhal_pwm_set_duty_cycle", "group__group__hal__pwm.html#ga9c468081d85d103ec10f9feeffe416ce", null ],
@@ -35,7 +36,7 @@ var group__group__hal__pwm =
     [ "cyhal_pwm_stop", "group__group__hal__pwm.html#ga03f475a0f908814996ad697ed3036798", null ],
     [ "cyhal_pwm_register_callback", "group__group__hal__pwm.html#ga2e4256f7650bd1f38b852eeada4a55df", null ],
     [ "cyhal_pwm_enable_event", "group__group__hal__pwm.html#ga558c129c5f5f9989319c591423fdeceb", null ],
-    [ "cyhal_pwm_connect_digital", "group__group__hal__pwm.html#ga7b02438e441609c43330a9c519f65b36", null ],
+    [ "cyhal_pwm_connect_digital", "group__group__hal__pwm.html#gafa371f9c9b4e47998d83284849c9f921", null ],
     [ "cyhal_pwm_enable_output", "group__group__hal__pwm.html#ga9757bece5e0527f3a8b6df054c49331f", null ],
     [ "cyhal_pwm_disconnect_digital", "group__group__hal__pwm.html#gab9dace048801024e679d05062a736be4", null ],
     [ "cyhal_pwm_disable_output", "group__group__hal__pwm.html#gaae684b7ed7ea8beb04ab38b82eeddf3d", null ]

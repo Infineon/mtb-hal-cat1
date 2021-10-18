@@ -163,6 +163,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga913818691e0a742dea9172d1dc255f5b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__rtc.html#ga913818691e0a742dea9172d1dc255f5b">cyhal_rtc_init</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__rtc__t">cyhal_rtc_t</a> *obj)</td></tr>
 <tr class="memdesc:ga913818691e0a742dea9172d1dc255f5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the RTC peripheral.  <a href="#ga913818691e0a742dea9172d1dc255f5b">More...</a><br /></td></tr>
 <tr class="separator:ga913818691e0a742dea9172d1dc255f5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7714ce41b80c1ac4161e8703f29d62d0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__rtc.html#ga7714ce41b80c1ac4161e8703f29d62d0">cyhal_rtc_init_cfg</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__rtc__t">cyhal_rtc_t</a> *obj, const <a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__rtc__configurator__t">cyhal_rtc_configurator_t</a> *cfg)</td></tr>
+<tr class="memdesc:ga7714ce41b80c1ac4161e8703f29d62d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the RTC peripheral using a configurator generated configuration struct.  <a href="#ga7714ce41b80c1ac4161e8703f29d62d0">More...</a><br /></td></tr>
+<tr class="separator:ga7714ce41b80c1ac4161e8703f29d62d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4e9f272f48fcf83b09db4603c76b1d79"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__rtc.html#ga4e9f272f48fcf83b09db4603c76b1d79">cyhal_rtc_free</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__rtc__t">cyhal_rtc_t</a> *obj)</td></tr>
 <tr class="memdesc:ga4e9f272f48fcf83b09db4603c76b1d79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deinitialize RTC.  <a href="#ga4e9f272f48fcf83b09db4603c76b1d79">More...</a><br /></td></tr>
 <tr class="separator:ga4e9f272f48fcf83b09db4603c76b1d79"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -175,6 +178,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga09180594a84d768f17d80e1262dce2b7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__rtc.html#ga09180594a84d768f17d80e1262dce2b7">cyhal_rtc_write</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__rtc__t">cyhal_rtc_t</a> *obj, const struct tm *time)</td></tr>
 <tr class="memdesc:ga09180594a84d768f17d80e1262dce2b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write the specified time and date to the RTC peripheral.  <a href="#ga09180594a84d768f17d80e1262dce2b7">More...</a><br /></td></tr>
 <tr class="separator:ga09180594a84d768f17d80e1262dce2b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7cab520a921b70bcdd7794d08c14ce84"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__rtc.html#ga7cab520a921b70bcdd7794d08c14ce84">cyhal_rtc_write_direct</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__rtc__t">cyhal_rtc_t</a> *obj, uint32_t sec, uint32_t min, uint32_t hour, uint32_t day, uint32_t month, uint32_t year)</td></tr>
+<tr class="memdesc:ga7cab520a921b70bcdd7794d08c14ce84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write the specified time and date values to the RTC peripheral.  <a href="#ga7cab520a921b70bcdd7794d08c14ce84">More...</a><br /></td></tr>
+<tr class="separator:ga7cab520a921b70bcdd7794d08c14ce84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga5e6893121f3be9026d5cf4cb10c008bf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__rtc.html#ga5e6893121f3be9026d5cf4cb10c008bf">cyhal_rtc_set_dst</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__rtc__t">cyhal_rtc_t</a> *obj, const <a class="el" href="group__group__hal__rtc.html#structcyhal__rtc__dst__t">cyhal_rtc_dst_t</a> *start, const <a class="el" href="group__group__hal__rtc.html#structcyhal__rtc__dst__t">cyhal_rtc_dst_t</a> *stop)</td></tr>
 <tr class="memdesc:ga5e6893121f3be9026d5cf4cb10c008bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the start and end time for Day Light Savings.  <a href="#ga5e6893121f3be9026d5cf4cb10c008bf">More...</a><br /></td></tr>
 <tr class="separator:ga5e6893121f3be9026d5cf4cb10c008bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -275,7 +281,7 @@ hour</td>
 <td class="fielddoc">
 Hour in 24hour format, range[0-23]. </td></tr>
 <tr><td class="fieldtype">
-<a id="a0b934517c7b4ad13826cb9342e37705e"></a>union <a class="el" href="group__group__hal__rtc.html#unioncyhal__rtc__dst__t_8____unnamed____">cyhal_rtc_dst_t</a></td>
+<a id="aac1b4d0151cd5c8af8c172a7f350047f"></a>union <a class="el" href="group__group__hal__rtc.html#unioncyhal__rtc__dst__t_8____unnamed____">cyhal_rtc_dst_t</a></td>
 <td class="fieldname">
 __unnamed__</td>
 <td class="fielddoc">
@@ -310,7 +316,7 @@ dayOfMonth</td>
 <td class="fielddoc">
 Day of Month, range[1-31]. </td></tr>
 <tr><td class="fieldtype">
-<a id="ac8afa25b694ce89e7c6f15b35f6d9368"></a><a class="el" href="group__group__hal__rtc.html#structcyhal__rtc__dst__t_8____unnamed_____8____unnamed____">__unnamed__</a></td>
+<a id="ad4d9c059c87e831a12b2edc2b46e3da7"></a><a class="el" href="group__group__hal__rtc.html#structcyhal__rtc__dst__t_8____unnamed_____8____unnamed____">__unnamed__</a></td>
 <td class="fieldname">
 __unnamed__</td>
 <td class="fielddoc">
@@ -413,10 +419,51 @@ Week of month, range[0-5]. <p>Where 5 =&gt; Last week of month </p>
 </div><div class="memdoc">
 
 <p>Initialize the RTC peripheral. </p>
+<p>Power up the RTC in preparation for access. This function must be called before any other RTC functions are called. This does not change the state of the RTC. It just enables access to it. </p><dl class="section note"><dt>Note</dt><dd>Before calling this, make sure all necessary System Clocks are setup correctly. Generally this means making sure the RTC has access to a crystal oscillator for optimal accuracy and operation in low power. </dd>
+<dd>
+Previously set time configurations are retained. This will only reset the time if no prior configuration can be determined.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">obj</td><td>Pointer to an RTC object. The caller must allocate the memory for this object but the init function will initialize its contents. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the init request </dd></dl>
+
+</div>
+</div>
+<a id="ga7714ce41b80c1ac4161e8703f29d62d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7714ce41b80c1ac4161e8703f29d62d0">&#9670;&nbsp;</a></span>cyhal_rtc_init_cfg()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_rtc_init_cfg </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__rtc__t">cyhal_rtc_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__rtc__configurator__t">cyhal_rtc_configurator_t</a> *&#160;</td>
+          <td class="paramname"><em>cfg</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initialize the RTC peripheral using a configurator generated configuration struct. </p>
 <p>Power up the RTC in preparation for access. This function must be called before any other RTC functions are called. This does not change the state of the RTC. It just enables access to it. NOTE: Before calling this, make sure all necessary System Clocks are setup correctly. Generally this means making sure the RTC has access to a crystal oscillator for optimal accuracy and operation in low power. NOTE: Previously set time configurations are retained. This will only reset the time if no prior configuration can be determined.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[out]</td><td class="paramname">obj</td><td>Pointer to an RTC object. The caller must allocate the memory for this object but the init function will initialize its contents. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cfg</td><td>Configuration structure generated by a configurator. </td></tr>
   </table>
   </dd>
 </dl>
@@ -554,6 +601,79 @@ Week of month, range[0-5]. <p>Where 5 =&gt; Last week of month </p>
 
 </div>
 </div>
+<a id="ga7cab520a921b70bcdd7794d08c14ce84"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7cab520a921b70bcdd7794d08c14ce84">&#9670;&nbsp;</a></span>cyhal_rtc_write_direct()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_rtc_write_direct </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__rtc__t">cyhal_rtc_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>sec</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>min</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>hour</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>day</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>month</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>year</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Write the specified time and date values to the RTC peripheral. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>RTC object </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">sec</td><td>Second to set (0-59) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">min</td><td>Minute to set (0-59) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">hour</td><td>Hour to set (0-23) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">day</td><td>Day of month to set (1-31) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">month</td><td>Month to set (1-12) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">year</td><td>4-digit year to set </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the write request </dd></dl>
+
+</div>
+</div>
 <a id="ga5e6893121f3be9026d5cf4cb10c008bf"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga5e6893121f3be9026d5cf4cb10c008bf">&#9670;&nbsp;</a></span>cyhal_rtc_set_dst()</h2>
 
@@ -587,6 +707,7 @@ Week of month, range[0-5]. <p>Where 5 =&gt; Last week of month </p>
 </div><div class="memdoc">
 
 <p>Set the start and end time for Day Light Savings. </p>
+<p>Calling this function will allow alarms to account for daylight saving time. This means that the RTC will be adjusted when a daylight saving time transition occurs, meaning times passed to <a class="el" href="group__group__hal__rtc.html#ga4281bd53cab53fb245a1e98a618e1679">cyhal_rtc_set_alarm()</a> will be interpreted as being in DST/not in DST as appropriate.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>RTC object </td></tr>

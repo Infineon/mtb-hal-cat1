@@ -2,14 +2,16 @@
 * \file cyhal_syspm.h
 *
 * \brief
-* Provides a high level interface for interacting with the Cypress power
+* Provides a high level interface for interacting with the Infineon power
 * management configuration. This interface abstracts out the
 * chip specific details. If any chip specific functionality is necessary, or
 * performance is critical the low level functions can be used directly.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -165,19 +167,19 @@ extern "C" {
 
 /** Incorrect argument passed into a function. */
 #define CYHAL_SYSPM_RSLT_BAD_ARGUMENT               \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SYSPM, 0))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SYSPM, 0))
 /** Driver was unable to be initialized. */
 #define CYHAL_SYSPM_RSLT_INIT_ERROR                 \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SYSPM, 1))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SYSPM, 1))
 /** Failed to register callback */
 #define CYHAL_SYSPM_RSLT_CB_REGISTER_ERROR          \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SYSPM, 2))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SYSPM, 2))
 /** Power Management transition is pending, data cannot be transferred */
 #define CYHAL_SYSPM_RSLT_ERR_PM_PENDING             \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SYSPM, 3))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SYSPM, 3))
 /** Functionality not supported on the current platform */
 #define CYHAL_SYSPM_RSLT_ERR_NOT_SUPPORTED           \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SYSPM, 4))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SYSPM, 4))
 
 /**
  * \}

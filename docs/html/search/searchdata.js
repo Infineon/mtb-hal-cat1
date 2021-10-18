@@ -5,9 +5,9 @@ var indexSectionsWithContent =
   2: "_c",
   3: "abcdefhiklmnoprstvw",
   4: "c",
-  5: "c",
-  6: "cnpu",
-  7: "acdefghiklmopqrstuw",
+  5: "_c",
+  6: "_cnpu",
+  7: "acdefghiklopqrstuw",
   8: "h"
 };
 

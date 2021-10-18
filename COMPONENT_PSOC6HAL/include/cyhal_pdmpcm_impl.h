@@ -2,11 +2,13 @@
 * \file cyhal_pdmpcm_impl.h
 *
 * Description:
-* Provides a high level interface for interacting with the Cypress PDM/PCM converted.
+* Provides a high level interface for interacting with the Infineon PDM/PCM converted.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2019-2021 Cypress Semiconductor Corporation
+* Copyright 2019-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,7 +26,9 @@
 
 #pragma once
 
-#if defined(CY_IP_MXAUDIOSS_INSTANCES) || defined(CY_IP_MXTDM)
+#include "cyhal_hw_resources.h"
+
+#if (CYHAL_DRIVER_AVAILABLE_PDMPCM)
 
 #if defined(__cplusplus)
 extern "C" {
@@ -47,4 +51,4 @@ extern "C" {
 }
 #endif /* __cplusplus */
 
-#endif /* defined(CY_IP_MXAUDIOSS_INSTANCES) || defined(CY_IP_MXTDM) */
+#endif /* CYHAL_DRIVER_AVAILABLE_PDMPCM */

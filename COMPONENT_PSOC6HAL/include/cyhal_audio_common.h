@@ -6,7 +6,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,11 +26,22 @@
 
 #pragma once
 
-#if defined(CY_IP_MXAUDIOSS) || defined(CY_IP_MXTDM)
+#include <stdbool.h>
+#include <stdint.h>
+#include "cyhal_gpio.h"
+#include "cyhal_hw_resources.h"
+
+#if (CYHAL_DRIVER_AVAILABLE_I2S || CYHAL_DRIVER_AVAILABLE_TDM)
 
 #if defined(__cplusplus)
 extern "C"
 {
+#endif
+
+/** \cond INTERNAL */
+
+#if (CYHAL_DRIVER_AVAILABLE_TDM_RX || CYHAL_DRIVER_AVAILABLE_I2S_RX)
+#define _CYHAL_AUDIOSS_RX_ENABLED
 #endif
 
 /* Pins to use for one direction of an audio interface */
@@ -36,6 +49,7 @@ typedef struct {
     cyhal_gpio_t sck;   // Clock pin
     cyhal_gpio_t ws;    // Word select
     cyhal_gpio_t data;  // Data pin (sdo or sdi)
+    cyhal_gpio_t mclk;  // mclk input (may be NC if unused)
 } _cyhal_audioss_pins_t;
 
 /* AUDIOSS Configuration */
@@ -63,13 +77,17 @@ typedef struct {
     uint32_t channel_mask;
     /* false = TX WS pulse is a single SCK cycle. true = TX WS pulse spans a full channel */
     bool tx_ws_full;
+#if defined(_CYHAL_AUDIOSS_RX_ENABLED)
     /* false = RX WS pulse is a single SCK cycle. true = RX WS pulse spans a full channel */
     bool rx_ws_full;
+#endif
     /* Is this block being used as I2S. */
     bool is_i2s;
 } _cyhal_audioss_config_t;
 
-cy_rslt_t _cyhal_audioss_init(_cyhal_audioss_t *obj, const _cyhal_audioss_pins_t* tx_pins, const _cyhal_audioss_pins_t* rx_pins, cyhal_gpio_t mclk, const _cyhal_audioss_config_t* config, cyhal_clock_t* clk, const _cyhal_audioss_interface_t* interface);
+cy_rslt_t _cyhal_audioss_init(_cyhal_audioss_t *obj, const _cyhal_audioss_pins_t* tx_pins, const _cyhal_audioss_pins_t* rx_pins, const _cyhal_audioss_config_t* config, cyhal_clock_t* clk, const _cyhal_audioss_interface_t* interface);
+
+cy_rslt_t _cyhal_audioss_init_cfg(_cyhal_audioss_t *obj, const _cyhal_audioss_configurator_t *cfg, const _cyhal_audioss_interface_t* interface);
 
 void _cyhal_audioss_free(_cyhal_audioss_t *obj);
 
@@ -115,8 +133,14 @@ cy_rslt_t _cyhal_audioss_abort_read_async(_cyhal_audioss_t *obj);
 
 cy_rslt_t _cyhal_audioss_abort_write_async(_cyhal_audioss_t *obj);
 
+cy_rslt_t _cyhal_audioss_enable_output(_cyhal_audioss_t *obj, bool is_rx, cyhal_source_t *source);
+
+cy_rslt_t _cyhal_audioss_disable_output(_cyhal_audioss_t *obj, bool is_rx);
+
+/** \endcond */
+
 #if defined(__cplusplus)
 }
 #endif
 
-#endif /* defined(CY_IP_MXAUDIOSS) || defined(CY_IP_MXTDM) */
+#endif /* CYHAL_DRIVER_AVAILABLE_I2S */

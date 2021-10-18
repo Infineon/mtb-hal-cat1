@@ -9,7 +9,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2019-2021 Cypress Semiconductor Corporation
+* Copyright 2019-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,6 +32,7 @@
 * \ingroup group_hal
 * \{
 * High level interface to the Watchdog Timer (WDT).
+*
 * The WDT can be used for recovering from a CPU or firmware failure.
 * The WDT is initialized with a timeout interval. Once the WDT is started, \ref
 * cyhal_wdt_kick must be called at least once within each timeout interval to
@@ -72,10 +75,10 @@ extern "C" {
 
 /** WDT timeout out of range */
 #define CY_RSLT_WDT_INVALID_TIMEOUT                     \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_WDT, 0))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_WDT, 0))
 /** WDT already initialized */
 #define CY_RSLT_WDT_ALREADY_INITIALIZED                 \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_WDT, 1))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_WDT, 1))
 
 /**
  * \}

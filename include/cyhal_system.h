@@ -2,14 +2,16 @@
 * \file cyhal_system.h
 *
 * \brief
-* Provides a high level interface for interacting with the Cypress power
+* Provides a high level interface for interacting with the Infineon power
 * management and system clock configuration. This interface abstracts out the
 * chip specific details. If any chip specific functionality is necessary, or
 * performance is critical the low level functions can be used directly.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -150,17 +152,17 @@ void cyhal_system_delay_us(uint16_t microseconds);
  */
 cyhal_reset_reason_t cyhal_system_get_reset_reason(void);
 
-/** Clears the reset cause registers. This should be done after calling 
+/** Clears the reset cause registers. This should be done after calling
  * \ref cyhal_system_get_reset_reason to make sure the reason does not persist between resets.
  */
 void cyhal_system_clear_reset_reason(void);
 
 /** Registers the specified handler as the callback function for the specififed irq_num with the
- * given priority. For devices that mux interrupt sources into mcu interrupts, the irq_src defines 
+ * given priority. For devices that mux interrupt sources into mcu interrupts, the irq_src defines
  * the source of the interrupt.
- * 
+ *
  * @param[in] irq_num   The MCU interrupt number to register the handler for.
- * @param[in] irq_src   The interrupt source that feeds the MCU interrupt. For devices that have a 
+ * @param[in] irq_src   The interrupt source that feeds the MCU interrupt. For devices that have a
  * 1:1 mapping between interrupt sources and MCU interrupts this should be the same as the irq_num.
  * @param[in] priority  The MCU interrupt priority.
  * @param[in] handler   The function pointer to call when the interrupt is triggered.

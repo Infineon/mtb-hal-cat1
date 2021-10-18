@@ -2,12 +2,14 @@
  * \file cyhal_crc_impl.h
 *
 * Description:
-* Provides a high level interface for interacting with the Cypress CRC accelerator.
+* Provides a high level interface for interacting with the Infineon CRC accelerator.
 * This is a wrapper around the lower level PDL API.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,11 +31,39 @@
 #include "cyhal_hwmgr.h"
 #include "cy_utils.h"
 
-#if defined(CY_IP_MXCRYPTO)
+#if (CYHAL_DRIVER_AVAILABLE_CRC)
 
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
+
+#if defined(CY_IP_MXCRYPTO)
+#define _cyhal_crc_calcinit(base, width, polynomial, data_reverse, data_xor, rem_reverse, rem_xor, lfsr_init_state) \
+            Cy_Crypto_Core_Crc_CalcInit(base, width, polynomial, data_reverse ? 1u : 0u, data_xor, rem_reverse ? 1u : 0u, rem_xor, lfsr_init_state)
+
+#define _cyhal_crc_calcpartial(base, data, length) \
+            Cy_Crypto_Core_Crc_CalcPartial(base, data, length)
+
+#define _cyhal_crc_calc_finish(base, crc) \
+            Cy_Crypto_Core_Crc_CalcFinish(base, obj->crc_width, crc)
+
+#define _cyhal_crc_calc_free(base)
+
+#elif defined(CY_IP_M0S8CRYPTO)
+extern cy_stc_crypto_crc_context_t _cyhal_crc_context[CY_IP_M0S8CRYPTO_INSTANCES];
+#define _cyhal_crc_calcinit(base, width, polynomial, data_reverse, data_xor, rem_reverse, rem_xor, lfsr_init_state) \
+            Cy_Crypto_Crc_CalcInit(base, width, polynomial, data_reverse, data_xor, rem_reverse, rem_xor, lfsr_init_state, &_cyhal_crc_context[obj->resource.block_num])
+
+#define _cyhal_crc_calcpartial(base, data, length) \
+            Cy_Crypto_Crc_CalcPartial(base, data, length, &_cyhal_crc_context[obj->resource.block_num])
+
+#define _cyhal_crc_calc_finish(base, crc) \
+            Cy_Crypto_Crc_CalcFinish(base, crc, &_cyhal_crc_context[obj->resource.block_num])
+
+#define _cyhal_crc_calc_free(base) \
+            Cy_Crypto_Crc_CalcFree(base, &_cyhal_crc_context[obj->resource.block_num])
+
+#endif
 
 // This helper function mirrors the definition of cyhal_crc_start
 __STATIC_INLINE cy_rslt_t _cyhal_crc_start(cyhal_crc_t *obj, const crc_algorithm_t *algorithm)
@@ -43,12 +73,12 @@ __STATIC_INLINE cy_rslt_t _cyhal_crc_start(cyhal_crc_t *obj, const crc_algorithm
         return CYHAL_CRC_RSLT_ERR_BAD_ARGUMENT;
 
     obj->crc_width = algorithm->width;
-    return Cy_Crypto_Core_Crc_CalcInit(obj->base,
+    return _cyhal_crc_calcinit(obj->base,
                                 algorithm->width,
                                 algorithm->polynomial,
-                                algorithm->dataReverse ? 1u : 0u,
+                                algorithm->dataReverse,
                                 algorithm->dataXor,
-                                algorithm->remReverse ? 1u : 0u,
+                                algorithm->remReverse,
                                 algorithm->remXor,
                                 algorithm->lfsrInitState);
 }
@@ -62,7 +92,7 @@ __STATIC_INLINE cy_rslt_t _cyhal_crc_compute(const cyhal_crc_t *obj, const uint8
     if(NULL == data || 0 == length)
         return CYHAL_CRC_RSLT_ERR_BAD_ARGUMENT;
 
-    return Cy_Crypto_Core_Crc_CalcPartial(obj->base, data, length);
+    return _cyhal_crc_calcpartial(obj->base, data, length);
 }
 
 #define cyhal_crc_compute(obj, data, length) _cyhal_crc_compute(obj, data, length)
@@ -73,8 +103,7 @@ __STATIC_INLINE cy_rslt_t _cyhal_crc_finish(const cyhal_crc_t *obj, uint32_t *cr
     CY_ASSERT(NULL != obj);
     if(NULL == crc)
         return CYHAL_CRC_RSLT_ERR_BAD_ARGUMENT;
-
-    return Cy_Crypto_Core_Crc_CalcFinish(obj->base, obj->crc_width, crc);
+    return _cyhal_crc_calc_finish(obj->base, crc);
 }
 
 #define cyhal_crc_finish(obj, crc) _cyhal_crc_finish(obj, crc)
@@ -83,4 +112,4 @@ __STATIC_INLINE cy_rslt_t _cyhal_crc_finish(const cyhal_crc_t *obj, uint32_t *cr
 }
 #endif /* __cplusplus */
 
-#endif /* defined(CY_IP_MXCRYPTO) */
+#endif /* CYHAL_DRIVER_AVAILABLE_CRC */

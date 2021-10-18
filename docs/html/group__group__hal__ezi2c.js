@@ -36,5 +36,6 @@ var group__group__hal__ezi2c =
     [ "cyhal_ezi2c_free", "group__group__hal__ezi2c.html#ga4a422210bdab95d92fc6afc6b832877f", null ],
     [ "cyhal_ezi2c_get_activity_status", "group__group__hal__ezi2c.html#gae4a966b68ceb0a9b7b467a288357b35d", null ],
     [ "cyhal_ezi2c_register_callback", "group__group__hal__ezi2c.html#gac3a9fbfa0ae4b433f830af7c0130f2f3", null ],
-    [ "cyhal_ezi2c_enable_event", "group__group__hal__ezi2c.html#gac81d408ff91899f328b51c4ba3254536", null ]
+    [ "cyhal_ezi2c_enable_event", "group__group__hal__ezi2c.html#gac81d408ff91899f328b51c4ba3254536", null ],
+    [ "cyhal_ezi2c_init_cfg", "group__group__hal__ezi2c.html#ga13a807c9dbe0d20774dddaac73084544", null ]
 ];

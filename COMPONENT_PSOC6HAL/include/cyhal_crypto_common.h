@@ -7,7 +7,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,14 +32,22 @@
 #include "cy_result.h"
 #include "cyhal_hw_types.h"
 
-#if defined(CY_IP_MXCRYPTO)
+#if (_CYHAL_DRIVER_AVAILABLE_CRYPTO)
 
 #if defined(__cplusplus)
 extern "C" {
 #endif
 
 /* Block count for CRYPTO blocks */
+#if defined(CY_IP_MXCRYPTO)
 #define CYHAL_CRYPTO_INST_COUNT      CY_IP_MXCRYPTO_INSTANCES
+#elif defined(CY_IP_MXCRYPTOLITE)
+#define CYHAL_CRYPTO_INST_COUNT      CY_IP_MXCRYPTOLITE_INSTANCES
+#elif defined(CY_IP_M0S8CRYPTO)
+#define CYHAL_CRYPTO_INST_COUNT      CY_IP_M0S8CRYPTO_INSTANCES
+#elif defined(CY_IP_M0S8CRYPTOLITE)
+#define CYHAL_CRYPTO_INST_COUNT      CY_IP_M0S8CRYPTOLITE_INSTANCES
+#endif
 
 typedef enum
 {
@@ -73,4 +83,4 @@ void cyhal_crypto_free(CRYPTO_Type* base, cyhal_resource_inst_t *resource, cyhal
 }
 #endif
 
-#endif /* defined(CY_IP_MXCRYPTO) */
+#endif /* _CYHAL_DRIVER_AVAILABLE_CRYPTO */

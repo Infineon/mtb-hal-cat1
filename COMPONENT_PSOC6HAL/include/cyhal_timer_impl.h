@@ -2,11 +2,13 @@
 * \file cyhal_timer_impl.h
 *
 * Description:
-* Provides a high level interface for interacting with the Cypress Timer/Counter.
+* Provides a high level interface for interacting with the Infineon Timer/Counter.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2019-2021 Cypress Semiconductor Corporation
+* Copyright 2019-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,7 +37,7 @@
 * range that is supported by \ref cyhal_timer_set_frequency is: 1526 hz -
 * 100 Mhz
  * \section group_hal_impl_timer_interconnect Interconnect
- * In PSoC Timer channels can configure multiple input and output triggers
+ * In PSoC™ Timer channels can configure multiple input and output triggers
  * simultaneously. 1 or more input triggers can be configured to initiate
  * different Timer actions (e.g start, stop, reload, etc) with configurable
  * edge detection on that incoming signal. Output triggers are based on certain

@@ -87,7 +87,7 @@ $(document).ready(function(){initNavTree('group__group__hal__impl__pdmpcm.html',
 
 <div class="header">
   <div class="headertitle">
-<div class="title">PDM/PCM (Pulse Density Modulation to Pulse Code Modulation Converter)<div class="ingroups"><a class="el" href="group__group__hal__impl.html">CAT1 (PSoC 6) Implementation Specific</a></div></div>  </div>
+<div class="title">PDM/PCM (Pulse Density Modulation to Pulse Code Modulation Converter)<div class="ingroups"><a class="el" href="group__group__hal__impl.html">CAT1 (PSoC™ 6) Implementation Specific</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <p>The CAT1A PDM/PCM Supports the following conversion parameters: </p>
@@ -101,6 +101,7 @@ Sampling Rate: up to 48kHz </li>
 <li>
 Left/Right Gain Amplifier: -12dB to +10.5dB in 1.5dB steps. </li>
 </ul>
+<dl class="section note"><dt>Note</dt><dd>If the PDM/PCM block is initialized using the <a class="el" href="group__group__hal__pdmpcm.html#gac2baa0d5162498463cc5228e0ab70909">cyhal_pdm_pcm_init</a> function and the "channel recording swap" option is selected, the <a class="el" href="group__group__hal__pdmpcm.html#ggac81a68ee166ff48752095f82e6852565a9b6dc0fbdb5ff94c50d3ea447b2e7729">CYHAL_PDM_PCM_MODE_LEFT</a> and <a class="el" href="group__group__hal__pdmpcm.html#ggac81a68ee166ff48752095f82e6852565a10f63e46718c10aefbc64bfda8b82cfd">CYHAL_PDM_PCM_MODE_RIGHT</a> enum members refer to the origin left and right channels before the swap is applied.</dd></dl>
 <p>The CAT1B PDM/PCM Supports the following conversion parameters:</p><ul>
 <li>
 Mode: Mono Left, Mono Right, Stereo </li>
@@ -113,7 +114,9 @@ Decimation rates: 32, 64, 96 or 128 </li>
 <li>
 Left/Right Gain Amplifier: Supported gain values are given by the formula <code>dB = 20 * log10(13921 / 2^x)</code> where <code>x</code> is an integer between 0 and 31 inclusive. This provides a range of +82.5 to -103.5 dB, in approximately 5 dB steps. The requested gain will rounded to the nearest supported value. </li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>On CAT1B devices, if stereo mode is selected, the length of all read operations should be a multiple of two so that the left and right channels are read together. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>On CAT1B devices, if stereo mode is selected, the length of all read operations should be a multiple of two so that the left and right channels are read together.</dd>
+<dd>
+On CAT1B devices, when multiple channels are configured in a configurator, each channel should be initialized via a separate call to <a class="el" href="group__group__hal__pdmpcm.html#gadeb410fdf58134fa1f692e6aeab69708">cyhal_pdm_pcm_init_cfg</a>. </dd></dl>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part

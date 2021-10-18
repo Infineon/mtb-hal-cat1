@@ -6,7 +6,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -124,8 +126,8 @@ typedef uint16_t cyhal_gpio_mapping_cfg_t; // 8bit hsiom, 8bit mode
 #include "pin_packages/cyhal_psoc6_04_68_qfn.h"
 #elif defined (_GPIO_PSOC6_04_80_TQFP_H_)
 #include "pin_packages/cyhal_psoc6_04_80_tqfp.h"
-#elif defined(_GPIO_CYW65909_128_TQFP_H_)
-#include "pin_packages/cyhal_mxs28playermcuss_128_tqfp.h"
+#elif defined(_GPIO_CYW20829_40_QFN_H_)
+#include "pin_packages/cyhal_cyw20829_40_qfn.h"
 #elif defined(_GPIO_CYW20829_56_QFN_H_)
 #include "pin_packages/cyhal_cyw20829_56_qfn.h"
 #else

@@ -2,14 +2,16 @@
 * \file cyhal_dma.c
 *
 * \brief
-* Implements a high level interface for interacting with the Cypress DMA.
+* Implements a high level interface for interacting with the Infineon DMA.
 * This implementation abstracts out the chip specific details. If any chip specific
 * functionality is necessary, or performance is critical the low level functions
 * can be used directly.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,28 +30,19 @@
 #include "cyhal_dma.h"
 #include "cyhal_system.h"
 #include "cyhal_hwmgr.h"
-#include "cyhal_interconnect.h"
 
-#if (defined(CY_IP_M4CPUSS_DMAC) || defined(CY_IP_M0S8CPUSSV3_DMAC) || defined(CY_IP_MXAHBDMAC))
-#define HAS_DMAC (1)
-#endif
-#if    (defined(CY_IP_M4CPUSS_DMA) || defined(CY_IP_MXDW))
-#define HAS_DW   (1)
-#endif
+#if (CYHAL_DRIVER_AVAILABLE_DMA)
 
-#if (HAS_DMAC)
+#if (_CYHAL_DRIVER_AVAILABLE_DMA_DMAC)
 #include "cyhal_dma_dmac.h"
 #endif
-#if (HAS_DW)
+#if (_CYHAL_DRIVER_AVAILABLE_DMA_DW)
 #include "cyhal_dma_dw.h"
 #endif
-
-#if (HAS_DMAC || HAS_DW)
 
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
-
 
 
 cy_rslt_t cyhal_dma_init_adv(
@@ -62,15 +55,16 @@ cy_rslt_t cyhal_dma_init_adv(
     obj->callback_data.callback_arg = NULL;
     obj->irq_cause = 0;
     obj->source = CYHAL_TRIGGER_CPUSS_ZERO;
+    obj->owned_by_configurator = false;
 
     cy_rslt_t rslt;
     cyhal_source_t *src_trigger = (NULL == src) ? NULL : &src->source;
     cyhal_dest_t *dest_trigger = (NULL == dest) ? NULL : &dest->dest;
 
-#if (HAS_DW && !HAS_DMAC)
+#if (_CYHAL_DRIVER_AVAILABLE_DMA_DW && !_CYHAL_DRIVER_AVAILABLE_DMA_DMAC)
     /* Only DW available. */
     rslt = _cyhal_dma_dw_init(obj, src_trigger, dest_trigger, priority);
-#elif (HAS_DMAC && !HAS_DW)
+#elif (_CYHAL_DRIVER_AVAILABLE_DMA_DMAC && !_CYHAL_DRIVER_AVAILABLE_DMA_DW)
     /* Only DMAC available. */
     rslt = _cyhal_dma_dmac_init(obj, src_trigger, dest_trigger, priority);
 #else
@@ -103,7 +97,7 @@ cy_rslt_t cyhal_dma_init_adv(
             obj->source = src->source;
         }
 
-        if (CY_RSLT_SUCCESS == rslt && NULL != dest)
+        if ((CY_RSLT_SUCCESS == rslt) && (NULL != dest))
         {
             rslt = cyhal_dma_enable_output(obj, dest->output, dest_source);
         }
@@ -116,6 +110,27 @@ cy_rslt_t cyhal_dma_init_adv(
     }
 
     return rslt;
+}
+
+cy_rslt_t cyhal_dma_init_cfg(cyhal_dma_t *obj, const cyhal_dma_configurator_t *cfg)
+{
+    CY_ASSERT(NULL != obj);
+    CY_ASSERT(NULL != cfg);
+
+    obj->owned_by_configurator = true;
+
+#if (_CYHAL_DRIVER_AVAILABLE_DMA_DMAC)
+    #if (_CYHAL_DRIVER_AVAILABLE_DMA_DW)
+    if (cfg->resource->type == CYHAL_RSC_DMA)
+    #endif
+    {
+        return _cyhal_dma_dmac_init_cfg(obj, cfg);
+    }
+#endif
+#if (_CYHAL_DRIVER_AVAILABLE_DMA_DW)
+    CY_ASSERT(cfg->resource->type == CYHAL_RSC_DW);
+    return _cyhal_dma_dw_init_cfg(obj, cfg);
+#endif
 }
 
 void cyhal_dma_free(cyhal_dma_t *obj)
@@ -134,16 +149,16 @@ void cyhal_dma_free(cyhal_dma_t *obj)
     }
     (void)rslt; // Disable compiler warning in release build
 
-#if (HAS_DMAC)
-    #if (HAS_DW)
+#if (_CYHAL_DRIVER_AVAILABLE_DMA_DMAC)
+    #if (_CYHAL_DRIVER_AVAILABLE_DMA_DW)
     if(obj->resource.type == CYHAL_RSC_DMA)
     #endif
     {
         _cyhal_dma_dmac_free(obj);
     }
 #endif
-#if (HAS_DW)
-    #if (HAS_DMAC)
+#if (_CYHAL_DRIVER_AVAILABLE_DMA_DW)
+    #if (_CYHAL_DRIVER_AVAILABLE_DMA_DMAC)
     if(obj->resource.type == CYHAL_RSC_DW)
     #endif
     {
@@ -151,22 +166,25 @@ void cyhal_dma_free(cyhal_dma_t *obj)
     }
 #endif
 
-    cyhal_hwmgr_free(&obj->resource);
+    if (!obj->owned_by_configurator)
+    {
+        cyhal_hwmgr_free(&obj->resource);
+    }
 }
 
 cy_rslt_t cyhal_dma_configure(cyhal_dma_t *obj, const cyhal_dma_cfg_t *cfg)
 {
     CY_ASSERT(NULL != obj);
 
-#if (HAS_DMAC)
-    #if (HAS_DW)
+#if (_CYHAL_DRIVER_AVAILABLE_DMA_DMAC)
+    #if (_CYHAL_DRIVER_AVAILABLE_DMA_DW)
     if(obj->resource.type == CYHAL_RSC_DMA)
     #endif
     {
         return _cyhal_dma_dmac_configure(obj, cfg);
     }
 #endif
-#if (HAS_DW)
+#if (_CYHAL_DRIVER_AVAILABLE_DMA_DW)
     CY_ASSERT(obj->resource.type == CYHAL_RSC_DW);
     return _cyhal_dma_dw_configure(obj, cfg);
 #endif
@@ -176,15 +194,15 @@ cy_rslt_t cyhal_dma_start_transfer(cyhal_dma_t *obj)
 {
     CY_ASSERT(NULL != obj);
 
-#if (HAS_DMAC)
-    #if (HAS_DW)
+#if (_CYHAL_DRIVER_AVAILABLE_DMA_DMAC)
+    #if (_CYHAL_DRIVER_AVAILABLE_DMA_DW)
     if(obj->resource.type == CYHAL_RSC_DMA)
     #endif
     {
         return _cyhal_dma_dmac_start_transfer(obj);
     }
 #endif
-#if (HAS_DW)
+#if (_CYHAL_DRIVER_AVAILABLE_DMA_DW)
     CY_ASSERT(obj->resource.type == CYHAL_RSC_DW);
     return _cyhal_dma_dw_start_transfer(obj);
 #endif
@@ -194,15 +212,15 @@ cy_rslt_t cyhal_dma_enable(cyhal_dma_t *obj)
 {
     CY_ASSERT(NULL != obj);
 
-#if (HAS_DMAC)
-    #if (HAS_DW)
+#if (_CYHAL_DRIVER_AVAILABLE_DMA_DMAC)
+    #if (_CYHAL_DRIVER_AVAILABLE_DMA_DW)
     if(obj->resource.type == CYHAL_RSC_DMA)
     #endif
     {
         return _cyhal_dma_dmac_enable(obj);
     }
 #endif
-#if (HAS_DW)
+#if (_CYHAL_DRIVER_AVAILABLE_DMA_DW)
     CY_ASSERT(obj->resource.type == CYHAL_RSC_DW);
     return _cyhal_dma_dw_enable(obj);
 #endif
@@ -212,15 +230,15 @@ cy_rslt_t cyhal_dma_disable(cyhal_dma_t *obj)
 {
     CY_ASSERT(NULL != obj);
 
-#if (HAS_DMAC)
-    #if (HAS_DW)
+#if (_CYHAL_DRIVER_AVAILABLE_DMA_DMAC)
+    #if (_CYHAL_DRIVER_AVAILABLE_DMA_DW)
     if(obj->resource.type == CYHAL_RSC_DMA)
     #endif
     {
         return _cyhal_dma_dmac_disable(obj);
     }
 #endif
-#if (HAS_DW)
+#if (_CYHAL_DRIVER_AVAILABLE_DMA_DW)
     CY_ASSERT(obj->resource.type == CYHAL_RSC_DW);
     return _cyhal_dma_dw_disable(obj);
 #endif
@@ -230,15 +248,15 @@ bool cyhal_dma_is_busy(cyhal_dma_t *obj)
 {
     CY_ASSERT(NULL != obj);
 
-#if (HAS_DMAC)
-    #if (HAS_DW)
+#if (_CYHAL_DRIVER_AVAILABLE_DMA_DMAC)
+    #if (_CYHAL_DRIVER_AVAILABLE_DMA_DW)
     if(obj->resource.type == CYHAL_RSC_DMA)
     #endif
     {
         return _cyhal_dma_dmac_is_busy(obj);
     }
 #endif
-#if (HAS_DW)
+#if (_CYHAL_DRIVER_AVAILABLE_DMA_DW)
     CY_ASSERT(obj->resource.type == CYHAL_RSC_DW);
     return _cyhal_dma_dw_is_busy(obj);
 #endif
@@ -258,8 +276,8 @@ void cyhal_dma_enable_event(cyhal_dma_t *obj, cyhal_dma_event_t event, uint8_t i
 {
     CY_ASSERT(NULL != obj);
 
-#if (HAS_DMAC)
-    #if (HAS_DW)
+#if (_CYHAL_DRIVER_AVAILABLE_DMA_DMAC)
+    #if (_CYHAL_DRIVER_AVAILABLE_DMA_DW)
     if(obj->resource.type == CYHAL_RSC_DMA)
     #endif
     {
@@ -267,7 +285,7 @@ void cyhal_dma_enable_event(cyhal_dma_t *obj, cyhal_dma_event_t event, uint8_t i
         return;
     }
 #endif
-#if (HAS_DW)
+#if (_CYHAL_DRIVER_AVAILABLE_DMA_DW)
     CY_ASSERT(obj->resource.type == CYHAL_RSC_DW);
     _cyhal_dma_dw_enable_event(obj, event, intr_priority, enable);
 #endif
@@ -277,15 +295,15 @@ cy_rslt_t cyhal_dma_connect_digital(cyhal_dma_t *obj, cyhal_source_t source, cyh
 {
     CY_ASSERT(NULL != obj);
 
-#if (HAS_DMAC)
-    #if (HAS_DW)
+#if (_CYHAL_DRIVER_AVAILABLE_DMA_DMAC)
+    #if (_CYHAL_DRIVER_AVAILABLE_DMA_DW)
     if(obj->resource.type == CYHAL_RSC_DMA)
     #endif
     {
         return _cyhal_dma_dmac_connect_digital(obj, source, input);
     }
 #endif
-#if (HAS_DW)
+#if (_CYHAL_DRIVER_AVAILABLE_DMA_DW)
     CY_ASSERT(obj->resource.type == CYHAL_RSC_DW);
     return _cyhal_dma_dw_connect_digital(obj, source, input);
 #endif
@@ -295,15 +313,15 @@ cy_rslt_t cyhal_dma_enable_output(cyhal_dma_t *obj, cyhal_dma_output_t output, c
 {
     CY_ASSERT(NULL != obj);
 
-#if (HAS_DMAC)
-    #if (HAS_DW)
+#if (_CYHAL_DRIVER_AVAILABLE_DMA_DMAC)
+    #if (_CYHAL_DRIVER_AVAILABLE_DMA_DW)
     if(obj->resource.type == CYHAL_RSC_DMA)
     #endif
     {
         return _cyhal_dma_dmac_enable_output(obj, output, source);
     }
 #endif
-#if (HAS_DW)
+#if (_CYHAL_DRIVER_AVAILABLE_DMA_DW)
     CY_ASSERT(obj->resource.type == CYHAL_RSC_DW);
     return _cyhal_dma_dw_enable_output(obj, output, source);
 #endif
@@ -313,15 +331,15 @@ cy_rslt_t cyhal_dma_disconnect_digital(cyhal_dma_t *obj, cyhal_source_t source, 
 {
     CY_ASSERT(NULL != obj);
 
-#if (HAS_DMAC)
-    #if (HAS_DW)
+#if (_CYHAL_DRIVER_AVAILABLE_DMA_DMAC)
+    #if (_CYHAL_DRIVER_AVAILABLE_DMA_DW)
     if(obj->resource.type == CYHAL_RSC_DMA)
     #endif
     {
         return _cyhal_dma_dmac_disconnect_digital(obj, source, input);
     }
 #endif
-#if (HAS_DW)
+#if (_CYHAL_DRIVER_AVAILABLE_DMA_DW)
     CY_ASSERT(obj->resource.type == CYHAL_RSC_DW);
     return _cyhal_dma_dw_disconnect_digital(obj, source, input);
 #endif
@@ -331,15 +349,15 @@ cy_rslt_t cyhal_dma_disable_output(cyhal_dma_t *obj, cyhal_dma_output_t output)
 {
     CY_ASSERT(NULL != obj);
 
-#if (HAS_DMAC)
-    #if (HAS_DW)
+#if (_CYHAL_DRIVER_AVAILABLE_DMA_DMAC)
+    #if (_CYHAL_DRIVER_AVAILABLE_DMA_DW)
     if(obj->resource.type == CYHAL_RSC_DMA)
     #endif
     {
         return _cyhal_dma_dmac_disable_output(obj, output);
     }
 #endif
-#if (HAS_DW)
+#if (_CYHAL_DRIVER_AVAILABLE_DMA_DW)
     CY_ASSERT(obj->resource.type == CYHAL_RSC_DW);
     return _cyhal_dma_dw_disable_output(obj, output);
 #endif
@@ -349,4 +367,4 @@ cy_rslt_t cyhal_dma_disable_output(cyhal_dma_t *obj, cyhal_dma_output_t output)
 }
 #endif /* __cplusplus */
 
-#endif /* (HAS_DMAC || HAS_DW) */
+#endif /* (CYHAL_DRIVER_AVAILABLE_DMA) */

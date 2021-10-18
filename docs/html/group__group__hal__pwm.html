@@ -124,7 +124,7 @@ Snippet 1: Simple PWM initialization and output to pin</h2>
 <div class="fragment"><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>   rslt;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__pwm__t">cyhal_pwm_t</a> pwm_obj;</div><div class="line"></div><div class="line">    <span class="comment">// Initialize PWM on the supplied pin and assign a new clock</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__pwm.html#ga54a93c541bdbb3fce066a2af00d8b67f">cyhal_pwm_init</a>(&amp;pwm_obj, <a class="code" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#gga707195ce0627016bf371643bdd9caa51a23d505c049c81443b12e53d5b00b1be9">P0_0</a>, NULL);</div><div class="line"></div><div class="line">    <span class="comment">// Set a duty cycle of 50% and frequency of 1Hz</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__pwm.html#ga9c468081d85d103ec10f9feeffe416ce">cyhal_pwm_set_duty_cycle</a>(&amp;pwm_obj, 50, 1);</div><div class="line"></div><div class="line">    <span class="comment">// Start the PWM output</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__pwm.html#ga95006bcc5841e610719433660365e3e2">cyhal_pwm_start</a>(&amp;pwm_obj);</div></div><!-- fragment --><h2><a class="anchor" id="subsection_pwm_snippet_2"></a>
 Snippet 2: Starting and stopping the PWM output</h2>
 <p><a class="el" href="group__group__hal__pwm.html#ga95006bcc5841e610719433660365e3e2">cyhal_pwm_start</a> and <a class="el" href="group__group__hal__pwm.html#ga03f475a0f908814996ad697ed3036798">cyhal_pwm_stop</a> functions can be used after PWM initialization to start and stop the PWM output.</p>
-<div class="fragment"><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__pwm__t">cyhal_pwm_t</a> pwm_obj;</div><div class="line"></div><div class="line">    <span class="comment">// Initialize PWM on the supplied pin and assign a new clock</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__pwm.html#ga54a93c541bdbb3fce066a2af00d8b67f">cyhal_pwm_init</a>(&amp;pwm_obj, <a class="code" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#gga707195ce0627016bf371643bdd9caa51a23d505c049c81443b12e53d5b00b1be9">P0_0</a>, NULL);</div><div class="line">    CY_ASSERT(<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> == rslt);</div><div class="line"></div><div class="line">    <span class="comment">// Set a duty cycle of 50% and frequency of 1Hz</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__pwm.html#ga9c468081d85d103ec10f9feeffe416ce">cyhal_pwm_set_duty_cycle</a>(&amp;pwm_obj, 50, 1);</div><div class="line"></div><div class="line">    <span class="keywordflow">for</span> (;;)</div><div class="line">    {</div><div class="line">        <span class="comment">// Stop the PWM output</span></div><div class="line">        rslt = <a class="code" href="group__group__hal__pwm.html#ga03f475a0f908814996ad697ed3036798">cyhal_pwm_stop</a>(&amp;pwm_obj);</div><div class="line"></div><div class="line">        <span class="comment">// Delay for observing the output</span></div><div class="line">        <a class="code" href="group__group__hal__system.html#ga5f450769c1207d98134a9ced39adfdda">cyhal_system_delay_ms</a>(5000);</div><div class="line"></div><div class="line">        <span class="comment">// (Re-)start the PWM output</span></div><div class="line">        rslt = <a class="code" href="group__group__hal__pwm.html#ga95006bcc5841e610719433660365e3e2">cyhal_pwm_start</a>(&amp;pwm_obj);</div><div class="line"></div><div class="line">        <span class="comment">// Delay for observing the output</span></div><div class="line">        <a class="code" href="group__group__hal__system.html#ga5f450769c1207d98134a9ced39adfdda">cyhal_system_delay_ms</a>(5000);</div><div class="line">    }</div></div><!-- fragment --><h2><a class="anchor" id="subsection_pwm_snippet_3"></a>
+<div class="fragment"><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__pwm__t">cyhal_pwm_t</a> pwm_obj;</div><div class="line"></div><div class="line">    <span class="comment">// Initialize PWM on the supplied pin and assign a new clock</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__pwm.html#ga54a93c541bdbb3fce066a2af00d8b67f">cyhal_pwm_init</a>(&amp;pwm_obj, <a class="code" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#gga707195ce0627016bf371643bdd9caa51a23d505c049c81443b12e53d5b00b1be9">P0_0</a>, NULL);</div><div class="line">    CY_ASSERT(<a class="code" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> == rslt);</div><div class="line"></div><div class="line">    <span class="comment">// Set a duty cycle of 50% and frequency of 1Hz</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__pwm.html#ga9c468081d85d103ec10f9feeffe416ce">cyhal_pwm_set_duty_cycle</a>(&amp;pwm_obj, 50, 1);</div><div class="line"></div><div class="line">    <span class="keywordflow">while</span> (loop)</div><div class="line">    {</div><div class="line">        <span class="comment">// Stop the PWM output</span></div><div class="line">        rslt = <a class="code" href="group__group__hal__pwm.html#ga03f475a0f908814996ad697ed3036798">cyhal_pwm_stop</a>(&amp;pwm_obj);</div><div class="line"></div><div class="line">        <span class="comment">// Delay for observing the output</span></div><div class="line">        <a class="code" href="group__group__hal__system.html#ga5f450769c1207d98134a9ced39adfdda">cyhal_system_delay_ms</a>(5000);</div><div class="line"></div><div class="line">        <span class="comment">// (Re-)start the PWM output</span></div><div class="line">        rslt = <a class="code" href="group__group__hal__pwm.html#ga95006bcc5841e610719433660365e3e2">cyhal_pwm_start</a>(&amp;pwm_obj);</div><div class="line"></div><div class="line">        <span class="comment">// Delay for observing the output</span></div><div class="line">        <a class="code" href="group__group__hal__system.html#ga5f450769c1207d98134a9ced39adfdda">cyhal_system_delay_ms</a>(5000);</div><div class="line">    }</div></div><!-- fragment --><h2><a class="anchor" id="subsection_pwm_snippet_3"></a>
 Snippet 3: Advanced PWM output to pin</h2>
 <p><a class="el" href="group__group__hal__pwm.html#gacbeddfe75ccc849d27bec32ce010eceb">cyhal_pwm_init_adv</a> can be used to specify advanced PWM options like an additional inverted PWM output, pulse alignment (left, right, center) and run mode (one-shot or continuous). The following snippet initializes a left-aligned, continuous running PWM assigned to the supplied pin. The inverted output is assigned to a second pin (<b>compl_pin</b>).</p>
 <div class="fragment"><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>   rslt;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__pwm__t">cyhal_pwm_t</a> pwm_obj;</div><div class="line"></div><div class="line">    <span class="comment">// Initialize a left-aligned, continuous running PWM signal and assign normal and inverted</span></div><div class="line">    <span class="comment">// outputs to pins</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__pwm.html#gacbeddfe75ccc849d27bec32ce010eceb">cyhal_pwm_init_adv</a>(&amp;pwm_obj, <a class="code" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#gga707195ce0627016bf371643bdd9caa51a23d505c049c81443b12e53d5b00b1be9">P0_0</a>, <a class="code" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#gga707195ce0627016bf371643bdd9caa51a8c239764fe5c947cad341b176d49eb73">P0_1</a>, <a class="code" href="group__group__hal__pwm.html#gga251111384b543a19975df63353203b51a05ecb08e039afef0513837ce140a3fc1">CYHAL_PWM_LEFT_ALIGN</a>, <span class="keyword">true</span>, 0, <span class="keyword">false</span>, NULL);</div><div class="line"></div><div class="line">    <span class="comment">// Set a duty cycle of 80% on the normal PWM output with a frequency of 1kHz</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__pwm.html#ga9c468081d85d103ec10f9feeffe416ce">cyhal_pwm_set_duty_cycle</a>(&amp;pwm_obj, 80, 1000);</div><div class="line"></div><div class="line">    <span class="comment">// Start the PWM output</span></div><div class="line">    rslt = <a class="code" href="group__group__hal__pwm.html#ga95006bcc5841e610719433660365e3e2">cyhal_pwm_start</a>(&amp;pwm_obj);</div></div><!-- fragment --><h2><a class="anchor" id="subsection_pwm_snippet_4"></a>
@@ -140,7 +140,7 @@ API Reference</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:ga54a93c541bdbb3fce066a2af00d8b67f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__pwm.html#ga54a93c541bdbb3fce066a2af00d8b67f">cyhal_pwm_init</a>(obj,  pin,  clk)&#160;&#160;&#160;(<a class="el" href="group__group__hal__pwm.html#gacbeddfe75ccc849d27bec32ce010eceb">cyhal_pwm_init_adv</a>(obj, pin, <a class="el" href="group__group__hal__impl__pin__package__mxs28playermcuss__128__tqfp.html#ggac686da5d7eaa48dfb0163b362a812d5fa3dbd1016ea99d087d747530418b89a01">NC</a>, (pin &amp; 1) ? <a class="el" href="group__group__hal__pwm.html#gga251111384b543a19975df63353203b51ae604cf9b7d021f86aff923fe916a8591">CYHAL_PWM_RIGHT_ALIGN</a> : <a class="el" href="group__group__hal__pwm.html#gga251111384b543a19975df63353203b51a05ecb08e039afef0513837ce140a3fc1">CYHAL_PWM_LEFT_ALIGN</a>, true, 0u, (bool)(pin &amp; 1), clk))</td></tr>
+<tr class="memitem:ga54a93c541bdbb3fce066a2af00d8b67f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__pwm.html#ga54a93c541bdbb3fce066a2af00d8b67f">cyhal_pwm_init</a>(obj,  pin,  clk)&#160;&#160;&#160;(<a class="el" href="group__group__hal__pwm.html#gacbeddfe75ccc849d27bec32ce010eceb">cyhal_pwm_init_adv</a>(obj, pin, <a class="el" href="group__group__hal__impl__pin__package__cyw20829__56__qfn.html#ggab24d2d0f36afa1c85516af9e53405e70a3dbd1016ea99d087d747530418b89a01">NC</a>, <a class="el" href="group__group__hal__pwm.html#gga251111384b543a19975df63353203b51a05ecb08e039afef0513837ce140a3fc1">CYHAL_PWM_LEFT_ALIGN</a>, true, 0u, false, clk))</td></tr>
 <tr class="memdesc:ga54a93c541bdbb3fce066a2af00d8b67f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the PWM out peripheral and configure the pin This is similar to the <a class="el" href="group__group__hal__pwm.html#gacbeddfe75ccc849d27bec32ce010eceb">cyhal_pwm_init_adv()</a> but uses defaults for some of the more advanced setup options.  <a href="#ga54a93c541bdbb3fce066a2af00d8b67f">More...</a><br /></td></tr>
 <tr class="separator:ga54a93c541bdbb3fce066a2af00d8b67f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -207,6 +207,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gacbeddfe75ccc849d27bec32ce010eceb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__pwm.html#gacbeddfe75ccc849d27bec32ce010eceb">cyhal_pwm_init_adv</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__pwm__t">cyhal_pwm_t</a> *obj, <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a> pin, <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a> compl_pin, <a class="el" href="group__group__hal__pwm.html#ga251111384b543a19975df63353203b51">cyhal_pwm_alignment_t</a> pwm_alignment, bool continuous, uint32_t dead_time_us, bool invert, const <a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__clock__t">cyhal_clock_t</a> *clk)</td></tr>
 <tr class="memdesc:gacbeddfe75ccc849d27bec32ce010eceb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the PWM out peripheral and configure the pin.  <a href="#gacbeddfe75ccc849d27bec32ce010eceb">More...</a><br /></td></tr>
 <tr class="separator:gacbeddfe75ccc849d27bec32ce010eceb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga81aee9136b71f0d3228a30caea794712"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__pwm.html#ga81aee9136b71f0d3228a30caea794712">cyhal_pwm_init_cfg</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__pwm__t">cyhal_pwm_t</a> *obj, const <a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__pwm__configurator__t">cyhal_pwm_configurator_t</a> *cfg)</td></tr>
+<tr class="memdesc:ga81aee9136b71f0d3228a30caea794712"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the PWM out peripheral using a configurator generated configuration struct.  <a href="#ga81aee9136b71f0d3228a30caea794712">More...</a><br /></td></tr>
+<tr class="separator:ga81aee9136b71f0d3228a30caea794712"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3e4e8aa7a73d02a15dcf386c335b1598"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__pwm.html#ga3e4e8aa7a73d02a15dcf386c335b1598">cyhal_pwm_free</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__pwm__t">cyhal_pwm_t</a> *obj)</td></tr>
 <tr class="memdesc:ga3e4e8aa7a73d02a15dcf386c335b1598"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deinitialize the PWM object.  <a href="#ga3e4e8aa7a73d02a15dcf386c335b1598">More...</a><br /></td></tr>
 <tr class="separator:ga3e4e8aa7a73d02a15dcf386c335b1598"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -228,9 +231,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga558c129c5f5f9989319c591423fdeceb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__pwm.html#ga558c129c5f5f9989319c591423fdeceb">cyhal_pwm_enable_event</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__pwm__t">cyhal_pwm_t</a> *obj, <a class="el" href="group__group__hal__pwm.html#gabfbeebd93efd6491261d3eb6aefef554">cyhal_pwm_event_t</a> event, uint8_t intr_priority, bool enable)</td></tr>
 <tr class="memdesc:ga558c129c5f5f9989319c591423fdeceb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure PWM event enablement.  <a href="#ga558c129c5f5f9989319c591423fdeceb">More...</a><br /></td></tr>
 <tr class="separator:ga558c129c5f5f9989319c591423fdeceb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga7b02438e441609c43330a9c519f65b36"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__pwm.html#ga7b02438e441609c43330a9c519f65b36">cyhal_pwm_connect_digital</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__pwm__t">cyhal_pwm_t</a> *obj, <a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a> source, <a class="el" href="group__group__hal__pwm.html#gacca527398174f6aeb9f11b1221c700dd">cyhal_pwm_input_t</a> signal, <a class="el" href="group__group__hal__general__types.html#ga48a2f3a7a4210f50859fc68fa3db9391">cyhal_edge_type_t</a> type)</td></tr>
-<tr class="memdesc:ga7b02438e441609c43330a9c519f65b36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connects a source signal and configures and enables a PWM event to be triggered from that signal.  <a href="#ga7b02438e441609c43330a9c519f65b36">More...</a><br /></td></tr>
-<tr class="separator:ga7b02438e441609c43330a9c519f65b36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafa371f9c9b4e47998d83284849c9f921"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__pwm.html#gafa371f9c9b4e47998d83284849c9f921">cyhal_pwm_connect_digital</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__pwm__t">cyhal_pwm_t</a> *obj, <a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a> source, <a class="el" href="group__group__hal__pwm.html#gacca527398174f6aeb9f11b1221c700dd">cyhal_pwm_input_t</a> signal)</td></tr>
+<tr class="memdesc:gafa371f9c9b4e47998d83284849c9f921"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connects a source signal and configures and enables a PWM event to be triggered from that signal.  <a href="#gafa371f9c9b4e47998d83284849c9f921">More...</a><br /></td></tr>
+<tr class="separator:gafa371f9c9b4e47998d83284849c9f921"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga9757bece5e0527f3a8b6df054c49331f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__pwm.html#ga9757bece5e0527f3a8b6df054c49331f">cyhal_pwm_enable_output</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__pwm__t">cyhal_pwm_t</a> *obj, <a class="el" href="group__group__hal__pwm.html#gadfe1c35104f1fe901d41bef508fa2f1b">cyhal_pwm_output_t</a> signal, <a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a> *source)</td></tr>
 <tr class="memdesc:ga9757bece5e0527f3a8b6df054c49331f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables the specified output signal from a PWM that will be triggered when the corresponding event occurs.  <a href="#ga9757bece5e0527f3a8b6df054c49331f">More...</a><br /></td></tr>
 <tr class="separator:ga9757bece5e0527f3a8b6df054c49331f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -269,7 +272,7 @@ Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;(<a class="el" href="group__group__hal__pwm.html#gacbeddfe75ccc849d27bec32ce010eceb">cyhal_pwm_init_adv</a>(obj, pin, <a class="el" href="group__group__hal__impl__pin__package__mxs28playermcuss__128__tqfp.html#ggac686da5d7eaa48dfb0163b362a812d5fa3dbd1016ea99d087d747530418b89a01">NC</a>, (pin &amp; 1) ? <a class="el" href="group__group__hal__pwm.html#gga251111384b543a19975df63353203b51ae604cf9b7d021f86aff923fe916a8591">CYHAL_PWM_RIGHT_ALIGN</a> : <a class="el" href="group__group__hal__pwm.html#gga251111384b543a19975df63353203b51a05ecb08e039afef0513837ce140a3fc1">CYHAL_PWM_LEFT_ALIGN</a>, true, 0u, (bool)(pin &amp; 1), clk))</td>
+          <td></td><td>&#160;&#160;&#160;(<a class="el" href="group__group__hal__pwm.html#gacbeddfe75ccc849d27bec32ce010eceb">cyhal_pwm_init_adv</a>(obj, pin, <a class="el" href="group__group__hal__impl__pin__package__cyw20829__56__qfn.html#ggab24d2d0f36afa1c85516af9e53405e70a3dbd1016ea99d087d747530418b89a01">NC</a>, <a class="el" href="group__group__hal__pwm.html#gga251111384b543a19975df63353203b51a05ecb08e039afef0513837ce140a3fc1">CYHAL_PWM_LEFT_ALIGN</a>, true, 0u, false, clk))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -279,7 +282,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[out]</td><td class="paramname">obj</td><td>Pointer to a PWM object. The caller must allocate the memory for this object but the init function will initialize its contents. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">pin</td><td>The PWM pin to initialize. This pin is required, it cannot be <a class="el" href="group__group__hal__impl__pin__package__mxs28playermcuss__128__tqfp.html#ggac686da5d7eaa48dfb0163b362a812d5fa3dbd1016ea99d087d747530418b89a01">NC</a> (No Connect). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pin</td><td>The PWM pin to initialize. This pin is required, it cannot be <a class="el" href="group__group__hal__impl__pin__package__cyw20829__56__qfn.html#ggab24d2d0f36afa1c85516af9e53405e70a3dbd1016ea99d087d747530418b89a01">NC</a> (No Connect). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">clk</td><td>An optional, pre-allocated clock to use, if NULL a new clock will be allocated </td></tr>
   </table>
   </dd>
@@ -462,10 +465,10 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[out]</td><td class="paramname">obj</td><td>Pointer to a PWM object. The caller must allocate the memory for this object but the init function will initialize its contents. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">pin</td><td>The PWM pin to initialize. This pin is required, it cannot be <a class="el" href="group__group__hal__impl__pin__package__mxs28playermcuss__128__tqfp.html#ggac686da5d7eaa48dfb0163b362a812d5fa3dbd1016ea99d087d747530418b89a01">NC</a> (No Connect). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pin</td><td>The PWM pin to initialize. This pin is required, it cannot be <a class="el" href="group__group__hal__impl__pin__package__cyw20829__56__qfn.html#ggab24d2d0f36afa1c85516af9e53405e70a3dbd1016ea99d087d747530418b89a01">NC</a> (No Connect). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">compl_pin</td><td>An optional, additional inverted output pin. <br />
- If supplied, this must be connected to the same PWM instance as <b>pin</b>, see <a class="el" href="group__group__hal__impl__pwm.html#section_hal_impl_pwm_compl_pins">Complementary PWM output</a>.<br />
- If this output is not needed, use <a class="el" href="group__group__hal__impl__pin__package__mxs28playermcuss__128__tqfp.html#ggac686da5d7eaa48dfb0163b362a812d5fa3dbd1016ea99d087d747530418b89a01">NC</a> (No Connect). </td></tr>
+ If supplied, this must be connected to the same or related PWM instance as <b>pin</b>, see <a class="el" href="group__group__hal__impl__pwm.html#section_hal_impl_pwm_compl_pins">Complementary PWM output</a> for details.<br />
+ If this output is not needed, use <a class="el" href="group__group__hal__impl__pin__package__cyw20829__56__qfn.html#ggab24d2d0f36afa1c85516af9e53405e70a3dbd1016ea99d087d747530418b89a01">NC</a> (No Connect). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">pwm_alignment</td><td>PWM alignment: left, right, or center. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">continuous</td><td>PWM run type: continuous (true) or one shot (false). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">dead_time_us</td><td>The number of micro-seconds for dead time. This is only meaningful if both <b>pin</b> and <b>compl_pin</b> are provided. </td></tr>
@@ -476,6 +479,44 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The status of the init request</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>In some cases, it is possible to use a pin designated for non-inverting output as an inverting output and vice versa. Whether this is possible is dependent on the HAL implementation and operating mode. See the implementation specific documentation for details. </dd></dl>
+
+</div>
+</div>
+<a id="ga81aee9136b71f0d3228a30caea794712"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga81aee9136b71f0d3228a30caea794712">&#9670;&nbsp;</a></span>cyhal_pwm_init_cfg()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_pwm_init_cfg </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__pwm__t">cyhal_pwm_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__pwm__configurator__t">cyhal_pwm_configurator_t</a> *&#160;</td>
+          <td class="paramname"><em>cfg</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initialize the PWM out peripheral using a configurator generated configuration struct. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">obj</td><td>Pointer to a PWM object. The caller must allocate the memory for this object but the init function will initialize its contents. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cfg</td><td>Configuration structure generated by a configurator. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the init request </dd></dl>
 
 </div>
 </div>
@@ -586,7 +627,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The PWM object </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">duty_cycle</td><td>The percentage of time the output is high </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">duty_cycle</td><td>The percentage of time the output is high (0 - 100%) </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">frequencyhal_hz</td><td>The frequency of the PWM in Hz </td></tr>
   </table>
   </dd>
@@ -746,8 +787,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ga7b02438e441609c43330a9c519f65b36"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga7b02438e441609c43330a9c519f65b36">&#9670;&nbsp;</a></span>cyhal_pwm_connect_digital()</h2>
+<a id="gafa371f9c9b4e47998d83284849c9f921"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gafa371f9c9b4e47998d83284849c9f921">&#9670;&nbsp;</a></span>cyhal_pwm_connect_digital()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -768,13 +809,7 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="group__group__hal__pwm.html#gacca527398174f6aeb9f11b1221c700dd">cyhal_pwm_input_t</a>&#160;</td>
-          <td class="paramname"><em>signal</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group__group__hal__general__types.html#ga48a2f3a7a4210f50859fc68fa3db9391">cyhal_edge_type_t</a>&#160;</td>
-          <td class="paramname"><em>type</em>&#160;</td>
+          <td class="paramname"><em>signal</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -791,7 +826,6 @@ Functions</h2></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>PWM obj </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">source</td><td>Source signal obtained from another driver's cyhal_&lt;PERIPH&gt;_enable_output </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">signal</td><td>The PWM input signal </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>The PWM input signal edge type </td></tr>
   </table>
   </dd>
 </dl>

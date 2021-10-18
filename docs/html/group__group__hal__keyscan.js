@@ -18,5 +18,6 @@ var group__group__hal__keyscan =
     [ "cyhal_keyscan_free", "group__group__hal__keyscan.html#ga2a147e08210f725c0a7a1b8930e3898f", null ],
     [ "cyhal_keyscan_read", "group__group__hal__keyscan.html#ga72cbc5bdf8b4fbbbee972a079a335c8e", null ],
     [ "cyhal_keyscan_register_callback", "group__group__hal__keyscan.html#ga98399ac6fd9b2a1d8c36d940188104c8", null ],
-    [ "cyhal_keyscan_enable_event", "group__group__hal__keyscan.html#ga1a8f169699fdb7c3578111432843d57d", null ]
+    [ "cyhal_keyscan_enable_event", "group__group__hal__keyscan.html#ga1a8f169699fdb7c3578111432843d57d", null ],
+    [ "cyhal_keyscan_init_cfg", "group__group__hal__keyscan.html#gaed11b0ccfa0cb5fcd205d44f9aec81ca", null ]
 ];

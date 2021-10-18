@@ -6,7 +6,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -45,8 +47,6 @@ extern "C" {
 #include "triggers/cyhal_triggers_psoc6_03.h"
 #elif defined(CY_DEVICE_PSOC6A256K)
 #include "triggers/cyhal_triggers_psoc6_04.h"
-#elif defined(CY_DEVICE_MXS28PLAYERMCUSS)
-#include "triggers/cyhal_triggers_mxs28playermcuss.h"
 #elif defined(CY_DEVICE_CYW20829)
 #include "triggers/cyhal_triggers_cyw20829.h"
 #endif

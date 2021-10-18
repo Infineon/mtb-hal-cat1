@@ -2,14 +2,16 @@
 * \file cyhal_usb_dev.h
 *
 * \brief
-* Provides a high level interface for interacting with the Cypress USB Device.
+* Provides a high level interface for interacting with the Infineon USB Device.
 * This interface abstracts out the chip specific details.
 * If any chip specific functionality is necessary, or performance is critical
 * the low level functions can be used directly.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2019-2021 Cypress Semiconductor Corporation
+* Copyright 2019-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -82,7 +84,7 @@
 * The following section shows how to add endpoint to the USB device and configure the endpoint using
 * \ref cyhal_usb_dev_endpoint_add. The interrupts associated with the endpoints are handled by a
 * callback function registered using \ref cyhal_usb_dev_register_endpoint_callback.
-* The endpoint can also be configured using <a href="https://www.cypress.com/ModusToolboxUSBConfig">ModusToolbox USB Configurator</a>
+* The endpoint can also be configured using <a href="https://www.cypress.com/ModusToolboxUSBConfig">ModusToolbox™ USB Configurator</a>
 *
 * \snippet hal_usb_dev.c snippet_cyhal_usb_dev_endpoint
 */
@@ -106,13 +108,13 @@ extern "C" {
 
 /** The usb error */
 #define CYHAL_USB_DEV_RSLT_ERR                          \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_USB, 0))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_USB, 0))
 /** The driver configuration is not supported by the HAL */
 #define CYHAL_USB_DEV_RSLT_ERR_BAD_DRV_CFG              \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_USB, 1))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_USB, 1))
 /** The configuration of USB clock failed */
 #define CYHAL_USB_DEV_RSLT_ERR_CLK_CFG                  \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_USB, 2))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_USB, 2))
 
 /**
  * \}

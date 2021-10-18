@@ -119,7 +119,7 @@ Features</h1>
 Quick Start</h1>
 <p><a class="el" href="group__group__hal__timer.html#gaa8ca8e199bc9848f8729ff78953bb0fa">cyhal_timer_init</a> can be used for timer initialization by providing the timer object - <a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__timer__t">cyhal_timer_t</a>, and shared clock source - <b> clk </b> (optional). The timer parameters needs to be populated in <a class="el" href="group__group__hal__timer.html#structcyhal__timer__cfg__t">cyhal_timer_cfg_t</a> structure. The timer then needs to be configured by using the <a class="el" href="group__group__hal__timer.html#ga03e9a7839ffd4e8cad90f97fab176813">cyhal_timer_configure</a> function.</p>
 <dl class="section note"><dt>Note</dt><dd>A default frequency is set when an existing clock divider - <b> clk </b> is not provided to <a class="el" href="group__group__hal__timer.html#gaa8ca8e199bc9848f8729ff78953bb0fa">cyhal_timer_init</a> which is defined by the macro - <a class="el" href="group__group__hal__timer.html#ga28d85cf945883c0e74a533a4ddd7b122">CYHAL_TIMER_DEFAULT_FREQ</a>.</dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>Currently there is no support for pin connections to Timer using this driver. So, the <b> pin </b> should be assigned as <a class="el" href="group__group__hal__impl__pin__package__mxs28playermcuss__128__tqfp.html#ggac686da5d7eaa48dfb0163b362a812d5fa3dbd1016ea99d087d747530418b89a01">NC</a> while using the <a class="el" href="group__group__hal__timer.html#gaa8ca8e199bc9848f8729ff78953bb0fa">cyhal_timer_init</a> to initialize the timer.</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>Currently there is no support for pin connections to Timer using this driver. So, the <b> pin </b> should be assigned as <a class="el" href="group__group__hal__impl__pin__package__cyw20829__56__qfn.html#ggab24d2d0f36afa1c85516af9e53405e70a3dbd1016ea99d087d747530418b89a01">NC</a> while using the <a class="el" href="group__group__hal__timer.html#gaa8ca8e199bc9848f8729ff78953bb0fa">cyhal_timer_init</a> to initialize the timer.</dd></dl>
 <p>See <a class="el" href="group__group__hal__timer.html#subsection_timer_snippet_1">Snippet 1: Measuring time of an operation</a>.</p>
 <h1><a class="anchor" id="subsection_timer_sample_snippets"></a>
 Code Snippets</h1>
@@ -210,6 +210,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gaa8ca8e199bc9848f8729ff78953bb0fa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__timer.html#gaa8ca8e199bc9848f8729ff78953bb0fa">cyhal_timer_init</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__timer__t">cyhal_timer_t</a> *obj, <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a> pin, const <a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__clock__t">cyhal_clock_t</a> *clk)</td></tr>
 <tr class="memdesc:gaa8ca8e199bc9848f8729ff78953bb0fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the timer/counter peripheral and configure the pin.  <a href="#gaa8ca8e199bc9848f8729ff78953bb0fa">More...</a><br /></td></tr>
 <tr class="separator:gaa8ca8e199bc9848f8729ff78953bb0fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0ecbd9618bb7cedb7f4b77525e274b09"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__timer.html#ga0ecbd9618bb7cedb7f4b77525e274b09">cyhal_timer_init_cfg</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__timer__t">cyhal_timer_t</a> *obj, const <a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__timer__configurator__t">cyhal_timer_configurator_t</a> *cfg)</td></tr>
+<tr class="memdesc:ga0ecbd9618bb7cedb7f4b77525e274b09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the Timer peripheral using a configurator generated configuration struct.  <a href="#ga0ecbd9618bb7cedb7f4b77525e274b09">More...</a><br /></td></tr>
+<tr class="separator:ga0ecbd9618bb7cedb7f4b77525e274b09"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga94944664f47b8ff7c093719116b35cdc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__timer.html#ga94944664f47b8ff7c093719116b35cdc">cyhal_timer_free</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__timer__t">cyhal_timer_t</a> *obj)</td></tr>
 <tr class="memdesc:ga94944664f47b8ff7c093719116b35cdc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deinitialize the timer/counter object.  <a href="#ga94944664f47b8ff7c093719116b35cdc">More...</a><br /></td></tr>
 <tr class="separator:ga94944664f47b8ff7c093719116b35cdc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -240,9 +243,9 @@ Functions</h2></td></tr>
 <tr class="memdesc:ga4b97fe48330e9b8034ab7c2f56078002"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure timer/counter event enablement <br />
   <a href="#ga4b97fe48330e9b8034ab7c2f56078002">More...</a><br /></td></tr>
 <tr class="separator:ga4b97fe48330e9b8034ab7c2f56078002"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga66869e4eb30aa72affa0ce7fda47da8c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__timer.html#ga66869e4eb30aa72affa0ce7fda47da8c">cyhal_timer_connect_digital</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__timer__t">cyhal_timer_t</a> *obj, <a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a> source, <a class="el" href="group__group__hal__timer.html#gadb5da20c0e7111025f4091339dd36fc4">cyhal_timer_input_t</a> signal, <a class="el" href="group__group__hal__general__types.html#ga48a2f3a7a4210f50859fc68fa3db9391">cyhal_edge_type_t</a> type)</td></tr>
-<tr class="memdesc:ga66869e4eb30aa72affa0ce7fda47da8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connects a source signal and configures and enables a timer event to be triggered from that signal.  <a href="#ga66869e4eb30aa72affa0ce7fda47da8c">More...</a><br /></td></tr>
-<tr class="separator:ga66869e4eb30aa72affa0ce7fda47da8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5458a719692e938b056150351b287967"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__timer.html#ga5458a719692e938b056150351b287967">cyhal_timer_connect_digital</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__timer__t">cyhal_timer_t</a> *obj, <a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a> source, <a class="el" href="group__group__hal__timer.html#gadb5da20c0e7111025f4091339dd36fc4">cyhal_timer_input_t</a> signal)</td></tr>
+<tr class="memdesc:ga5458a719692e938b056150351b287967"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connects a source signal and configures and enables a timer event to be triggered from that signal.  <a href="#ga5458a719692e938b056150351b287967">More...</a><br /></td></tr>
+<tr class="separator:ga5458a719692e938b056150351b287967"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga0e7450df4a250d811d1ce60cb69285f8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__timer.html#ga0e7450df4a250d811d1ce60cb69285f8">cyhal_timer_enable_output</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__timer__t">cyhal_timer_t</a> *obj, <a class="el" href="group__group__hal__timer.html#ga3b82fcbb7e540b55f1923f0cc4c77c30">cyhal_timer_output_t</a> signal, <a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a> *source)</td></tr>
 <tr class="memdesc:ga0e7450df4a250d811d1ce60cb69285f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables the specified output signal from a tcpwm that will be triggered when the corresponding event occurs.  <a href="#ga0e7450df4a250d811d1ce60cb69285f8">More...</a><br /></td></tr>
 <tr class="separator:ga0e7450df4a250d811d1ce60cb69285f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -454,6 +457,44 @@ Default value of the timer/counter. <a class="el" href="group__group__hal__timer
     <tr><td class="paramdir">[out]</td><td class="paramname">obj</td><td>Pointer to a timer/counter object. The caller must allocate the memory for this object but the init function will initialize its contents. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">pin</td><td>optional - The timer/counter compare/capture pin to initialize </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">clk</td><td>optional - The shared clock to use, if not provided a new clock will be allocated and the timer frequency will be set to <a class="el" href="group__group__hal__timer.html#ga28d85cf945883c0e74a533a4ddd7b122">CYHAL_TIMER_DEFAULT_FREQ</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the init request </dd></dl>
+
+</div>
+</div>
+<a id="ga0ecbd9618bb7cedb7f4b77525e274b09"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0ecbd9618bb7cedb7f4b77525e274b09">&#9670;&nbsp;</a></span>cyhal_timer_init_cfg()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_timer_init_cfg </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__timer__t">cyhal_timer_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__timer__configurator__t">cyhal_timer_configurator_t</a> *&#160;</td>
+          <td class="paramname"><em>cfg</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initialize the Timer peripheral using a configurator generated configuration struct. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">obj</td><td>Pointer to a Timer object. The caller must allocate the memory for this object but the init function will initialize its contents. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cfg</td><td>Configuration structure generated by a configurator. </td></tr>
   </table>
   </dd>
 </dl>
@@ -781,8 +822,8 @@ Default value of the timer/counter. <a class="el" href="group__group__hal__timer
 
 </div>
 </div>
-<a id="ga66869e4eb30aa72affa0ce7fda47da8c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga66869e4eb30aa72affa0ce7fda47da8c">&#9670;&nbsp;</a></span>cyhal_timer_connect_digital()</h2>
+<a id="ga5458a719692e938b056150351b287967"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5458a719692e938b056150351b287967">&#9670;&nbsp;</a></span>cyhal_timer_connect_digital()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -803,13 +844,7 @@ Default value of the timer/counter. <a class="el" href="group__group__hal__timer
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="group__group__hal__timer.html#gadb5da20c0e7111025f4091339dd36fc4">cyhal_timer_input_t</a>&#160;</td>
-          <td class="paramname"><em>signal</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group__group__hal__general__types.html#ga48a2f3a7a4210f50859fc68fa3db9391">cyhal_edge_type_t</a>&#160;</td>
-          <td class="paramname"><em>type</em>&#160;</td>
+          <td class="paramname"><em>signal</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -826,7 +861,6 @@ Default value of the timer/counter. <a class="el" href="group__group__hal__timer
     <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>Timer obj </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">source</td><td>Source signal obtained from another driver's cyhal_&lt;PERIPH&gt;_enable_output </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">signal</td><td>The timer input signal </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>The timer input signal edge type </td></tr>
   </table>
   </dd>
 </dl>

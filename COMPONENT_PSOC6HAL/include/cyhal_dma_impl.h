@@ -2,11 +2,13 @@
 * \file cyhal_dma_impl.h
 *
 * \brief
-* Implementation details of Cypress Datawire/DMAC DMA.
+* Implementation details of Infineon Datawire/DMAC DMA.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,14 +35,14 @@ extern "C" {
 /** \addtogroup group_hal_impl_dma DMA (Direct Memory Access)
  * \ingroup group_hal_impl
  * \{
- * DW (DataWire) is one of two DMA hardware implementations for CAT1 (PSoC 6).
+ * DW (DataWire) is one of two DMA hardware implementations for CAT1 (PSoC™ 6).
  * DW is designed for low latency memory to peripheral or peripheral to memory
  * transfers but can also perform memory to memory transfers and peripheral to
  * peripheral transfers.
  *
  * DMAC (Direct Memory Access Controller) is the second of two DMA hardware
- * implementations for CAT1 (PSoC 6). It is also the implementation that is
- * found on CAT2 (PMG/PSoC 4) devices. DMAC is designed with high memory
+ * implementations for CAT1 (PSoC™ 6). It is also the implementation that is
+ * found on CAT2 (PMG/PSoC™ 4) devices. DMAC is designed with high memory
  * bandwidth for large memory to memory transfers but can perform peripheral
  * to memory, memory to peripheral, and peripheral to peripheral transfers.
  *

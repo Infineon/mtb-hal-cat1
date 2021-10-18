@@ -67,7 +67,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(document).ready(function(){initNavTree('group__group__hal__impl__i2s.html','');});
+$(document).ready(function(){initNavTree('group__group__hal__impl__spi.html','');});
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -87,28 +87,17 @@ $(document).ready(function(){initNavTree('group__group__hal__impl__i2s.html','')
 
 <div class="header">
   <div class="headertitle">
-<div class="title">I2S (Inter-IC Sound)<div class="ingroups"><a class="el" href="group__group__hal__impl.html">CAT1 (PSoC 6) Implementation Specific</a></div></div>  </div>
+<div class="title">SPI (Serial Peripheral Interface)<div class="ingroups"><a class="el" href="group__group__hal__impl.html">CAT1 (PSoC™ 6) Implementation Specific</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
-<p>The CAT1 (PSoC 6) I2S Supports the following values for word lengths: </p>
-<ul>
-<li>8 bits</li>
-<li>10 bits (CAT1B only)</li>
-<li>12 bits (CAT1B only)</li>
-<li>14 bits (CAT1B only)</li>
-<li>16 bits</li>
-<li>18 bits</li>
-<li>20 bits</li>
-<li>24 bits</li>
-<li>32 bits</li>
-</ul>
-<p>The channel length must be greater than or equal to the word length. On CAT1A devices, the set of supported channel lengths is the same as the set of supported word lengths. On CAT1B devices, the channel length may be any value between 8 and 32 bits.</p>
-<p>The sclk signal is formed by integer division of the input clock source (either internally provided or from the mclk pin). The CAT1A I2S supports sclk divider values from 1 to 64. On CAT1B devices, the I2S supports sclk divider values from 2 to 256.</p>
-<p>The following events are not supported on CAT1B:</p><ul>
-<li><a class="el" href="group__group__hal__i2s.html#gga98bc78188673aae2c4e27b660a3f20feaf860cfe6a5c38f054a44b53f854c8126">CYHAL_I2S_TX_EMPTY</a></li>
-<li><a class="el" href="group__group__hal__i2s.html#gga98bc78188673aae2c4e27b660a3f20feab3afa80998f12db882eea775c8076b33">CYHAL_I2S_TX_NOT_FULL</a></li>
-<li><a class="el" href="group__group__hal__i2s.html#gga98bc78188673aae2c4e27b660a3f20feaef9405281e230cb6b518d1649293d3f0">CYHAL_I2S_RX_FULL</a></li>
-<li><a class="el" href="group__group__hal__i2s.html#gga98bc78188673aae2c4e27b660a3f20fea5b792c472fda8fe9b0580b48dc3f82cc">CYHAL_I2S_RX_NOT_EMPTY</a> </li>
+<h1><a class="anchor" id="section_hal_impl_spi_init_cfg"></a>
+Configurator-generated features limitations</h1>
+<p>List of SPI personality items, which are currently not supported in SPI HAL driver on CAT1/CAT2 devices:</p><ul>
+<li>Modes: TI (Start Coincides), TI (Start Precedes), National Semiconductor (Microwire)</li>
+<li>Low-level RX Interrupt sources</li>
+<li>Low-level TX Interrupt sources</li>
+<li>SPI Done Master interrupt source</li>
+<li>Different data width for RX and TX </li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

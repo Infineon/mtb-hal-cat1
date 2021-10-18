@@ -6,7 +6,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,7 +25,7 @@
 *******************************************************************************/
 
 /**
-* \addtogroup group_hal_impl_hw_types
+* \addtogroup group_hal_impl_availability HAL Driver Availability Macros
 * \ingroup group_hal_impl
 * \{
 */
@@ -37,38 +39,76 @@ extern "C" {
 #endif
 
 // Documented in cyhal.h
-#define CYHAL_DRIVER_AVAILABLE_ADC          (CY_IP_MXS40PASS_SAR || CY_IP_MXS40ADCMIC_INSTANCES)
+#define CYHAL_API_VERSION                   (2)
+
+/** \cond INTERNAL */
+#define _CYHAL_DRIVER_AVAILABLE_ADC_SAR     ((CY_IP_MXS40PASS_SAR_INSTANCES) > 0)
+#define _CYHAL_DRIVER_AVAILABLE_ADC_MIC     ((CY_IP_MXS40ADCMIC_INSTANCES) > 0)
+#define _CYHAL_DRIVER_AVAILABLE_DMA_DMAC    (((CY_IP_M4CPUSS_DMAC_INSTANCES) > 0) || ((CY_IP_MXAHBDMAC_INSTANCES) > 0))
+#define _CYHAL_DRIVER_AVAILABLE_DMA_DW      (((CY_IP_M4CPUSS_DMA_INSTANCES) > 0) || ((CY_IP_MXDW_INSTANCES) > 0))
+#define _CYHAL_DRIVER_AVAILABLE_COMP_LP     ((CY_IP_MXLPCOMP_INSTANCES) > 0)
+#define _CYHAL_DRIVER_AVAILABLE_COMP_CTB    (((CY_IP_MXS40PASS_INSTANCES) > 0) && ((CY_IP_MXS40PASS_CTB_INSTANCES) > 0))
+#define _CYHAL_DRIVER_AVAILABLE_PASS        ((CY_IP_MXS40PASS_INSTANCES) > 0)
+#define _CYHAL_DRIVER_AVAILABLE_SCB         ((CY_IP_MXSCB_INSTANCES) > 0)
+#define _CYHAL_DRIVER_AVAILABLE_TCPWM       ((CY_IP_MXTCPWM_INSTANCES) > 0)
+#define _CYHAL_DRIVER_AVAILABLE_CRYPTO      (((CY_IP_MXCRYPTO_INSTANCES) > 0) || ((CY_IP_MXCRYPTOLITE_INSTANCES) > 0))
+#if defined(CYHAL_UDB_SDIO)
+#define _CYHAL_DRIVER_AVAILABLE_SDIO_UDB    (1)
+#else
+#define _CYHAL_DRIVER_AVAILABLE_SDIO_UDB    (0)
+#endif
+#if (!defined(CPUSS_FLASHC_PRESENT) || ((CPUSS_FLASHC_PRESENT) > 0))
+#define _CYHAL_DRIVER_AVAILABLE_FLASH       (1)
+#else
+#define _CYHAL_DRIVER_AVAILABLE_FLASH       (0)
+#endif
+/** \endcond */
+
+// Documented in cyhal.h
+#define CYHAL_DRIVER_AVAILABLE_ADC          ((_CYHAL_DRIVER_AVAILABLE_ADC_SAR) || (_CYHAL_DRIVER_AVAILABLE_ADC_MIC))
 #define CYHAL_DRIVER_AVAILABLE_CLOCK        (1)
-#define CYHAL_DRIVER_AVAILABLE_COMP         (CY_IP_MXLPCOMP_INSTANCES || CY_IP_MXS40PASS_CTB_INSTANCES)
-#define CYHAL_DRIVER_AVAILABLE_CRC          (CY_IP_MXCRYPTO_INSTANCES || CPUSS_CRYPTO_PRESENT)
-#define CYHAL_DRIVER_AVAILABLE_DAC          (CY_IP_MXS40PASS_CTDAC)
-#define CYHAL_DRIVER_AVAILABLE_DMA          (CY_IP_M4CPUSS_DMAC || CY_IP_M4CPUSS_DMA || CY_IP_MXAHBDMAC || CY_IP_MXDW)
-#define CYHAL_DRIVER_AVAILABLE_EZI2C        (CY_IP_MXSCB)
-#define CYHAL_DRIVER_AVAILABLE_FLASH        (1)
+#define CYHAL_DRIVER_AVAILABLE_COMP         ((_CYHAL_DRIVER_AVAILABLE_COMP_LP) || (_CYHAL_DRIVER_AVAILABLE_COMP_CTB))
+#define CYHAL_DRIVER_AVAILABLE_CRC          (((CY_IP_MXCRYPTO_INSTANCES) > 0) && (CPUSS_CRYPTO_CRC))
+#define CYHAL_DRIVER_AVAILABLE_DAC          (((CY_IP_MXS40PASS_INSTANCES) > 0) && ((CY_IP_MXS40PASS_CTDAC_INSTANCES) > 0))
+#define CYHAL_DRIVER_AVAILABLE_DMA          ((_CYHAL_DRIVER_AVAILABLE_DMA_DMAC) || (_CYHAL_DRIVER_AVAILABLE_DMA_DW))
+#define CYHAL_DRIVER_AVAILABLE_EZI2C        (_CYHAL_DRIVER_AVAILABLE_SCB) //SCB[x]_I2C
+#define CYHAL_DRIVER_AVAILABLE_FLASH        (_CYHAL_DRIVER_AVAILABLE_FLASH)
 #define CYHAL_DRIVER_AVAILABLE_GPIO         (1)
 #define CYHAL_DRIVER_AVAILABLE_HWMGR        (1)
-#define CYHAL_DRIVER_AVAILABLE_I2C          (CY_IP_MXSCB)
-#define CYHAL_DRIVER_AVAILABLE_I2S          (CY_IP_MXAUDIOSS || CY_IP_MXTDM)
+#define CYHAL_DRIVER_AVAILABLE_I2C          (_CYHAL_DRIVER_AVAILABLE_SCB) //SCB[x]_I2C
+#define CYHAL_DRIVER_AVAILABLE_I2S          (((CY_IP_MXAUDIOSS_INSTANCES) > 0) || ((CY_IP_MXTDM_INSTANCES) > 0)) //AUDIOSS[x]_I2S
+#define CYHAL_DRIVER_AVAILABLE_I2S_TX       (CYHAL_DRIVER_AVAILABLE_I2S)
+#define CYHAL_DRIVER_AVAILABLE_I2S_RX       (CYHAL_DRIVER_AVAILABLE_I2S)
 #define CYHAL_DRIVER_AVAILABLE_INTERCONNECT (1)
-#define CYHAL_DRIVER_AVAILABLE_KEYSCAN      (CY_IP_MXKEYSCAN)
-#define CYHAL_DRIVER_AVAILABLE_LPTIMER      (1)
-#define CYHAL_DRIVER_AVAILABLE_OPAMP        (CY_IP_MXS40PASS_CTB_INSTANCES)
-#define CYHAL_DRIVER_AVAILABLE_PDMPCM       (CY_IP_MXAUDIOSS || CY_IP_MXPDM)
-#define CYHAL_DRIVER_AVAILABLE_PWM          (CY_IP_MXTCPWM)
-#define CYHAL_DRIVER_AVAILABLE_QSPI         (CY_IP_MXSMIF)
-#define CYHAL_DRIVER_AVAILABLE_QUADDEC      (CY_IP_MXTCPWM)
-#define CYHAL_DRIVER_AVAILABLE_RTC          (CY_IP_MXS40SRSS_RTC || CY_IP_MXS40SSRSS)
-#define CYHAL_DRIVER_AVAILABLE_SDHC         (CY_IP_MXSDHC)
-#define CYHAL_DRIVER_AVAILABLE_SDIO         (CY_IP_MXSDHC || CYHAL_UDB_SDIO)
-#define CYHAL_DRIVER_AVAILABLE_SPI          (CY_IP_MXSCB)
+#define CYHAL_DRIVER_AVAILABLE_KEYSCAN      ((CY_IP_MXKEYSCAN_INSTANCES) > 0)
+#define CYHAL_DRIVER_AVAILABLE_LPTIMER      ((SRSS_NUM_MCWDT) > 0)
+#define CYHAL_DRIVER_AVAILABLE_OPAMP        (((CY_IP_MXS40PASS_INSTANCES) > 0) && ((CY_IP_MXS40PASS_CTB_INSTANCES) > 0))
+#define CYHAL_DRIVER_AVAILABLE_PDMPCM       (((CY_IP_MXAUDIOSS_INSTANCES) > 0) || ((CY_IP_MXPDM_INSTANCES) > 0)) //AUDIOSS[x]_PDM
+#define CYHAL_DRIVER_AVAILABLE_PWM          (_CYHAL_DRIVER_AVAILABLE_TCPWM)
+#define CYHAL_DRIVER_AVAILABLE_QSPI         ((CY_IP_MXSMIF_INSTANCES) > 0)
+#define CYHAL_DRIVER_AVAILABLE_QUADDEC      (_CYHAL_DRIVER_AVAILABLE_TCPWM)
+#define CYHAL_DRIVER_AVAILABLE_RTC          ((((CY_IP_MXS40SSRSS_INSTANCES) > 0) || ((CY_IP_MXS40SRSS_INSTANCES) > 0)) && ((SRSS_BACKUP_PRESENT) > 0))
+#define CYHAL_DRIVER_AVAILABLE_SDHC         ((CY_IP_MXSDHC_INSTANCES) > 0)
+#define CYHAL_DRIVER_AVAILABLE_SDIO         (((CY_IP_MXSDHC_INSTANCES) > 0) || (_CYHAL_DRIVER_AVAILABLE_SDIO_UDB))
+#define CYHAL_DRIVER_AVAILABLE_SPI          (_CYHAL_DRIVER_AVAILABLE_SCB) //SCB[x]_SPI
 #define CYHAL_DRIVER_AVAILABLE_SYSPM        (1)
 #define CYHAL_DRIVER_AVAILABLE_SYSTEM       (1)
-#define CYHAL_DRIVER_AVAILABLE_TDM          (CY_IP_MXAUDIOSS || CY_IP_MXTDM)
-#define CYHAL_DRIVER_AVAILABLE_TIMER        (CY_IP_MXTCPWM)
-#define CYHAL_DRIVER_AVAILABLE_TRNG         (CY_IP_MXCRYPTO_INSTANCES || CPUSS_CRYPTO_PRESENT)
-#define CYHAL_DRIVER_AVAILABLE_UART         (CY_IP_MXSCB)
-#define CYHAL_DRIVER_AVAILABLE_USB_DEV      (CY_IP_MXUSBFS)
+#define CYHAL_DRIVER_AVAILABLE_TDM          (((CY_IP_MXAUDIOSS_INSTANCES) > 0) || ((CY_IP_MXTDM_INSTANCES) > 0)) //AUDIOSS[x]_I2S
+#define CYHAL_DRIVER_AVAILABLE_TDM_TX       (CYHAL_DRIVER_AVAILABLE_TDM)
+#define CYHAL_DRIVER_AVAILABLE_TDM_RX       (CYHAL_DRIVER_AVAILABLE_TDM)
+#define CYHAL_DRIVER_AVAILABLE_TIMER        (_CYHAL_DRIVER_AVAILABLE_TCPWM)
+#define CYHAL_DRIVER_AVAILABLE_TRNG         ((((CY_IP_MXCRYPTO_INSTANCES) > 0) && ((CPUSS_CRYPTO_TR) > 0)) /*|| (((CY_IP_MXCRYPTOLITE_INSTANCES) > 0) && ((CRYPTO_TRNG_PRESENT) > 0))*/)
+#define CYHAL_DRIVER_AVAILABLE_UART         (_CYHAL_DRIVER_AVAILABLE_SCB) //SCB[x]_UART
+#define CYHAL_DRIVER_AVAILABLE_USB_DEV      ((CY_IP_MXUSBFS_INSTANCES) > 0)
 #define CYHAL_DRIVER_AVAILABLE_WDT          (1)
+
+
+/** \} group_hal_impl_availability */
+/**
+* \addtogroup group_hal_impl_hw_types
+* \ingroup group_hal_impl
+* \{
+*/
 
 
 /* NOTE: Any changes made to this enum must also be made to the hardware manager resource tracking */
@@ -254,13 +294,10 @@ typedef enum
   * between platforms and/or HAL releases. */
 typedef struct
 {
-    //For backwards compatibility with cyhal_clock_divider_t only. Do not use going forward.
-    cy_en_divider_types_t   div_type;                /*!< Deprecated */
-    uint8_t                 div_num;                 /*!< Deprecated */
-    //End BWC items
     cyhal_clock_block_t     block;
     uint8_t                 channel;
     bool                    reserved;
+    const void*             funcs;
 } cyhal_clock_t;
 
 /**

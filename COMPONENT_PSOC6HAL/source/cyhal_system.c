@@ -2,14 +2,16 @@
 * \file cyhal_system.c
 *
 * \brief
-* Provides a high level interface for interacting with the Cypress power
+* Provides a high level interface for interacting with the Infineon power
 * management and system clock configuration. This interface abstracts out the
 * chip specific details. If any chip specific functionality is necessary, or
 * performance is critical the low level functions can be used directly.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,7 +37,7 @@
 #include "cyabs_rtos.h"
 #endif
 
-#if defined(CY_IP_MXS40SRSS) || defined(CY_IP_S8SRSSLT) || defined(CY_IP_MXS28SRSS) || defined(CY_IP_MXS40SSRSS)
+#if (CYHAL_DRIVER_AVAILABLE_SYSTEM)
 
 #if defined(__cplusplus)
 extern "C"
@@ -122,4 +124,4 @@ cy_rslt_t cyhal_system_set_isr(int32_t irq_num, int32_t irq_src, uint8_t priorit
 }
 #endif
 
-#endif /* defined(CY_IP_MXS40SRSS) || defined(CY_IP_S8SRSSLT) || defined(CY_IP_MXS28SRSS) || defined(CY_IP_MXS40SSRSS) */
+#endif /* CYHAL_DRIVER_AVAILABLE_SYSTEM */

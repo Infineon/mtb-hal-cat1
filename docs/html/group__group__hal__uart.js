@@ -37,7 +37,7 @@ var group__group__hal__uart =
       [ "CYHAL_UART_OUTPUT_TRIGGER_RX_FIFO_LEVEL_REACHED", "group__group__hal__uart.html#gga79c475fe87b88afece099da885605075a726f4bf351f0fd57da573087def9745c", null ],
       [ "CYHAL_UART_OUTPUT_TRIGGER_TX_FIFO_LEVEL_REACHED", "group__group__hal__uart.html#gga79c475fe87b88afece099da885605075a3466e7af5b491da0ab48f0d50711e193", null ]
     ] ],
-    [ "cyhal_uart_init", "group__group__hal__uart.html#gae62874a1a5484721c90ea53993d791d6", null ],
+    [ "cyhal_uart_init", "group__group__hal__uart.html#ga99424544773e74b40ee678570aaedf51", null ],
     [ "cyhal_uart_free", "group__group__hal__uart.html#ga51731996aca653fc76caee4cc7ad684f", null ],
     [ "cyhal_uart_set_baud", "group__group__hal__uart.html#ga14dcad3682e9b49e70b7f1e77cd862cc", null ],
     [ "cyhal_uart_configure", "group__group__hal__uart.html#ga4af8ba6ff0012214be498a001f1ac782", null ],
@@ -46,7 +46,7 @@ var group__group__hal__uart =
     [ "cyhal_uart_readable", "group__group__hal__uart.html#gad85e26dd47eecd9705ab1931253c20f1", null ],
     [ "cyhal_uart_writable", "group__group__hal__uart.html#ga760296fe084b3e0ab3cdd1fba745a8b3", null ],
     [ "cyhal_uart_clear", "group__group__hal__uart.html#gadc1932516baa1bd7285527a5a7456d75", null ],
-    [ "cyhal_uart_set_flow_control", "group__group__hal__uart.html#ga318d61213f3485bbfbb723243f6a6b61", null ],
+    [ "cyhal_uart_enable_flow_control", "group__group__hal__uart.html#gacd188597425e7bbf4536082277248e9f", null ],
     [ "cyhal_uart_write", "group__group__hal__uart.html#ga2be8141bcc5fcc349b0dce1c09c4e98f", null ],
     [ "cyhal_uart_read", "group__group__hal__uart.html#gae436ac5108e3bc92f439c66c315e07ca", null ],
     [ "cyhal_uart_write_async", "group__group__hal__uart.html#gab569e52660c519b775e3a15f3e2dbb46", null ],
@@ -59,5 +59,7 @@ var group__group__hal__uart =
     [ "cyhal_uart_enable_event", "group__group__hal__uart.html#ga4dae4cef7dbf1d7935fe6dd6d31f282e", null ],
     [ "cyhal_uart_set_fifo_level", "group__group__hal__uart.html#gaea15b10b90d93252206f19b1bbdd0f47", null ],
     [ "cyhal_uart_enable_output", "group__group__hal__uart.html#gac26f415eecf9b66b490bac95bddab362", null ],
-    [ "cyhal_uart_disable_output", "group__group__hal__uart.html#ga858d1257386c23c97da3b3aff539a162", null ]
+    [ "cyhal_uart_disable_output", "group__group__hal__uart.html#ga858d1257386c23c97da3b3aff539a162", null ],
+    [ "cyhal_uart_init_cfg", "group__group__hal__uart.html#gabf5886f9c8e5a1afc47f6a3be99ab256", null ],
+    [ "cyhal_uart_config_software_buffer", "group__group__hal__uart.html#ga76eddcf3f061a3984819bc8dfe503ae5", null ]
 ];

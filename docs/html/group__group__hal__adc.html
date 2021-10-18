@@ -213,6 +213,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga7618b26a0677cb3f8cd477e3731da510"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__adc.html#ga7618b26a0677cb3f8cd477e3731da510">cyhal_adc_init</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__adc__t">cyhal_adc_t</a> *obj, <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a> pin, const <a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__clock__t">cyhal_clock_t</a> *clk)</td></tr>
 <tr class="memdesc:ga7618b26a0677cb3f8cd477e3731da510"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize ADC peripheral.  <a href="#ga7618b26a0677cb3f8cd477e3731da510">More...</a><br /></td></tr>
 <tr class="separator:ga7618b26a0677cb3f8cd477e3731da510"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga583d855a00bb1c12cbcee3b51e6e2e95"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__adc.html#ga583d855a00bb1c12cbcee3b51e6e2e95">cyhal_adc_init_cfg</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__adc__t">cyhal_adc_t</a> *adc, <a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__adc__channel__t">cyhal_adc_channel_t</a> **channels, uint8_t *num_channels, const <a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__adc__configurator__t">cyhal_adc_configurator_t</a> *cfg)</td></tr>
+<tr class="memdesc:ga583d855a00bb1c12cbcee3b51e6e2e95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the ADC peripheral and its channels using a configurator generated configuration struct.  <a href="#ga583d855a00bb1c12cbcee3b51e6e2e95">More...</a><br /></td></tr>
+<tr class="separator:ga583d855a00bb1c12cbcee3b51e6e2e95"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gadae8361e3e3e3d0ff96767e1e8e1d913"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__adc.html#gadae8361e3e3e3d0ff96767e1e8e1d913">cyhal_adc_free</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__adc__t">cyhal_adc_t</a> *obj)</td></tr>
 <tr class="memdesc:gadae8361e3e3e3d0ff96767e1e8e1d913"><td class="mdescLeft">&#160;</td><td class="mdescRight">Uninitialize the ADC peripheral and <a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__adc__t" title="ADC object. ">cyhal_adc_t</a> object.  <a href="#gadae8361e3e3e3d0ff96767e1e8e1d913">More...</a><br /></td></tr>
 <tr class="separator:gadae8361e3e3e3d0ff96767e1e8e1d913"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -337,7 +340,7 @@ ADC voltage reference. </td></tr>
 <td class="fieldname">
 ext_vref</td>
 <td class="fielddoc">
-The GPIO that should be used for the external reference. <p>If <a class="el" href="group__group__hal__adc.html#ggad77d58d52432f1f68f869b047b1a9bbea78d9a5640a2866dad2f5e87d356a6c74">CYHAL_ADC_REF_EXTERNAL</a> is selected and the current target uses a GPIO for ADC ext_vref (see the BSP documentation), this must not be <a class="el" href="group__group__hal__impl__pin__package__mxs28playermcuss__128__tqfp.html#ggac686da5d7eaa48dfb0163b362a812d5fa3dbd1016ea99d087d747530418b89a01">NC</a>. If the current target uses a dedicated pin (not a GPIO) for ADC ext_vref, or if any other reference is selected, this must be <a class="el" href="group__group__hal__impl__pin__package__mxs28playermcuss__128__tqfp.html#ggac686da5d7eaa48dfb0163b362a812d5fa3dbd1016ea99d087d747530418b89a01">NC</a>. </p>
+The GPIO that should be used for the external reference. <p>If <a class="el" href="group__group__hal__adc.html#ggad77d58d52432f1f68f869b047b1a9bbea78d9a5640a2866dad2f5e87d356a6c74">CYHAL_ADC_REF_EXTERNAL</a> is selected and the current target uses a GPIO for ADC ext_vref (see the BSP documentation), this must not be <a class="el" href="group__group__hal__impl__pin__package__cyw20829__56__qfn.html#ggab24d2d0f36afa1c85516af9e53405e70a3dbd1016ea99d087d747530418b89a01">NC</a>. If the current target uses a dedicated pin (not a GPIO) for ADC ext_vref, or if any other reference is selected, this must be <a class="el" href="group__group__hal__impl__pin__package__cyw20829__56__qfn.html#ggab24d2d0f36afa1c85516af9e53405e70a3dbd1016ea99d087d747530418b89a01">NC</a>. </p>
 </td></tr>
 <tr><td class="fieldtype">
 <a id="a38607f551c7248ff63862d1d8f848578"></a>bool</td>
@@ -351,7 +354,7 @@ Whether an external bypass capacitor should be used. <p>Depending on the platfor
 <td class="fieldname">
 bypass_pin</td>
 <td class="fielddoc">
-The GPIO pin that should be used for the bypass capacitor. <p>If <code>is_bypassed</code> is true and the current target uses a GPIO for the bypass capacitor connection, this must not be <a class="el" href="group__group__hal__impl__pin__package__mxs28playermcuss__128__tqfp.html#ggac686da5d7eaa48dfb0163b362a812d5fa3dbd1016ea99d087d747530418b89a01">NC</a>. Otherwise, this must be <a class="el" href="group__group__hal__impl__pin__package__mxs28playermcuss__128__tqfp.html#ggac686da5d7eaa48dfb0163b362a812d5fa3dbd1016ea99d087d747530418b89a01">NC</a>. Depending on the device, this may be the same GPIO as <code>ext_vref</code>. See the BSP documentation for details. </p>
+The GPIO pin that should be used for the bypass capacitor. <p>If <code>is_bypassed</code> is true and the current target uses a GPIO for the bypass capacitor connection, this must not be <a class="el" href="group__group__hal__impl__pin__package__cyw20829__56__qfn.html#ggab24d2d0f36afa1c85516af9e53405e70a3dbd1016ea99d087d747530418b89a01">NC</a>. Otherwise, this must be <a class="el" href="group__group__hal__impl__pin__package__cyw20829__56__qfn.html#ggab24d2d0f36afa1c85516af9e53405e70a3dbd1016ea99d087d747530418b89a01">NC</a>. Depending on the device, this may be the same GPIO as <code>ext_vref</code>. See the BSP documentation for details. </p>
 </td></tr>
 </table>
 
@@ -557,9 +560,9 @@ Minimum time that this channel should be sampled, in nanoseconds. <p>The actual 
 <li>Continuous scanning: false</li>
 <li>Single ended vneg: <a class="el" href="group__group__hal__adc.html#ggac9e066ac01bed2c374c3d0e164988d97a2c7f27a19dbe55e6ddd9997b07439ce1">CYHAL_ADC_VNEG_VREF</a></li>
 <li>Vref: <a class="el" href="group__group__hal__adc.html#ggad77d58d52432f1f68f869b047b1a9bbeac3e8e93e60d21bfe83545ac9e4f8ca15">CYHAL_ADC_REF_INTERNAL</a></li>
-<li>External vref: <a class="el" href="group__group__hal__impl__pin__package__mxs28playermcuss__128__tqfp.html#ggac686da5d7eaa48dfb0163b362a812d5fa3dbd1016ea99d087d747530418b89a01">NC</a></li>
+<li>External vref: <a class="el" href="group__group__hal__impl__pin__package__cyw20829__56__qfn.html#ggab24d2d0f36afa1c85516af9e53405e70a3dbd1016ea99d087d747530418b89a01">NC</a></li>
 <li>Bypassed: false</li>
-<li>Bypass pin: <a class="el" href="group__group__hal__impl__pin__package__mxs28playermcuss__128__tqfp.html#ggac686da5d7eaa48dfb0163b362a812d5fa3dbd1016ea99d087d747530418b89a01">NC</a></li>
+<li>Bypass pin: <a class="el" href="group__group__hal__impl__pin__package__cyw20829__56__qfn.html#ggab24d2d0f36afa1c85516af9e53405e70a3dbd1016ea99d087d747530418b89a01">NC</a></li>
 <li>Power level: <a class="el" href="group__group__hal__general__types.html#gga246fde0e79029f514ce3846b31e366d7a6f0f4df45e9cac012a2c8e5ba736241b">CYHAL_POWER_LEVEL_DEFAULT</a></li>
 </ul>
 <p>To change the configuration, see <a class="el" href="group__group__hal__adc.html#gae1abce4e4cfe015eb4cd4dd055ca3065">cyhal_adc_configure</a></p>
@@ -573,6 +576,58 @@ Minimum time that this channel should be sampled, in nanoseconds. <p>The actual 
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The status of the init request. <a class="el" href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a> is returned on success. On failure, a problem specific error code will be returned. This error could be from the HAL or lower level driver.<br />
  For all other return codes, please refer to device driver documentation available in the BSP landing page </dd></dl>
+
+</div>
+</div>
+<a id="ga583d855a00bb1c12cbcee3b51e6e2e95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga583d855a00bb1c12cbcee3b51e6e2e95">&#9670;&nbsp;</a></span>cyhal_adc_init_cfg()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_adc_init_cfg </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__adc__t">cyhal_adc_t</a> *&#160;</td>
+          <td class="paramname"><em>adc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__adc__channel__t">cyhal_adc_channel_t</a> **&#160;</td>
+          <td class="paramname"><em>channels</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>num_channels</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__adc__configurator__t">cyhal_adc_configurator_t</a> *&#160;</td>
+          <td class="paramname"><em>cfg</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initialize the ADC peripheral and its channels using a configurator generated configuration struct. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">adc</td><td>Pointer to an adc object. The caller must allocate the memory for this object but the init function will initialize its contents. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">channels</td><td>Array of pointers to ADC channel objects. This array must contain a minimum of one (non-null) entry per channel that is enabled by the configurator </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">num_channels</td><td>Length of the <code>channels</code> array. If this value is too small for all of the channels enabled by the configurator an error will be returned. Will be updated with the number of channels that were enabled by the configurator. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cfg</td><td>Configuration structure generated by the configurator. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the init request </dd></dl>
 
 </div>
 </div>

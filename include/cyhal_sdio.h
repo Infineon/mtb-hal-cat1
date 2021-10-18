@@ -2,14 +2,16 @@
 * \file cyhal_sdio.h
 *
 * \brief
-* Provides a high level interface for interacting with the Cypress SDIO interface.
+* Provides a high level interface for interacting with the Infineon SDIO interface.
 * This interface abstracts out the chip specific details. If any chip specific
 * functionality is necessary, or performance is critical the low level functions
 * can be used directly.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -104,28 +106,31 @@ extern "C" {
 
 /** Incorrect parameter value define */
 #define CYHAL_SDIO_RSLT_ERR_BAD_PARAM                   \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SDIO, 0))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SDIO, 0))
 /** Define to indicate canceled operation */
 #define CYHAL_SDIO_RSLT_CANCELED                        \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SDIO, 1))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SDIO, 1))
 /** Transfers are not allowed after the SDIO block has allowed power mode transition. */
 #define CYHAL_SDIO_RSLT_ERR_PM_PENDING                  \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SDIO, 2))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SDIO, 2))
 /** Requested feature is not supported on this hardware. */
 #define CYHAL_SDIO_RSLT_ERR_UNSUPPORTED                 \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SDIO, 3))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SDIO, 3))
 /** Failure in command send. */
 #define CYHAL_SDIO_RSLT_ERR_COMMAND_SEND               \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SDIO, 4))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SDIO, 4))
 /** SDIO Configuration error. */
 #define CYHAL_SDIO_RSLT_ERR_CONFIG                     \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SDIO, 5))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SDIO, 5))
 /** Another SDIO IO volt select pin already configured. */
 #define CYHAL_SDIO_RSLT_ERR_IO_VOLT_SEL_PIN_CONFIGURED \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SDIO, 6))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SDIO, 6))
 /** Error occured during I/O voltage switch sequence. */
 #define CYHAL_SDIO_RSLT_ERR_IO_VOLT_SWITCH_SEQ          \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_SDIO, 7))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SDIO, 7))
+/** Clock initialization error define */
+#define CYHAL_SDIO_RSLT_ERR_CLOCK                       \
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SDIO, 7))
 
 /**
  * \}
@@ -152,9 +157,9 @@ typedef enum
 /** Types of transfer that can be performed */
 typedef enum
 {
-    CYHAL_READ, //!< Read from the card
-    CYHAL_WRITE //!< Write to the card
-} cyhal_transfer_t;
+    CYHAL_SDIO_XFER_TYPE_READ, //!< Read from the card
+    CYHAL_SDIO_XFER_TYPE_WRITE //!< Write to the card
+} cyhal_sdio_transfer_type_t;
 
 /** Types of events that could be asserted by SDIO */
 typedef enum {
@@ -261,7 +266,7 @@ cy_rslt_t cyhal_sdio_configure(cyhal_sdio_t *obj, const cyhal_sdio_cfg_t *config
  *
  * Returns \ref CY_RSLT_SUCCESS on successful operation. Refer \ref subsection_sdio_use_case_3 for more information.
  */
-cy_rslt_t cyhal_sdio_send_cmd(const cyhal_sdio_t *obj, cyhal_transfer_t direction, cyhal_sdio_command_t command, uint32_t argument, uint32_t* response);
+cy_rslt_t cyhal_sdio_send_cmd(cyhal_sdio_t *obj, cyhal_sdio_transfer_type_t direction, cyhal_sdio_command_t command, uint32_t argument, uint32_t* response);
 
 /** Performs a bulk data transfer. Sends \ref CYHAL_SDIO_CMD_IO_RW_EXTENDED command (CMD=53) which allows writing and reading of a large number of I/O registers with a single command.
  *
@@ -283,7 +288,7 @@ cy_rslt_t cyhal_sdio_send_cmd(const cyhal_sdio_t *obj, cyhal_transfer_t directio
  *
  * Returns \ref CY_RSLT_SUCCESS on successful operation. Refer \ref subsection_sdio_use_case_4 for more information.
  */
-cy_rslt_t cyhal_sdio_bulk_transfer(cyhal_sdio_t *obj, cyhal_transfer_t direction, uint32_t argument, const uint32_t* data, uint16_t length, uint32_t* response);
+cy_rslt_t cyhal_sdio_bulk_transfer(cyhal_sdio_t *obj, cyhal_sdio_transfer_type_t direction, uint32_t argument, const uint32_t* data, uint16_t length, uint32_t* response);
 
 /** Performs a bulk asynchronous data transfer by issuing the \ref CYHAL_SDIO_CMD_IO_RW_EXTENDED command(CMD=53) to the SDIO block.
  * After exiting this function the \ref CYHAL_SDIO_CMD_COMPLETE and \ref CYHAL_SDIO_XFER_COMPLETE events are not asserted.
@@ -304,7 +309,7 @@ cy_rslt_t cyhal_sdio_bulk_transfer(cyhal_sdio_t *obj, cyhal_transfer_t direction
  *
  * Returns \ref CY_RSLT_SUCCESS on successful operation. Refer \ref subsection_sdio_use_case_5 for more information.
  */
-cy_rslt_t cyhal_sdio_transfer_async(cyhal_sdio_t *obj, cyhal_transfer_t direction, uint32_t argument, const uint32_t* data, uint16_t length);
+cy_rslt_t cyhal_sdio_transfer_async(cyhal_sdio_t *obj, cyhal_sdio_transfer_type_t direction, uint32_t argument, const uint32_t* data, uint16_t length);
 
 /** Checks if the specified SDIO is in use
  *
@@ -320,7 +325,7 @@ bool cyhal_sdio_is_busy(const cyhal_sdio_t *obj);
  *
  * Returns \ref CY_RSLT_SUCCESS on successful operation.
  */
-cy_rslt_t cyhal_sdio_abort_async(const cyhal_sdio_t *obj);
+cy_rslt_t cyhal_sdio_abort_async(cyhal_sdio_t *obj);
 
 /** Register an SDIO event callback to be invoked when the event is triggered.
  *
@@ -360,16 +365,13 @@ void cyhal_sdio_enable_event(cyhal_sdio_t *obj, cyhal_sdio_event_t event, uint8_
 cy_rslt_t cyhal_sdio_set_io_voltage(cyhal_sdio_t *obj, cyhal_gpio_t io_volt_sel, cyhal_sdio_io_voltage_t io_voltage,
                                     cyhal_sdio_io_volt_action_type_t io_switch_type);
 
-/*******************************************************************************
-* Backward compatibility macro. The following code is DEPRECATED and must
-* not be used in new projects
-*******************************************************************************/
-/** \cond INTERNAL */
-#define cyhal_sdio_register_irq        cyhal_sdio_register_callback
-#define cyhal_sdio_irq_enable(obj, event, enable)          cyhal_sdio_enable_event(obj, event, CYHAL_ISR_PRIORITY_DEFAULT, enable)
-typedef cyhal_sdio_event_t             cyhal_sdio_irq_event_t;
-typedef cyhal_sdio_event_callback_t    cyhal_sdio_irq_handler_t;
-/** \endcond */
+/** Initialize the SDIO peripheral using a configurator generated configuration struct.
+ *
+ * @param[in]  obj                  The SDIO peripheral to configure
+ * @param[in]  cfg                  Configuration structure generated by a configurator.
+ * @return The status of the operation
+ */
+cy_rslt_t cyhal_sdio_init_cfg(cyhal_sdio_t *obj, const cyhal_sdio_configurator_t *cfg);
 
 #if defined(__cplusplus)
 }

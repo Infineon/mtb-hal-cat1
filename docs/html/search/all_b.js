@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['lptimer',['LPTIMER',['../group__group__hal__impl__lptimer.html',1,'']]],
+  ['lptimer_20_28low_2dpower_20timer_29',['LPTimer (Low-Power Timer)',['../group__group__hal__impl__lptimer.html',1,'']]],
   ['lptimer_20_28low_2dpower_20timer_29',['LPTimer (Low-Power Timer)',['../group__group__hal__lptimer.html',1,'']]],
   ['lptimer_20hal_20results',['LPTimer HAL Results',['../group__group__hal__results__lptimer.html',1,'']]],
   ['left_5fgain',['left_gain',['../group__group__hal__pdmpcm.html#a28e191d9695e078f30e4d4f79a127883',1,'cyhal_pdm_pcm_cfg_t']]],

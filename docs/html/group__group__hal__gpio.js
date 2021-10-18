@@ -1,6 +1,12 @@
 var group__group__hal__gpio =
 [
     [ "GPIO HAL Results", "group__group__hal__results__gpio.html", "group__group__hal__results__gpio" ],
+    [ "cyhal_gpio_callback_data_t", "group__group__hal__gpio.html#structcyhal__gpio__callback__data__t", [
+      [ "callback", "group__group__hal__gpio.html#ac7a03146c870c549d695248448455750", null ],
+      [ "callback_arg", "group__group__hal__gpio.html#a76e7b6816d6677dd0760e73840c35dc5", null ],
+      [ "next", "group__group__hal__gpio.html#a29e6028de322954d5d4ed0c9f68060cd", null ],
+      [ "pin", "group__group__hal__gpio.html#adf08cc4c443eb36d53cc943ddd1447a4", null ]
+    ] ],
     [ "CYHAL_NC_PIN_VALUE", "group__group__hal__gpio.html#ga25a61e0d5a27c77dca1c7709fba9c400", null ],
     [ "cyhal_gpio_event_callback_t", "group__group__hal__gpio.html#ga4a82d25582991576faba92d30a5da881", null ],
     [ "cyhal_gpio_event_t", "group__group__hal__gpio.html#gaa18cb21d1ea9d64311a7c8ddc6a27656", [
@@ -31,10 +37,10 @@ var group__group__hal__gpio =
     [ "cyhal_gpio_write", "group__group__hal__gpio.html#gaf66e7c3ed7b3b0711635d7687ae92291", null ],
     [ "cyhal_gpio_read", "group__group__hal__gpio.html#ga3d38f1dd86c2e74b8ad10f1f6d1945c2", null ],
     [ "cyhal_gpio_toggle", "group__group__hal__gpio.html#gacf9c6cb7d4f6f25828a62d44648b745d", null ],
-    [ "cyhal_gpio_register_callback", "group__group__hal__gpio.html#gaefb03ec6e090ec57fae9e79b4d3bfb4e", null ],
+    [ "cyhal_gpio_register_callback", "group__group__hal__gpio.html#gaaf872e66c1934c8166f386a55e74707c", null ],
     [ "cyhal_gpio_enable_event", "group__group__hal__gpio.html#ga0e0346810451d9940d31bb6111153593", null ],
-    [ "cyhal_gpio_connect_digital", "group__group__hal__gpio.html#ga8090e7d1263cf8f899dd82f89681f6b6", null ],
-    [ "cyhal_gpio_enable_output", "group__group__hal__gpio.html#gafec75ff5399db1adf3db80a57f6e0d08", null ],
+    [ "cyhal_gpio_connect_digital", "group__group__hal__gpio.html#ga623da00e703151da3b4c5a416084f5c3", null ],
+    [ "cyhal_gpio_enable_output", "group__group__hal__gpio.html#ga00456a2ae97cf0f3cd39b622d96dc0e9", null ],
     [ "cyhal_gpio_disconnect_digital", "group__group__hal__gpio.html#gac6f3fcfce78d38839a273ec6a86b1f72", null ],
     [ "cyhal_gpio_disable_output", "group__group__hal__gpio.html#gae570322f2a9c9e7c33e91c1807cd65e3", null ]
 ];

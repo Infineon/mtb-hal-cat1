@@ -6,7 +6,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,13 +31,11 @@
 #include "cyhal_tcpwm_common.h"
 #include "cyhal_clock.h"
 
-#if defined(CY_IP_MXTCPWM_INSTANCES) || defined(CY_IP_M0S8TCPWM_INSTANCES)
+#if (_CYHAL_DRIVER_AVAILABLE_TCPWM)
 
 #if defined(__cplusplus)
 extern "C" {
 #endif
-
-const _cyhal_tcpwm_data_t _CYHAL_TCPWM_DATA[] = {
 
 #if defined(COMPONENT_CAT1B)
 #define TCPWM_CLOCK(block, channel)     (PCLK_TCPWM##block##_CLOCK_COUNTER_EN##channel)
@@ -43,6 +43,8 @@ const _cyhal_tcpwm_data_t _CYHAL_TCPWM_DATA[] = {
 #define TCPWM_CLOCK(block, channel)     (PCLK_TCPWM##block##_CLOCKS##channel)
 #endif
 
+const _cyhal_tcpwm_data_t _CYHAL_TCPWM_DATA[] =
+{
 #if defined(CY_IP_MXTCPWM_INSTANCES)
     #if (CY_IP_MXTCPWM_VERSION == 1)
         #if (CY_IP_MXTCPWM_INSTANCES > 0)
@@ -117,8 +119,6 @@ const _cyhal_tcpwm_data_t _CYHAL_TCPWM_DATA[] = {
 
 #define _CYHAL_TCPWM_GET_ARRAY_INDEX(block, channel)  (_CYHAL_TCPWM_DATA[block].channel_offset + channel)
 
-uint32_t _CYHAL_INPUT_TRIGGERS_USED[_CYHAL_TCPWM_INSTANCES][(_CYHAL_TCPWM_TRIGGER_INPUTS_PER_BLOCK / 32) + 1];
-
 #if (CY_IP_MXTCPWM_VERSION == 2)
 uint8_t _CYHAL_OUTPUT_TRIGGERS_USED[TCPWM_GRP_NR0_GRP_GRP_CNT_NR + TCPWM_GRP_NR1_GRP_GRP_CNT_NR];
 #endif
@@ -126,7 +126,7 @@ uint8_t _CYHAL_OUTPUT_TRIGGERS_USED[TCPWM_GRP_NR0_GRP_GRP_CNT_NR + TCPWM_GRP_NR1
 /** Callback array for TCPWM interrupts */
 static cyhal_tcpwm_t *_cyhal_tcpwm_data_structs[_CYHAL_TCPWM_CHANNELS];
 
-bool _cyhal_tcpwm_pm_has_enabled()
+static bool _cyhal_tcpwm_pm_has_enabled(void)
 {
     for (uint8_t i = 0; i < _CYHAL_TCPWM_CHANNELS; i++)
     {
@@ -145,7 +145,7 @@ bool _cyhal_tcpwm_pm_transition_pending(void)
     return _cyhal_tcpwm_pm_transition_pending_value;
 }
 
-bool _cyhal_tcpwm_pm_callback(cyhal_syspm_callback_state_t state, cyhal_syspm_callback_mode_t mode, void* callback_arg)
+static bool _cyhal_tcpwm_pm_callback(cyhal_syspm_callback_state_t state, cyhal_syspm_callback_mode_t mode, void* callback_arg)
 {
     CY_UNUSED_PARAMETER(state);
     CY_UNUSED_PARAMETER(callback_arg);
@@ -204,6 +204,7 @@ bool _cyhal_tcpwm_pm_callback(cyhal_syspm_callback_state_t state, cyhal_syspm_ca
         }
         default:
         {
+            CY_ASSERT(false);
             break;
         }
     }
@@ -235,7 +236,7 @@ void _cyhal_tcpwm_init_data(cyhal_tcpwm_t *tcpwm)
     _cyhal_tcpwm_data_structs[_CYHAL_TCPWM_GET_ARRAY_INDEX(tcpwm->resource.block_num, tcpwm->resource.channel_num)] = tcpwm;
 }
 
-void _cyhal_tcpwm_irq_handler(void)
+static void _cyhal_tcpwm_irq_handler(void)
 {
     IRQn_Type irqn = _CYHAL_UTILS_GET_CURRENT_IRQN();
     uint8_t block, channel = 0;
@@ -308,7 +309,11 @@ void _cyhal_tcpwm_free(cyhal_tcpwm_t *obj)
         Cy_TCPWM_PWM_Disable(obj->base, _CYHAL_TCPWM_CNT_NUMBER(obj->resource));
         #endif
 
-        cyhal_hwmgr_free(&(obj->resource));
+        if(false == obj->owned_by_configurator)
+        {
+            cyhal_hwmgr_free(&(obj->resource));
+        }
+
         obj->base = NULL;
         obj->resource.type = CYHAL_RSC_INVALID;
     }
@@ -382,7 +387,7 @@ static uint8_t _cyhal_tcpwm_convert_output_t(cyhal_tcpwm_output_t signal)
 #if (CY_IP_MXTCPWM_VERSION == 1U) ||(CY_IP_MXTCPWM_VERSION == 2U) || (CY_IP_M0S8TCPWM_VERSION == 2)
 // Assumes trig_index is not offset by _CYHAL_TCPWM_TRIGGER_INPUTS_IDX_OFFSET
 // (that is, it is 0 indexed).
-static cyhal_dest_t _cyhal_tpwm_calculate_dest(uint8_t block, uint8_t trig_index)
+cyhal_dest_t _cyhal_tpwm_calculate_dest(uint8_t block, uint8_t trig_index)
 {
 #if (CY_IP_MXTCPWM_VERSION == 1U)
     if(block == 0)
@@ -401,7 +406,7 @@ static cyhal_dest_t _cyhal_tpwm_calculate_dest(uint8_t block, uint8_t trig_index
 #if defined(CY_DEVICE_PSOC4AS1)
     CY_ASSERT(block == 0);
     return (cyhal_dest_t)(CYHAL_TRIGGER_TCPWM_TR_IN12 + trig_index);
-#elif defined(CY_DEVICE_PMG1S3)
+#elif defined(CY_DEVICE_PMG1S3) || defined(CY_DEVICE_CCG7S)
     CY_ASSERT(block == 0);
     return (cyhal_dest_t)(CYHAL_TRIGGER_TCPWM_TR_IN8 + trig_index);
 #else
@@ -481,117 +486,133 @@ static cyhal_source_t _cyhal_tcpwm_calculate_source(uint8_t out_trig_idx, uint8_
 #endif
 #endif /* defined(CY_IP_M0S8PERI_TR) || defined(CY_IP_MXPERI_TR) || defined(CY_IP_MXSPERI) */
 
-cy_rslt_t _cyhal_tcpwm_connect_digital(cyhal_tcpwm_t *obj, cyhal_source_t source, cyhal_tcpwm_input_t signal, cyhal_edge_type_t type)
+cy_rslt_t _cyhal_tcpwm_connect_digital(cyhal_tcpwm_t *obj, cyhal_source_t source, cyhal_tcpwm_input_t signal)
 {
 #if defined(CY_IP_M0S8PERI_TR) || defined(CY_IP_MXPERI_TR) || defined(CY_IP_MXSPERI)
     cy_rslt_t rslt;
     const uint8_t chnl = obj->resource.channel_num;
     const uint8_t block = obj->resource.block_num;
 
-    cyhal_signal_type_t signal_type = (type == CYHAL_EDGE_TYPE_LEVEL)
-        ? CYHAL_SIGNAL_TYPE_LEVEL
-        : CYHAL_SIGNAL_TYPE_EDGE;
-
     // Find free input trigger index
     uint32_t saved_intr_status = cyhal_system_critical_section_enter();
     uint8_t trig_index;
     for(trig_index = 0; trig_index < _CYHAL_TCPWM_TRIGGER_INPUTS_PER_BLOCK; trig_index++)
     {
-        if(!(_CYHAL_INPUT_TRIGGERS_USED[obj->resource.block_num][trig_index / 32] & (1 << trig_index)))
+        cyhal_dest_t dest = _cyhal_tpwm_calculate_dest(block, trig_index);
+
+        /* On some devices, not all triggers connect uniformly to all sources, so make sure the trigger
+         * we're trying to use can actually connect to the source we want to use */
+        rslt = _cyhal_connect_signal(source, dest);
+        if (rslt == CY_RSLT_SUCCESS)
+        {
             break;
+        }
     }
     cyhal_system_critical_section_exit(saved_intr_status);
 
     if(trig_index == _CYHAL_TCPWM_TRIGGER_INPUTS_PER_BLOCK)
-        return CYHAL_TCPWM_RSLT_ERR_NO_FREE_INPUT_SIGNALS;
-
-#if (CY_IP_MXTCPWM_VERSION == 1U) || (CY_IP_M0S8TCPWM_VERSION == 2)
-    // Clear appropriate trigger reg field and set input index and edge trigger type
-    // Note: Input trigger indices 0 and 1 are reserved for constant signals 0
-    // and 1 respectively. The first actual trigger input has index 2.
-    switch(signal)
     {
-        case CYHAL_TCPWM_INPUT_START:
-            TCPWM_CNT_TR_CTRL0(obj->base, chnl) &= ~TCPWM_CNT_TR_CTRL0_START_SEL_Msk;
-            TCPWM_CNT_TR_CTRL0(obj->base, chnl) |= _VAL2FLD(TCPWM_CNT_TR_CTRL0_START_SEL, trig_index + _CYHAL_TCPWM_TRIGGER_INPUTS_IDX_OFFSET);
-            TCPWM_CNT_TR_CTRL1(obj->base, chnl) &= ~TCPWM_CNT_TR_CTRL1_START_EDGE_Msk;
-            TCPWM_CNT_TR_CTRL1(obj->base, chnl) |= _VAL2FLD(TCPWM_CNT_TR_CTRL1_START_EDGE, type);
-            break;
-        case CYHAL_TCPWM_INPUT_STOP:
-            TCPWM_CNT_TR_CTRL0(obj->base, chnl) &= ~TCPWM_CNT_TR_CTRL0_STOP_SEL_Msk;
-            TCPWM_CNT_TR_CTRL0(obj->base, chnl) |= _VAL2FLD(TCPWM_CNT_TR_CTRL0_STOP_SEL, trig_index + _CYHAL_TCPWM_TRIGGER_INPUTS_IDX_OFFSET);
-            TCPWM_CNT_TR_CTRL1(obj->base, chnl) &= ~TCPWM_CNT_TR_CTRL1_STOP_EDGE_Msk;
-            TCPWM_CNT_TR_CTRL1(obj->base, chnl) |= _VAL2FLD(TCPWM_CNT_TR_CTRL1_STOP_EDGE, type);
-            break;
-        case CYHAL_TCPWM_INPUT_RELOAD:
-            TCPWM_CNT_TR_CTRL0(obj->base, chnl) &= ~TCPWM_CNT_TR_CTRL0_RELOAD_SEL_Msk;
-            TCPWM_CNT_TR_CTRL0(obj->base, chnl) |= _VAL2FLD(TCPWM_CNT_TR_CTRL0_RELOAD_SEL, trig_index + _CYHAL_TCPWM_TRIGGER_INPUTS_IDX_OFFSET);
-            TCPWM_CNT_TR_CTRL1(obj->base, chnl) &= ~TCPWM_CNT_TR_CTRL1_RELOAD_EDGE_Msk;
-            TCPWM_CNT_TR_CTRL1(obj->base, chnl) |= _VAL2FLD(TCPWM_CNT_TR_CTRL1_RELOAD_EDGE, type);
-            break;
-        case CYHAL_TCPWM_INPUT_COUNT:
-            TCPWM_CNT_TR_CTRL0(obj->base, chnl) &= ~TCPWM_CNT_TR_CTRL0_COUNT_SEL_Msk;
-            TCPWM_CNT_TR_CTRL0(obj->base, chnl) |= _VAL2FLD(TCPWM_CNT_TR_CTRL0_COUNT_SEL, trig_index + _CYHAL_TCPWM_TRIGGER_INPUTS_IDX_OFFSET);
-            TCPWM_CNT_TR_CTRL1(obj->base, chnl) &= ~TCPWM_CNT_TR_CTRL1_COUNT_EDGE_Msk;
-            TCPWM_CNT_TR_CTRL1(obj->base, chnl) |= _VAL2FLD(TCPWM_CNT_TR_CTRL1_COUNT_EDGE, type);
-            break;
-        case CYHAL_TCPWM_INPUT_CAPTURE:
-            TCPWM_CNT_TR_CTRL0(obj->base, chnl) &= ~TCPWM_CNT_TR_CTRL0_CAPTURE_SEL_Msk;
-            TCPWM_CNT_TR_CTRL0(obj->base, chnl) |= _VAL2FLD(TCPWM_CNT_TR_CTRL0_CAPTURE_SEL, trig_index + _CYHAL_TCPWM_TRIGGER_INPUTS_IDX_OFFSET);
-            TCPWM_CNT_TR_CTRL1(obj->base, chnl) &= ~TCPWM_CNT_TR_CTRL1_CAPTURE_EDGE_Msk;
-            TCPWM_CNT_TR_CTRL1(obj->base, chnl) |= _VAL2FLD(TCPWM_CNT_TR_CTRL1_CAPTURE_EDGE, type);
-            break;
-       default:
-            return CYHAL_TCPWM_RSLT_ERR_BAD_ARGUMENT;
+        rslt = CYHAL_TCPWM_RSLT_ERR_NO_FREE_INPUT_SIGNALS;
     }
+
+    if(CY_RSLT_SUCCESS == rslt)
+    {
+#if (CY_IP_MXTCPWM_VERSION == 1U) || (CY_IP_M0S8TCPWM_VERSION == 2)
+        // Clear appropriate trigger reg field and set input index and edge trigger type
+        // Note: Input trigger indices 0 and 1 are reserved for constant signals 0
+        // and 1 respectively. The first actual trigger input has index 2.
+        cyhal_signal_type_t type = _CYHAL_TRIGGER_GET_SOURCE_TYPE(source);
+        switch(signal)
+        {
+            case CYHAL_TCPWM_INPUT_START:
+                TCPWM_CNT_TR_CTRL0(obj->base, chnl) &= ~TCPWM_CNT_TR_CTRL0_START_SEL_Msk;
+                TCPWM_CNT_TR_CTRL0(obj->base, chnl) |= _VAL2FLD(TCPWM_CNT_TR_CTRL0_START_SEL, trig_index + _CYHAL_TCPWM_TRIGGER_INPUTS_IDX_OFFSET);
+                TCPWM_CNT_TR_CTRL1(obj->base, chnl) &= ~TCPWM_CNT_TR_CTRL1_START_EDGE_Msk;
+                TCPWM_CNT_TR_CTRL1(obj->base, chnl) |= _VAL2FLD(TCPWM_CNT_TR_CTRL1_START_EDGE, type);
+                break;
+            case CYHAL_TCPWM_INPUT_STOP:
+                TCPWM_CNT_TR_CTRL0(obj->base, chnl) &= ~TCPWM_CNT_TR_CTRL0_STOP_SEL_Msk;
+                TCPWM_CNT_TR_CTRL0(obj->base, chnl) |= _VAL2FLD(TCPWM_CNT_TR_CTRL0_STOP_SEL, trig_index + _CYHAL_TCPWM_TRIGGER_INPUTS_IDX_OFFSET);
+                TCPWM_CNT_TR_CTRL1(obj->base, chnl) &= ~TCPWM_CNT_TR_CTRL1_STOP_EDGE_Msk;
+                TCPWM_CNT_TR_CTRL1(obj->base, chnl) |= _VAL2FLD(TCPWM_CNT_TR_CTRL1_STOP_EDGE, type);
+                break;
+            case CYHAL_TCPWM_INPUT_RELOAD:
+                TCPWM_CNT_TR_CTRL0(obj->base, chnl) &= ~TCPWM_CNT_TR_CTRL0_RELOAD_SEL_Msk;
+                TCPWM_CNT_TR_CTRL0(obj->base, chnl) |= _VAL2FLD(TCPWM_CNT_TR_CTRL0_RELOAD_SEL, trig_index + _CYHAL_TCPWM_TRIGGER_INPUTS_IDX_OFFSET);
+                TCPWM_CNT_TR_CTRL1(obj->base, chnl) &= ~TCPWM_CNT_TR_CTRL1_RELOAD_EDGE_Msk;
+                TCPWM_CNT_TR_CTRL1(obj->base, chnl) |= _VAL2FLD(TCPWM_CNT_TR_CTRL1_RELOAD_EDGE, type);
+                break;
+            case CYHAL_TCPWM_INPUT_COUNT:
+                TCPWM_CNT_TR_CTRL0(obj->base, chnl) &= ~TCPWM_CNT_TR_CTRL0_COUNT_SEL_Msk;
+                TCPWM_CNT_TR_CTRL0(obj->base, chnl) |= _VAL2FLD(TCPWM_CNT_TR_CTRL0_COUNT_SEL, trig_index + _CYHAL_TCPWM_TRIGGER_INPUTS_IDX_OFFSET);
+                TCPWM_CNT_TR_CTRL1(obj->base, chnl) &= ~TCPWM_CNT_TR_CTRL1_COUNT_EDGE_Msk;
+                TCPWM_CNT_TR_CTRL1(obj->base, chnl) |= _VAL2FLD(TCPWM_CNT_TR_CTRL1_COUNT_EDGE, type);
+                break;
+            case CYHAL_TCPWM_INPUT_CAPTURE:
+                TCPWM_CNT_TR_CTRL0(obj->base, chnl) &= ~TCPWM_CNT_TR_CTRL0_CAPTURE_SEL_Msk;
+                TCPWM_CNT_TR_CTRL0(obj->base, chnl) |= _VAL2FLD(TCPWM_CNT_TR_CTRL0_CAPTURE_SEL, trig_index + _CYHAL_TCPWM_TRIGGER_INPUTS_IDX_OFFSET);
+                TCPWM_CNT_TR_CTRL1(obj->base, chnl) &= ~TCPWM_CNT_TR_CTRL1_CAPTURE_EDGE_Msk;
+                TCPWM_CNT_TR_CTRL1(obj->base, chnl) |= _VAL2FLD(TCPWM_CNT_TR_CTRL1_CAPTURE_EDGE, type);
+                break;
+           default:
+                rslt = CYHAL_TCPWM_RSLT_ERR_BAD_ARGUMENT;
+        }
 
 #elif (CY_IP_MXTCPWM_VERSION == 2U)
-    // Clear appropriate trigger reg fields and set input index and edge
-    // trigger type.
-    // Note: Cy_TCPWM_InputTriggerSetup assumes channel indices for block 0 are
-    // 0-255 and block 1 are 256-511.
-    switch(signal)
-    {
-        case CYHAL_TCPWM_INPUT_START:
-            TCPWM_GRP_CNT_TR_IN_SEL1(obj->base, block, chnl) &= ~TCPWM_GRP_CNT_V2_TR_IN_SEL1_START_SEL_Msk;
-            TCPWM_GRP_CNT_TR_IN_EDGE_SEL(obj->base, block, chnl) &= ~TCPWM_GRP_CNT_V2_TR_IN_EDGE_SEL_START_EDGE_Msk;
-            Cy_TCPWM_InputTriggerSetup(obj->base, block == 0 ? chnl : chnl + 256, CY_TCPWM_INPUT_TR_START, type, trig_index + _CYHAL_TCPWM_TRIGGER_INPUTS_IDX_OFFSET);
-            break;
-        case CYHAL_TCPWM_INPUT_STOP:
-            TCPWM_GRP_CNT_TR_IN_SEL0(obj->base, block, chnl) &= ~TCPWM_GRP_CNT_V2_TR_IN_SEL0_STOP_SEL_Msk;
-            TCPWM_GRP_CNT_TR_IN_EDGE_SEL(obj->base, block, chnl) &= ~TCPWM_GRP_CNT_V2_TR_IN_EDGE_SEL_STOP_EDGE_Msk;
-            Cy_TCPWM_InputTriggerSetup(obj->base, block == 0 ? chnl : chnl + 256, CY_TCPWM_INPUT_TR_STOP_OR_KILL, type, trig_index + _CYHAL_TCPWM_TRIGGER_INPUTS_IDX_OFFSET);
-            break;
-        case CYHAL_TCPWM_INPUT_RELOAD:
-            TCPWM_GRP_CNT_TR_IN_SEL0(obj->base, block, chnl) &= ~TCPWM_GRP_CNT_V2_TR_IN_SEL0_RELOAD_SEL_Msk;
-            TCPWM_GRP_CNT_TR_IN_EDGE_SEL(obj->base, block, chnl) &= ~TCPWM_GRP_CNT_V2_TR_IN_EDGE_SEL_RELOAD_EDGE_Msk;
-            Cy_TCPWM_InputTriggerSetup(obj->base, block == 0 ? chnl : chnl + 256, CY_TCPWM_INPUT_TR_RELOAD_OR_INDEX, type, trig_index + _CYHAL_TCPWM_TRIGGER_INPUTS_IDX_OFFSET);
-            break;
-        case CYHAL_TCPWM_INPUT_COUNT:
-            TCPWM_GRP_CNT_TR_IN_SEL0(obj->base, block, chnl) &= ~TCPWM_GRP_CNT_V2_TR_IN_SEL0_COUNT_SEL_Msk;
-            TCPWM_GRP_CNT_TR_IN_EDGE_SEL(obj->base, block, chnl) &= ~TCPWM_GRP_CNT_V2_TR_IN_EDGE_SEL_COUNT_EDGE_Msk;
-            Cy_TCPWM_InputTriggerSetup(obj->base, block == 0 ? chnl : chnl + 256, CY_TCPWM_INPUT_TR_COUNT, type, trig_index + _CYHAL_TCPWM_TRIGGER_INPUTS_IDX_OFFSET);
-            break;
-        case CYHAL_TCPWM_INPUT_CAPTURE:
-            TCPWM_GRP_CNT_TR_IN_SEL0(obj->base, block, chnl) &= ~TCPWM_GRP_CNT_V2_TR_IN_SEL0_CAPTURE0_SEL_Msk;
-            TCPWM_GRP_CNT_TR_IN_EDGE_SEL(obj->base, block, chnl) &= ~TCPWM_GRP_CNT_V2_TR_IN_EDGE_SEL_CAPTURE0_EDGE_Msk;
-            Cy_TCPWM_InputTriggerSetup(obj->base, block == 0 ? chnl : chnl + 256, CY_TCPWM_INPUT_TR_CAPTURE0, type, trig_index + _CYHAL_TCPWM_TRIGGER_INPUTS_IDX_OFFSET);
-            break;
-       default:
-            return CYHAL_TCPWM_RSLT_ERR_BAD_ARGUMENT;
-    }
+        // Clear appropriate trigger reg fields and set input index and edge
+        // trigger type.
+        // Note: Cy_TCPWM_InputTriggerSetup assumes channel indices for block 0 are
+        // 0-255 and block 1 are 256-511.
+        cyhal_signal_type_t type = _CYHAL_TRIGGER_GET_SOURCE_TYPE(source);
+        switch(signal)
+        {
+            case CYHAL_TCPWM_INPUT_START:
+                TCPWM_GRP_CNT_TR_IN_SEL1(obj->base, block, chnl) &= ~TCPWM_GRP_CNT_V2_TR_IN_SEL1_START_SEL_Msk;
+                TCPWM_GRP_CNT_TR_IN_EDGE_SEL(obj->base, block, chnl) &= ~TCPWM_GRP_CNT_V2_TR_IN_EDGE_SEL_START_EDGE_Msk;
+                Cy_TCPWM_InputTriggerSetup(obj->base, block == 0 ? chnl : chnl + 256, CY_TCPWM_INPUT_TR_START, type, trig_index + _CYHAL_TCPWM_TRIGGER_INPUTS_IDX_OFFSET);
+                break;
+            case CYHAL_TCPWM_INPUT_STOP:
+                TCPWM_GRP_CNT_TR_IN_SEL0(obj->base, block, chnl) &= ~TCPWM_GRP_CNT_V2_TR_IN_SEL0_STOP_SEL_Msk;
+                TCPWM_GRP_CNT_TR_IN_EDGE_SEL(obj->base, block, chnl) &= ~TCPWM_GRP_CNT_V2_TR_IN_EDGE_SEL_STOP_EDGE_Msk;
+                Cy_TCPWM_InputTriggerSetup(obj->base, block == 0 ? chnl : chnl + 256, CY_TCPWM_INPUT_TR_STOP_OR_KILL, type, trig_index + _CYHAL_TCPWM_TRIGGER_INPUTS_IDX_OFFSET);
+                break;
+            case CYHAL_TCPWM_INPUT_RELOAD:
+                TCPWM_GRP_CNT_TR_IN_SEL0(obj->base, block, chnl) &= ~TCPWM_GRP_CNT_V2_TR_IN_SEL0_RELOAD_SEL_Msk;
+                TCPWM_GRP_CNT_TR_IN_EDGE_SEL(obj->base, block, chnl) &= ~TCPWM_GRP_CNT_V2_TR_IN_EDGE_SEL_RELOAD_EDGE_Msk;
+                Cy_TCPWM_InputTriggerSetup(obj->base, block == 0 ? chnl : chnl + 256, CY_TCPWM_INPUT_TR_RELOAD_OR_INDEX, type, trig_index + _CYHAL_TCPWM_TRIGGER_INPUTS_IDX_OFFSET);
+                break;
+            case CYHAL_TCPWM_INPUT_COUNT:
+                TCPWM_GRP_CNT_TR_IN_SEL0(obj->base, block, chnl) &= ~TCPWM_GRP_CNT_V2_TR_IN_SEL0_COUNT_SEL_Msk;
+                TCPWM_GRP_CNT_TR_IN_EDGE_SEL(obj->base, block, chnl) &= ~TCPWM_GRP_CNT_V2_TR_IN_EDGE_SEL_COUNT_EDGE_Msk;
+                Cy_TCPWM_InputTriggerSetup(obj->base, block == 0 ? chnl : chnl + 256, CY_TCPWM_INPUT_TR_COUNT, type, trig_index + _CYHAL_TCPWM_TRIGGER_INPUTS_IDX_OFFSET);
+                break;
+            case CYHAL_TCPWM_INPUT_CAPTURE:
+                TCPWM_GRP_CNT_TR_IN_SEL0(obj->base, block, chnl) &= ~TCPWM_GRP_CNT_V2_TR_IN_SEL0_CAPTURE0_SEL_Msk;
+                TCPWM_GRP_CNT_TR_IN_EDGE_SEL(obj->base, block, chnl) &= ~TCPWM_GRP_CNT_V2_TR_IN_EDGE_SEL_CAPTURE0_EDGE_Msk;
+                Cy_TCPWM_InputTriggerSetup(obj->base, block == 0 ? chnl : chnl + 256, CY_TCPWM_INPUT_TR_CAPTURE0, type, trig_index + _CYHAL_TCPWM_TRIGGER_INPUTS_IDX_OFFSET);
+                break;
+           default:
+                rslt = CYHAL_TCPWM_RSLT_ERR_BAD_ARGUMENT;
+        }
 #else
 #error Unrecognized TCPWM version
 #endif
+    }
 
-    cyhal_dest_t dest = _cyhal_tpwm_calculate_dest(block, trig_index);
-
-    rslt = _cyhal_connect_signal(source, dest, signal_type);
-
-    if (rslt == CY_RSLT_SUCCESS)
+    if(CY_RSLT_SUCCESS == rslt)
     {
-        _CYHAL_INPUT_TRIGGERS_USED[obj->resource.block_num][trig_index / 32] |= 1 << trig_index;
         obj->inputs[(uint32_t)signal] = source;
+    }
+    else if(_CYHAL_TCPWM_TRIGGER_INPUTS_PER_BLOCK != trig_index)
+    {
+        /* If we made a connection before erroring out later, undo the connection */
+        cyhal_dest_t dest = _cyhal_tpwm_calculate_dest(block, trig_index);
+        cy_rslt_t disconnect_rslt = _cyhal_disconnect_signal(source, dest);
+        /* Deliberately not impacting the return value, because we're already in an error state. A successful
+         * disconnect won't change that. An unsuccessful disconnect should in theory never happen because if
+         * we got here we made a successful connection above. */
+        CY_ASSERT(CY_RSLT_SUCCESS == disconnect_rslt);
+        CY_UNUSED_PARAMETER(disconnect_rslt); /* Avoid unused variable warning in release builds */
     }
 
     return rslt;
@@ -599,7 +620,6 @@ cy_rslt_t _cyhal_tcpwm_connect_digital(cyhal_tcpwm_t *obj, cyhal_source_t source
     CY_UNUSED_PARAMETER(obj);
     CY_UNUSED_PARAMETER(source);
     CY_UNUSED_PARAMETER(signal);
-    CY_UNUSED_PARAMETER(type);
 
     return CYHAL_TCPWM_RSLT_ERR_BAD_ARGUMENT;
 #endif /* defined(CY_IP_M0S8PERI_TR) || defined(CY_IP_MXPERI_TR) || defined(CY_IP_MXSPERI) */
@@ -750,7 +770,6 @@ cy_rslt_t _cyhal_tcpwm_disconnect_digital(cyhal_tcpwm_t *obj, cyhal_source_t sou
 
     cyhal_dest_t dest = _cyhal_tpwm_calculate_dest(block, trig_index);
 
-    _CYHAL_INPUT_TRIGGERS_USED[block][trig_index / 32] &= ~(1 << trig_index);
     cy_rslt_t rslt = _cyhal_disconnect_signal(source, dest);
     if (CY_RSLT_SUCCESS == rslt)
     {
@@ -817,4 +836,4 @@ cy_rslt_t _cyhal_tcpwm_disable_output(cyhal_tcpwm_t *obj, cyhal_tcpwm_output_t s
 }
 #endif
 
-#endif /* defined(CY_IP_MXTCPWM_INSTANCES) */
+#endif /* _CYHAL_DRIVER_AVAILABLE_TCPWM */

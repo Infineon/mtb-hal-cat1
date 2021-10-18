@@ -8,7 +8,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -200,7 +202,7 @@ void cyhal_hwmgr_free(const cyhal_resource_inst_t* obj)
     cyhal_system_critical_section_exit(state);
 }
 
-#if defined(_CYHAL_HAS_INTERCONNECT)
+#if (CYHAL_DRIVER_AVAILABLE_INTERCONNECT)
 cy_rslt_t cyhal_hwmgr_allocate(cyhal_resource_t type, cyhal_resource_inst_t* obj)
 {
     return _cyhal_hwmgr_allocate_with_connection(type, NULL, NULL, NULL, NULL, obj);
@@ -223,7 +225,7 @@ cy_rslt_t cyhal_hwmgr_allocate(cyhal_resource_t type, cyhal_resource_inst_t* obj
     uint8_t channel = 0;
     for (uint16_t i = 0; i < count; i++)
     {
-#if defined(_CYHAL_HAS_INTERCONNECT)
+#if (CYHAL_DRIVER_AVAILABLE_INTERCONNECT)
         bool valid = true;
         if (NULL != src)
         {

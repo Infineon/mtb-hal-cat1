@@ -6,7 +6,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -55,52 +57,47 @@ extern "C" {
 * byte is defined by each HAL driver.
 */
 
-/** \cond INTERNAL */
-/** Generate a result code specific to the HAL driver */
-#define CYHAL_RSLT_CREATE(type, driver, code)           \
-    (CY_RSLT_CREATE(type, CY_RSLT_MODULE_ABSTRACTION_HAL, ((uint16_t)driver | (uint16_t)code)))
-/** \endcond */
 
 /**
  * Enum to specify module IDs for \ref cy_rslt_t values returned from the HAL.
  */
 enum cyhal_rslt_module_chip
 {
-    CYHAL_RSLT_MODULE_HWMGR         = (0x01 << 8),  //!< An error occurred in hardware management module
-    CYHAL_RSLT_MODULE_ADC           = (0x02 << 8),  //!< An error occurred in ADC module
-    CYHAL_RSLT_MODULE_CLOCK         = (0x03 << 8),  //!< An error occurred in Clock module
-    CYHAL_RSLT_MODULE_COMP          = (0x04 << 8),  //!< An error occurred in comparator module
-    CYHAL_RSLT_MODULE_CRC           = (0x05 << 8),  //!< An error occurred in crypto CRC module
-    CYHAL_RSLT_MODULE_DAC           = (0x06 << 8),  //!< An error occurred in DAC module
-    CYHAL_RSLT_MODULE_DMA           = (0x07 << 8),  //!< An error occurred in DMA module
-    CYHAL_RSLT_MODULE_EZI2C         = (0x08 << 8),  //!< An error occurred in EZI2C module
-    CYHAL_RSLT_MODULE_FLASH         = (0x09 << 8),  //!< An error occurred in flash module
-    CYHAL_RSLT_MODULE_GPIO          = (0x0A << 8),  //!< An error occurred in GPIO module
-    CYHAL_RSLT_MODULE_I2C           = (0x0B << 8),  //!< An error occurred in I2C module
-    CYHAL_RSLT_MODULE_I2S           = (0x0C << 8),  //!< An error occurred in I2S module
-    CYHAL_RSLT_MODULE_INTERCONNECT  = (0x0D << 8),  //!< An error occurred in Interconnect module
-    CYHAL_RSLT_MODULE_OPAMP         = (0x0E << 8),  //!< An error occurred in OpAmp module
-    CYHAL_RSLT_MODULE_PDMPCM        = (0x0F << 8),  //!< An error occurred in PDM/PCM module
-    CYHAL_RSLT_MODULE_PWM           = (0x10 << 8),  //!< An error occurred in PWM module
-    CYHAL_RSLT_MODULE_QSPI          = (0x11 << 8),  //!< An error occurred in QSPI module
-    CYHAL_RSLT_MODULE_QUADDEC       = (0x12 << 8),  //!< An error occurred in Quadrature Decoder module
-    CYHAL_RSLT_MODULE_RTC           = (0x13 << 8),  //!< An error occurred in RTC module
-    CYHAL_RSLT_MODULE_SDHC          = (0x14 << 8),  //!< An error occurred in SDHC module
-    CYHAL_RSLT_MODULE_SDIO          = (0x15 << 8),  //!< An error occurred in SDIO module
-    CYHAL_RSLT_MODULE_SPI           = (0x16 << 8),  //!< An error occurred in SPI module
-    CYHAL_RSLT_MODULE_SYSPM         = (0x17 << 8),  //!< An error occurred in SysPM module
-    CYHAL_RSLT_MODULE_SYSTEM        = (0x18 << 8),  //!< An error occurred in System module
-    CYHAL_RSLT_MODULE_TDM           = (0x19 << 8),  //!< An error occurred in Timer module
-    CYHAL_RSLT_MODULE_TIMER         = (0x1A << 8),  //!< An error occurred in Timer module
-    CYHAL_RSLT_MODULE_TRNG          = (0x1B << 8),  //!< An error occurred in RNG module
-    CYHAL_RSLT_MODULE_UART          = (0x1C << 8),  //!< An error occurred in UART module
-    CYHAL_RSLT_MODULE_USB           = (0x1D << 8),  //!< An error occurred in USB module
-    CYHAL_RSLT_MODULE_WDT           = (0x1E << 8),  //!< An error occurred in WDT module
+    CYHAL_RSLT_MODULE_ADC           = (0x01),  //!< An error occurred in ADC module
+    CYHAL_RSLT_MODULE_CLOCK         = (0x02),  //!< An error occurred in Clock module
+    CYHAL_RSLT_MODULE_COMP          = (0x03),  //!< An error occurred in comparator module
+    CYHAL_RSLT_MODULE_CRC           = (0x04),  //!< An error occurred in crypto CRC module
+    CYHAL_RSLT_MODULE_DAC           = (0x05),  //!< An error occurred in DAC module
+    CYHAL_RSLT_MODULE_DMA           = (0x06),  //!< An error occurred in DMA module
+    CYHAL_RSLT_MODULE_EZI2C         = (0x07),  //!< An error occurred in EZI2C module
+    CYHAL_RSLT_MODULE_FLASH         = (0x08),  //!< An error occurred in flash module
+    CYHAL_RSLT_MODULE_GPIO          = (0x09),  //!< An error occurred in GPIO module
+    CYHAL_RSLT_MODULE_I2C           = (0x0A),  //!< An error occurred in I2C module
+    CYHAL_RSLT_MODULE_I2S           = (0x0B),  //!< An error occurred in I2S module
+    CYHAL_RSLT_MODULE_INTERCONNECT  = (0x0C),  //!< An error occurred in Interconnect module
+    CYHAL_RSLT_MODULE_HWMGR         = (0x0D),  //!< An error occurred in hardware management module
+    CYHAL_RSLT_MODULE_KEYSCAN       = (0x0E),  //!< An error occurred in KeyScan module
+    CYHAL_RSLT_MODULE_LPTIMER       = (0x0F),  //!< An error occured in LPTimer module
+    CYHAL_RSLT_MODULE_OPAMP         = (0x10),  //!< An error occurred in OpAmp module
+    CYHAL_RSLT_MODULE_PDMPCM        = (0x11),  //!< An error occurred in PDM/PCM module
+    CYHAL_RSLT_MODULE_PWM           = (0x12),  //!< An error occurred in PWM module
+    CYHAL_RSLT_MODULE_QSPI          = (0x13),  //!< An error occurred in QSPI module
+    CYHAL_RSLT_MODULE_QUADDEC       = (0x14),  //!< An error occurred in Quadrature Decoder module
+    CYHAL_RSLT_MODULE_RTC           = (0x15),  //!< An error occurred in RTC module
+    CYHAL_RSLT_MODULE_SDHC          = (0x16),  //!< An error occurred in SDHC module
+    CYHAL_RSLT_MODULE_SDIO          = (0x17),  //!< An error occurred in SDIO module
+    CYHAL_RSLT_MODULE_SPI           = (0x18),  //!< An error occurred in SPI module
+    CYHAL_RSLT_MODULE_SYSPM         = (0x19),  //!< An error occurred in SysPM module
+    CYHAL_RSLT_MODULE_SYSTEM        = (0x1A),  //!< An error occurred in System module
+    CYHAL_RSLT_MODULE_TDM           = (0x1B),  //!< An error occurred in Timer module
+    CYHAL_RSLT_MODULE_TIMER         = (0x1C),  //!< An error occurred in Timer module
+    CYHAL_RSLT_MODULE_TRNG          = (0x1D),  //!< An error occurred in RNG module
+    CYHAL_RSLT_MODULE_UART          = (0x1E),  //!< An error occurred in UART module
+    CYHAL_RSLT_MODULE_USB           = (0x1F),  //!< An error occurred in USB module
+    CYHAL_RSLT_MODULE_WDT           = (0x20),  //!< An error occurred in WDT module
     // Implementation specific section
-    CYHAL_RSLT_MODULE_IMPL_TCPWM    = (0x1F << 8),  //!< An error occurred in TCPWM module (TCPWM based drivers are: Timer, PWM, Quadrature Decoder)
-    CYHAL_RSLT_MODULE_IMPL_SCB      = (0x20 << 8),  //!< An error occurred in SCB module (SCB based drivers are: I2C, SPI, UART)
-    // MXS40SV2
-    CYHAL_RSLT_MODULE_KEYSCAN       = (0x21 << 8),  //!< An error occurred in KeyScan module
+    CYHAL_RSLT_MODULE_IMPL_TCPWM    = (0x21),  //!< An error occurred in TCPWM module (TCPWM based drivers are: Timer, PWM, Quadrature Decoder)
+    CYHAL_RSLT_MODULE_IMPL_SCB      = (0x22),  //!< An error occurred in SCB module (SCB based drivers are: I2C, SPI, UART)
 };
 
 /**

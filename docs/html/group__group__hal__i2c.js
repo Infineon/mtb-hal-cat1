@@ -46,5 +46,6 @@ var group__group__hal__i2c =
     [ "cyhal_i2c_enable_event", "group__group__hal__i2c.html#ga6216658331d13dd8a854a23e96141fc7", null ],
     [ "cyhal_i2c_set_fifo_level", "group__group__hal__i2c.html#ga28d8b90e912067afa2be1ad63e0e26bf", null ],
     [ "cyhal_i2c_enable_output", "group__group__hal__i2c.html#gaf2012311623f37e679e8af020481429a", null ],
-    [ "cyhal_i2c_disable_output", "group__group__hal__i2c.html#gaf1b47ca281e0d070cd62b7ad1ba6a576", null ]
+    [ "cyhal_i2c_disable_output", "group__group__hal__i2c.html#gaf1b47ca281e0d070cd62b7ad1ba6a576", null ],
+    [ "cyhal_i2c_init_cfg", "group__group__hal__i2c.html#ga947fbdc21502765223abd57241354103", null ]
 ];

@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['mxs28playermcuss_20128_2dtqfp',['MXS28PLAYERMCUSS 128-TQFP',['../group__group__hal__impl__pin__package__mxs28playermcuss__128__tqfp.html',1,'']]],
-  ['mxs28playermcuss',['MXS28PLAYERMCUSS',['../group__group__hal__impl__triggers__mxs28playermcuss.html',1,'']]]
+  ['opamp_20_28operational_20amplifier_29',['Opamp (Operational Amplifier)',['../group__group__hal__impl__opamp.html',1,'']]],
+  ['opamp_20_28operational_20amplifier_29',['Opamp (Operational Amplifier)',['../group__group__hal__opamp.html',1,'']]],
+  ['overrideable_20macros',['Overrideable Macros',['../group__group__hal__override.html',1,'']]],
+  ['opamp_20hal_20results',['Opamp HAL Results',['../group__group__hal__results__opamp.html',1,'']]]
 ];

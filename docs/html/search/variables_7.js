@@ -2,9 +2,9 @@ var searchData=
 [
   ['ignore_5fmodes',['ignore_modes',['../group__group__hal__syspm.html#a0a5827d8c4bb7f81086fdfc02a2e5067',1,'cyhal_syspm_callback_data_t']]],
   ['input',['input',['../group__group__hal__dma.html#a4a84836c06db798025e21943f253659f',1,'cyhal_dma_src_t']]],
-  ['inst',['inst',['../group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#a5c5b6367a94636f9811352bbbc69b1db',1,'cyhal_resource_pin_mapping_t']]],
-  ['instruction',['instruction',['../group__group__hal__qspi.html#a6b3a205d095fac02f65395f3080e2257',1,'cyhal_qspi_command_t']]],
+  ['instruction',['instruction',['../group__group__hal__qspi.html#ae90070545041b6f4078390c3bcbded84',1,'cyhal_qspi_command_t']]],
   ['invoke_5fuser_5fcallback',['invoke_user_callback',['../struct__cyhal__audioss__interface__t.html#ae21faa347539cbf2969539748d346e64',1,'_cyhal_audioss_interface_t']]],
+  ['io',['io',['../group__group__hal__qspi.html#ab5692bbff73ecb9c1cf71aa23d203bc1',1,'cyhal_qspi_slave_pin_config_t']]],
   ['irq_5fcause',['irq_cause',['../group__group__hal__impl__hw__types.html#a459a288e12f28d84eba07b731557f6c7',1,'cyhal_pdm_pcm_t']]],
   ['is_5fbypassed',['is_bypassed',['../group__group__hal__adc.html#a38607f551c7248ff63862d1d8f848578',1,'cyhal_adc_config_t']]],
   ['is_5fcompare',['is_compare',['../group__group__hal__timer.html#a795fed3044bc17924b8c73b37019ce99',1,'cyhal_timer_cfg_t']]],

@@ -7,7 +7,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,12 +33,10 @@
 #include "cyhal_interconnect.h"
 #include "cyhal_scb_common.h"
 
-#define _CYHAL_HAS_INTERCONNECT     (1)
-
 #if defined(CY_IP_MXS40PASS_SAR_INSTANCES)
     #define CY_BLOCK_COUNT_ADC  (CY_IP_MXS40PASS_SAR_INSTANCES)
-#elif defined (CY_IP_M0S8PASS4A_INSTANCES)
-    #define CY_BLOCK_COUNT_ADC  (CY_IP_M0S8PASS4A_INSTANCES)
+#elif defined (CY_IP_M0S8PASS4A_SAR_INSTANCES)
+    #define CY_BLOCK_COUNT_ADC  (CY_IP_M0S8PASS4A_SAR_INSTANCES)
 #else
     #define CY_BLOCK_COUNT_ADC      (0)
 #endif
@@ -100,7 +100,7 @@
                                     PERI_PERI_PCLK_PCLK_GROUP_NR * 4)
 #elif defined(COMPONENT_CAT2)
 // 7 dedicated = IMO, EXT, ILO, HF, LF, PUMP, SYSCLK
-// 3 optional  = ECO, WCO, PLL, PLLSEL, WDCSEL
+// 5 optional  = ECO, WCO, PLL, PLLSEL, WDCSEL
 #define CY_CHANNEL_COUNT_CLOCK      (7 + 5 + PERI_PCLK_CLOCK_NR)
 #endif
 
@@ -110,6 +110,10 @@
     #define CY_BLOCK_COUNT_CRYPTO   (CY_IP_MXCRYPTOCELL_INSTANCES)
 #elif defined(CPUSS_CRYPTO_PRESENT)
     #define CY_BLOCK_COUNT_CRYPTO   (CPUSS_CRYPTO_PRESENT)
+#elif defined(CY_IP_M0S8CRYPTO_INSTANCES)
+    #define CY_BLOCK_COUNT_CRYPTO   (CY_IP_M0S8CRYPTO_INSTANCES)
+#elif defined(CY_IP_M0S8CRYPTOLITE_INSTANCES)
+    #define CY_BLOCK_COUNT_CRYPTO   (CY_IP_M0S8CRYPTOLITE_INSTANCES)
 #else
     #define CY_BLOCK_COUNT_CRYPTO   (0)
 #endif
@@ -148,9 +152,13 @@
 #if defined(CY_IP_M4CPUSS_DMA_INSTANCES)
     #define CY_BLOCK_COUNT_DW       (CY_IP_M4CPUSS_DMA_INSTANCES)
     #define CY_CHANNEL_COUNT_DW     (CPUSS_DW0_CH_NR + CPUSS_DW1_CH_NR)
-#elif defined(CY_IP_MXDW_INSTANCES)
+#elif defined(CY_IP_MXDW_INSTANCES) && (CPUSS_DW0_PRESENT == 1)
     #define CY_BLOCK_COUNT_DW       (CY_IP_MXDW_INSTANCES)
-    #define CY_CHANNEL_COUNT_DW     (CPUSS_DW0_CH_NR + CPUSS_DW1_CH_NR)
+    #if(CPUSS_DW1_PRESENT == 1)
+        #define CY_CHANNEL_COUNT_DW     (CPUSS_DW0_CH_NR + CPUSS_DW1_CH_NR)
+    #else
+        #define CY_CHANNEL_COUNT_DW     (CPUSS_DW0_CH_NR)
+    #endif
 #else
     #define CY_BLOCK_COUNT_DW       (0)
     #define CY_CHANNEL_COUNT_DW     (0)
@@ -203,18 +211,26 @@
 #endif
 
 #if defined(CY_IP_MXLPCOMP_INSTANCES)
-    #define CY_BLOCK_COUNT_LPCOMP   (2 * CY_IP_MXLPCOMP_INSTANCES)
+    #define CY_BLOCK_COUNT_LPCOMP   (CY_IP_MXLPCOMP_INSTANCES)
 #elif defined(CY_IP_M0S8LPCOMP_INSTANCES)
-    #define CY_BLOCK_COUNT_LPCOMP   (2 * CY_IP_M0S8LPCOMP_INSTANCES)
+    #define CY_BLOCK_COUNT_LPCOMP   (CY_IP_M0S8LPCOMP_INSTANCES)
 #else
     #define CY_BLOCK_COUNT_LPCOMP   (0)
 #endif
+#define CY_CHANNEL_COUNT_LPCOMP     (2 * CY_BLOCK_COUNT_LPCOMP)
 
 #if defined(PASS_NR_CTBS)
-    #define CY_BLOCK_COUNT_OPAMP    (2 * PASS_NR_CTBS)
+    #define CY_BLOCK_COUNT_OPAMP    (PASS_NR_CTBS)
+#elif defined(PASS0_NR_CTBS)
+    #if defined(PASS1_NR_CTBS)
+        #define CY_BLOCK_COUNT_OPAMP    ((PASS0_NR_CTBS + PASS1_NR_CTBS))
+    #else
+        #define CY_BLOCK_COUNT_OPAMP    (PASS0_NR_CTBS)
+    #endif
 #else
     #define CY_BLOCK_COUNT_OPAMP    (0)
 #endif
+#define CY_CHANNEL_COUNT_OPAMP      (2 * CY_BLOCK_COUNT_OPAMP)
 
 #if defined(CY_IP_MXAUDIOSS_INSTANCES)
     #define CY_BLOCK_COUNT_PDMPCM   (CY_IP_MXAUDIOSS_INSTANCES)
@@ -402,11 +418,11 @@
 #define CY_OFFSET_LIN      (CY_OFFSET_LCD + CY_SIZE_LCD)
 #define CY_SIZE_LIN        CY_BLOCK_COUNT_LIN
 #define CY_OFFSET_LPCOMP   (CY_OFFSET_LIN + CY_SIZE_LIN)
-#define CY_SIZE_LPCOMP     CY_BLOCK_COUNT_LPCOMP
+#define CY_SIZE_LPCOMP     CY_CHANNEL_COUNT_LPCOMP
 #define CY_OFFSET_LPTIMER  (CY_OFFSET_LPCOMP + CY_SIZE_LPCOMP)
 #define CY_SIZE_LPTIMER    CY_BLOCK_COUNT_MCWDT
 #define CY_OFFSET_OPAMP    (CY_OFFSET_LPTIMER + CY_SIZE_LPTIMER)
-#define CY_SIZE_OPAMP      CY_BLOCK_COUNT_OPAMP
+#define CY_SIZE_OPAMP      CY_CHANNEL_COUNT_OPAMP
 #define CY_OFFSET_PDMPCM   (CY_OFFSET_OPAMP + CY_SIZE_OPAMP)
 #define CY_SIZE_PDMPCM     CY_BLOCK_COUNT_PDMPCM
 #define CY_OFFSET_QSPI     (CY_OFFSET_PDMPCM + CY_SIZE_PDMPCM)
@@ -787,6 +803,24 @@ static const uint8_t cyhal_block_offsets_can[] =
 #endif
 };
 
+static const uint8_t cyhal_block_offsets_lpcomp[] =
+{
+    0,
+#if (CY_BLOCK_COUNT_LPCOMP > 1)
+    #error "Unhandled LPComp count"
+#endif
+};
+
+static const uint8_t cyhal_block_offsets_opamp[] =
+{
+    0,
+#if (CY_BLOCK_COUNT_OPAMP > 1)
+    2,
+#elif (CY_BLOCK_COUNT_OPAMP > 2)
+    #error "Unhandled Opamp count"
+#endif
+};
+
 static const uint8_t cyhal_block_offsets_tcpwm[] =
 {
     0,
@@ -906,6 +940,8 @@ static const uint32_t cyhal_has_channels =
     (1 << CYHAL_RSC_TDM)   |
 #endif
     (1 << CYHAL_RSC_GPIO)  |
+    (1 << CYHAL_RSC_LPCOMP)|
+    (1 << CYHAL_RSC_OPAMP) |
     (1 << CYHAL_RSC_TCPWM) ;
 
 /*******************************************************************************
@@ -940,6 +976,10 @@ static inline const uint8_t* _cyhal_get_block_offsets(cyhal_resource_t type)
 #endif
         case CYHAL_RSC_GPIO:
             return cyhal_block_offsets_gpio;
+        case CYHAL_RSC_LPCOMP:
+            return cyhal_block_offsets_lpcomp;
+        case CYHAL_RSC_OPAMP:
+            return cyhal_block_offsets_opamp;
         case CYHAL_RSC_TCPWM:
             return cyhal_block_offsets_tcpwm;
         default:
@@ -967,6 +1007,10 @@ static inline uint8_t _cyhal_get_block_offset_length(cyhal_resource_t type)
 #endif
         case CYHAL_RSC_GPIO:
             return sizeof(cyhal_block_offsets_gpio)/sizeof(cyhal_block_offsets_gpio[0]);
+        case CYHAL_RSC_LPCOMP:
+            return sizeof(cyhal_block_offsets_lpcomp)/sizeof(cyhal_block_offsets_lpcomp[0]);
+        case CYHAL_RSC_OPAMP:
+            return sizeof(cyhal_block_offsets_opamp)/sizeof(cyhal_block_offsets_opamp[0]);
         case CYHAL_RSC_TCPWM:
             return sizeof(cyhal_block_offsets_tcpwm)/sizeof(cyhal_block_offsets_tcpwm[0]);
         default:

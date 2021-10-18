@@ -6,7 +6,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,7 +44,7 @@ const cyhal_resource_pin_mapping_t *_cyhal_utils_get_resource(cyhal_gpio_t pin, 
         {
             if (pin == mappings[i].pin)
             {
-                if ((NULL == block_res) || (_cyhal_utils_resources_equal(mappings[i].inst, block_res)))
+                if ((NULL == block_res) || (_cyhal_utils_map_resource_equal(block_res, &(mappings[i]))))
                 {
                     return &mappings[i];
                 }
@@ -52,13 +54,14 @@ const cyhal_resource_pin_mapping_t *_cyhal_utils_get_resource(cyhal_gpio_t pin, 
     return NULL;
 }
 
-const cyhal_resource_pin_mapping_t* _cyhal_utils_try_alloc(cyhal_gpio_t pin, const cyhal_resource_pin_mapping_t *pin_map, size_t count)
+const cyhal_resource_pin_mapping_t* _cyhal_utils_try_alloc(cyhal_gpio_t pin, cyhal_resource_t rsc, const cyhal_resource_pin_mapping_t *pin_map, size_t count)
 {
     for (uint32_t i = 0; i < count; i++)
     {
         if (pin == pin_map[i].pin)
         {
-            if (CY_RSLT_SUCCESS == cyhal_hwmgr_reserve(pin_map[i].inst))
+            cyhal_resource_inst_t inst = { rsc, pin_map[i].block_num, pin_map[i].channel_num };
+            if (CY_RSLT_SUCCESS == cyhal_hwmgr_reserve(&inst))
             {
                 return &pin_map[i];
             }
@@ -81,27 +84,20 @@ void _cyhal_utils_release_if_used(cyhal_gpio_t *pin)
     }
 }
 
-bool _cyhal_utils_resources_equal(const cyhal_resource_inst_t *resource1, const cyhal_resource_inst_t *resource2)
-{
-    return (resource1->type == resource2->type) &&
-        (resource1->block_num == resource2->block_num) &&
-        (resource1->channel_num == resource2->channel_num);
-}
-
-bool _cyhal_utils_resources_equal_all(uint32_t count, ...)
+bool _cyhal_utils_map_resources_equal_all(uint32_t count, ...)
 {
     CY_ASSERT(count >= 2);
 
     va_list args;
     bool equal = true;
-    const cyhal_resource_inst_t *curr;
+    const cyhal_resource_pin_mapping_t *curr;
 
     va_start(args, count);
-    const cyhal_resource_inst_t *first = va_arg(args, const cyhal_resource_inst_t *);
+    const cyhal_resource_pin_mapping_t *first = va_arg(args, const cyhal_resource_pin_mapping_t *);
     for (uint32_t i = 1; i < count; i++)
     {
-        curr = va_arg(args, const cyhal_resource_inst_t *);
-        equal &= _cyhal_utils_resources_equal(first, curr);
+        curr = va_arg(args, const cyhal_resource_pin_mapping_t *);
+        equal &= _cyhal_utils_map_resources_equal(first, curr);
     }
 
     va_end(args);

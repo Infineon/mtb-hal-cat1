@@ -2,12 +2,14 @@
 * File Name: cyhal_udb_sdio.c
 *
 * Description:
-* Provides a high level interface for interacting with the Cypress UDB SDIO.
+* Provides a high level interface for interacting with the Infineon UDB SDIO.
 * This is a wrapper around the lower level UDB SDIO API.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,21 +29,21 @@
  * \addtogroup group_hal_impl_udb_sdio UDB SDIO (Secure Digital Input Output)
  * \ingroup group_hal_impl
  * \{
- * The UDB based SDIO interface allows for communicating between a PSoC 6 and a
+ * The UDB based SDIO interface allows for communicating between a PSoC™ 6 and a
  * Cypress wireless device such as the CYW4343W, CYW43438, or CYW43012. This
- * library allows PSoC 6 devices that do not have a dedicated SDHC hardware block,
+ * library allows PSoC™ 6 devices that do not have a dedicated SDHC hardware block,
  * but do have UDBs, to work with the
- * <a href="https://github.com/cypresssemiconductorco/wifi-host-driver">Wi-Fi
+ * <a href="https://github.com/infineon/wifi-host-driver">Wi-Fi
  * Host Driver (WHD)</a> library.
  *
  * \warning This library does not provide a complete SDIO implementation. It is
- * only intended for use with a Cypress wireless device. Additionally, using this
+ * only intended for use with a Infineon wireless device. Additionally, using this
  * driver imposes a few system wide requirements, described below, that must be
  * met to work properly.
  *
  * \section section_psoc6_udb_sdio_restrictions Restrictions
  * The optimal configuration is to have ClkSlow & ClkPeri running at 100 MHz
- * and for the SDIO to run at 25 MHz. For Cypress provided Board Support Packages
+ * and for the SDIO to run at 25 MHz. For Infineon provided Board Support Packages
  * (BSPs) that use this driver the necessary configuration is done automatically.
  *
  * To use this library, the following must be true:
@@ -60,7 +62,7 @@
 #include "cyhal_hwmgr.h"
 #include "cy_utils.h"
 
-#if defined(CYHAL_UDB_SDIO)
+#if (CYHAL_DRIVER_AVAILABLE_SDIO) && defined(CYHAL_UDB_SDIO)
 
 #if defined(__cplusplus)
 extern "C"
@@ -291,18 +293,12 @@ cy_rslt_t cyhal_sdio_init(cyhal_sdio_t *obj, cyhal_gpio_t cmd, cyhal_gpio_t clk,
     obj->dma1Ch1.resource.type = CYHAL_RSC_INVALID;
     obj->dma1Ch3.resource.type = CYHAL_RSC_INVALID;
 
-    cy_rslt_t retVal = CY_RSLT_SUCCESS;
-
-    obj->clock.div_type = _CY_HAL_SDIO_CLK_DIV_NC;
-
     /* Reserve clock */
-    obj->clock.div_type = CY_SYSCLK_DIV_8_BIT;
-    obj->clock.div_num = 0;
     obj->clock.block = CYHAL_CLOCK_BLOCK_PERIPHERAL_8BIT;
     obj->clock.channel = 0;
     obj->clock.reserved = false;
 
-    retVal = cyhal_clock_init(&(obj->clock));
+    cy_rslt_t retVal = cyhal_clock_reserve(&(obj->clock), &(obj->clock));
     if (retVal == CY_RSLT_SUCCESS)
     {
         /* Assign clock divider */
@@ -494,7 +490,7 @@ cy_rslt_t cyhal_sdio_configure(cyhal_sdio_t *obj, const cyhal_sdio_cfg_t *config
     return CY_RSLT_SUCCESS;
 }
 
-cy_rslt_t cyhal_sdio_send_cmd(const cyhal_sdio_t *obj, cyhal_transfer_t direction, cyhal_sdio_command_t command, uint32_t argument, uint32_t* response)
+cy_rslt_t cyhal_sdio_send_cmd(cyhal_sdio_t *obj, cyhal_sdio_transfer_type_t direction, cyhal_sdio_command_t command, uint32_t argument, uint32_t* response)
 {
     CY_ASSERT(NULL != obj);
     if (command == CYHAL_SDIO_CMD_IO_RW_EXTENDED)
@@ -526,7 +522,7 @@ cy_rslt_t cyhal_sdio_send_cmd(const cyhal_sdio_t *obj, cyhal_transfer_t directio
         cmd.u32Arg = argument;
         cmd.pu32Response = &cmdResponse;
         cmd.pu8Data = NULL;              /* Not used */
-        cmd.bRead = (direction != CYHAL_READ) ? false : true;
+        cmd.bRead = (direction != CYHAL_SDIO_XFER_TYPE_READ) ? false : true;
         cmd.u16BlockCnt = 0U;            /* Not used */
         cmd.u16BlockSize = 0U;           /* Not used */
 
@@ -546,7 +542,7 @@ cy_rslt_t cyhal_sdio_send_cmd(const cyhal_sdio_t *obj, cyhal_transfer_t directio
     return retVal;
 }
 
-cy_rslt_t cyhal_sdio_bulk_transfer(cyhal_sdio_t *obj, cyhal_transfer_t direction, uint32_t argument, const uint32_t* data, uint16_t length, uint32_t* response)
+cy_rslt_t cyhal_sdio_bulk_transfer(cyhal_sdio_t *obj, cyhal_sdio_transfer_type_t direction, uint32_t argument, const uint32_t* data, uint16_t length, uint32_t* response)
 {
     CY_ASSERT(NULL != obj);
     if (obj->pm_transition_pending)
@@ -575,7 +571,7 @@ cy_rslt_t cyhal_sdio_bulk_transfer(cyhal_sdio_t *obj, cyhal_transfer_t direction
 
         /* Note that this implementation uses 8b address */
         cmd.pu8Data = (uint8_t *) data;
-        cmd.bRead = (direction != CYHAL_READ) ? false : true;
+        cmd.bRead = (direction != CYHAL_SDIO_XFER_TYPE_READ) ? false : true;
 
         if (length >= obj->block_size)
         {
@@ -603,14 +599,14 @@ cy_rslt_t cyhal_sdio_bulk_transfer(cyhal_sdio_t *obj, cyhal_transfer_t direction
     return retVal;
 }
 
-cy_rslt_t cyhal_sdio_transfer_async(cyhal_sdio_t *obj, cyhal_transfer_t direction, uint32_t argument, const uint32_t* data, uint16_t length)
+cy_rslt_t cyhal_sdio_transfer_async(cyhal_sdio_t *obj, cyhal_sdio_transfer_type_t direction, uint32_t argument, const uint32_t* data, uint16_t length)
 {
     /* UDB SDIO implementation does not support async transfers */
 
     CY_UNUSED_PARAMETER(obj);
     CY_ASSERT(NULL != obj);
     /* Just add check to suppress warning about unused arguments */
-    if ((data == NULL) && (length == 0) && (argument == 0) && (direction == ((cyhal_transfer_t) 0x3)))
+    if ((data == NULL) && (length == 0) && (argument == 0) && (direction == ((cyhal_sdio_transfer_type_t) 0x3)))
     {
         return CYHAL_SDIO_RSLT_ERR_BAD_PARAM;
     }
@@ -625,7 +621,7 @@ bool cyhal_sdio_is_busy(const cyhal_sdio_t *obj)
     return false;
 }
 
-cy_rslt_t cyhal_sdio_abort_async(const cyhal_sdio_t *obj)
+cy_rslt_t cyhal_sdio_abort_async(cyhal_sdio_t *obj)
 {
     /* Reset UDB SDIO */
     CY_UNUSED_PARAMETER(obj);
@@ -698,8 +694,16 @@ cy_rslt_t cyhal_sdio_set_io_voltage(cyhal_sdio_t *obj, cyhal_gpio_t io_volt_sel,
     return CYHAL_SDIO_RSLT_ERR_UNSUPPORTED;
 }
 
+cy_rslt_t cyhal_sdio_init_cfg(cyhal_sdio_t *obj, const cyhal_sdio_configurator_t *cfg)
+{
+    /* Configurator initialization is not supported on UDB-based SDIO */
+    CY_UNUSED_PARAMETER(obj);
+    CY_UNUSED_PARAMETER(cfg);
+    return CYHAL_SDIO_RSLT_ERR_UNSUPPORTED;
+}
+
 #if defined(__cplusplus)
 }
 #endif
 
-#endif /* defined(CYHAL_UDB_SDIO) */
+#endif /* (CYHAL_DRIVER_AVAILABLE_SDIO) && defined(CYHAL_UDB_SDIO) */

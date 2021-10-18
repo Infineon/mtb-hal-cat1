@@ -4,12 +4,11 @@
 * \brief
 * PSoC6_02 device GPIO HAL header for 100-WLCSP package
 *
-* \note
-* Generator version: 1.6.0.512
-*
 ********************************************************************************
 * \copyright
-* Copyright 2016-2021 Cypress Semiconductor Corporation
+* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -158,259 +157,259 @@ typedef cyhal_gpio_psoc6_02_100_wlcsp_t cyhal_gpio_t;
 /** Represents an association between a pin and a resource */
 typedef struct
 {
-    const cyhal_resource_inst_t  *inst;      //!< The associated resource instance
-    cyhal_gpio_t                 pin;        //!< The GPIO pin
-    uint8_t                      drive_mode; //!< The DriveMode configuration value
-    en_hsiom_sel_t               hsiom;      //!< The HSIOM configuration value
+    uint8_t         block_num;   //!< The block number of the resource with this connection
+    uint8_t         channel_num; //!< The channel number of the block with this connection
+    cyhal_gpio_t    pin;         //!< The GPIO pin the connection is with
+    en_hsiom_sel_t  hsiom;       //!< The HSIOM configuration value
 } cyhal_resource_pin_mapping_t;
 
 /* Pin connections */
 /** Indicates that a pin map exists for audioss_clk_i2s_if*/
-#define CYHAL_PIN_MAP_AUDIOSS_CLK_I2S_IF
+#define CYHAL_PIN_MAP_DRIVE_MODE_AUDIOSS_CLK_I2S_IF (CY_GPIO_DM_HIGHZ)
 /** List of valid pin to peripheral connections for the audioss_clk_i2s_if signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_audioss_clk_i2s_if[4];
 /** Indicates that a pin map exists for audioss_pdm_clk*/
-#define CYHAL_PIN_MAP_AUDIOSS_PDM_CLK
+#define CYHAL_PIN_MAP_DRIVE_MODE_AUDIOSS_PDM_CLK (CY_GPIO_DM_STRONG_IN_OFF)
 /** List of valid pin to peripheral connections for the audioss_pdm_clk signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_audioss_pdm_clk[2];
 /** Indicates that a pin map exists for audioss_pdm_data*/
-#define CYHAL_PIN_MAP_AUDIOSS_PDM_DATA
+#define CYHAL_PIN_MAP_DRIVE_MODE_AUDIOSS_PDM_DATA (CY_GPIO_DM_HIGHZ)
 /** List of valid pin to peripheral connections for the audioss_pdm_data signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_audioss_pdm_data[2];
 /** Indicates that a pin map exists for audioss_rx_sck*/
-#define CYHAL_PIN_MAP_AUDIOSS_RX_SCK
+#define CYHAL_PIN_MAP_DRIVE_MODE_AUDIOSS_RX_SCK (CY_GPIO_DM_STRONG_IN_OFF)
 /** List of valid pin to peripheral connections for the audioss_rx_sck signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_audioss_rx_sck[4];
 /** Indicates that a pin map exists for audioss_rx_sdi*/
-#define CYHAL_PIN_MAP_AUDIOSS_RX_SDI
+#define CYHAL_PIN_MAP_DRIVE_MODE_AUDIOSS_RX_SDI (CY_GPIO_DM_HIGHZ)
 /** List of valid pin to peripheral connections for the audioss_rx_sdi signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_audioss_rx_sdi[3];
 /** Indicates that a pin map exists for audioss_rx_ws*/
-#define CYHAL_PIN_MAP_AUDIOSS_RX_WS
+#define CYHAL_PIN_MAP_DRIVE_MODE_AUDIOSS_RX_WS (CY_GPIO_DM_STRONG_IN_OFF)
 /** List of valid pin to peripheral connections for the audioss_rx_ws signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_audioss_rx_ws[3];
 /** Indicates that a pin map exists for audioss_tx_sck*/
-#define CYHAL_PIN_MAP_AUDIOSS_TX_SCK
+#define CYHAL_PIN_MAP_DRIVE_MODE_AUDIOSS_TX_SCK (CY_GPIO_DM_STRONG_IN_OFF)
 /** List of valid pin to peripheral connections for the audioss_tx_sck signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_audioss_tx_sck[4];
 /** Indicates that a pin map exists for audioss_tx_sdo*/
-#define CYHAL_PIN_MAP_AUDIOSS_TX_SDO
+#define CYHAL_PIN_MAP_DRIVE_MODE_AUDIOSS_TX_SDO (CY_GPIO_DM_STRONG_IN_OFF)
 /** List of valid pin to peripheral connections for the audioss_tx_sdo signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_audioss_tx_sdo[4];
 /** Indicates that a pin map exists for audioss_tx_ws*/
-#define CYHAL_PIN_MAP_AUDIOSS_TX_WS
+#define CYHAL_PIN_MAP_DRIVE_MODE_AUDIOSS_TX_WS (CY_GPIO_DM_STRONG_IN_OFF)
 /** List of valid pin to peripheral connections for the audioss_tx_ws signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_audioss_tx_ws[4];
 /** Indicates that a pin map exists for lpcomp_dsi_comp*/
-#define CYHAL_PIN_MAP_LPCOMP_DSI_COMP
+#define CYHAL_PIN_MAP_DRIVE_MODE_LPCOMP_DSI_COMP (CY_GPIO_DM_STRONG_IN_OFF)
 /** List of valid pin to peripheral connections for the lpcomp_dsi_comp signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_lpcomp_dsi_comp[2];
 /** Indicates that a pin map exists for lpcomp_inn_comp*/
-#define CYHAL_PIN_MAP_LPCOMP_INN_COMP
+#define CYHAL_PIN_MAP_DRIVE_MODE_LPCOMP_INN_COMP (CY_GPIO_DM_ANALOG)
 /** List of valid pin to peripheral connections for the lpcomp_inn_comp signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_lpcomp_inn_comp[2];
 /** Indicates that a pin map exists for lpcomp_inp_comp*/
-#define CYHAL_PIN_MAP_LPCOMP_INP_COMP
+#define CYHAL_PIN_MAP_DRIVE_MODE_LPCOMP_INP_COMP (CY_GPIO_DM_ANALOG)
 /** List of valid pin to peripheral connections for the lpcomp_inp_comp signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_lpcomp_inp_comp[2];
 /** Indicates that a pin map exists for pass_sarmux_pads*/
-#define CYHAL_PIN_MAP_PASS_SARMUX_PADS
+#define CYHAL_PIN_MAP_DRIVE_MODE_PASS_SARMUX_PADS (CY_GPIO_DM_ANALOG)
 /** List of valid pin to peripheral connections for the pass_sarmux_pads signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_pass_sarmux_pads[8];
 /** Indicates that a pin map exists for peri_tr_io_input*/
-#define CYHAL_PIN_MAP_PERI_TR_IO_INPUT
+#define CYHAL_PIN_MAP_DRIVE_MODE_PERI_TR_IO_INPUT (CY_GPIO_DM_HIGHZ)
 /** List of valid pin to peripheral connections for the peri_tr_io_input signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_peri_tr_io_input[24];
 /** Indicates that a pin map exists for peri_tr_io_output*/
-#define CYHAL_PIN_MAP_PERI_TR_IO_OUTPUT
+#define CYHAL_PIN_MAP_DRIVE_MODE_PERI_TR_IO_OUTPUT (CY_GPIO_DM_HIGHZ)
 /** List of valid pin to peripheral connections for the peri_tr_io_output signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_peri_tr_io_output[6];
 /** Indicates that a pin map exists for scb_i2c_scl*/
-#define CYHAL_PIN_MAP_SCB_I2C_SCL
+#define CYHAL_PIN_MAP_DRIVE_MODE_SCB_I2C_SCL (CY_GPIO_DM_OD_DRIVESLOW)
 /** List of valid pin to peripheral connections for the scb_i2c_scl signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_scb_i2c_scl[19];
 /** Indicates that a pin map exists for scb_i2c_sda*/
-#define CYHAL_PIN_MAP_SCB_I2C_SDA
+#define CYHAL_PIN_MAP_DRIVE_MODE_SCB_I2C_SDA (CY_GPIO_DM_OD_DRIVESLOW)
 /** List of valid pin to peripheral connections for the scb_i2c_sda signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_scb_i2c_sda[18];
 /** Indicates that a pin map exists for scb_spi_m_clk*/
-#define CYHAL_PIN_MAP_SCB_SPI_M_CLK
+#define CYHAL_PIN_MAP_DRIVE_MODE_SCB_SPI_M_CLK (CY_GPIO_DM_STRONG_IN_OFF)
 /** List of valid pin to peripheral connections for the scb_spi_m_clk signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_scb_spi_m_clk[14];
 /** Indicates that a pin map exists for scb_spi_m_miso*/
-#define CYHAL_PIN_MAP_SCB_SPI_M_MISO
+#define CYHAL_PIN_MAP_DRIVE_MODE_SCB_SPI_M_MISO (CY_GPIO_DM_HIGHZ)
 /** List of valid pin to peripheral connections for the scb_spi_m_miso signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_scb_spi_m_miso[15];
 /** Indicates that a pin map exists for scb_spi_m_mosi*/
-#define CYHAL_PIN_MAP_SCB_SPI_M_MOSI
+#define CYHAL_PIN_MAP_DRIVE_MODE_SCB_SPI_M_MOSI (CY_GPIO_DM_STRONG_IN_OFF)
 /** List of valid pin to peripheral connections for the scb_spi_m_mosi signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_scb_spi_m_mosi[15];
 /** Indicates that a pin map exists for scb_spi_m_select0*/
-#define CYHAL_PIN_MAP_SCB_SPI_M_SELECT0
+#define CYHAL_PIN_MAP_DRIVE_MODE_SCB_SPI_M_SELECT0 (CY_GPIO_DM_STRONG_IN_OFF)
 /** List of valid pin to peripheral connections for the scb_spi_m_select0 signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_scb_spi_m_select0[14];
 /** Indicates that a pin map exists for scb_spi_m_select1*/
-#define CYHAL_PIN_MAP_SCB_SPI_M_SELECT1
+#define CYHAL_PIN_MAP_DRIVE_MODE_SCB_SPI_M_SELECT1 (CY_GPIO_DM_STRONG_IN_OFF)
 /** List of valid pin to peripheral connections for the scb_spi_m_select1 signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_scb_spi_m_select1[11];
 /** Indicates that a pin map exists for scb_spi_m_select2*/
-#define CYHAL_PIN_MAP_SCB_SPI_M_SELECT2
+#define CYHAL_PIN_MAP_DRIVE_MODE_SCB_SPI_M_SELECT2 (CY_GPIO_DM_STRONG_IN_OFF)
 /** List of valid pin to peripheral connections for the scb_spi_m_select2 signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_scb_spi_m_select2[8];
 /** Indicates that a pin map exists for scb_spi_m_select3*/
-#define CYHAL_PIN_MAP_SCB_SPI_M_SELECT3
+#define CYHAL_PIN_MAP_DRIVE_MODE_SCB_SPI_M_SELECT3 (CY_GPIO_DM_STRONG_IN_OFF)
 /** List of valid pin to peripheral connections for the scb_spi_m_select3 signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_scb_spi_m_select3[7];
 /** Indicates that a pin map exists for scb_spi_s_clk*/
-#define CYHAL_PIN_MAP_SCB_SPI_S_CLK
+#define CYHAL_PIN_MAP_DRIVE_MODE_SCB_SPI_S_CLK (CY_GPIO_DM_HIGHZ)
 /** List of valid pin to peripheral connections for the scb_spi_s_clk signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_scb_spi_s_clk[14];
 /** Indicates that a pin map exists for scb_spi_s_miso*/
-#define CYHAL_PIN_MAP_SCB_SPI_S_MISO
+#define CYHAL_PIN_MAP_DRIVE_MODE_SCB_SPI_S_MISO (CY_GPIO_DM_STRONG_IN_OFF)
 /** List of valid pin to peripheral connections for the scb_spi_s_miso signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_scb_spi_s_miso[15];
 /** Indicates that a pin map exists for scb_spi_s_mosi*/
-#define CYHAL_PIN_MAP_SCB_SPI_S_MOSI
+#define CYHAL_PIN_MAP_DRIVE_MODE_SCB_SPI_S_MOSI (CY_GPIO_DM_HIGHZ)
 /** List of valid pin to peripheral connections for the scb_spi_s_mosi signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_scb_spi_s_mosi[15];
 /** Indicates that a pin map exists for scb_spi_s_select0*/
-#define CYHAL_PIN_MAP_SCB_SPI_S_SELECT0
+#define CYHAL_PIN_MAP_DRIVE_MODE_SCB_SPI_S_SELECT0 (CY_GPIO_DM_HIGHZ)
 /** List of valid pin to peripheral connections for the scb_spi_s_select0 signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_scb_spi_s_select0[14];
 /** Indicates that a pin map exists for scb_spi_s_select1*/
-#define CYHAL_PIN_MAP_SCB_SPI_S_SELECT1
+#define CYHAL_PIN_MAP_DRIVE_MODE_SCB_SPI_S_SELECT1 (CY_GPIO_DM_HIGHZ)
 /** List of valid pin to peripheral connections for the scb_spi_s_select1 signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_scb_spi_s_select1[11];
 /** Indicates that a pin map exists for scb_spi_s_select2*/
-#define CYHAL_PIN_MAP_SCB_SPI_S_SELECT2
+#define CYHAL_PIN_MAP_DRIVE_MODE_SCB_SPI_S_SELECT2 (CY_GPIO_DM_HIGHZ)
 /** List of valid pin to peripheral connections for the scb_spi_s_select2 signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_scb_spi_s_select2[8];
 /** Indicates that a pin map exists for scb_spi_s_select3*/
-#define CYHAL_PIN_MAP_SCB_SPI_S_SELECT3
+#define CYHAL_PIN_MAP_DRIVE_MODE_SCB_SPI_S_SELECT3 (CY_GPIO_DM_HIGHZ)
 /** List of valid pin to peripheral connections for the scb_spi_s_select3 signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_scb_spi_s_select3[7];
 /** Indicates that a pin map exists for scb_uart_cts*/
-#define CYHAL_PIN_MAP_SCB_UART_CTS
+#define CYHAL_PIN_MAP_DRIVE_MODE_SCB_UART_CTS (CY_GPIO_DM_HIGHZ)
 /** List of valid pin to peripheral connections for the scb_uart_cts signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_scb_uart_cts[15];
 /** Indicates that a pin map exists for scb_uart_rts*/
-#define CYHAL_PIN_MAP_SCB_UART_RTS
+#define CYHAL_PIN_MAP_DRIVE_MODE_SCB_UART_RTS (CY_GPIO_DM_STRONG_IN_OFF)
 /** List of valid pin to peripheral connections for the scb_uart_rts signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_scb_uart_rts[15];
 /** Indicates that a pin map exists for scb_uart_rx*/
-#define CYHAL_PIN_MAP_SCB_UART_RX
+#define CYHAL_PIN_MAP_DRIVE_MODE_SCB_UART_RX (CY_GPIO_DM_HIGHZ)
 /** List of valid pin to peripheral connections for the scb_uart_rx signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_scb_uart_rx[17];
 /** Indicates that a pin map exists for scb_uart_tx*/
-#define CYHAL_PIN_MAP_SCB_UART_TX
+#define CYHAL_PIN_MAP_DRIVE_MODE_SCB_UART_TX (CY_GPIO_DM_STRONG_IN_OFF)
 /** List of valid pin to peripheral connections for the scb_uart_tx signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_scb_uart_tx[16];
 /** Indicates that a pin map exists for sdhc_card_cmd*/
-#define CYHAL_PIN_MAP_SDHC_CARD_CMD
+#define CYHAL_PIN_MAP_DRIVE_MODE_SDHC_CARD_CMD (CY_GPIO_DM_STRONG)
 /** List of valid pin to peripheral connections for the sdhc_card_cmd signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_sdhc_card_cmd[2];
 /** Indicates that a pin map exists for sdhc_card_dat_3to0*/
-#define CYHAL_PIN_MAP_SDHC_CARD_DAT_3TO0
+#define CYHAL_PIN_MAP_DRIVE_MODE_SDHC_CARD_DAT_3TO0 (CY_GPIO_DM_STRONG)
 /** List of valid pin to peripheral connections for the sdhc_card_dat_3to0 signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_sdhc_card_dat_3to0[8];
 /** Indicates that a pin map exists for sdhc_card_dat_7to4*/
-#define CYHAL_PIN_MAP_SDHC_CARD_DAT_7TO4
+#define CYHAL_PIN_MAP_DRIVE_MODE_SDHC_CARD_DAT_7TO4 (CY_GPIO_DM_STRONG)
 /** List of valid pin to peripheral connections for the sdhc_card_dat_7to4 signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_sdhc_card_dat_7to4[4];
 /** Indicates that a pin map exists for sdhc_card_detect_n*/
-#define CYHAL_PIN_MAP_SDHC_CARD_DETECT_N
+#define CYHAL_PIN_MAP_DRIVE_MODE_SDHC_CARD_DETECT_N (CY_GPIO_DM_HIGHZ)
 /** List of valid pin to peripheral connections for the sdhc_card_detect_n signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_sdhc_card_detect_n[2];
 /** Indicates that a pin map exists for sdhc_card_emmc_reset_n*/
-#define CYHAL_PIN_MAP_SDHC_CARD_EMMC_RESET_N
+#define CYHAL_PIN_MAP_DRIVE_MODE_SDHC_CARD_EMMC_RESET_N (CY_GPIO_DM_STRONG_IN_OFF)
 /** List of valid pin to peripheral connections for the sdhc_card_emmc_reset_n signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_sdhc_card_emmc_reset_n[1];
 /** Indicates that a pin map exists for sdhc_card_if_pwr_en*/
-#define CYHAL_PIN_MAP_SDHC_CARD_IF_PWR_EN
+#define CYHAL_PIN_MAP_DRIVE_MODE_SDHC_CARD_IF_PWR_EN (CY_GPIO_DM_STRONG_IN_OFF)
 /** List of valid pin to peripheral connections for the sdhc_card_if_pwr_en signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_sdhc_card_if_pwr_en[1];
 /** Indicates that a pin map exists for sdhc_card_mech_write_prot*/
-#define CYHAL_PIN_MAP_SDHC_CARD_MECH_WRITE_PROT
+#define CYHAL_PIN_MAP_DRIVE_MODE_SDHC_CARD_MECH_WRITE_PROT (CY_GPIO_DM_HIGHZ)
 /** List of valid pin to peripheral connections for the sdhc_card_mech_write_prot signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_sdhc_card_mech_write_prot[2];
 /** Indicates that a pin map exists for sdhc_clk_card*/
-#define CYHAL_PIN_MAP_SDHC_CLK_CARD
+#define CYHAL_PIN_MAP_DRIVE_MODE_SDHC_CLK_CARD (CY_GPIO_DM_STRONG)
 /** List of valid pin to peripheral connections for the sdhc_clk_card signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_sdhc_clk_card[2];
 /** Indicates that a pin map exists for sdhc_io_volt_sel*/
-#define CYHAL_PIN_MAP_SDHC_IO_VOLT_SEL
+#define CYHAL_PIN_MAP_DRIVE_MODE_SDHC_IO_VOLT_SEL (CY_GPIO_DM_STRONG_IN_OFF)
 /** List of valid pin to peripheral connections for the sdhc_io_volt_sel signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_sdhc_io_volt_sel[1];
 /** Indicates that a pin map exists for sdhc_led_ctrl*/
-#define CYHAL_PIN_MAP_SDHC_LED_CTRL
+#define CYHAL_PIN_MAP_DRIVE_MODE_SDHC_LED_CTRL (CY_GPIO_DM_STRONG_IN_OFF)
 /** List of valid pin to peripheral connections for the sdhc_led_ctrl signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_sdhc_led_ctrl[1];
 /** Indicates that a pin map exists for smif_spi_clk*/
-#define CYHAL_PIN_MAP_SMIF_SPI_CLK
+#define CYHAL_PIN_MAP_DRIVE_MODE_SMIF_SPI_CLK (CY_GPIO_DM_STRONG)
 /** List of valid pin to peripheral connections for the smif_spi_clk signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_smif_spi_clk[1];
 /** Indicates that a pin map exists for smif_spi_data0*/
-#define CYHAL_PIN_MAP_SMIF_SPI_DATA0
+#define CYHAL_PIN_MAP_DRIVE_MODE_SMIF_SPI_DATA0 (CY_GPIO_DM_STRONG)
 /** List of valid pin to peripheral connections for the smif_spi_data0 signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_smif_spi_data0[1];
 /** Indicates that a pin map exists for smif_spi_data1*/
-#define CYHAL_PIN_MAP_SMIF_SPI_DATA1
+#define CYHAL_PIN_MAP_DRIVE_MODE_SMIF_SPI_DATA1 (CY_GPIO_DM_STRONG)
 /** List of valid pin to peripheral connections for the smif_spi_data1 signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_smif_spi_data1[1];
 /** Indicates that a pin map exists for smif_spi_data2*/
-#define CYHAL_PIN_MAP_SMIF_SPI_DATA2
+#define CYHAL_PIN_MAP_DRIVE_MODE_SMIF_SPI_DATA2 (CY_GPIO_DM_STRONG)
 /** List of valid pin to peripheral connections for the smif_spi_data2 signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_smif_spi_data2[1];
 /** Indicates that a pin map exists for smif_spi_data3*/
-#define CYHAL_PIN_MAP_SMIF_SPI_DATA3
+#define CYHAL_PIN_MAP_DRIVE_MODE_SMIF_SPI_DATA3 (CY_GPIO_DM_STRONG)
 /** List of valid pin to peripheral connections for the smif_spi_data3 signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_smif_spi_data3[1];
 /** Indicates that a pin map exists for smif_spi_data4*/
-#define CYHAL_PIN_MAP_SMIF_SPI_DATA4
+#define CYHAL_PIN_MAP_DRIVE_MODE_SMIF_SPI_DATA4 (CY_GPIO_DM_STRONG)
 /** List of valid pin to peripheral connections for the smif_spi_data4 signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_smif_spi_data4[1];
 /** Indicates that a pin map exists for smif_spi_data5*/
-#define CYHAL_PIN_MAP_SMIF_SPI_DATA5
+#define CYHAL_PIN_MAP_DRIVE_MODE_SMIF_SPI_DATA5 (CY_GPIO_DM_STRONG)
 /** List of valid pin to peripheral connections for the smif_spi_data5 signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_smif_spi_data5[1];
 /** Indicates that a pin map exists for smif_spi_data6*/
-#define CYHAL_PIN_MAP_SMIF_SPI_DATA6
+#define CYHAL_PIN_MAP_DRIVE_MODE_SMIF_SPI_DATA6 (CY_GPIO_DM_STRONG)
 /** List of valid pin to peripheral connections for the smif_spi_data6 signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_smif_spi_data6[1];
 /** Indicates that a pin map exists for smif_spi_data7*/
-#define CYHAL_PIN_MAP_SMIF_SPI_DATA7
+#define CYHAL_PIN_MAP_DRIVE_MODE_SMIF_SPI_DATA7 (CY_GPIO_DM_STRONG)
 /** List of valid pin to peripheral connections for the smif_spi_data7 signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_smif_spi_data7[1];
 /** Indicates that a pin map exists for smif_spi_select0*/
-#define CYHAL_PIN_MAP_SMIF_SPI_SELECT0
+#define CYHAL_PIN_MAP_DRIVE_MODE_SMIF_SPI_SELECT0 (CY_GPIO_DM_STRONG_IN_OFF)
 /** List of valid pin to peripheral connections for the smif_spi_select0 signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_smif_spi_select0[1];
 /** Indicates that a pin map exists for smif_spi_select1*/
-#define CYHAL_PIN_MAP_SMIF_SPI_SELECT1
+#define CYHAL_PIN_MAP_DRIVE_MODE_SMIF_SPI_SELECT1 (CY_GPIO_DM_STRONG_IN_OFF)
 /** List of valid pin to peripheral connections for the smif_spi_select1 signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_smif_spi_select1[1];
 /** Indicates that a pin map exists for smif_spi_select2*/
-#define CYHAL_PIN_MAP_SMIF_SPI_SELECT2
+#define CYHAL_PIN_MAP_DRIVE_MODE_SMIF_SPI_SELECT2 (CY_GPIO_DM_STRONG_IN_OFF)
 /** List of valid pin to peripheral connections for the smif_spi_select2 signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_smif_spi_select2[1];
 /** Indicates that a pin map exists for smif_spi_select3*/
-#define CYHAL_PIN_MAP_SMIF_SPI_SELECT3
+#define CYHAL_PIN_MAP_DRIVE_MODE_SMIF_SPI_SELECT3 (CY_GPIO_DM_STRONG_IN_OFF)
 /** List of valid pin to peripheral connections for the smif_spi_select3 signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_smif_spi_select3[1];
 /** Indicates that a pin map exists for tcpwm_line*/
-#define CYHAL_PIN_MAP_TCPWM_LINE
+#define CYHAL_PIN_MAP_DRIVE_MODE_TCPWM_LINE (CY_GPIO_DM_STRONG_IN_OFF)
 /** List of valid pin to peripheral connections for the tcpwm_line signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_tcpwm_line[80];
 /** Indicates that a pin map exists for tcpwm_line_compl*/
-#define CYHAL_PIN_MAP_TCPWM_LINE_COMPL
+#define CYHAL_PIN_MAP_DRIVE_MODE_TCPWM_LINE_COMPL (CY_GPIO_DM_STRONG_IN_OFF)
 /** List of valid pin to peripheral connections for the tcpwm_line_compl signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_tcpwm_line_compl[80];
 /** Indicates that a pin map exists for usb_usb_dm_pad*/
-#define CYHAL_PIN_MAP_USB_USB_DM_PAD
+#define CYHAL_PIN_MAP_DRIVE_MODE_USB_USB_DM_PAD (CY_GPIO_DM_ANALOG)
 /** List of valid pin to peripheral connections for the usb_usb_dm_pad signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_usb_usb_dm_pad[1];
 /** Indicates that a pin map exists for usb_usb_dp_pad*/
-#define CYHAL_PIN_MAP_USB_USB_DP_PAD
+#define CYHAL_PIN_MAP_DRIVE_MODE_USB_USB_DP_PAD (CY_GPIO_DM_ANALOG)
 /** List of valid pin to peripheral connections for the usb_usb_dp_pad signal. */
 extern const cyhal_resource_pin_mapping_t cyhal_pin_map_usb_usb_dp_pad[1];
 

@@ -67,7 +67,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(document).ready(function(){initNavTree('group__group__hal__impl__trng.html','');});
+$(document).ready(function(){initNavTree('group__group__hal__impl__keyscan.html','');});
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -86,26 +86,12 @@ $(document).ready(function(){initNavTree('group__group__hal__impl__trng.html',''
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#define-members">Macros</a>  </div>
   <div class="headertitle">
-<div class="title">TRNG (True Random Number Generator)<div class="ingroups"><a class="el" href="group__group__hal__impl.html">CAT1 (PSoC 6) Implementation Specific</a></div></div>  </div>
+<div class="title">KeyScan<div class="ingroups"><a class="el" href="group__group__hal__impl.html">CAT1 (PSoC™ 6) Implementation Specific</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
-<a name="details" id="details"></a><h2 class="groupheader">General Description</h2>
-<p>Initialization polynomial values for the True Random Number Generator. </p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:ga811811c9484c5d9c594b609378df8017"><td class="memItemLeft" align="right" valign="top"><a id="ga811811c9484c5d9c594b609378df8017"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__trng.html#ga811811c9484c5d9c594b609378df8017">CYHAL_GARO31_INITSTATE</a>&#160;&#160;&#160;(0x04c11db7UL)</td></tr>
-<tr class="memdesc:ga811811c9484c5d9c594b609378df8017"><td class="mdescLeft">&#160;</td><td class="mdescRight">Galois ring oscillator value. <br /></td></tr>
-<tr class="separator:ga811811c9484c5d9c594b609378df8017"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga51025d09f955da47a6e3327301b80a4a"><td class="memItemLeft" align="right" valign="top"><a id="ga51025d09f955da47a6e3327301b80a4a"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__trng.html#ga51025d09f955da47a6e3327301b80a4a">CYHAL_FIRO31_INITSTATE</a>&#160;&#160;&#160;(0x04c11db7UL)</td></tr>
-<tr class="memdesc:ga51025d09f955da47a6e3327301b80a4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fibonacci ring oscillator value. <br /></td></tr>
-<tr class="separator:ga51025d09f955da47a6e3327301b80a4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
+<p>On PSoC™ devices, the KeyScan peripheral is clocked from the shared source CLK_MF. </p>
+<p>If <code>NULL</code> is passed for the <code>clk</code> argument to <a class="el" href="group__group__hal__keyscan.html#ga57f2f3a26d67dcdda74ba34637be68dc">cyhal_keyscan_init</a>, the KeyScan HAL will automatically reserve and enable CLK_MF. If the KeyScan driver needs to be used in combination with another driver that also requires CLK_MF, use the Clock driver to initialize CLK_MF, then pass the resulting <a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__clock__t">cyhal_clock_t</a> value to <a class="el" href="group__group__hal__keyscan.html#ga57f2f3a26d67dcdda74ba34637be68dc">cyhal_keyscan_init</a> and any other HAL driver that needs to share this clock. </p>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part

@@ -4,12 +4,11 @@
 * \brief
 * CYW20829 family HAL triggers header
 *
-* \note
-* Generator version: 1.6.0.512
-*
 ********************************************************************************
 * \copyright
-* Copyright 2016-2021 Cypress Semiconductor Corporation
+* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -288,37 +287,36 @@ typedef enum
     CYHAL_TRIGGER_PDM_TR_DBG_FREEZE = 26, //!< PERI Freeze trigger multiplexer - pdm.tr_dbg_freeze
     CYHAL_TRIGGER_PERI_TR_DBG_FREEZE = 27, //!< PERI Freeze trigger multiplexer - peri.tr_dbg_freeze
     CYHAL_TRIGGER_SRSS_TR_DEBUG_FREEZE_MCWDT0 = 28, //!< CPUSS Debug  multiplexer - srss.tr_debug_freeze_mcwdt[0]
-    CYHAL_TRIGGER_SRSS_TR_DEBUG_FREEZE_WDT = 29, //!< CPUSS Debug  multiplexer - srss.tr_debug_freeze_wdt
-    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN0 = 30, //!< TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[0]
-    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN1 = 31, //!< TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[1]
-    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN2 = 32, //!< TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[2]
-    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN3 = 33, //!< TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[3]
-    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN4 = 34, //!< TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[4]
-    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN5 = 35, //!< TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[5]
-    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN6 = 36, //!< TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[6]
-    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN7 = 37, //!< TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[7]
-    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN8 = 38, //!< TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[8]
-    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN9 = 39, //!< TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[9]
-    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN10 = 40, //!< TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[10]
-    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN11 = 41, //!< TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[11]
-    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN12 = 42, //!< TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[12]
-    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN13 = 43, //!< TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[13]
-    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN14 = 44, //!< TCPWM1 trigger multiplexer - tcpwm[0].tr_all_cnt_in[14]
-    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN15 = 45, //!< TCPWM1 trigger multiplexer - tcpwm[0].tr_all_cnt_in[15]
-    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN16 = 46, //!< TCPWM1 trigger multiplexer - tcpwm[0].tr_all_cnt_in[16]
-    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN17 = 47, //!< TCPWM1 trigger multiplexer - tcpwm[0].tr_all_cnt_in[17]
-    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN18 = 48, //!< TCPWM1 trigger multiplexer - tcpwm[0].tr_all_cnt_in[18]
-    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN19 = 49, //!< TCPWM1 trigger multiplexer - tcpwm[0].tr_all_cnt_in[19]
-    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN20 = 50, //!< TCPWM1 trigger multiplexer - tcpwm[0].tr_all_cnt_in[20]
-    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN21 = 51, //!< TCPWM1 trigger multiplexer - tcpwm[0].tr_all_cnt_in[21]
-    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN22 = 52, //!< TCPWM1 trigger multiplexer - tcpwm[0].tr_all_cnt_in[22]
-    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN23 = 53, //!< TCPWM1 trigger multiplexer - tcpwm[0].tr_all_cnt_in[23]
-    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN24 = 54, //!< TCPWM1 trigger multiplexer - tcpwm[0].tr_all_cnt_in[24]
-    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN25 = 55, //!< TCPWM1 trigger multiplexer - tcpwm[0].tr_all_cnt_in[25]
-    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN26 = 56, //!< TCPWM1 trigger multiplexer - tcpwm[0].tr_all_cnt_in[26]
-    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN27 = 57, //!< TCPWM1 trigger multiplexer - tcpwm[0].tr_all_cnt_in[27]
-    CYHAL_TRIGGER_TCPWM0_TR_DEBUG_FREEZE = 58, //!< PERI Freeze trigger multiplexer - tcpwm[0].tr_debug_freeze
-    CYHAL_TRIGGER_TDM_TR_DBG_FREEZE = 59, //!< PERI Freeze trigger multiplexer - tdm.tr_dbg_freeze
+    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN0 = 29, //!< TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[0]
+    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN1 = 30, //!< TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[1]
+    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN2 = 31, //!< TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[2]
+    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN3 = 32, //!< TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[3]
+    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN4 = 33, //!< TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[4]
+    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN5 = 34, //!< TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[5]
+    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN6 = 35, //!< TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[6]
+    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN7 = 36, //!< TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[7]
+    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN8 = 37, //!< TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[8]
+    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN9 = 38, //!< TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[9]
+    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN10 = 39, //!< TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[10]
+    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN11 = 40, //!< TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[11]
+    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN12 = 41, //!< TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[12]
+    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN13 = 42, //!< TCPWM0 trigger multiplexer - tcpwm[0].tr_all_cnt_in[13]
+    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN14 = 43, //!< TCPWM1 trigger multiplexer - tcpwm[0].tr_all_cnt_in[14]
+    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN15 = 44, //!< TCPWM1 trigger multiplexer - tcpwm[0].tr_all_cnt_in[15]
+    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN16 = 45, //!< TCPWM1 trigger multiplexer - tcpwm[0].tr_all_cnt_in[16]
+    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN17 = 46, //!< TCPWM1 trigger multiplexer - tcpwm[0].tr_all_cnt_in[17]
+    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN18 = 47, //!< TCPWM1 trigger multiplexer - tcpwm[0].tr_all_cnt_in[18]
+    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN19 = 48, //!< TCPWM1 trigger multiplexer - tcpwm[0].tr_all_cnt_in[19]
+    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN20 = 49, //!< TCPWM1 trigger multiplexer - tcpwm[0].tr_all_cnt_in[20]
+    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN21 = 50, //!< TCPWM1 trigger multiplexer - tcpwm[0].tr_all_cnt_in[21]
+    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN22 = 51, //!< TCPWM1 trigger multiplexer - tcpwm[0].tr_all_cnt_in[22]
+    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN23 = 52, //!< TCPWM1 trigger multiplexer - tcpwm[0].tr_all_cnt_in[23]
+    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN24 = 53, //!< TCPWM1 trigger multiplexer - tcpwm[0].tr_all_cnt_in[24]
+    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN25 = 54, //!< TCPWM1 trigger multiplexer - tcpwm[0].tr_all_cnt_in[25]
+    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN26 = 55, //!< TCPWM1 trigger multiplexer - tcpwm[0].tr_all_cnt_in[26]
+    CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN27 = 56, //!< TCPWM1 trigger multiplexer - tcpwm[0].tr_all_cnt_in[27]
+    CYHAL_TRIGGER_TCPWM0_TR_DEBUG_FREEZE = 57, //!< PERI Freeze trigger multiplexer - tcpwm[0].tr_debug_freeze
+    CYHAL_TRIGGER_TDM_TR_DBG_FREEZE = 58, //!< PERI Freeze trigger multiplexer - tdm.tr_dbg_freeze
 } cyhal_trigger_dest_cyw20829_t;
 
 /** Typedef from device family specific trigger dest to generic trigger dest */
@@ -338,10 +336,10 @@ extern const _cyhal_trigger_source_cyw20829_t* cyhal_mux_to_sources [15];
  * If bit 8 of the mux index is set, this denotes that the trigger is a
  * one to one trigger.
  */
-extern const uint8_t cyhal_dest_to_mux[60];
+extern const uint8_t cyhal_dest_to_mux[59];
 
 /* Maps each cyhal_destination_t to a specific output in its mux */
-extern const uint8_t cyhal_mux_dest_index[60];
+extern const uint8_t cyhal_mux_dest_index[59];
 /** \endcond */
 
 #if defined(__cplusplus)

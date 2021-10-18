@@ -30,10 +30,12 @@ var group__group__hal__rtc =
       [ "CYHAL_RTC_DST_FIXED", "group__group__hal__rtc.html#gga70f0bde8db19e6aacbbd72afc1fa3f9fabf285ab71718312d1764612ac46c78d1", null ]
     ] ],
     [ "cyhal_rtc_init", "group__group__hal__rtc.html#ga913818691e0a742dea9172d1dc255f5b", null ],
+    [ "cyhal_rtc_init_cfg", "group__group__hal__rtc.html#ga7714ce41b80c1ac4161e8703f29d62d0", null ],
     [ "cyhal_rtc_free", "group__group__hal__rtc.html#ga4e9f272f48fcf83b09db4603c76b1d79", null ],
     [ "cyhal_rtc_is_enabled", "group__group__hal__rtc.html#gac6891d0e8b9de6c32f46f179aa32b800", null ],
     [ "cyhal_rtc_read", "group__group__hal__rtc.html#ga5c3f15f870f2ecfb4a8a03a58d1eaa5f", null ],
     [ "cyhal_rtc_write", "group__group__hal__rtc.html#ga09180594a84d768f17d80e1262dce2b7", null ],
+    [ "cyhal_rtc_write_direct", "group__group__hal__rtc.html#ga7cab520a921b70bcdd7794d08c14ce84", null ],
     [ "cyhal_rtc_set_dst", "group__group__hal__rtc.html#ga5e6893121f3be9026d5cf4cb10c008bf", null ],
     [ "cyhal_rtc_is_dst", "group__group__hal__rtc.html#ga3e56df18a9506e3d25050d4dabe7fd4c", null ],
     [ "cyhal_rtc_set_alarm", "group__group__hal__rtc.html#ga4281bd53cab53fb245a1e98a618e1679", null ],

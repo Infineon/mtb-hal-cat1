@@ -2,12 +2,14 @@
 * \file cyhal_qspi.c
 *
 * Description:
-* Provides a high level interface for interacting with the Cypress QSPI (SMIF).
+* Provides a high level interface for interacting with the Infineon QSPI (SMIF).
 * This is a wrapper around the lower level PDL API.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,6 +25,25 @@
 * limitations under the License.
 *******************************************************************************/
 
+/**
+ * \addtogroup group_hal_impl_qspi QSPI (Quad Serial Peripheral Interface)
+ * \ingroup group_hal_impl
+ * \{
+ * \section section_hal_impl_qspi_init_cfg Configurator-generated features limitations
+ * List of SMIF personality items, which are currently not supported in QSPI HAL driver on CAT1A/CAT1B devices:
+ *  - XIP (eXecute In Place) mode
+ *  - Memory Mode Alignment Error interrupt
+ *  - RX Data FIFO Underflow interrupt
+ *  - TX Command FIFO Overflow
+ *  - TX Data FIFO Overflow interrupt
+ *  - RX FIFO Level Trigger interrupt
+ *  - TX FIFO Level Trigger interrupt
+ *  - RX DMA Trigger
+ *  - TX DMA Trigger
+ *
+ * \} group_hal_impl_qspi
+ */
+
 #include <string.h>
 #include <math.h>
 #include <stdlib.h>
@@ -36,7 +57,7 @@
 #include "cyhal_syspm.h"
 #include "cyhal_clock.h"
 
-#ifdef CY_IP_MXSMIF
+#if (CYHAL_DRIVER_AVAILABLE_QSPI)
 
 #if defined(__cplusplus)
 extern "C" {
@@ -77,15 +98,6 @@ extern "C" {
 
 static cyhal_qspi_t *_cyhal_qspi_config_structs[CY_IP_MXSMIF_INSTANCES];
 
-/* Default QSPI configuration */
-static const cy_stc_smif_config_t _cyhal_qspi_default_config =
-{
-    .mode = (uint32_t)CY_SMIF_NORMAL,
-    .deselectDelay = _CYHAL_QSPI_DESELECT_DELAY,
-    .rxClockSel = (uint32_t)CY_SMIF_SEL_INV_INTERNAL_CLK,
-    .blockEvent = (uint32_t)CY_SMIF_BUS_ERROR,
-};
-
 /* List of available QSPI instances */
 static SMIF_Type *const _cyhal_qspi_base_addresses[CY_IP_MXSMIF_INSTANCES] =
 {
@@ -112,11 +124,11 @@ static inline uint8_t _cyhal_qspi_get_block_from_irqn(IRQn_Type irqn)
 {
     switch (irqn)
     {
-#if (CY_CPU_CORTEX_M4)
+#if !(CY_CPU_CORTEX_M0P)
 #ifdef SMIF0
         case CYHAL_SMIF_IRQN: return 0;
 #endif /* ifdef SMIF0 */
-#endif /* (CY_CPU_CORTEX_M4) */
+#endif /* !(CY_CPU_CORTEX_M0P) */
         default:
             CY_ASSERT(false); // Should never be called with a non-SMIF IRQn
             return 0;
@@ -135,9 +147,9 @@ static void _cyhal_qspi_set_pins_frozen(cyhal_qspi_t* obj, bool freeze)
     GPIO_PRT_Type* port;
     uint8_t pin;
     cyhal_gpio_t gpio;
-    for(size_t i = 0; i < sizeof(obj->pin_ios)/sizeof(obj->pin_ios[0]); ++i)
+    for(size_t i = 0; i < _CYHAL_QSPI_MAX_DATA_PINS; ++i)
     {
-        gpio = obj->pin_ios[i];
+        gpio = obj->pin_io[i];
         if(NC != gpio)
         {
             port = CYHAL_GET_PORTADDR(gpio);
@@ -172,7 +184,7 @@ static void _cyhal_qspi_set_pins_frozen(cyhal_qspi_t* obj, bool freeze)
         }
     }
 
-    for(size_t i = 0; i < sizeof(obj->pin_ssel)/sizeof(obj->pin_ssel[0]); ++i)
+    for(size_t i = 0; i < SMIF_CHIP_TOP_SPI_SEL_NR; ++i)
     {
         gpio = obj->pin_ssel[i];
         if(NC != gpio)
@@ -221,6 +233,7 @@ static bool _cyhal_qspi_pm_callback(cyhal_syspm_callback_state_t state, cyhal_sy
             obj->pm_transition_pending = false;
             break;
         default:
+            CY_ASSERT(false);
             break;
     }
     return allow;
@@ -262,14 +275,14 @@ static void _cyhal_qspi_irq_handler(void)
 *******************************************************************************/
 
 /* Check if pin valid as resource and reserve it */
-static cy_rslt_t _cyhal_qspi_check_pin_and_reserve(cyhal_gpio_t pin, const cyhal_resource_pin_mapping_t *mapping)
+static inline cy_rslt_t _cyhal_qspi_check_pin_and_reserve(const cyhal_resource_pin_mapping_t *mapping, uint8_t drive_mode)
 {
     // Mbed calls qspi_init multiple times without calling qspi_free to update the QSPI frequency/mode.
     // As a result, we can't worry about resource reservation if running through mbed.
 #ifndef __MBED__
-    cy_rslt_t result = _cyhal_utils_reserve_and_connect(pin, mapping);
+    cy_rslt_t result = _cyhal_utils_reserve_and_connect(mapping, drive_mode);
 #else
-    cy_rslt_t result = cyhal_connect_pin(mapping);
+    cy_rslt_t result = cyhal_connect_pin(mapping, drive_mode);
 #endif
 
     return result;
@@ -305,19 +318,32 @@ static cy_en_smif_txfr_width_t _cyhal_qspi_convert_bus_width(cyhal_qspi_bus_widt
     return cyhal_bus_width;
 }
 
-/* Translates cyhal_qspi_command_t to cy_stc_smif_mem_cmd_t */
-static void _cyhal_qspi_convert_cmd_config(const cyhal_qspi_command_t *qspi_command,
-    cy_stc_smif_mem_cmd_t *const cyhal_cmd_config)
+static cy_rslt_t _cyhal_qspi_check_command_struct(const cyhal_qspi_command_t *qspi_command)
 {
-    /* This function does not check 'disabled' of each sub-structure in qspi_command_t
-    *  It is the responsibility of the caller to check it. */
-    cyhal_cmd_config->command = qspi_command->instruction.value;
-    cyhal_cmd_config->cmdWidth = _cyhal_qspi_convert_bus_width(qspi_command->instruction.bus_width);
-    cyhal_cmd_config->addrWidth = _cyhal_qspi_convert_bus_width(qspi_command->address.bus_width);
-    cyhal_cmd_config->mode = qspi_command->mode_bits.value;
-    cyhal_cmd_config->modeWidth = _cyhal_qspi_convert_bus_width(qspi_command->mode_bits.bus_width);
-    cyhal_cmd_config->dummyCycles = qspi_command->dummy_count;
-    cyhal_cmd_config->dataWidth = _cyhal_qspi_convert_bus_width(qspi_command->data.bus_width);
+    #if (CY_IP_MXSMIF_VERSION < 3)
+    if (((!qspi_command->instruction.disabled) && (qspi_command->instruction.data_rate == CYHAL_QSPI_DATARATE_DDR)) ||
+        ((!qspi_command->address.disabled) && (qspi_command->address.data_rate == CYHAL_QSPI_DATARATE_DDR)) ||
+        ((!qspi_command->mode_bits.disabled) && (qspi_command->mode_bits.data_rate == CYHAL_QSPI_DATARATE_DDR)) ||
+        ((qspi_command->dummy_cycles.dummy_count != 0) && (qspi_command->dummy_cycles.data_rate == CYHAL_QSPI_DATARATE_DDR)) ||
+        (qspi_command->data.data_rate == CYHAL_QSPI_DATARATE_DDR))
+    {
+        /* DDR datarate is not supported by used SMIF IP block */
+        return CYHAL_QSPI_RSLT_ERR_DATARATE;
+    }
+    if (qspi_command->instruction.two_byte_cmd)
+    {
+        /* Two byte instuction is not supported on current SMIF IP block */
+        return CYHAL_QSPI_RSLT_ERR_INSTRUCTION;
+    }
+    if ((qspi_command->dummy_cycles.dummy_count != 0) && (qspi_command->dummy_cycles.bus_width != CYHAL_QSPI_CFG_BUS_SINGLE))
+    {
+        /* Bus width parameter for dummy cycles can only be 'single' for current version of SMIF IP block */
+        return CYHAL_QSPI_RSLT_ERR_DUMMY_CYCLES;
+    }
+    #else /* CY_IP_MXSMIF_VERSION < 3 or other */
+    CY_UNUSED_PARAMETER(qspi_command);
+    #endif /* CY_IP_MXSMIF_VERSION < 3 or other */
+    return CY_RSLT_SUCCESS;
 }
 
 static void _cyhal_qspi_uint32_to_byte_array(uint32_t value, uint8_t *byteArray, uint32_t startPos, uint32_t size)
@@ -337,7 +363,6 @@ static inline uint32_t _cyhal_qspi_get_size(cyhal_qspi_size_t hal_size)
 }
 
 /* Sends QSPI command with certain set of data */
-/* Address passed through 'command' is not used, instead the value in 'addr' is used. */
 static cy_rslt_t _cyhal_qspi_command_transfer(cyhal_qspi_t *obj, const cyhal_qspi_command_t *command,
     uint32_t addr, bool endOfTransfer)
 {
@@ -347,51 +372,74 @@ static cy_rslt_t _cyhal_qspi_command_transfer(cyhal_qspi_t *obj, const cyhal_qsp
     uint32_t addr_size = 0;
     uint32_t mode_bits_size = 0;
     cy_en_smif_txfr_width_t bus_width = CY_SMIF_WIDTH_SINGLE;
-    cy_stc_smif_mem_cmd_t cyhal_cmd_config;
-    cy_rslt_t result = CY_RSLT_SUCCESS;
+    #if (CY_IP_MXSMIF_VERSION >= 3)
+    cy_en_smif_data_rate_t data_rate = CY_SMIF_SDR;
+    #endif /* CY_IP_MXSMIF_VERSION >= 3 */
 
-    _cyhal_qspi_convert_cmd_config(command, &cyhal_cmd_config);
-
-    /* Does not support different bus_width for address and mode bits.
-     * bus_width is selected based on what (address or mode bits) is enabled.
-     * If both are enabled, bus_width of mode bits is selected
-     * It is either possible to support 1 byte mode bits with different bus_width
-     * by sending the mode byte as command as done in Cy_SMIF_Memslot_CmdRead()
-     * in cyhal_smif_memslot.c or support multiple bytes of mode bits with same bus_width
-     * as address by passing the mode bytes as cmd_param to Cy_SMIF_TransmitCommand().
-     * Second approach is implemented here. This restriction is because of the way
-     * PDL API is implemented.
-     */
-
-    if (!command->address.disabled && !command->mode_bits.disabled)
-    {
-        if (cyhal_cmd_config.addrWidth != cyhal_cmd_config.modeWidth)
-        {
-            result = CYHAL_QSPI_RSLT_ERR_BUS_WIDTH;
-        }
-    }
+    cy_rslt_t result = _cyhal_qspi_check_command_struct(command);
 
     if (CY_RSLT_SUCCESS == result)
     {
-        if (!command->address.disabled)
+        /* Does not support different bus_width for address and mode bits.
+        * bus_width is selected based on what (address or mode bits) is enabled.
+        * If both are enabled, bus_width of mode bits is selected
+        * It is either possible to support 1 byte mode bits with different bus_width
+        * by sending the mode byte as command as done in Cy_SMIF_Memslot_CmdRead()
+        * in cyhal_smif_memslot.c or support multiple bytes of mode bits with same bus_width
+        * as address by passing the mode bytes as cmd_param to Cy_SMIF_TransmitCommand().
+        * Second approach is implemented here. This restriction is because of the way
+        * PDL API is implemented.
+        */
+
+        if (!command->address.disabled && !command->mode_bits.disabled)
         {
-            addr_size = _cyhal_qspi_get_size(command->address.size);
-            _cyhal_qspi_uint32_to_byte_array(addr, cmd_param, start_pos, addr_size);
-            start_pos += addr_size;
-            bus_width = cyhal_cmd_config.addrWidth;
+            if (_cyhal_qspi_convert_bus_width(command->address.bus_width) != _cyhal_qspi_convert_bus_width(command->mode_bits.bus_width))
+            {
+                result = CYHAL_QSPI_RSLT_ERR_BUS_WIDTH;
+            }
+            #if (CY_IP_MXSMIF_VERSION >= 3)
+            else if (command->address.data_rate != command->mode_bits.data_rate)
+            {
+                result = CYHAL_QSPI_RSLT_ERR_DATARATE;
+            }
+            #endif /* CY_IP_MXSMIF_VERSION >= 3 */
         }
 
-        if (!command->mode_bits.disabled)
+        if (CY_RSLT_SUCCESS == result)
         {
-            mode_bits_size = _cyhal_qspi_get_size(command->mode_bits.size);
-            _cyhal_qspi_uint32_to_byte_array(cyhal_cmd_config.mode, cmd_param, start_pos, mode_bits_size);
-            bus_width = cyhal_cmd_config.modeWidth;
-        }
+            if (!command->address.disabled)
+            {
+                addr_size = _cyhal_qspi_get_size(command->address.size);
+                _cyhal_qspi_uint32_to_byte_array(addr, cmd_param, start_pos, addr_size);
+                start_pos += addr_size;
+                bus_width = _cyhal_qspi_convert_bus_width(command->address.bus_width);
+                #if (CY_IP_MXSMIF_VERSION >= 3)
+                data_rate = (cy_en_smif_data_rate_t)command->address.data_rate;
+                #endif /* CY_IP_MXSMIF_VERSION >= 3 */
+            }
 
-        uint32_t cmpltTxfr = ((endOfTransfer) ? 1UL : 0UL);
-        result = (cy_rslt_t)Cy_SMIF_TransmitCommand(obj->base, (uint8_t)cyhal_cmd_config.command,
-                                                         cyhal_cmd_config.cmdWidth, cmd_param, (addr_size + mode_bits_size),
-                                                         bus_width, obj->slave_select, cmpltTxfr, &obj->context);
+            if (!command->mode_bits.disabled)
+            {
+                mode_bits_size = _cyhal_qspi_get_size(command->mode_bits.size);
+                _cyhal_qspi_uint32_to_byte_array(command->mode_bits.value, cmd_param, start_pos, mode_bits_size);
+                bus_width = _cyhal_qspi_convert_bus_width(command->mode_bits.bus_width);
+                #if (CY_IP_MXSMIF_VERSION >= 3)
+                data_rate = (cy_en_smif_data_rate_t)command->mode_bits.data_rate;
+                #endif /* CY_IP_MXSMIF_VERSION >= 3 */
+            }
+
+            uint32_t cmpltTxfr = ((endOfTransfer) ? 1UL : 0UL);
+            #if (CY_IP_MXSMIF_VERSION < 3)
+            result = (cy_rslt_t)Cy_SMIF_TransmitCommand(obj->base, (uint8_t)(command->instruction.value & 0xFF),
+                        _cyhal_qspi_convert_bus_width(command->instruction.bus_width), cmd_param,
+                        (addr_size + mode_bits_size), bus_width, obj->slave_select, cmpltTxfr, &obj->context);
+            #else
+            result = (cy_rslt_t)Cy_SMIF_TransmitCommand_Ext(obj->base, command->instruction.value,
+                        command->instruction.two_byte_cmd, _cyhal_qspi_convert_bus_width(command->instruction.bus_width),
+                        (cy_en_smif_data_rate_t)command->instruction.data_rate, cmd_param, (addr_size + mode_bits_size),
+                        bus_width, data_rate, obj->slave_select, cmpltTxfr, &obj->context);
+            #endif /* CY_IP_MXSMIF_VERSION < 3 or other */
+        }
     }
     return result;
 }
@@ -402,44 +450,36 @@ static inline cy_en_smif_slave_select_t _cyhal_qspi_slave_idx_to_smif_ss(uint8_t
 }
 
 /* Checks, that user provided all needed pins and returns max bus width */
-static cy_rslt_t _cyhal_qspi_check_user_pins(cyhal_qspi_t *obj, cyhal_qspi_bus_width_t *max_width)
+static cy_rslt_t _cyhal_qspi_check_user_pins(const cyhal_qspi_slave_pin_config_t *pin_set, cyhal_qspi_bus_width_t *max_width)
 {
     cy_rslt_t result = CY_RSLT_SUCCESS;
 
-    if (NC == obj->pin_sclk)
+#if _CYHAL_QSPI_DATA8_PRESENT
+    if (NC != pin_set->io[4])
     {
-        *max_width = CYHAL_QSPI_CFG_BUS_SINGLE;
-        result = CYHAL_QSPI_RSLT_ERR_PIN;
+        *max_width = CYHAL_QSPI_CFG_BUS_OCTAL;
+    }
+    else
+#endif
+    if (NC != pin_set->io[2])
+    {
+        *max_width = CYHAL_QSPI_CFG_BUS_QUAD;
+    }
+    else if (NC != pin_set->io[1])
+    {
+        *max_width = CYHAL_QSPI_CFG_BUS_DUAL;
     }
     else
     {
-#if _CYHAL_QSPI_DATA8_PRESENT
-        if (NC != obj->pin_ios[4])
-        {
-            *max_width = CYHAL_QSPI_CFG_BUS_OCTAL;
-        }
-        else
-#endif
-        if (NC != obj->pin_ios[2])
-        {
-            *max_width = CYHAL_QSPI_CFG_BUS_QUAD;
-        }
-        else if (NC != obj->pin_ios[1])
-        {
-            *max_width = CYHAL_QSPI_CFG_BUS_DUAL;
-        }
-        else
-        {
-            *max_width = CYHAL_QSPI_CFG_BUS_SINGLE;
-        }
+        *max_width = CYHAL_QSPI_CFG_BUS_SINGLE;
+    }
 
-        for (uint8_t i = 1; i <= _CYHAL_QSPI_MAX_DATA_PINS; i++)
+    for (uint8_t i = 1; i <= _CYHAL_QSPI_MAX_DATA_PINS; i++)
+    {
+        /* Pins with index lower than width must be provided, pins above should be NC */
+        if ((NC == pin_set->io[i-1]) != (i > *max_width))
         {
-            /* Pins with index lower than width must be provided, pins above should be NC */
-            if ((NC == obj->pin_ios[i-1]) != (i > *max_width))
-            {
-                result = CYHAL_QSPI_RSLT_ERR_PIN;
-            }
+            result = CYHAL_QSPI_RSLT_ERR_PIN;
         }
     }
 
@@ -552,25 +592,27 @@ static const cyhal_resource_pin_mapping_t *_cyhal_qspi_get_dataselect(cyhal_gpio
 *******************************************************************************/
 
 static cy_rslt_t _cyhal_qspi_slave_select_check_reserve(cyhal_qspi_t *obj, cyhal_gpio_t ssel, uint8_t *found_idx,
-                    bool *config_needed)
+                                                        bool reserve_n_connect)
 {
     CY_ASSERT(NULL != obj);
-    *config_needed = true;
     const cyhal_resource_pin_mapping_t *ssel_map = _cyhal_qspi_get_slaveselect(ssel, found_idx);
     const cyhal_resource_pin_mapping_t *sclk_map = _CYHAL_UTILS_GET_RESOURCE(obj->pin_sclk, cyhal_pin_map_smif_spi_clk);
     /* Found ssel map is not null and belong to same block as sclk */
-    if ((NULL == ssel_map) || (NULL == sclk_map) || !_cyhal_utils_resources_equal(sclk_map->inst, ssel_map->inst))
+    if ((NULL == ssel_map) || (NULL == sclk_map) || !_cyhal_utils_map_resources_equal(sclk_map, ssel_map))
     {
         return CYHAL_QSPI_RSLT_ERR_CANNOT_CONFIG_SSEL;
     }
-    /* Specified SSEL is already configured */
+    /* Specified SSEL is already configured, nothing to do. */
     if (NC != obj->pin_ssel[*found_idx])
     {
-        *config_needed = false;
         return CY_RSLT_SUCCESS;
     }
-    /* No problems with pins, proceeding to reservation */
-    cy_rslt_t result = _cyhal_qspi_check_pin_and_reserve(ssel, ssel_map);
+    /* No problems with pins, proceeding to reservation if reserve_n_connect is true */
+    /* If reserve_n_connect is false, it is assumed that pins are reserved and initialized by configurator - generated
+    *   code */
+    cy_rslt_t result = reserve_n_connect
+        ? _cyhal_qspi_check_pin_and_reserve(ssel_map, CYHAL_PIN_MAP_DRIVE_MODE_SMIF_SPI_SELECT0)
+        : CY_RSLT_SUCCESS;
     if (CY_RSLT_SUCCESS == result)
     {
         obj->pin_ssel[*found_idx] = ssel;
@@ -578,43 +620,19 @@ static cy_rslt_t _cyhal_qspi_slave_select_check_reserve(cyhal_qspi_t *obj, cyhal
     return result;
 }
 
-cy_rslt_t cyhal_qspi_init(
-    cyhal_qspi_t *obj, cyhal_gpio_t io0, cyhal_gpio_t io1, cyhal_gpio_t io2, cyhal_gpio_t io3,
-    cyhal_gpio_t io4, cyhal_gpio_t io5, cyhal_gpio_t io6, cyhal_gpio_t io7, cyhal_gpio_t sclk,
-    cyhal_gpio_t ssel, uint32_t hz, uint8_t mode)
+/* Checks that provided pins are correct, store them in the object and return data select */
+static cy_rslt_t _cyhal_qspi_process_pin_set(cyhal_qspi_t *obj, const cyhal_qspi_slave_pin_config_t *pin_set,
+    cy_en_smif_data_select_t *data_select, uint8_t *found_ssel_idx, bool reserve_n_connect)
 {
-    /* mode (CPOL and CPHA) are not supported in CAT1 (PSoC 6) */
-    (void)mode;
-
     CY_ASSERT(NULL != obj);
-
-    /* Explicitly marked not allocated resources as invalid to prevent freeing them. */
-    memset(obj, 0, sizeof(cyhal_qspi_t));
-    obj->resource.type = CYHAL_RSC_INVALID;
-    obj->is_clock_owned = false;
+    CY_ASSERT(NULL != pin_set);
 
     cyhal_qspi_bus_width_t max_width;
-
-    obj->pin_sclk = sclk;
-    obj->pin_ios[0] = io0;
-    obj->pin_ios[1] = io1;
-    obj->pin_ios[2] = io2;
-    obj->pin_ios[3] = io3;
-    obj->pin_ios[4] = io4;
-    obj->pin_ios[5] = io5;
-    obj->pin_ios[6] = io6;
-    obj->pin_ios[7] = io7;
-
-    cy_rslt_t result = _cyhal_qspi_check_user_pins(obj, &max_width);
-
-    for (uint8_t i = 0; i < SMIF_CHIP_TOP_SPI_SEL_NR; ++i)
-    {
-        obj->pin_ssel[i] = NC;
-    }
+    cy_rslt_t result = _cyhal_qspi_check_user_pins(pin_set, &max_width);
 
     uint8_t pin_offset = 0;
-    const cyhal_resource_pin_mapping_t *sclk_map = _CYHAL_UTILS_GET_RESOURCE(sclk, cyhal_pin_map_smif_spi_clk);
-    const cyhal_resource_pin_mapping_t *io_maps[8] = { NULL };
+    const cyhal_resource_pin_mapping_t *sclk_map = _CYHAL_UTILS_GET_RESOURCE(obj->pin_sclk, cyhal_pin_map_smif_spi_clk);
+    const cyhal_resource_pin_mapping_t *io_maps[_CYHAL_QSPI_MAX_DATA_PINS] = { NULL };
     const size_t data_pin_map_sizes[_CYHAL_QSPI_MAX_DATA_PINS - 1] = // Must compute sizes here since we can't get them from the map pointers
     {
         sizeof(cyhal_pin_map_smif_spi_data1) / sizeof(cyhal_resource_pin_mapping_t),
@@ -642,9 +660,11 @@ cy_rslt_t cyhal_qspi_init(
 
     if (CY_RSLT_SUCCESS == result)
     {
-        io_maps[0] = _cyhal_qspi_get_dataselect(obj->pin_ios[0], &(obj->data_select), &pin_offset);
-        if (NULL == sclk_map || NULL == io_maps[0] ||
-            !_cyhal_utils_resources_equal(sclk_map->inst, io_maps[0]->inst))
+        const cyhal_resource_pin_mapping_t *tmp_io_map =
+                _cyhal_qspi_get_dataselect(pin_set->io[0], data_select, &pin_offset);
+        io_maps[pin_offset] = tmp_io_map;
+        if (NULL == sclk_map || NULL == io_maps[pin_offset] ||
+            !_cyhal_utils_map_resources_equal(sclk_map, io_maps[pin_offset]))
         {
             result = CYHAL_QSPI_RSLT_ERR_PIN;
         }
@@ -652,12 +672,24 @@ cy_rslt_t cyhal_qspi_init(
 
     if (CY_RSLT_SUCCESS == result)
     {
-        /* Check that all data pins are valid and belong to same instance */
-        for (uint8_t i = 1; i < max_width; i++)
+        /* DATA_SEL 1 and DATA_SEL 3 are illegal when using Quad SPI
+        *  DATA SEL 1, DATA SEL 2 and DATA SEL 3 are illegal when using Octal SPI */
+        if (((CYHAL_QSPI_CFG_BUS_QUAD == max_width) &&
+                ((CY_SMIF_DATA_SEL1 == *data_select) || (CY_SMIF_DATA_SEL3 == *data_select))) ||
+            ((CYHAL_QSPI_CFG_BUS_OCTAL == max_width) && (*data_select >= CY_SMIF_DATA_SEL1)))
         {
-            io_maps[i] = _cyhal_utils_get_resource(obj->pin_ios[i], data_pin_maps[i - 1 + pin_offset],
-                data_pin_map_sizes[i - 1 + pin_offset], NULL);
-            if (NULL == io_maps[i] || !_cyhal_utils_resources_equal(sclk_map->inst, io_maps[i]->inst))
+            result = CYHAL_QSPI_RSLT_ERR_DATA_SEL;
+        }
+    }
+
+    if (CY_RSLT_SUCCESS == result)
+    {
+        /* Check that all data pins (but not the first one, which is covered already) are valid and belong
+        *  to same instance */
+        for (uint8_t i = pin_offset + 1; i < pin_offset + max_width; i++)
+        {
+            io_maps[i] = _cyhal_utils_get_resource(pin_set->io[i-pin_offset], data_pin_maps[i-1], data_pin_map_sizes[i-1], NULL);
+            if (NULL == io_maps[i] || !_cyhal_utils_map_resources_equal(sclk_map, io_maps[i]))
             {
                 result = CYHAL_QSPI_RSLT_ERR_PIN;
                 break;
@@ -665,74 +697,213 @@ cy_rslt_t cyhal_qspi_init(
         }
     }
 
-    uint8_t found_ssel_idx = 0;
-    bool datasel_cfg_needed = true;
     if (CY_RSLT_SUCCESS == result)
     {
-        result = _cyhal_qspi_slave_select_check_reserve(obj, ssel, &found_ssel_idx, &datasel_cfg_needed);
+        result = _cyhal_qspi_slave_select_check_reserve(obj, pin_set->ssel, found_ssel_idx, reserve_n_connect);
     }
 
     if (CY_RSLT_SUCCESS == result)
     {
-        /* reserve the SCLK pin */
-        result = _cyhal_qspi_check_pin_and_reserve(obj->pin_sclk, sclk_map);
-
         /* reserve the io pins */
-        for (uint8_t i = 0; (i < _CYHAL_QSPI_MAX_DATA_PINS) && (result == CY_RSLT_SUCCESS); i++)
+        for (uint8_t i = pin_offset; (i < pin_offset + max_width) && (result == CY_RSLT_SUCCESS); i++)
         {
-            if (NC != obj->pin_ios[i])
+            if ((NC != pin_set->io[i-pin_offset]) && (NC == obj->pin_io[i]))
             {
-                result = _cyhal_qspi_check_pin_and_reserve(obj->pin_ios[i], io_maps[i]);
+                if (reserve_n_connect)
+                {
+                    result = _cyhal_qspi_check_pin_and_reserve(io_maps[i], CYHAL_PIN_MAP_DRIVE_MODE_SMIF_SPI_DATA0);
+                }
+                if (CY_RSLT_SUCCESS == result)
+                {
+                    obj->pin_io[i] = pin_set->io[i-pin_offset];
+                }
             }
         }
     }
 
-#ifndef __MBED__
-    // Mbed calls qspi_init multiple times without calling qspi_free to update the QSPI frequency/mode.
-    // As a result, we won't worry about resource reservation if running through mbed.
-    if (CY_RSLT_SUCCESS == result)
+    return result;
+}
+
+
+static cy_rslt_t _cyhal_qspi_init_common(cyhal_qspi_t *obj, const cyhal_qspi_configurator_t *cfg, uint32_t hz)
+{
+    /* Explicitly marked not allocated resources as invalid to prevent freeing them. */
+    memset(obj, 0, sizeof(cyhal_qspi_t));
+    obj->resource.type = CYHAL_RSC_INVALID;
+    obj->is_clock_owned = false;
+
+    obj->dc_configured = (NULL != cfg->resource);
+    if ((obj->dc_configured) &&
+        (cfg->config->mode != CY_SMIF_NORMAL ||
+        /* Bits representation of interrupts (msb to lsb):
+            _MEMORY_MODE_ALIGMENT_ERROR, _RX_DATA_FIFO_UNDERFLOW, _TX_COMMAND_FIFO_OVERFLOW, _TX_DATA_FIFO_OVERFLOW,
+            _RX_FIFO_TRIGEER_LEVEL, _TX_FIFO_TRIGEER_LEVEL */
+        ((cfg->irqs & 0x3F) != 0) ||
+        /* Bits representation of activated DMA outputs (msb to lsb):
+            _RX_DMA_TRIGGER_OUT_USED, _TX_DMA_TRIGGER_OUT_USED */
+        (cfg->dmas & 0x3) != 0))
     {
-        result = cyhal_hwmgr_reserve(sclk_map->inst);
+        /* List of SMIF personality items, which are currently not supported in QSPI HAL driver:
+            - XIP (eXecute In Place) mode
+            - Memory Mode Alignment Error interrupt
+            - RX Data FIFO Underflow interrupt
+            - TX Command FIFO Overflow
+            - TX Data FIFO Overflow interrupt
+            - RX FIFO Level Trigger interrupt
+            - TX FIFO Level Trigger interrupt
+            - RX DMA Trigger
+            - TX DMA Trigger
+        */
+        return CYHAL_QSPI_RSLT_ERR_UNSUPPORTED;
     }
-#endif
+
+    cyhal_gpio_t ssel = NC;
+    size_t found_ssel_idx_cfg = 0;
+    for (size_t ssel_idx = 0; ssel_idx < sizeof(cfg->gpios.ssel) / sizeof(cfg->gpios.ssel[0]); ++ssel_idx)
+    {
+        if (NC != cfg->gpios.ssel[ssel_idx])
+        {
+            ssel = cfg->gpios.ssel[ssel_idx];
+            found_ssel_idx_cfg = ssel_idx;
+            break;
+        }
+    }
+
+    cy_rslt_t result = CY_RSLT_SUCCESS;
+    const cyhal_resource_pin_mapping_t *sclk_map = _CYHAL_UTILS_GET_RESOURCE(cfg->gpios.sclk, cyhal_pin_map_smif_spi_clk);
+    /* Can't work without sclk pin */
+    if (NULL == sclk_map)
+    {
+        result = CYHAL_QSPI_RSLT_ERR_PIN;
+    }
+    if ((CY_RSLT_SUCCESS == result) && (false == obj->dc_configured))
+    {
+        result = _cyhal_qspi_check_pin_and_reserve(sclk_map, CYHAL_PIN_MAP_DRIVE_MODE_SMIF_SPI_CLK);
+    }
 
     if (CY_RSLT_SUCCESS == result)
     {
-        obj->resource = *sclk_map->inst;
+        obj->pin_sclk = cfg->gpios.sclk;
+
+        for (size_t i = 0; i < SMIF_CHIP_TOP_SPI_SEL_NR; ++i)
+        {
+            obj->pin_ssel[i] = NC;
+        }
+        for (size_t i = 0; i < _CYHAL_QSPI_MAX_DATA_PINS; ++i)
+        {
+            obj->pin_io[i] = NC;
+        }
+    }
+
+    cy_en_smif_data_select_t data_select;
+    uint8_t found_ssel_idx;
+
+    cyhal_qspi_slave_pin_config_t pin_set;
+    pin_set.ssel = ssel;
+    memcpy(pin_set.io, cfg->gpios.io, sizeof(cfg->gpios.io));
+
+    if (CY_RSLT_SUCCESS == result)
+    {
+        result = _cyhal_qspi_process_pin_set(obj, &pin_set, &data_select, &found_ssel_idx, !obj->dc_configured);
+    }
+
+    if (CY_RSLT_SUCCESS == result)
+    {
+        if (obj->dc_configured)
+        {
+            obj->resource = *cfg->resource;
+        }
+        else
+        {
+            cyhal_resource_inst_t rsc = { CYHAL_RSC_SMIF, sclk_map->block_num, sclk_map->channel_num };
+        #ifndef __MBED__
+            // Mbed calls qspi_init multiple times without calling qspi_free to update the QSPI frequency/mode.
+            // As a result, we won't worry about resource reservation if running through mbed.
+            result = cyhal_hwmgr_reserve(&rsc);
+            if (CY_RSLT_SUCCESS == result)
+        #endif
+            {
+                obj->resource = rsc;
+            }
+        }
+    }
+
+    if (CY_RSLT_SUCCESS == result)
+    {
         obj->base = _cyhal_qspi_base_addresses[obj->resource.block_num];
     }
 
     if (CY_RSLT_SUCCESS == result)
     {
-        // The hardware is generally going to be hardwired to an hfclk, which has very limited divider options. In the event
-        // that we're hooked up a PERI divider, we don't have any particular expectations about its width - so just ask for 8-bit
-        result = _cyhal_utils_allocate_clock(&(obj->clock), &(obj->resource), CYHAL_CLOCK_BLOCK_PERIPHERAL_8BIT, true);
-    }
-
-    if(CY_RSLT_SUCCESS == result)
-    {
-        obj->is_clock_owned = true;
-        result = cyhal_qspi_set_frequency(obj, hz);
-    }
-
-    if(CY_RSLT_SUCCESS == result)
-    {
-        result = cyhal_clock_set_enabled(&(obj->clock), true, true);
-    }
-
-    if (CY_RSLT_SUCCESS == result)
-    {
-        result = (cy_rslt_t) Cy_SMIF_Init(obj->base, &_cyhal_qspi_default_config, _CYHAL_QSPI_TIMEOUT_10_MS, &obj->context);
-    }
-
-    if (CY_RSLT_SUCCESS == result)
-    {
-        obj->slave_select = _cyhal_qspi_slave_idx_to_smif_ss(found_ssel_idx);
-        if (datasel_cfg_needed)
+        if (NULL != cfg->clock)
         {
-            Cy_SMIF_SetDataSelect(obj->base, obj->slave_select, obj->data_select);
+            /* Clock is provided by configuration */
+            if (cfg->clock->block == CYHAL_CLOCK_BLOCK_HF)
+            {
+                obj->clock = *cfg->clock;
+                /* obj->is_clock_owned is false already, so no need to assign it */
+            }
+            else
+            {
+                /* Incorrect shared clock was provided by user. */
+                result = CYHAL_QSPI_RSLT_ERR_CLOCK;
+            }
+        }
+        else
+        {
+            /* No clock was provided by configuration, so allocating it */
+
+            // The hardware is generally going to be hardwired to an hfclk, which has very limited divider options. In the event
+            // that we're hooked up a PERI divider, we don't have any particular expectations about its width - so just ask for 8-bit
+            result = _cyhal_utils_allocate_clock(&(obj->clock), &(obj->resource), CYHAL_CLOCK_BLOCK_PERIPHERAL_8BIT, true);
+            obj->is_clock_owned = (result == CY_RSLT_SUCCESS);
+        }
+    }
+
+    if (obj->is_clock_owned)
+    {
+        if (CY_RSLT_SUCCESS == result)
+        {
+            result = cyhal_qspi_set_frequency(obj, hz);
         }
 
+        if (CY_RSLT_SUCCESS == result)
+        {
+            result = cyhal_clock_set_enabled(&(obj->clock), true, true);
+        }
+    }
+
+    if (CY_RSLT_SUCCESS == result)
+    {
+        result = (cy_rslt_t) Cy_SMIF_Init(obj->base, cfg->config, _CYHAL_QSPI_TIMEOUT_10_MS, &obj->context);
+    }
+
+    if (CY_RSLT_SUCCESS == result)
+    {
+        /* Configure first SSEL, that was found in cfg->gpios and make it active */
+        obj->slave_select = _cyhal_qspi_slave_idx_to_smif_ss(found_ssel_idx);
+        Cy_SMIF_SetDataSelect(obj->base, obj->slave_select, data_select);
+
+        /* found_ssel_idx_cfg and below are already processed, no reason to start from index #0 */
+        size_t ssel_idx = found_ssel_idx_cfg;
+        /* Process rest of ssel, that are provided by cfg->gpios */
+        while ((CY_RSLT_SUCCESS == result) && ((ssel_idx + 1) < (sizeof(cfg->gpios.ssel) / sizeof(cfg->gpios.ssel[0]))))
+        {
+            ++ssel_idx;
+            if (NC != cfg->gpios.ssel[ssel_idx])
+            {
+                pin_set.ssel = cfg->gpios.ssel[ssel_idx];
+                result = _cyhal_qspi_process_pin_set(obj, &pin_set, &data_select, &found_ssel_idx, !obj->dc_configured);
+                if (result == CY_RSLT_SUCCESS)
+                {
+                    Cy_SMIF_SetDataSelect(obj->base, _cyhal_qspi_slave_idx_to_smif_ss(found_ssel_idx), data_select);
+                }
+            }
+        }
+    }
+
+    if (CY_RSLT_SUCCESS == result)
+    {
         Cy_SMIF_Enable(obj->base, &obj->context);
 
         obj->callback_data.callback = NULL;
@@ -760,6 +931,52 @@ cy_rslt_t cyhal_qspi_init(
     return result;
 }
 
+cy_rslt_t cyhal_qspi_init(
+    cyhal_qspi_t *obj, cyhal_gpio_t sclk, const cyhal_qspi_slave_pin_config_t *pin_set, uint32_t hz, uint8_t mode,
+    cyhal_clock_t *clk)
+{
+    CY_ASSERT(NULL != obj);
+    CY_ASSERT(NULL != pin_set);
+
+    /* mode (CPOL and CPHA) are not supported in CAT1 (PSoC™ 6) */
+    CY_UNUSED_PARAMETER(mode);
+
+    /* Default QSPI configuration */
+    const cy_stc_smif_config_t config =
+    {
+        .mode = (uint32_t)CY_SMIF_NORMAL,
+        .deselectDelay = _CYHAL_QSPI_DESELECT_DELAY,
+        .rxClockSel = (uint32_t)CY_SMIF_SEL_INV_INTERNAL_CLK,
+        .blockEvent = (uint32_t)CY_SMIF_BUS_ERROR,
+    };
+
+    const cyhal_qspi_configurator_t cfg = {
+        .resource = NULL,
+        .config = &config,
+        .clock = clk,
+        .gpios = {
+            .sclk = sclk,
+            .ssel = { pin_set->ssel, NC, NC, NC },
+            .io = { pin_set->io[0], pin_set->io[1], pin_set->io[2], pin_set->io[3],
+                    pin_set->io[4], pin_set->io[5], pin_set->io[6], pin_set->io[7] }
+        },
+        .irqs = 0u,
+        .dmas = 0u
+    };
+
+    return _cyhal_qspi_init_common(obj, &cfg, hz);
+}
+
+cy_rslt_t cyhal_qspi_init_cfg(cyhal_qspi_t *obj, const cyhal_qspi_configurator_t *cfg)
+{
+    CY_ASSERT(NULL != obj);
+    CY_ASSERT(NULL != cfg);
+    CY_ASSERT(NULL != cfg->config);
+
+    /* Frequency parameter is ignored when clock is provided (configurator flow, cyhal_qspi_init_cfg function) */
+    return _cyhal_qspi_init_common(obj, cfg, 0);
+}
+
 void cyhal_qspi_free(cyhal_qspi_t *obj)
 {
     if (CYHAL_RSC_INVALID != obj->resource.type)
@@ -772,19 +989,26 @@ void cyhal_qspi_free(cyhal_qspi_t *obj)
             Cy_SMIF_DeInit(obj->base);
             obj->base = NULL;
         }
-        cyhal_hwmgr_free(&(obj->resource));
+        if (!obj->dc_configured)
+        {
+            cyhal_hwmgr_free(&(obj->resource));
+        }
         obj->resource.type = CYHAL_RSC_INVALID;
     }
 
-    _cyhal_utils_release_if_used(&(obj->pin_sclk));
-    for (uint8_t i = 0; i < SMIF_CHIP_TOP_SPI_SEL_NR; i++)
+    if (!obj->dc_configured)
     {
-        _cyhal_utils_release_if_used(&(obj->pin_ssel[i]));
+        _cyhal_utils_release_if_used(&(obj->pin_sclk));
+        for (uint8_t i = 0; i < SMIF_CHIP_TOP_SPI_SEL_NR; i++)
+        {
+            _cyhal_utils_release_if_used(&(obj->pin_ssel[i]));
+        }
+        for (uint8_t i = 0; (i < _CYHAL_QSPI_MAX_DATA_PINS); i++)
+        {
+            _cyhal_utils_release_if_used(&(obj->pin_io[i]));
+        }
     }
-    for (uint8_t i = 0; (i < _CYHAL_QSPI_MAX_DATA_PINS); i++)
-    {
-        _cyhal_utils_release_if_used(&(obj->pin_ios[i]));
-    }
+
     if (obj->is_clock_owned)
     {
         cyhal_clock_free(&(obj->clock));
@@ -796,10 +1020,19 @@ cy_rslt_t cyhal_qspi_set_frequency(cyhal_qspi_t *obj, uint32_t hz)
 {
     CY_ASSERT(NULL != obj);
     CY_ASSERT(hz != 0);
-    CY_ASSERT(obj->is_clock_owned);
 
-    const cyhal_clock_tolerance_t tolerance = { CYHAL_TOLERANCE_PERCENT, 10 };
-    return _cyhal_utils_set_clock_frequency2(&(obj->clock), hz, &tolerance);
+    if (obj->is_clock_owned)
+    {
+        const cyhal_clock_tolerance_t tolerance = { CYHAL_TOLERANCE_PERCENT, 10 };
+        return _cyhal_utils_set_clock_frequency2(&(obj->clock), hz, &tolerance);
+    }
+    else
+    {
+        /* In case of pre-configured clock, user application is responsible for configuring QSPI bus frequency.
+        *  For all currently supported by this driver devices, output QSPI bus frequency is equal to frequency
+        *  of provided HF clock. */
+        return CYHAL_QSPI_RSLT_ERR_CLOCK;
+    }
 }
 
 uint32_t cyhal_qspi_get_frequency(cyhal_qspi_t *obj)
@@ -808,15 +1041,15 @@ uint32_t cyhal_qspi_get_frequency(cyhal_qspi_t *obj)
     return cyhal_clock_get_frequency(&(obj->clock));
 }
 
-cy_rslt_t cyhal_qspi_slave_select_config(cyhal_qspi_t *obj, cyhal_gpio_t ssel)
+cy_rslt_t cyhal_qspi_slave_configure(cyhal_qspi_t *obj, const cyhal_qspi_slave_pin_config_t *pin_set)
 {
     CY_ASSERT(NULL != obj);
-    bool datasel_cfg_needed = false;
     uint8_t ssel_idx = 0;
-    cy_rslt_t result = _cyhal_qspi_slave_select_check_reserve(obj, ssel, &ssel_idx, &datasel_cfg_needed);
-    if ((CY_RSLT_SUCCESS == result) && datasel_cfg_needed)
+    cy_en_smif_data_select_t data_select;
+    cy_rslt_t result = _cyhal_qspi_process_pin_set(obj, pin_set, &data_select, &ssel_idx, true);
+    if (CY_RSLT_SUCCESS == result)
     {
-        Cy_SMIF_SetDataSelect(obj->base, _cyhal_qspi_slave_idx_to_smif_ss(ssel_idx), obj->data_select);
+        Cy_SMIF_SetDataSelect(obj->base, _cyhal_qspi_slave_idx_to_smif_ss(ssel_idx), data_select);
     }
     return result;
 }
@@ -851,7 +1084,7 @@ static cy_rslt_t _cyhal_qspi_wait_for_cmd_fifo(cyhal_qspi_t *obj)
 }
 
 /* no restriction on the value of length. This function splits the read into multiple chunked transfers. */
-cy_rslt_t cyhal_qspi_read(cyhal_qspi_t *obj, const cyhal_qspi_command_t *command, void *data, size_t *length)
+cy_rslt_t cyhal_qspi_read(cyhal_qspi_t *obj, const cyhal_qspi_command_t *command, uint32_t address, void *data, size_t *length)
 {
     if (obj->pm_transition_pending)
     {
@@ -860,30 +1093,28 @@ cy_rslt_t cyhal_qspi_read(cyhal_qspi_t *obj, const cyhal_qspi_command_t *command
     cy_rslt_t status = CY_RSLT_SUCCESS;
     uint32_t chunk = 0;
     size_t read_bytes = *length;
-    uint32_t addr = command->address.value;
 
     /* SMIF can read only up to 65536 bytes in one go. Split the larger read into multiple chunks */
     while (read_bytes > 0)
     {
         chunk = (read_bytes > _CYHAL_QSPI_MAX_RX_COUNT) ? (_CYHAL_QSPI_MAX_RX_COUNT) : read_bytes;
 
-        /* Address is passed outside command during a read of more than 65536 bytes. Since that
-         * read has to be split into multiple chunks, the address value needs to be incremented
-         * after every chunk has been read. This requires either modifying the address stored in
-         * 'command' passed to read() which is not possible since command is a const pointer or
-         * to create a copy of the command object. Instead of copying the object, the address is
-         * passed separately.
-         */
-        status = _cyhal_qspi_command_transfer(obj, command, addr, false);
+        status = _cyhal_qspi_command_transfer(obj, command, address, false);
 
         if (CY_RSLT_SUCCESS == status)
         {
-            if (command->dummy_count > 0u)
+            if (command->dummy_cycles.dummy_count > 0u)
             {
                 status = _cyhal_qspi_wait_for_cmd_fifo(obj);
                 if (CY_RSLT_SUCCESS == status)
                 {
-                    status = (cy_rslt_t)Cy_SMIF_SendDummyCycles(obj->base, command->dummy_count);
+                    #if (CY_IP_MXSMIF_VERSION < 3)
+                    status = (cy_rslt_t)Cy_SMIF_SendDummyCycles(obj->base, command->dummy_cycles.dummy_count);
+                    #else
+                    status = (cy_rslt_t)Cy_SMIF_SendDummyCycles_Ext(obj->base,
+                            _cyhal_qspi_convert_bus_width(command->dummy_cycles.bus_width),
+                            (cy_en_smif_data_rate_t)command->dummy_cycles.data_rate, command->dummy_cycles.dummy_count);
+                    #endif /* CY_IP_MXSMIF_VERSION < 3 or other */
                 }
             }
 
@@ -892,8 +1123,14 @@ cy_rslt_t cyhal_qspi_read(cyhal_qspi_t *obj, const cyhal_qspi_command_t *command
                 status = _cyhal_qspi_wait_for_cmd_fifo(obj);
                 if (CY_RSLT_SUCCESS == status)
                 {
+                    #if (CY_IP_MXSMIF_VERSION < 3)
                     status = (cy_rslt_t)Cy_SMIF_ReceiveDataBlocking(obj->base, (uint8_t *)data, chunk,
                         _cyhal_qspi_convert_bus_width(command->data.bus_width), &obj->context);
+                    #else
+                    status = (cy_rslt_t)Cy_SMIF_ReceiveDataBlocking_Ext(obj->base, (uint8_t *)data, chunk,
+                        _cyhal_qspi_convert_bus_width(command->data.bus_width),
+                        (cy_en_smif_data_rate_t)command->data.data_rate, &obj->context);
+                    #endif /* CY_IP_MXSMIF_VERSION < 3 or other */
                     if (CY_RSLT_SUCCESS != status)
                     {
                         break;
@@ -902,29 +1139,35 @@ cy_rslt_t cyhal_qspi_read(cyhal_qspi_t *obj, const cyhal_qspi_command_t *command
             }
         }
         read_bytes -= chunk;
-        addr += chunk;
+        address += chunk;
         data = (uint8_t *)data + chunk;
     }
 
     return status;
 }
 
-cy_rslt_t cyhal_qspi_read_async(cyhal_qspi_t *obj, const cyhal_qspi_command_t *command, void *data, size_t *length)
+cy_rslt_t cyhal_qspi_read_async(cyhal_qspi_t *obj, const cyhal_qspi_command_t *command, uint32_t address, void *data, size_t *length)
 {
     if (obj->pm_transition_pending)
     {
         return CYHAL_SYSPM_RSLT_ERR_PM_PENDING;
     }
-    cy_rslt_t status = _cyhal_qspi_command_transfer(obj, command, command->address.value, false);
+    cy_rslt_t status = _cyhal_qspi_command_transfer(obj, command, address, false);
 
     if (CY_RSLT_SUCCESS == status)
     {
-        if (command->dummy_count > 0u)
+        if (command->dummy_cycles.dummy_count > 0u)
         {
             status = _cyhal_qspi_wait_for_cmd_fifo(obj);
             if (CY_RSLT_SUCCESS == status)
             {
-                status = (cy_rslt_t)Cy_SMIF_SendDummyCycles(obj->base, command->dummy_count);
+                #if (CY_IP_MXSMIF_VERSION < 3)
+                status = (cy_rslt_t)Cy_SMIF_SendDummyCycles(obj->base, command->dummy_cycles.dummy_count);
+                #else
+                status = (cy_rslt_t)Cy_SMIF_SendDummyCycles_Ext(obj->base,
+                        _cyhal_qspi_convert_bus_width(command->dummy_cycles.bus_width),
+                        (cy_en_smif_data_rate_t)command->dummy_cycles.data_rate, command->dummy_cycles.dummy_count);
+                #endif /* CY_IP_MXSMIF_VERSION < 3 or other */
             }
         }
 
@@ -933,8 +1176,14 @@ cy_rslt_t cyhal_qspi_read_async(cyhal_qspi_t *obj, const cyhal_qspi_command_t *c
             status = _cyhal_qspi_wait_for_cmd_fifo(obj);
             if (CY_RSLT_SUCCESS == status)
             {
+                #if (CY_IP_MXSMIF_VERSION < 3)
                 status = (cy_rslt_t)Cy_SMIF_ReceiveData(obj->base, (uint8_t *)data, (uint32_t)*length,
                     _cyhal_qspi_convert_bus_width(command->data.bus_width), _cyhal_qspi_cb_wrapper, &obj->context);
+                #else
+                status = (cy_rslt_t)Cy_SMIF_ReceiveData_Ext(obj->base, (uint8_t *)data, (uint32_t)*length,
+                    _cyhal_qspi_convert_bus_width(command->data.bus_width),
+                    (cy_en_smif_data_rate_t)command->data.data_rate, _cyhal_qspi_cb_wrapper, &obj->context);
+                #endif /* CY_IP_MXSMIF_VERSION < 3 or other */
             }
         }
     }
@@ -942,22 +1191,29 @@ cy_rslt_t cyhal_qspi_read_async(cyhal_qspi_t *obj, const cyhal_qspi_command_t *c
 }
 
 /* length can be up to 65536. */
-cy_rslt_t cyhal_qspi_write(cyhal_qspi_t *obj, const cyhal_qspi_command_t *command, const void *data, size_t *length)
+cy_rslt_t cyhal_qspi_write(cyhal_qspi_t *obj, const cyhal_qspi_command_t *command, uint32_t address, const void *data,
+        size_t *length)
 {
     if (obj->pm_transition_pending)
     {
         return CYHAL_SYSPM_RSLT_ERR_PM_PENDING;
     }
-    cy_rslt_t status = _cyhal_qspi_command_transfer(obj, command, command->address.value, false);
+    cy_rslt_t status = _cyhal_qspi_command_transfer(obj, command, address, false);
 
     if (CY_RSLT_SUCCESS == status)
     {
-        if (command->dummy_count > 0u)
+        if (command->dummy_cycles.dummy_count > 0u)
         {
             status = _cyhal_qspi_wait_for_cmd_fifo(obj);
             if (CY_RSLT_SUCCESS == status)
             {
-                status = (cy_rslt_t)Cy_SMIF_SendDummyCycles(obj->base, command->dummy_count);
+                #if (CY_IP_MXSMIF_VERSION < 3)
+                status = (cy_rslt_t)Cy_SMIF_SendDummyCycles(obj->base, command->dummy_cycles.dummy_count);
+                #else
+                status = (cy_rslt_t)Cy_SMIF_SendDummyCycles_Ext(obj->base,
+                        _cyhal_qspi_convert_bus_width(command->dummy_cycles.bus_width),
+                        (cy_en_smif_data_rate_t)command->dummy_cycles.data_rate, command->dummy_cycles.dummy_count);
+                #endif /* CY_IP_MXSMIF_VERSION < 3 or other */
             }
         }
 
@@ -966,8 +1222,14 @@ cy_rslt_t cyhal_qspi_write(cyhal_qspi_t *obj, const cyhal_qspi_command_t *comman
             status = _cyhal_qspi_wait_for_cmd_fifo(obj);
             if (CY_RSLT_SUCCESS == status)
             {
+                #if (CY_IP_MXSMIF_VERSION < 3)
                 status = (cy_rslt_t)Cy_SMIF_TransmitDataBlocking(obj->base, (uint8_t *)data, *length,
                     _cyhal_qspi_convert_bus_width(command->data.bus_width), &obj->context);
+                #else
+                status = (cy_rslt_t)Cy_SMIF_TransmitDataBlocking_Ext(obj->base, (uint8_t *)data, *length,
+                    _cyhal_qspi_convert_bus_width(command->data.bus_width),
+                    (cy_en_smif_data_rate_t)command->data.data_rate, &obj->context);
+                #endif /* CY_IP_MXSMIF_VERSION < 3 or other */
             }
         }
     }
@@ -976,22 +1238,28 @@ cy_rslt_t cyhal_qspi_write(cyhal_qspi_t *obj, const cyhal_qspi_command_t *comman
 }
 
 /* length can be up to 65536. */
-cy_rslt_t cyhal_qspi_write_async(cyhal_qspi_t *obj, const cyhal_qspi_command_t *command, const void *data, size_t *length)
+cy_rslt_t cyhal_qspi_write_async(cyhal_qspi_t *obj, const cyhal_qspi_command_t *command, uint32_t address, const void *data, size_t *length)
 {
     if (obj->pm_transition_pending)
     {
         return CYHAL_SYSPM_RSLT_ERR_PM_PENDING;
     }
-    cy_rslt_t status = _cyhal_qspi_command_transfer(obj, command, command->address.value, false);
+    cy_rslt_t status = _cyhal_qspi_command_transfer(obj, command, address, false);
 
     if (CY_RSLT_SUCCESS == status)
     {
-        if (command->dummy_count > 0u)
+        if (command->dummy_cycles.dummy_count > 0u)
         {
             status = _cyhal_qspi_wait_for_cmd_fifo(obj);
             if (CY_RSLT_SUCCESS == status)
             {
-                status = (cy_rslt_t)Cy_SMIF_SendDummyCycles(obj->base, command->dummy_count);
+                #if (CY_IP_MXSMIF_VERSION < 3)
+                status = (cy_rslt_t)Cy_SMIF_SendDummyCycles(obj->base, command->dummy_cycles.dummy_count);
+                #else
+                status = (cy_rslt_t)Cy_SMIF_SendDummyCycles_Ext(obj->base,
+                        _cyhal_qspi_convert_bus_width(command->dummy_cycles.bus_width),
+                        (cy_en_smif_data_rate_t)command->dummy_cycles.data_rate, command->dummy_cycles.dummy_count);
+                #endif /* CY_IP_MXSMIF_VERSION < 3 or other */
             }
         }
 
@@ -1000,8 +1268,14 @@ cy_rslt_t cyhal_qspi_write_async(cyhal_qspi_t *obj, const cyhal_qspi_command_t *
             status = _cyhal_qspi_wait_for_cmd_fifo(obj);
             if (CY_RSLT_SUCCESS == status)
             {
+                #if (CY_IP_MXSMIF_VERSION < 3)
                 status = (cy_rslt_t)Cy_SMIF_TransmitData(obj->base, (uint8_t *)data, *length,
                     _cyhal_qspi_convert_bus_width(command->data.bus_width), _cyhal_qspi_cb_wrapper, &obj->context);
+                #else
+                status = (cy_rslt_t)Cy_SMIF_TransmitData_Ext(obj->base, (uint8_t *)data, *length,
+                    _cyhal_qspi_convert_bus_width(command->data.bus_width),
+                    (cy_en_smif_data_rate_t)command->data.data_rate, _cyhal_qspi_cb_wrapper, &obj->context);
+                #endif /* CY_IP_MXSMIF_VERSION < 3 or other */
             }
         }
     }
@@ -1009,7 +1283,7 @@ cy_rslt_t cyhal_qspi_write_async(cyhal_qspi_t *obj, const cyhal_qspi_command_t *
 }
 
 cy_rslt_t cyhal_qspi_transfer(
-    cyhal_qspi_t *obj, const cyhal_qspi_command_t *command, const void *tx_data, size_t tx_size, void *rx_data,
+    cyhal_qspi_t *obj, const cyhal_qspi_command_t *command, uint32_t address, const void *tx_data, size_t tx_size, void *rx_data,
     size_t rx_size)
 {
     if (obj->pm_transition_pending)
@@ -1021,20 +1295,20 @@ cy_rslt_t cyhal_qspi_transfer(
     if ((tx_data == NULL || tx_size == 0) && (rx_data == NULL || rx_size == 0))
     {
         /* only command, no rx or tx */
-        status = _cyhal_qspi_command_transfer(obj, command, command->address.value, true);
+        status = _cyhal_qspi_command_transfer(obj, command, address, true);
     }
     else
     {
         if (tx_data != NULL && tx_size)
         {
-            status = cyhal_qspi_write(obj, command, tx_data, &tx_size);
+            status = cyhal_qspi_write(obj, command, address, tx_data, &tx_size);
         }
 
         if (status == CY_RSLT_SUCCESS)
         {
             if (rx_data != NULL && rx_size)
             {
-                status = cyhal_qspi_read(obj, command, rx_data, &rx_size);
+                status = cyhal_qspi_read(obj, command, address, rx_data, &rx_size);
             }
         }
     }
@@ -1070,4 +1344,4 @@ void cyhal_qspi_enable_event(cyhal_qspi_t *obj, cyhal_qspi_event_t event, uint8_
 }
 #endif /* __cplusplus */
 
-#endif /* CY_IP_MXSMIF */
+#endif /* CYHAL_DRIVER_AVAILABLE_QSPI */

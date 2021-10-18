@@ -2,14 +2,16 @@
 * \file cyhal_adc_mic.c
 *
 * \brief
-* Provides a high level interface for interacting with the Cypress Analog/Digital
+* Provides a high level interface for interacting with the Infineon Analog/Digital
 * convert. This interface abstracts out the chip specific details. If any chip
 * specific functionality is necessary, or performance is critical the low level
 * functions can be used directly.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -50,7 +52,6 @@
  * \} group_hal_impl_adcmic
  */
 
-#include <string.h>
 #include "cyhal_adc.h"
 #include "cyhal_clock.h"
 #include "cyhal_gpio.h"
@@ -58,7 +59,8 @@
 #include "cyhal_utils.h"
 #include "cyhal_system.h"
 #include <string.h>
-#if defined(CY_IP_MXS40ADCMIC_INSTANCES)
+
+#if (_CYHAL_DRIVER_AVAILABLE_ADC_MIC)
 #include "cy_adcmic.h"
 
 #if defined(__cplusplus)
@@ -245,7 +247,7 @@ static cy_en_adcmic_dc_channel_t _cyhal_adcmic_convert_channel_sel(uint8_t bit_i
 *       ADC HAL Functions
 *******************************************************************************/
 
-cy_rslt_t cyhal_adc_init(cyhal_adc_t *obj, cyhal_gpio_t pin, const cyhal_clock_t *clk)
+cy_rslt_t _cyhal_adc_config_hw(cyhal_adc_t *obj, const cyhal_adc_configurator_t* cfg, cyhal_gpio_t pin, bool owned_by_configurator)
 {
     CY_ASSERT(NULL != obj);
 
@@ -253,28 +255,48 @@ cy_rslt_t cyhal_adc_init(cyhal_adc_t *obj, cyhal_gpio_t pin, const cyhal_clock_t
     memset(obj, 0, sizeof(cyhal_adc_t));
     obj->resource.type = CYHAL_RSC_INVALID;
 
-    const cyhal_resource_pin_mapping_t* map = _cyhal_utils_try_alloc(pin, cyhal_pin_map_adcmic_gpio_adc_in, sizeof(cyhal_pin_map_adcmic_gpio_adc_in) / sizeof(cyhal_pin_map_adcmic_gpio_adc_in[0]));
+    obj->owned_by_configurator = owned_by_configurator;
 
-    if (NULL == map)
-        result = CYHAL_ADC_RSLT_BAD_ARGUMENT;
-
-    cyhal_resource_inst_t adc_inst;
-    if (CY_RSLT_SUCCESS == result)
+    if(NULL == cfg->resource && NC != pin)
     {
-        adc_inst = *map->inst;
-        /* No need to reserve - try_alloc did so for us already */
+        for (uint32_t i = 0; i < sizeof(cyhal_pin_map_adcmic_gpio_adc_in)/sizeof(cyhal_resource_pin_mapping_t); i++)
+        {
+            if (pin == cyhal_pin_map_adcmic_gpio_adc_in[i].pin)
+            {
+                // Force the channel_num to 0 since the ADC_MIC pin_map repurposes that field
+                cyhal_resource_inst_t inst = { CYHAL_RSC_ADCMIC, cyhal_pin_map_adcmic_gpio_adc_in[i].block_num, 0 };
+                if (CY_RSLT_SUCCESS == cyhal_hwmgr_reserve(&inst))
+                {
+                    obj->resource = inst;
+                    break;
+                }
+            }
+        }
+
+        if (obj->resource.type == CYHAL_RSC_INVALID)
+        {
+            result = CYHAL_ADC_RSLT_BAD_ARGUMENT;
+        }
+    }
+    else if(NULL != cfg->resource)
+    {
+        obj->resource = *cfg->resource;
+    }
+    else
+    {
+        result = CYHAL_ADC_RSLT_BAD_ARGUMENT;
     }
 
     en_clk_dst_t pclk = (en_clk_dst_t)0;
     if (CY_RSLT_SUCCESS == result)
     {
-        obj->resource = adc_inst;
+        obj->resource = *cfg->resource;
 
-        obj->base = _cyhal_adcmic_base[adc_inst.block_num];
-        pclk = _cyhal_adcmic_clock[adc_inst.block_num];
-        if (NULL != clk)
+        obj->base = _cyhal_adcmic_base[obj->resource.block_num];
+        pclk = _cyhal_adcmic_clock[obj->resource.block_num];
+        if (NULL != cfg->clock)
         {
-            obj->clock = *clk;
+            obj->clock = *cfg->clock;
             obj->dedicated_clock = false;
         }
         else if (CY_RSLT_SUCCESS ==
@@ -304,7 +326,7 @@ cy_rslt_t cyhal_adc_init(cyhal_adc_t *obj, cyhal_gpio_t pin, const cyhal_clock_t
 
     if (result == CY_RSLT_SUCCESS)
     {
-        result = (cy_rslt_t)Cy_ADCMic_Init(obj->base, &_CYHAL_ADCMIC_DEFAULT_CONFIG);
+        result = (cy_rslt_t)Cy_ADCMic_Init(obj->base, cfg->config);
     }
 
     if (result == CY_RSLT_SUCCESS)
@@ -318,6 +340,52 @@ cy_rslt_t cyhal_adc_init(cyhal_adc_t *obj, cyhal_gpio_t pin, const cyhal_clock_t
     else
     {
         cyhal_adc_free(obj);
+    }
+    return result;
+}
+
+cy_rslt_t cyhal_adc_init(cyhal_adc_t *obj, cyhal_gpio_t pin, const cyhal_clock_t *clk)
+{
+    cyhal_adc_configurator_t config;
+    config.resource = NULL;
+    config.config = &_CYHAL_ADCMIC_DEFAULT_CONFIG;
+    config.clock = clk;
+    config.num_channels = 0u;
+
+    cy_rslt_t result = _cyhal_adc_config_hw(obj, &config, pin, false);
+    return result;
+}
+
+cy_rslt_t cyhal_adc_init_cfg(cyhal_adc_t *adc, cyhal_adc_channel_t** channels, uint8_t* num_channels,
+                                const cyhal_adc_configurator_t *cfg)
+{
+    cy_rslt_t result = CY_RSLT_SUCCESS;
+    if(*num_channels < cfg->num_channels)
+    {
+        result = CYHAL_ADC_RSLT_BAD_ARGUMENT;
+    }
+
+    if(CY_RSLT_SUCCESS == result)
+    {
+        *num_channels = cfg->num_channels;
+        result = _cyhal_adc_config_hw(adc, cfg, NC, true);
+    }
+
+    if(CY_RSLT_SUCCESS == result)
+    {
+        /* config_hw will have initialized the channels in the ADC HW and the configurator will
+         * have set up the routing, but we need to initialize the channel structs */
+        for(int i = 0; i < *num_channels; ++i)
+        {
+            cyhal_adc_channel_t* channel = channels[i];
+            memset(channel, 0, sizeof(cyhal_adc_channel_t));
+            channel->adc = adc;
+            channel->channel_idx = i;
+            /* Nothing in this flow needs to know what the pins are - and the inputs aren't even
+             * necesssarily pins. The configurator takes care of resource reservation and routing for us */
+            channel->vplus = NC;
+            channel->enabled = true;
+        }
     }
     return result;
 }
@@ -343,13 +411,17 @@ void cyhal_adc_free(cyhal_adc_t *obj)
             obj->base = NULL;
         }
 
-        cyhal_hwmgr_free(&obj->resource);
+        if(false == obj->owned_by_configurator)
+        {
+            cyhal_hwmgr_free(&obj->resource);
+        }
     }
 }
 
 cy_rslt_t cyhal_adc_configure(cyhal_adc_t *obj, const cyhal_adc_config_t *config)
 {
     /* The hardware is very limited, so all we can do is check that the config matches what we support */
+    CY_UNUSED_PARAMETER(obj);
     if((false != config->continuous_scanning)
         || (_CYHAL_ADCMIC_RESOLUTION != config->resolution)
         || (1u != config->average_count)
@@ -384,6 +456,7 @@ cy_rslt_t cyhal_adc_set_power(cyhal_adc_t *obj, cyhal_power_level_t power)
 cy_rslt_t cyhal_adc_set_sample_rate(cyhal_adc_t* obj, uint32_t desired_sample_rate_hz, uint32_t* achieved_sample_rate_hz)
 {
     /* Only one sample rate supported, so all we can do is validate */
+    CY_UNUSED_PARAMETER(obj);
     *achieved_sample_rate_hz = _CYHAL_ADCMIC_SAMPLE_RATE_HZ;
     return (_CYHAL_ADCMIC_SAMPLE_RATE_HZ == desired_sample_rate_hz) ? CY_RSLT_SUCCESS : CYHAL_ADC_RSLT_BAD_ARGUMENT;
 }
@@ -419,11 +492,9 @@ cy_rslt_t cyhal_adc_channel_init_diff(cyhal_adc_channel_t *obj, cyhal_adc_t* adc
         /* For this block, we reuse the drive mode field to store the bit index on the adcmic.
          * Pull off and save that value, but provide the real required drive mode for connecting
          */
-        uint8_t bit_index = vplus_map->drive_mode;
+        uint8_t bit_index = vplus_map->channel_num;
         obj->channel_sel = _cyhal_adcmic_convert_channel_sel(bit_index);
-        cyhal_resource_pin_mapping_t mapping = *vplus_map;
-        mapping.drive_mode = CY_GPIO_DM_ANALOG;
-        result = _cyhal_utils_reserve_and_connect(vplus, &mapping);
+        result = _cyhal_utils_reserve_and_connect(vplus_map, CYHAL_PIN_MAP_DRIVE_MODE_ADCMIC_GPIO_ADC_IN);
     }
 
     uint8_t chosen_channel = 0;
@@ -491,7 +562,10 @@ void cyhal_adc_channel_free(cyhal_adc_channel_t *obj)
         obj->adc = NULL;
     }
 
-    _cyhal_utils_release_if_used(&(obj->vplus));
+    if(false == obj->adc->owned_by_configurator)
+    {
+        _cyhal_utils_release_if_used(&(obj->vplus));
+    }
 }
 
 uint16_t cyhal_adc_read_u16(const cyhal_adc_channel_t *obj)
@@ -571,6 +645,8 @@ cy_rslt_t cyhal_adc_read_async_uv(cyhal_adc_t* obj, size_t num_scan, int32_t* re
 
 cy_rslt_t cyhal_adc_set_async_mode(cyhal_adc_t *obj, cyhal_async_mode_t mode, uint8_t dma_priority)
 {
+    CY_UNUSED_PARAMETER(obj);
+    CY_UNUSED_PARAMETER(dma_priority);
     CY_ASSERT(NULL != obj);
     CY_ASSERT(NULL == obj->async_buff_next); /* Can't swap mode while a transfer is running */
     if(mode == CYHAL_ASYNC_DMA)
@@ -616,24 +692,35 @@ void cyhal_adc_enable_event(cyhal_adc_t *obj, cyhal_adc_event_t event, uint8_t i
 cy_rslt_t cyhal_adc_connect_digital(cyhal_adc_t *obj, cyhal_source_t source, cyhal_adc_input_t input)
 {
     /* No trigger inputs supported on this hardware */
+    CY_UNUSED_PARAMETER(obj);
+    CY_UNUSED_PARAMETER(source);
+    CY_UNUSED_PARAMETER(input);
     return CYHAL_ADC_RSLT_BAD_ARGUMENT;
 }
 
 cy_rslt_t cyhal_adc_enable_output(cyhal_adc_t *obj, cyhal_adc_output_t output, cyhal_source_t *source)
 {
     /* No trigger outputs supported on this hardware */
+    CY_UNUSED_PARAMETER(obj);
+    CY_UNUSED_PARAMETER(output);
+    CY_UNUSED_PARAMETER(source);
     return CYHAL_ADC_RSLT_BAD_ARGUMENT;
 }
 
 cy_rslt_t cyhal_adc_disconnect_digital(cyhal_adc_t *obj, cyhal_source_t source,  cyhal_adc_input_t input)
 {
     /* No trigger inputs supported on this hardware */
+    CY_UNUSED_PARAMETER(obj);
+    CY_UNUSED_PARAMETER(source);
+    CY_UNUSED_PARAMETER(input);
     return CYHAL_ADC_RSLT_BAD_ARGUMENT;
 }
 
 cy_rslt_t cyhal_adc_disable_output(cyhal_adc_t *obj, cyhal_adc_output_t output)
 {
     /* No trigger outputs supported on this hardware */
+    CY_UNUSED_PARAMETER(obj);
+    CY_UNUSED_PARAMETER(output);
     return CYHAL_ADC_RSLT_BAD_ARGUMENT;
 }
 
@@ -641,4 +728,4 @@ cy_rslt_t cyhal_adc_disable_output(cyhal_adc_t *obj, cyhal_adc_output_t output)
 }
 #endif
 
-#endif /* defined(CY_IP_MXS40PASS_SAR_INSTANCES) */
+#endif /* _CYHAL_DRIVER_AVAILABLE_ADC_MIC */

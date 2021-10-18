@@ -87,10 +87,10 @@ $(document).ready(function(){initNavTree('group__group__hal__impl__comp.html',''
 
 <div class="header">
   <div class="headertitle">
-<div class="title">COMP (Analog Comparator)<div class="ingroups"><a class="el" href="group__group__hal__impl.html">CAT1 (PSoC 6) Implementation Specific</a></div></div>  </div>
+<div class="title">COMP (Analog Comparator)<div class="ingroups"><a class="el" href="group__group__hal__impl.html">CAT1 (PSoC™ 6) Implementation Specific</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
-<p>On CAT1 (PSoC 6), the COMP driver can use either of two underlying hardware blocks: </p>
+<p>On CAT1 &amp; CAT2, the comparator driver can use either of two underlying hardware blocks: </p>
 <ul>
 <li>Opamp (configured as analog comparator)</li>
 <li>LPComp (Low Power Comparator)</li>
@@ -98,17 +98,17 @@ $(document).ready(function(){initNavTree('group__group__hal__impl__comp.html',''
 <p>Generally, a set of pins can only connect to either an Opamp or an LPComp but not both. In the event that both connections are possible, the LPComp will be preferred.</p>
 <h1><a class="anchor" id="group_hal_impl_comp_power"></a>
 Power Level Mapping</h1>
-<p>The following table shows how the HAL-defined power levels map to the hardware-specific power levels </p><table class="markdownTable">
+<p>The following table shows how the HAL-defined power levels map to the hardware-specific power levels. For the LPComp, some levels are named differently between CAT1 &amp; CAT2. In this case, the differences are in brackets, with the first item being for CAT1 and the second for CAT2. </p><table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">HAL Power Level  </th><th class="markdownTableHeadNone">Opamp Power Level  </th><th class="markdownTableHeadNone">LPComp Power Level   </th></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><a class="el" href="group__group__hal__general__types.html#gga246fde0e79029f514ce3846b31e366d7a4d8ce140c28177e31de20cf8da8e2a99">CYHAL_POWER_LEVEL_HIGH</a>  </td><td class="markdownTableBodyNone">CY_CTB_POWER_HIGH  </td><td class="markdownTableBodyNone">CY_LPCOMP_MODE_NORMAL   </td></tr>
+<td class="markdownTableBodyNone"><a class="el" href="group__group__hal__general__types.html#gga246fde0e79029f514ce3846b31e366d7a4d8ce140c28177e31de20cf8da8e2a99">CYHAL_POWER_LEVEL_HIGH</a>  </td><td class="markdownTableBodyNone">CY_CTB_POWER_HIGH  </td><td class="markdownTableBodyNone">CY_LPCOMP_MODE_[NORMAL/FAST]   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><a class="el" href="group__group__hal__general__types.html#gga246fde0e79029f514ce3846b31e366d7ae189a666d589f8acf4c64142365def61">CYHAL_POWER_LEVEL_MEDIUM</a>  </td><td class="markdownTableBodyNone">CY_CTB_POWER_MEDIUM  </td><td class="markdownTableBodyNone">CY_LPCOMP_MODE_LP   </td></tr>
+<td class="markdownTableBodyNone"><a class="el" href="group__group__hal__general__types.html#gga246fde0e79029f514ce3846b31e366d7ae189a666d589f8acf4c64142365def61">CYHAL_POWER_LEVEL_MEDIUM</a>  </td><td class="markdownTableBodyNone">CY_CTB_POWER_MEDIUM  </td><td class="markdownTableBodyNone">CY_LPCOMP_MODE_[LP/SLOW]   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><a class="el" href="group__group__hal__general__types.html#gga246fde0e79029f514ce3846b31e366d7ae06723d07ff431a2f427d95ac61e2afb">CYHAL_POWER_LEVEL_LOW</a>  </td><td class="markdownTableBodyNone">CY_CTB_POWER_LOW  </td><td class="markdownTableBodyNone">CY_LPCOMP_MODE_ULP   </td></tr>
 <tr class="markdownTableBody" class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><a class="el" href="group__group__hal__general__types.html#gga246fde0e79029f514ce3846b31e366d7a6f0f4df45e9cac012a2c8e5ba736241b">CYHAL_POWER_LEVEL_DEFAULT</a>  </td><td class="markdownTableBodyNone">CY_CTB_POWER_MEDIUM  </td><td class="markdownTableBodyNone">CY_LPCOMP_MODE_LP   </td></tr>
+<td class="markdownTableBodyNone"><a class="el" href="group__group__hal__general__types.html#gga246fde0e79029f514ce3846b31e366d7a6f0f4df45e9cac012a2c8e5ba736241b">CYHAL_POWER_LEVEL_DEFAULT</a>  </td><td class="markdownTableBodyNone">CY_CTB_POWER_MEDIUM  </td><td class="markdownTableBodyNone">CY_LPCOMP_MODE_[LP/SLOW]   </td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

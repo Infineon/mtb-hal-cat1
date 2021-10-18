@@ -10,6 +10,8 @@ bool Cy_SysClk_PeriPclkGetDividerEnabled(en_clk_dst_t ipBlock, cy_en_divider_typ
 
 #if defined(CY_IP_MXS28SRSS)
 #define Cy_SysPm_RegisterCallback(handler)              (false)
+#define Cy_SysPm_SystemEnterLp()                        (CY_RSLT_SUCCESS)
+#define Cy_SysPm_SystemEnterUlp()                       (CY_RSLT_SUCCESS)
 #define Cy_SysPm_IoUnfreeze()
 #define Cy_SysPm_IoIsFrozen()                           (false)
 #else

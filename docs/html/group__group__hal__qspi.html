@@ -113,14 +113,16 @@ Code Snippets</h1>
 <dl class="section note"><dt>Note</dt><dd>The following snippets show commands specific to the <a href="https://www.cypress.com/documentation/datasheets/s25fl512s-512-mbit-64-mbyte-30v-spi-flash-memory">S25FL512S Cypress NOR Flash device</a>. Refer to the datasheet of the external memory device for device specific memory commands. </dd></dl>
 <h2><a class="anchor" id="subsection_qspi_snippet_1"></a>
 Code Snippet 1: Initializing the cyhal_qspi_command_t structure</h2>
-<p>The following code snip demonstrates an example for initializing the <a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__command__t" title="QSPI command settings. ">cyhal_qspi_command_t</a> structure for any given flash command. The <a class="el" href="group__group__hal__qspi.html#a6fc8177c91c003870da0daea405a5b5c" title="Mode bits structure. ">cyhal_qspi_command_t.mode_bits</a> structure has several other components which should be set as per the command. Mode bits are not required for single SPI read command, hence, mode_bits.disabled is set to TRUE in the below example code. </p><div class="fragment"><div class="line"><span class="comment">// Commands</span></div><div class="line"><span class="preprocessor">#define DEVICE_SPECIFIC_READ_COMMAND                    (0x03)</span></div><div class="line"></div><div class="line"><span class="comment">// Defining QSPI command structure for READ command</span></div><div class="line"><a class="code" href="group__group__hal__qspi.html#structcyhal__qspi__command__t">cyhal_qspi_command_t</a> device_specific_read_command =</div><div class="line">{</div><div class="line">    .<a class="code" href="group__group__hal__qspi.html#a6b3a205d095fac02f65395f3080e2257">instruction</a>.bus_width = <a class="code" href="group__group__hal__qspi.html#ggaddc93a79f0708fd53897d0c37bc7544bab14f0354fdb42ea40c30274df3eeb74f">CYHAL_QSPI_CFG_BUS_SINGLE</a>,    <span class="comment">// Bus width for the instruction</span></div><div class="line">    .instruction.value     = DEVICE_SPECIFIC_READ_COMMAND, <span class="comment">// Instruction value</span></div><div class="line">    .instruction.disabled  = <span class="keyword">false</span>,                        <span class="comment">// Instruction phase skipped if disabled</span></div><div class="line">                                                           <span class="comment">//   set to true</span></div><div class="line">    .address.bus_width     = <a class="code" href="group__group__hal__qspi.html#ggaddc93a79f0708fd53897d0c37bc7544bab14f0354fdb42ea40c30274df3eeb74f">CYHAL_QSPI_CFG_BUS_SINGLE</a>,    <span class="comment">// Bus width for the address</span></div><div class="line">    .address.size          = <a class="code" href="group__group__hal__qspi.html#gga0633be58b4427d173d1f94c4e6e4e058a3255bb7d1a9fbf71e28c121df749135e">CYHAL_QSPI_CFG_SIZE_24</a>,       <span class="comment">// Address size in bits</span></div><div class="line">    .address.value         = ADDRESS,                      <span class="comment">// Address value</span></div><div class="line">    .address.disabled      = <span class="keyword">false</span>,                        <span class="comment">// Address phase skipped if disabled set</span></div><div class="line">                                                           <span class="comment">//   to true</span></div><div class="line">    .mode_bits.disabled    = <span class="keyword">true</span>,                         <span class="comment">// Mode bits phase skipped if disabled</span></div><div class="line">                                                           <span class="comment">//   set to true</span></div><div class="line">    .dummy_count           = 0,                            <span class="comment">// Dummy cycles count</span></div><div class="line">    .data.bus_width        = <a class="code" href="group__group__hal__qspi.html#ggaddc93a79f0708fd53897d0c37bc7544bab14f0354fdb42ea40c30274df3eeb74f">CYHAL_QSPI_CFG_BUS_SINGLE</a>,    <span class="comment">// Bus width for data</span></div><div class="line">};</div></div><!-- fragment --><h2><a class="anchor" id="subsection_qspi_snippet_2"></a>
+<p>The following code snip demonstrates an example for initializing the <a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__command__t" title="QSPI command settings. ">cyhal_qspi_command_t</a> structure for any given flash command. The <a class="el" href="group__group__hal__qspi.html#a011794ffc290e7e667ebaf68e08cfabd" title="Mode bits structure. ">cyhal_qspi_command_t.mode_bits</a> structure has several other components which should be set as per the command. Mode bits are not required for single SPI read command, hence, mode_bits.disabled is set to TRUE in the below example code. </p><div class="fragment"><div class="line"><span class="comment">// Commands</span></div><div class="line"><span class="preprocessor">#define DEVICE_SPECIFIC_READ_COMMAND                    (0x03)</span></div><div class="line"></div><div class="line"><span class="comment">// Defining QSPI command structure for READ command</span></div><div class="line"><a class="code" href="group__group__hal__qspi.html#structcyhal__qspi__command__t">cyhal_qspi_command_t</a> device_specific_read_command =</div><div class="line">{</div><div class="line">    .<a class="code" href="group__group__hal__qspi.html#ae90070545041b6f4078390c3bcbded84">instruction</a>.bus_width      = <a class="code" href="group__group__hal__qspi.html#ggaddc93a79f0708fd53897d0c37bc7544bab14f0354fdb42ea40c30274df3eeb74f">CYHAL_QSPI_CFG_BUS_SINGLE</a>,    <span class="comment">// Bus width for the instruction</span></div><div class="line">    .instruction.data_rate      = <a class="code" href="group__group__hal__qspi.html#ggac30267a66618a021ee34be687fa1442cac5b17b7596a02b09061b622a7a379cdc">CYHAL_QSPI_DATARATE_SDR</a>,      <span class="comment">// Data rate for instruction</span></div><div class="line">                                                                <span class="comment">// (SDR/DDR)</span></div><div class="line">    .instruction.two_byte_cmd   = <span class="keyword">false</span>,                        <span class="comment">// command is 1-byte value</span></div><div class="line">    .instruction.value          = DEVICE_SPECIFIC_READ_COMMAND, <span class="comment">// Instruction value</span></div><div class="line">    .instruction.disabled       = <span class="keyword">false</span>,                        <span class="comment">// Instruction phase skipped if</span></div><div class="line">                                                                <span class="comment">// disabled</span></div><div class="line">                                                                <span class="comment">//   set to true</span></div><div class="line">    .address.bus_width          = <a class="code" href="group__group__hal__qspi.html#ggaddc93a79f0708fd53897d0c37bc7544bab14f0354fdb42ea40c30274df3eeb74f">CYHAL_QSPI_CFG_BUS_SINGLE</a>,    <span class="comment">// Bus width for the address</span></div><div class="line">    .address.data_rate          = <a class="code" href="group__group__hal__qspi.html#ggac30267a66618a021ee34be687fa1442cac5b17b7596a02b09061b622a7a379cdc">CYHAL_QSPI_DATARATE_SDR</a>,      <span class="comment">// Data rate for address (SDR/DDR)</span></div><div class="line">    .address.size               = <a class="code" href="group__group__hal__qspi.html#gga0633be58b4427d173d1f94c4e6e4e058a3255bb7d1a9fbf71e28c121df749135e">CYHAL_QSPI_CFG_SIZE_24</a>,       <span class="comment">// Address size in bits</span></div><div class="line">    .address.disabled           = <span class="keyword">false</span>,                        <span class="comment">// Address phase skipped if disabled</span></div><div class="line">                                                                <span class="comment">// set to true</span></div><div class="line">    .mode_bits.disabled         = <span class="keyword">true</span>,                         <span class="comment">// Mode bits phase skipped if</span></div><div class="line">                                                                <span class="comment">// disabled set to true</span></div><div class="line">    .dummy_cycles.dummy_count   = 0,                            <span class="comment">// Dummy cycles count</span></div><div class="line">    .data.bus_width             = <a class="code" href="group__group__hal__qspi.html#ggaddc93a79f0708fd53897d0c37bc7544bab14f0354fdb42ea40c30274df3eeb74f">CYHAL_QSPI_CFG_BUS_SINGLE</a>,    <span class="comment">// Bus width for data</span></div><div class="line">    .data.data_rate             = <a class="code" href="group__group__hal__qspi.html#ggac30267a66618a021ee34be687fa1442cac5b17b7596a02b09061b622a7a379cdc">CYHAL_QSPI_DATARATE_SDR</a>,      <span class="comment">// Data rate for data (SDR/DDR)</span></div><div class="line">};</div></div><!-- fragment --><h2><a class="anchor" id="subsection_qspi_snippet_2"></a>
 Code Snippet 2: QSPI initialization and Reading Flash memory</h2>
-<p>This example function demonstrates the initialization of the QSPI component and use of the <a class="el" href="group__group__hal__qspi.html#ga4e8f85b99de75604ef38becb14ae073d" title="Receive a command and block of data, synchronously. ">cyhal_qspi_read()</a> function to complete the read operation and receive the read data in a buffer. </p><div class="fragment"><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>    result;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__t">cyhal_qspi_t</a> qspi_object;</div><div class="line">    uint8_t      rx_buf[PACKET_SIZE];</div><div class="line">    <span class="keywordtype">size_t</span>       length = PACKET_SIZE;</div><div class="line"></div><div class="line">    <span class="comment">// Initialize QSPI peripheral with appropriate GPIOs</span></div><div class="line">    result = <a class="code" href="group__group__hal__qspi.html#gafeb79a3262be28e59c267b5146273588">cyhal_qspi_init</a>(&amp;qspi_object, CYBSP_QSPI_D0, CYBSP_QSPI_D1, CYBSP_QSPI_D2,</div><div class="line">                             CYBSP_QSPI_D3, <a class="code" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#gga707195ce0627016bf371643bdd9caa51a3dbd1016ea99d087d747530418b89a01">NC</a>, <a class="code" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#gga707195ce0627016bf371643bdd9caa51a3dbd1016ea99d087d747530418b89a01">NC</a>, <a class="code" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#gga707195ce0627016bf371643bdd9caa51a3dbd1016ea99d087d747530418b89a01">NC</a>, <a class="code" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#gga707195ce0627016bf371643bdd9caa51a3dbd1016ea99d087d747530418b89a01">NC</a>,</div><div class="line">                             CYBSP_QSPI_SCK, CYBSP_QSPI_SS, QSPI_BUS_FREQUENCY_HZ, 0);</div><div class="line"></div><div class="line">    <span class="comment">// HAL API for read operation</span></div><div class="line">    result = <a class="code" href="group__group__hal__qspi.html#ga4e8f85b99de75604ef38becb14ae073d">cyhal_qspi_read</a>(&amp;qspi_object, &amp;device_specific_read_command, rx_buf, &amp;length);</div></div><!-- fragment --><h2><a class="anchor" id="subsection_qspi_snippet_3"></a>
+<p>This example function demonstrates the initialization of the QSPI component and use of the <a class="el" href="group__group__hal__qspi.html#gaa82f8a18f5936ff7323d72574165190a" title="Receive a command and block of data, synchronously. ">cyhal_qspi_read()</a> function to complete the read operation and receive the read data in a buffer. </p><div class="fragment"><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>    result;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__t">cyhal_qspi_t</a> qspi_object;</div><div class="line">    uint8_t      rx_buf[PACKET_SIZE];</div><div class="line">    <span class="keywordtype">size_t</span>       length = PACKET_SIZE;</div><div class="line"></div><div class="line">    <a class="code" href="group__group__hal__qspi.html#structcyhal__qspi__slave__pin__config__t">cyhal_qspi_slave_pin_config_t</a> memory_pin_set =</div><div class="line">    {</div><div class="line">        <span class="comment">// Memory data lines</span></div><div class="line">        .<a class="code" href="group__group__hal__qspi.html#ab5692bbff73ecb9c1cf71aa23d203bc1">io</a>   = { CYBSP_QSPI_D0, CYBSP_QSPI_D1, CYBSP_QSPI_D2, CYBSP_QSPI_D3, <a class="code" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#gga707195ce0627016bf371643bdd9caa51a3dbd1016ea99d087d747530418b89a01">NC</a>, <a class="code" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#gga707195ce0627016bf371643bdd9caa51a3dbd1016ea99d087d747530418b89a01">NC</a>, <a class="code" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#gga707195ce0627016bf371643bdd9caa51a3dbd1016ea99d087d747530418b89a01">NC</a>, <a class="code" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#gga707195ce0627016bf371643bdd9caa51a3dbd1016ea99d087d747530418b89a01">NC</a> },</div><div class="line">        <span class="comment">// Memory slave select signal</span></div><div class="line">        .ssel = CYBSP_QSPI_SS_0</div><div class="line">    };</div><div class="line"></div><div class="line">    <span class="comment">// Initialize QSPI peripheral with appropriate GPIOs</span></div><div class="line">    result = <a class="code" href="group__group__hal__qspi.html#ga2ef047225a5818541a93a5a1a2039a0b">cyhal_qspi_init</a>(&amp;qspi_object, CYBSP_QSPI_SCK, &amp;memory_pin_set, QSPI_BUS_FREQUENCY_HZ,</div><div class="line">                             0, NULL);</div><div class="line"></div><div class="line">    <span class="comment">// HAL API for read operation</span></div><div class="line">    result = <a class="code" href="group__group__hal__qspi.html#gaa82f8a18f5936ff7323d72574165190a">cyhal_qspi_read</a>(&amp;qspi_object, &amp;device_specific_read_command, ADDRESS, rx_buf, &amp;length);</div></div><!-- fragment --><h2><a class="anchor" id="subsection_qspi_snippet_3"></a>
 Code Snippet 3: Erasing Flash memory</h2>
-<p>The following code snippet demonstrates the use of <a class="el" href="group__group__hal__qspi.html#gad2ec06f4a49520a89d6b9e0299d0c1ce" title="Send a command (and optionally data) and get the response. ">cyhal_qspi_transfer()</a> API for sending single byte instruction that may or may not need any address or data bytes. It also shows the usage of status register read command within a while loop to poll the WIP bit status. </p><div class="fragment"><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>    result;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__t">cyhal_qspi_t</a> qspi_object;</div><div class="line">    uint8_t      rx_buf[PACKET_SIZE];</div><div class="line">    uint8_t      wip    = 0x01;</div><div class="line">    <span class="keywordtype">size_t</span>       length = 1;</div><div class="line"></div><div class="line">    <span class="comment">// HAL API for TX-RX transaction used for sending WREN command</span></div><div class="line">    result = <a class="code" href="group__group__hal__qspi.html#gad2ec06f4a49520a89d6b9e0299d0c1ce">cyhal_qspi_transfer</a>(&amp;qspi_object, &amp;device_specific_wren_command, NULL, 0, NULL, 0);</div><div class="line"></div><div class="line">    <span class="comment">// HAL API for TX-RX transaction used for sending SE command</span></div><div class="line">    result = <a class="code" href="group__group__hal__qspi.html#gad2ec06f4a49520a89d6b9e0299d0c1ce">cyhal_qspi_transfer</a>(&amp;qspi_object, &amp;device_specific_se_command, NULL, 0, NULL, 0);</div><div class="line"></div><div class="line">    <span class="keywordflow">while</span> (wip)</div><div class="line">    {</div><div class="line">        <span class="comment">// Wait until the Erase operation is completed</span></div><div class="line">        <a class="code" href="group__group__hal__qspi.html#ga4e8f85b99de75604ef38becb14ae073d">cyhal_qspi_read</a>(&amp;qspi_object, &amp;device_specific_rdsr1_command, rx_buf, &amp;length);</div><div class="line">        wip = rx_buf[0] &amp; 0x01;</div><div class="line">    }</div></div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>Flash memories need erase operation before programming. </dd></dl>
+<p>The following code snippet demonstrates the use of <a class="el" href="group__group__hal__qspi.html#gad3d0ba591bae66de98b2eac59b915ed1" title="Send a command (and optionally data) and get the response. ">cyhal_qspi_transfer()</a> API for sending single byte instruction that may or may not need any address or data bytes. It also shows the usage of status register read command within a while loop to poll the WIP bit status. </p><div class="fragment"><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>    result;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__t">cyhal_qspi_t</a> qspi_object;</div><div class="line">    uint8_t      rx_buf[PACKET_SIZE];</div><div class="line">    uint8_t      wip    = 0x01;</div><div class="line">    <span class="keywordtype">size_t</span>       length = 1;</div><div class="line"></div><div class="line">    <span class="comment">// HAL API for TX-RX transaction used for sending WREN command</span></div><div class="line">    result = <a class="code" href="group__group__hal__qspi.html#gad3d0ba591bae66de98b2eac59b915ed1">cyhal_qspi_transfer</a>(&amp;qspi_object, &amp;device_specific_wren_command, ADDRESS, NULL, 0,</div><div class="line">                                 NULL, 0);</div><div class="line"></div><div class="line">    <span class="comment">// HAL API for TX-RX transaction used for sending SE command</span></div><div class="line">    result = <a class="code" href="group__group__hal__qspi.html#gad3d0ba591bae66de98b2eac59b915ed1">cyhal_qspi_transfer</a>(&amp;qspi_object, &amp;device_specific_se_command, ADDRESS, NULL, 0,</div><div class="line">                                 NULL, 0);</div><div class="line"></div><div class="line">    <span class="keywordflow">while</span> (wip)</div><div class="line">    {</div><div class="line">        <span class="comment">// Wait until the Erase operation is completed</span></div><div class="line">        <a class="code" href="group__group__hal__qspi.html#gaa82f8a18f5936ff7323d72574165190a">cyhal_qspi_read</a>(&amp;qspi_object, &amp;device_specific_rdsr1_command, ADDRESS, rx_buf, &amp;length);</div><div class="line">        wip = rx_buf[0] &amp; 0x01;</div><div class="line">    }</div></div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>Flash memories need erase operation before programming. </dd></dl>
 <h2><a class="anchor" id="subsection_qspi_snippet_4"></a>
 Code Snippet 4: Programming Flash memory</h2>
-<p>This code snippet demonstrates the usage <a class="el" href="group__group__hal__qspi.html#ga7f67f2108cdf6312557fca9be9a3cd0e" title="Send a command and block of data, synchronously. ">cyhal_qspi_write()</a> API for executing program operation on flash memory. </p><div class="fragment"><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>    result;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__t">cyhal_qspi_t</a> qspi_object;</div><div class="line">    uint8_t      tx_buf[PACKET_SIZE];</div><div class="line">    uint8_t      rx_buf[PACKET_SIZE];</div><div class="line">    <span class="keywordtype">size_t</span>       length = PACKET_SIZE;</div><div class="line">    uint8_t      wip    = 0x01;</div><div class="line"></div><div class="line">    <span class="comment">// Initialization of tx_buffer</span></div><div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; PACKET_SIZE; i++)</div><div class="line">    {</div><div class="line">        tx_buf[i] = i;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">// HAL API for TX-RX transaction used for sending WREN command</span></div><div class="line">    result = <a class="code" href="group__group__hal__qspi.html#gad2ec06f4a49520a89d6b9e0299d0c1ce">cyhal_qspi_transfer</a>(&amp;qspi_object, &amp;device_specific_wren_command, NULL, 0, NULL, 0);</div><div class="line"></div><div class="line">    <span class="comment">// HAL API for write operation</span></div><div class="line">    result = <a class="code" href="group__group__hal__qspi.html#ga7f67f2108cdf6312557fca9be9a3cd0e">cyhal_qspi_write</a>(&amp;qspi_object, &amp;device_specific_pp_command, tx_buf, &amp;length);</div><div class="line"></div><div class="line">    <span class="keywordflow">while</span> (wip)</div><div class="line">    {</div><div class="line">        <span class="comment">// Wait until the Write operation is completed</span></div><div class="line">        <a class="code" href="group__group__hal__qspi.html#ga4e8f85b99de75604ef38becb14ae073d">cyhal_qspi_read</a>(&amp;qspi_object, &amp;device_specific_rdsr1_command, rx_buf, &amp;length);</div><div class="line">        wip = rx_buf[0] &amp; 0x01;</div><div class="line">    }</div></div><!-- fragment --><table class="memberdecls">
+<p>This code snippet demonstrates the usage <a class="el" href="group__group__hal__qspi.html#ga3f3229928c764a4376032b41a63c2f35" title="Send a command and block of data, synchronously. ">cyhal_qspi_write()</a> API for executing program operation on flash memory. </p><div class="fragment"><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>    result;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__t">cyhal_qspi_t</a> qspi_object;</div><div class="line">    uint8_t      tx_buf[PACKET_SIZE];</div><div class="line">    uint8_t      rx_buf[PACKET_SIZE];</div><div class="line">    <span class="keywordtype">size_t</span>       length = PACKET_SIZE;</div><div class="line">    uint8_t      wip    = 0x01;</div><div class="line"></div><div class="line">    <span class="comment">// Initialization of tx_buffer</span></div><div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; PACKET_SIZE; i++)</div><div class="line">    {</div><div class="line">        tx_buf[i] = i;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">// HAL API for TX-RX transaction used for sending WREN command</span></div><div class="line">    result = <a class="code" href="group__group__hal__qspi.html#gad3d0ba591bae66de98b2eac59b915ed1">cyhal_qspi_transfer</a>(&amp;qspi_object, &amp;device_specific_wren_command, ADDRESS, NULL, 0,</div><div class="line">                                 NULL, 0);</div><div class="line"></div><div class="line">    <span class="comment">// HAL API for write operation</span></div><div class="line">    result = <a class="code" href="group__group__hal__qspi.html#ga3f3229928c764a4376032b41a63c2f35">cyhal_qspi_write</a>(&amp;qspi_object, &amp;device_specific_pp_command, ADDRESS, tx_buf, &amp;length);</div><div class="line"></div><div class="line">    <span class="keywordflow">while</span> (wip)</div><div class="line">    {</div><div class="line">        <span class="comment">// Wait until the Write operation is completed</span></div><div class="line">        <a class="code" href="group__group__hal__qspi.html#gaa82f8a18f5936ff7323d72574165190a">cyhal_qspi_read</a>(&amp;qspi_object, &amp;device_specific_rdsr1_command, ADDRESS, rx_buf, &amp;length);</div><div class="line">        wip = rx_buf[0] &amp; 0x01;</div><div class="line">    }</div></div><!-- fragment --><h2><a class="anchor" id="subsection_qspi_snippet_5"></a>
+Code Snippet 5: Configuring multiple memories</h2>
+<p>This code snippet demonstrates the usage <a class="el" href="group__group__hal__qspi.html#gad5c89472279e1db26d2038bae0bf2e82" title="Configure provided set of pins to service additional slave memory. ">cyhal_qspi_slave_configure()</a> and <a class="el" href="group__group__hal__qspi.html#ga0a0ffa8e5c9c92289b4624616cc27803" title="Selects an active slave select (SSEL) line from one of available and previously configured. ">cyhal_qspi_select_active_ssel()</a> API for for initialization environment for additional (additional to one, that was initialized in scope of <a class="el" href="group__group__hal__qspi.html#ga2ef047225a5818541a93a5a1a2039a0b" title="Initialize QSPI peripheral. ">cyhal_qspi_init()</a>) QSPI memory and switching between memories. </p><div class="fragment"><div class="line">    <a class="code" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>    result;</div><div class="line">    <a class="code" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__t">cyhal_qspi_t</a> qspi_object;</div><div class="line"></div><div class="line">    <a class="code" href="group__group__hal__qspi.html#structcyhal__qspi__slave__pin__config__t">cyhal_qspi_slave_pin_config_t</a> memory_0_pin_set =</div><div class="line">    {</div><div class="line">        <span class="comment">// Memory data lines (IO0, IO1)</span></div><div class="line">        .<a class="code" href="group__group__hal__qspi.html#ab5692bbff73ecb9c1cf71aa23d203bc1">io</a>   = { CYBSP_QSPI_D0, CYBSP_QSPI_D1, <a class="code" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#gga707195ce0627016bf371643bdd9caa51a3dbd1016ea99d087d747530418b89a01">NC</a>, <a class="code" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#gga707195ce0627016bf371643bdd9caa51a3dbd1016ea99d087d747530418b89a01">NC</a>, <a class="code" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#gga707195ce0627016bf371643bdd9caa51a3dbd1016ea99d087d747530418b89a01">NC</a>, <a class="code" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#gga707195ce0627016bf371643bdd9caa51a3dbd1016ea99d087d747530418b89a01">NC</a>, <a class="code" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#gga707195ce0627016bf371643bdd9caa51a3dbd1016ea99d087d747530418b89a01">NC</a>, <a class="code" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#gga707195ce0627016bf371643bdd9caa51a3dbd1016ea99d087d747530418b89a01">NC</a> },</div><div class="line">        <span class="comment">// Memory slave select signal</span></div><div class="line">        .ssel = CYBSP_QSPI_SS_0</div><div class="line">    };</div><div class="line"></div><div class="line">    <span class="comment">// Initialize QSPI peripheral with appropriate GPIOs</span></div><div class="line">    result = <a class="code" href="group__group__hal__qspi.html#ga2ef047225a5818541a93a5a1a2039a0b">cyhal_qspi_init</a>(&amp;qspi_object, CYBSP_QSPI_SCK, &amp;memory_0_pin_set, QSPI_BUS_FREQUENCY_HZ,</div><div class="line">                             0, NULL);</div><div class="line"></div><div class="line">    <span class="comment">// Perform needed transfers with memory #0</span></div><div class="line"></div><div class="line">    <a class="code" href="group__group__hal__qspi.html#structcyhal__qspi__slave__pin__config__t">cyhal_qspi_slave_pin_config_t</a> memory_1_pin_set =</div><div class="line">    {</div><div class="line">        <span class="comment">// Memory data lines (IO2, IO3)</span></div><div class="line">        .<a class="code" href="group__group__hal__qspi.html#ab5692bbff73ecb9c1cf71aa23d203bc1">io</a>   = { CYBSP_QSPI_D2, CYBSP_QSPI_D3, <a class="code" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#gga707195ce0627016bf371643bdd9caa51a3dbd1016ea99d087d747530418b89a01">NC</a>, <a class="code" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#gga707195ce0627016bf371643bdd9caa51a3dbd1016ea99d087d747530418b89a01">NC</a>, <a class="code" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#gga707195ce0627016bf371643bdd9caa51a3dbd1016ea99d087d747530418b89a01">NC</a>, <a class="code" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#gga707195ce0627016bf371643bdd9caa51a3dbd1016ea99d087d747530418b89a01">NC</a>, <a class="code" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#gga707195ce0627016bf371643bdd9caa51a3dbd1016ea99d087d747530418b89a01">NC</a>, <a class="code" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#gga707195ce0627016bf371643bdd9caa51a3dbd1016ea99d087d747530418b89a01">NC</a> },</div><div class="line">        <span class="comment">// Memory slave select signal</span></div><div class="line">        .ssel = CYBSP_QSPI_SS_1</div><div class="line">    };</div><div class="line"></div><div class="line">    <span class="comment">// Configure pins for memory #1</span></div><div class="line">    result = <a class="code" href="group__group__hal__qspi.html#gad5c89472279e1db26d2038bae0bf2e82">cyhal_qspi_slave_configure</a>(&amp;qspi_object, &amp;memory_1_pin_set);</div><div class="line">    <span class="comment">// Make memory #1 slave select active</span></div><div class="line">    result = <a class="code" href="group__group__hal__qspi.html#ga0a0ffa8e5c9c92289b4624616cc27803">cyhal_qspi_select_active_ssel</a>(&amp;qspi_object, memory_1_pin_set.<a class="code" href="group__group__hal__qspi.html#ad983d763a009536ffbd385d25b2cea11">ssel</a>);</div><div class="line"></div><div class="line">    <span class="comment">// Perform needed transfers with memory #1</span></div><div class="line"></div><div class="line">    <span class="comment">// Make memory #0 slave select active again</span></div><div class="line">    result = <a class="code" href="group__group__hal__qspi.html#ga0a0ffa8e5c9c92289b4624616cc27803">cyhal_qspi_select_active_ssel</a>(&amp;qspi_object, memory_0_pin_set.<a class="code" href="group__group__hal__qspi.html#ad983d763a009536ffbd385d25b2cea11">ssel</a>);</div></div><!-- fragment --><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="groups"></a>
 API Reference</h2></td></tr>
 <tr class="memitem:group__group__hal__results__qspi"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__results__qspi.html">QSPI HAL Results</a></td></tr>
@@ -138,8 +140,13 @@ Data Structures</h2></td></tr>
 <tr class="separator:structcyhal__qspi__command__t_8address"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:structcyhal__qspi__command__t_8mode__bits"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__command__t_8mode__bits">cyhal_qspi_command_t.mode_bits</a></td></tr>
 <tr class="separator:structcyhal__qspi__command__t_8mode__bits"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:structcyhal__qspi__command__t_8dummy__cycles"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__command__t_8dummy__cycles">cyhal_qspi_command_t.dummy_cycles</a></td></tr>
+<tr class="separator:structcyhal__qspi__command__t_8dummy__cycles"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:structcyhal__qspi__command__t_8data"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__command__t_8data">cyhal_qspi_command_t.data</a></td></tr>
 <tr class="separator:structcyhal__qspi__command__t_8data"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:structcyhal__qspi__slave__pin__config__t"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__slave__pin__config__t">cyhal_qspi_slave_pin_config_t</a></td></tr>
+<tr class="memdesc:structcyhal__qspi__slave__pin__config__t"><td class="mdescLeft">&#160;</td><td class="mdescRight">QSPI slave pin set.  <a href="group__group__hal__qspi.html#structcyhal__qspi__slave__pin__config__t">More...</a><br /></td></tr>
+<tr class="separator:structcyhal__qspi__slave__pin__config__t"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -184,12 +191,23 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:gadae12b69a94f743b345655ec751d8aad"><td class="mdescLeft">&#160;</td><td class="mdescRight">QSPI interrupt triggers.  <a href="group__group__hal__qspi.html#gadae12b69a94f743b345655ec751d8aad">More...</a><br /></td></tr>
 <tr class="separator:gadae12b69a94f743b345655ec751d8aad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac30267a66618a021ee34be687fa1442c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__qspi.html#gac30267a66618a021ee34be687fa1442c">cyhal_qspi_datarate_t</a> { <br />
+&#160;&#160;<a class="el" href="group__group__hal__qspi.html#ggac30267a66618a021ee34be687fa1442cac5b17b7596a02b09061b622a7a379cdc">CYHAL_QSPI_DATARATE_SDR</a> = 0, 
+<br />
+&#160;&#160;<a class="el" href="group__group__hal__qspi.html#ggac30267a66618a021ee34be687fa1442caf4476393b48f5854485d555186b6ee52">CYHAL_QSPI_DATARATE_DDR</a> = 1
+<br />
+ }</td></tr>
+<tr class="memdesc:gac30267a66618a021ee34be687fa1442c"><td class="mdescLeft">&#160;</td><td class="mdescRight">QSPI data rate.  <a href="group__group__hal__qspi.html#gac30267a66618a021ee34be687fa1442c">More...</a><br /></td></tr>
+<tr class="separator:gac30267a66618a021ee34be687fa1442c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:gafeb79a3262be28e59c267b5146273588"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__qspi.html#gafeb79a3262be28e59c267b5146273588">cyhal_qspi_init</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__t">cyhal_qspi_t</a> *obj, <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a> io0, <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a> io1, <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a> io2, <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a> io3, <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a> io4, <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a> io5, <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a> io6, <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a> io7, <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a> sclk, <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a> ssel, uint32_t hz, uint8_t mode)</td></tr>
-<tr class="memdesc:gafeb79a3262be28e59c267b5146273588"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize QSPI peripheral.  <a href="#gafeb79a3262be28e59c267b5146273588">More...</a><br /></td></tr>
-<tr class="separator:gafeb79a3262be28e59c267b5146273588"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2ef047225a5818541a93a5a1a2039a0b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__qspi.html#ga2ef047225a5818541a93a5a1a2039a0b">cyhal_qspi_init</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__t">cyhal_qspi_t</a> *obj, <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a> sclk, const <a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__slave__pin__config__t">cyhal_qspi_slave_pin_config_t</a> *pin_set, uint32_t hz, uint8_t mode, <a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__clock__t">cyhal_clock_t</a> *clk)</td></tr>
+<tr class="memdesc:ga2ef047225a5818541a93a5a1a2039a0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize QSPI peripheral.  <a href="#ga2ef047225a5818541a93a5a1a2039a0b">More...</a><br /></td></tr>
+<tr class="separator:ga2ef047225a5818541a93a5a1a2039a0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga885169c7f722ebc20317441f9f91bc90"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__qspi.html#ga885169c7f722ebc20317441f9f91bc90">cyhal_qspi_init_cfg</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__t">cyhal_qspi_t</a> *obj, const <a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__configurator__t">cyhal_qspi_configurator_t</a> *cfg)</td></tr>
+<tr class="memdesc:ga885169c7f722ebc20317441f9f91bc90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the QSPI peripheral using a configurator generated configuration struct.  <a href="#ga885169c7f722ebc20317441f9f91bc90">More...</a><br /></td></tr>
+<tr class="separator:ga885169c7f722ebc20317441f9f91bc90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga14906073e688d345f01f880f9400bba3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__qspi.html#ga14906073e688d345f01f880f9400bba3">cyhal_qspi_free</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__t">cyhal_qspi_t</a> *obj)</td></tr>
 <tr class="memdesc:ga14906073e688d345f01f880f9400bba3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deinitilize QSPI peripheral.  <a href="#ga14906073e688d345f01f880f9400bba3">More...</a><br /></td></tr>
 <tr class="separator:ga14906073e688d345f01f880f9400bba3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -199,27 +217,27 @@ Functions</h2></td></tr>
 <tr class="memitem:ga7d779256e9226180b2f6aa8f6af0bcab"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__qspi.html#ga7d779256e9226180b2f6aa8f6af0bcab">cyhal_qspi_get_frequency</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__t">cyhal_qspi_t</a> *obj)</td></tr>
 <tr class="memdesc:ga7d779256e9226180b2f6aa8f6af0bcab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the actual frequency that QSPI is configured for.  <a href="#ga7d779256e9226180b2f6aa8f6af0bcab">More...</a><br /></td></tr>
 <tr class="separator:ga7d779256e9226180b2f6aa8f6af0bcab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac55517e2e3828190ccc942e0d1a08b8e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__qspi.html#gac55517e2e3828190ccc942e0d1a08b8e">cyhal_qspi_slave_select_config</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__t">cyhal_qspi_t</a> *obj, <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a> ssel)</td></tr>
-<tr class="memdesc:gac55517e2e3828190ccc942e0d1a08b8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures provided pin to work as QSPI slave select (SSEL)  <a href="#gac55517e2e3828190ccc942e0d1a08b8e">More...</a><br /></td></tr>
-<tr class="separator:gac55517e2e3828190ccc942e0d1a08b8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad5c89472279e1db26d2038bae0bf2e82"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__qspi.html#gad5c89472279e1db26d2038bae0bf2e82">cyhal_qspi_slave_configure</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__t">cyhal_qspi_t</a> *obj, const <a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__slave__pin__config__t">cyhal_qspi_slave_pin_config_t</a> *pin_set)</td></tr>
+<tr class="memdesc:gad5c89472279e1db26d2038bae0bf2e82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure provided set of pins to service additional slave memory.  <a href="#gad5c89472279e1db26d2038bae0bf2e82">More...</a><br /></td></tr>
+<tr class="separator:gad5c89472279e1db26d2038bae0bf2e82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga0a0ffa8e5c9c92289b4624616cc27803"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__qspi.html#ga0a0ffa8e5c9c92289b4624616cc27803">cyhal_qspi_select_active_ssel</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__t">cyhal_qspi_t</a> *obj, <a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a> ssel)</td></tr>
-<tr class="memdesc:ga0a0ffa8e5c9c92289b4624616cc27803"><td class="mdescLeft">&#160;</td><td class="mdescRight">Selects an active slave select (SSEL) line from one of available.  <a href="#ga0a0ffa8e5c9c92289b4624616cc27803">More...</a><br /></td></tr>
+<tr class="memdesc:ga0a0ffa8e5c9c92289b4624616cc27803"><td class="mdescLeft">&#160;</td><td class="mdescRight">Selects an active slave select (SSEL) line from one of available and previously configured.  <a href="#ga0a0ffa8e5c9c92289b4624616cc27803">More...</a><br /></td></tr>
 <tr class="separator:ga0a0ffa8e5c9c92289b4624616cc27803"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga4e8f85b99de75604ef38becb14ae073d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__qspi.html#ga4e8f85b99de75604ef38becb14ae073d">cyhal_qspi_read</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__t">cyhal_qspi_t</a> *obj, const <a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__command__t">cyhal_qspi_command_t</a> *command, void *data, size_t *length)</td></tr>
-<tr class="memdesc:ga4e8f85b99de75604ef38becb14ae073d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receive a command and block of data, synchronously.  <a href="#ga4e8f85b99de75604ef38becb14ae073d">More...</a><br /></td></tr>
-<tr class="separator:ga4e8f85b99de75604ef38becb14ae073d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae29816daa8fec2c03d00c927aa9e1558"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__qspi.html#gae29816daa8fec2c03d00c927aa9e1558">cyhal_qspi_read_async</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__t">cyhal_qspi_t</a> *obj, const <a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__command__t">cyhal_qspi_command_t</a> *command, void *data, size_t *length)</td></tr>
-<tr class="memdesc:gae29816daa8fec2c03d00c927aa9e1558"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receive a command and block of data in asynchronous mode.  <a href="#gae29816daa8fec2c03d00c927aa9e1558">More...</a><br /></td></tr>
-<tr class="separator:gae29816daa8fec2c03d00c927aa9e1558"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga7f67f2108cdf6312557fca9be9a3cd0e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__qspi.html#ga7f67f2108cdf6312557fca9be9a3cd0e">cyhal_qspi_write</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__t">cyhal_qspi_t</a> *obj, const <a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__command__t">cyhal_qspi_command_t</a> *command, const void *data, size_t *length)</td></tr>
-<tr class="memdesc:ga7f67f2108cdf6312557fca9be9a3cd0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a command and block of data, synchronously.  <a href="#ga7f67f2108cdf6312557fca9be9a3cd0e">More...</a><br /></td></tr>
-<tr class="separator:ga7f67f2108cdf6312557fca9be9a3cd0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab4e9be936651ce19e56c16c0b3ae07af"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__qspi.html#gab4e9be936651ce19e56c16c0b3ae07af">cyhal_qspi_write_async</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__t">cyhal_qspi_t</a> *obj, const <a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__command__t">cyhal_qspi_command_t</a> *command, const void *data, size_t *length)</td></tr>
-<tr class="memdesc:gab4e9be936651ce19e56c16c0b3ae07af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a command and block of data in asynchronous mode.  <a href="#gab4e9be936651ce19e56c16c0b3ae07af">More...</a><br /></td></tr>
-<tr class="separator:gab4e9be936651ce19e56c16c0b3ae07af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad2ec06f4a49520a89d6b9e0299d0c1ce"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__qspi.html#gad2ec06f4a49520a89d6b9e0299d0c1ce">cyhal_qspi_transfer</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__t">cyhal_qspi_t</a> *obj, const <a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__command__t">cyhal_qspi_command_t</a> *command, const void *tx_data, size_t tx_size, void *rx_data, size_t rx_size)</td></tr>
-<tr class="memdesc:gad2ec06f4a49520a89d6b9e0299d0c1ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a command (and optionally data) and get the response.  <a href="#gad2ec06f4a49520a89d6b9e0299d0c1ce">More...</a><br /></td></tr>
-<tr class="separator:gad2ec06f4a49520a89d6b9e0299d0c1ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa82f8a18f5936ff7323d72574165190a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__qspi.html#gaa82f8a18f5936ff7323d72574165190a">cyhal_qspi_read</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__t">cyhal_qspi_t</a> *obj, const <a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__command__t">cyhal_qspi_command_t</a> *command, uint32_t address, void *data, size_t *length)</td></tr>
+<tr class="memdesc:gaa82f8a18f5936ff7323d72574165190a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receive a command and block of data, synchronously.  <a href="#gaa82f8a18f5936ff7323d72574165190a">More...</a><br /></td></tr>
+<tr class="separator:gaa82f8a18f5936ff7323d72574165190a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga734bbcfd805a4e0f0327a8a903c43c90"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__qspi.html#ga734bbcfd805a4e0f0327a8a903c43c90">cyhal_qspi_read_async</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__t">cyhal_qspi_t</a> *obj, const <a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__command__t">cyhal_qspi_command_t</a> *command, uint32_t address, void *data, size_t *length)</td></tr>
+<tr class="memdesc:ga734bbcfd805a4e0f0327a8a903c43c90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receive a command and block of data in asynchronous mode.  <a href="#ga734bbcfd805a4e0f0327a8a903c43c90">More...</a><br /></td></tr>
+<tr class="separator:ga734bbcfd805a4e0f0327a8a903c43c90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3f3229928c764a4376032b41a63c2f35"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__qspi.html#ga3f3229928c764a4376032b41a63c2f35">cyhal_qspi_write</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__t">cyhal_qspi_t</a> *obj, const <a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__command__t">cyhal_qspi_command_t</a> *command, uint32_t address, const void *data, size_t *length)</td></tr>
+<tr class="memdesc:ga3f3229928c764a4376032b41a63c2f35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a command and block of data, synchronously.  <a href="#ga3f3229928c764a4376032b41a63c2f35">More...</a><br /></td></tr>
+<tr class="separator:ga3f3229928c764a4376032b41a63c2f35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9521128b942f52fe2146cac081d48d02"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__qspi.html#ga9521128b942f52fe2146cac081d48d02">cyhal_qspi_write_async</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__t">cyhal_qspi_t</a> *obj, const <a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__command__t">cyhal_qspi_command_t</a> *command, uint32_t address, const void *data, size_t *length)</td></tr>
+<tr class="memdesc:ga9521128b942f52fe2146cac081d48d02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a command and block of data in asynchronous mode.  <a href="#ga9521128b942f52fe2146cac081d48d02">More...</a><br /></td></tr>
+<tr class="separator:ga9521128b942f52fe2146cac081d48d02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad3d0ba591bae66de98b2eac59b915ed1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__qspi.html#gad3d0ba591bae66de98b2eac59b915ed1">cyhal_qspi_transfer</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__t">cyhal_qspi_t</a> *obj, const <a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__command__t">cyhal_qspi_command_t</a> *command, uint32_t address, const void *tx_data, size_t tx_size, void *rx_data, size_t rx_size)</td></tr>
+<tr class="memdesc:gad3d0ba591bae66de98b2eac59b915ed1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a command (and optionally data) and get the response.  <a href="#gad3d0ba591bae66de98b2eac59b915ed1">More...</a><br /></td></tr>
+<tr class="separator:gad3d0ba591bae66de98b2eac59b915ed1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3650436f640ed3e7640dafaa90268700"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__qspi.html#ga3650436f640ed3e7640dafaa90268700">cyhal_qspi_register_callback</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__t">cyhal_qspi_t</a> *obj, <a class="el" href="group__group__hal__qspi.html#ga42887dff6257345711b353990edb1ab1">cyhal_qspi_event_callback_t</a> callback, void *callback_arg)</td></tr>
 <tr class="memdesc:ga3650436f640ed3e7640dafaa90268700"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a QSPI event handler.  <a href="#ga3650436f640ed3e7640dafaa90268700">More...</a><br /></td></tr>
 <tr class="separator:ga3650436f640ed3e7640dafaa90268700"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -242,31 +260,31 @@ Functions</h2></td></tr>
 <table class="fieldtable">
 <tr><th colspan="3">Data Fields</th></tr>
 <tr><td class="fieldtype">
-<a id="a6b3a205d095fac02f65395f3080e2257"></a>struct <a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__command__t_8instruction">cyhal_qspi_command_t</a></td>
+<a id="ae90070545041b6f4078390c3bcbded84"></a>struct <a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__command__t_8instruction">cyhal_qspi_command_t</a></td>
 <td class="fieldname">
 instruction</td>
 <td class="fielddoc">
 Instruction structure. </td></tr>
 <tr><td class="fieldtype">
-<a id="a5575b9fde5fb2ef4278f4162d3ba9b17"></a>struct <a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__command__t_8address">cyhal_qspi_command_t</a></td>
+<a id="a08b954cada0c317c9510c9d49b0be12f"></a>struct <a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__command__t_8address">cyhal_qspi_command_t</a></td>
 <td class="fieldname">
 address</td>
 <td class="fielddoc">
 Address structure. </td></tr>
 <tr><td class="fieldtype">
-<a id="a6fc8177c91c003870da0daea405a5b5c"></a>struct <a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__command__t_8mode__bits">cyhal_qspi_command_t</a></td>
+<a id="a011794ffc290e7e667ebaf68e08cfabd"></a>struct <a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__command__t_8mode__bits">cyhal_qspi_command_t</a></td>
 <td class="fieldname">
 mode_bits</td>
 <td class="fielddoc">
 Mode bits structure. </td></tr>
 <tr><td class="fieldtype">
-<a id="a972b6ca026d8e28490ab029d431b7a20"></a>uint8_t</td>
+<a id="a1f578b00a3aea0b37e9808bb82b42e79"></a>struct <a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__command__t_8dummy__cycles">cyhal_qspi_command_t</a></td>
 <td class="fieldname">
-dummy_count</td>
+dummy_cycles</td>
 <td class="fielddoc">
-Dummy cycles count. </td></tr>
+Dummy cycles structure. </td></tr>
 <tr><td class="fieldtype">
-<a id="aea8f0c3e6166a587bd2781f91bf8814a"></a>struct <a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__command__t_8data">cyhal_qspi_command_t</a></td>
+<a id="ab53b195d94bebbbf922a1d10e12a2f44"></a>struct <a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__command__t_8data">cyhal_qspi_command_t</a></td>
 <td class="fieldname">
 data</td>
 <td class="fielddoc">
@@ -295,7 +313,19 @@ bus_width</td>
 <td class="fielddoc">
 Bus width for the instruction. </td></tr>
 <tr><td class="fieldtype">
-<a id="a2063c1608d6e0baf80249c42e2be5804"></a>uint8_t</td>
+<a id="ae1ed362731f051e94dc58a95e0888c4d"></a><a class="el" href="group__group__hal__qspi.html#gac30267a66618a021ee34be687fa1442c">cyhal_qspi_datarate_t</a></td>
+<td class="fieldname">
+data_rate</td>
+<td class="fielddoc">
+Data rate SDR/DDR. </td></tr>
+<tr><td class="fieldtype">
+<a id="a0f3156ffa57baf630ca4ad44812916cd"></a>bool</td>
+<td class="fieldname">
+two_byte_cmd</td>
+<td class="fielddoc">
+Defines whether cmd is 2-byte value, or 1-byte (if false) </td></tr>
+<tr><td class="fieldtype">
+<a id="a2063c1608d6e0baf80249c42e2be5804"></a>uint16_t</td>
 <td class="fieldname">
 value</td>
 <td class="fielddoc">
@@ -330,17 +360,17 @@ bus_width</td>
 <td class="fielddoc">
 Bus width for the address. </td></tr>
 <tr><td class="fieldtype">
+<a id="ae1ed362731f051e94dc58a95e0888c4d"></a><a class="el" href="group__group__hal__qspi.html#gac30267a66618a021ee34be687fa1442c">cyhal_qspi_datarate_t</a></td>
+<td class="fieldname">
+data_rate</td>
+<td class="fielddoc">
+Data rate SDR/DDR. </td></tr>
+<tr><td class="fieldtype">
 <a id="af7bd60b75b29d79b660a2859395c1a24"></a><a class="el" href="group__group__hal__qspi.html#ga0633be58b4427d173d1f94c4e6e4e058">cyhal_qspi_size_t</a></td>
 <td class="fieldname">
 size</td>
 <td class="fielddoc">
 Address size. </td></tr>
-<tr><td class="fieldtype">
-<a id="a2063c1608d6e0baf80249c42e2be5804"></a>uint32_t</td>
-<td class="fieldname">
-value</td>
-<td class="fielddoc">
-Address value. </td></tr>
 <tr><td class="fieldtype">
 <a id="a075ae3d2fc31640504f814f60e5ef713"></a>bool</td>
 <td class="fieldname">
@@ -371,6 +401,12 @@ bus_width</td>
 <td class="fielddoc">
 Bus width for mode bits. </td></tr>
 <tr><td class="fieldtype">
+<a id="ae1ed362731f051e94dc58a95e0888c4d"></a><a class="el" href="group__group__hal__qspi.html#gac30267a66618a021ee34be687fa1442c">cyhal_qspi_datarate_t</a></td>
+<td class="fieldname">
+data_rate</td>
+<td class="fielddoc">
+Data rate SDR/DDR. </td></tr>
+<tr><td class="fieldtype">
 <a id="af7bd60b75b29d79b660a2859395c1a24"></a><a class="el" href="group__group__hal__qspi.html#ga0633be58b4427d173d1f94c4e6e4e058">cyhal_qspi_size_t</a></td>
 <td class="fieldname">
 size</td>
@@ -388,6 +424,41 @@ Mode bits value. </td></tr>
 disabled</td>
 <td class="fielddoc">
 Mode bits phase skipped if disabled is set to true. </td></tr>
+</table>
+
+</div>
+</div>
+<a name="structcyhal__qspi__command__t_8dummy__cycles" id="structcyhal__qspi__command__t_8dummy__cycles"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#structcyhal__qspi__command__t_8dummy__cycles">&#9670;&nbsp;</a></span>cyhal_qspi_command_t.dummy_cycles</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct cyhal_qspi_command_t.dummy_cycles</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="3">Data Fields</th></tr>
+<tr><td class="fieldtype">
+<a id="aaea78d2eed5d55bf6a19b3a4933520d2"></a><a class="el" href="group__group__hal__qspi.html#gaddc93a79f0708fd53897d0c37bc7544b">cyhal_qspi_bus_width_t</a></td>
+<td class="fieldname">
+bus_width</td>
+<td class="fielddoc">
+Bus width for mode bits. </td></tr>
+<tr><td class="fieldtype">
+<a id="ae1ed362731f051e94dc58a95e0888c4d"></a><a class="el" href="group__group__hal__qspi.html#gac30267a66618a021ee34be687fa1442c">cyhal_qspi_datarate_t</a></td>
+<td class="fieldname">
+data_rate</td>
+<td class="fielddoc">
+Data rate SDR/DDR. </td></tr>
+<tr><td class="fieldtype">
+<a id="a7433af97c263a51d7ef9b63332cbb216"></a>uint32_t</td>
+<td class="fieldname">
+dummy_count</td>
+<td class="fielddoc">
+Dummy cycles count. </td></tr>
 </table>
 
 </div>
@@ -411,6 +482,41 @@ Mode bits phase skipped if disabled is set to true. </td></tr>
 bus_width</td>
 <td class="fielddoc">
 Bus width for data. </td></tr>
+<tr><td class="fieldtype">
+<a id="ae1ed362731f051e94dc58a95e0888c4d"></a><a class="el" href="group__group__hal__qspi.html#gac30267a66618a021ee34be687fa1442c">cyhal_qspi_datarate_t</a></td>
+<td class="fieldname">
+data_rate</td>
+<td class="fielddoc">
+Data rate SDR/DDR. </td></tr>
+</table>
+
+</div>
+</div>
+<a name="structcyhal__qspi__slave__pin__config__t" id="structcyhal__qspi__slave__pin__config__t"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#structcyhal__qspi__slave__pin__config__t">&#9670;&nbsp;</a></span>cyhal_qspi_slave_pin_config_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct cyhal_qspi_slave_pin_config_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="3">Data Fields</th></tr>
+<tr><td class="fieldtype">
+<a id="ab5692bbff73ecb9c1cf71aa23d203bc1"></a><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a></td>
+<td class="fieldname">
+io[8]</td>
+<td class="fielddoc">
+IOx lines of connected memory. </td></tr>
+<tr><td class="fieldtype">
+<a id="ad983d763a009536ffbd385d25b2cea11"></a><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a></td>
+<td class="fieldname">
+ssel</td>
+<td class="fielddoc">
+Slave Select line of connected memory. </td></tr>
 </table>
 
 </div>
@@ -493,9 +599,31 @@ Bus width for data. </td></tr>
 
 </div>
 </div>
+<a id="gac30267a66618a021ee34be687fa1442c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac30267a66618a021ee34be687fa1442c">&#9670;&nbsp;</a></span>cyhal_qspi_datarate_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__group__hal__qspi.html#gac30267a66618a021ee34be687fa1442c">cyhal_qspi_datarate_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>QSPI data rate. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ggac30267a66618a021ee34be687fa1442cac5b17b7596a02b09061b622a7a379cdc"></a>CYHAL_QSPI_DATARATE_SDR&#160;</td><td class="fielddoc"><p>Single data rate. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggac30267a66618a021ee34be687fa1442caf4476393b48f5854485d555186b6ee52"></a>CYHAL_QSPI_DATARATE_DDR&#160;</td><td class="fielddoc"><p>Double data rate. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="gafeb79a3262be28e59c267b5146273588"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gafeb79a3262be28e59c267b5146273588">&#9670;&nbsp;</a></span>cyhal_qspi_init()</h2>
+<a id="ga2ef047225a5818541a93a5a1a2039a0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2ef047225a5818541a93a5a1a2039a0b">&#9670;&nbsp;</a></span>cyhal_qspi_init()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -510,61 +638,13 @@ Bus width for data. </td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a>&#160;</td>
-          <td class="paramname"><em>io0</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a>&#160;</td>
-          <td class="paramname"><em>io1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a>&#160;</td>
-          <td class="paramname"><em>io2</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a>&#160;</td>
-          <td class="paramname"><em>io3</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a>&#160;</td>
-          <td class="paramname"><em>io4</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a>&#160;</td>
-          <td class="paramname"><em>io5</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a>&#160;</td>
-          <td class="paramname"><em>io6</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a>&#160;</td>
-          <td class="paramname"><em>io7</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a>&#160;</td>
           <td class="paramname"><em>sclk</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a>&#160;</td>
-          <td class="paramname"><em>ssel</em>, </td>
+          <td class="paramtype">const <a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__slave__pin__config__t">cyhal_qspi_slave_pin_config_t</a> *&#160;</td>
+          <td class="paramname"><em>pin_set</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -576,7 +656,13 @@ Bus width for data. </td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>mode</em>&#160;</td>
+          <td class="paramname"><em>mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__clock__t">cyhal_clock_t</a> *&#160;</td>
+          <td class="paramname"><em>clk</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -591,28 +677,55 @@ Bus width for data. </td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[out]</td><td class="paramname">obj</td><td>Pointer to a QSPI object. The caller must allocate the memory for this object but the init function will initialize its contents. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">io0</td><td>Data pin 0 </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">io1</td><td>Data pin 1 </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">io2</td><td>Data pin 2 </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">io3</td><td>Data pin 3 </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">io4</td><td>Data pin 4 </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">io5</td><td>Data pin 5 </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">io6</td><td>Data pin 6 </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">io7</td><td>Data pin 7 </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">sclk</td><td>The clock pin </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">ssel</td><td>The chip select pin </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section note"><dt>Note</dt><dd>Provided slave select pin will be set as active. This can be changed (as well as additional ssel pins can be added) by <a class="el" href="group__group__hal__qspi.html#gac55517e2e3828190ccc942e0d1a08b8e">cyhal_qspi_slave_select_config</a> and <a class="el" href="group__group__hal__qspi.html#ga0a0ffa8e5c9c92289b4624616cc27803">cyhal_qspi_select_active_ssel</a> functions. </dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">pin_set</td><td>Set of pins, that will primarily be used for communication with memory. Depends on device, QSPI HAL can service multiple memories which can be registered and controlled using <a class="el" href="group__group__hal__qspi.html#gad5c89472279e1db26d2038bae0bf2e82">cyhal_qspi_slave_configure</a> and <a class="el" href="group__group__hal__qspi.html#ga0a0ffa8e5c9c92289b4624616cc27803">cyhal_qspi_select_active_ssel</a> functions. There is no need to call <a class="el" href="group__group__hal__qspi.html#ga0a0ffa8e5c9c92289b4624616cc27803">cyhal_qspi_select_active_ssel</a> after this function - provided ssel pin as part of pin_set parameter become active. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">hz</td><td>The bus frequency </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">mode</td><td>Clock polarity and phase mode (0 - 3) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">clk</td><td>The clock to use can be shared, if not provided a new clock will be allocated </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section note"><dt>Note</dt><dd>QSPI HAL cannot make changes into provided clock configuration. In this case <a class="el" href="group__group__hal__qspi.html#ga67150e1497b4547854d48b23deb8fd47">cyhal_qspi_set_frequency</a> function cannot be used and will return error once called. With provided clock only user application can configure QSPI bus frequency by configuring parameters of shared clock. </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The status of the init request </dd></dl>
+
+</div>
+</div>
+<a id="ga885169c7f722ebc20317441f9f91bc90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga885169c7f722ebc20317441f9f91bc90">&#9670;&nbsp;</a></span>cyhal_qspi_init_cfg()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_qspi_init_cfg </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__t">cyhal_qspi_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__configurator__t">cyhal_qspi_configurator_t</a> *&#160;</td>
+          <td class="paramname"><em>cfg</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initialize the QSPI peripheral using a configurator generated configuration struct. </p>
+<p>This function may not support all features, that can be configured via configurator. For limitations list please refer to <a class="el" href="group__group__hal__impl__qspi.html#section_hal_impl_qspi_init_cfg">Configurator-generated features limitations</a> section.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The QSPI peripheral to configure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cfg</td><td>Configuration structure generated by a configurator. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the operation </dd></dl>
 
 </div>
 </div>
@@ -709,14 +822,14 @@ Bus width for data. </td></tr>
 
 </div>
 </div>
-<a id="gac55517e2e3828190ccc942e0d1a08b8e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gac55517e2e3828190ccc942e0d1a08b8e">&#9670;&nbsp;</a></span>cyhal_qspi_slave_select_config()</h2>
+<a id="gad5c89472279e1db26d2038bae0bf2e82"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad5c89472279e1db26d2038bae0bf2e82">&#9670;&nbsp;</a></span>cyhal_qspi_slave_configure()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_qspi_slave_select_config </td>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_qspi_slave_configure </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__qspi__t">cyhal_qspi_t</a> *&#160;</td>
           <td class="paramname"><em>obj</em>, </td>
@@ -724,8 +837,8 @@ Bus width for data. </td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ga707195ce0627016bf371643bdd9caa51">cyhal_gpio_t</a>&#160;</td>
-          <td class="paramname"><em>ssel</em>&#160;</td>
+          <td class="paramtype">const <a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__slave__pin__config__t">cyhal_qspi_slave_pin_config_t</a> *&#160;</td>
+          <td class="paramname"><em>pin_set</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -735,15 +848,16 @@ Bus width for data. </td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Configures provided pin to work as QSPI slave select (SSEL) </p>
-<p>Multiple pins can be configured as QSPI slave select pins. Please refer to device datasheet for details. Switching between configured slave select pins is done by <a class="el" href="group__group__hal__qspi.html#ga0a0ffa8e5c9c92289b4624616cc27803">cyhal_qspi_select_active_ssel</a> function. Unless modified with this function, the SSEL pin provided as part of <a class="el" href="group__group__hal__qspi.html#gafeb79a3262be28e59c267b5146273588">cyhal_qspi_init</a> is the default. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Configure provided set of pins to service additional slave memory. </p>
+<p>Multiple pins can be configured as QSPI slave select pins as well as IO pins may be (or may not be) shared and used to service multiple connected slave memories. This function can be called multiple times - each call for each additional slave memory. Please refer to device datasheet for details. Switching between configured slave select pins is done by <a class="el" href="group__group__hal__qspi.html#ga0a0ffa8e5c9c92289b4624616cc27803">cyhal_qspi_select_active_ssel</a> function. Unless modified with this function, the SSEL pin provided as part of <a class="el" href="group__group__hal__qspi.html#ga2ef047225a5818541a93a5a1a2039a0b">cyhal_qspi_init</a> is the default. Please refer to <a class="el" href="group__group__hal__qspi.html#subsection_qspi_snippet_5">Code Snippet 5: Configuring multiple memories</a> for example of configuration multiple memory devices and switching between them. </p><dl class="section note"><dt>Note</dt><dd>Provided IO pins can overlap with those, that are configured in scope of <a class="el" href="group__group__hal__qspi.html#ga2ef047225a5818541a93a5a1a2039a0b">cyhal_qspi_init</a> function. </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The QSPI object to configure </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">ssel</td><td>Pin to be configured as QSPI SSEL </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pin_set</td><td>Set of pins, that will be used to service additional slave memory. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The status of ssel pin configuration </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of pin configuration </dd></dl>
 
 </div>
 </div>
@@ -773,8 +887,8 @@ Bus width for data. </td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Selects an active slave select (SSEL) line from one of available. </p>
-<p>SSEL pin should be configured by <a class="el" href="group__group__hal__qspi.html#gac55517e2e3828190ccc942e0d1a08b8e">cyhal_qspi_slave_select_config</a> or <a class="el" href="group__group__hal__qspi.html#gafeb79a3262be28e59c267b5146273588">cyhal_qspi_init</a> functions prior to selecting it as active. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Selects an active slave select (SSEL) line from one of available and previously configured. </p>
+<p>Slave memories (in addition to one, that was configured in scope of <a class="el" href="group__group__hal__qspi.html#ga2ef047225a5818541a93a5a1a2039a0b">cyhal_qspi_init</a>) can be added with help of <a class="el" href="group__group__hal__qspi.html#gad5c89472279e1db26d2038bae0bf2e82">cyhal_qspi_slave_configure</a> function. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The QSPI object to configure </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">ssel</td><td>SSEL pin to be set as active </td></tr>
@@ -785,8 +899,8 @@ Bus width for data. </td></tr>
 
 </div>
 </div>
-<a id="ga4e8f85b99de75604ef38becb14ae073d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga4e8f85b99de75604ef38becb14ae073d">&#9670;&nbsp;</a></span>cyhal_qspi_read()</h2>
+<a id="gaa82f8a18f5936ff7323d72574165190a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa82f8a18f5936ff7323d72574165190a">&#9670;&nbsp;</a></span>cyhal_qspi_read()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -802,6 +916,12 @@ Bus width for data. </td></tr>
           <td></td>
           <td class="paramtype">const <a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__command__t">cyhal_qspi_command_t</a> *&#160;</td>
           <td class="paramname"><em>command</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>address</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -829,6 +949,7 @@ Bus width for data. </td></tr>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>QSPI object </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">command</td><td>QSPI command </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">address</td><td>Address to access to </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">data</td><td>RX buffer </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">length</td><td>RX buffer length in bytes </td></tr>
   </table>
@@ -838,8 +959,8 @@ Bus width for data. </td></tr>
 
 </div>
 </div>
-<a id="gae29816daa8fec2c03d00c927aa9e1558"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gae29816daa8fec2c03d00c927aa9e1558">&#9670;&nbsp;</a></span>cyhal_qspi_read_async()</h2>
+<a id="ga734bbcfd805a4e0f0327a8a903c43c90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga734bbcfd805a4e0f0327a8a903c43c90">&#9670;&nbsp;</a></span>cyhal_qspi_read_async()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -855,6 +976,12 @@ Bus width for data. </td></tr>
           <td></td>
           <td class="paramtype">const <a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__command__t">cyhal_qspi_command_t</a> *&#160;</td>
           <td class="paramname"><em>command</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>address</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -882,6 +1009,7 @@ Bus width for data. </td></tr>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>QSPI object </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">command</td><td>QSPI command </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">address</td><td>Address to access to </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">data</td><td>RX buffer </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">length</td><td>RX buffer length in bytes </td></tr>
   </table>
@@ -891,8 +1019,8 @@ Bus width for data. </td></tr>
 
 </div>
 </div>
-<a id="ga7f67f2108cdf6312557fca9be9a3cd0e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga7f67f2108cdf6312557fca9be9a3cd0e">&#9670;&nbsp;</a></span>cyhal_qspi_write()</h2>
+<a id="ga3f3229928c764a4376032b41a63c2f35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3f3229928c764a4376032b41a63c2f35">&#9670;&nbsp;</a></span>cyhal_qspi_write()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -908,6 +1036,12 @@ Bus width for data. </td></tr>
           <td></td>
           <td class="paramtype">const <a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__command__t">cyhal_qspi_command_t</a> *&#160;</td>
           <td class="paramname"><em>command</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>address</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -935,6 +1069,7 @@ Bus width for data. </td></tr>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>QSPI object </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">command</td><td>QSPI command </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">address</td><td>Address to access to </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>TX buffer </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">length</td><td>TX buffer length in bytes </td></tr>
   </table>
@@ -944,8 +1079,8 @@ Bus width for data. </td></tr>
 
 </div>
 </div>
-<a id="gab4e9be936651ce19e56c16c0b3ae07af"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gab4e9be936651ce19e56c16c0b3ae07af">&#9670;&nbsp;</a></span>cyhal_qspi_write_async()</h2>
+<a id="ga9521128b942f52fe2146cac081d48d02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9521128b942f52fe2146cac081d48d02">&#9670;&nbsp;</a></span>cyhal_qspi_write_async()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -961,6 +1096,12 @@ Bus width for data. </td></tr>
           <td></td>
           <td class="paramtype">const <a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__command__t">cyhal_qspi_command_t</a> *&#160;</td>
           <td class="paramname"><em>command</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>address</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -988,6 +1129,7 @@ Bus width for data. </td></tr>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>QSPI object </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">command</td><td>QSPI command </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">address</td><td>Address to access to </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>TX buffer </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">length</td><td>TX buffer length in bytes </td></tr>
   </table>
@@ -997,8 +1139,8 @@ Bus width for data. </td></tr>
 
 </div>
 </div>
-<a id="gad2ec06f4a49520a89d6b9e0299d0c1ce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gad2ec06f4a49520a89d6b9e0299d0c1ce">&#9670;&nbsp;</a></span>cyhal_qspi_transfer()</h2>
+<a id="gad3d0ba591bae66de98b2eac59b915ed1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad3d0ba591bae66de98b2eac59b915ed1">&#9670;&nbsp;</a></span>cyhal_qspi_transfer()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1014,6 +1156,12 @@ Bus width for data. </td></tr>
           <td></td>
           <td class="paramtype">const <a class="el" href="group__group__hal__qspi.html#structcyhal__qspi__command__t">cyhal_qspi_command_t</a> *&#160;</td>
           <td class="paramname"><em>command</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>address</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1053,6 +1201,7 @@ Bus width for data. </td></tr>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>QSPI object </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">command</td><td>QSPI command </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">address</td><td>Address to access to </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">tx_data</td><td>TX buffer </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">tx_size</td><td>TX buffer length in bytes </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">rx_data</td><td>RX buffer </td></tr>

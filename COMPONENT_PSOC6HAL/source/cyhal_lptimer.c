@@ -2,14 +2,16 @@
 * \file cyhal_lptimer.c
 *
 * \brief
-* Provides a high level interface for interacting with the Cypress Low-Power Timer.
+* Provides a high level interface for interacting with the Infineon Low-Power Timer.
 * This interface abstracts out the chip specific details. If any chip specific
 * functionality is necessary, or performance is critical the low level functions
 * can be used directly.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,10 +28,10 @@
 *******************************************************************************/
 
 /**
-* \addtogroup group_hal_impl_lptimer LPTIMER
+* \addtogroup group_hal_impl_lptimer LPTimer (Low-Power Timer)
 * \ingroup group_hal_impl
 * \{
-* The maximum number of ticks that can set to an LPTIMER is 0xFFF0FFFF.
+* The maximum number of ticks that can set to an LPTimer is 0xFFF0FFFF.
 * It is not recommended to use 0xFFFFFFFF. This is to avoid overflowing both C0 and C1.
 * \} group_hal_impl_lptimer
 */
@@ -43,9 +45,9 @@
 #include "cyhal_utils.h"
 #include "cyhal_clock.h"
 
-#if ((defined (CY_IP_MXS40SRSS) || defined (CY_IP_MXS40SSRSS)) && (SRSS_NUM_MCWDT > 0)) || (defined (CY_IP_M0S8WCO) && WCO_WDT_EN)
+#if (CYHAL_DRIVER_AVAILABLE_LPTIMER)
 
-#if defined (CY_IP_MXS40SRSS) || defined (CY_IP_MXS40SSRSS)
+#if defined(CY_IP_MXS40SRSS) || defined(CY_IP_MXS40SSRSS) || defined(CY_IP_MXS28SRSS)
 #include "cy_mcwdt.h"
 #elif defined (CY_IP_M0S8WCO)
 #include "cy_wdc.h"
@@ -74,7 +76,7 @@
 extern "C" {
 #endif
 
-#if defined (CY_IP_MXS40SRSS_INSTANCES) || defined (CY_IP_MXS40SSRSS_INSTANCES)
+#if defined(CY_IP_MXS40SRSS_INSTANCES) || defined(CY_IP_MXS40SSRSS_INSTANCES) || defined(CY_IP_MXS28SRSS_INSTANCES)
 #define _CYHAL_LPTIMER_INSTANCES    SRSS_NUM_MCWDT
 static MCWDT_STRUCT_Type * const _CYHAL_LPTIMER_BASE_ADDRESSES[] = {
 #if SRSS_NUM_MCWDT >= 1
@@ -107,7 +109,7 @@ static WCO_Type * const _CYHAL_LPTIMER_BASE_ADDRESSES[] = {
 
 #define _CYHAL_LPTIMER_DEFAULT_PRIORITY   (3U)
 
-#if defined (CY_IP_MXS40SRSS) || defined (CY_IP_MXS40SSRSS)
+#if defined(CY_IP_MXS40SRSS) || defined(CY_IP_MXS40SSRSS) || defined(CY_IP_MXS28SRSS)
 static cyhal_lptimer_t *_cyhal_lptimer_config_structs[SRSS_NUM_MCWDT];
 static const uint16_t _CYHAL_LPTIMER_RESET_TIME_US = 62;
 static const uint16_t _CYHAL_LPTIMER_SETMATCH_TIME_US = 0;
@@ -153,7 +155,7 @@ static void _cyhal_lptimer_irq_handler(void)
     /* Clear interrupt mask if set only from cyhal_lptimer_set_delay() function */
     if (obj->clear_int_mask)
     {
-#if defined (CY_IP_MXS40SRSS) || defined (CY_IP_MXS40SSRSS)
+#if defined(CY_IP_MXS40SRSS) || defined(CY_IP_MXS40SSRSS) || defined(CY_IP_MXS28SRSS)
         Cy_MCWDT_SetInterruptMask(obj->base, 0);
 #else
         Cy_WDC_InterruptDisable(obj->base, CY_WDC_COUNTER1);
@@ -179,15 +181,15 @@ static uint32_t _cyhal_lptimer_set_delay_common(cyhal_lptimer_t *obj, uint32_t d
     /**
      * - 16 bit Counter0 (C0) & Counter1 (C1) are cascaded to generated a 32 bit counter.
      * - Counter2 (C2) is a free running counter.
-     * - C0 continues counting after reaching its match value. On PSoC 4 Counter1 is reset on
-     * match. On PSoC 6 it continues counting.
-     * - An interrupt is generated when C1 reaches the match value. On PSoC 4 this happens when
-     * the counter increments to the same value as match. On PSoC 6 this happens when it increments
+     * - C0 continues counting after reaching its match value. On PSoC™ 4 Counter1 is reset on
+     * match. On PSoC™ 6 it continues counting.
+     * - An interrupt is generated when C1 reaches the match value. On PSoC™ 4 this happens when
+     * the counter increments to the same value as match. On PSoC™ 6 this happens when it increments
      * past the match value.
      *
      * EXAMPLE:
      * Supposed T=C0=C1=0, and we need to trigger an interrupt at T=0x18000.
-     * We set C0_match to 0x8000 and C1 match to 2 on PSoC 4 and 1 on PSoC 6.
+     * We set C0_match to 0x8000 and C1 match to 2 on PSoC™ 4 and 1 on PSoC™ 6.
      * At T = 0x8000, C0_value matches C0_match so C1 get incremented. C1/C0=0x18000.
      * At T = 0x18000, C0_value matches C0_match again so C1 get incremented from 1 to 2.
      * When C1 get incremented from 1 to 2 the interrupt is generated.
@@ -226,9 +228,9 @@ static uint32_t _cyhal_lptimer_set_delay_common(cyhal_lptimer_t *obj, uint32_t d
     uint16_t c0_current_ticks = (uint16_t)Cy_MCWDT_GetCount(obj->base, CY_MCWDT_COUNTER0);
     // Wait until the cascade has definitively happened. It takes a clock cycle for the cascade to happen, and potentially another a full
     // LFCLK clock cycle for the cascade to propagate up to the HFCLK-domain registers that the CPU reads.
-    while ((((uint16_t)(c0_old_match - 1)) == c0_current_ticks ||
-                        c0_old_match       == c0_current_ticks ||
-            ((uint16_t)(c0_old_match + 1)) == c0_current_ticks) && timeout != 0UL)
+    while (((((uint16_t)(c0_old_match - 1)) == c0_current_ticks) ||
+                        (c0_old_match       == c0_current_ticks) ||
+            (((uint16_t)(c0_old_match + 1)) == c0_current_ticks)) && (timeout != 0UL))
     {
         c0_current_ticks = (uint16_t)Cy_MCWDT_GetCount(obj->base, CY_MCWDT_COUNTER0);
         timeout--;
@@ -255,7 +257,7 @@ static uint32_t _cyhal_lptimer_set_delay_common(cyhal_lptimer_t *obj, uint32_t d
     Cy_MCWDT_SetMatch(obj->base, CY_MCWDT_COUNTER1, c1_match, _CYHAL_LPTIMER_SETMATCH_TIME_US);
 
     cyhal_system_critical_section_exit(critical_section);
-    #if defined (CY_IP_MXS40SRSS) || defined (CY_IP_MXS40SSRSS)
+    #if defined(CY_IP_MXS40SRSS) || defined(CY_IP_MXS40SSRSS) || defined(CY_IP_MXS28SRSS)
     Cy_MCWDT_SetInterruptMask(obj->base, CY_MCWDT_CTR1);
     #else
     Cy_WDC_InterruptEnable(obj->base, CY_MCWDT_COUNTER1);
@@ -276,7 +278,7 @@ cy_rslt_t cyhal_lptimer_init(cyhal_lptimer_t *obj)
     if (CY_RSLT_SUCCESS == rslt)
     {
         obj->base = _CYHAL_LPTIMER_BASE_ADDRESSES[obj->resource.block_num];
-#if defined (CY_IP_MXS40SRSS_MCWDT) || defined (CY_IP_MXS40SSRSS)
+#if defined(CY_IP_MXS40SRSS_MCWDT) || defined(CY_IP_MXS40SSRSS) || defined(CY_IP_MXS28SRSS)
         cy_stc_mcwdt_config_t cfg = default_cfg;
 #elif defined (CY_IP_M0S8WCO)
         cy_stc_wdc_config_t cfg = default_cfg;
@@ -382,7 +384,7 @@ void cyhal_lptimer_enable_event(cyhal_lptimer_t *obj, cyhal_lptimer_event_t even
     NVIC_SetPriority(irqn, intr_priority);
 
     obj->isr_call_user_cb = enable;
-#if defined (CY_IP_MXS40SRSS_MCWDT) || defined (CY_IP_MXS40SSRSS)
+#if defined(CY_IP_MXS40SRSS_MCWDT) || defined(CY_IP_MXS40SSRSS) || defined(CY_IP_MXS28SRSS)
     Cy_MCWDT_SetInterruptMask(obj->base, enable ? CY_MCWDT_CTR1 : 0);
 #elif defined (CY_IP_M0S8WCO)
     (enable) ? NVIC_EnableIRQ(irqn) : NVIC_DisableIRQ(irqn);
@@ -401,13 +403,12 @@ void cyhal_lptimer_get_info(cyhal_lptimer_t *obj, cyhal_lptimer_info_t *info)
     CY_UNUSED_PARAMETER(obj);
     CY_ASSERT(info != NULL);
 
-    cyhal_clock_t lf_obj;
 #if (WCO_WDT_EN == 1)
-    cyhal_clock_get(&lf_obj, &CYHAL_CLOCK_WDCSEL);
+    const cyhal_clock_t *lf_obj = &CYHAL_CLOCK_WDCSEL;
 #else
-    cyhal_clock_get(&lf_obj, &CYHAL_CLOCK_LF);
+    const cyhal_clock_t *lf_obj = &CYHAL_CLOCK_LF;
 #endif
-    info->frequency_hz = cyhal_clock_get_frequency(&lf_obj);
+    info->frequency_hz = cyhal_clock_get_frequency(lf_obj);
     info->min_set_delay = _CYHAL_LPTIMER_MIN_DELAY;
     info->max_counter_value = _CYHAL_LPTIMER_MAX_COUNTER_VAL;
 }
@@ -416,4 +417,4 @@ void cyhal_lptimer_get_info(cyhal_lptimer_t *obj, cyhal_lptimer_info_t *info)
 }
 #endif
 
-#endif /* defined (CY_IP_MXS40SRSS) || (defined (CY_IP_M0S8WCO) && WCO_WDT_EN) || (defined (CY_IP_MXS40SSRSS) && (SRSS_NUM_MCWDT > 0)) */
+#endif // CYHAL_DRIVER_AVAILABLE_LPTIMER

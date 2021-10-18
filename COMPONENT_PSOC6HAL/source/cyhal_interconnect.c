@@ -7,7 +7,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,17 +28,17 @@
 #include "cyhal_interconnect.h"
 #include "cyhal_gpio_impl.h"
 
-#if defined(CY_IP_MXPERI) || defined(CY_IP_M0S8PERI) || defined(CY_IP_MXSPERI)
-
 #if defined(__cplusplus)
 extern "C"
 {
 #endif
 
+#if (CYHAL_DRIVER_AVAILABLE_INTERCONNECT)
+
 // Helpers for creating Cy_TrigMux_* inputs
-#define CY_TRIGMUX_INPUT_LINE(mux_group, source_idx) (uint32_t)((mux_group) << 8 | source_idx)
-#define CY_TRIGMUX_OUTPUT_LINE(mux_group, dest_idx) (uint32_t)(0x40000000 |  (mux_group) << 8 | dest_idx)
-#define CY_SELECT_OUTPUT_LINE(mux_group, dest_idx) (uint32_t)(0x40001000 | (mux_group) << 8 | dest_idx)
+#define CY_TRIGMUX_INPUT_LINE(mux_group, source_idx) (uint32_t)(((uint32_t)mux_group) << 8 | source_idx)
+#define CY_TRIGMUX_OUTPUT_LINE(mux_group, dest_idx) (uint32_t)(0x40000000 |  ((uint32_t)mux_group) << 8 | dest_idx)
+#define CY_SELECT_OUTPUT_LINE(mux_group, dest_idx) (uint32_t)(0x40001000 | ((uint32_t)mux_group) << 8 | dest_idx)
 
 typedef enum
 {
@@ -47,10 +49,10 @@ typedef enum
 
 // Only define if there are actual trigger signals
 #if defined(CY_IP_M0S8PERI_TR) || defined(CY_IP_MXPERI_TR) || defined(CY_IP_MXSPERI)
-#if CY_IP_MXPERI_VERSION >= 2u || CY_IP_M0S8PERI_VERSION >= 1u || CY_IP_MXSPERI >= 1u
-static int8_t _cyhal_get_first_1to1_mux_idx()
+#if (CY_IP_MXPERI_VERSION >= 2u) || (CY_IP_M0S8PERI_VERSION >= 1u) || (CY_IP_MXSPERI >= 1u)
+static int8_t _cyhal_get_first_1to1_mux_idx(void)
 {
-    for(uint8_t idx = 0; idx < sizeof(cyhal_is_mux_1to1)/sizeof(cyhal_is_mux_1to1[0]); idx++)
+    for(uint8_t idx = 0; idx < (sizeof(cyhal_is_mux_1to1)/sizeof(cyhal_is_mux_1to1[0])); idx++)
     {
         if(cyhal_is_mux_1to1[idx])
             return idx;
@@ -64,18 +66,18 @@ static int8_t _cyhal_get_first_1to1_mux_idx()
 // default if no line has been selected)
 static uint8_t _cyhal_read_mux_input_idx(uint8_t mux_group, uint8_t mux_output_idx)
 {
-#if CY_IP_MXPERI_VERSION >= 2u || CY_IP_M0S8PERI_VERSION >= 1u || CY_IP_MXSPERI >= 1u
+#if (CY_IP_MXPERI_VERSION >= 2u) || (CY_IP_M0S8PERI_VERSION >= 1u) || (CY_IP_MXSPERI >= 1u)
     const int8_t MUX_GROUP_1TO1_OFFSET = _cyhal_get_first_1to1_mux_idx();
     const uint8_t FIRST_1TO1_MUX_GROUP_IDX = 16;
 #endif
 
     uint32_t mux_reg = 0;
-#if CY_IP_MXPERI_VERSION == 2u || CY_IP_M0S8PERI_VERSION == 1u || CY_IP_MXSPERI >= 1u
+#if (CY_IP_MXPERI_VERSION == 2u) || (CY_IP_M0S8PERI_VERSION == 1u) || (CY_IP_MXSPERI >= 1u)
     // M0S8 has no 1to1 muxes but the table is still valid
     if(cyhal_is_mux_1to1[mux_group])
     {
         // There are up to 16 regular mux groups and up to 16 1to1 mux groups
-        // (in PSoC6).  PERI_TR_GR_TR_CTL starts at the first regular mux so
+        // (in PSoC™ 6).  PERI_TR_GR_TR_CTL starts at the first regular mux so
         // offset by 16 if reading a 1to1 mux.
         mux_reg = PERI_TR_GR_TR_CTL(mux_group - MUX_GROUP_1TO1_OFFSET + FIRST_1TO1_MUX_GROUP_IDX, mux_output_idx);
     }
@@ -88,14 +90,14 @@ static uint8_t _cyhal_read_mux_input_idx(uint8_t mux_group, uint8_t mux_output_i
 #endif
 
 
-#if CY_IP_MXPERI_VERSION >= 1u || CY_IP_MXSPERI >= 1u
+#if (CY_IP_MXPERI_VERSION >= 1u) || (CY_IP_MXSPERI >= 1u)
     return _FLD2VAL(PERI_TR_GR_TR_OUT_CTL_TR_SEL, mux_reg);
 #elif CY_IP_M0S8PERI_VERSION == 1u
     return _FLD2VAL(PERI_TR_CTL_TR_SEL, mux_reg);
 #endif
 }
 
-#if CY_IP_MXPERI_VERSION >= 2u || CY_IP_M0S8PERI_VERSION == 1u || CY_IP_MXSPERI >= 1u
+#if (CY_IP_MXPERI_VERSION >= 2u) || (CY_IP_M0S8PERI_VERSION == 1u) || (CY_IP_MXSPERI >= 1u)
 static cy_rslt_t _cyhal_interconnect_change_connection_direct(
     uint8_t mux_group, uint8_t mux_group_1to1_offset, uint8_t source_idx, uint8_t dest_idx, cyhal_signal_type_t type, bool connect)
 {
@@ -106,7 +108,7 @@ static cy_rslt_t _cyhal_interconnect_change_connection_direct(
 
     if(cyhal_is_mux_1to1[mux_group])
     {
-#if CY_IP_MXPERI_VERSION >= 2u || CY_IP_MXSPERI >= 1u
+#if (CY_IP_MXPERI_VERSION >= 2u) || (CY_IP_MXSPERI >= 1u)
         // Cy_TrigMux_Select assumes the mux_group idx param starts from the
         // first 1to1 mux (so first 1to1 mux is 0)
         uint32_t out_trig = CY_SELECT_OUTPUT_LINE(mux_group - mux_group_1to1_offset, dest_idx);
@@ -128,7 +130,7 @@ static cy_rslt_t _cyhal_interconnect_change_connection_direct(
 
         if(connect)
         {
-#if CY_IP_MXPERI_VERSION >= 2u || CY_IP_MXSPERI >= 1u
+#if (CY_IP_MXPERI_VERSION >= 2u) || (CY_IP_MXSPERI >= 1u)
             return Cy_TrigMux_Connect(in_trig, out_trig, false, (en_trig_type_t)type);
 #else
             return Cy_TrigMux_Connect(in_trig, out_trig);
@@ -196,9 +198,10 @@ static cy_rslt_t _cyhal_interconnect_change_connection_indirect(uint8_t source_m
 
 // Since both connect and disconnect need to derive mux group(s) and trigger
 // indices, use this func to avoid duplicate code.
-static cy_rslt_t _cyhal_interconnect_check_connection(cyhal_source_t source, cyhal_dest_t dest, cyhal_signal_type_t type, cyhal_connect_type_t connect)
+static cy_rslt_t _cyhal_interconnect_check_connection(cyhal_source_t source, cyhal_dest_t dest, cyhal_connect_type_t connect)
 {
     cyhal_internal_source_t internal_src = _CYHAL_TRIGGER_GET_SOURCE_SIGNAL(source);
+    cyhal_signal_type_t type = _CYHAL_TRIGGER_GET_SOURCE_TYPE(source);
 #if CY_IP_MXPERI_VERSION >= 2u || CY_IP_M0S8PERI_VERSION >= 1u || CY_IP_MXSPERI >= 1u
     const int8_t mux_group_1to1_offset = _cyhal_get_first_1to1_mux_idx();
 
@@ -217,7 +220,7 @@ static cy_rslt_t _cyhal_interconnect_check_connection(cyhal_source_t source, cyh
         if(cyhal_mux_to_sources[mux_group][source_idx] == internal_src)
         {
             // 1to1 triggers muxes source and dest indices must match
-            if(cyhal_is_mux_1to1[mux_group] && source_idx != dest_idx)
+            if(cyhal_is_mux_1to1[mux_group] && (source_idx != dest_idx))
             {
                 return CYHAL_INTERCONNECT_RSLT_INVALID_CONNECTION;
             }
@@ -244,19 +247,19 @@ static cy_rslt_t _cyhal_interconnect_check_connection(cyhal_source_t source, cyh
     // through mux 9 so handle here.
     if(dest_mux_group == 9)
     {
-        if(internal_src < _CYHAL_TRIGGER_CPUSS_DW0_TR_OUT0 || internal_src > _CYHAL_TRIGGER_CPUSS_DW1_TR_OUT15)
+        if((internal_src < _CYHAL_TRIGGER_CPUSS_DW0_TR_OUT0) || (internal_src > _CYHAL_TRIGGER_CPUSS_DW1_TR_OUT15))
             return CYHAL_INTERCONNECT_RSLT_INVALID_CONNECTION;
 
-        if(dest < CYHAL_TRIGGER_USB_DMA_BURSTEND0 || dest > CYHAL_TRIGGER_USB_DMA_BURSTEND7)
+        if((dest < CYHAL_TRIGGER_USB_DMA_BURSTEND0) || (dest > CYHAL_TRIGGER_USB_DMA_BURSTEND7))
             return CYHAL_INTERCONNECT_RSLT_INVALID_CONNECTION;
 
         uint16_t mux9_input_idx = (uint16_t)(internal_src - _CYHAL_TRIGGER_CPUSS_DW0_TR_OUT0) + 1;
         uint16_t mux9_output_idx = (uint16_t)(dest - CYHAL_TRIGGER_USB_DMA_BURSTEND0);
 
         uint8_t set_input_idx = _cyhal_read_mux_input_idx(9, mux9_output_idx);
-        if (CYHAL_CONNECT_TYPE_DISCONNECT != connect && set_input_idx != 0)
+        if ((CYHAL_CONNECT_TYPE_DISCONNECT != connect) && (set_input_idx != 0))
             return CYHAL_INTERCONNECT_RSLT_ALREADY_CONNECTED;
-        else if (CYHAL_CONNECT_TYPE_DISCONNECT == connect && set_input_idx == 0)
+        else if ((CYHAL_CONNECT_TYPE_DISCONNECT == connect) && (set_input_idx == 0))
             return CYHAL_INTERCONNECT_RSLT_CANNOT_DISCONNECT;
         else
         {
@@ -269,18 +272,18 @@ static cy_rslt_t _cyhal_interconnect_check_connection(cyhal_source_t source, cyh
     // Special case 2: UDB_TR_DW_ACK destinations have no destinations side mux
     // and are instead only connected through mux 10. Handle those connections
     // here (while handling all other connections through mux 10 later).
-    if(dest_mux_group == 10 && dest >= CYHAL_TRIGGER_UDB_TR_DW_ACK0 && dest <= CYHAL_TRIGGER_UDB_TR_DW_ACK7)
+    if((dest_mux_group == 10) && (dest >= CYHAL_TRIGGER_UDB_TR_DW_ACK0) && (dest <= CYHAL_TRIGGER_UDB_TR_DW_ACK7))
     {
-        if(internal_src < _CYHAL_TRIGGER_CPUSS_DW0_TR_OUT0 || internal_src > _CYHAL_TRIGGER_CPUSS_DW1_TR_OUT15)
+        if((internal_src < _CYHAL_TRIGGER_CPUSS_DW0_TR_OUT0) || (internal_src > _CYHAL_TRIGGER_CPUSS_DW1_TR_OUT15))
             return CYHAL_INTERCONNECT_RSLT_INVALID_CONNECTION;
 
         uint16_t mux10_input_idx = (uint16_t)(internal_src - _CYHAL_TRIGGER_CPUSS_DW0_TR_OUT0) + 1;
         uint16_t mux10_output_idx = (uint16_t)(dest - CYHAL_TRIGGER_UDB_TR_DW_ACK0);
 
         uint8_t set_input_idx = _cyhal_read_mux_input_idx(10, mux10_output_idx);
-        if (CYHAL_CONNECT_TYPE_DISCONNECT != connect && set_input_idx != 0)
+        if ((CYHAL_CONNECT_TYPE_DISCONNECT != connect) && (set_input_idx != 0))
             return CYHAL_INTERCONNECT_RSLT_ALREADY_CONNECTED;
-        else if (CYHAL_CONNECT_TYPE_DISCONNECT == connect && set_input_idx == 0)
+        else if ((CYHAL_CONNECT_TYPE_DISCONNECT == connect) && (set_input_idx == 0))
             return CYHAL_INTERCONNECT_RSLT_CANNOT_DISCONNECT;
         else
         {
@@ -290,7 +293,7 @@ static cy_rslt_t _cyhal_interconnect_check_connection(cyhal_source_t source, cyh
         }
     }
 
-    // Since PSoC6 BLE devices w/ trigmux vers1 have a 1to1 relationship
+    // Since PSoC™ 6 BLE devices w/ trigmux vers1 have a 1to1 relationship
     // between peripheral sources and reduction trigger muxes (besides DW which
     // connects to trig mux 9 and 10, handled above) it is possible to search
     // through source mux tables to find the idx required.
@@ -357,8 +360,8 @@ static cy_rslt_t _cyhal_interconnect_check_connection(cyhal_source_t source, cyh
     uint16_t source_mux_start_idx = 0;
     for(uint16_t i = 0; i < cyhal_sources_per_mux[dest_mux_group]; i++)
     {
-        if(cyhal_mux_to_sources[dest_mux_group][i] >= dest_mux_input_line_low &&
-                cyhal_mux_to_sources[dest_mux_group][i] <= dest_mux_input_line_high)
+        if((cyhal_mux_to_sources[dest_mux_group][i] >= dest_mux_input_line_low) &&
+                (cyhal_mux_to_sources[dest_mux_group][i] <= dest_mux_input_line_high))
         {
             if(dest_mux_input_line_low_idx > i)
             {
@@ -378,7 +381,7 @@ static cy_rslt_t _cyhal_interconnect_check_connection(cyhal_source_t source, cyh
     uint8_t source_mux_output_idx = 0;
     uint8_t dest_mux_input_idx = 0;
     bool found_connection = false;
-    for(source_mux_output_idx = source_mux_start_idx; source_mux_output_idx < source_mux_start_idx + (dest_mux_input_line_high_idx - dest_mux_input_line_low_idx + 1); source_mux_output_idx++)
+    for(source_mux_output_idx = source_mux_start_idx; source_mux_output_idx < (source_mux_start_idx + (dest_mux_input_line_high_idx - dest_mux_input_line_low_idx + 1)); source_mux_output_idx++)
     {
         // If connecting: Check if possible output trigger is free.
         if((connect != CYHAL_CONNECT_TYPE_DISCONNECT) && _cyhal_read_mux_input_idx(source_mux_group, source_mux_output_idx) == 0)
@@ -417,14 +420,13 @@ static cy_rslt_t _cyhal_interconnect_check_connection(cyhal_source_t source, cyh
 
 #endif /* defined(CY_IP_M0S8PERI_TR) || defined(CY_IP_MXPERI_TR) || defined(CY_IP_MXSPERI) */
 
-cy_rslt_t _cyhal_connect_signal(cyhal_source_t source, cyhal_dest_t dest, cyhal_signal_type_t type)
+cy_rslt_t _cyhal_connect_signal(cyhal_source_t source, cyhal_dest_t dest)
 {
 #if defined(CY_IP_M0S8PERI_TR) || defined(CY_IP_MXPERI_TR) || defined(CY_IP_MXSPERI)
-    return _cyhal_interconnect_check_connection(source, dest, type, CYHAL_CONNECT_TYPE_CONNECT);
+    return _cyhal_interconnect_check_connection(source, dest, CYHAL_CONNECT_TYPE_CONNECT);
 #else
     CY_UNUSED_PARAMETER(source);
     CY_UNUSED_PARAMETER(dest);
-    CY_UNUSED_PARAMETER(type);
     return CYHAL_INTERCONNECT_RSLT_INVALID_CONNECTION;
 #endif /* defined(CY_IP_M0S8PERI_TR) || defined(CY_IP_MXPERI_TR) || defined(CY_IP_MXSPERI) */
 }
@@ -432,7 +434,7 @@ cy_rslt_t _cyhal_connect_signal(cyhal_source_t source, cyhal_dest_t dest, cyhal_
 cy_rslt_t _cyhal_disconnect_signal(cyhal_source_t source, cyhal_dest_t dest)
 {
 #if defined(CY_IP_M0S8PERI_TR) || defined(CY_IP_MXPERI_TR) || defined(CY_IP_MXSPERI)
-    return _cyhal_interconnect_check_connection(source, dest, CYHAL_SIGNAL_TYPE_LEVEL, CYHAL_CONNECT_TYPE_DISCONNECT);
+    return _cyhal_interconnect_check_connection(source, dest, CYHAL_CONNECT_TYPE_DISCONNECT);
 #else
     CY_UNUSED_PARAMETER(source);
     CY_UNUSED_PARAMETER(dest);
@@ -443,7 +445,7 @@ cy_rslt_t _cyhal_disconnect_signal(cyhal_source_t source, cyhal_dest_t dest)
 bool _cyhal_can_connect_signal(cyhal_source_t source, cyhal_dest_t dest)
 {
 #if defined(CY_IP_M0S8PERI_TR) || defined(CY_IP_MXPERI_TR) || defined(CY_IP_MXSPERI)
-    return (CY_RSLT_SUCCESS == _cyhal_interconnect_check_connection(source, dest, CYHAL_SIGNAL_TYPE_LEVEL, CYHAL_CONNECT_TYPE_VALIDATE));
+    return (CY_RSLT_SUCCESS == _cyhal_interconnect_check_connection(source, dest, CYHAL_CONNECT_TYPE_VALIDATE));
 #else
     CY_UNUSED_PARAMETER(source);
     CY_UNUSED_PARAMETER(dest);
@@ -451,16 +453,17 @@ bool _cyhal_can_connect_signal(cyhal_source_t source, cyhal_dest_t dest)
 #endif /* defined(CY_IP_M0S8PERI_TR) || defined(CY_IP_MXPERI_TR) || defined(CY_IP_MXSPERI) */
 }
 
-cy_rslt_t cyhal_connect_pin(const cyhal_resource_pin_mapping_t *pin_connection)
+#endif /* CYHAL_DRIVER_AVAILABLE_INTERCONNECT */
+
+cy_rslt_t cyhal_connect_pin(const cyhal_resource_pin_mapping_t *pin_connection, uint8_t drive_mode)
 {
     cyhal_gpio_t pin = pin_connection->pin;
     GPIO_PRT_Type *port = Cy_GPIO_PortToAddr(CYHAL_GET_PORT(pin));
     en_hsiom_sel_t hsiom = pin_connection->hsiom;
-    uint8_t mode = pin_connection->drive_mode;
 
-    Cy_GPIO_Pin_FastInit(port, CYHAL_GET_PIN(pin), mode, 1, hsiom);
+    Cy_GPIO_Pin_FastInit(port, CYHAL_GET_PIN(pin), drive_mode, 1, hsiom);
     // Force output to enable pulls.
-    switch (mode)
+    switch (drive_mode)
     {
         case CY_GPIO_DM_PULLUP:
             Cy_GPIO_Write(port, CYHAL_GET_PIN(pin), 1);
@@ -486,5 +489,3 @@ cy_rslt_t cyhal_disconnect_pin(cyhal_gpio_t pin)
 #if defined(__cplusplus)
 }
 #endif
-
-#endif /* defined(CY_IP_MXPERI) || defined(CY_IP_M0S8PERI) || defined(CY_IP_MXSPERI) */

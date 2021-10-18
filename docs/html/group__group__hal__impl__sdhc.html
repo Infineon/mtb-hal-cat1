@@ -87,17 +87,18 @@ $(document).ready(function(){initNavTree('group__group__hal__impl__sdhc.html',''
 
 <div class="header">
   <div class="headertitle">
-<div class="title">SDHC (SD Host Controller)<div class="ingroups"><a class="el" href="group__group__hal__impl.html">CAT1 (PSoC 6) Implementation Specific</a></div></div>  </div>
+<div class="title">SDHC (SD Host Controller)<div class="ingroups"><a class="el" href="group__group__hal__impl.html">CAT1 (PSoC™ 6) Implementation Specific</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
-<p>The SHDC HAL implemenation for PSoC 6 provides implementations for the following weak functions specified by the PDL to make their usage in SDHC HAL driver more flexible by providing user ability to use card detect, write protect, pwr en, and io select signals on custom pins instead of dedicated SDHC block pins. </p>
+<p>The SHDC HAL implemenation for PSoC™ 6 provides implementations for the following weak functions specified by the PDL to make their usage in SDHC HAL driver more flexible by providing user ability to use card detect, write protect, pwr en, and io select signals on custom pins instead of dedicated SDHC block pins. </p>
 <ul>
 <li>Cy_SD_Host_IsCardConnected</li>
 <li>Cy_SD_Host_IsWpSet</li>
 <li>Cy_SD_Host_EnableCardVoltage</li>
 <li>Cy_SD_Host_DisableCardVoltage</li>
-<li>Cy_SD_Host_ChangeIoVoltage In order to disable these implementations, the define CYHAL_DISABLE_WEAK_FUNC_IMPL (DEFINES+=CYHAL_DISABLE_WEAK_FUNC_IMPL) must be set when building the application. </li>
+<li>Cy_SD_Host_ChangeIoVoltage In order to disable these implementations, the define CYHAL_DISABLE_WEAK_FUNC_IMPL (DEFINES+=CYHAL_DISABLE_WEAK_FUNC_IMPL) must be set when building the application.</li>
 </ul>
+<p>By default, if the timeout_ms parameter given to <a class="el" href="group__group__hal__sdhc.html#ga1688e1f36e48f09a6bfc5a37675584d3">cyhal_sdhc_erase</a> function is 0. The SDHC HAL driver will check to see if the connected card is emmc. If so, the timeout_ms parameter will be set to 100 milliseconds, otherwise it will be set to 1000 milliseconds. </p>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part

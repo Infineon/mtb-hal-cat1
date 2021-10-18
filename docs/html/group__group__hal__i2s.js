@@ -4,7 +4,8 @@ var group__group__hal__i2s =
     [ "cyhal_i2s_pins_t", "group__group__hal__i2s.html#structcyhal__i2s__pins__t", [
       [ "sck", "group__group__hal__i2s.html#a06f418e1a73780daacabb034e78ad0d9", null ],
       [ "ws", "group__group__hal__i2s.html#ac1888b4fa0b934f7c48598ced0fc5ba5", null ],
-      [ "data", "group__group__hal__i2s.html#a9b80d91c0f3aa4d02905351de66016c4", null ]
+      [ "data", "group__group__hal__i2s.html#a9b80d91c0f3aa4d02905351de66016c4", null ],
+      [ "mclk", "group__group__hal__i2s.html#a97777388c9c2f217e93ce3dcee2f0e91", null ]
     ] ],
     [ "cyhal_i2s_config_t", "group__group__hal__i2s.html#structcyhal__i2s__config__t", [
       [ "is_tx_slave", "group__group__hal__i2s.html#aa83c7a4b2a6f43a7ef74ad0d23c6546c", null ],
@@ -29,7 +30,12 @@ var group__group__hal__i2s =
       [ "CYHAL_I2S_RX_UNDERFLOW", "group__group__hal__i2s.html#gga98bc78188673aae2c4e27b660a3f20fead40a615f2939fbef21deeb6307bc9eb4", null ],
       [ "CYHAL_I2S_ASYNC_RX_COMPLETE", "group__group__hal__i2s.html#gga98bc78188673aae2c4e27b660a3f20feab4a3a412a6b61efbd39ab540120713e9", null ]
     ] ],
-    [ "cyhal_i2s_init", "group__group__hal__i2s.html#ga4f2766cc7263f8a8d20eb7fdf60b3286", null ],
+    [ "cyhal_i2s_output_t", "group__group__hal__i2s.html#ga6f7d46b47e52fa549fed8a8490b10e6e", [
+      [ "CYHAL_I2S_TRIGGER_RX_HALF_FULL", "group__group__hal__i2s.html#gga6f7d46b47e52fa549fed8a8490b10e6ea2f46dd5c34a77b848a6791670e5ee1a8", null ],
+      [ "CYHAL_I2S_TRIGGER_TX_HALF_EMPTY", "group__group__hal__i2s.html#gga6f7d46b47e52fa549fed8a8490b10e6eaccc8f8bc53b640f2b2b2f96ce03a88a3", null ]
+    ] ],
+    [ "cyhal_i2s_init", "group__group__hal__i2s.html#gad1008bd6dc716300e3e7d5482390eaf1", null ],
+    [ "cyhal_i2s_init_cfg", "group__group__hal__i2s.html#ga061f2ea2ce311e9f36e0a5bde2580cc6", null ],
     [ "cyhal_i2s_free", "group__group__hal__i2s.html#gabda3b41391e8567f52599268dd6b721e", null ],
     [ "cyhal_i2s_set_sample_rate", "group__group__hal__i2s.html#ga1bb2c6da52278fc4f4c4558846bfa20a", null ],
     [ "cyhal_i2s_start_tx", "group__group__hal__i2s.html#gabe95fc12ff1d9264a60e8eeda35d885a", null ],
@@ -52,5 +58,7 @@ var group__group__hal__i2s =
     [ "cyhal_i2s_abort_read_async", "group__group__hal__i2s.html#ga9d755179f6a38da673df11331541e2e6", null ],
     [ "cyhal_i2s_abort_write_async", "group__group__hal__i2s.html#gaf15b5df60f51c5678931e06ddb3c9fb6", null ],
     [ "cyhal_i2s_register_callback", "group__group__hal__i2s.html#gade0855962b32a1b4d4dbb9bbf9b6354b", null ],
-    [ "cyhal_i2s_enable_event", "group__group__hal__i2s.html#gac8adecacf62147f30023e69010b52bf9", null ]
+    [ "cyhal_i2s_enable_event", "group__group__hal__i2s.html#gac8adecacf62147f30023e69010b52bf9", null ],
+    [ "cyhal_i2s_enable_output", "group__group__hal__i2s.html#gabdfe29741f8040cf92d99fad53195af5", null ],
+    [ "cyhal_i2s_disable_output", "group__group__hal__i2s.html#gae9a3a32cb4292687b2ff2bca54d29b62", null ]
 ];

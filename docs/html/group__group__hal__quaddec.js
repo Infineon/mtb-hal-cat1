@@ -23,6 +23,7 @@ var group__group__hal__quaddec =
       [ "CYHAL_QUADDEC_IRQ_ALL", "group__group__hal__quaddec.html#ggadc0da8aaf1025dd0e60c36be048950eca3f6b7e5f81445c05b4f46c59a285cb3e", null ]
     ] ],
     [ "cyhal_quaddec_init", "group__group__hal__quaddec.html#gab9ef0a9e37021273f9f013acb8a3ca33", null ],
+    [ "cyhal_quaddec_init_cfg", "group__group__hal__quaddec.html#ga322e68fe98395c563a67a25d390ee730", null ],
     [ "cyhal_quaddec_free", "group__group__hal__quaddec.html#ga26c25f3f1d39e4fec61406716b350d38", null ],
     [ "cyhal_quaddec_start", "group__group__hal__quaddec.html#ga8fc53534a07e2977fc2a433d92caeb8f", null ],
     [ "cyhal_quaddec_stop", "group__group__hal__quaddec.html#ga9a3bc3f085276aeb12bc06dd4e2d445d", null ],

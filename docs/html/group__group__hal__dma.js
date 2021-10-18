@@ -56,6 +56,7 @@ var group__group__hal__dma =
       [ "CYHAL_DMA_TRANSFER_FULL_DISABLE", "group__group__hal__dma.html#gga05291825b0a7c7b9a92373ec53342b7aa2fa9971511772bcd18e1892eaad29b99", null ]
     ] ],
     [ "cyhal_dma_init_adv", "group__group__hal__dma.html#gac1ab5fd8128e928de6827c5469de598f", null ],
+    [ "cyhal_dma_init_cfg", "group__group__hal__dma.html#gabc98118d2b7664e261c37764abd77781", null ],
     [ "cyhal_dma_free", "group__group__hal__dma.html#ga8c1bf16caa5d53cb129e5544da1c8b21", null ],
     [ "cyhal_dma_configure", "group__group__hal__dma.html#gad39f32ac4fada8bc9e757df0a22fcce4", null ],
     [ "cyhal_dma_enable", "group__group__hal__dma.html#gaf115ccd96b17d81f93e084c17ed23675", null ],

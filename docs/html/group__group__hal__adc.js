@@ -42,6 +42,7 @@ var group__group__hal__adc =
     [ "cyhal_adc_input_t", "group__group__hal__adc.html#gaf6e8578ca8de8d9b83acd8a30876d90a", null ],
     [ "cyhal_adc_output_t", "group__group__hal__adc.html#ga69f05e6ad5bd4ff96d602d0ff5d0936c", null ],
     [ "cyhal_adc_init", "group__group__hal__adc.html#ga7618b26a0677cb3f8cd477e3731da510", null ],
+    [ "cyhal_adc_init_cfg", "group__group__hal__adc.html#ga583d855a00bb1c12cbcee3b51e6e2e95", null ],
     [ "cyhal_adc_free", "group__group__hal__adc.html#gadae8361e3e3e3d0ff96767e1e8e1d913", null ],
     [ "cyhal_adc_configure", "group__group__hal__adc.html#gae1abce4e4cfe015eb4cd4dd055ca3065", null ],
     [ "cyhal_adc_set_power", "group__group__hal__adc.html#gacfbd0adfbe5291b0cf131b6b07c4053b", null ],

@@ -31,7 +31,6 @@ var group__group__hal__results =
     [ "USB Device HAL Results", "group__group__hal__results__usbdev.html", "group__group__hal__results__usbdev" ],
     [ "WDT HAL Results", "group__group__hal__results__wdt.html", "group__group__hal__results__wdt" ],
     [ "cyhal_rslt_module_chip", "group__group__hal__results.html#ga84f32ecb6376e2088d4f048e35f52005", [
-      [ "CYHAL_RSLT_MODULE_HWMGR", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005aa31caff90dfe21b862ea4c4d034208b6", null ],
       [ "CYHAL_RSLT_MODULE_ADC", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a5d2be4eb2e87e5d4f89f4b01cc69abc1", null ],
       [ "CYHAL_RSLT_MODULE_CLOCK", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a5664ced7d9350688ae8eccad08477747", null ],
       [ "CYHAL_RSLT_MODULE_COMP", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a381517173cfef57e367895000979e1cb", null ],
@@ -44,6 +43,9 @@ var group__group__hal__results =
       [ "CYHAL_RSLT_MODULE_I2C", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a48c873ac3890a78ae0379e725396c607", null ],
       [ "CYHAL_RSLT_MODULE_I2S", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a8f3c272518c2a32f2455e34137a5180d", null ],
       [ "CYHAL_RSLT_MODULE_INTERCONNECT", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005ab9373b6613ccb00bd4dedab0ae06d11c", null ],
+      [ "CYHAL_RSLT_MODULE_HWMGR", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005aa31caff90dfe21b862ea4c4d034208b6", null ],
+      [ "CYHAL_RSLT_MODULE_KEYSCAN", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005ae22cca7b373e114a80c8f1aa33d42619", null ],
+      [ "CYHAL_RSLT_MODULE_LPTIMER", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a130057944f24739b96a5552429a243a6", null ],
       [ "CYHAL_RSLT_MODULE_OPAMP", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a291ed2da7ed5183c3e2164ab8b6a8c3e", null ],
       [ "CYHAL_RSLT_MODULE_PDMPCM", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a52c9005959fa8236fc262a990d3bd48f", null ],
       [ "CYHAL_RSLT_MODULE_PWM", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005ac0436b7ec40cb5d645207a8bb23c0e0d", null ],
@@ -62,7 +64,6 @@ var group__group__hal__results =
       [ "CYHAL_RSLT_MODULE_USB", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a608cd624d7042ae5d77c6134f7ea382f", null ],
       [ "CYHAL_RSLT_MODULE_WDT", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a012172915d19c167e1db5ff7e188adba", null ],
       [ "CYHAL_RSLT_MODULE_IMPL_TCPWM", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005af99e4705ecb46e6ebf1ce9e9fb73c171", null ],
-      [ "CYHAL_RSLT_MODULE_IMPL_SCB", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005aa7ba6553c921351f322f391838049f91", null ],
-      [ "CYHAL_RSLT_MODULE_KEYSCAN", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005ae22cca7b373e114a80c8f1aa33d42619", null ]
+      [ "CYHAL_RSLT_MODULE_IMPL_SCB", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005aa7ba6553c921351f322f391838049f91", null ]
     ] ]
 ];

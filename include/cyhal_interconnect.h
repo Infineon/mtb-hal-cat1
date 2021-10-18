@@ -9,7 +9,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,7 +31,7 @@
 * \addtogroup group_hal_interconnect Interconnect (Internal Digital Routing)
 * \ingroup group_hal
 * \{
-* High level interface to the Cypress digital routing.
+* High level interface to the Infineon digital routing.
 *
 * \section subsection_interconnect_features Features
 * Facilities for runtime manipulation of the on chip routing.
@@ -77,13 +79,13 @@ extern "C" {
 
 /** The source and destination are already connected */
 #define CYHAL_INTERCONNECT_RSLT_ALREADY_CONNECTED            \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_INTERCONNECT, 0))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_INTERCONNECT, 0))
 /** Connection is invalid */
 #define CYHAL_INTERCONNECT_RSLT_INVALID_CONNECTION           \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_INTERCONNECT, 1))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_INTERCONNECT, 1))
 /** Cannot disconnect. Either no connection in the first place or a bad argument */
 #define CYHAL_INTERCONNECT_RSLT_CANNOT_DISCONNECT            \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_INTERCONNECT, 2))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_INTERCONNECT, 2))
 
 /**
  * \}
@@ -93,9 +95,10 @@ extern "C" {
  * Any previous direct connection from the pin will be overriden.<br>
  * See \ref subsection_interconnect_snippet1
  * @param[in] pin_connection  The pin and target peripheral terminal to be connected
+ * @param[in] drive_mode      The drive mode to use for the pin
  * @return The status of the connect request
  */
-cy_rslt_t cyhal_connect_pin(const cyhal_resource_pin_mapping_t *pin_connection);
+cy_rslt_t cyhal_connect_pin(const cyhal_resource_pin_mapping_t *pin_connection, uint8_t drive_mode);
 
 /** Disconnect a peripheral from a pin. This will also reset the pin's drive mode to High-Z.
  * @param[in] pin The pin to be disconnected

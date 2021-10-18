@@ -2,12 +2,14 @@
 * \file cyhal_gpio.c
 *
 * Description:
-* Provides a high level interface for interacting with the Cypress GPIO. This is
+* Provides a high level interface for interacting with the Infineon GPIO. This is
 * a wrapper around the lower level PDL API.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,7 +30,7 @@
 #include "cyhal_system.h"
 #include "cyhal_hwmgr.h"
 
-#if defined(CY_IP_MXS40IOSS) || defined(CY_IP_M0S8IOSS) || defined(CY_IP_MXS40SIOSS)
+#if (CYHAL_DRIVER_AVAILABLE_GPIO)
 
 #if defined(__cplusplus)
 extern "C" {
@@ -45,9 +47,8 @@ extern "C" {
 #endif
 
 /* Callback array for GPIO interrupts */
-static cyhal_gpio_event_callback_t _cyhal_gpio_callbacks[IOSS_GPIO_GPIO_PORT_NR][CY_GPIO_PINS_MAX];
-static void *_cyhal_gpio_callback_args[IOSS_GPIO_GPIO_PORT_NR][CY_GPIO_PINS_MAX];
-#if defined(CY_IP_MXS40IOSS)
+static cyhal_gpio_callback_data_t* _cyhal_gpio_callbacks[IOSS_GPIO_GPIO_PORT_NR] = { NULL };
+#if defined(CY_IP_MXS40IOSS) || defined(CY_IP_MXS40SIOSS)
 static cyhal_source_t _cyhal_gpio_source_signals[sizeof(cyhal_pin_map_peri_tr_io_output)/sizeof(cyhal_resource_pin_mapping_t)] = { CYHAL_TRIGGER_CPUSS_ZERO };
 #endif
 
@@ -74,38 +75,43 @@ static void _cyhal_gpio_irq_handler(void)
 
     while(intr_cause != 0)
     {
-        uint32_t curr_port = 31U - __CLZ(intr_cause);
+        uint32_t curr_port = (uint32_t) (31U - __CLZ(intr_cause));
         GPIO_PRT_Type *portAddr = Cy_GPIO_PortToAddr(curr_port);
-        for (uint8_t cnt = 0u; cnt < CY_GPIO_PINS_MAX; cnt++)
+        cyhal_gpio_callback_data_t* cb_data = _cyhal_gpio_callbacks[curr_port];
+        while (NULL != cb_data)
         {
+            uint8_t pin = CYHAL_GET_PIN(cb_data->pin);
             /* Each supported architecture much have a way to check the interrupt status of a pin on a port. */
 #if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B)
-            if (Cy_GPIO_GetInterruptStatusMasked(portAddr, cnt))
-            {
+            if (Cy_GPIO_GetInterruptStatusMasked(portAddr, pin))
 #elif defined(COMPONENT_CAT2)
-            if (Cy_GPIO_GetInterruptStatus(portAddr, cnt))
-            {
+            if (Cy_GPIO_GetInterruptStatus(portAddr, pin))
 #else
     #error "Unsupported architecture"
 #endif
-                if (_cyhal_gpio_callbacks[curr_port][cnt] != NULL)
+            {
+                /* Call registered callbacks here */
+                cyhal_gpio_event_t event, edge = (cyhal_gpio_event_t)Cy_GPIO_GetInterruptEdge(portAddr, pin);
+                switch (edge)
                 {
-                    /* Call registered callbacks here */
-                    cyhal_gpio_event_t event, edge = (cyhal_gpio_event_t)Cy_GPIO_GetInterruptEdge(portAddr, cnt);
-                    switch (edge)
-                    {
-                        case CYHAL_GPIO_IRQ_RISE:
-                        case CYHAL_GPIO_IRQ_FALL:
-                            event = edge;
-                            break;
-                        default:
-                            event = Cy_GPIO_Read(portAddr, cnt) != 0 ? CYHAL_GPIO_IRQ_RISE : CYHAL_GPIO_IRQ_FALL;
-                            break;
-                    }
-                    (void)(_cyhal_gpio_callbacks[curr_port][cnt])(_cyhal_gpio_callback_args[curr_port][cnt], event);
+                    case CYHAL_GPIO_IRQ_RISE:
+                    case CYHAL_GPIO_IRQ_FALL:
+                        event = edge;
+                        break;
+                    default:
+                        event = (Cy_GPIO_Read(portAddr, pin) != 0) ? CYHAL_GPIO_IRQ_RISE : CYHAL_GPIO_IRQ_FALL;
+                        break;
                 }
-                Cy_GPIO_ClearInterrupt(portAddr, cnt);
+                cb_data->callback(cb_data->callback_arg, event);
             }
+
+            cb_data = cb_data->next;
+        }
+        // Since the HAL has taken over the interrupt, make sure we clear any triggers to avoid an
+        // infinite loop.
+        for (uint8_t i = 0; i < CY_GPIO_PINS_MAX; i++)
+        {
+            Cy_GPIO_ClearInterrupt(portAddr, i);
         }
         intr_cause &= ~(1 << curr_port);
     }
@@ -144,7 +150,7 @@ static uint32_t _cyhal_gpio_convert_drive_mode(cyhal_gpio_drive_mode_t drive_mod
             drvMode = CY_GPIO_DM_PULLUP_DOWN;
             break;
         case CYHAL_GPIO_DRIVE_PULL_NONE:
-            if (direction == CYHAL_GPIO_DIR_OUTPUT || direction == CYHAL_GPIO_DIR_BIDIRECTIONAL)
+            if ((direction == CYHAL_GPIO_DIR_OUTPUT) || (direction == CYHAL_GPIO_DIR_BIDIRECTIONAL))
             {
                 drvMode = CY_GPIO_DM_STRONG;
             }
@@ -201,11 +207,10 @@ void cyhal_gpio_free(cyhal_gpio_t pin)
 #elif defined(COMPONENT_CAT2)
         Cy_GPIO_SetInterruptEdge(CYHAL_GET_PORTADDR(pin), CYHAL_GET_PIN(pin), CY_GPIO_INTR_DISABLE);
 #endif
-        _cyhal_gpio_callbacks[CYHAL_GET_PORT(pin)][CYHAL_GET_PIN(pin)] = NULL;
-        _cyhal_gpio_callback_args[CYHAL_GET_PORT(pin)][CYHAL_GET_PIN(pin)] = NULL;
+        cyhal_gpio_register_callback(pin, NULL);
 
         (void)cyhal_gpio_disable_output(pin);
-        #if defined(CY_IP_MXS40IOSS)
+        #if defined(CY_IP_MXS40IOSS) || defined(CY_IP_MXS40SIOSS)
         for(uint8_t i = 0; i < (uint8_t)(sizeof(cyhal_pin_map_peri_tr_io_output)/sizeof(cyhal_resource_pin_mapping_t)); i++)
         {
             cyhal_resource_pin_mapping_t mapping = cyhal_pin_map_peri_tr_io_output[i];
@@ -236,11 +241,30 @@ cy_rslt_t cyhal_gpio_configure(cyhal_gpio_t pin, cyhal_gpio_direction_t directio
     return CY_RSLT_SUCCESS;
 }
 
-void cyhal_gpio_register_callback(cyhal_gpio_t pin, cyhal_gpio_event_callback_t callback, void *callback_arg)
+void cyhal_gpio_register_callback(cyhal_gpio_t pin, cyhal_gpio_callback_data_t* callback_data)
 {
     uint32_t savedIntrStatus = cyhal_system_critical_section_enter();
-    _cyhal_gpio_callbacks[CYHAL_GET_PORT(pin)][CYHAL_GET_PIN(pin)] = callback;
-    _cyhal_gpio_callback_args[CYHAL_GET_PORT(pin)][CYHAL_GET_PIN(pin)] = callback_arg;
+
+    // Remove if already registered;
+    cyhal_gpio_callback_data_t** ptr = &(_cyhal_gpio_callbacks[CYHAL_GET_PORT(pin)]);
+    while (NULL != *ptr)
+    {
+        if ((*ptr)->pin == pin)
+        {
+            *ptr = (*ptr)->next;
+            break;
+        }
+        ptr = &((*ptr)->next);
+    }
+    // Add if requested
+    if (NULL != callback_data)
+    {
+        CY_ASSERT(NULL != callback_data->callback);
+        callback_data->pin = pin;
+        callback_data->next = _cyhal_gpio_callbacks[CYHAL_GET_PORT(pin)];
+        _cyhal_gpio_callbacks[CYHAL_GET_PORT(pin)] = callback_data;
+    }
+
     cyhal_system_critical_section_exit(savedIntrStatus);
 }
 
@@ -254,7 +278,7 @@ void cyhal_gpio_enable_event(cyhal_gpio_t pin, cyhal_gpio_event_t event, uint8_t
 #elif defined(COMPONENT_CAT2)
     uint32_t intr_val = enable ? (uint32_t)event : CY_GPIO_INTR_DISABLE;
     Cy_GPIO_SetInterruptEdge(CYHAL_GET_PORTADDR(pin), CYHAL_GET_PIN(pin), intr_val);
-    IRQn_Type irqn = (ioss_interrupts_gpio_0_IRQn + CYHAL_GET_PORT(pin) < ioss_interrupt_gpio_IRQn)
+    IRQn_Type irqn = ((ioss_interrupts_gpio_0_IRQn + CYHAL_GET_PORT(pin)) < ioss_interrupt_gpio_IRQn)
                     ? (IRQn_Type)(ioss_interrupts_gpio_0_IRQn + CYHAL_GET_PORT(pin))
                     : (IRQn_Type)(ioss_interrupt_gpio_IRQn);
 #endif
@@ -272,8 +296,8 @@ void cyhal_gpio_enable_event(cyhal_gpio_t pin, cyhal_gpio_event_t event, uint8_t
     }
 }
 
-#if defined(CY_IP_MXS40IOSS)
-cy_rslt_t cyhal_gpio_connect_digital(cyhal_gpio_t pin, cyhal_source_t source, cyhal_signal_type_t type)
+#if defined(CY_IP_MXS40IOSS) || defined(CY_IP_MXS40SIOSS)
+cy_rslt_t cyhal_gpio_connect_digital(cyhal_gpio_t pin, cyhal_source_t source)
 {
     // Search through cyhal_pin_map_peri_tr_io_output to determine if a trigger
     // can be routed to it. (Note: tr_io_output refers to trigger mux output,
@@ -286,9 +310,13 @@ cy_rslt_t cyhal_gpio_connect_digital(cyhal_gpio_t pin, cyhal_source_t source, cy
         {
             Cy_GPIO_SetHSIOM(CYHAL_GET_PORTADDR(pin), CYHAL_GET_PIN(pin), mapping.hsiom);
 
-            cyhal_dest_t dest = (cyhal_dest_t)(CYHAL_TRIGGER_PERI_TR_IO_OUTPUT0 + (uint32_t)(mapping.inst));
+#if defined(COMPONENT_CAT1A)
+            cyhal_dest_t dest = (cyhal_dest_t)(CYHAL_TRIGGER_PERI_TR_IO_OUTPUT0 + mapping.channel_num);
+#elif defined(COMPONENT_CAT1B)
+            cyhal_dest_t dest = (cyhal_dest_t)(CYHAL_TRIGGER_IOSS_PERI_TR_IO_OUTPUT_OUT0 + mapping.channel_num);
+#endif
 
-            cy_rslt_t rslt = _cyhal_connect_signal(source, dest, type);
+            cy_rslt_t rslt = _cyhal_connect_signal(source, dest);
             if (CY_RSLT_SUCCESS == rslt)
             {
                 _cyhal_gpio_source_signals[i] = source;
@@ -300,7 +328,7 @@ cy_rslt_t cyhal_gpio_connect_digital(cyhal_gpio_t pin, cyhal_source_t source, cy
     return CYHAL_GPIO_RSLT_ERR_NO_INPUT_SIGNAL;
 }
 
-cy_rslt_t cyhal_gpio_enable_output(cyhal_gpio_t pin, cyhal_source_t *source)
+cy_rslt_t cyhal_gpio_enable_output(cyhal_gpio_t pin, cyhal_signal_type_t type, cyhal_source_t *source)
 {
     // Search through cyhal_pin_map_peri_tr_io_input to determine if pin can be
     // used to drive a trigger line. (Note: tr_io_input refers to trigger mux
@@ -313,8 +341,12 @@ cy_rslt_t cyhal_gpio_enable_output(cyhal_gpio_t pin, cyhal_source_t *source)
         {
             Cy_GPIO_SetHSIOM(CYHAL_GET_PORTADDR(pin), CYHAL_GET_PIN(pin), mapping.hsiom);
 
-            cyhal_internal_source_t int_src = (cyhal_internal_source_t)(_CYHAL_TRIGGER_PERI_TR_IO_INPUT0 + (uint32_t)(mapping.inst));
-            *source = (cyhal_source_t)_CYHAL_TRIGGER_CREATE_SOURCE(int_src, CYHAL_SIGNAL_TYPE_EDGE);
+#if defined(COMPONENT_CAT1A)
+            cyhal_internal_source_t int_src = (cyhal_internal_source_t)(_CYHAL_TRIGGER_PERI_TR_IO_INPUT0 + mapping.channel_num);
+#elif defined(COMPONENT_CAT1B)
+            cyhal_internal_source_t int_src = (cyhal_internal_source_t)(_CYHAL_TRIGGER_IOSS_PERI_TR_IO_INPUT_IN0 + mapping.channel_num);
+#endif
+            *source = (cyhal_source_t)_CYHAL_TRIGGER_CREATE_SOURCE(int_src, type);
 
             return CY_RSLT_SUCCESS;
         }
@@ -332,7 +364,11 @@ cy_rslt_t cyhal_gpio_disconnect_digital(cyhal_gpio_t pin, cyhal_source_t source)
         {
             Cy_GPIO_SetHSIOM(CYHAL_GET_PORTADDR(pin), CYHAL_GET_PIN(pin), HSIOM_SEL_GPIO);
 
-            cyhal_dest_t dest = (cyhal_dest_t)(CYHAL_TRIGGER_PERI_TR_IO_OUTPUT0 + (uint32_t)(mapping.inst));
+#if defined(COMPONENT_CAT1A)
+            cyhal_dest_t dest = (cyhal_dest_t)(CYHAL_TRIGGER_PERI_TR_IO_OUTPUT0 + mapping.channel_num);
+#elif defined(COMPONENT_CAT1B)
+            cyhal_dest_t dest = (cyhal_dest_t)(CYHAL_TRIGGER_IOSS_PERI_TR_IO_OUTPUT_OUT0 + mapping.channel_num);
+#endif
 
             cy_rslt_t rslt = _cyhal_disconnect_signal(source, dest);
             if (CY_RSLT_SUCCESS == rslt)
@@ -361,20 +397,20 @@ cy_rslt_t cyhal_gpio_disable_output(cyhal_gpio_t pin)
 
     return CYHAL_GPIO_RSLT_ERR_NO_OUTPUT_SIGNAL;
 }
-#elif defined(CY_IP_M0S8IOSS) || defined(CY_IP_MXS40SIOSS)
+#elif defined(CY_IP_M0S8IOSS)
 // M0S8 devices do not have gpio triggers
-cy_rslt_t cyhal_gpio_connect_digital(cyhal_gpio_t pin, cyhal_source_t source, cyhal_signal_type_t type)
+cy_rslt_t cyhal_gpio_connect_digital(cyhal_gpio_t pin, cyhal_source_t source)
+{
+    CY_UNUSED_PARAMETER(pin);
+    CY_UNUSED_PARAMETER(source);
+    return CYHAL_INTERCONNECT_RSLT_INVALID_CONNECTION;
+}
+
+cy_rslt_t cyhal_gpio_enable_output(cyhal_gpio_t pin, cyhal_signal_type_t type, cyhal_source_t *source)
 {
     CY_UNUSED_PARAMETER(pin);
     CY_UNUSED_PARAMETER(source);
     CY_UNUSED_PARAMETER(type);
-    return CYHAL_INTERCONNECT_RSLT_INVALID_CONNECTION;
-}
-
-cy_rslt_t cyhal_gpio_enable_output(cyhal_gpio_t pin, cyhal_source_t *source)
-{
-    CY_UNUSED_PARAMETER(pin);
-    CY_UNUSED_PARAMETER(source);
     return CYHAL_INTERCONNECT_RSLT_INVALID_CONNECTION;
 }
 
@@ -396,4 +432,4 @@ cy_rslt_t cyhal_gpio_disable_output(cyhal_gpio_t pin)
 }
 #endif /* __cplusplus */
 
-#endif /* defined(CY_IP_MXS40IOSS) || defined(CY_IP_M0S8IOSS) || defined(CY_IP_MXS40SIOSS) */
+#endif /* CYHAL_DRIVER_AVAILABLE_GPIO */

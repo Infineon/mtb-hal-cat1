@@ -6,7 +6,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,7 +31,7 @@
 #include "cyhal_interconnect.h"
 #include "cyhal_peri_common.h"
 
-#if defined (CY_IP_MXSCB) || (CY_IP_M0S8SCB)
+#if (_CYHAL_DRIVER_AVAILABLE_SCB)
 
 #if defined(__cplusplus)
 extern "C"
@@ -149,7 +151,8 @@ static void *_cyhal_scb_config_structs[_SCB_ARRAY_SIZE];
 /** The callback to use for each scb instance */
 static bool (*_cyhal_scb_config_pm_callback[_SCB_ARRAY_SIZE]) (void *obj_ptr, cyhal_syspm_callback_state_t state, cy_en_syspm_callback_mode_t pdl_mode);
 
-uint8_t _cyhal_scb_get_block_from_irqn(IRQn_Type irqn) {
+static uint8_t _cyhal_scb_get_block_from_irqn(IRQn_Type irqn)
+{
     switch (irqn)
     {
 #if (_SCB_ARRAY_SIZE > 0)
@@ -252,8 +255,13 @@ void *_cyhal_scb_get_irq_obj(void)
 #define _CYHAL_SCB_PERI_CLOCK_MASTER_FSTP    20000000
 
 
-uint32_t _cyhal_i2c_set_peri_divider(CySCB_Type *base, uint32_t block_num, cyhal_clock_t *clock, uint32_t freq, bool is_slave)
+uint32_t _cyhal_i2c_set_peri_divider(void *obj, bool is_i2c, uint32_t freq, bool is_slave)
 {
+    CySCB_Type *base = is_i2c ? ((cyhal_i2c_t *)obj)->base : ((cyhal_ezi2c_t *)obj)->base;
+    uint32_t block_num = is_i2c ? ((cyhal_i2c_t *)obj)->resource.block_num : ((cyhal_ezi2c_t *)obj)->resource.block_num;
+    cyhal_clock_t *clock = is_i2c ? &(((cyhal_i2c_t *)obj)->clock) : &(((cyhal_ezi2c_t *)obj)->clock);
+    bool is_clock_owned = is_i2c ? ((cyhal_i2c_t *)obj)->is_clock_owned : ((cyhal_ezi2c_t *)obj)->is_clock_owned;
+
     /* Return the actual data rate on success, 0 otherwise */
     uint32_t data_rate = 0;
     if (freq != 0)
@@ -275,11 +283,16 @@ uint32_t _cyhal_i2c_set_peri_divider(CySCB_Type *base, uint32_t block_num, cyhal
         if (peri_freq > 0 && _cyhal_utils_peri_pclk_assign_divider(
             _cyhal_scb_get_clock_index(block_num), clock) == CY_SYSCLK_SUCCESS)
         {
-            cy_rslt_t status = cyhal_clock_set_enabled(clock, false, false);
-            if (status == CY_RSLT_SUCCESS)
-                status = cyhal_clock_set_frequency(clock, peri_freq, NULL);
-            if (status == CY_RSLT_SUCCESS)
-                status = cyhal_clock_set_enabled(clock, true, false);
+            cy_rslt_t status = CY_RSLT_SUCCESS;
+
+            if (is_clock_owned)
+            {
+                status = cyhal_clock_set_enabled(clock, false, false);
+                if (status == CY_RSLT_SUCCESS)
+                    status = cyhal_clock_set_frequency(clock, peri_freq, NULL);
+                if (status == CY_RSLT_SUCCESS)
+                    status = cyhal_clock_set_enabled(clock, true, false);
+            }
 
             if(status == CY_RSLT_SUCCESS)
             {
@@ -302,7 +315,7 @@ const cyhal_resource_pin_mapping_t* _cyhal_scb_find_map(cyhal_gpio_t pin, const 
             /* Block is already found, check if certain pin can work for provided block  */
             if ((NULL != block_res) && (CYHAL_RSC_SCB == block_res->type))
             {
-                if (_cyhal_utils_resources_equal(pin_map[i].inst, block_res))
+                if (_cyhal_utils_map_resource_equal(block_res, &(pin_map[i])))
                 {
                     return &pin_map[i];
                 }
@@ -310,15 +323,35 @@ const cyhal_resource_pin_mapping_t* _cyhal_scb_find_map(cyhal_gpio_t pin, const 
             /* No block provided */
             else
             {
-                if (CY_RSLT_SUCCESS == cyhal_hwmgr_reserve(pin_map[i].inst))
+                cyhal_resource_inst_t rsc = { CYHAL_RSC_SCB, pin_map[i].block_num, pin_map[i].channel_num };
+                if (CY_RSLT_SUCCESS == cyhal_hwmgr_reserve(&rsc))
                 {
-                    cyhal_hwmgr_free(pin_map[i].inst);
+                    cyhal_hwmgr_free(&rsc);
                     return &pin_map[i];
                 }
             }
         }
     }
     return NULL;
+}
+
+uint32_t _cyhal_scb_check_pin_affiliation(cyhal_gpio_t pin, const cyhal_resource_pin_mapping_t *pin_map,
+        size_t count)
+{
+    uint32_t bitband_blocks = 0;
+    for (size_t i = 0; i < count; i++)
+    {
+        if (pin == pin_map[i].pin)
+        {
+            cyhal_resource_inst_t rsc = { CYHAL_RSC_SCB, pin_map[i].block_num, pin_map[i].channel_num };
+            if (CY_RSLT_SUCCESS == cyhal_hwmgr_reserve(&rsc))
+            {
+                cyhal_hwmgr_free(&rsc);
+                bitband_blocks |= 1 << pin_map[i].block_num;
+            }
+        }
+    }
+    return bitband_blocks;
 }
 
 cy_rslt_t _cyhal_scb_set_fifo_level(CySCB_Type *base, cyhal_scb_fifo_type_t type, uint16_t level)
@@ -344,11 +377,9 @@ cy_rslt_t _cyhal_scb_set_fifo_level(CySCB_Type *base, cyhal_scb_fifo_type_t type
     return CYHAL_SCB_RSLT_ERR_BAD_ARGUMENT;
 }
 
-cy_rslt_t _cyhal_scb_enable_output(CySCB_Type *base, cyhal_resource_inst_t resource, cyhal_scb_output_t output, cyhal_source_t *source)
+cy_rslt_t _cyhal_scb_enable_output(cyhal_resource_inst_t resource, cyhal_scb_output_t output, cyhal_source_t *source)
 {
-    CY_UNUSED_PARAMETER(base);
-
-// All PSoC6 devices have scb triggers but not all PSoC4 devices do
+// All PSoC™ 6 devices have scb triggers but not all PSoC™ 4 devices do
 #if (defined(CY_IP_MXSCB) || defined(CY_DEVICE_PSOC4AMC) || defined(CY_DEVICE_PSOC4AS3) || defined(CY_DEVICE_PSOC4AS4))
     // This just returns a proper cyhal_source_t. Use _cyhal_scb_set_fifo_level
     // to actually set level.
@@ -393,20 +424,13 @@ cy_rslt_t _cyhal_scb_enable_output(CySCB_Type *base, cyhal_resource_inst_t resou
 #endif
 }
 
-cy_rslt_t _cyhal_scb_disable_output(CySCB_Type *base, cyhal_resource_inst_t resource, cyhal_scb_output_t output)
+cy_rslt_t _cyhal_scb_disable_output(cyhal_scb_output_t output)
 {
-    CY_UNUSED_PARAMETER(base);
-    CY_UNUSED_PARAMETER(resource);
-
-// All PSoC6 devices have scb triggers but not all PSoC4 devices do
+// All PSoC™ 6 devices have scb triggers but not all PSoC™ 4 devices do
 #if (defined(CY_IP_MXSCB) || defined(CY_DEVICE_PSOC4AMC) || defined(CY_DEVICE_PSOC4AS3) || defined(CY_DEVICE_PSOC4AS4))
     // Noop: Use _cyhal_scb_set_fifo_level to actually set level
-    if(output == CYHAL_SCB_OUTPUT_TRIGGER_RX_FIFO_LEVEL_REACHED)
-    {
-        return CY_RSLT_SUCCESS;
-    }
-    // Noop: Use _cyhal_scb_set_fifo_level to actually set level
-    else if(output == CYHAL_SCB_OUTPUT_TRIGGER_TX_FIFO_LEVEL_REACHED)
+    if (output == CYHAL_SCB_OUTPUT_TRIGGER_RX_FIFO_LEVEL_REACHED ||
+        output == CYHAL_SCB_OUTPUT_TRIGGER_TX_FIFO_LEVEL_REACHED)
     {
         return CY_RSLT_SUCCESS;
     }
@@ -504,4 +528,4 @@ void _cyhal_scb_update_instance_data(uint8_t block_num, void *obj, cyhal_scb_ins
 }
 #endif
 
-#endif /* CY_IP_MXSCB */
+#endif /* _CYHAL_DRIVER_AVAILABLE_SCB */

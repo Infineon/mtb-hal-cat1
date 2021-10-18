@@ -12,7 +12,7 @@ var group__group__hal__lptimer =
     [ "cyhal_lptimer_init", "group__group__hal__lptimer.html#gad5438541af765572369ee96588bd4ee5", null ],
     [ "cyhal_lptimer_free", "group__group__hal__lptimer.html#ga0cbaebaddaa47faf71a69d46c65f7917", null ],
     [ "cyhal_lptimer_reload", "group__group__hal__lptimer.html#ga5ed361c85190707574565009eb325473", null ],
-    [ "cyhal_lptimer_set_match", "group__group__hal__lptimer.html#ga39d049f6f4bdd0bcd4e0be2ab48d3394", null ],
+    [ "cyhal_lptimer_set_match", "group__group__hal__lptimer.html#ga8be81430cef74735168e703f204fe1a5", null ],
     [ "cyhal_lptimer_set_delay", "group__group__hal__lptimer.html#gae91cdc8b63ef191f5a2013df3aaa5d78", null ],
     [ "cyhal_lptimer_read", "group__group__hal__lptimer.html#gae759c60b5865a26599353e436518b1d3", null ],
     [ "cyhal_lptimer_register_callback", "group__group__hal__lptimer.html#gac670fa5380ffd41e548dac6975500b3d", null ],

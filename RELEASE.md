@@ -1,5 +1,7 @@
-# CAT1 (PSoC 6) Hardware Abstraction Layer (HAL) Release Notes
-The CAT1 Hardware Abstraction Layer (HAL) provides an implementation of the Hardware Abstraction Layer for the PSoC 6 family of chips. This API provides convenience methods for initializing and manipulating different hardware peripherals. Depending on the specific chip being used, not all features may be supported.
+# CAT1 (PSoC™ 6) Hardware Abstraction Layer (HAL) Release Notes
+The CAT1 Hardware Abstraction Layer (HAL) provides an implementation of the Hardware Abstraction Layer for the PSoC™ 6 family of chips. This API provides convenience methods for initializing and manipulating different hardware peripherals. Depending on the specific chip being used, not all features may be supported.
+
+This library is only supported on the Cortex-M4. It is not compatible with the Cortex-M0+. Any peripherals used by the Cortex-M0+ must be configured using the PDL and reserved on the Cortex-M4 by calling cyhal_hwmgr_reserve(). This ensures the HAL is aware the resource is in use and does not overuse it.
 
 ### What's Included?
 This release of the CAT1 HAL includes support for the following drivers:
@@ -35,6 +37,52 @@ This release of the CAT1 HAL includes support for the following drivers:
 * WDT
 
 ### What Changed?
+#### v2.0.0
+This major version update includes changes that break API compatibility with prior releases. Each major or breaking change is described below:
+* Clock:
+  1. Renamed cyhal_resource_inst_t CYHAL_CLOCK_&lt;name&gt; constants with CYHAL_CLOCK_RSC_&lt;name&gt;. Created new CYHAL_CLOCK_&lt;name&gt; constants of type cyhal_clock_t.
+  2. Replaced cyhal_clock_init with cyhal_clock_reserve.
+  3. Removed div_type & div_num from cyhal_clock_t.
+* DMA:
+  1. cyhal_dma_enable must be called after configuring the DMA, but before a trigger will initiate a transfer
+* Flash:
+  1. The data buffer passed to functions must be from SRAM, the driver no longer contains a scratch buffer to copy into.
+* GPIO:
+  1. cyhal_gpio_enable_output updated to require a new argument to specify whether the signal is level or edge based.
+  2. cyhal_gpio_connect_digital no longer takes the signal type parameter.
+  3. cyhal_gpio_register_callback now takes a structure containing details about the callback.
+  4. Removed deprecated functions cyhal_gpio_register_irq & cyhal_gpio_irq_enable
+* I2C:
+  1. Removed deprecated functions cyhal_i2c_register_irq & cyhal_i2c_irq_enable
+* I2S/TDM:
+  1. The mclk GPIO selection is moved into the RX/TX specific pins struct. This allows RX and TX to use separate mclk pins on devices that support this;
+  see the device datasheet for details. For devices which only support a single MCLK pin shared between RX and TX, there is no change in functionality; when
+  calling `cyhal_i2s_init` or `cyhal_tdm_init` the same `cyhal_gpio_t` value should be provided for both RX and TX.
+* PWM:
+  1. cyhal_pwm_connect_digital no longer takes the signal type parameter.
+  2. cyhal_pwm_init will always produce a non-inverted waveform on the specified pin, even if that pin natively produces an inverted
+     output (for example, the `line_compl` pins on PSoC™ devices). This improves consistency with the behavior of cyhal_pwm_init_adv.
+* QSPI:
+  1. cyhal_qspi_init() function got one additional parameter - shared clock (clk), which will allow users to use multiple HAL drivers which depends on same clock source.
+  2. cyhal_qspi_init() now takes io[x] and ssel pins as pointer to cyhal_qspi_slave_pin_config_t structure, that contain mentioned pins.
+  3. cyhal_qspi_slave_select_config function was replaced by cyhal_qspi_slave_configure, which provides possibility to add memory slaves with own data lines (instead of shared data lines and own slave select like it was when cyhal_qspi_slave_select_config has been used). cyhal_qspi_slave_config, as cyhal_qspi_init, takes cyhal_qspi_slave_pin_config_t as parameter.
+  4. cyhal_qspi_command_t structure was updated: address.value field removed, data_rate field was added into all command subsections.
+  5. Added address parameter to all transfer functions (cyhal_qspi_read, cyhal_qspi_read_async, cyhal_qspi_write, cyhal_qspi_write_async anb cyhal_qspi_transfer).
+  6. cyhal_qspi_datarate_t enum was added. Corresponding configuration fields are added into each sub-structure of cyhal_qspi_command_t.
+* SDHC:
+  1. cyhal_sdhc_init() and cyhal_sdhc_init_hw() functions got one additional parameter - shared clock (block_clk), which will allow users to use multiple HAL drivers which depends on same clock source.
+* SDIO:
+  1. Updated the names of enum cyhal_tranfer_t and its types CYHAL_READ and CYHAL_WRITE to cyhal_sdio_transfer_type_t, CYHAL_SDIO_XFER_TYPE_READ, and CYHAL_SDIO_XFER_TYPE_WRITE, respectively.
+  2. Removed deprecated functions cyhal_sdio_register_irq & cyhal_sdio_irq_enable
+* Timer:
+  1. cyhal_timer_connect_digital no longer takes the signal type parameter.
+* UART:
+  1. cyhal_uart_set_flow_control function was replaced by cyhal_uart_enable_flow_control, which only controls the enablement status of flow control. CTS / RTS pins are now provided via cyhal_uart_init() function.
+* I2C:
+  1. The following deprecated functions have been removed: cyhal_i2c_slave_config_write_buff, cyhal_i2c_slave_config_read_buff.
+* Other:
+  1. Removed cyhal_deprecated.h, and all associated code.
+NOTE: This version requires core-lib 1.3.0 or later
 #### v1.6.0
 * Added new TDM driver
 * Added support for 1.8v devices to SDHC/SDIO drivers
@@ -49,7 +97,7 @@ This release of the CAT1 HAL includes support for the following drivers:
 * Added optional implementations for SDHC control pin APIs and RTOS aware delay API provided as weak functions in the PDL (Disabled by: DEFINES+=CYHAL_DISABLE_WEAK_FUNC_IMPL)
 #### v1.4.0
 * Renamed library from psoc6hal to mtb-hal-cat1
-* Added support for new PSoC 6 S4 devices
+* Added support for new PSoC™ 6 S4 devices
 * Extended clock support for QSPI and SDHC drivers
 * Fixed a few bugs in various drivers
 * Minor documentation updates
@@ -98,19 +146,19 @@ This version of the CAT1 Hardware Abstraction Layer was validated for compatibil
 
 | Software and Tools                        | Version |
 | :---                                      | :----:  |
-| ModusToolbox Software Environment         | 2.2.1   |
-| GCC Compiler                              | 9.3.1   |
+| ModusToolbox™ Software Environment         | 2.4.0   |
+| GCC Compiler                              | 10.3.1  |
 | IAR Compiler                              | 8.4     |
 | ARM Compiler                              | 6.11    |
 
-Minimum required ModusToolbox Software Environment: v2.0
+Minimum required ModusToolbox™ Software Environment: v2.0
 
 ### More information
 Use the following links for more information, as needed:
-* [API Reference Guide](https://cypresssemiconductorco.github.io/mtb-hal-cat1/html/modules.html)
+* [API Reference Guide](https://infineon.github.io/mtb-hal-cat1/html/modules.html)
 * [Cypress Semiconductor, an Infineon Technologies Company](http://www.cypress.com)
-* [Cypress Semiconductor GitHub](https://github.com/cypresssemiconductorco)
-* [ModusToolbox](https://www.cypress.com/products/modustoolbox-software-environment)
+* [Infineon GitHub](https://github.com/infineon)
+* [ModusToolbox™](https://www.cypress.com/products/modustoolbox-software-environment)
 
 ---
-© Cypress Semiconductor Corporation, 2019-2021.
+© Cypress Semiconductor Corporation (an Infineon company) or an affiliate of Cypress Semiconductor Corporation, 2019-2021.

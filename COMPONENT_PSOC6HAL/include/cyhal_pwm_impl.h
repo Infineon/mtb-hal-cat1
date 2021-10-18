@@ -2,11 +2,13 @@
 * \file cyhal_pwm_impl.h
 *
 * Description:
-* Provides a high level interface for interacting with the Cypress PWM.
+* Provides a high level interface for interacting with the Infineon PWM.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2019-2021 Cypress Semiconductor Corporation
+* Copyright 2019-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,7 +38,7 @@ extern "C" {
  * \ingroup group_hal_impl
  * \{
  * \section group_hal_impl_pwm_interconnect Interconnect
- * In PSoC PWM channels can configure multiple input and output triggers
+ * In PSoC™ PWM channels can configure multiple input and output triggers
  * simultaneously. 1 or more input triggers can be configured to initiate
  * different PWM actions (e.g start, stop, reload, etc) with configurable edge
  * detection on that incoming signal. Output triggers are based on certain

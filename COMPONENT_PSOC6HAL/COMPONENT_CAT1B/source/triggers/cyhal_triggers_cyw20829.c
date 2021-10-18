@@ -4,12 +4,11 @@
 * \brief
 * CYW20829 family HAL triggers header
 *
-* \note
-* Generator version: 1.6.0.512
-*
 ********************************************************************************
 * \copyright
-* Copyright 2016-2021 Cypress Semiconductor Corporation
+* (c) (2016-2021), Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -406,7 +405,7 @@ const _cyhal_trigger_source_cyw20829_t* cyhal_mux_to_sources[15] =
     cyhal_mux14_sources, 
 };
 
-const uint8_t cyhal_dest_to_mux[60] =
+const uint8_t cyhal_dest_to_mux[59] =
 {
     131, /* CYHAL_TRIGGER_CANFD0_TR_DBG_DMA_ACK0 */
     7, /* CYHAL_TRIGGER_CANFD0_TR_EVT_SWT_IN0 */
@@ -437,7 +436,6 @@ const uint8_t cyhal_dest_to_mux[60] =
     5, /* CYHAL_TRIGGER_PDM_TR_DBG_FREEZE */
     5, /* CYHAL_TRIGGER_PERI_TR_DBG_FREEZE */
     4, /* CYHAL_TRIGGER_SRSS_TR_DEBUG_FREEZE_MCWDT0 */
-    4, /* CYHAL_TRIGGER_SRSS_TR_DEBUG_FREEZE_WDT */
     1, /* CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN0 */
     1, /* CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN1 */
     1, /* CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN2 */
@@ -470,7 +468,7 @@ const uint8_t cyhal_dest_to_mux[60] =
     5, /* CYHAL_TRIGGER_TDM_TR_DBG_FREEZE */
 };
 
-const uint8_t cyhal_mux_dest_index[60] =
+const uint8_t cyhal_mux_dest_index[59] =
 {
     0, /* CYHAL_TRIGGER_CANFD0_TR_DBG_DMA_ACK0 */
     0, /* CYHAL_TRIGGER_CANFD0_TR_EVT_SWT_IN0 */
@@ -501,7 +499,6 @@ const uint8_t cyhal_mux_dest_index[60] =
     1, /* CYHAL_TRIGGER_PDM_TR_DBG_FREEZE */
     0, /* CYHAL_TRIGGER_PERI_TR_DBG_FREEZE */
     3, /* CYHAL_TRIGGER_SRSS_TR_DEBUG_FREEZE_MCWDT0 */
-    2, /* CYHAL_TRIGGER_SRSS_TR_DEBUG_FREEZE_WDT */
     0, /* CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN0 */
     1, /* CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN1 */
     2, /* CYHAL_TRIGGER_TCPWM0_TR_ALL_CNT_IN2 */

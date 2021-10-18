@@ -4,7 +4,8 @@ var group__group__hal__tdm =
     [ "cyhal_tdm_pins_t", "group__group__hal__tdm.html#structcyhal__tdm__pins__t", [
       [ "sck", "group__group__hal__tdm.html#aca9c19086bde87927ea592f549e1f7eb", null ],
       [ "ws", "group__group__hal__tdm.html#a5e494f61a0445ed1694fdb23823506e0", null ],
-      [ "data", "group__group__hal__tdm.html#a72fa18ad7370677eaec37d02519dacec", null ]
+      [ "data", "group__group__hal__tdm.html#a72fa18ad7370677eaec37d02519dacec", null ],
+      [ "mclk", "group__group__hal__tdm.html#a0d60e7031a744fa40a005be3d13e4150", null ]
     ] ],
     [ "cyhal_tdm_config_t", "group__group__hal__tdm.html#structcyhal__tdm__config__t", [
       [ "is_tx_slave", "group__group__hal__tdm.html#a7af5665a602d777e6da3f30383074a49", null ],
@@ -33,11 +34,16 @@ var group__group__hal__tdm =
       [ "CYHAL_TDM_RX_UNDERFLOW", "group__group__hal__tdm.html#gga76e6f6677a7173e7668df7dad2763bfda3f0d9b48fc10bad1b21b47661bc513a3", null ],
       [ "CYHAL_TDM_ASYNC_RX_COMPLETE", "group__group__hal__tdm.html#gga76e6f6677a7173e7668df7dad2763bfda62c5a83be5e784eb3de27eb777b8f704", null ]
     ] ],
+    [ "cyhal_tdm_output_t", "group__group__hal__tdm.html#ga822a7a0155cc36038210bdcd8e1d7ed5", [
+      [ "CYHAL_TDM_TRIGGER_RX_HALF_FULL", "group__group__hal__tdm.html#gga822a7a0155cc36038210bdcd8e1d7ed5aaa425f98fe051b25c460ccb1fe79b0c2", null ],
+      [ "CYHAL_TDM_TRIGGER_TX_HALF_EMPTY", "group__group__hal__tdm.html#gga822a7a0155cc36038210bdcd8e1d7ed5a8b4758b19c36d4ff413aa4021038e5df", null ]
+    ] ],
     [ "cyhal_tdm_word_select_width_t", "group__group__hal__tdm.html#ga0edef2c4d7d5735a3d758a2ec7d02cfe", [
       [ "CYHAL_TDM_WS_SINGLE", "group__group__hal__tdm.html#gga0edef2c4d7d5735a3d758a2ec7d02cfeae5784c3ac399e69f701f6b282b016ce5", null ],
       [ "CYHAL_TDM_WS_FULL", "group__group__hal__tdm.html#gga0edef2c4d7d5735a3d758a2ec7d02cfea6c1e3dad852eb99f18c37bded97b0ea1", null ]
     ] ],
-    [ "cyhal_tdm_init", "group__group__hal__tdm.html#ga3e061817ca7399ebb7fe78b257dcae31", null ],
+    [ "cyhal_tdm_init", "group__group__hal__tdm.html#ga7aaea6f2df229e6ff490a804104c0e56", null ],
+    [ "cyhal_tdm_init_cfg", "group__group__hal__tdm.html#ga5476553a9966de30d9370386aa8385da", null ],
     [ "cyhal_tdm_free", "group__group__hal__tdm.html#gaa6951796782f50052adf54a9e3e42a3d", null ],
     [ "cyhal_tdm_set_sample_rate", "group__group__hal__tdm.html#ga5dcceb8a3d84dc2a18e7efd148f4e5ad", null ],
     [ "cyhal_tdm_start_tx", "group__group__hal__tdm.html#ga4cd44b808335b745eae5ec827735d76d", null ],
@@ -60,5 +66,7 @@ var group__group__hal__tdm =
     [ "cyhal_tdm_abort_read_async", "group__group__hal__tdm.html#gae3c1409abf71a351e0766f051cca5d51", null ],
     [ "cyhal_tdm_abort_write_async", "group__group__hal__tdm.html#ga69967661876cc70a84ad736d555c82b6", null ],
     [ "cyhal_tdm_register_callback", "group__group__hal__tdm.html#ga01a5cef420eaebb4796cecc4c3c34400", null ],
-    [ "cyhal_tdm_enable_event", "group__group__hal__tdm.html#gaec9c51c3f29b553197d1249668e72c65", null ]
+    [ "cyhal_tdm_enable_event", "group__group__hal__tdm.html#gaec9c51c3f29b553197d1249668e72c65", null ],
+    [ "cyhal_tdm_enable_output", "group__group__hal__tdm.html#ga014a7d4dd93372dafcab7fa78d49354f", null ],
+    [ "cyhal_tdm_disable_output", "group__group__hal__tdm.html#gae0672708e0de18a69074014aab91d2aa", null ]
 ];

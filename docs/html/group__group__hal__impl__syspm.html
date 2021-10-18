@@ -87,11 +87,15 @@ $(document).ready(function(){initNavTree('group__group__hal__impl__syspm.html','
 
 <div class="header">
   <div class="headertitle">
-<div class="title">System Power Management<div class="ingroups"><a class="el" href="group__group__hal__impl.html">CAT1 (PSoC 6) Implementation Specific</a></div></div>  </div>
+<div class="title">System Power Management<div class="ingroups"><a class="el" href="group__group__hal__impl.html">CAT1 (PSoC™ 6) Implementation Specific</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
-<p>The CAT1 (PSoC 6) Power Management has the following characteristics: <a class="el" href="group__group__hal__syspm.html#gga144e474d3bfb544b207f172d1d8bd633acd2a5522b6591eb77418369e464a3eb1">CYHAL_SYSPM_SYSTEM_NORMAL</a> equates to the Low Power mode<br />
- <a class="el" href="group__group__hal__syspm.html#gga144e474d3bfb544b207f172d1d8bd633af4060b98561e43a6b930576644af014f">CYHAL_SYSPM_SYSTEM_LOW</a> equates to the Ultra Low Power mode. </p>
+<p>On CAT1 devices, the Pin based Hibernate wakeup sources (<a class="el" href="group__group__hal__syspm.html#gga716955af458772e538910575cbf6e1dda9ccdbb4f654ce023bea0fafba50cab53">CYHAL_SYSPM_HIBERNATE_PINA_LOW</a>, <a class="el" href="group__group__hal__syspm.html#gga716955af458772e538910575cbf6e1dda0882eed07391eb7773ea2f4c47a7b5ff">CYHAL_SYSPM_HIBERNATE_PINA_HIGH</a>, <a class="el" href="group__group__hal__syspm.html#gga716955af458772e538910575cbf6e1dda1bf3cfcfb69b48e6b0ef5a525cc6eb3d">CYHAL_SYSPM_HIBERNATE_PINB_LOW</a>, and <a class="el" href="group__group__hal__syspm.html#gga716955af458772e538910575cbf6e1dda69f639b3f33245d1a789fd443b94b47d">CYHAL_SYSPM_HIBERNATE_PINB_HIGH</a>) are mapped to datsheet capabilities as follows:<br />
+ PINA = hibernate_wakeup[0]<br />
+ PINB = hibernate_wakeup[1]. </p>
+<p>The CAT1 (PSoC™ 6) Power Management has the following characteristics:<br />
+ <a class="el" href="group__group__hal__syspm.html#gga144e474d3bfb544b207f172d1d8bd633acd2a5522b6591eb77418369e464a3eb1">CYHAL_SYSPM_SYSTEM_NORMAL</a> equates to the Low Power mode<br />
+ <a class="el" href="group__group__hal__syspm.html#gga144e474d3bfb544b207f172d1d8bd633af4060b98561e43a6b930576644af014f">CYHAL_SYSPM_SYSTEM_LOW</a> equates to the Ultra Low Power mode</p>
 <h1><a class="anchor" id="group_hal_impl_syspm_ulp"></a>
 Switching the System into Ultra Low Power</h1>
 <p>Before switching into system Ultra Low Power mode, ensure that the device meets the requirements below:</p>

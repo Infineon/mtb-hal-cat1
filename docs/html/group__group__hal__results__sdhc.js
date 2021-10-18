@@ -7,5 +7,6 @@ var group__group__hal__results__sdhc =
     [ "CYHAL_SDHC_RSLT_ERR_SET_FREQ", "group__group__hal__results__sdhc.html#ga358438094bf5286d7a6d3d69c162ca67", null ],
     [ "CYHAL_SDHC_RSLT_ERR_WRONG_PARAM", "group__group__hal__results__sdhc.html#ga0894805472b8a58586f40a3b93e503cb", null ],
     [ "CYHAL_SDHC_RSLT_ERR_IO_VOLT_SWITCH_SEQ", "group__group__hal__results__sdhc.html#gaa824a814e80e67cf55a90b1736252a7e", null ],
-    [ "CYHAL_SDHC_RSLT_ERR_TOUT_CFG", "group__group__hal__results__sdhc.html#gaf634e0a3b26e5e4909c0cc6f6c2e88b6", null ]
+    [ "CYHAL_SDHC_RSLT_ERR_TOUT_CFG", "group__group__hal__results__sdhc.html#gaf634e0a3b26e5e4909c0cc6f6c2e88b6", null ],
+    [ "CYHAL_SDHC_RSLT_ERR_CLOCK", "group__group__hal__results__sdhc.html#ga3765668ef0dab9abb38e3343ac65d79c", null ]
 ];

@@ -2,14 +2,16 @@
 * \file cyhal_i2c.h
 *
 * \brief
-* Provides a high level interface for interacting with the Cypress I2C.
+* Provides a high level interface for interacting with the Infineon I2C.
 * This interface abstracts out the chip specific details. If any chip specific
 * functionality is necessary, or performance is critical the low level functions
 * can be used directly.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -78,14 +80,14 @@
 * \section subsection_i2c_moreinformation More Information
 *
 * <b>Peripheral Driver Library (PDL)</b>
-* * <a href="https://cypresssemiconductorco.github.io/psoc6pdl/pdl_api_reference_manual/html/group__group__scb.html"><b>
-PSoC 6 PDL: SCB (Serial Communication Block)</b></a>
+* * <a href="https://infineon.github.io/psoc6pdl/pdl_api_reference_manual/html/group__group__scb.html"><b>
+PSoC™ 6 PDL: SCB (Serial Communication Block)</b></a>
 *
 * <b>Code examples (Github)</b>
-* * <a href="https://github.com/cypresssemiconductorco/mtb-example-psoc6-i2c-master" ><b>
-PSoC 6 MCU: I2C Master</b></a>
-* * <a href="https://github.com/cypresssemiconductorco/mtb-example-psoc6-i2c-slave-callback" ><b>
-PSoC 6 MCU: I2C Slave Using Callbacks</b></a>
+* * <a href="https://github.com/infineon/mtb-example-psoc6-i2c-master" ><b>
+PSoC™ 6 MCU: I2C Master</b></a>
+* * <a href="https://github.com/infineon/mtb-example-psoc6-i2c-slave-callback" ><b>
+PSoC™ 6 MCU: I2C Slave Using Callbacks</b></a>
 */
 
 #pragma once
@@ -107,25 +109,25 @@ extern "C" {
 
 /** The requested resource type is invalid */
 #define CYHAL_I2C_RSLT_ERR_INVALID_PIN                  \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_I2C, 0))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_I2C, 0))
 /** Can not reach desired data rate */
 #define CYHAL_I2C_RSLT_ERR_CAN_NOT_REACH_DR             \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_I2C, 1))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_I2C, 1))
 /** Address size is not correct, should be 1 or two */
 #define CYHAL_I2C_RSLT_ERR_INVALID_ADDRESS_SIZE         \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_I2C, 2))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_I2C, 2))
 /** User buffer is empty (TX and RX). Should be at least TX or RX or both buffers */
 #define CYHAL_I2C_RSLT_ERR_TX_RX_BUFFERS_ARE_EMPTY      \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_I2C, 3))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_I2C, 3))
 /** Previous Async operation is pending */
 #define CYHAL_I2C_RSLT_ERR_PREVIOUS_ASYNCH_PENDING      \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_I2C, 4))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_I2C, 4))
 /** Failed to register I2C pm callback */
 #define CYHAL_I2C_RSLT_ERR_PM_CALLBACK                  \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_I2C, 5))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_I2C, 5))
 /** \ref cyhal_i2c_abort_async operation failed with timeout */
 #define CYHAL_I2C_RSLT_ERR_ABORT_ASYNC_TIMEOUT          \
-    (CYHAL_RSLT_CREATE(CY_RSLT_TYPE_ERROR, CYHAL_RSLT_MODULE_I2C, 6))
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_I2C, 6))
 /**
  * \}
  */
@@ -250,25 +252,11 @@ cy_rslt_t cyhal_i2c_master_write(cyhal_i2c_t *obj, uint16_t dev_addr, const uint
  */
 cy_rslt_t cyhal_i2c_master_read(cyhal_i2c_t *obj, uint16_t dev_addr, uint8_t *data, uint16_t size, uint32_t timeout, bool send_stop);
 
-/** \cond INTERNAL */
-/*******************************************************************************
-* Backward compatibility function. The following code is DEPRECATED and must
-* not be used in new projects.
-*******************************************************************************/
-cy_rslt_t cyhal_i2c_slave_config_write_buff(cyhal_i2c_t *obj, const uint8_t *data, uint16_t size);
-
-/*******************************************************************************
-* Backward compatibility function. The following code is DEPRECATED and must
-* not be used in new projects.
-*******************************************************************************/
-cy_rslt_t cyhal_i2c_slave_config_read_buff(cyhal_i2c_t *obj, uint8_t *data, uint16_t size);
-/** \endcond */
-
 /**
  * The function configures the write buffer on an I2C Slave. This is the buffer to which the master writes data to.
  * The user needs to setup a new buffer every time (i.e. call \ref cyhal_i2c_slave_config_write_buffer and \ref cyhal_i2c_slave_config_read_buffer
  * every time the buffer has been used up)<br>
- * See related code example: <a href="https://github.com/cypresssemiconductorco/mtb-example-psoc6-i2c-master" ><b>PSoC 6 MCU: I2C Master</b></a>
+ * See related code example: <a href="https://github.com/infineon/mtb-example-psoc6-i2c-master" ><b>PSoC™ 6 MCU: I2C Master</b></a>
  *
  * @param[in]  obj      The I2C object
  * @param[in]  data     I2C slave send data
@@ -282,7 +270,7 @@ cy_rslt_t cyhal_i2c_slave_config_write_buffer(cyhal_i2c_t *obj, const uint8_t *d
  * The function configures the read buffer on an I2C Slave. This is the buffer from which the master reads data from.
  * The user needs to setup a new buffer every time (i.e. call \ref cyhal_i2c_slave_config_write_buffer and \ref cyhal_i2c_slave_config_read_buffer
  * every time the buffer has been used up)<br>
- * See related code example: <a href="https://github.com/cypresssemiconductorco/mtb-example-psoc6-i2c-master" ><b>PSoC 6 MCU: I2C Master</b></a>
+ * See related code example: <a href="https://github.com/infineon/mtb-example-psoc6-i2c-master" ><b>PSoC™ 6 MCU: I2C Master</b></a>
  *
  * @param[in]   obj      The I2C object
  * @param[out]  data     I2C slave receive data
@@ -410,15 +398,13 @@ cy_rslt_t cyhal_i2c_enable_output(cyhal_i2c_t *obj, cyhal_i2c_output_t output, c
  * */
 cy_rslt_t cyhal_i2c_disable_output(cyhal_i2c_t *obj, cyhal_i2c_output_t output);
 
-/*******************************************************************************
-* Backward compatibility macro. The following code is DEPRECATED and must
-* not be used in new projects
-*******************************************************************************/
-/** \cond INTERNAL */
-#define cyhal_i2c_register_irq        cyhal_i2c_register_callback
-#define cyhal_i2c_irq_enable(obj, event, enable)          cyhal_i2c_enable_event(obj, event, CYHAL_ISR_PRIORITY_DEFAULT, enable)
-typedef cyhal_i2c_event_t       cyhal_i2c_irq_event_t;
-/** \endcond */
+/** Initialize the I2C peripheral using a configurator generated configuration struct.
+ *
+ * @param[in]  obj        The I2C peripheral to configure
+ * @param[in]  cfg        Configuration structure generated by a configurator.
+ * @return The status of the operation
+ */
+cy_rslt_t cyhal_i2c_init_cfg(cyhal_i2c_t *obj, const cyhal_i2c_configurator_t *cfg);
 
 #if defined(__cplusplus)
 }

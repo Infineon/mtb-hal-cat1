@@ -2,11 +2,13 @@
 * \file cyhal_trng_impl.h
 *
 * \brief
-* Provides an implementation of the Cypress TRNG HAL API.
+* Provides an implementation of the ModusToolbox™ TRNG HAL API.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation
+* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,7 +28,7 @@
 
 #include "cyhal_trng.h"
 
-#if defined(CY_IP_MXCRYPTO)
+#if (CYHAL_DRIVER_AVAILABLE_TRNG)
 
 #if defined(__cplusplus)
 extern "C" {
@@ -53,8 +55,15 @@ static inline uint32_t _cyhal_trng_generate_internal(const cyhal_trng_t *obj)
 {
     CY_ASSERT(NULL != obj);
     uint32_t value;
+
+#if defined(CY_IP_MXCRYPTO)
     cy_en_crypto_status_t status = Cy_Crypto_Core_Trng(
         obj->base, CYHAL_GARO31_INITSTATE, CYHAL_FIRO31_INITSTATE, MAX_TRNG_BIT_SIZE, &value);
+#elif defined(CY_IP_M0S8CRYPTO) || defined(CY_IP_M0S8CRYPTOLITE)
+    cy_en_crypto_status_t status = Cy_Crypto_Trng(
+        obj->base, MAX_TRNG_BIT_SIZE, &value);
+#endif
+
     (void)status;
     CY_ASSERT(CY_CRYPTO_SUCCESS == status);
     return value;
@@ -67,4 +76,4 @@ static inline uint32_t _cyhal_trng_generate_internal(const cyhal_trng_t *obj)
 }
 #endif /* __cplusplus */
 
-#endif /* defined(CY_IP_MXCRYPTO) */
+#endif /* CYHAL_DRIVER_AVAILABLE_TRNG */

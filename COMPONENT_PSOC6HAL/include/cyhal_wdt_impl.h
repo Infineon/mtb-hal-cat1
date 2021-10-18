@@ -6,7 +6,9 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2019-2021 Cypress Semiconductor Corporation
+* Copyright 2019-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation
+*
 * SPDX-License-Identifier: Apache-2.0
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,7 +30,7 @@
 * \addtogroup group_hal_impl_wdt WDT (Watchdog Timer)
 * \ingroup group_hal_impl
 * \{
-* The CAT1 (PSoC 6) WDT is only capable of supporting certain timeout ranges below its maximum timeout.
+* The CAT1 (PSoC™ 6) WDT is only capable of supporting certain timeout ranges below its maximum timeout.
 * As a result, any unsupported timeouts given to the HAL WDT are rounded up to the nearest supported value.
 * The following table describes the unsupported ranges and the timeout values they are rounded to.
 *
@@ -84,6 +86,8 @@
 
 #include "cyhal_wdt_impl_common.h"
 
+#if (CYHAL_DRIVER_AVAILABLE_WDT)
+
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
@@ -104,3 +108,5 @@ extern "C" {
 #if defined(__cplusplus)
 }
 #endif /* __cplusplus */
+
+#endif // CYHAL_DRIVER_AVAILABLE_WDT
