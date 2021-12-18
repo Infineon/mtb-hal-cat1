@@ -33,6 +33,7 @@ var group__group__hal__quaddec =
     [ "cyhal_quaddec_register_callback", "group__group__hal__quaddec.html#gae34acc1d3fcf2338063bc4f46901c130", null ],
     [ "cyhal_quaddec_enable_event", "group__group__hal__quaddec.html#ga5e4706c512360caa4048870ce587ef95", null ],
     [ "cyhal_quaddec_connect_digital", "group__group__hal__quaddec.html#gac24ad342a56665e529edf17490f588c3", null ],
+    [ "cyhal_quaddec_connect_digital2", "group__group__hal__quaddec.html#ga696c0f48cf99030af08b2d4ba7eac540", null ],
     [ "cyhal_quaddec_disconnect_digital", "group__group__hal__quaddec.html#gab34102bdeb9112caf1eee5427505aad5", null ],
     [ "cyhal_quaddec_enable_output", "group__group__hal__quaddec.html#gaf8292289d8ee582f09b95a078ce89416", null ],
     [ "cyhal_quaddec_disable_output", "group__group__hal__quaddec.html#ga453498f398dfbbdf2ec7d225262777d3", null ]

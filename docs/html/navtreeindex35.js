@@ -1,5 +1,8 @@
 var NAVTREEINDEX35 =
 {
+"group__group__hal__uart.html#ga760296fe084b3e0ab3cdd1fba745a8b3":[1,2,29,16],
+"group__group__hal__uart.html#ga76eddcf3f061a3984819bc8dfe503ae5":[1,2,29,33],
+"group__group__hal__uart.html#ga79c475fe87b88afece099da885605075":[1,2,29,8],
 "group__group__hal__uart.html#ga84bd3dc69297980c77697dcecbac4a57":[1,2,29,24],
 "group__group__hal__uart.html#ga858d1257386c23c97da3b3aff539a162":[1,2,29,31],
 "group__group__hal__uart.html#ga89108b2d339dc9863ec660588e3a4a12":[1,2,29,13],
@@ -198,8 +201,8 @@ var NAVTREEINDEX35 =
 "group__group__result.html#gga9008565cba0207520330a1cb8509a8d0aff3550164c9dee83bd9669beffa24876":[1,0,0,11,31],
 "group__group__result.html#structcy__rslt__decode__t_8____unnamed____":[1,0,0,1],
 "group__group__result.html#unioncy__rslt__decode__t":[1,0,0,0],
-"index.html":[],
 "index.html":[0],
+"index.html":[],
 "modules.html":[1],
 "pages.html":[],
 "struct__cyhal__audioss__interface__t.html":[1,3,3,9],

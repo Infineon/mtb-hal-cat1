@@ -128,7 +128,9 @@ static cy_rslt_t cyhal_pwm_set_period_and_compare(cyhal_pwm_t *obj, uint32_t per
     Cy_TCPWM_PWM_SetPeriod0(obj->tcpwm.base, obj->tcpwm.resource.channel_num, period - 1u);
 
     #if defined(CYHAL_PIN_MAP_DRIVE_MODE_TCPWM_LINE_COMPL)
-    bool swapped_pins = (_CYHAL_UTILS_GET_RESOURCE(pin, cyhal_pin_map_tcpwm_line_compl) != NULL) && (_CYHAL_UTILS_GET_RESOURCE(pin_compl, cyhal_pin_map_tcpwm_line) != NULL);
+    bool swapped_pins = 
+        (NC == pin || (_CYHAL_UTILS_GET_RESOURCE(pin, cyhal_pin_map_tcpwm_line_compl) != NULL)) && 
+        (NC == pin_compl || (_CYHAL_UTILS_GET_RESOURCE(pin_compl, cyhal_pin_map_tcpwm_line) != NULL));
     #else
     CY_UNUSED_PARAMETER(pin);
     CY_UNUSED_PARAMETER(pin_compl);
@@ -460,10 +462,26 @@ static cyhal_tcpwm_output_t _cyhal_pwm_translate_output_signal(cyhal_pwm_output_
     }
 }
 
-cy_rslt_t cyhal_pwm_connect_digital(cyhal_pwm_t *obj, cyhal_source_t source, cyhal_pwm_input_t signal)
+cy_rslt_t cyhal_pwm_connect_digital2(cyhal_pwm_t *obj, cyhal_source_t source, cyhal_pwm_input_t signal, cyhal_edge_type_t edge_type)
 {
     cyhal_tcpwm_input_t tcpwm_signal = _cyhal_pwm_translate_input_signal(signal);
-    return _cyhal_tcpwm_connect_digital(&(obj->tcpwm), source, tcpwm_signal);
+    return _cyhal_tcpwm_connect_digital(&(obj->tcpwm), source, tcpwm_signal, edge_type);
+}
+
+cy_rslt_t cyhal_pwm_connect_digital(cyhal_pwm_t *obj, cyhal_source_t source, cyhal_pwm_input_t signal)
+{
+    /* Signal type just tells us edge vs. level, but TCPWM lets you customize which edge you want. So default
+     * to rising edge. If the application cares about the edge type, it can use connect_digital2 */
+#if defined(CY_IP_M0S8PERI_TR) || defined(CY_IP_MXPERI_TR) || defined(CY_IP_MXSPERI)
+    cyhal_signal_type_t signal_type = _CYHAL_TRIGGER_GET_SOURCE_TYPE(source);
+    cyhal_edge_type_t edge_type = (signal_type == CYHAL_SIGNAL_TYPE_LEVEL) ? CYHAL_EDGE_TYPE_LEVEL : CYHAL_EDGE_TYPE_RISING_EDGE;
+    return cyhal_pwm_connect_digital2(obj, source, signal, edge_type);
+#else
+    CY_UNUSED_PARAMETER(obj);
+    CY_UNUSED_PARAMETER(source);
+    CY_UNUSED_PARAMETER(signal);
+    return CYHAL_PWM_RSLT_BAD_ARGUMENT;
+#endif
 }
 
 cy_rslt_t cyhal_pwm_enable_output(cyhal_pwm_t *obj, cyhal_pwm_output_t signal, cyhal_source_t *source)

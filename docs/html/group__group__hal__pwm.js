@@ -37,6 +37,7 @@ var group__group__hal__pwm =
     [ "cyhal_pwm_register_callback", "group__group__hal__pwm.html#ga2e4256f7650bd1f38b852eeada4a55df", null ],
     [ "cyhal_pwm_enable_event", "group__group__hal__pwm.html#ga558c129c5f5f9989319c591423fdeceb", null ],
     [ "cyhal_pwm_connect_digital", "group__group__hal__pwm.html#gafa371f9c9b4e47998d83284849c9f921", null ],
+    [ "cyhal_pwm_connect_digital2", "group__group__hal__pwm.html#ga69d0e9394b204dfb92272313d545d7fa", null ],
     [ "cyhal_pwm_enable_output", "group__group__hal__pwm.html#ga9757bece5e0527f3a8b6df054c49331f", null ],
     [ "cyhal_pwm_disconnect_digital", "group__group__hal__pwm.html#gab9dace048801024e679d05062a736be4", null ],
     [ "cyhal_pwm_disable_output", "group__group__hal__pwm.html#gaae684b7ed7ea8beb04ab38b82eeddf3d", null ]

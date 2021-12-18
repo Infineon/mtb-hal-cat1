@@ -223,6 +223,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gac24ad342a56665e529edf17490f588c3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__quaddec.html#gac24ad342a56665e529edf17490f588c3">cyhal_quaddec_connect_digital</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__quaddec__t">cyhal_quaddec_t</a> *obj, <a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a> source, <a class="el" href="group__group__hal__quaddec.html#ga46260f3f241adbdd8453dbd9b6b94024">cyhal_quaddec_input_t</a> signal)</td></tr>
 <tr class="memdesc:gac24ad342a56665e529edf17490f588c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connects a source signal and configures and enables a quadrature decoder event to be triggered from that signal.  <a href="#gac24ad342a56665e529edf17490f588c3">More...</a><br /></td></tr>
 <tr class="separator:gac24ad342a56665e529edf17490f588c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga696c0f48cf99030af08b2d4ba7eac540"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__quaddec.html#ga696c0f48cf99030af08b2d4ba7eac540">cyhal_quaddec_connect_digital2</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__quaddec__t">cyhal_quaddec_t</a> *obj, <a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a> source, <a class="el" href="group__group__hal__quaddec.html#ga46260f3f241adbdd8453dbd9b6b94024">cyhal_quaddec_input_t</a> signal, <a class="el" href="group__group__hal__general__types.html#ga48a2f3a7a4210f50859fc68fa3db9391">cyhal_edge_type_t</a> edge_type)</td></tr>
+<tr class="memdesc:ga696c0f48cf99030af08b2d4ba7eac540"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connects a source signal and configures and enables a quadrature decoder event to be triggered from that signal with a configurable edge type.  <a href="#ga696c0f48cf99030af08b2d4ba7eac540">More...</a><br /></td></tr>
+<tr class="separator:ga696c0f48cf99030af08b2d4ba7eac540"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gab34102bdeb9112caf1eee5427505aad5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__quaddec.html#gab34102bdeb9112caf1eee5427505aad5">cyhal_quaddec_disconnect_digital</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__quaddec__t">cyhal_quaddec_t</a> *obj, <a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a> source, <a class="el" href="group__group__hal__quaddec.html#ga46260f3f241adbdd8453dbd9b6b94024">cyhal_quaddec_input_t</a> signal)</td></tr>
 <tr class="memdesc:gab34102bdeb9112caf1eee5427505aad5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disconnects a source signal and disables the quadrature decoder event.  <a href="#gab34102bdeb9112caf1eee5427505aad5">More...</a><br /></td></tr>
 <tr class="separator:gab34102bdeb9112caf1eee5427505aad5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -747,12 +750,65 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Connects a source signal and configures and enables a quadrature decoder event to be triggered from that signal. </p>
+<p>These quadrature decoder events can be configured independently and connect to the same or different source signals. </p><dl class="section note"><dt>Note</dt><dd>For "edge" signals, this function will default to rising edge. To control the edge type, use <a class="el" href="group__group__hal__quaddec.html#ga696c0f48cf99030af08b2d4ba7eac540">cyhal_quaddec_connect_digital2</a></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>Quadrature decoder obj </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">source</td><td>Source signal obtained from another driver's cyhal_&lt;PERIPH&gt;_enable_output </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">signal</td><td>The quadrature decoder input signal </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the connection </dd></dl>
+
+</div>
+</div>
+<a id="ga696c0f48cf99030af08b2d4ba7eac540"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga696c0f48cf99030af08b2d4ba7eac540">&#9670;&nbsp;</a></span>cyhal_quaddec_connect_digital2()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_quaddec_connect_digital2 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__quaddec__t">cyhal_quaddec_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a>&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__quaddec.html#ga46260f3f241adbdd8453dbd9b6b94024">cyhal_quaddec_input_t</a>&#160;</td>
+          <td class="paramname"><em>signal</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__general__types.html#ga48a2f3a7a4210f50859fc68fa3db9391">cyhal_edge_type_t</a>&#160;</td>
+          <td class="paramname"><em>edge_type</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Connects a source signal and configures and enables a quadrature decoder event to be triggered from that signal with a configurable edge type. </p>
 <p>These quadrature decoder events can be configured independently and connect to the same or different source signals.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>Quadrature decoder obj </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">source</td><td>Source signal obtained from another driver's cyhal_&lt;PERIPH&gt;_enable_output </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">signal</td><td>The quadrature decoder input signal </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">edge_type</td><td>The edge type that should trigger the event. This must be consistent with the edge type of <code>source</code>. If <code>source</code> produces a "level" signal, the only valid value is <a class="el" href="group__group__hal__general__types.html#gga48a2f3a7a4210f50859fc68fa3db9391aa3d90da24e0ba6dff6a0f4c816d1853b">CYHAL_EDGE_TYPE_LEVEL</a>. If <code>source</code> produces an "edge" signal, then <a class="el" href="group__group__hal__general__types.html#gga48a2f3a7a4210f50859fc68fa3db9391aa3d90da24e0ba6dff6a0f4c816d1853b">CYHAL_EDGE_TYPE_LEVEL</a> is not a valid value. </td></tr>
   </table>
   </dd>
 </dl>

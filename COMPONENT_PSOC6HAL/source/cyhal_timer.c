@@ -300,10 +300,26 @@ static cyhal_tcpwm_output_t _cyhal_timer_translate_output_signal(cyhal_timer_out
     }
 }
 
-cy_rslt_t cyhal_timer_connect_digital(cyhal_timer_t *obj, cyhal_source_t source, cyhal_timer_input_t signal)
+cy_rslt_t cyhal_timer_connect_digital2(cyhal_timer_t *obj, cyhal_source_t source, cyhal_timer_input_t signal, cyhal_edge_type_t edge_type)
 {
     cyhal_tcpwm_input_t tcpwm_signal = _cyhal_timer_translate_input_signal(signal);
-    return _cyhal_tcpwm_connect_digital(&(obj->tcpwm), source, tcpwm_signal);
+    return _cyhal_tcpwm_connect_digital(&(obj->tcpwm), source, tcpwm_signal, edge_type);
+}
+
+cy_rslt_t cyhal_timer_connect_digital(cyhal_timer_t *obj, cyhal_source_t source, cyhal_timer_input_t signal)
+{
+#if defined(CY_IP_M0S8PERI_TR) || defined(CY_IP_MXPERI_TR) || defined(CY_IP_MXSPERI)
+    /* Signal type just tells us edge vs. level, but TCPWM lets you customize which edge you want. So default
+     * to rising edge. If the application cares about the edge type, it can use connect_digital2 */
+    cyhal_signal_type_t signal_type = _CYHAL_TRIGGER_GET_SOURCE_TYPE(source);
+    cyhal_edge_type_t edge_type = (signal_type == CYHAL_SIGNAL_TYPE_LEVEL) ? CYHAL_EDGE_TYPE_LEVEL : CYHAL_EDGE_TYPE_RISING_EDGE;
+    return cyhal_timer_connect_digital2(obj, source, signal, edge_type);
+#else
+    CY_UNUSED_PARAMETER(obj);
+    CY_UNUSED_PARAMETER(source);
+    CY_UNUSED_PARAMETER(signal);
+    return CYHAL_TIMER_RSLT_ERR_BAD_ARGUMENT;
+#endif
 }
 
 cy_rslt_t cyhal_timer_enable_output(cyhal_timer_t *obj, cyhal_timer_output_t signal, cyhal_source_t *source)

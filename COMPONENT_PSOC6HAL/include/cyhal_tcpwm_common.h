@@ -205,9 +205,10 @@ bool _cyhal_tcpwm_pm_transition_pending(void);
  * @param[in] obj      TCPWM HAL object
  * @param[in] source   Source signal obtained from another driver's cyhal_<PERIPH>_enable_output
  * @param[in] signal   The TCPWM input signal
+ * @param[in] type     The edge type of the signal to connect
  * @return The status of the connection
  * */
-cy_rslt_t _cyhal_tcpwm_connect_digital(cyhal_tcpwm_t *obj, cyhal_source_t source, cyhal_tcpwm_input_t signal);
+cy_rslt_t _cyhal_tcpwm_connect_digital(cyhal_tcpwm_t *obj, cyhal_source_t source, cyhal_tcpwm_input_t signal, cyhal_edge_type_t type);
 
 /** Enables the specified output signal from a TCPWM that will be triggered
  * when the corresponding event occurs. Multiple output signals can be

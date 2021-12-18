@@ -37,6 +37,17 @@ This release of the CAT1 HAL includes support for the following drivers:
 * WDT
 
 ### What Changed?
+#### v2.0.1
+This patch release addresses issues in several drivers:
+* RTC:
+  1. Do not use RTOS delay even in RTOS-aware mode, to avoid ordering requirements between RTC and RTOS init.
+* PWM:
+  1. Fix incorrect period/duty cycle calculation when a `line_n` (inverted) output pin is used as the sole,
+     non-inverted PWM output.
+* PWM/Timer/QuadDec
+  1. Fix level/edge nature of the source not being honored in `cyhal_*_connect_digital`.
+  2. Add `cyhal_*_connect_digital2` API to allow explicitly specifying edge type (rising/falling/both). This supercedes
+     `cyhal_connect_digital`, which defaults to rising edge when the source is an "edge" signal.
 #### v2.0.0
 This major version update includes changes that break API compatibility with prior releases. Each major or breaking change is described below:
 * Clock:

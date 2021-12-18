@@ -486,33 +486,42 @@ static cyhal_source_t _cyhal_tcpwm_calculate_source(uint8_t out_trig_idx, uint8_
 #endif
 #endif /* defined(CY_IP_M0S8PERI_TR) || defined(CY_IP_MXPERI_TR) || defined(CY_IP_MXSPERI) */
 
-cy_rslt_t _cyhal_tcpwm_connect_digital(cyhal_tcpwm_t *obj, cyhal_source_t source, cyhal_tcpwm_input_t signal)
+cy_rslt_t _cyhal_tcpwm_connect_digital(cyhal_tcpwm_t *obj, cyhal_source_t source, cyhal_tcpwm_input_t signal, cyhal_edge_type_t type)
 {
 #if defined(CY_IP_M0S8PERI_TR) || defined(CY_IP_MXPERI_TR) || defined(CY_IP_MXSPERI)
-    cy_rslt_t rslt;
+    cy_rslt_t rslt = CY_RSLT_SUCCESS;
+    cyhal_signal_type_t signal_type = _CYHAL_TRIGGER_GET_SOURCE_TYPE(source);
+    if((CYHAL_SIGNAL_TYPE_LEVEL == signal_type) != (CYHAL_EDGE_TYPE_LEVEL == type))
+    {
+        rslt = CYHAL_TCPWM_RSLT_ERR_BAD_ARGUMENT;
+    }
+
     const uint8_t chnl = obj->resource.channel_num;
     const uint8_t block = obj->resource.block_num;
+    uint8_t trig_index = 0;
 
-    // Find free input trigger index
-    uint32_t saved_intr_status = cyhal_system_critical_section_enter();
-    uint8_t trig_index;
-    for(trig_index = 0; trig_index < _CYHAL_TCPWM_TRIGGER_INPUTS_PER_BLOCK; trig_index++)
+    if(CY_RSLT_SUCCESS == rslt)
     {
-        cyhal_dest_t dest = _cyhal_tpwm_calculate_dest(block, trig_index);
-
-        /* On some devices, not all triggers connect uniformly to all sources, so make sure the trigger
-         * we're trying to use can actually connect to the source we want to use */
-        rslt = _cyhal_connect_signal(source, dest);
-        if (rslt == CY_RSLT_SUCCESS)
+        // Find free input trigger index
+        uint32_t saved_intr_status = cyhal_system_critical_section_enter();
+        for(trig_index = 0; trig_index < _CYHAL_TCPWM_TRIGGER_INPUTS_PER_BLOCK; trig_index++)
         {
-            break;
-        }
-    }
-    cyhal_system_critical_section_exit(saved_intr_status);
+            cyhal_dest_t dest = _cyhal_tpwm_calculate_dest(block, trig_index);
 
-    if(trig_index == _CYHAL_TCPWM_TRIGGER_INPUTS_PER_BLOCK)
-    {
-        rslt = CYHAL_TCPWM_RSLT_ERR_NO_FREE_INPUT_SIGNALS;
+            /* On some devices, not all triggers connect uniformly to all sources, so make sure the trigger
+             * we're trying to use can actually connect to the source we want to use */
+            rslt = _cyhal_connect_signal(source, dest);
+            if (rslt == CY_RSLT_SUCCESS)
+            {
+                break;
+            }
+        }
+        cyhal_system_critical_section_exit(saved_intr_status);
+
+        if(trig_index == _CYHAL_TCPWM_TRIGGER_INPUTS_PER_BLOCK)
+        {
+            rslt = CYHAL_TCPWM_RSLT_ERR_NO_FREE_INPUT_SIGNALS;
+        }
     }
 
     if(CY_RSLT_SUCCESS == rslt)
@@ -521,7 +530,6 @@ cy_rslt_t _cyhal_tcpwm_connect_digital(cyhal_tcpwm_t *obj, cyhal_source_t source
         // Clear appropriate trigger reg field and set input index and edge trigger type
         // Note: Input trigger indices 0 and 1 are reserved for constant signals 0
         // and 1 respectively. The first actual trigger input has index 2.
-        cyhal_signal_type_t type = _CYHAL_TRIGGER_GET_SOURCE_TYPE(source);
         switch(signal)
         {
             case CYHAL_TCPWM_INPUT_START:
@@ -563,7 +571,6 @@ cy_rslt_t _cyhal_tcpwm_connect_digital(cyhal_tcpwm_t *obj, cyhal_source_t source
         // trigger type.
         // Note: Cy_TCPWM_InputTriggerSetup assumes channel indices for block 0 are
         // 0-255 and block 1 are 256-511.
-        cyhal_signal_type_t type = _CYHAL_TRIGGER_GET_SOURCE_TYPE(source);
         switch(signal)
         {
             case CYHAL_TCPWM_INPUT_START:
@@ -620,6 +627,7 @@ cy_rslt_t _cyhal_tcpwm_connect_digital(cyhal_tcpwm_t *obj, cyhal_source_t source
     CY_UNUSED_PARAMETER(obj);
     CY_UNUSED_PARAMETER(source);
     CY_UNUSED_PARAMETER(signal);
+    CY_UNUSED_PARAMETER(type);
 
     return CYHAL_TCPWM_RSLT_ERR_BAD_ARGUMENT;
 #endif /* defined(CY_IP_M0S8PERI_TR) || defined(CY_IP_MXPERI_TR) || defined(CY_IP_MXSPERI) */

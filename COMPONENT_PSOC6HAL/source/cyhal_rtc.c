@@ -93,6 +93,9 @@ extern "C" {
 static const uint32_t _CYHAL_RTC_MAX_RETRY = 10;
 static const uint32_t _CYHAL_RTC_RETRY_DELAY_MS = 1;
 
+// Note: Use PDL directly rather than HAL. RTOS-aware delay is not needed and actually breaks functionality.
+#define _CYHAL_RTC_WAIT_ONE_MS()   Cy_SysLib_Delay(_CYHAL_RTC_RETRY_DELAY_MS);
+
 static void _cyhal_rtc_from_pdl_time(cy_stc_rtc_config_t *pdlTime, const int year, struct tm *time) {
     CY_ASSERT(NULL != pdlTime);
     CY_ASSERT(NULL != time);
@@ -323,7 +326,7 @@ cy_rslt_t cyhal_rtc_write_direct(cyhal_rtc_t *obj, uint32_t sec, uint32_t min, u
     do
     {
         if (retry != 0)
-            cyhal_system_delay_ms(_CYHAL_RTC_RETRY_DELAY_MS);
+            _CYHAL_RTC_WAIT_ONE_MS();
         uint32_t savedIntrStatus = cyhal_system_critical_section_enter();
         rslt = Cy_RTC_SetDateAndTimeDirect(sec, min, hour, day, month, year2digit);
         if (rslt == CY_RSLT_SUCCESS)
@@ -335,7 +338,7 @@ cy_rslt_t cyhal_rtc_write_direct(cyhal_rtc_t *obj, uint32_t sec, uint32_t min, u
     retry = 0;
     while (CY_RTC_BUSY == Cy_RTC_GetSyncStatus() && retry < _CYHAL_RTC_MAX_RETRY)
     {
-        cyhal_system_delay_ms(_CYHAL_RTC_RETRY_DELAY_MS);
+        _CYHAL_RTC_WAIT_ONE_MS();
         ++retry;
     }
 
@@ -403,7 +406,7 @@ cy_rslt_t cyhal_rtc_set_alarm(cyhal_rtc_t *obj, const struct tm *time, cyhal_ala
     do
     {
         if (retry != 0)
-            cyhal_system_delay_ms(_CYHAL_RTC_RETRY_DELAY_MS);
+            _CYHAL_RTC_WAIT_ONE_MS();
         rslt = (cy_rslt_t)Cy_RTC_SetAlarmDateAndTime(&alarm, CY_RTC_ALARM_1);
         ++retry;
     } while (rslt == CY_RTC_INVALID_STATE && retry < _CYHAL_RTC_MAX_RETRY);

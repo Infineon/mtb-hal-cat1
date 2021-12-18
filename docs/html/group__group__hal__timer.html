@@ -246,6 +246,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga5458a719692e938b056150351b287967"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__timer.html#ga5458a719692e938b056150351b287967">cyhal_timer_connect_digital</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__timer__t">cyhal_timer_t</a> *obj, <a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a> source, <a class="el" href="group__group__hal__timer.html#gadb5da20c0e7111025f4091339dd36fc4">cyhal_timer_input_t</a> signal)</td></tr>
 <tr class="memdesc:ga5458a719692e938b056150351b287967"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connects a source signal and configures and enables a timer event to be triggered from that signal.  <a href="#ga5458a719692e938b056150351b287967">More...</a><br /></td></tr>
 <tr class="separator:ga5458a719692e938b056150351b287967"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaae442666b6e677210fb779f0d4e3a084"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__timer.html#gaae442666b6e677210fb779f0d4e3a084">cyhal_timer_connect_digital2</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__timer__t">cyhal_timer_t</a> *obj, <a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a> source, <a class="el" href="group__group__hal__timer.html#gadb5da20c0e7111025f4091339dd36fc4">cyhal_timer_input_t</a> signal, <a class="el" href="group__group__hal__general__types.html#ga48a2f3a7a4210f50859fc68fa3db9391">cyhal_edge_type_t</a> edge_type)</td></tr>
+<tr class="memdesc:gaae442666b6e677210fb779f0d4e3a084"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connects a source signal and configures and enables a timer event to be triggered from that signal with a configurable edge type.  <a href="#gaae442666b6e677210fb779f0d4e3a084">More...</a><br /></td></tr>
+<tr class="separator:gaae442666b6e677210fb779f0d4e3a084"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga0e7450df4a250d811d1ce60cb69285f8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__timer.html#ga0e7450df4a250d811d1ce60cb69285f8">cyhal_timer_enable_output</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__timer__t">cyhal_timer_t</a> *obj, <a class="el" href="group__group__hal__timer.html#ga3b82fcbb7e540b55f1923f0cc4c77c30">cyhal_timer_output_t</a> signal, <a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a> *source)</td></tr>
 <tr class="memdesc:ga0e7450df4a250d811d1ce60cb69285f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables the specified output signal from a tcpwm that will be triggered when the corresponding event occurs.  <a href="#ga0e7450df4a250d811d1ce60cb69285f8">More...</a><br /></td></tr>
 <tr class="separator:ga0e7450df4a250d811d1ce60cb69285f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -855,12 +858,65 @@ Default value of the timer/counter. <a class="el" href="group__group__hal__timer
 </div><div class="memdoc">
 
 <p>Connects a source signal and configures and enables a timer event to be triggered from that signal. </p>
+<p>These timer events can be configured independently and connect to the same or different source signals. </p><dl class="section note"><dt>Note</dt><dd>For "edge" signals, this function will default to rising edge. To control the edge type, use <a class="el" href="group__group__hal__timer.html#gaae442666b6e677210fb779f0d4e3a084">cyhal_timer_connect_digital2</a></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>Timer obj </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">source</td><td>Source signal obtained from another driver's cyhal_&lt;PERIPH&gt;_enable_output </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">signal</td><td>The timer input signal </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The current status of the connection </dd></dl>
+
+</div>
+</div>
+<a id="gaae442666b6e677210fb779f0d4e3a084"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaae442666b6e677210fb779f0d4e3a084">&#9670;&nbsp;</a></span>cyhal_timer_connect_digital2()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_timer_connect_digital2 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__timer__t">cyhal_timer_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__triggers__psoc6__01.html#ga96236d1368f920d28af90262e8b57046">cyhal_source_t</a>&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__timer.html#gadb5da20c0e7111025f4091339dd36fc4">cyhal_timer_input_t</a>&#160;</td>
+          <td class="paramname"><em>signal</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__general__types.html#ga48a2f3a7a4210f50859fc68fa3db9391">cyhal_edge_type_t</a>&#160;</td>
+          <td class="paramname"><em>edge_type</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Connects a source signal and configures and enables a timer event to be triggered from that signal with a configurable edge type. </p>
 <p>These timer events can be configured independently and connect to the same or different source signals.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>Timer obj </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">source</td><td>Source signal obtained from another driver's cyhal_&lt;PERIPH&gt;_enable_output </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">signal</td><td>The timer input signal </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">edge_type</td><td>The edge type that should trigger the event. This must be consistent with the edge type of <code>source</code>. If <code>source</code> produces a "level" signal, the only valid value is <a class="el" href="group__group__hal__general__types.html#gga48a2f3a7a4210f50859fc68fa3db9391aa3d90da24e0ba6dff6a0f4c816d1853b">CYHAL_EDGE_TYPE_LEVEL</a>. If <code>source</code> produces an "edge" signal, then <a class="el" href="group__group__hal__general__types.html#gga48a2f3a7a4210f50859fc68fa3db9391aa3d90da24e0ba6dff6a0f4c816d1853b">CYHAL_EDGE_TYPE_LEVEL</a> is not a valid value. </td></tr>
   </table>
   </dd>
 </dl>
