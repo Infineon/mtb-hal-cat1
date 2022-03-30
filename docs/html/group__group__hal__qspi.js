@@ -2,11 +2,15 @@ var group__group__hal__qspi =
 [
     [ "QSPI HAL Results", "group__group__hal__results__qspi.html", "group__group__hal__results__qspi" ],
     [ "cyhal_qspi_command_t", "group__group__hal__qspi.html#structcyhal__qspi__command__t", [
-      [ "instruction", "group__group__hal__qspi.html#ae90070545041b6f4078390c3bcbded84", null ],
-      [ "address", "group__group__hal__qspi.html#a08b954cada0c317c9510c9d49b0be12f", null ],
-      [ "mode_bits", "group__group__hal__qspi.html#a011794ffc290e7e667ebaf68e08cfabd", null ],
-      [ "dummy_cycles", "group__group__hal__qspi.html#a1f578b00a3aea0b37e9808bb82b42e79", null ],
-      [ "data", "group__group__hal__qspi.html#ab53b195d94bebbbf922a1d10e12a2f44", null ]
+      [ "instruction", "group__group__hal__qspi.html#adf9dd732169ddf6d4e965358c0307bcb", null ],
+      [ "address", "group__group__hal__qspi.html#a08499159dac57929b43f63d15add1341", null ],
+      [ "mode_bits", "group__group__hal__qspi.html#abd8ab651ee766c3c6d3dafe722a75110", null ],
+      [ "dummy_cycles", "group__group__hal__qspi.html#a3ffb628d6e18c8ffc60667d46af23325", null ],
+      [ "data", "group__group__hal__qspi.html#a650ff21434ebed2c9ae6861252c2873a", null ]
+    ] ],
+    [ "cyhal_qspi_slave_pin_config_t", "group__group__hal__qspi.html#structcyhal__qspi__slave__pin__config__t", [
+      [ "io", "group__group__hal__qspi.html#ab5692bbff73ecb9c1cf71aa23d203bc1", null ],
+      [ "ssel", "group__group__hal__qspi.html#ad983d763a009536ffbd385d25b2cea11", null ]
     ] ],
     [ "cyhal_qspi_command_t.instruction", "group__group__hal__qspi.html#structcyhal__qspi__command__t_8instruction", [
       [ "bus_width", "group__group__hal__qspi.html#aaea78d2eed5d55bf6a19b3a4933520d2", null ],
@@ -36,10 +40,6 @@ var group__group__hal__qspi =
     [ "cyhal_qspi_command_t.data", "group__group__hal__qspi.html#structcyhal__qspi__command__t_8data", [
       [ "bus_width", "group__group__hal__qspi.html#aaea78d2eed5d55bf6a19b3a4933520d2", null ],
       [ "data_rate", "group__group__hal__qspi.html#ae1ed362731f051e94dc58a95e0888c4d", null ]
-    ] ],
-    [ "cyhal_qspi_slave_pin_config_t", "group__group__hal__qspi.html#structcyhal__qspi__slave__pin__config__t", [
-      [ "io", "group__group__hal__qspi.html#ab5692bbff73ecb9c1cf71aa23d203bc1", null ],
-      [ "ssel", "group__group__hal__qspi.html#ad983d763a009536ffbd385d25b2cea11", null ]
     ] ],
     [ "cyhal_qspi_event_callback_t", "group__group__hal__qspi.html#ga42887dff6257345711b353990edb1ab1", null ],
     [ "cyhal_qspi_bus_width_t", "group__group__hal__qspi.html#gaddc93a79f0708fd53897d0c37bc7544b", [

@@ -128,6 +128,18 @@ extern "C" {
 /** \ref cyhal_i2c_abort_async operation failed with timeout */
 #define CYHAL_I2C_RSLT_ERR_ABORT_ASYNC_TIMEOUT          \
     (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_I2C, 6))
+/** Bad argument provided */
+#define CYHAL_I2C_RSLT_ERR_BAD_ARGUMENT                 \
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_I2C, 7))
+/** Unsupported by this device */
+#define CYHAL_I2C_RSLT_ERR_UNSUPPORTED                  \
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_I2C, 8))
+/** No ACK received */
+#define CYHAL_I2C_RSLT_ERR_NO_ACK                       \
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_I2C, 9))
+/** Command error */
+#define CYHAL_I2C_RSLT_ERR_CMD_ERROR                    \
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_I2C, 10))
 /**
  * \}
  */
@@ -299,10 +311,10 @@ cy_rslt_t cyhal_i2c_master_mem_write(cyhal_i2c_t *obj, uint16_t address, uint16_
  *
  * @param[in]  obj            The I2C object
  * @param[in]  address        device address (7-bit)
- * @param[in]  mem_addr       mem address to store the written data
+ * @param[in]  mem_addr       mem address to read the data from
  * @param[in]  mem_addr_size  number of bytes in the mem address
- * @param[out] data           I2C master send data
- * @param[in]  size           I2C master send data size
+ * @param[out] data           I2C master receive data
+ * @param[in]  size           I2C master receive data size
  * @param[in]  timeout        timeout in millisecond, set this value to 0 if you want to wait forever
  * @return The status of the read request
  */

@@ -24,6 +24,7 @@ var group__group__hal__results =
     [ "SDIO HAL Results", "group__group__hal__results__sdio.html", "group__group__hal__results__sdio" ],
     [ "SPI HAL Results", "group__group__hal__results__spi.html", "group__group__hal__results__spi" ],
     [ "SYSPM HAL Results", "group__group__hal__results__syspm.html", "group__group__hal__results__syspm" ],
+    [ "SYSTEM HAL Results", "group__group__hal__results__system.html", "group__group__hal__results__system" ],
     [ "TDM HAL Results", "group__group__hal__results__tdm.html", "group__group__hal__results__tdm" ],
     [ "Timer HAL Results", "group__group__hal__results__timer.html", "group__group__hal__results__timer" ],
     [ "TRNG HAL Results", "group__group__hal__results__trng.html", "group__group__hal__results__trng" ],

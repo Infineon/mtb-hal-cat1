@@ -54,7 +54,7 @@
 * 2 and 3 for data storage.
 *
 * \section features Features
-* * Flash operations are performed on a per-sector basis
+* * Flash operations are performed on a per-page (program) or per-sector (erase) basis
 * * Supports blocking or partially blocking erase, program and write
 * \section code_snippet Code Snippets
 * \subsection subsection_flash_use_case_1 Snippet 1: Discovering flash characteristics
@@ -175,14 +175,14 @@ void cyhal_flash_get_info(const cyhal_flash_t *obj, cyhal_flash_info_t *info);
  */
 cy_rslt_t cyhal_flash_read(cyhal_flash_t *obj, uint32_t address, uint8_t *data, size_t size);
 
-/** Erase one page starting at a defined address. The address must be at page boundary. This
+/** Erase one sector starting at a defined address. The address must be at sector boundary. This
  *  will block until the erase operation is complete.
  *
  *  @see cyhal_flash_get_info() to get the flash characteristics for legal address values and
  *  the page erase size.
  *
  * @param[in] obj The flash object
- * @param[in] address The page starting address
+ * @param[in] address The sector starting address
  * @return The status of the erase request. Returns \ref CY_RSLT_SUCCESS on successful operation.
  *
  *  Refer \ref subsection_flash_use_case_2 for more information.
@@ -224,8 +224,8 @@ cy_rslt_t cyhal_flash_write(cyhal_flash_t *obj, uint32_t address, const uint32_t
  */
 cy_rslt_t cyhal_flash_program(cyhal_flash_t *obj, uint32_t address, const uint32_t *data);
 
-/** Starts an asynchronous erase of a single page of flash. Returns immediately and reports
- *  a successful start or reason for failure. The address must be aligned on a page boundary.
+/** Starts an asynchronous erase of a single sector of flash. Returns immediately and reports
+ *  a successful start or reason for failure. The address must be aligned on a sector boundary.
  *
  *  @see cyhal_flash_get_info() to get the flash characteristics for legal address values and
  *  the page erase size.
