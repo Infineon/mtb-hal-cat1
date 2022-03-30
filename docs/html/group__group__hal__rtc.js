@@ -14,10 +14,10 @@ var group__group__hal__rtc =
       [ "hour", "group__group__hal__rtc.html#a5270b5844693af6788a0a5da60ead51c", null ],
       [ "month", "group__group__hal__rtc.html#a7063f23fa8e30374c3c6593d272dc99f", null ]
     ] ],
-    [ "cyhal_rtc_dst_t.__unnamed__", "group__group__hal__rtc.html#unioncyhal__rtc__dst__t_8____unnamed____", [
+    [ "cyhal_rtc_dst_t.__unnamed6__", "group__group__hal__rtc.html#unioncyhal__rtc__dst__t_8____unnamed6____", [
       [ "dayOfMonth", "group__group__hal__rtc.html#a79c2c19f09b65c5f0c478ddfa1d94217", null ]
     ] ],
-    [ "cyhal_rtc_dst_t.__unnamed__.__unnamed__", "group__group__hal__rtc.html#structcyhal__rtc__dst__t_8____unnamed_____8____unnamed____", [
+    [ "cyhal_rtc_dst_t.__unnamed6__.__unnamed8__", "group__group__hal__rtc.html#structcyhal__rtc__dst__t_8____unnamed6_____8____unnamed8____", [
       [ "dayOfWeek", "group__group__hal__rtc.html#ace4dee25729a2b40b820be71381ef6e8", null ],
       [ "weekOfMonth", "group__group__hal__rtc.html#abf56bc091977265c543ca16fd0189045", null ]
     ] ],

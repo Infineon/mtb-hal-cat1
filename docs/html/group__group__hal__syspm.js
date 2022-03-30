@@ -21,7 +21,8 @@ var group__group__hal__syspm =
       [ "CYHAL_SYSPM_CHECK_READY", "group__group__hal__syspm.html#gga5a6a88eb2b6e35dbea25e36b027bf4baa1d8aad9b05d313a22e7666a98414f26d", null ],
       [ "CYHAL_SYSPM_CHECK_FAIL", "group__group__hal__syspm.html#gga5a6a88eb2b6e35dbea25e36b027bf4baa190eae9b4e71d4c245038320880dcca3", null ],
       [ "CYHAL_SYSPM_BEFORE_TRANSITION", "group__group__hal__syspm.html#gga5a6a88eb2b6e35dbea25e36b027bf4baadd83c77cb81d9d4aafef1d094e6c4e71", null ],
-      [ "CYHAL_SYSPM_AFTER_TRANSITION", "group__group__hal__syspm.html#gga5a6a88eb2b6e35dbea25e36b027bf4baaf6a195dbd042da0bffc35b9161ca49e6", null ]
+      [ "CYHAL_SYSPM_AFTER_TRANSITION", "group__group__hal__syspm.html#gga5a6a88eb2b6e35dbea25e36b027bf4baaf6a195dbd042da0bffc35b9161ca49e6", null ],
+      [ "CYHAL_SYSPM_AFTER_DS_WFI_TRANSITION", "group__group__hal__syspm.html#gga5a6a88eb2b6e35dbea25e36b027bf4baa229203f249d95cf1cac7414c1baf66f3", null ]
     ] ],
     [ "cyhal_syspm_system_state_t", "group__group__hal__syspm.html#ga144e474d3bfb544b207f172d1d8bd633", [
       [ "CYHAL_SYSPM_SYSTEM_NORMAL", "group__group__hal__syspm.html#gga144e474d3bfb544b207f172d1d8bd633acd2a5522b6591eb77418369e464a3eb1", null ],

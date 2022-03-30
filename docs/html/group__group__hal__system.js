@@ -1,6 +1,7 @@
 var group__group__hal__system =
 [
-    [ "cyhal_irq_handler", "group__group__hal__system.html#ga9979d69ab0f4abc5a7822e0f45b64098", null ],
+    [ "SYSTEM HAL Results", "group__group__hal__results__system.html", "group__group__hal__results__system" ],
+    [ "cyhal_irq_handler", "group__group__hal__system.html#gaa60625daf3efd10f83a90b0032b4a818", null ],
     [ "cyhal_reset_reason_t", "group__group__hal__system.html#ga53ba6a7416574a1b03890d23b7a90264", [
       [ "CYHAL_SYSTEM_RESET_NONE", "group__group__hal__system.html#gga53ba6a7416574a1b03890d23b7a90264a95a4c3cce365341fe7bca673720a2d93", null ],
       [ "CYHAL_SYSTEM_RESET_WDT", "group__group__hal__system.html#gga53ba6a7416574a1b03890d23b7a90264a28d2eb1bf90f731f930c487d8dcd8079", null ],

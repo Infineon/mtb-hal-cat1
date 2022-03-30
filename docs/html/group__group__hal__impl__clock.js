@@ -14,6 +14,16 @@ var group__group__hal__impl__clock =
     [ "CYHAL_CLOCK_RSC_BAK", "group__group__hal__impl__clock.html#ga98d7a224bae007464595768d95b8559d", null ],
     [ "CYHAL_CLOCK_ALT_SYS_TICK", "group__group__hal__impl__clock.html#gab49154190c96980d30083dc14f67d17f", null ],
     [ "CYHAL_CLOCK_RSC_ALT_SYS_TICK", "group__group__hal__impl__clock.html#ga47459709a41879a328c97f1284ea17d2", null ],
+    [ "CYHAL_CLOCK_FAST", "group__group__hal__impl__clock.html#gaf539298b23f6996cb528d43b549f8c95", null ],
+    [ "CYHAL_CLOCK_RSC_FAST", "group__group__hal__impl__clock.html#ga5690b87ad8b4c91bcaa3ae98aaa17650", null ],
+    [ "CYHAL_CLOCK_PERI", "group__group__hal__impl__clock.html#gafcbe817ceabb458102e1a3feb09602b5", null ],
+    [ "CYHAL_CLOCK_RSC_PERI", "group__group__hal__impl__clock.html#ga5311f97690fc83c3bd82db9e90a9e568", null ],
+    [ "CYHAL_CLOCK_TIMER", "group__group__hal__impl__clock.html#ga300fb26bf53addc944f83c76117a77c0", null ],
+    [ "CYHAL_CLOCK_RSC_TIMER", "group__group__hal__impl__clock.html#ga4420518cba1d3ca3e40d92263d0a8fc0", null ],
+    [ "CYHAL_CLOCK_SLOW", "group__group__hal__impl__clock.html#gaf91375873912ee8a41a7d4e603a45eb3", null ],
+    [ "CYHAL_CLOCK_RSC_SLOW", "group__group__hal__impl__clock.html#gabd612227985c168f6bc057a51e75f3b1", null ],
+    [ "CYHAL_CLOCK_FLL", "group__group__hal__impl__clock.html#ga87e5cc2778c89671f4726bd9f7ddc72c", null ],
+    [ "CYHAL_CLOCK_RSC_FLL", "group__group__hal__impl__clock.html#gabae928661e1c096f046223d1278d63b1", null ],
     [ "CYHAL_CLOCK_HF", "group__group__hal__impl__clock.html#gaf4b09205667edc47ed28e48016b568b3", null ],
     [ "CYHAL_CLOCK_RSC_HF", "group__group__hal__impl__clock.html#gad23c8f42d356dd8d95cb13b463d5e6a7", null ]
 ];

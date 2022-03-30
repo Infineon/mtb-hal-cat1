@@ -190,20 +190,23 @@ typedef enum
  */
 typedef enum
 {
-    CYHAL_SYSPM_CHECK_READY         = 0x01U, /**< Callbacks with this mode are executed before entering into the
-                                                low power mode. The purpose of this transition state is to check
-                                                if the device is ready to enter the low power mode. The application
-                                                must not perform any actions that would prevent transition after
-                                                returning true for this mode. */
-    CYHAL_SYSPM_CHECK_FAIL          = 0x02U, /**< Callbacks with this mode are only executed if the callback returned true
-                                                for CYHAL_SYSPM_CHECK_READY and a later callback returns false for
-                                                CYHAL_SYSPM_CHECK_READY. This mode should roll back any changes made
-                                                to avoid blocking transition made in CYHAL_SYSPM_CHECK_READY mode*/
-    CYHAL_SYSPM_BEFORE_TRANSITION   = 0x04U, /**< Callbacks with this mode are executed after the CYHAL_SYSPM_CHECK_READY
-                                                callbacks' execution returns true. In this mode, the application must
-                                                perform the actions to be done before entering into the low power mode. */
-    CYHAL_SYSPM_AFTER_TRANSITION    = 0x08U, /**< In this mode, the application must perform the actions to be done after
-                                                exiting the low power mode. */
+    CYHAL_SYSPM_CHECK_READY              = 0x01U, /**< Callbacks with this mode are executed before entering into the
+                                                  low power mode. The purpose of this transition state is to check
+                                                  if the device is ready to enter the low power mode. The application
+                                                  must not perform any actions that would prevent transition after
+                                                  returning true for this mode. */
+    CYHAL_SYSPM_CHECK_FAIL               = 0x02U, /**< Callbacks with this mode are only executed if the callback returned true
+                                                  for CYHAL_SYSPM_CHECK_READY and a later callback returns false for
+                                                  CYHAL_SYSPM_CHECK_READY. This mode should roll back any changes made
+                                                  to avoid blocking transition made in CYHAL_SYSPM_CHECK_READY mode*/
+    CYHAL_SYSPM_BEFORE_TRANSITION        = 0x04U, /**< Callbacks with this mode are executed after the CYHAL_SYSPM_CHECK_READY
+                                                  callbacks' execution returns true. In this mode, the application must
+                                                  perform the actions to be done before entering into the low power mode. */
+    CYHAL_SYSPM_AFTER_TRANSITION         = 0x08U, /**< In this mode, the application must perform the actions to be done after
+                                                  exiting the low power mode. */
+    CYHAL_SYSPM_AFTER_DS_WFI_TRANSITION  = 0x10U, /**< Performs the actions to be done after exiting the Deepsleep low
+                                                  power mode if entered and before the interrupts are enabled.This mode is not
+                                                  invoked on all devices, see the implementation specific documentation for details. */
 } cyhal_syspm_callback_mode_t;
 
 /** The system wide custom action power callback type.

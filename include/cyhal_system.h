@@ -77,6 +77,20 @@
 extern "C" {
 #endif
 
+/** \addtogroup group_hal_results_system SYSTEM HAL Results
+ *  SYSTEM specific return codes
+ *  \ingroup group_hal_results
+ *  \{ *//**
+ */
+
+/** Functionality not supported on the current platform */
+#define CYHAL_SYSTEM_RSLT_ERR_NOT_SUPPORTED           \
+    (CY_RSLT_CREATE_EX(CY_RSLT_TYPE_ERROR, CY_RSLT_MODULE_ABSTRACTION_HAL, CYHAL_RSLT_MODULE_SYSTEM, 0))
+
+/**
+ * \}
+ */
+
 /** Flags enum of possible system reset causes */
 typedef enum
 {

@@ -37,6 +37,9 @@ This release of the CAT1 HAL includes support for the following drivers:
 * WDT
 
 ### What Changed?
+#### v2.1.0
+* Pre-production support for CAT1B devices
+* Fixed a few bugs in various drivers
 #### v2.0.1
 This patch release addresses issues in several drivers:
 * RTC:

@@ -2,7 +2,7 @@ var group__group__hal__usb__dev__common =
 [
     [ "cyhal_usb_dev_ep_t", "group__group__hal__usb__dev__common.html#ga62a268fe35f5e68f1faf9b362ee6c307", null ],
     [ "cyhal_usb_dev_irq_callback_t", "group__group__hal__usb__dev__common.html#ga2f2997674c9f3de87ef66c2a7efba533", null ],
-    [ "cyhal_usb_dev_endpoint_callback_t", "group__group__hal__usb__dev__common.html#ga8e9b21021ff08b7d2d53aaaef5c8f1b6", null ],
+    [ "cyhal_usb_dev_endpoint_callback_t", "group__group__hal__usb__dev__common.html#ga88241f53490fed2cce33872947c67053", null ],
     [ "cyhal_usb_dev_event_callback_t", "group__group__hal__usb__dev__common.html#ga06d07346fb9aeaca315b468647a79f25", null ],
     [ "cyhal_usb_dev_sof_callback_t", "group__group__hal__usb__dev__common.html#gaf0796dc590759a7809327c60d4616218", null ],
     [ "cyhal_usb_dev_event_t", "group__group__hal__usb__dev__common.html#gab0df7903f398f360d71e8beb78ead49b", [

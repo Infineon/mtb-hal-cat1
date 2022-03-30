@@ -2,18 +2,20 @@ var group__group__hal__impl =
 [
     [ "Clocks", "group__group__hal__impl__clock.html", "group__group__hal__impl__clock" ],
     [ "DMA (Direct Memory Access)", "group__group__hal__impl__dma.html", "group__group__hal__impl__dma" ],
+    [ "GPIO", "group__group__hal__impl__gpio.html", null ],
     [ "HAL Driver Availability Macros", "group__group__hal__impl__availability.html", "group__group__hal__impl__availability" ],
     [ "CAT1 Specific Hardware Types", "group__group__hal__impl__hw__types.html", "group__group__hal__impl__hw__types" ],
     [ "Interconnect (Internal Digital Routing)", "group__group__hal__impl__interconnect.html", "group__group__hal__impl__interconnect" ],
     [ "Pins", "group__group__hal__impl__pin__package.html", "group__group__hal__impl__pin__package" ],
     [ "System Power Management", "group__group__hal__impl__syspm.html", null ],
     [ "Timer (Timer/Counter)", "group__group__hal__impl__timer.html", null ],
-    [ "Triggers", "group__group__hal__impl__triggers.html", "group__group__hal__impl__triggers" ],
     [ "WDT (Watchdog Timer)", "group__group__hal__impl__wdt.html", null ],
     [ "ADC (Analog Digital Converter)", "group__group__hal__impl__adcmic.html", null ],
     [ "ADC (Analog Digital Converter)", "group__group__hal__impl__adc.html", "group__group__hal__impl__adc" ],
     [ "COMP (Analog Comparator)", "group__group__hal__impl__comp.html", null ],
     [ "DAC (Digital to Analog Converter)", "group__group__hal__impl__dac.html", null ],
+    [ "I2S (Inter-IC Sound)", "group__group__hal__impl__i2s.html", null ],
+    [ "IRQ Muxing (Interrupt muxing)", "group__group__hal__impl__irq.html", null ],
     [ "KeyScan", "group__group__hal__impl__keyscan.html", null ],
     [ "LPTimer (Low-Power Timer)", "group__group__hal__impl__lptimer.html", null ],
     [ "Opamp (Operational Amplifier)", "group__group__hal__impl__opamp.html", null ],
@@ -24,5 +26,6 @@ var group__group__hal__impl =
     [ "RTC (Real Time Clock)", "group__group__hal__impl__rtc.html", null ],
     [ "SDHC (SD Host Controller)", "group__group__hal__impl__sdhc.html", null ],
     [ "SPI (Serial Peripheral Interface)", "group__group__hal__impl__spi.html", null ],
+    [ "TDM (Time Division Multiplexing)", "group__group__hal__impl__tdm.html", null ],
     [ "UDB SDIO (Secure Digital Input Output)", "group__group__hal__impl__udb__sdio.html", null ]
 ];
