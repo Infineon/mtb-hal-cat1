@@ -7,7 +7,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* Copyright 2018-2022 Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -37,7 +37,7 @@
 #include "cyhal_clock.h"
 #include "cyhal_hwmgr.h"
 #include "cyhal_utils.h"
-#include "cyhal_irq_psoc.h"
+#include "cyhal_irq_impl.h"
 #include "cyhal_system.h"
 #include "cyhal_syspm.h"
 
@@ -377,6 +377,7 @@ static bool _cyhal_sdxx_handle_weak_func(const SDHC_Type *base, _cyhal_sdhc_weak
     uint8_t f_idx = (uint8_t)weak_function;
 
     /* Indexes according to _cyhal_sdhc_weak_func_type */
+    #if _CYHAL_SDHC_IO_VOLT_SEL_PRESENT
     static const cyhal_resource_pin_mapping_t* pin_mappings[] = {
             cyhal_pin_map_sdhc_card_if_pwr_en, cyhal_pin_map_sdhc_io_volt_sel, cyhal_pin_map_sdhc_card_detect_n,
             cyhal_pin_map_sdhc_card_mech_write_prot
@@ -385,6 +386,16 @@ static bool _cyhal_sdxx_handle_weak_func(const SDHC_Type *base, _cyhal_sdhc_weak
             _CYHAL_SDHC_ELEM_COUNT(cyhal_pin_map_sdhc_card_if_pwr_en), _CYHAL_SDHC_ELEM_COUNT(cyhal_pin_map_sdhc_io_volt_sel),
             _CYHAL_SDHC_ELEM_COUNT(cyhal_pin_map_sdhc_card_detect_n), _CYHAL_SDHC_ELEM_COUNT(cyhal_pin_map_sdhc_card_mech_write_prot)
         };
+    #else  // _CYHAL_SDHC_IO_VOLT_SEL_PRESENT
+    static const cyhal_resource_pin_mapping_t* pin_mappings[] = {
+            cyhal_pin_map_sdhc_card_if_pwr_en, NULL, cyhal_pin_map_sdhc_card_detect_n,
+            cyhal_pin_map_sdhc_card_mech_write_prot
+        };
+    static const size_t pin_mapping_sizes[] = {
+            _CYHAL_SDHC_ELEM_COUNT(cyhal_pin_map_sdhc_card_if_pwr_en), 0,
+            _CYHAL_SDHC_ELEM_COUNT(cyhal_pin_map_sdhc_card_detect_n), _CYHAL_SDHC_ELEM_COUNT(cyhal_pin_map_sdhc_card_mech_write_prot)
+        };
+    #endif // _CYHAL_SDHC_IO_VOLT_SEL_PRESENT
     cyhal_gpio_t pins[] = { pin_pwr_en, pin_io_volt_sel, pin_card_detect, pin_write_prot };
 
     /*  Per sd_host PDL documentation (documentation for Cy_SD_Host_ChangeIoVoltage),
@@ -399,8 +410,20 @@ static bool _cyhal_sdxx_handle_weak_func(const SDHC_Type *base, _cyhal_sdhc_weak
         sdxx->low_voltage_io_set = enable;
     }
 
+    /* BSP-3317. Need to enable PWR_CTRL_R for all pin types */
+    if(weak_function == _CYHAL_SDHC_CARD_VDD)
+    {
+        SDHC_CORE_PWR_CTRL_R(base) =
+                    _CLR_SET_FLD8U(SDHC_CORE_PWR_CTRL_R(base), SDHC_CORE_PWR_CTRL_R_SD_BUS_PWR_VDD1, enable);
+        /* If GPIO pin */
+        if (NULL == _cyhal_utils_get_resource(pins[f_idx], pin_mappings[f_idx], pin_mapping_sizes[f_idx], NULL, false))
+        {
+            cyhal_gpio_write(pins[f_idx], enable);
+        }
+        return true;
+    }
     /* Pin is not provided by user */
-    if (NC == pins[f_idx])
+    else if (NC == pins[f_idx])
     {
         /* Return true for card detect, false for write protect and false for other (dont care) */
         return (weak_function == _CYHAL_SDHC_CARD_DETECT) ? true : false;
@@ -418,7 +441,7 @@ static bool _cyhal_sdxx_handle_weak_func(const SDHC_Type *base, _cyhal_sdhc_weak
             /* Card is mech. write protected if signal is high */
             return cyhal_gpio_read(pins[f_idx]);
         }
-        /* _CYHAL_SDHC_CARD_VDD or _CYHAL_SDHC_CARD_IO_VOLTAGE */
+        /* _CYHAL_SDHC_CARD_IO_VOLTAGE */
         else
         {
             cyhal_gpio_write(pins[f_idx], enable);
@@ -430,12 +453,9 @@ static bool _cyhal_sdxx_handle_weak_func(const SDHC_Type *base, _cyhal_sdhc_weak
     else
     {
         /* Actually copies of corresponding functions from cy_sd_host.c */
+        /* _CYHAL_SDHC_CARD_VDD handled above */
         switch(weak_function)
         {
-            case _CYHAL_SDHC_CARD_VDD:
-                SDHC_CORE_PWR_CTRL_R(base) =
-                        _CLR_SET_FLD8U(SDHC_CORE_PWR_CTRL_R(base), SDHC_CORE_PWR_CTRL_R_SD_BUS_PWR_VDD1, enable);
-                break;
             case _CYHAL_SDHC_CARD_DETECT:
                 while(true != _FLD2BOOL(SDHC_CORE_PSTATE_REG_CARD_STABLE, SDHC_CORE_PSTATE_REG(base)))
                 {
@@ -500,7 +520,6 @@ static uint8_t _cyhal_sdhc_get_block_from_irqn(_cyhal_system_irq_t irqn)
 {
     switch (irqn)
     {
-#if (CY_CPU_CORTEX_M4)
     #if (CY_IP_MXSDHC_INSTANCES > 0)
         case sdhc_0_interrupt_general_IRQn: return 0;
     #endif
@@ -512,7 +531,6 @@ static uint8_t _cyhal_sdhc_get_block_from_irqn(_cyhal_system_irq_t irqn)
     #if (CY_IP_MXSDHC_INSTANCES > 2)
         #error "Unhandled SDHC count"
     #endif
-#endif /* (CY_CPU_CORTEX_M4) */
     default:
         CY_ASSERT(false); /* Should never be called with a non-SDHC IRQn */
         return 0;
@@ -1400,7 +1418,10 @@ static cy_rslt_t _cyhal_sdhc_init_common_hw(cyhal_sdhc_t *obj, const cyhal_sdhc_
             _CYHAL_SDHC_ELEM_COUNT(cyhal_pin_map_sdhc_io_volt_sel), &(sdxx->pin_io_vol_sel),
             _CYHAL_SDHC_CARD_IO_VOLTAGE, !sdxx->dc_configured);
 #else
-        result = CYHAL_SDHC_RSLT_ERR_PIN;
+        result = _cyhal_sdxx_setup_pin(sdxx, io_volt_sel, NULL,
+            CY_GPIO_DM_STRONG_IN_OFF,
+            0, &(sdxx->pin_io_vol_sel),
+            _CYHAL_SDHC_CARD_IO_VOLTAGE, !sdxx->dc_configured);
 #endif
     }
 
@@ -1755,9 +1776,8 @@ void cyhal_sdhc_free(cyhal_sdhc_t *obj)
 
     if (!sdxx->dc_configured)
     {
-    #if _CYHAL_SDHC_IO_VOLT_SEL_PRESENT
+    /* io_vol_sel may have been used with GPIO pin */
         _cyhal_utils_release_if_used(&(sdxx->pin_io_vol_sel));
-    #endif
 
     #if _CYHAL_SDHC_CARD_IF_PWR_EN_PRESENT
         _cyhal_utils_release_if_used(&(obj->pin_card_pwr_en));
@@ -3306,7 +3326,7 @@ cy_rslt_t cyhal_sdio_set_io_voltage(cyhal_sdio_t *obj, cyhal_gpio_t io_volt_sel,
 {
     CY_ASSERT(NULL != obj);
     cy_rslt_t result = CY_RSLT_SUCCESS;
-
+    
     _cyhal_sdxx_t *sdxx = &(obj->sdxx);
 
     if (NC != io_volt_sel)
@@ -3314,10 +3334,17 @@ cy_rslt_t cyhal_sdio_set_io_voltage(cyhal_sdio_t *obj, cyhal_gpio_t io_volt_sel,
         /* Configure provided pin it was not yet configured */
         if (NC == sdxx->pin_io_vol_sel)
         {
+            #if _CYHAL_SDHC_IO_VOLT_SEL_PRESENT
             result = _cyhal_sdxx_setup_pin(sdxx, io_volt_sel, cyhal_pin_map_sdhc_io_volt_sel,
                 CYHAL_PIN_MAP_DRIVE_MODE_SDHC_IO_VOLT_SEL,
                 _CYHAL_SDHC_ELEM_COUNT(cyhal_pin_map_sdhc_io_volt_sel), &(sdxx->pin_io_vol_sel),
                 _CYHAL_SDHC_CARD_IO_VOLTAGE, true);
+            #else
+            result = _cyhal_sdxx_setup_pin(sdxx, io_volt_sel, NULL,
+                CY_GPIO_DM_STRONG_IN_OFF,
+                0, &(sdxx->pin_io_vol_sel),
+                _CYHAL_SDHC_CARD_IO_VOLTAGE, true);
+            #endif //_CYHAL_SDHC_IO_VOLT_SEL_PRESENT
         }
         /* io volt sel pin is already configured and user provided other pin */
         else if (io_volt_sel != sdxx->pin_io_vol_sel)

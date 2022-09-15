@@ -6,7 +6,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* Copyright 2018-2022 Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -29,7 +29,7 @@
 #include "cyhal_gpio.h"
 #include "cyhal_analog_common.h"
 #include "cyhal_hwmgr.h"
-#include "cyhal_irq_psoc.h"
+#include "cyhal_irq_impl.h"
 
 #if (_CYHAL_DRIVER_AVAILABLE_COMP_CTB)
 
@@ -63,7 +63,8 @@ static const cy_stc_ctb_opamp_config_t _cyhal_comp_ctb_default_config =
 #endif
 };
 
-static cyhal_comp_t* _cyhal_comp_ctb_config_structs[_CYHAL_CTB_INSTANCES * _CYHAL_OPAMP_PER_CTB] = { NULL };
+static bool _cyhal_comp_ctb_arrays_initialized = false;
+CY_NOINIT static cyhal_comp_t* _cyhal_comp_ctb_config_structs[_CYHAL_CTB_INSTANCES * _CYHAL_OPAMP_PER_CTB];
 
 static const _cyhal_system_irq_t _cyhal_ctb_irq_n[] =
 {
@@ -165,6 +166,15 @@ static void _cyhal_comp_ctb_irq_handler(void)
 
 cy_rslt_t _cyhal_comp_ctb_init_hw(cyhal_comp_t *obj, const cy_stc_ctb_opamp_config_t* cfg)
 {
+    if (!_cyhal_comp_ctb_arrays_initialized)
+    {
+        for (uint8_t i = 0; i < _CYHAL_CTB_INSTANCES * _CYHAL_OPAMP_PER_CTB; i++)
+        {
+            _cyhal_comp_ctb_config_structs[i] = NULL;
+        }
+        _cyhal_comp_ctb_arrays_initialized = true;
+    }
+
     obj->base_ctb = _cyhal_ctb_base[obj->resource.block_num];
     cy_rslt_t result = Cy_CTB_OpampInit(obj->base_ctb, _cyhal_opamp_convert_sel(obj->resource.channel_num), cfg);
     if(CY_RSLT_SUCCESS == result)
@@ -252,6 +262,7 @@ cy_rslt_t _cyhal_comp_ctb_init_cfg(cyhal_comp_t *obj, const cyhal_comp_configura
 void _cyhal_comp_ctb_free(cyhal_comp_t *obj)
 {
     CY_ASSERT(NULL != obj);
+    CY_ASSERT(_cyhal_comp_ctb_arrays_initialized); /* Should not be freeing if we never initialized anything */
 
     if(CYHAL_RSC_INVALID != obj->resource.type)
     {

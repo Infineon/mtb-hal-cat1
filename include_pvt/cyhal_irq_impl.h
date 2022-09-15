@@ -1,12 +1,12 @@
 /***************************************************************************//**
-* \file cyhal_irq_psoc.h
+* \file cyhal_irq_impl.h
 *
 * \brief
 * Provides internal utility functions for working with interrupts on CAT1/CAT2.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* Copyright 2018-2022 Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -75,6 +75,7 @@ void _cyhal_system_irq_store_priority(cy_en_intr_t system_irq, uint8_t priority)
 uint8_t _cyhal_system_irq_lowest_priority(IRQn_Type cpu_irq);
 #endif
 
+void _cyhal_system_irq_clear_disabled_in_pending(void);
 cy_rslt_t _cyhal_irq_register(_cyhal_system_irq_t system_intr, uint8_t intr_priority, cy_israddress irq_handler);
 
 // TODO: Remove this once DRIVERS-7707 is fixed

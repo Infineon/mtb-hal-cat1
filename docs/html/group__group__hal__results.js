@@ -65,6 +65,7 @@ var group__group__hal__results =
       [ "CYHAL_RSLT_MODULE_USB", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a608cd624d7042ae5d77c6134f7ea382f", null ],
       [ "CYHAL_RSLT_MODULE_WDT", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a012172915d19c167e1db5ff7e188adba", null ],
       [ "CYHAL_RSLT_MODULE_IMPL_TCPWM", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005af99e4705ecb46e6ebf1ce9e9fb73c171", null ],
-      [ "CYHAL_RSLT_MODULE_IMPL_SCB", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005aa7ba6553c921351f322f391838049f91", null ]
+      [ "CYHAL_RSLT_MODULE_IMPL_SCB", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005aa7ba6553c921351f322f391838049f91", null ],
+      [ "CYHAL_RSLT_MODULE_T2TIMER", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005abb3e7eab4c1403e33f9d069725a14787", null ]
     ] ]
 ];

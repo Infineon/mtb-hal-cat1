@@ -9,7 +9,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* Copyright 2018-2022 Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -32,7 +32,7 @@
  * \ingroup group_hal_impl
  * \{
  * \section section_hal_impl_syspm_set_system
- * 
+ *
  * The callback mode \ref CYHAL_SYSPM_AFTER_DS_WFI_TRANSITION is only applicable
  * for CAT1B devices.
  *
@@ -47,7 +47,7 @@
  * \ingroup group_hal_impl
  * \{
  * \section section_hal_impl_syspm_set_system
- * 
+ *
  * Setting the system state is unsupported on CAT2 devices. For CAT2 devices,
  * \ref CYHAL_SYSPM_RSLT_ERR_NOT_SUPPORTED will be returned in the function \ref cyhal_syspm_set_system_state.
  *
@@ -296,15 +296,15 @@ static void _cyhal_syspm_add_callback_to_list(cyhal_syspm_callback_data_t **list
     cyhal_system_critical_section_exit(intr_status);
 }
 
-static void _cyhal_syspm_remove_callback_from_list(cyhal_syspm_callback_data_t **list, cyhal_syspm_callback_data_t *remove)
+static void _cyhal_syspm_remove_callback_from_list(cyhal_syspm_callback_data_t **list, cyhal_syspm_callback_data_t *rmv)
 {
     uint32_t intr_status = cyhal_system_critical_section_enter();
     while(*list != CYHAL_SYSPM_END_OF_LIST)
     {
-        if (*list == remove)
+        if (*list == rmv)
         {
-            *list = remove->next;
-            remove->next = NULL;
+            *list = rmv->next;
+            rmv->next = NULL;
             break;
         }
         list = &((*list)->next);
@@ -479,10 +479,10 @@ cy_rslt_t cyhal_syspm_tickless_sleep_deepsleep(cyhal_lptimer_t *obj, uint32_t de
         cyhal_lptimer_get_info(obj, &timer_info);
 
         //lp_ticks = ms * lp_rate_khz
-        sleep_ticks = ((desired_ms - 1) * timer_info.frequency_hz) / _CYHAL_HZ_TO_KHZ_CONVERSION_FACTOR;
-        initial_ticks = cyhal_lptimer_read(obj);
+        sleep_ticks = (uint32_t)(((uint64_t)(desired_ms - 1) * timer_info.frequency_hz) / _CYHAL_HZ_TO_KHZ_CONVERSION_FACTOR);
 
         result = cyhal_lptimer_set_delay(obj, sleep_ticks);
+        initial_ticks = cyhal_lptimer_read(obj);
         if(result == CY_RSLT_SUCCESS)
         {
             /* Disabling and enabling the system timer is handled in _cyhal_syspm_common_cb in order
@@ -500,7 +500,7 @@ cy_rslt_t cyhal_syspm_tickless_sleep_deepsleep(cyhal_lptimer_t *obj, uint32_t de
                 uint32_t ticks = (final_ticks < initial_ticks)
                                 ? (timer_info.max_counter_value - initial_ticks) + final_ticks
                                 : final_ticks - initial_ticks;
-                *actual_ms = (ticks * _CYHAL_HZ_TO_KHZ_CONVERSION_FACTOR) / timer_info.frequency_hz;
+                *actual_ms = (uint32_t)(((uint64_t)ticks * _CYHAL_HZ_TO_KHZ_CONVERSION_FACTOR) / timer_info.frequency_hz);
             }
 
             cyhal_lptimer_enable_event(obj, CYHAL_LPTIMER_COMPARE_MATCH, CYHAL_ISR_PRIORITY_DEFAULT, false);

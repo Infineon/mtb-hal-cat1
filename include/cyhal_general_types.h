@@ -6,7 +6,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* Copyright 2018-2022 Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -98,6 +98,7 @@ enum cyhal_rslt_module_chip
     // Implementation specific section
     CYHAL_RSLT_MODULE_IMPL_TCPWM    = (0x21),  //!< An error occurred in TCPWM module (TCPWM based drivers are: Timer, PWM, Quadrature Decoder)
     CYHAL_RSLT_MODULE_IMPL_SCB      = (0x22),  //!< An error occurred in SCB module (SCB based drivers are: I2C, SPI, UART)
+    CYHAL_RSLT_MODULE_T2TIMER       = (0x23),  //!< An error occurred in T2Timer module
 };
 
 /**

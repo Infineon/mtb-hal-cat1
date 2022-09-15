@@ -6,7 +6,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* Copyright 2018-2022 Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -226,12 +226,27 @@ static uint8_t _cyhal_scb_get_block_from_irqn(_cyhal_system_irq_t irqn)
     }
 }
 
-void *_cyhal_scb_get_irq_obj(void)
+#if defined (COMPONENT_CAT5)
+void *_cyhal_scb_get_irq_obj(_cyhal_system_irq_t irqn)
 {
-    _cyhal_system_irq_t irqn = _cyhal_irq_get_active();
     uint8_t block = _cyhal_scb_get_block_from_irqn(irqn);
     return _cyhal_scb_config_structs[block];
 }
+#else
+void *_cyhal_scb_get_irq_obj(void)
+{
+    _cyhal_system_irq_t irqn = _cyhal_irq_get_active();
+    if ((_cyhal_system_irq_t)unconnected_IRQn == irqn)
+    {
+        return NULL;
+    }
+    else
+    {
+        uint8_t block = _cyhal_scb_get_block_from_irqn(irqn);
+        return _cyhal_scb_config_structs[block];
+    }
+}
+#endif
 
 /* Peripheral clock values for different I2C speeds according PDL API Reference Guide */
 
@@ -245,6 +260,8 @@ void *_cyhal_scb_get_irq_obj(void)
 #define _CYHAL_SCB_PERI_CLOCK_SLAVE_FSTP     50000000
 #elif defined(COMPONENT_CAT2)
 #define _CYHAL_SCB_PERI_CLOCK_SLAVE_FSTP     24000000
+#elif defined(COMPONENT_CAT5)
+#define _CYHAL_SCB_PERI_CLOCK_SLAVE_FSTP     96000000
 #endif
 
 /* Must be between 1.55 MHz and 3.2 MHz for running i2c slave at 100KHz     */
@@ -253,7 +270,6 @@ void *_cyhal_scb_get_irq_obj(void)
 #define _CYHAL_SCB_PERI_CLOCK_MASTER_FST     8500000
 /* Must be between 14.32 MHz and 25.8 MHz for running i2c slave at 1MHz  */
 #define _CYHAL_SCB_PERI_CLOCK_MASTER_FSTP    20000000
-
 
 uint32_t _cyhal_i2c_set_peri_divider(void *obj, bool is_i2c, uint32_t freq, bool is_slave)
 {
@@ -289,9 +305,13 @@ uint32_t _cyhal_i2c_set_peri_divider(void *obj, bool is_i2c, uint32_t freq, bool
             {
                 status = cyhal_clock_set_enabled(clock, false, false);
                 if (status == CY_RSLT_SUCCESS)
+                {
                     status = cyhal_clock_set_frequency(clock, peri_freq, NULL);
+                }
                 if (status == CY_RSLT_SUCCESS)
+                {
                     status = cyhal_clock_set_enabled(clock, true, false);
+                }
             }
 
             if(status == CY_RSLT_SUCCESS)
@@ -492,7 +512,7 @@ cyhal_syspm_callback_data_t _cyhal_scb_pm_callback_data =
     .states = (cyhal_syspm_callback_state_t)(CYHAL_SYSPM_CB_CPU_DEEPSLEEP | CYHAL_SYSPM_CB_SYSTEM_HIBERNATE),
     .args = NULL,
     .next = NULL,
-    .ignore_modes = CYHAL_SYSPM_AFTER_DS_WFI_TRANSITION,
+    .ignore_modes = (cyhal_syspm_callback_mode_t)0,
 };
 
 void _cyhal_scb_update_instance_data(uint8_t block_num, void *obj, cyhal_scb_instance_pm_callback pm_callback)
@@ -503,7 +523,7 @@ void _cyhal_scb_update_instance_data(uint8_t block_num, void *obj, cyhal_scb_ins
     int count = 0;
     for (uint8_t i = 0; i < _SCB_ARRAY_SIZE; i++)
     {
-        if (_cyhal_scb_config_structs[i])
+        if (NULL != _cyhal_scb_config_structs[i])
         {
             if (count == 1)
             {

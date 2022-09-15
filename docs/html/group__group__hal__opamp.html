@@ -119,8 +119,8 @@ Snippet 1: Bare opamp initialization</h1>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Release opamp object after use</span></div>
 <div class="line">    <a class="code hl_function" href="group__group__hal__opamp.html#gae1ed8b252f2b7415021984996826a52b">cyhal_opamp_free</a>(&amp;opamp_obj);</div>
-<div class="ttc" id="agroup__group__hal__general__types_html_gga246fde0e79029f514ce3846b31e366d7a6f0f4df45e9cac012a2c8e5ba736241b"><div class="ttname"><a href="group__group__hal__general__types.html#gga246fde0e79029f514ce3846b31e366d7a6f0f4df45e9cac012a2c8e5ba736241b">CYHAL_POWER_LEVEL_DEFAULT</a></div><div class="ttdeci">@ CYHAL_POWER_LEVEL_DEFAULT</div><div class="ttdoc">Default comparator power and speed.</div><div class="ttdef"><b>Definition:</b> cyhal_general_types.h:150</div></div>
-<div class="ttc" id="agroup__group__hal__impl__hw__types_html_structcyhal__opamp__t"><div class="ttname"><a href="group__group__hal__impl__hw__types.html#structcyhal__opamp__t">cyhal_opamp_t</a></div><div class="ttdoc">OPAMP object.</div><div class="ttdef"><b>Definition:</b> cyhal_hw_types.h:617</div></div>
+<div class="ttc" id="agroup__group__hal__general__types_html_gga246fde0e79029f514ce3846b31e366d7a6f0f4df45e9cac012a2c8e5ba736241b"><div class="ttname"><a href="group__group__hal__general__types.html#gga246fde0e79029f514ce3846b31e366d7a6f0f4df45e9cac012a2c8e5ba736241b">CYHAL_POWER_LEVEL_DEFAULT</a></div><div class="ttdeci">@ CYHAL_POWER_LEVEL_DEFAULT</div><div class="ttdoc">Default comparator power and speed.</div><div class="ttdef"><b>Definition:</b> cyhal_general_types.h:151</div></div>
+<div class="ttc" id="agroup__group__hal__impl__hw__types_html_structcyhal__opamp__t"><div class="ttname"><a href="group__group__hal__impl__hw__types.html#structcyhal__opamp__t">cyhal_opamp_t</a></div><div class="ttdoc">OPAMP object.</div><div class="ttdef"><b>Definition:</b> cyhal_hw_types.h:675</div></div>
 <div class="ttc" id="agroup__group__hal__opamp_html_ga3d5784bf2463ccdb9c80a2a02d100f8a"><div class="ttname"><a href="group__group__hal__opamp.html#ga3d5784bf2463ccdb9c80a2a02d100f8a">cyhal_opamp_set_power</a></div><div class="ttdeci">cy_rslt_t cyhal_opamp_set_power(cyhal_opamp_t *obj, cyhal_power_level_t power)</div><div class="ttdoc">Changes the current operating power level of the opamp.</div></div>
 <div class="ttc" id="agroup__group__hal__opamp_html_ga541bc16bacffaddecbc3af24bfb77256"><div class="ttname"><a href="group__group__hal__opamp.html#ga541bc16bacffaddecbc3af24bfb77256">cyhal_opamp_init</a></div><div class="ttdeci">cy_rslt_t cyhal_opamp_init(cyhal_opamp_t *obj, cyhal_gpio_t vin_p, cyhal_gpio_t vin_m, cyhal_gpio_t vout)</div><div class="ttdoc">Initialize the opamp peripheral.</div></div>
 <div class="ttc" id="agroup__group__hal__opamp_html_gae1ed8b252f2b7415021984996826a52b"><div class="ttname"><a href="group__group__hal__opamp.html#gae1ed8b252f2b7415021984996826a52b">cyhal_opamp_free</a></div><div class="ttdeci">void cyhal_opamp_free(cyhal_opamp_t *obj)</div><div class="ttdoc">Deinitialize the opamp peripheral and free associated resources.</div></div>
@@ -151,7 +151,7 @@ Snippet 3: Opamp powering-off and on</h1>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// When the opamp is needed again, power it back on</span></div>
 <div class="line">    rslt = <a class="code hl_function" href="group__group__hal__opamp.html#ga3d5784bf2463ccdb9c80a2a02d100f8a">cyhal_opamp_set_power</a>(&amp;opamp_obj, <a class="code hl_enumvalue" href="group__group__hal__general__types.html#gga246fde0e79029f514ce3846b31e366d7a6f0f4df45e9cac012a2c8e5ba736241b">CYHAL_POWER_LEVEL_DEFAULT</a>);</div>
-<div class="ttc" id="agroup__group__hal__general__types_html_gga246fde0e79029f514ce3846b31e366d7a0f601c5d5843c59e58ee1988dd0e6861"><div class="ttname"><a href="group__group__hal__general__types.html#gga246fde0e79029f514ce3846b31e366d7a0f601c5d5843c59e58ee1988dd0e6861">CYHAL_POWER_LEVEL_OFF</a></div><div class="ttdeci">@ CYHAL_POWER_LEVEL_OFF</div><div class="ttdoc">Power-off the comparator, while retaining configuration.</div><div class="ttdef"><b>Definition:</b> cyhal_general_types.h:142</div></div>
+<div class="ttc" id="agroup__group__hal__general__types_html_gga246fde0e79029f514ce3846b31e366d7a0f601c5d5843c59e58ee1988dd0e6861"><div class="ttname"><a href="group__group__hal__general__types.html#gga246fde0e79029f514ce3846b31e366d7a0f601c5d5843c59e58ee1988dd0e6861">CYHAL_POWER_LEVEL_OFF</a></div><div class="ttdeci">@ CYHAL_POWER_LEVEL_OFF</div><div class="ttdoc">Power-off the comparator, while retaining configuration.</div><div class="ttdef"><b>Definition:</b> cyhal_general_types.h:143</div></div>
 </div><!-- fragment --> <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="groups" name="groups"></a>
 API Reference</h2></td></tr>
@@ -214,7 +214,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Initialize the opamp peripheral. </p>
-<p >If vin_m is <a class="el" href="group__group__hal__impl__pin__package__explorer__144__lqfp.html#gga0c9e96cce275d65527baf8f319e733dba3dbd1016ea99d087d747530418b89a01">NC</a>, the opamp will be initialized in follower mode (unity gain).</p>
+<p >If vin_m is <a class="el" href="group__group__hal__impl__pin__package__xmc7200__320__bga.html#ggad38839a2406ac562d708d7639fbff225a3dbd1016ea99d087d747530418b89a01">NC</a>, the opamp will be initialized in follower mode (unity gain).</p>
 <p >The opamp will be initialized but not powered-on until <a class="el" href="group__group__hal__opamp.html#ga3d5784bf2463ccdb9c80a2a02d100f8a">cyhal_opamp_set_power</a> is called.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">

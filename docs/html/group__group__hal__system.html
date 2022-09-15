@@ -139,7 +139,7 @@ Snippet 2: Reset reason</h2>
 <div class="line">    }</div>
 <div class="ttc" id="agroup__group__hal__system_html_ga9a7b601e0b06a896860f411103a4abc6"><div class="ttname"><a href="group__group__hal__system.html#ga9a7b601e0b06a896860f411103a4abc6">cyhal_system_get_reset_reason</a></div><div class="ttdeci">cyhal_reset_reason_t cyhal_system_get_reset_reason(void)</div><div class="ttdoc">Gets the cause of the latest reset or resets that occurred in the system.</div></div>
 <div class="ttc" id="agroup__group__hal__system_html_ga9a935d5e4f43343e7bbb4f9a86a10df0"><div class="ttname"><a href="group__group__hal__system.html#ga9a935d5e4f43343e7bbb4f9a86a10df0">cyhal_system_clear_reset_reason</a></div><div class="ttdeci">void cyhal_system_clear_reset_reason(void)</div><div class="ttdoc">Clears the reset cause registers.</div></div>
-<div class="ttc" id="agroup__group__hal__system_html_gga53ba6a7416574a1b03890d23b7a90264a28d2eb1bf90f731f930c487d8dcd8079"><div class="ttname"><a href="group__group__hal__system.html#gga53ba6a7416574a1b03890d23b7a90264a28d2eb1bf90f731f930c487d8dcd8079">CYHAL_SYSTEM_RESET_WDT</a></div><div class="ttdeci">@ CYHAL_SYSTEM_RESET_WDT</div><div class="ttdoc">A watchdog timer (WDT) reset has occurred.</div><div class="ttdef"><b>Definition:</b> cyhal_system.h:98</div></div>
+<div class="ttc" id="agroup__group__hal__system_html_gga53ba6a7416574a1b03890d23b7a90264a28d2eb1bf90f731f930c487d8dcd8079"><div class="ttname"><a href="group__group__hal__system.html#gga53ba6a7416574a1b03890d23b7a90264a28d2eb1bf90f731f930c487d8dcd8079">CYHAL_SYSTEM_RESET_WDT</a></div><div class="ttdeci">@ CYHAL_SYSTEM_RESET_WDT</div><div class="ttdoc">A watchdog timer (WDT) reset has occurred.</div><div class="ttdef"><b>Definition:</b> cyhal_system.h:104</div></div>
 </div><!-- fragment --> <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="groups" name="groups"></a>
 API Reference</h2></td></tr>
@@ -199,6 +199,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga9a935d5e4f43343e7bbb4f9a86a10df0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__system.html#ga9a935d5e4f43343e7bbb4f9a86a10df0">cyhal_system_clear_reset_reason</a> (void)</td></tr>
 <tr class="memdesc:ga9a935d5e4f43343e7bbb4f9a86a10df0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears the reset cause registers.  <a href="group__group__hal__system.html#ga9a935d5e4f43343e7bbb4f9a86a10df0">More...</a><br /></td></tr>
 <tr class="separator:ga9a935d5e4f43343e7bbb4f9a86a10df0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga85e89acd2a95fc589999ad9a6f20d48d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__system.html#ga85e89acd2a95fc589999ad9a6f20d48d">cyhal_system_reset_device</a> (void)</td></tr>
+<tr class="memdesc:ga85e89acd2a95fc589999ad9a6f20d48d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets the device.  <a href="group__group__hal__system.html#ga85e89acd2a95fc589999ad9a6f20d48d">More...</a><br /></td></tr>
+<tr class="separator:ga85e89acd2a95fc589999ad9a6f20d48d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga208f2774fd0143000cea9e488035c337"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__system.html#ga208f2774fd0143000cea9e488035c337">cyhal_system_set_isr</a> (int32_t irq_num, int32_t irq_src, uint8_t priority, <a class="el" href="group__group__hal__system.html#gaa60625daf3efd10f83a90b0032b4a818">cyhal_irq_handler</a> handler)</td></tr>
 <tr class="memdesc:ga208f2774fd0143000cea9e488035c337"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers the specified handler as the callback function for the specififed irq_num with the given priority.  <a href="group__group__hal__system.html#ga208f2774fd0143000cea9e488035c337">More...</a><br /></td></tr>
 <tr class="separator:ga208f2774fd0143000cea9e488035c337"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -387,6 +390,28 @@ Functions</h2></td></tr>
 
 <p>Clears the reset cause registers. </p>
 <p >This should be done after calling <a class="el" href="group__group__hal__system.html#ga9a7b601e0b06a896860f411103a4abc6">cyhal_system_get_reset_reason</a> to make sure the reason does not persist between resets. </p>
+
+</div>
+</div>
+<a id="ga85e89acd2a95fc589999ad9a6f20d48d" name="ga85e89acd2a95fc589999ad9a6f20d48d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga85e89acd2a95fc589999ad9a6f20d48d">&#9670;&nbsp;</a></span>cyhal_system_reset_device()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_system_reset_device </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Resets the device. </p>
+<p >The mechanism used to reset the device is implementation-specific and the reset behavior differs between devices.</p>
+<dl class="section return"><dt>Returns</dt><dd>This function does not return if successful. Otherwise an error is returned. </dd></dl>
 
 </div>
 </div>

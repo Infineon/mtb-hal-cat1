@@ -128,7 +128,7 @@ Snippet 1: Simple PWM initialization and output to pin</h2>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Start the PWM output</span></div>
 <div class="line">    rslt = <a class="code hl_function" href="group__group__hal__pwm.html#ga95006bcc5841e610719433660365e3e2">cyhal_pwm_start</a>(&amp;pwm_obj);</div>
-<div class="ttc" id="agroup__group__hal__impl__hw__types_html_structcyhal__pwm__t"><div class="ttname"><a href="group__group__hal__impl__hw__types.html#structcyhal__pwm__t">cyhal_pwm_t</a></div><div class="ttdoc">PWM object.</div><div class="ttdef"><b>Definition:</b> cyhal_hw_types.h:908</div></div>
+<div class="ttc" id="agroup__group__hal__impl__hw__types_html_structcyhal__pwm__t"><div class="ttname"><a href="group__group__hal__impl__hw__types.html#structcyhal__pwm__t">cyhal_pwm_t</a></div><div class="ttdoc">PWM object.</div><div class="ttdef"><b>Definition:</b> cyhal_hw_types.h:971</div></div>
 <div class="ttc" id="agroup__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble_html_gga707195ce0627016bf371643bdd9caa51a23d505c049c81443b12e53d5b00b1be9"><div class="ttname"><a href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#gga707195ce0627016bf371643bdd9caa51a23d505c049c81443b12e53d5b00b1be9">P0_0</a></div><div class="ttdeci">@ P0_0</div><div class="ttdoc">Port 0 Pin 0.</div><div class="ttdef"><b>Definition:</b> cyhal_psoc6_01_104_m_csp_ble.h:55</div></div>
 <div class="ttc" id="agroup__group__hal__pwm_html_ga54a93c541bdbb3fce066a2af00d8b67f"><div class="ttname"><a href="group__group__hal__pwm.html#ga54a93c541bdbb3fce066a2af00d8b67f">cyhal_pwm_init</a></div><div class="ttdeci">#define cyhal_pwm_init(obj, pin, clk)</div><div class="ttdoc">Initialize the PWM out peripheral and configure the pin This is similar to the cyhal_pwm_init_adv() b...</div><div class="ttdef"><b>Definition:</b> cyhal_pwm.h:127</div></div>
 <div class="ttc" id="agroup__group__hal__pwm_html_ga95006bcc5841e610719433660365e3e2"><div class="ttname"><a href="group__group__hal__pwm.html#ga95006bcc5841e610719433660365e3e2">cyhal_pwm_start</a></div><div class="ttdeci">cy_rslt_t cyhal_pwm_start(cyhal_pwm_t *obj)</div><div class="ttdoc">Starts the PWM generation and outputs on pin and compl_pin.</div></div>
@@ -249,7 +249,7 @@ API Reference</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:ga54a93c541bdbb3fce066a2af00d8b67f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__pwm.html#ga54a93c541bdbb3fce066a2af00d8b67f">cyhal_pwm_init</a>(obj,  pin,  clk)&#160;&#160;&#160;(<a class="el" href="group__group__hal__pwm.html#gacbeddfe75ccc849d27bec32ce010eceb">cyhal_pwm_init_adv</a>(obj, pin, <a class="el" href="group__group__hal__impl__pin__package__explorer__144__lqfp.html#gga0c9e96cce275d65527baf8f319e733dba3dbd1016ea99d087d747530418b89a01">NC</a>, <a class="el" href="group__group__hal__pwm.html#gga251111384b543a19975df63353203b51a05ecb08e039afef0513837ce140a3fc1">CYHAL_PWM_LEFT_ALIGN</a>, true, 0u, false, clk))</td></tr>
+<tr class="memitem:ga54a93c541bdbb3fce066a2af00d8b67f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__pwm.html#ga54a93c541bdbb3fce066a2af00d8b67f">cyhal_pwm_init</a>(obj,  pin,  clk)&#160;&#160;&#160;(<a class="el" href="group__group__hal__pwm.html#gacbeddfe75ccc849d27bec32ce010eceb">cyhal_pwm_init_adv</a>(obj, pin, <a class="el" href="group__group__hal__impl__pin__package__xmc7200__320__bga.html#ggad38839a2406ac562d708d7639fbff225a3dbd1016ea99d087d747530418b89a01">NC</a>, <a class="el" href="group__group__hal__pwm.html#gga251111384b543a19975df63353203b51a05ecb08e039afef0513837ce140a3fc1">CYHAL_PWM_LEFT_ALIGN</a>, true, 0u, false, clk))</td></tr>
 <tr class="memdesc:ga54a93c541bdbb3fce066a2af00d8b67f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the PWM out peripheral and configure the pin This is similar to the <a class="el" href="group__group__hal__pwm.html#gacbeddfe75ccc849d27bec32ce010eceb">cyhal_pwm_init_adv()</a> but uses defaults for some of the more advanced setup options.  <a href="group__group__hal__pwm.html#ga54a93c541bdbb3fce066a2af00d8b67f">More...</a><br /></td></tr>
 <tr class="separator:ga54a93c541bdbb3fce066a2af00d8b67f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -384,7 +384,7 @@ Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;(<a class="el" href="group__group__hal__pwm.html#gacbeddfe75ccc849d27bec32ce010eceb">cyhal_pwm_init_adv</a>(obj, pin, <a class="el" href="group__group__hal__impl__pin__package__explorer__144__lqfp.html#gga0c9e96cce275d65527baf8f319e733dba3dbd1016ea99d087d747530418b89a01">NC</a>, <a class="el" href="group__group__hal__pwm.html#gga251111384b543a19975df63353203b51a05ecb08e039afef0513837ce140a3fc1">CYHAL_PWM_LEFT_ALIGN</a>, true, 0u, false, clk))</td>
+          <td></td><td>&#160;&#160;&#160;(<a class="el" href="group__group__hal__pwm.html#gacbeddfe75ccc849d27bec32ce010eceb">cyhal_pwm_init_adv</a>(obj, pin, <a class="el" href="group__group__hal__impl__pin__package__xmc7200__320__bga.html#ggad38839a2406ac562d708d7639fbff225a3dbd1016ea99d087d747530418b89a01">NC</a>, <a class="el" href="group__group__hal__pwm.html#gga251111384b543a19975df63353203b51a05ecb08e039afef0513837ce140a3fc1">CYHAL_PWM_LEFT_ALIGN</a>, true, 0u, false, clk))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -394,7 +394,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[out]</td><td class="paramname">obj</td><td>Pointer to a PWM object. The caller must allocate the memory for this object but the init function will initialize its contents. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">pin</td><td>The PWM pin to initialize. This pin is required, it cannot be <a class="el" href="group__group__hal__impl__pin__package__explorer__144__lqfp.html#gga0c9e96cce275d65527baf8f319e733dba3dbd1016ea99d087d747530418b89a01">NC</a> (No Connect). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pin</td><td>The PWM pin to initialize. This pin is required, it cannot be <a class="el" href="group__group__hal__impl__pin__package__xmc7200__320__bga.html#ggad38839a2406ac562d708d7639fbff225a3dbd1016ea99d087d747530418b89a01">NC</a> (No Connect). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">clk</td><td>An optional, pre-allocated clock to use, if NULL a new clock will be allocated </td></tr>
   </table>
   </dd>
@@ -577,10 +577,10 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[out]</td><td class="paramname">obj</td><td>Pointer to a PWM object. The caller must allocate the memory for this object but the init function will initialize its contents. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">pin</td><td>The PWM pin to initialize. This pin is required, it cannot be <a class="el" href="group__group__hal__impl__pin__package__explorer__144__lqfp.html#gga0c9e96cce275d65527baf8f319e733dba3dbd1016ea99d087d747530418b89a01">NC</a> (No Connect). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pin</td><td>The PWM pin to initialize. This pin is required, it cannot be <a class="el" href="group__group__hal__impl__pin__package__xmc7200__320__bga.html#ggad38839a2406ac562d708d7639fbff225a3dbd1016ea99d087d747530418b89a01">NC</a> (No Connect). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">compl_pin</td><td>An optional, additional inverted output pin. <br  />
  If supplied, this must be connected to the same or related PWM instance as <b>pin</b>, see <a class="el" href="group__group__hal__impl__pwm.html#section_hal_impl_pwm_compl_pins">Complementary PWM output</a> for details.<br  />
- If this output is not needed, use <a class="el" href="group__group__hal__impl__pin__package__explorer__144__lqfp.html#gga0c9e96cce275d65527baf8f319e733dba3dbd1016ea99d087d747530418b89a01">NC</a> (No Connect). </td></tr>
+ If this output is not needed, use <a class="el" href="group__group__hal__impl__pin__package__xmc7200__320__bga.html#ggad38839a2406ac562d708d7639fbff225a3dbd1016ea99d087d747530418b89a01">NC</a> (No Connect). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">pwm_alignment</td><td>PWM alignment: left, right, or center. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">continuous</td><td>PWM run type: continuous (true) or one shot (false). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">dead_time_us</td><td>The number of micro-seconds for dead time. This is only meaningful if both <b>pin</b> and <b>compl_pin</b> are provided. </td></tr>

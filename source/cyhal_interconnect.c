@@ -7,7 +7,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* Copyright 2018-2022 Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -483,12 +483,7 @@ cy_rslt_t cyhal_disconnect_pin(cyhal_gpio_t pin)
 {
     GPIO_PRT_Type *port = Cy_GPIO_PortToAddr(CYHAL_GET_PORT(pin));
 
-    #if defined (CY_IP_MXS22IOSS)
-    // TODO: Explorer-related change. Most likely will be fixed in future
-    Cy_GPIO_Pin_FastInit(port, CYHAL_GET_PIN(pin), CY_GPIO_DM_CFG3_ENABLE, 1, HSIOM_SEL_GPIO);
-    #else
     Cy_GPIO_Pin_FastInit(port, CYHAL_GET_PIN(pin), CY_GPIO_DM_HIGHZ, 1, HSIOM_SEL_GPIO);
-    #endif // CY_IP_MXS22IOSS or other
 
     return CY_RSLT_SUCCESS;
 }

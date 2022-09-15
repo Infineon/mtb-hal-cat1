@@ -6,7 +6,6 @@ var group__group__hal__impl__pin__package =
     [ "PSoC6_01 116-BGA-USB", "group__group__hal__impl__pin__package__psoc6__01__116__bga__usb.html", "group__group__hal__impl__pin__package__psoc6__01__116__bga__usb" ],
     [ "PSoC6_01 124-BGA", "group__group__hal__impl__pin__package__psoc6__01__124__bga.html", "group__group__hal__impl__pin__package__psoc6__01__124__bga" ],
     [ "PSoC6_01 124-BGA-SIP", "group__group__hal__impl__pin__package__psoc6__01__124__bga__sip.html", "group__group__hal__impl__pin__package__psoc6__01__124__bga__sip" ],
-    [ "PSoC6_01 43-SMT", "group__group__hal__impl__pin__package__psoc6__01__43__smt.html", "group__group__hal__impl__pin__package__psoc6__01__43__smt" ],
     [ "PSoC6_01 68-QFN-BLE", "group__group__hal__impl__pin__package__psoc6__01__68__qfn__ble.html", "group__group__hal__impl__pin__package__psoc6__01__68__qfn__ble" ],
     [ "PSoC6_01 80-WLCSP", "group__group__hal__impl__pin__package__psoc6__01__80__wlcsp.html", "group__group__hal__impl__pin__package__psoc6__01__80__wlcsp" ],
     [ "PSoC6_02 100-WLCSP", "group__group__hal__impl__pin__package__psoc6__02__100__wlcsp.html", "group__group__hal__impl__pin__package__psoc6__02__100__wlcsp" ],
@@ -27,6 +26,6 @@ var group__group__hal__impl__pin__package =
     [ "XMC7100 272-BGA", "group__group__hal__impl__pin__package__xmc7100__272__bga.html", "group__group__hal__impl__pin__package__xmc7100__272__bga" ],
     [ "XMC7200 176-TEQFP", "group__group__hal__impl__pin__package__xmc7200__176__teqfp.html", "group__group__hal__impl__pin__package__xmc7200__176__teqfp" ],
     [ "XMC7200 272-BGA", "group__group__hal__impl__pin__package__xmc7200__272__bga.html", "group__group__hal__impl__pin__package__xmc7200__272__bga" ],
-    [ "Explorer 144-LQFP", "group__group__hal__impl__pin__package__explorer__144__lqfp.html", "group__group__hal__impl__pin__package__explorer__144__lqfp" ],
+    [ "XMC7200 320-BGA", "group__group__hal__impl__pin__package__xmc7200__320__bga.html", "group__group__hal__impl__pin__package__xmc7200__320__bga" ],
     [ "cyhal_port_t", "group__group__hal__impl__pin__package.html#gac30c50b470a38324d9a19057ac1eb0be", null ]
 ];

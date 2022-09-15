@@ -7,7 +7,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* Copyright 2018-2022 Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -33,7 +33,7 @@
 #include "cyhal_system_impl.h"
 #include "cyhal_hwmgr.h"
 #include "cyhal_utils.h"
-#include "cyhal_irq_psoc.h"
+#include "cyhal_irq_impl.h"
 #include "cyhal_clock.h"
 
 #if (CYHAL_DRIVER_AVAILABLE_EZI2C)
@@ -66,10 +66,17 @@ static inline cyhal_ezi2c_status_t _cyhal_ezi2c_convert_activity_status(uint32_t
     return hal_status;
 }
 
-/* Implement ISR for EZI2C */
+#if defined (COMPONENT_CAT5)
+static void _cyhal_ezi2c_irq_handler(_cyhal_system_irq_t irqn)
+#else
 static void _cyhal_ezi2c_irq_handler(void)
+#endif
 {
+#if defined (COMPONENT_CAT5)
+    cyhal_ezi2c_t *obj = (cyhal_ezi2c_t*) _cyhal_scb_get_irq_obj(irqn);
+#else
     cyhal_ezi2c_t *obj = (cyhal_ezi2c_t*) _cyhal_scb_get_irq_obj();
+#endif
     Cy_SCB_EZI2C_Interrupt(obj->base, &(obj->context));
 
     /* Check if callback is registered */
@@ -84,6 +91,25 @@ static void _cyhal_ezi2c_irq_handler(void)
         }
     }
 }
+
+#if defined (COMPONENT_CAT5)
+static void _cyhal_ezi2c0_irq_handler(void)
+{
+    _cyhal_ezi2c_irq_handler(scb_0_interrupt_IRQn);
+}
+
+static void _cyhal_ezi2c1_irq_handler(void)
+{
+    _cyhal_ezi2c_irq_handler(scb_1_interrupt_IRQn);
+}
+
+static void _cyhal_ezi2c2_irq_handler(void)
+{
+    _cyhal_ezi2c_irq_handler(scb_2_interrupt_IRQn);
+}
+
+static CY_SCB_IRQ_THREAD_CB_t _cyhal_irq_cb[3] = {_cyhal_ezi2c0_irq_handler, _cyhal_ezi2c1_irq_handler, _cyhal_ezi2c2_irq_handler};
+#endif
 
 static bool _cyhal_ezi2c_pm_callback_instance(void *obj_ptr, cyhal_syspm_callback_state_t state, cy_en_syspm_callback_mode_t pdl_mode)
 {
@@ -137,7 +163,7 @@ static cy_rslt_t _cyhal_ezi2c_setup_resources(cyhal_ezi2c_t *obj, cyhal_gpio_t s
     {
         obj->resource = rsc;
 
-        result = _cyhal_utils_reserve_and_connect(sda_map, CYHAL_PIN_MAP_DRIVE_MODE_SCB_I2C_SDA);
+        result = _cyhal_utils_reserve_and_connect(sda_map, (uint8_t)CYHAL_PIN_MAP_DRIVE_MODE_SCB_I2C_SDA);
         if (result == CY_RSLT_SUCCESS)
             obj->pin_sda = sda;
     }
@@ -145,7 +171,7 @@ static cy_rslt_t _cyhal_ezi2c_setup_resources(cyhal_ezi2c_t *obj, cyhal_gpio_t s
     /* Reserve the SCL pin */
     if (result == CY_RSLT_SUCCESS)
     {
-        result = _cyhal_utils_reserve_and_connect(scl_map, CYHAL_PIN_MAP_DRIVE_MODE_SCB_I2C_SCL);
+        result = _cyhal_utils_reserve_and_connect(scl_map, (uint8_t)CYHAL_PIN_MAP_DRIVE_MODE_SCB_I2C_SCL);
         if (result == CY_RSLT_SUCCESS)
             obj->pin_scl = scl;
     }
@@ -181,7 +207,11 @@ static cy_rslt_t _cyhal_ezi2c_init_hw(cyhal_ezi2c_t *obj, const cy_stc_scb_ezi2c
         obj->callback_data.callback_arg = NULL;
         obj->irq_cause = 0;
 
-        _cyhal_irq_register(_CYHAL_SCB_IRQ_N[obj->resource.block_num], CYHAL_ISR_PRIORITY_DEFAULT, _cyhal_ezi2c_irq_handler);
+        #if defined (COMPONENT_CAT5)
+            Cy_SCB_RegisterInterruptCallback(obj->base, _cyhal_irq_cb[_CYHAL_SCB_IRQ_N[obj->resource.block_num]]);
+        #endif
+
+        _cyhal_irq_register(_CYHAL_SCB_IRQ_N[obj->resource.block_num], CYHAL_ISR_PRIORITY_DEFAULT, (cy_israddress)_cyhal_ezi2c_irq_handler);
     }
 
     return result;
@@ -200,6 +230,10 @@ static void _cyhal_ezi2c_setup_and_enable(cyhal_ezi2c_t *obj, const cyhal_ezi2c_
         Cy_SCB_EZI2C_SetBuffer2(obj->base, slave2_cfg->buf, slave2_cfg->buf_size, slave2_cfg->buf_rw_boundary, &(obj->context));
     }
 
+    #if defined (COMPONENT_CAT5)
+        Cy_SCB_EnableInterrupt(obj->base);
+    #endif
+    
     _cyhal_irq_enable(_CYHAL_SCB_IRQ_N[obj->resource.block_num]);
     /* Enable EZI2C to operate */
     Cy_SCB_EZI2C_Enable(obj->base);

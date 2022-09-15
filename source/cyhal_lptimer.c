@@ -9,7 +9,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* Copyright 2018-2022 Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -49,17 +49,13 @@
 #include "cyhal_hwmgr.h"
 #include "cyhal_system_impl.h"
 #include "cyhal_utils.h"
-#include "cyhal_irq_psoc.h"
+#include "cyhal_irq_impl.h"
 #include "cyhal_clock.h"
 
 #if (CYHAL_DRIVER_AVAILABLE_LPTIMER)
 
 #if defined(CY_IP_MXS40SRSS) || defined(CY_IP_MXS40SSRSS) || defined(CY_IP_MXS28SRSS)
-#if (defined (CY_IP_MXS40SRSS) && (CY_IP_MXS40SRSS_VERSION >= 3))
-#include "cy_mcwdt_b.h"
-#else
 #include "cy_mcwdt.h"
-#endif
 #elif defined (CY_IP_M0S8WCO)
 #include "cy_wdc.h"
 #define Cy_MCWDT_Init               Cy_WDC_Init
@@ -144,7 +140,7 @@ static cyhal_lptimer_t *_cyhal_lptimer_config_structs[SRSS_NUM_MCWDT];
 #if (defined (CY_IP_MXS40SRSS) && (CY_IP_MXS40SRSS_VERSION >= 3))
 static const uint16_t _CYHAL_LPTIMER_RESET_TIME_US = 93;
 static const uint16_t _CYHAL_LPTIMER_SETMATCH_TIME_US = 93;
-static const cy_stc_mcwdt_b_config_t default_cfg = {
+static const cy_stc_mcwdt_config_t default_cfg = {
                 .c0UpperLimit = 0xFFFF,
                 .c0WarnLimit =  0xFFFF,
                 .c0WarnAction = CY_MCWDT_WARN_ACTION_NONE,
@@ -156,7 +152,7 @@ static const cy_stc_mcwdt_b_config_t default_cfg = {
                 .c1WarnLimit =  0xFFFF,
                 .c1WarnAction = CY_MCWDT_WARN_ACTION_INT,
                 .c1AutoService = CY_MCWDT_ENABLE,
-                .c2ToggleBit = CY_MCWDT_CNT2_MONITORED_BIT0,
+                .c2ToggleBit = 0,
                 .c2Action = CY_MCWDT_CNT2_ACTION_INT,
                 .coreSelect = CY_MCWDT_PAUSED_BY_NO_CORE,
         };
@@ -200,12 +196,20 @@ static const cy_stc_wdc_config_t default_cfg = {
 #error "Current HW block is not supported"
 #endif
 
+#if (defined (CY_IP_MXS40SRSS) && (CY_IP_MXS40SRSS_VERSION >= 3))
+/* Get the mask (for e.g. ClearInterrupt) associated with a particular counter */
+uint32_t _cyhal_lptimer_counter_to_mask(cy_en_mcwdtctr_t counter)
+{
+    return 1u << ((uint8_t)counter);
+}
+#endif
+
 static void _cyhal_lptimer_irq_handler(void)
 {
     uint32_t instance = (uint32_t)_cyhal_irq_get_active() - (uint32_t) srss_interrupt_mcwdt_0_IRQn;
     cyhal_lptimer_t *obj = _cyhal_lptimer_config_structs[instance];
 #if (defined (CY_IP_MXS40SRSS) && (CY_IP_MXS40SRSS_VERSION >= 3))
-    uint32_t c2_count = Cy_MCWDT_GetCount(obj->base, CY_MCWDT_CTR2);
+    uint32_t c2_count = Cy_MCWDT_GetCount(obj->base, CY_MCWDT_COUNTER2);
     //Since CAT1C does not use Counter0, there is no need to clear the interrupt
     Cy_MCWDT_ClearInterrupt(obj->base, (CY_MCWDT_CTR1 | CY_MCWDT_CTR2));
 #else
@@ -215,7 +219,7 @@ static void _cyhal_lptimer_irq_handler(void)
     // We want to clear the interrupt mask everytime we enter the IRQ handler
     // for CAT1C devices regardless if set_delay or set_match was called.
     // This means if cyhal_lptimer_set_match was called, a single interrupt will be triggered.
-    Cy_MCWDT_ClearInterruptMask(obj->base, obj->counter);
+    Cy_MCWDT_SetInterruptMask(obj->base, Cy_MCWDT_GetInterruptMask(obj->base) & ~_cyhal_lptimer_counter_to_mask(obj->counter));
 #endif
     /* Clear interrupt mask if set only from cyhal_lptimer_set_delay() function */
     if (obj->clear_int_mask)
@@ -259,8 +263,8 @@ static uint32_t _cyhal_lptimer_set_delay_common(cyhal_lptimer_t *obj, uint32_t d
     // If neither is enabled, return Error Disabled.
     // We do not check to see if Counter0 is enabled as it is not used
     // for this IP implementation.
-    if ((Cy_MCWDT_GetEnabledStatus(obj->base, CY_MCWDT_CTR1) == 0UL) 
-        || (Cy_MCWDT_GetEnabledStatus(obj->base, CY_MCWDT_CTR2) == 0UL))
+    if ((Cy_MCWDT_GetEnabledStatus(obj->base, CY_MCWDT_COUNTER1) == 0UL)
+        || (Cy_MCWDT_GetEnabledStatus(obj->base, CY_MCWDT_COUNTER2) == 0UL))
     {
         return CYHAL_LPTIMER_RSLT_ERR_DISABLED;
     }
@@ -268,25 +272,28 @@ static uint32_t _cyhal_lptimer_set_delay_common(cyhal_lptimer_t *obj, uint32_t d
     {
         delay = _CYHAL_LPTIMER_MIN_DELAY;
     }
+#if (_CYHAL_LPTIMER_MAX_DELAY_TICKS != 0xffffffffUL)
+    /* No point in this check if uint32_t can't exceed the max */
     if (delay > _CYHAL_LPTIMER_MAX_DELAY_TICKS)
     {
         delay = _CYHAL_LPTIMER_MAX_DELAY_TICKS;
     }
+#endif
     // If the delay is greater than 2^16 we will use Counter2 for interrupts
     // we must then clear the Counter2 interrupt before setting the new match.
-    obj->counter = (delay > ((1 << 16)-1)) ? CY_MCWDT_CTR2 : CY_MCWDT_CTR1;
+    obj->counter = (delay > ((1 << 16)-1)) ? CY_MCWDT_COUNTER2 : CY_MCWDT_COUNTER1;
     uint32_t critical_section = cyhal_system_critical_section_enter();
     uint32_t counter_value = Cy_MCWDT_GetCount(obj->base, obj->counter);
     // if the counter value + the delay exceeds 32 bits, it is expected
     // that the wrap around will be handled by the uin32_t variable
     uint32_t match_value = counter_value + delay;
     Cy_MCWDT_Unlock(obj->base);
-    if(obj->counter == CY_MCWDT_CTR1)
+    if(obj->counter == CY_MCWDT_COUNTER1)
     {
         if(match_value > ((1 << 16)-1))
         {
             // Wait 3 LFClk cycles for reset
-            Cy_MCWDT_ResetCounters(obj->base, obj->counter, _CYHAL_LPTIMER_RESET_TIME_US);
+            Cy_MCWDT_ResetCounters(obj->base, _cyhal_lptimer_counter_to_mask(obj->counter), _CYHAL_LPTIMER_RESET_TIME_US);
             // Since we waited 3 LFClk cycles to reset the counter, we want to deduct that from our delay
             match_value = delay - _CYHAL_LPTIMER_MIN_DELAY;
             if(match_value < _CYHAL_LPTIMER_MIN_DELAY)
@@ -314,8 +321,8 @@ static uint32_t _cyhal_lptimer_set_delay_common(cyhal_lptimer_t *obj, uint32_t d
     }
     Cy_MCWDT_Lock(obj->base);
     cyhal_system_critical_section_exit(critical_section);
-    Cy_MCWDT_ClearInterrupt(obj->base, obj->counter);
-    Cy_MCWDT_SetInterruptMask(obj->base, obj->counter);
+    Cy_MCWDT_ClearInterrupt(obj->base, _cyhal_lptimer_counter_to_mask(obj->counter));
+    Cy_MCWDT_SetInterruptMask(obj->base, _cyhal_lptimer_counter_to_mask(obj->counter));
     return CY_RSLT_SUCCESS;
 }
 #else
@@ -391,7 +398,7 @@ static uint32_t _cyhal_lptimer_set_delay_common(cyhal_lptimer_t *obj, uint32_t d
         // Timeout has occurred. There could have been a clock failure while waiting for the count value to update.
         cyhal_system_critical_section_exit(critical_section);
         return CYHAL_LPTIMER_RSLT_ERR_DISABLED;
-    }   
+    }
 
     uint16_t c0_match = (uint16_t)(c0_current_ticks + delay);
     // Changes can take up to 2 clk_lf cycles to propagate. If we set the match within this window of the current value,
@@ -449,8 +456,8 @@ cy_rslt_t cyhal_lptimer_init(cyhal_lptimer_t *obj)
 #if (defined (CY_IP_MXS40SRSS) && (CY_IP_MXS40SRSS_VERSION >= 3))
         obj->offset = 0;
         obj->final_time = 0;
-        obj->counter = CY_MCWDT_CTR1;
-        cy_stc_mcwdt_b_config_t cfg = default_cfg;
+        obj->counter = CY_MCWDT_COUNTER1;
+        cy_stc_mcwdt_config_t cfg = default_cfg;
 #elif defined(CY_IP_MXS40SRSS_MCWDT) || defined(CY_IP_MXS40SSRSS) || defined(CY_IP_MXS28SRSS)
         cy_stc_mcwdt_config_t cfg = default_cfg;
 #elif defined (CY_IP_M0S8WCO)
@@ -535,7 +542,7 @@ cy_rslt_t cyhal_lptimer_reload(cyhal_lptimer_t *obj)
     // This gives us the ability to mimic a reset by keeping track of
     // the last time reload was called. The offset will be deducted
     // from the current counter2 value when cyhal_lptimer_read is called
-    obj->offset = Cy_MCWDT_GetCount(obj->base, CY_MCWDT_CTR2);
+    obj->offset = Cy_MCWDT_GetCount(obj->base, CY_MCWDT_COUNTER2);
     Cy_MCWDT_Unlock(obj->base);
     Cy_MCWDT_ResetCounters(obj->base, CY_MCWDT_CTR1, _CYHAL_LPTIMER_RESET_TIME_US);
     Cy_MCWDT_Lock(obj->base);
@@ -564,7 +571,7 @@ cy_rslt_t cyhal_lptimer_set_delay(cyhal_lptimer_t *obj, uint32_t delay)
 {
     obj->clear_int_mask = true;
 #if (defined (CY_IP_MXS40SRSS) && (CY_IP_MXS40SRSS_VERSION >= 3))
-    obj->final_time = (Cy_MCWDT_GetCount(obj->base, CY_MCWDT_CTR2) + delay);
+    obj->final_time = (Cy_MCWDT_GetCount(obj->base, CY_MCWDT_COUNTER2) + delay);
 #endif
     return _cyhal_lptimer_set_delay_common(obj, delay);
 }
@@ -572,7 +579,7 @@ cy_rslt_t cyhal_lptimer_set_delay(cyhal_lptimer_t *obj, uint32_t delay)
 uint32_t cyhal_lptimer_read(const cyhal_lptimer_t *obj)
 {
 #if (defined (CY_IP_MXS40SRSS) && (CY_IP_MXS40SRSS_VERSION >= 3))
-    uint32_t ctr2_count = Cy_MCWDT_GetCount(obj->base, CY_MCWDT_CTR2);
+    uint32_t ctr2_count = Cy_MCWDT_GetCount(obj->base, CY_MCWDT_COUNTER2);
     if(obj->offset > ctr2_count)
     {
         return (uint32_t)((((uint64_t)1 << 32) - obj->offset) + ctr2_count);
@@ -603,7 +610,7 @@ void cyhal_lptimer_enable_event(cyhal_lptimer_t *obj, cyhal_lptimer_event_t even
 
     _cyhal_system_irq_t irqn = (_cyhal_system_irq_t)(srss_interrupt_mcwdt_0_IRQn + obj->resource.block_num);
 #if (defined (CY_IP_MXS40SRSS) && (CY_IP_MXS40SRSS_VERSION >= 3))
-    Cy_MCWDT_ClearInterrupt(obj->base, obj->counter);
+    Cy_MCWDT_ClearInterrupt(obj->base, _cyhal_lptimer_counter_to_mask(obj->counter));
 #else
     Cy_MCWDT_ClearInterrupt(obj->base, CY_MCWDT_CTR1);
 #endif
@@ -611,7 +618,9 @@ void cyhal_lptimer_enable_event(cyhal_lptimer_t *obj, cyhal_lptimer_event_t even
 
     obj->isr_call_user_cb = enable;
 #if (defined (CY_IP_MXS40SRSS) && (CY_IP_MXS40SRSS_VERSION >= 3))
-    (enable) ? Cy_MCWDT_SetInterruptMask(obj->base, obj->counter) : Cy_MCWDT_ClearInterruptMask(obj->base, obj->counter);
+    (enable)
+        ? Cy_MCWDT_SetInterruptMask(obj->base, _cyhal_lptimer_counter_to_mask(obj->counter))
+        : Cy_MCWDT_SetInterruptMask(obj->base, Cy_MCWDT_GetInterruptMask(obj->base) & ~_cyhal_lptimer_counter_to_mask(obj->counter));
 #elif defined(CY_IP_MXS40SRSS_MCWDT) || defined(CY_IP_MXS40SSRSS) || defined(CY_IP_MXS28SRSS)
     Cy_MCWDT_SetInterruptMask(obj->base, enable ? CY_MCWDT_CTR1: 0);
 #elif defined (CY_IP_M0S8WCO)

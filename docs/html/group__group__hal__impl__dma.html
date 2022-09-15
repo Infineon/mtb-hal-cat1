@@ -96,7 +96,10 @@ $(document).ready(function(){initNavTree('group__group__hal__impl__dma.html','')
 <p >Which DMA type is used is dependent on the exact hardware and number of DMA channels already in use. This implementation will attempt to use DMAC first for memory to memory transfers and Datawire otherwise but either type may be used.</p>
 <h1><a class="anchor" id="group_hal_impl_dma_interconnect"></a>
 Interconnect</h1>
-<p >For both DW and DMAC each channel has a single input and a single output trigger available. The input, when triggered, initiates a DMA transfer of the configured type (note that this also affects the type transferred by the SW triggering). For output, a trigger is generated when a DMA transfer of the configured type is completed. For DW and DMAC neither input nor output triggers can be disabled completely but the signals do not, of course, have to be connected through the interconnect. </p>
+<p >For both DW and DMAC each channel has a single input and a single output trigger available. The input, when triggered, initiates a DMA transfer of the configured type (note that this also affects the type transferred by the SW triggering). For output, a trigger is generated when a DMA transfer of the configured type is completed. For DW and DMAC neither input nor output triggers can be disabled completely but the signals do not, of course, have to be connected through the interconnect.</p>
+<h1><a class="anchor" id="section_hal_impl_dma_data_arr_requirement"></a>
+User-provided data arrays requirements</h1>
+<p >CM7 cores in CAT1C devices support Data Cache. Data Cache line is 32 bytes. User needs to make sure that the source and destination buffer pointers points to 32 byte aligned data. User can use CY_ALIGN(32) macro for 32 byte alignment. </p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="groups" name="groups"></a>
 API Reference</h2></td></tr>

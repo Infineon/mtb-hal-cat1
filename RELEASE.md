@@ -37,6 +37,9 @@ This release of the CAT1 HAL includes support for the following drivers:
 * WDT
 
 ### What Changed?
+#### v2.2.0
+* TBD
+NOTE: This version requires udb-sdio-whd 1.2.0 or later
 #### v2.1.0
 * Pre-production support for CAT1B devices
 * Fixed a few bugs in various drivers

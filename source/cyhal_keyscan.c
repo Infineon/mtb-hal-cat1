@@ -7,7 +7,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2021 Cypress Semiconductor Corporation (an Infineon company) or
+* Copyright 2021-2022 Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -45,7 +45,7 @@
 #include "cyhal_system.h"
 #include "cyhal_syspm.h"
 #include "cyhal_utils.h"
-#include "cyhal_irq_psoc.h"
+#include "cyhal_irq_impl.h"
 #include "cyhal_clock.h"
 
 #if (CYHAL_DRIVER_AVAILABLE_KEYSCAN)

@@ -1,12 +1,12 @@
 /***************************************************************************//**
-* \file cyhal_utils_psoc.c
+* \file cyhal_irq_impl.c
 *
 * \brief
 * Provides internal utility functions for working with interrupts on CAT1/CAT2.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* Copyright 2018-2022 Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -24,7 +24,7 @@
 * limitations under the License.
 *******************************************************************************/
 
-#include "cyhal_irq_psoc.h"
+#include "cyhal_irq_impl.h"
 
 /**
  * \addtogroup group_hal_impl_irq IRQ Muxing (Interrupt muxing)
@@ -114,7 +114,42 @@ uint8_t _cyhal_system_irq_lowest_priority(IRQn_Type cpu_irq)
 
     return lowest_priority;
 }
+
 #endif
+
+void _cyhal_system_irq_clear_disabled_in_pending(void)
+{
+#if _CYHAL_IRQ_MUXING
+    IRQn_Type irqn_mux;
+    cy_en_intr_t irqn;
+
+    #if _CYHAL_IRQ_LEGACY_M0
+        uint16_t irq_count = _CYHAL_IRQ_COUNT_M0;
+    #else
+        uint16_t irq_count = _CYHAL_IRQ_COUNT;
+    #endif /* _CYHAL_IRQ_LEGACY_M0 */
+
+        for(int i = 0; i < irq_count; ++i)
+        {
+            irqn = (cy_en_intr_t)i;
+    #if _CYHAL_IRQ_MUXING
+        #if _CYHAL_IRQ_LEGACY_M0
+            irqn_mux = _cyhal_irq_find_cm0(irqn);
+        #else /* CM0+ on CPUSSv2, or CM4/CM7 on CPUSSv2 with SYSTEM_IRQ_PRESENT */
+            irqn_mux = Cy_SysInt_GetNvicConnection(irqn);
+        #endif /* _CYHAL_IRQ_LEGACY_M0 */
+    #else
+            irqn_mux = (IRQn_Type)irqn;
+    #endif /* _CYHAL_IRQ_MUXING */
+
+            /* If NVIC pending an interrupt but the interrupt is disabled clear pending status in NVIC */
+            if(!(_cyhal_irq_is_enabled((_cyhal_system_irq_t)irqn_mux)) && NVIC_GetPendingIRQ(irqn_mux))
+            {
+                _cyhal_irq_clear_pending((_cyhal_system_irq_t)irqn);
+            }
+        }
+#endif /* _CYHAL_IRQ_MUXING */
+}
 
 cy_rslt_t _cyhal_irq_register(_cyhal_system_irq_t system_intr, uint8_t intr_priority, cy_israddress irq_handler)
 {

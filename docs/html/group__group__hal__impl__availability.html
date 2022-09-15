@@ -135,6 +135,42 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_WDT</b>&#160;&#160;&#160;(1)</td></tr>
 <tr class="memdesc:gac9caca2293c6a9e6788b022f94884737"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the WDT driver is available for the current device. <br /></td></tr>
 <tr class="separator:gac9caca2293c6a9e6788b022f94884737"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae0e73ed13f557e489e6ed79b9b4025a7"><td class="memItemLeft" align="right" valign="top"><a id="gae0e73ed13f557e489e6ed79b9b4025a7" name="gae0e73ed13f557e489e6ed79b9b4025a7"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_TIMER</b>&#160;&#160;&#160;(_CYHAL_DRIVER_AVAILABLE_TCPWM)</td></tr>
+<tr class="memdesc:gae0e73ed13f557e489e6ed79b9b4025a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the Timer driver is available for the current device. <br /></td></tr>
+<tr class="separator:gae0e73ed13f557e489e6ed79b9b4025a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab3a98cf6a3644b2069a9439764f4f021"><td class="memItemLeft" align="right" valign="top"><a id="gab3a98cf6a3644b2069a9439764f4f021" name="gab3a98cf6a3644b2069a9439764f4f021"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_PWM</b>&#160;&#160;&#160;(_CYHAL_DRIVER_AVAILABLE_TCPWM)</td></tr>
+<tr class="memdesc:gab3a98cf6a3644b2069a9439764f4f021"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the PWM driver is available for the current device. <br /></td></tr>
+<tr class="separator:gab3a98cf6a3644b2069a9439764f4f021"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae597756d528e2a2a0e5590b66ab15b05"><td class="memItemLeft" align="right" valign="top"><a id="gae597756d528e2a2a0e5590b66ab15b05" name="gae597756d528e2a2a0e5590b66ab15b05"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_QUADDEC</b>&#160;&#160;&#160;(_CYHAL_DRIVER_AVAILABLE_TCPWM)</td></tr>
+<tr class="memdesc:gae597756d528e2a2a0e5590b66ab15b05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the QuadDec driver is available for the current device. <br /></td></tr>
+<tr class="separator:gae597756d528e2a2a0e5590b66ab15b05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga210ced42a57d492248d9bdeba661bae2"><td class="memItemLeft" align="right" valign="top"><a id="ga210ced42a57d492248d9bdeba661bae2" name="ga210ced42a57d492248d9bdeba661bae2"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_I2S</b>&#160;&#160;&#160;((((CY_IP_MXAUDIOSS_INSTANCES) &gt; 0) &amp;&amp; (AUDIOSS_I2S || AUDIOSS0_I2S || AUDIOSS0_I2S_I2S)) || ((CY_IP_MXTDM_INSTANCES) &gt; 0))</td></tr>
+<tr class="memdesc:ga210ced42a57d492248d9bdeba661bae2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the I2S driver is available for the current device. <br /></td></tr>
+<tr class="separator:ga210ced42a57d492248d9bdeba661bae2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1de86b60e8cf0032e67ab331de5ebe4c"><td class="memItemLeft" align="right" valign="top"><a id="ga1de86b60e8cf0032e67ab331de5ebe4c" name="ga1de86b60e8cf0032e67ab331de5ebe4c"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_I2S_TX</b>&#160;&#160;&#160;(<a class="el" href="group__group__hal__impl__availability.html#ga210ced42a57d492248d9bdeba661bae2">CYHAL_DRIVER_AVAILABLE_I2S</a>)</td></tr>
+<tr class="memdesc:ga1de86b60e8cf0032e67ab331de5ebe4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the TX functionality is available on the I2S driver for the current device. <br /></td></tr>
+<tr class="separator:ga1de86b60e8cf0032e67ab331de5ebe4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga76126aa9ec0c7e1eefc09e26a92113ea"><td class="memItemLeft" align="right" valign="top"><a id="ga76126aa9ec0c7e1eefc09e26a92113ea" name="ga76126aa9ec0c7e1eefc09e26a92113ea"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_I2S_RX</b>&#160;&#160;&#160;(<a class="el" href="group__group__hal__impl__availability.html#ga210ced42a57d492248d9bdeba661bae2">CYHAL_DRIVER_AVAILABLE_I2S</a>)</td></tr>
+<tr class="memdesc:ga76126aa9ec0c7e1eefc09e26a92113ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the RX functionality is available on the I2S driver for the current device. <br /></td></tr>
+<tr class="separator:ga76126aa9ec0c7e1eefc09e26a92113ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8012ab1f5bc286fe9d462b38857631f1"><td class="memItemLeft" align="right" valign="top"><a id="ga8012ab1f5bc286fe9d462b38857631f1" name="ga8012ab1f5bc286fe9d462b38857631f1"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_TDM</b>&#160;&#160;&#160;((((CY_IP_MXAUDIOSS_INSTANCES) &gt; 0) &amp;&amp; (AUDIOSS_I2S || AUDIOSS0_I2S || AUDIOSS0_I2S_I2S)) || ((CY_IP_MXTDM_INSTANCES) &gt; 0))</td></tr>
+<tr class="memdesc:ga8012ab1f5bc286fe9d462b38857631f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the TDM driver is available for the current device. <br /></td></tr>
+<tr class="separator:ga8012ab1f5bc286fe9d462b38857631f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7821ed9d0fe9377eae54a0e9321f0694"><td class="memItemLeft" align="right" valign="top"><a id="ga7821ed9d0fe9377eae54a0e9321f0694" name="ga7821ed9d0fe9377eae54a0e9321f0694"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_TDM_TX</b>&#160;&#160;&#160;(<a class="el" href="group__group__hal__impl__availability.html#ga8012ab1f5bc286fe9d462b38857631f1">CYHAL_DRIVER_AVAILABLE_TDM</a>)</td></tr>
+<tr class="memdesc:ga7821ed9d0fe9377eae54a0e9321f0694"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the TX functionality is available on the TDM driver for the current device. <br /></td></tr>
+<tr class="separator:ga7821ed9d0fe9377eae54a0e9321f0694"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab3ad3078832e573d10343b49bb98c504"><td class="memItemLeft" align="right" valign="top"><a id="gab3ad3078832e573d10343b49bb98c504" name="gab3ad3078832e573d10343b49bb98c504"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_TDM_RX</b>&#160;&#160;&#160;(<a class="el" href="group__group__hal__impl__availability.html#ga8012ab1f5bc286fe9d462b38857631f1">CYHAL_DRIVER_AVAILABLE_TDM</a>)</td></tr>
+<tr class="memdesc:gab3ad3078832e573d10343b49bb98c504"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the RX functionality is available on the TDM driver for the current device. <br /></td></tr>
+<tr class="separator:gab3ad3078832e573d10343b49bb98c504"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gac065212a08722e9fe4d44bffd41296c7"><td class="memItemLeft" align="right" valign="top"><a id="gac065212a08722e9fe4d44bffd41296c7" name="gac065212a08722e9fe4d44bffd41296c7"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_COMP</b>&#160;&#160;&#160;((_CYHAL_DRIVER_AVAILABLE_COMP_LP) || (_CYHAL_DRIVER_AVAILABLE_COMP_CTB))</td></tr>
 <tr class="memdesc:gac065212a08722e9fe4d44bffd41296c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the COMP driver is available for the current device. <br /></td></tr>
@@ -155,22 +191,14 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_FLASH</b>&#160;&#160;&#160;(_CYHAL_DRIVER_AVAILABLE_FLASH)</td></tr>
 <tr class="memdesc:ga144cd0560450d7a2ba7cbd41004c9514"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the Flash driver is available for the current device. <br /></td></tr>
 <tr class="separator:ga144cd0560450d7a2ba7cbd41004c9514"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga210ced42a57d492248d9bdeba661bae2"><td class="memItemLeft" align="right" valign="top"><a id="ga210ced42a57d492248d9bdeba661bae2" name="ga210ced42a57d492248d9bdeba661bae2"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_I2S</b>&#160;&#160;&#160;((((CY_IP_MXAUDIOSS_INSTANCES) &gt; 0) &amp;&amp; (AUDIOSS_I2S || AUDIOSS0_I2S || AUDIOSS0_I2S_I2S)) || ((CY_IP_MXTDM_INSTANCES) &gt; 0))</td></tr>
-<tr class="memdesc:ga210ced42a57d492248d9bdeba661bae2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the I2S driver is available for the current device. <br /></td></tr>
-<tr class="separator:ga210ced42a57d492248d9bdeba661bae2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga1de86b60e8cf0032e67ab331de5ebe4c"><td class="memItemLeft" align="right" valign="top"><a id="ga1de86b60e8cf0032e67ab331de5ebe4c" name="ga1de86b60e8cf0032e67ab331de5ebe4c"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_I2S_TX</b>&#160;&#160;&#160;(<a class="el" href="group__group__hal__impl__availability.html#ga210ced42a57d492248d9bdeba661bae2">CYHAL_DRIVER_AVAILABLE_I2S</a>)</td></tr>
-<tr class="memdesc:ga1de86b60e8cf0032e67ab331de5ebe4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the TX functionality is available on the I2S driver for the current device. <br /></td></tr>
-<tr class="separator:ga1de86b60e8cf0032e67ab331de5ebe4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga76126aa9ec0c7e1eefc09e26a92113ea"><td class="memItemLeft" align="right" valign="top"><a id="ga76126aa9ec0c7e1eefc09e26a92113ea" name="ga76126aa9ec0c7e1eefc09e26a92113ea"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_I2S_RX</b>&#160;&#160;&#160;(<a class="el" href="group__group__hal__impl__availability.html#ga210ced42a57d492248d9bdeba661bae2">CYHAL_DRIVER_AVAILABLE_I2S</a>)</td></tr>
-<tr class="memdesc:ga76126aa9ec0c7e1eefc09e26a92113ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the RX functionality is available on the I2S driver for the current device. <br /></td></tr>
-<tr class="separator:ga76126aa9ec0c7e1eefc09e26a92113ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga9ffca2ce9483512e1965f9a3e44f5988"><td class="memItemLeft" align="right" valign="top"><a id="ga9ffca2ce9483512e1965f9a3e44f5988" name="ga9ffca2ce9483512e1965f9a3e44f5988"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_KEYSCAN</b>&#160;&#160;&#160;((CY_IP_MXKEYSCAN_INSTANCES) &gt; 0)</td></tr>
 <tr class="memdesc:ga9ffca2ce9483512e1965f9a3e44f5988"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the KeyScan driver is available for the current device. <br /></td></tr>
 <tr class="separator:ga9ffca2ce9483512e1965f9a3e44f5988"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0e41620de863d089ea326a746cdd0f81"><td class="memItemLeft" align="right" valign="top"><a id="ga0e41620de863d089ea326a746cdd0f81" name="ga0e41620de863d089ea326a746cdd0f81"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_LPTIMER</b>&#160;&#160;&#160;((SRSS_NUM_MCWDT) &gt; 0)</td></tr>
+<tr class="memdesc:ga0e41620de863d089ea326a746cdd0f81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the LPTimer driver is available for the current device. <br /></td></tr>
+<tr class="separator:ga0e41620de863d089ea326a746cdd0f81"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga7bbb16792ea84db0206beb498aa7e9df"><td class="memItemLeft" align="right" valign="top"><a id="ga7bbb16792ea84db0206beb498aa7e9df" name="ga7bbb16792ea84db0206beb498aa7e9df"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_OPAMP</b>&#160;&#160;&#160;(((CY_IP_MXS40PASS_INSTANCES) &gt; 0) &amp;&amp; ((CY_IP_MXS40PASS_CTB_INSTANCES) &gt; 0))</td></tr>
 <tr class="memdesc:ga7bbb16792ea84db0206beb498aa7e9df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the OpAmp driver is available for the current device. <br /></td></tr>
@@ -179,54 +207,14 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_PDMPCM</b>&#160;&#160;&#160;((((CY_IP_MXAUDIOSS_INSTANCES) &gt; 0) &amp;&amp; (AUDIOSS_PDM || AUDIOSS0_PDM || AUDIOSS0_PDM_PDM)) || ((CY_IP_MXPDM_INSTANCES) &gt; 0))</td></tr>
 <tr class="memdesc:ga7e9103a244e1554f48171d1c7474f037"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the PDM/PCM driver is available for the current device. <br /></td></tr>
 <tr class="separator:ga7e9103a244e1554f48171d1c7474f037"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab3a98cf6a3644b2069a9439764f4f021"><td class="memItemLeft" align="right" valign="top"><a id="gab3a98cf6a3644b2069a9439764f4f021" name="gab3a98cf6a3644b2069a9439764f4f021"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_PWM</b>&#160;&#160;&#160;(_CYHAL_DRIVER_AVAILABLE_TCPWM)</td></tr>
-<tr class="memdesc:gab3a98cf6a3644b2069a9439764f4f021"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the PWM driver is available for the current device. <br /></td></tr>
-<tr class="separator:gab3a98cf6a3644b2069a9439764f4f021"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae597756d528e2a2a0e5590b66ab15b05"><td class="memItemLeft" align="right" valign="top"><a id="gae597756d528e2a2a0e5590b66ab15b05" name="gae597756d528e2a2a0e5590b66ab15b05"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_QUADDEC</b>&#160;&#160;&#160;(_CYHAL_DRIVER_AVAILABLE_TCPWM)</td></tr>
-<tr class="memdesc:gae597756d528e2a2a0e5590b66ab15b05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the QuadDec driver is available for the current device. <br /></td></tr>
-<tr class="separator:gae597756d528e2a2a0e5590b66ab15b05"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gad3e20aa4251aa62dc0371f0615ae3ad3"><td class="memItemLeft" align="right" valign="top"><a id="gad3e20aa4251aa62dc0371f0615ae3ad3" name="gad3e20aa4251aa62dc0371f0615ae3ad3"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_QSPI</b>&#160;&#160;&#160;((CY_IP_MXSMIF_INSTANCES) &gt; 0)</td></tr>
 <tr class="memdesc:gad3e20aa4251aa62dc0371f0615ae3ad3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the QSPI driver is available for the current device. <br /></td></tr>
 <tr class="separator:gad3e20aa4251aa62dc0371f0615ae3ad3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga086d627b651b34fa50e15badbb2108c9"><td class="memItemLeft" align="right" valign="top"><a id="ga086d627b651b34fa50e15badbb2108c9" name="ga086d627b651b34fa50e15badbb2108c9"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_SYSPM</b>&#160;&#160;&#160;(1)</td></tr>
-<tr class="memdesc:ga086d627b651b34fa50e15badbb2108c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the SysPM driver is available for the current device. <br /></td></tr>
-<tr class="separator:ga086d627b651b34fa50e15badbb2108c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaa2d11bfc0756f86ab20e67b63440723a"><td class="memItemLeft" align="right" valign="top"><a id="gaa2d11bfc0756f86ab20e67b63440723a" name="gaa2d11bfc0756f86ab20e67b63440723a"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_RTC</b>&#160;&#160;&#160;((((CY_IP_MXS40SSRSS_INSTANCES) &gt; 0) || ((CY_IP_MXS40SRSS_INSTANCES) &gt; 0)) &amp;&amp; ((SRSS_BACKUP_PRESENT) &gt; 0))</td></tr>
 <tr class="memdesc:gaa2d11bfc0756f86ab20e67b63440723a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the RTC driver is available for the current device. <br /></td></tr>
 <tr class="separator:gaa2d11bfc0756f86ab20e67b63440723a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8012ab1f5bc286fe9d462b38857631f1"><td class="memItemLeft" align="right" valign="top"><a id="ga8012ab1f5bc286fe9d462b38857631f1" name="ga8012ab1f5bc286fe9d462b38857631f1"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_TDM</b>&#160;&#160;&#160;((((CY_IP_MXAUDIOSS_INSTANCES) &gt; 0) &amp;&amp; (AUDIOSS_I2S || AUDIOSS0_I2S || AUDIOSS0_I2S_I2S)) || ((CY_IP_MXTDM_INSTANCES) &gt; 0))</td></tr>
-<tr class="memdesc:ga8012ab1f5bc286fe9d462b38857631f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the TDM driver is available for the current device. <br /></td></tr>
-<tr class="separator:ga8012ab1f5bc286fe9d462b38857631f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga7821ed9d0fe9377eae54a0e9321f0694"><td class="memItemLeft" align="right" valign="top"><a id="ga7821ed9d0fe9377eae54a0e9321f0694" name="ga7821ed9d0fe9377eae54a0e9321f0694"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_TDM_TX</b>&#160;&#160;&#160;(<a class="el" href="group__group__hal__impl__availability.html#ga8012ab1f5bc286fe9d462b38857631f1">CYHAL_DRIVER_AVAILABLE_TDM</a>)</td></tr>
-<tr class="memdesc:ga7821ed9d0fe9377eae54a0e9321f0694"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the TX functionality is available on the TDM driver for the current device. <br /></td></tr>
-<tr class="separator:ga7821ed9d0fe9377eae54a0e9321f0694"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab3ad3078832e573d10343b49bb98c504"><td class="memItemLeft" align="right" valign="top"><a id="gab3ad3078832e573d10343b49bb98c504" name="gab3ad3078832e573d10343b49bb98c504"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_TDM_RX</b>&#160;&#160;&#160;(<a class="el" href="group__group__hal__impl__availability.html#ga8012ab1f5bc286fe9d462b38857631f1">CYHAL_DRIVER_AVAILABLE_TDM</a>)</td></tr>
-<tr class="memdesc:gab3ad3078832e573d10343b49bb98c504"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the RX functionality is available on the TDM driver for the current device. <br /></td></tr>
-<tr class="separator:gab3ad3078832e573d10343b49bb98c504"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae0e73ed13f557e489e6ed79b9b4025a7"><td class="memItemLeft" align="right" valign="top"><a id="gae0e73ed13f557e489e6ed79b9b4025a7" name="gae0e73ed13f557e489e6ed79b9b4025a7"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_TIMER</b>&#160;&#160;&#160;(_CYHAL_DRIVER_AVAILABLE_TCPWM)</td></tr>
-<tr class="memdesc:gae0e73ed13f557e489e6ed79b9b4025a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the Timer driver is available for the current device. <br /></td></tr>
-<tr class="separator:gae0e73ed13f557e489e6ed79b9b4025a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga62fb3ca240efe27c10ffd8489ea18714"><td class="memItemLeft" align="right" valign="top"><a id="ga62fb3ca240efe27c10ffd8489ea18714" name="ga62fb3ca240efe27c10ffd8489ea18714"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_TRNG</b>&#160;&#160;&#160;((((CY_IP_MXCRYPTO_INSTANCES) &gt; 0) &amp;&amp; ((CPUSS_CRYPTO_TR) &gt; 0)) /*|| (((CY_IP_MXCRYPTOLITE_INSTANCES) &gt; 0) &amp;&amp; ((CRYPTO_TRNG_PRESENT) &gt; 0))*/)</td></tr>
-<tr class="memdesc:ga62fb3ca240efe27c10ffd8489ea18714"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the TRNG driver is available for the current device. <br /></td></tr>
-<tr class="separator:ga62fb3ca240efe27c10ffd8489ea18714"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga684b8b73042ae9142e14d4da5f22f427"><td class="memItemLeft" align="right" valign="top"><a id="ga684b8b73042ae9142e14d4da5f22f427" name="ga684b8b73042ae9142e14d4da5f22f427"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_USB_DEV</b>&#160;&#160;&#160;((CY_IP_MXUSBFS_INSTANCES) &gt; 0)</td></tr>
-<tr class="memdesc:ga684b8b73042ae9142e14d4da5f22f427"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the USB Dev driver is available for the current device. <br /></td></tr>
-<tr class="separator:ga684b8b73042ae9142e14d4da5f22f427"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga0e41620de863d089ea326a746cdd0f81"><td class="memItemLeft" align="right" valign="top"><a id="ga0e41620de863d089ea326a746cdd0f81" name="ga0e41620de863d089ea326a746cdd0f81"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_LPTIMER</b>&#160;&#160;&#160;((SRSS_NUM_MCWDT) &gt; 0)</td></tr>
-<tr class="memdesc:ga0e41620de863d089ea326a746cdd0f81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the LPTimer driver is available for the current device. <br /></td></tr>
-<tr class="separator:ga0e41620de863d089ea326a746cdd0f81"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae04cb2342d4832ed58a9ebb501a8ddf2"><td class="memItemLeft" align="right" valign="top"><a id="gae04cb2342d4832ed58a9ebb501a8ddf2" name="gae04cb2342d4832ed58a9ebb501a8ddf2"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_SDHC</b>&#160;&#160;&#160;((CY_IP_MXSDHC_INSTANCES) &gt; 0)</td></tr>
 <tr class="memdesc:gae04cb2342d4832ed58a9ebb501a8ddf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the SDHC driver is available for the current device. <br /></td></tr>
@@ -235,6 +223,18 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_SDIO</b>&#160;&#160;&#160;(((CY_IP_MXSDHC_INSTANCES) &gt; 0) || (_CYHAL_DRIVER_AVAILABLE_SDIO_UDB))</td></tr>
 <tr class="memdesc:ga34d490d013103cd54a492df567f16ad7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the SDIO driver is available for the current device. <br /></td></tr>
 <tr class="separator:ga34d490d013103cd54a492df567f16ad7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga086d627b651b34fa50e15badbb2108c9"><td class="memItemLeft" align="right" valign="top"><a id="ga086d627b651b34fa50e15badbb2108c9" name="ga086d627b651b34fa50e15badbb2108c9"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_SYSPM</b>&#160;&#160;&#160;(1)</td></tr>
+<tr class="memdesc:ga086d627b651b34fa50e15badbb2108c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the SysPM driver is available for the current device. <br /></td></tr>
+<tr class="separator:ga086d627b651b34fa50e15badbb2108c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga62fb3ca240efe27c10ffd8489ea18714"><td class="memItemLeft" align="right" valign="top"><a id="ga62fb3ca240efe27c10ffd8489ea18714" name="ga62fb3ca240efe27c10ffd8489ea18714"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_TRNG</b>&#160;&#160;&#160;((((CY_IP_MXCRYPTO_INSTANCES) &gt; 0) &amp;&amp; ((CPUSS_CRYPTO_TR) &gt; 0)) /*|| (((CY_IP_MXCRYPTOLITE_INSTANCES) &gt; 0) &amp;&amp; ((CRYPTO_TRNG_PRESENT) &gt; 0))*/)</td></tr>
+<tr class="memdesc:ga62fb3ca240efe27c10ffd8489ea18714"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the TRNG driver is available for the current device. <br /></td></tr>
+<tr class="separator:ga62fb3ca240efe27c10ffd8489ea18714"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga684b8b73042ae9142e14d4da5f22f427"><td class="memItemLeft" align="right" valign="top"><a id="ga684b8b73042ae9142e14d4da5f22f427" name="ga684b8b73042ae9142e14d4da5f22f427"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_USB_DEV</b>&#160;&#160;&#160;((CY_IP_MXUSBFS_INSTANCES) &gt; 0)</td></tr>
+<tr class="memdesc:ga684b8b73042ae9142e14d4da5f22f427"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the USB Dev driver is available for the current device. <br /></td></tr>
+<tr class="separator:ga684b8b73042ae9142e14d4da5f22f427"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gab2f352b52c9ab8d8bf868c217611f89f"><td class="memItemLeft" align="right" valign="top"><a id="gab2f352b52c9ab8d8bf868c217611f89f" name="gab2f352b52c9ab8d8bf868c217611f89f"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_ADC</b>&#160;&#160;&#160;((_CYHAL_DRIVER_AVAILABLE_ADC_SAR) || (_CYHAL_DRIVER_AVAILABLE_ADC_MIC))</td></tr>
 <tr class="memdesc:gab2f352b52c9ab8d8bf868c217611f89f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the ADC driver is available for the current device. <br /></td></tr>

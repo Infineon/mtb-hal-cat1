@@ -6,7 +6,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* Copyright 2018-2022 Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -37,9 +37,8 @@
 #include "cy_device.h"
 #include "cy_pdl.h"
 #include "cyhal_utils.h"
-#include "cyhal_irq_psoc.h"
+#include "cyhal_irq_impl.h"
 #include "cyhal_peri_common.h"
-#include "cyhal_irq_psoc.h"
 
 #if defined(__cplusplus)
 extern "C" {
@@ -97,11 +96,20 @@ extern const _cyhal_system_irq_t _CYHAL_SCB_IRQ_N[_SCB_ARRAY_SIZE];
  */
 uint8_t cyhal_scb_get_block_from_irqn(_cyhal_system_irq_t irqn);
 
+#if defined (COMPONENT_CAT5)
+/** Get the SCB object corresponding to the currently running ISR.
+ *
+ * @param[in] irqn The index of the irq object to retrieve
+ * @return A pointer to the SCB object corresponding to the currently running ISR.
+ */
+void *_cyhal_scb_get_irq_obj(_cyhal_system_irq_t irqn);
+#else
 /** Get the SCB object corresponding to the currently running ISR.
  *
  * @return A pointer to the SCB object corresponding to the currently running ISR.
  */
 void *_cyhal_scb_get_irq_obj(void);
+#endif
 
 /** Sets the desired clocks & data rate to achieve the specified frequency. Configuration of clock is not changed if
  * driver does not own it.
@@ -194,10 +202,12 @@ static inline en_clk_dst_t _cyhal_scb_get_clock_index(uint32_t block_num)
     en_clk_dst_t clk;
     // PSOC6A256K does not have SCB 3
     #if defined(CY_DEVICE_PSOC6A256K)
-    if (block_num < 3)
-        clk = (en_clk_dst_t)((uint32_t)_CYHAL_SCB0_PCLK_CLOCK + block_num);
-    else
-        clk = (en_clk_dst_t)((uint32_t)_CYHAL_SCB0_PCLK_CLOCK + block_num -1);
+        if (block_num < 3)
+            clk = (en_clk_dst_t)((uint32_t)_CYHAL_SCB0_PCLK_CLOCK + block_num);
+        else
+            clk = (en_clk_dst_t)((uint32_t)_CYHAL_SCB0_PCLK_CLOCK + block_num -1);
+    #elif defined (COMPONENT_CAT5)
+        clk = (en_clk_dst_t)(block_num);
     #else
         clk = (en_clk_dst_t)((uint32_t)_CYHAL_SCB0_PCLK_CLOCK + block_num);
     #endif

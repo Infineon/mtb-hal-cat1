@@ -7,7 +7,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* Copyright 2018-2022 Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -60,7 +60,7 @@
 #include <stdlib.h>
 #include "cy_smif.h"
 #include "cyhal_utils.h"
-#include "cyhal_irq_psoc.h"
+#include "cyhal_irq_impl.h"
 #include "cyhal_qspi.h"
 #include "cyhal_hwmgr.h"
 #include "cyhal_gpio.h"
@@ -138,11 +138,9 @@ static inline uint8_t _cyhal_qspi_get_block_from_irqn(_cyhal_system_irq_t irqn)
 {
     switch (irqn)
     {
-#if !(CY_CPU_CORTEX_M0P)
 #ifdef SMIF0
         case CYHAL_SMIF_IRQN: return 0;
 #endif /* ifdef SMIF0 */
-#endif /* !(CY_CPU_CORTEX_M0P) */
         default:
             CY_ASSERT(false); // Should never be called with a non-SMIF IRQn
             return 0;
@@ -422,7 +420,7 @@ static cy_rslt_t _cyhal_qspi_command_transfer(cyhal_qspi_t *obj, const cyhal_qsp
 
         if (!command->address.disabled && !command->mode_bits.disabled)
         {
-            if (_cyhal_qspi_convert_bus_width(command->address.bus_width) != _cyhal_qspi_convert_bus_width(command->mode_bits.bus_width))
+            if (command->address.bus_width != command->mode_bits.bus_width)
             {
                 result = CYHAL_QSPI_RSLT_ERR_BUS_WIDTH;
             }
@@ -661,7 +659,11 @@ static cy_rslt_t _cyhal_qspi_process_pin_set(cyhal_qspi_t *obj, const cyhal_qspi
 
     uint8_t pin_offset = 0;
     const cyhal_resource_pin_mapping_t *sclk_map = _CYHAL_UTILS_GET_RESOURCE(obj->pin_sclk, cyhal_pin_map_smif_spi_clk);
-    const cyhal_resource_pin_mapping_t *io_maps[_CYHAL_QSPI_MAX_DATA_PINS] = { NULL };
+    const cyhal_resource_pin_mapping_t *io_maps[_CYHAL_QSPI_MAX_DATA_PINS];
+    for (uint8_t i = 0; i < _CYHAL_QSPI_MAX_DATA_PINS; i++)
+    {
+        io_maps[i] = NULL;
+    }
     const size_t data_pin_map_sizes[_CYHAL_QSPI_MAX_DATA_PINS - 1] = // Must compute sizes here since we can't get them from the map pointers
     {
         sizeof(cyhal_pin_map_smif_spi_data1) / sizeof(cyhal_resource_pin_mapping_t),

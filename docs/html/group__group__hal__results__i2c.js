@@ -10,5 +10,8 @@ var group__group__hal__results__i2c =
     [ "CYHAL_I2C_RSLT_ERR_BAD_ARGUMENT", "group__group__hal__results__i2c.html#ga4ba6ca40ee313f202689b3bbf3e4a1c0", null ],
     [ "CYHAL_I2C_RSLT_ERR_UNSUPPORTED", "group__group__hal__results__i2c.html#ga5f20f6627bc1f27428e56f5a5f71058a", null ],
     [ "CYHAL_I2C_RSLT_ERR_NO_ACK", "group__group__hal__results__i2c.html#gaf12a20605a1b85af35d6b38f2a81c428", null ],
-    [ "CYHAL_I2C_RSLT_ERR_CMD_ERROR", "group__group__hal__results__i2c.html#ga86ad582cf241457b562317297a7751fd", null ]
+    [ "CYHAL_I2C_RSLT_ERR_CMD_ERROR", "group__group__hal__results__i2c.html#ga86ad582cf241457b562317297a7751fd", null ],
+    [ "CYHAL_I2C_RSLT_ERR_BUFFERS_NULL_PTR", "group__group__hal__results__i2c.html#gaada2d114bcc08622172e7cfdbd1454a5", null ],
+    [ "CYHAL_I2C_RSLT_WARN_TIMEOUT", "group__group__hal__results__i2c.html#gad7a54e01e848a0c036e05e25c12348ad", null ],
+    [ "CYHAL_I2C_RSLT_WARN_DEVICE_BUSY", "group__group__hal__results__i2c.html#ga2eaa48ed6d6231db28b58ecd16190e85", null ]
 ];

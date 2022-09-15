@@ -6,6 +6,5 @@ var group__group__hal__impl__triggers =
     [ "PSOC6_04", "group__group__hal__impl__triggers__psoc6__04.html", "group__group__hal__impl__triggers__psoc6__04" ],
     [ "CYW20829", "group__group__hal__impl__triggers__cyw20829.html", "group__group__hal__impl__triggers__cyw20829" ],
     [ "XMC7100", "group__group__hal__impl__triggers__xmc7100.html", "group__group__hal__impl__triggers__xmc7100" ],
-    [ "XMC7200", "group__group__hal__impl__triggers__xmc7200.html", "group__group__hal__impl__triggers__xmc7200" ],
-    [ "EXPLORER", "group__group__hal__impl__triggers__explorer.html", "group__group__hal__impl__triggers__explorer" ]
+    [ "XMC7200", "group__group__hal__impl__triggers__xmc7200.html", "group__group__hal__impl__triggers__xmc7200" ]
 ];

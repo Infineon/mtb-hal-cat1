@@ -7,7 +7,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* Copyright 2018-2022 Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -180,7 +180,7 @@ static cy_rslt_t _cyhal_pwm_update_clock_freq(cyhal_pwm_t *obj, uint32_t period_
          * desired_freq_hz = counts_per_us * 1e6
          * But if we break those out separately, we lose too much precision to rounding in counts_per_us
          */
-        uint64_t desired_freq_hz = (uint64_t)((max_period_counts * 1e6) / period_us);
+        uint64_t desired_freq_hz = (uint64_t)((max_period_counts * 1000000) / period_us);
 
         if(desired_freq_hz > source_hz)
         {
@@ -335,7 +335,7 @@ cy_rslt_t cyhal_pwm_init_adv(cyhal_pwm_t *obj, cyhal_gpio_t pin, cyhal_gpio_t co
 
     if(CY_RSLT_SUCCESS == result)
     {
-        result = _cyhal_utils_reserve_and_connect(map, CYHAL_PIN_MAP_DRIVE_MODE_TCPWM_LINE);
+        result = _cyhal_utils_reserve_and_connect(map, (uint8_t)CYHAL_PIN_MAP_DRIVE_MODE_TCPWM_LINE);
     }
     if (CY_RSLT_SUCCESS == result)
     {
@@ -358,7 +358,7 @@ cy_rslt_t cyhal_pwm_init_adv(cyhal_pwm_t *obj, cyhal_gpio_t pin, cyhal_gpio_t co
         }
         else
         {
-            result = _cyhal_utils_reserve_and_connect(map_compl, CYHAL_PIN_MAP_DRIVE_MODE_TCPWM_LINE_COMPL);
+            result = _cyhal_utils_reserve_and_connect(map_compl, (uint8_t)CYHAL_PIN_MAP_DRIVE_MODE_TCPWM_LINE_COMPL);
             if (CY_RSLT_SUCCESS == result)
             {
                 obj->pin_compl = compl_pin;
