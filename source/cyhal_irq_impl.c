@@ -1,12 +1,12 @@
 /***************************************************************************//**
-* \file cyhal_utils_psoc.c
+* \file cyhal_irq_impl.c
 *
 * \brief
 * Provides internal utility functions for working with interrupts on CAT1/CAT2.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* Copyright 2018-2022 Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -24,7 +24,7 @@
 * limitations under the License.
 *******************************************************************************/
 
-#include "cyhal_irq_psoc.h"
+#include "cyhal_irq_impl.h"
 
 /**
  * \addtogroup group_hal_impl_irq IRQ Muxing (Interrupt muxing)
@@ -57,6 +57,10 @@
 
 static const uint8_t _CYHAL_IRQ_COUNT_M0 = 32; /* Fixed in the IP definition */
 #elif _CYHAL_IRQ_MUXING
+#if defined (COMPONENT_CAT1A)
+#include "cyhal_hwmgr.h" // TODO: This is a temporary workaround to assign 1:1 CPU to system mapping.
+#endif
+
 static uint8_t _cyhal_system_irq_priority[((_CYHAL_IRQ_PRIO_BITS * _CYHAL_IRQ_COUNT) + 7) / 8]; /* Round up to nearest byte */
 
 uint8_t _cyhal_system_irq_lookup_priority(cy_en_intr_t system_irq)
@@ -114,6 +118,11 @@ uint8_t _cyhal_system_irq_lowest_priority(IRQn_Type cpu_irq)
 
     return lowest_priority;
 }
+
+#endif
+
+#if (_CYHAL_IRQ_MUXING) && defined (COMPONENT_CAT1A) && (!_CYHAL_IRQ_LEGACY_M0)
+uint8_t _cpu_irq_tracker = 0u; // TODO: This is a temporary workaround to assign 1:1 CPU to system mapping.
 #endif
 
 cy_rslt_t _cyhal_irq_register(_cyhal_system_irq_t system_intr, uint8_t intr_priority, cy_israddress irq_handler)
@@ -154,8 +163,29 @@ cy_rslt_t _cyhal_irq_register(_cyhal_system_irq_t system_intr, uint8_t intr_prio
         const uint8_t NUM_CPU_INTERRUPTS = CPUSS_CM7_INT_NR;
         #endif
         #endif
+        // TODO: This is a temporary workaround to assign 1:1 CPU to system mapping. 
+        // When the PDL allows more than one mapping, remove this logic.
+        #if defined (COMPONENT_CAT1A)
+        cy_rslt_t status = CYHAL_HWMGR_RSLT_ERR_NONE_FREE;
+        uint8_t cpu_irq;
+        for (int idx = 0; idx < NUM_CPU_INTERRUPTS; idx++)
+        {
+            if ((_cpu_irq_tracker & (1 << idx)) == 0)
+            {
+                cpu_irq = idx;
+                _cpu_irq_tracker |= (1 << idx);
+                status = CY_RSLT_SUCCESS;
+                break;
+            }
+        }
+        if (status != CY_RSLT_SUCCESS)
+        {
+            return status;
+        }
+        #else
         const uint8_t SYSTEM_IRQ_PER_CPU_IRQ = (_CYHAL_IRQ_COUNT + (NUM_CPU_INTERRUPTS / 2)) / NUM_CPU_INTERRUPTS;
         uint8_t cpu_irq = ((uint32_t)system_intr) / SYSTEM_IRQ_PER_CPU_IRQ;
+        #endif
         #if defined (CY_IP_M7CPUSS)
         #if defined(CY_CPU_CORTEX_M0P)
         cpu_irq += 2u; /* Handle offset from interrupts reserved for ROM */

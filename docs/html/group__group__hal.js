@@ -14,6 +14,7 @@ var group__group__hal =
     [ "I2C (Inter-Integrated Circuit)", "group__group__hal__i2c.html", "group__group__hal__i2c" ],
     [ "I2S (Inter-IC Sound)", "group__group__hal__i2s.html", "group__group__hal__i2s" ],
     [ "Interconnect (Internal Digital Routing)", "group__group__hal__interconnect.html", "group__group__hal__interconnect" ],
+    [ "IPC (Inter-Processor Communication)", "group__group__hal__ipc.html", "group__group__hal__ipc" ],
     [ "Keyscan", "group__group__hal__keyscan.html", "group__group__hal__keyscan" ],
     [ "LPTimer (Low-Power Timer)", "group__group__hal__lptimer.html", "group__group__hal__lptimer" ],
     [ "Opamp (Operational Amplifier)", "group__group__hal__opamp.html", "group__group__hal__opamp" ],

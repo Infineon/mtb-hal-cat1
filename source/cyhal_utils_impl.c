@@ -1,12 +1,12 @@
 /***************************************************************************//**
-* \file cyhal_utils_psoc.c
+* \file cyhal_utils_impl.c
 *
 * \brief
 * Provides utility functions for working with the CAT1/CAT2 HAL implementation.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* Copyright 2018-2022 Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -27,7 +27,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include "cyhal_utils.h"
-#include "cyhal_utils_psoc.h"
+#include "cyhal_utils_impl.h"
 #include "cyhal_hwmgr.h"
 #include "cyhal_interconnect.h"
 #include "cyhal_clock.h"
@@ -37,21 +37,18 @@ extern "C"
 {
 #endif
 
-#if !defined(SRSS_NUM_PLL)
-// TODO: To be fixed for CAT1D
-#if !defined(COMPONENT_CAT1D)
-#define SRSS_NUM_PLL (SRSS_NUM_PLL200M + SRSS_NUM_PLL400M)
-#else
-#define SRSS_NUM_PLL (0)
-#endif
-#endif
-
 #if defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C)
 #define _CYHAL_MXSPERI_PCLK_DIV_CNT(gr) \
     case CYHAL_CLOCK_BLOCK_PERIPHERAL##gr##_8BIT: return PERI_PERI_PCLK_PCLK_GROUP_NR##gr##_GR_DIV_8_VECT; \
     case CYHAL_CLOCK_BLOCK_PERIPHERAL##gr##_16BIT: return PERI_PERI_PCLK_PCLK_GROUP_NR##gr##_GR_DIV_16_VECT; \
     case CYHAL_CLOCK_BLOCK_PERIPHERAL##gr##_16_5BIT: return PERI_PERI_PCLK_PCLK_GROUP_NR##gr##_GR_DIV_16_5_VECT; \
     case CYHAL_CLOCK_BLOCK_PERIPHERAL##gr##_24_5BIT: return PERI_PERI_PCLK_PCLK_GROUP_NR##gr##_GR_DIV_24_5_VECT;
+#elif defined(COMPONENT_CAT1D)
+#define _CYHAL_MXSPERI_PCLK_DIV_CNT(instance, gr) \
+    case CYHAL_CLOCK_BLOCK##instance##_PERIPHERAL##gr##_8BIT: return PERI##instance##_PERI_PCLK_PCLK_GROUP_NR##gr##_GR_DIV_8_VECT; \
+    case CYHAL_CLOCK_BLOCK##instance##_PERIPHERAL##gr##_16BIT: return PERI##instance##_PERI_PCLK_PCLK_GROUP_NR##gr##_GR_DIV_16_VECT; \
+    case CYHAL_CLOCK_BLOCK##instance##_PERIPHERAL##gr##_16_5BIT: return PERI##instance##_PERI_PCLK_PCLK_GROUP_NR##gr##_GR_DIV_16_5_VECT; \
+    case CYHAL_CLOCK_BLOCK##instance##_PERIPHERAL##gr##_24_5BIT: return PERI##instance##_PERI_PCLK_PCLK_GROUP_NR##gr##_GR_DIV_24_5_VECT;
 #endif
 
 cy_rslt_t _cyhal_utils_reserve_and_connect(const cyhal_resource_pin_mapping_t *mapping, uint8_t drive_mode)
@@ -152,7 +149,7 @@ static inline cy_rslt_t _cyhal_utils_allocate_peri(cyhal_clock_t *clock, uint8_t
 
     cy_rslt_t result = CYHAL_HWMGR_RSLT_ERR_NONE_FREE;
     bool found_minimum = false;
-// TODO: CAT1D to be confirmed here
+
 #if defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
     bool dividers_exist = false;
 #endif
@@ -168,16 +165,16 @@ static inline cy_rslt_t _cyhal_utils_allocate_peri(cyhal_clock_t *clock, uint8_t
 #if defined(COMPONENT_CAT1A)
             CY_UNUSED_PARAMETER(peri_group);
             result = _cyhal_clock_allocate_peri(clock, PERI_DIVIDERS[i]);
-// TODO: CAT1D to be confirmed here
 #elif defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
+#if !defined(COMPONENT_CAT1D)
             cyhal_clock_block_t adjusted_div = (cyhal_clock_block_t)_CYHAL_PERIPHERAL_GROUP_ADJUST(peri_group, PERI_DIVIDERS[i]);
+#else /* !defined(COMPONENT_CAT1D) */
+            uint8_t instance = _CYHAL_UTILS_UNPACK_INSTANCE(peri_group);
+            uint8_t group = _CYHAL_UTILS_UNPACK_GROUP(peri_group);
+            cyhal_clock_block_t adjusted_div = (cyhal_clock_block_t)_CYHAL_PERIPHERAL_GROUP_ADJUST(instance, group, PERI_DIVIDERS[i]);
+#endif /* !defined(COMPONENT_CAT1D) or other */
             dividers_exist |= (_cyhal_utils_get_clock_count(adjusted_div) > 0);
-            // TODO: Remove this ifdef once clock is available for CAT1D.
-            #if !defined(COMPONENT_CAT1D)
             result = _cyhal_clock_allocate_peri(clock, adjusted_div);
-            #else
-            CY_UNUSED_PARAMETER(clock);
-            #endif
 #elif defined(COMPONENT_CAT2)
             CY_UNUSED_PARAMETER(peri_group);
             result = cyhal_clock_allocate(clock, PERI_DIVIDERS[i]);
@@ -201,10 +198,41 @@ static inline cy_rslt_t _cyhal_utils_allocate_peri(cyhal_clock_t *clock, uint8_t
     return result;
 }
 
-// TODO: CAT1D to be confirmed here
 #if defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
 uint8_t _cyhal_utils_get_hfclk_for_peri_group(uint8_t peri_group)
 {
+#if defined(CY_DEVICE_EXPLORER)
+    switch (peri_group)
+    {
+        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 0):
+        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(1, 4):
+            return 0;
+        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 7):
+        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(1, 0):
+            return 1;
+        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 3):
+        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(1, 2):
+            return 5;
+        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 4):
+        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(1, 3):
+            return 6;
+        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(1, 1):
+            return 7;
+        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 2):
+            return 9;
+        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 1):
+        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 5):
+            return 10;
+        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 8):
+            return 11;
+        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 6):
+            return 13;
+        default:
+            /* Unhandled peri clock */
+            CY_ASSERT(false);
+            break;
+    }
+#else
     switch (peri_group)
     {
         /* Peripheral groups are device specific. */
@@ -225,10 +253,6 @@ uint8_t _cyhal_utils_get_hfclk_for_peri_group(uint8_t peri_group)
             return 0;
         case 1:
             return 2;
-// TODO: To be fixed
-#elif defined(CY_DEVICE_EXPLORER)
-        case 0:
-            return 0;
 #else
 #warning "Unsupported device"
 #endif /* defined(CY_DEVICE_CYW20829) */
@@ -236,14 +260,32 @@ uint8_t _cyhal_utils_get_hfclk_for_peri_group(uint8_t peri_group)
             CY_ASSERT(false); /* Use APIs provided by the clock driver */
             break;
     }
+#endif /* defined(COMPONENT_CAT1D) or other */
     return 0;
 }
+#endif /* defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) */
+
+#if defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
 uint8_t _cyhal_utils_get_peri_group(const cyhal_resource_inst_t *clocked_item)
 {
     switch (clocked_item->type)
     {
         /* Peripheral groups are device specific. */
-#if defined(CY_DEVICE_CYW20829)
+#if defined(CY_DEVICE_EXPLORER)
+        case CYHAL_RSC_CAN:
+        case CYHAL_RSC_SCB:
+        case CYHAL_RSC_TCPWM:
+        case CYHAL_RSC_I3C:
+            /* Peri instance num + Peri group num */
+            return _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 1);
+        case CYHAL_RSC_TDM:
+        case CYHAL_RSC_PDM:
+            /* Peri instance num + Peri group num */
+            return _CYHAL_UTILS_PACK_INSTANCE_GROUP(1, 1);
+        case CYHAL_RSC_ADC:
+            /* Peri instance num + Peri group num */
+            return _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 2);
+#elif defined(CY_DEVICE_CYW20829)
         case CYHAL_RSC_CAN:
         case CYHAL_RSC_LIN:
         case CYHAL_RSC_SCB:
@@ -278,10 +320,6 @@ uint8_t _cyhal_utils_get_peri_group(const cyhal_resource_inst_t *clocked_item)
         case CYHAL_RSC_CAN:
         case CYHAL_RSC_LIN:
             return 1;
-// TODO: To be fixed
-#elif defined(CY_DEVICE_EXPLORER)
-        case CYHAL_RSC_TCPWM:
-            return 0;
 #else
 #warning "Unsupported device"
 #endif
@@ -365,7 +403,69 @@ uint32_t _cyhal_utils_get_clock_count(cyhal_clock_block_t block)
             return SRSS_NUM_PLL200M;
         case CYHAL_CLOCK_BLOCK_PLL400:
             return SRSS_NUM_PLL400M;
+        #elif defined (COMPOANENT_CAT1D)
+        #if (PERI0_PERI_PCLK_PCLK_GROUP_NR > 0)
+        _CYHAL_MXSPERI_PCLK_DIV_CNT(0, 0);
+        #endif
+        #if (PERI0_PERI_PCLK_PCLK_GROUP_NR > 1)
+        _CYHAL_MXSPERI_PCLK_DIV_CNT(0, 1);
+        #endif
+        #if (PERI0_PERI_PCLK_PCLK_GROUP_NR > 2)
+        _CYHAL_MXSPERI_PCLK_DIV_CNT(0, 2);
+        #endif
+        #if (PERI0_PERI_PCLK_PCLK_GROUP_NR > 3)
+        _CYHAL_MXSPERI_PCLK_DIV_CNT(0, 3);
+        #endif
+        #if (PERI0_PERI_PCLK_PCLK_GROUP_NR > 4)
+        _CYHAL_MXSPERI_PCLK_DIV_CNT(0, 4);
+        #endif
+        #if (PERI0_PERI_PCLK_PCLK_GROUP_NR > 5)
+        _CYHAL_MXSPERI_PCLK_DIV_CNT(0, 5);
+        #endif
+        #if (PERI0_PERI_PCLK_PCLK_GROUP_NR > 6)
+        _CYHAL_MXSPERI_PCLK_DIV_CNT(0, 6);
+        #endif
+        #if (PERI0_PERI_PCLK_PCLK_GROUP_NR > 7)
+        _CYHAL_MXSPERI_PCLK_DIV_CNT(0, 7);
+        #endif
+        #if (PERI0_PERI_PCLK_PCLK_GROUP_NR > 8)
+        _CYHAL_MXSPERI_PCLK_DIV_CNT(0, 8);
+        #endif
+        #if (PERI0_PERI_PCLK_PCLK_GROUP_NR > 9)
+        _CYHAL_MXSPERI_PCLK_DIV_CNT(0, 9);
+        #endif
+        #if (PERI0_PERI_PCLK_PCLK_GROUP_NR > 10)
+        #warning "Unhandled number of PCLK for PERI0"
+        #endif
+        #if (PERI1_PERI_PCLK_PCLK_GROUP_NR > 0)
+        _CYHAL_MXSPERI_PCLK_DIV_CNT(1, 0);
+        #endif
+        #if (PERI1_PERI_PCLK_PCLK_GROUP_NR > 1)
+        _CYHAL_MXSPERI_PCLK_DIV_CNT(1, 1);
+        #endif
+        #if (PERI1_PERI_PCLK_PCLK_GROUP_NR > 2)
+        _CYHAL_MXSPERI_PCLK_DIV_CNT(1, 2);
+        #endif
+        #if (PERI1_PERI_PCLK_PCLK_GROUP_NR > 3)
+        _CYHAL_MXSPERI_PCLK_DIV_CNT(1, 3);
+        #endif
+        #if (PERI1_PERI_PCLK_PCLK_GROUP_NR > 4)
+        _CYHAL_MXSPERI_PCLK_DIV_CNT(1, 4);
+        #endif
+        #if (PERI1_PERI_PCLK_PCLK_GROUP_NR > 5)
+        _CYHAL_MXSPERI_PCLK_DIV_CNT(1, 5);
+        #endif
+        #if (PERI_PERI_PCLK_PCLK_GROUP_NR > 6)
+        #warning "Unhandled number of PCLK for PERI1"
+        #endif
+        case CYHAL_CLOCK_BLOCK_PERI:
+            return PERI_PCLK_GROUP_NR;
+        case CYHAL_CLOCK_BLOCK_DPLL_LP:
+            return SRSS_NUM_DPLL_LP;
+        case CYHAL_CLOCK_BLOCK_DPLL_HP:
+            return SRSS_NUM_DPLL_HP;
         #endif /* defined(COMPONENT_CAT1B) */
+
         case CYHAL_CLOCK_BLOCK_PATHMUX:
             return SRSS_NUM_CLKPATH;
         case CYHAL_CLOCK_BLOCK_HF:
@@ -455,7 +555,7 @@ cy_rslt_t _cyhal_utils_allocate_clock(cyhal_clock_t *clock, const cyhal_resource
     }
     return cyhal_clock_reserve(clock, &clock_rsc);
 }
-// TODO: CAT1D to be confirmed here
+
 #elif defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1D)
 cy_rslt_t _cyhal_utils_allocate_clock(cyhal_clock_t *clock, const cyhal_resource_inst_t *clocked_item, cyhal_clock_block_t div, bool accept_larger)
 {
@@ -474,7 +574,7 @@ cy_rslt_t _cyhal_utils_allocate_clock(cyhal_clock_t *clock, const cyhal_resource
 
 cy_rslt_t _cyhal_utils_set_clock_frequency(cyhal_clock_t* clock, uint32_t hz, const cyhal_clock_tolerance_t *tolerance)
 {
-#if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C)
+#if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
     if(clock->block == CYHAL_CLOCK_BLOCK_HF)
     {
         uint32_t divider;
@@ -491,7 +591,7 @@ cy_rslt_t _cyhal_utils_set_clock_frequency(cyhal_clock_t* clock, uint32_t hz, co
 #endif
         // Defer to the clock driver
         return cyhal_clock_set_frequency(clock, hz, tolerance);
-#if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C)
+#if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
     }
 #endif
 }
@@ -569,10 +669,17 @@ cy_rslt_t _cyhal_utils_find_hf_source_n_divider(cyhal_clock_t *clock, uint32_t h
                     || ((sources[i]->channel_num > 0) && (sources[i]->channel_num <= SRSS_NUM_PLL) &&
                         Cy_SysClk_PllIsEnabled(sources[i]->channel_num))
                 #endif /* SRSS_NUM_PLL > 0 */
+                #if !defined(COMPONENT_CAT1D)
                 #if (SRSS_NUM_PLL400M > 0)
                     || ((sources[i]->channel_num > SRSS_NUM_PLL) && (sources[i]->channel_num <= SRSS_NUM_PLL + SRSS_NUM_PLL400M) &&
                         Cy_SysClk_PllIsEnabled(sources[i]->channel_num))
                 #endif /* SRSS_NUM_PLL400M > 0 */
+                #else /* !defined(COMPONENT_CAT1D) */
+                #if (SRSS_NUM_DPLL_HP > 0)
+                    || ((sources[i]->channel_num > SRSS_NUM_PLL) && (sources[i]->channel_num <= SRSS_NUM_PLL + SRSS_NUM_DPLL_HP) &&
+                        Cy_SysClk_PllIsEnabled(sources[i]->channel_num))
+                #endif /* SRSS_NUM_DPLL_HP > 0 */
+                #endif /* !defined(COMPONENT_CAT1D) or other */
                 )
                 {
                     continue;

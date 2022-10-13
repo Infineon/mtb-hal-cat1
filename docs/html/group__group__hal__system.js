@@ -19,5 +19,6 @@ var group__group__hal__system =
     [ "cyhal_system_delay_us", "group__group__hal__system.html#ga25235eff5e6695bfdcc9943e7095a83b", null ],
     [ "cyhal_system_get_reset_reason", "group__group__hal__system.html#ga9a7b601e0b06a896860f411103a4abc6", null ],
     [ "cyhal_system_clear_reset_reason", "group__group__hal__system.html#ga9a935d5e4f43343e7bbb4f9a86a10df0", null ],
+    [ "cyhal_system_reset_device", "group__group__hal__system.html#ga85e89acd2a95fc589999ad9a6f20d48d", null ],
     [ "cyhal_system_set_isr", "group__group__hal__system.html#ga208f2774fd0143000cea9e488035c337", null ]
 ];

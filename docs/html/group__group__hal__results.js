@@ -13,6 +13,7 @@ var group__group__hal__results =
     [ "I2C HAL Results", "group__group__hal__results__i2c.html", "group__group__hal__results__i2c" ],
     [ "I2S HAL Results", "group__group__hal__results__i2s.html", "group__group__hal__results__i2s" ],
     [ "Interconnect HAL Results", "group__group__hal__results__interconnect.html", "group__group__hal__results__interconnect" ],
+    [ "IPC HAL Results", "group__group__hal__results__ipc.html", "group__group__hal__results__ipc" ],
     [ "LPTimer HAL Results", "group__group__hal__results__lptimer.html", "group__group__hal__results__lptimer" ],
     [ "Opamp HAL Results", "group__group__hal__results__opamp.html", "group__group__hal__results__opamp" ],
     [ "PDM/PCM HAL Results", "group__group__hal__results__pdmpcm.html", "group__group__hal__results__pdmpcm" ],
@@ -43,6 +44,7 @@ var group__group__hal__results =
       [ "CYHAL_RSLT_MODULE_GPIO", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a8a22f6926766c2e3e69868ec51c2572b", null ],
       [ "CYHAL_RSLT_MODULE_I2C", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a48c873ac3890a78ae0379e725396c607", null ],
       [ "CYHAL_RSLT_MODULE_I2S", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a8f3c272518c2a32f2455e34137a5180d", null ],
+      [ "CYHAL_RSLT_MODULE_IPC", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a7228239f5834ed4df9600859c3588a3d", null ],
       [ "CYHAL_RSLT_MODULE_INTERCONNECT", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005ab9373b6613ccb00bd4dedab0ae06d11c", null ],
       [ "CYHAL_RSLT_MODULE_HWMGR", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005aa31caff90dfe21b862ea4c4d034208b6", null ],
       [ "CYHAL_RSLT_MODULE_KEYSCAN", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005ae22cca7b373e114a80c8f1aa33d42619", null ],
@@ -65,6 +67,7 @@ var group__group__hal__results =
       [ "CYHAL_RSLT_MODULE_USB", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a608cd624d7042ae5d77c6134f7ea382f", null ],
       [ "CYHAL_RSLT_MODULE_WDT", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a012172915d19c167e1db5ff7e188adba", null ],
       [ "CYHAL_RSLT_MODULE_IMPL_TCPWM", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005af99e4705ecb46e6ebf1ce9e9fb73c171", null ],
-      [ "CYHAL_RSLT_MODULE_IMPL_SCB", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005aa7ba6553c921351f322f391838049f91", null ]
+      [ "CYHAL_RSLT_MODULE_IMPL_SCB", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005aa7ba6553c921351f322f391838049f91", null ],
+      [ "CYHAL_RSLT_MODULE_T2TIMER", "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005abb3e7eab4c1403e33f9d069725a14787", null ]
     ] ]
 ];

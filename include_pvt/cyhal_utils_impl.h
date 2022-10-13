@@ -1,12 +1,12 @@
 /***************************************************************************//**
-* \file cyhal_utils_psoc.h
+* \file cyhal_utils_impl.h
 *
 * \brief
 * Provides utility functions for working with the CAT1/CAT2 HAL implementation.
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* Copyright 2018-2022 Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -42,6 +42,12 @@
 extern "C" {
 #endif
 
+#if defined(COMPONENT_CAT1D)
+#define _CYHAL_UTILS_PACK_INSTANCE_GROUP(instance, group)   (((instance) << 4) | (group))
+#define _CYHAL_UTILS_UNPACK_INSTANCE(value)                 (((value) >> 4) & 0x3)
+#define _CYHAL_UTILS_UNPACK_GROUP(value)                    ((value) & 0xF)
+#endif /* defined(COMPONENT_CAT1D) */
+
 /**
 * \addtogroup group_hal_impl_pin_package
 * \{
@@ -73,7 +79,6 @@ void _cyhal_utils_disconnect_and_free(cyhal_gpio_t pin);
 
 /** \} group_hal_impl_pin_package */
 
-// TODO: CAT1D to be confirmed here
 #if defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
 
 /** Gets the HF clock for the specified peripheral clock group.
@@ -107,7 +112,6 @@ static inline uint32_t _cyhal_utils_get_peripheral_clock_frequency(const cyhal_r
     #if defined(COMPONENT_CAT1A)
     CY_UNUSED_PARAMETER(clocked_item);
     return Cy_SysClk_ClkPeriGetFrequency();
-    // TODO: CAT1D to be confirmed here
     #elif defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
     CY_ASSERT(NULL != clocked_item);
     uint8_t peri_group = _cyhal_utils_get_peri_group(clocked_item);
@@ -184,7 +188,6 @@ cy_rslt_t _cyhal_utils_allocate_clock(cyhal_clock_t *clock, const cyhal_resource
  */
 cy_rslt_t _cyhal_utils_set_clock_frequency(cyhal_clock_t* clock, uint32_t hz, const cyhal_clock_tolerance_t *tolerance);
 
-// TODO: CAT1D to be confirmed here
 #if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
 /**
  * Finds best divider for HF clock according to source and desired frequency data

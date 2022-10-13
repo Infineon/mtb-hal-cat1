@@ -13,5 +13,6 @@ var searchData=
   ['is_5frx_5fslave_10',['is_rx_slave',['../group__group__hal__i2s.html#ab97a618e5f752ff584d3741fbfdc3b59',1,'cyhal_i2s_config_t::is_rx_slave()'],['../group__group__hal__tdm.html#a38fcc53cdce0a0aab645ede81f305d8b',1,'cyhal_tdm_config_t::is_rx_slave()']]],
   ['is_5fslave_11',['is_slave',['../group__group__hal__i2c.html#a734b40ed68843e48a0b2586e3fb58fcb',1,'cyhal_i2c_cfg_t::is_slave()'],['../group__group__hal__spi.html#afbea547c3e4cbe19a70781e361f9c1dc',1,'cyhal_spi_cfg_t::is_slave()']]],
   ['is_5ftx_5fslave_12',['is_tx_slave',['../group__group__hal__i2s.html#aa83c7a4b2a6f43a7ef74ad0d23c6546c',1,'cyhal_i2s_config_t::is_tx_slave()'],['../group__group__hal__tdm.html#a7af5665a602d777e6da3f30383074a49',1,'cyhal_tdm_config_t::is_tx_slave()']]],
-  ['isemmc_13',['isEmmc',['../group__group__hal__sdhc.html#a91ccb95e1df1b03b3786644e953c005d',1,'cyhal_sdhc_config_t']]]
+  ['isemmc_13',['isEmmc',['../group__group__hal__sdhc.html#a91ccb95e1df1b03b3786644e953c005d',1,'cyhal_sdhc_config_t']]],
+  ['item_5fsize_14',['item_size',['../group__group__hal__ipc.html#a29b4e980563d9d015f571310946844d6',1,'cyhal_ipc_queue_t']]]
 ];

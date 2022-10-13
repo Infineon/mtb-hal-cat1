@@ -6,7 +6,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* Copyright 2018-2022 Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -30,7 +30,7 @@
 #include "cyhal_hwmgr_impl.h"
 #include "cyhal_interconnect.h"
 #include "cyhal_syspm.h"
-#include "cyhal_irq_psoc.h"
+#include "cyhal_irq_impl.h"
 #include "cyhal_triggers.h"
 
 #if (_CYHAL_DRIVER_AVAILABLE_DMA_DW)
@@ -105,7 +105,7 @@ static bool _cyhal_dma_dw_pm_transition_pending = false;
 static bool _cyhal_dma_dw_has_enabled(void)
 {
     for (uint8_t i = 0; i < _CYHAL_DMA_DW_NUM_CHANNELS; i++)
-        if (_cyhal_dma_dw_config_structs[i])
+        if (NULL != _cyhal_dma_dw_config_structs[i])
             return true;
     return false;
 }
@@ -352,10 +352,17 @@ static cyhal_dest_t _cyhal_dma_dw_get_dest(uint8_t block_num, uint8_t channel_nu
 
 cy_rslt_t _cyhal_dma_dw_stage(cyhal_dma_t *obj)
 {
+    #if (CY_CPU_CORTEX_M7) && defined (ENABLE_CM7_DATA_CACHE)
+    SCB_CleanDCache_by_Addr((void *)&(obj->descriptor), sizeof(obj->descriptor));
+    SCB_CleanDCache_by_Addr((void *)&(obj->descriptor_config), sizeof(obj->descriptor_config));
+    #endif /* (CY_CPU_CORTEX_M7) && defined (ENABLE_CM7_DATA_CACHE) */
     if(CY_DMA_SUCCESS != Cy_DMA_Descriptor_Init(&obj->descriptor.dw, &obj->descriptor_config.dw))
         return CYHAL_DMA_RSLT_ERR_INVALID_PARAMETER;
 
     /* Setup channel and enable */
+    #if (CY_CPU_CORTEX_M7) && defined (ENABLE_CM7_DATA_CACHE)
+    SCB_CleanDCache_by_Addr((void *)&(obj->channel_config), sizeof(obj->channel_config));
+    #endif /* (CY_CPU_CORTEX_M7) && defined (ENABLE_CM7_DATA_CACHE) */
     DW_Type* base = _cyhal_dma_dw_get_base(obj->resource.block_num);
     if(CY_DMA_SUCCESS != Cy_DMA_Channel_Init(base, obj->resource.channel_num, &obj->channel_config.dw))
         return CYHAL_DMA_RSLT_ERR_INVALID_PARAMETER;
@@ -469,6 +476,10 @@ cy_rslt_t _cyhal_dma_dw_configure(cyhal_dma_t *obj, const cyhal_dma_cfg_t *cfg)
         (cfg->burst_size > 0 && cfg->length > (cfg->burst_size * 256)))
         return CYHAL_DMA_RSLT_ERR_INVALID_TRANSFER_SIZE;
 
+    #if (CY_CPU_CORTEX_M7) && defined (ENABLE_CM7_DATA_CACHE)
+    SCB_CleanDCache_by_Addr((void *)cfg->src_addr, cfg->length * (cfg->transfer_width / 8));
+    SCB_CleanDCache_by_Addr((void *)cfg->dst_addr, cfg->length * (cfg->transfer_width / 8));
+    #endif /* (CY_CPU_CORTEX_M7) && defined (ENABLE_CM7_DATA_CACHE) */
     obj->descriptor_config.dw.srcAddress = (void*)cfg->src_addr;
     obj->descriptor_config.dw.dstAddress = (void*)cfg->dst_addr;
     obj->descriptor_config.dw.nextDescriptor = &obj->descriptor.dw;

@@ -6,7 +6,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* Copyright 2018-2022 Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -31,7 +31,7 @@
 #include "cyhal_interconnect.h"
 #include "cyhal_syspm.h"
 #include "cyhal_utils.h"
-#include "cyhal_irq_psoc.h"
+#include "cyhal_irq_impl.h"
 #include "cyhal_triggers.h"
 
 #if defined(__cplusplus)
@@ -129,7 +129,7 @@ static bool _cyhal_dma_dmac_pm_transition_pending = false;
 static bool _cyhal_dma_dmac_has_enabled(void)
 {
     for (uint8_t i = 0; i < NUM_DMAC_CHANNELS; i++)
-        if (_cyhal_dma_dmac_config_structs[i])
+        if (NULL != _cyhal_dma_dmac_config_structs[i])
             return true;
     return false;
 }
@@ -383,6 +383,9 @@ static cy_rslt_t _cyhal_dma_dmac_stage(cyhal_dma_t *obj)
 {
     cyhal_dmac_hw_type* base = _cyhal_dma_dmac_get_base(obj->resource.block_num);
 #if defined(CY_IP_M4CPUSS_DMAC) || defined(CY_IP_M7CPUSS_DMAC) || defined(CY_IP_MXAHBDMAC)
+    #if (CY_CPU_CORTEX_M7) && defined (ENABLE_CM7_DATA_CACHE)
+    SCB_CleanDCache_by_Addr((void *)&(obj->descriptor), sizeof(obj->descriptor));
+    #endif /* (CY_CPU_CORTEX_M7) && defined (ENABLE_CM7_DATA_CACHE) */
     cy_rslt_t rslt = Cy_DMAC_Descriptor_Init(GET_RESOURCE_DATA(&obj->descriptor), GET_RESOURCE_DATA(&obj->descriptor_config));
 #elif defined(CY_IP_M0S8CPUSSV3_DMAC)
     cy_rslt_t rslt = Cy_DMAC_Descriptor_Init(base, obj->resource.channel_num, obj->descriptor, GET_RESOURCE_DATA(&obj->descriptor_config));
@@ -391,6 +394,9 @@ static cy_rslt_t _cyhal_dma_dmac_stage(cyhal_dma_t *obj)
         return CYHAL_DMA_RSLT_ERR_INVALID_PARAMETER;
 
     /* Setup channel and enable */
+    #if (CY_CPU_CORTEX_M7) && defined (ENABLE_CM7_DATA_CACHE)
+    SCB_CleanDCache_by_Addr((void *)&(obj->channel_config), sizeof(obj->channel_config));
+    #endif /* (CY_CPU_CORTEX_M7) && defined (ENABLE_CM7_DATA_CACHE) */
     if(CY_DMAC_SUCCESS != Cy_DMAC_Channel_Init(base, obj->resource.channel_num, GET_RESOURCE_DATA(&obj->channel_config)))
         return CYHAL_DMA_RSLT_ERR_INVALID_PARAMETER;
 
@@ -542,6 +548,10 @@ cy_rslt_t _cyhal_dma_dmac_configure(cyhal_dma_t *obj, const cyhal_dma_cfg_t *cfg
     }
 #endif
 
+    #if (CY_CPU_CORTEX_M7) && defined (ENABLE_CM7_DATA_CACHE)
+    SCB_CleanDCache_by_Addr((void *)cfg->src_addr, cfg->length * (cfg->transfer_width / 8));
+    SCB_CleanDCache_by_Addr((void *)cfg->dst_addr, cfg->length * (cfg->transfer_width / 8));
+    #endif /* (CY_CPU_CORTEX_M7) && defined (ENABLE_CM7_DATA_CACHE) */
     GET_RESOURCE_DATA(obj->descriptor_config).srcAddress = (void*)cfg->src_addr;
     GET_RESOURCE_DATA(obj->descriptor_config).dstAddress = (void*)cfg->dst_addr;
 

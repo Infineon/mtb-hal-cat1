@@ -37,6 +37,13 @@ This release of the CAT1 HAL includes support for the following drivers:
 * WDT
 
 ### What Changed?
+#### v2.2.0
+* Production support for CAT1C devices
+* Improve interrupt handling when running on on CM0+ core
+* Add new I2C slave APIs
+* Add driver for inter-processor communication (IPC)
+* Add new function `cyhal_system_reset_device`
+NOTE: This version requires udb-sdio-whd 1.2.0 or later
 #### v2.1.0
 * Pre-production support for CAT1B devices
 * Fixed a few bugs in various drivers
@@ -160,10 +167,10 @@ This version of the CAT1 Hardware Abstraction Layer was validated for compatibil
 
 | Software and Tools                        | Version |
 | :---                                      | :----:  |
-| ModusToolbox™ Software Environment         | 2.4.0   |
+| ModusToolbox™ Software Environment        | 3.0.0   |
 | GCC Compiler                              | 10.3.1  |
-| IAR Compiler                              | 8.4     |
-| ARM Compiler                              | 6.11    |
+| IAR Compiler                              | 9.30.1  |
+| ARM Compiler                              | 6.16    |
 
 Minimum required ModusToolbox™ Software Environment: v2.0
 

@@ -3,7 +3,7 @@ var group__group__result =
     [ "cy_rslt_decode_t", "group__group__result.html#unioncy__rslt__decode__t", [
       [ "raw", "group__group__result.html#aa46cfbec8a99e1c9bce73b87f1f988c9", null ]
     ] ],
-    [ "cy_rslt_decode_t.__unnamed20__", "group__group__result.html#structcy__rslt__decode__t_8____unnamed20____", [
+    [ "cy_rslt_decode_t.__unnamed21__", "group__group__result.html#structcy__rslt__decode__t_8____unnamed21____", [
       [ "code", "group__group__result.html#ac13367945d5d4c91047b3b50234aa7ab", null ],
       [ "type", "group__group__result.html#a599dcce2998a6b40b1e38e8c6006cb0a", null ],
       [ "module", "group__group__result.html#a22884db148f0ffb0d830ba431102b0b5", null ]

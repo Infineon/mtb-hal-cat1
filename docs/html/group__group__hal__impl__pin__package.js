@@ -27,5 +27,6 @@ var group__group__hal__impl__pin__package =
     [ "XMC7100 272-BGA", "group__group__hal__impl__pin__package__xmc7100__272__bga.html", "group__group__hal__impl__pin__package__xmc7100__272__bga" ],
     [ "XMC7200 176-TEQFP", "group__group__hal__impl__pin__package__xmc7200__176__teqfp.html", "group__group__hal__impl__pin__package__xmc7200__176__teqfp" ],
     [ "XMC7200 272-BGA", "group__group__hal__impl__pin__package__xmc7200__272__bga.html", "group__group__hal__impl__pin__package__xmc7200__272__bga" ],
+    [ "XMC7200 320-BGA", "group__group__hal__impl__pin__package__xmc7200__320__bga.html", "group__group__hal__impl__pin__package__xmc7200__320__bga" ],
     [ "cyhal_port_t", "group__group__hal__impl__pin__package.html#gac30c50b470a38324d9a19057ac1eb0be", null ]
 ];

@@ -9,7 +9,7 @@
 *
 ********************************************************************************
 * \copyright
-* Copyright 2018-2021 Cypress Semiconductor Corporation (an Infineon company) or
+* Copyright 2018-2022 Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation
 *
 * SPDX-License-Identifier: Apache-2.0
@@ -31,8 +31,8 @@
 #include "cy_utils.h"
 #include "cyhal_rtc.h"
 #include "cyhal_system.h"
-#include "cyhal_utils_psoc.h"
-#include "cyhal_irq_psoc.h"
+#include "cyhal_utils_impl.h"
+#include "cyhal_irq_impl.h"
 
 /**
 * \addtogroup group_hal_impl_rtc RTC (Real Time Clock)
@@ -69,7 +69,7 @@ extern "C" {
 #define _CYHAL_RTC_STATE_UNINITIALIZED 0
 #define _CYHAL_RTC_STATE_ENABLED 1
 #define _CYHAL_RTC_STATE_TIME_SET 2
-#if (defined(COMPONENT_CAT1C) && (CORE == CM0P))
+#if (CORE == CM0P)
 // To account for the lower __NVIC_PRIO_BITS value
 #define _CYHAL_RTC_DEFAULT_PRIORITY 3
 #else
@@ -447,7 +447,7 @@ cy_rslt_t cyhal_rtc_set_alarm_by_seconds(cyhal_rtc_t *obj, const uint32_t second
     const int year = (int)(now.year + _cyhal_rtc_get_century());
     cyhal_system_critical_section_exit(savedIntrStatus);
 
-    bool nowDst = _cyhal_rtc_dst && Cy_RTC_GetDstStatus(_cyhal_rtc_dst, &now);
+    bool nowDst = (NULL != _cyhal_rtc_dst) && Cy_RTC_GetDstStatus(_cyhal_rtc_dst, &now);
 
     uint32_t remaining = seconds;
     remaining = _cyhal_rtc_update_field(remaining, &now.sec, &now.min, 60);
@@ -470,7 +470,7 @@ cy_rslt_t cyhal_rtc_set_alarm_by_seconds(cyhal_rtc_t *obj, const uint32_t second
     bool setSkipNextAlarm = false;
 
     // Handle crossing of daylight savings time boundaries
-    if (_cyhal_rtc_dst)
+    if (NULL != _cyhal_rtc_dst)
     {
         bool futureDst = Cy_RTC_GetDstStatus(_cyhal_rtc_dst, &now);
 
