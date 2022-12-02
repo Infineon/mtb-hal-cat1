@@ -171,6 +171,10 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_TDM_RX</b>&#160;&#160;&#160;(<a class="el" href="group__group__hal__impl__availability.html#ga8012ab1f5bc286fe9d462b38857631f1">CYHAL_DRIVER_AVAILABLE_TDM</a>)</td></tr>
 <tr class="memdesc:gab3ad3078832e573d10343b49bb98c504"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the RX functionality is available on the TDM driver for the current device. <br /></td></tr>
 <tr class="separator:gab3ad3078832e573d10343b49bb98c504"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab6ff6036bf3f1646f562f687d3341eaf"><td class="memItemLeft" align="right" valign="top"><a id="gab6ff6036bf3f1646f562f687d3341eaf" name="gab6ff6036bf3f1646f562f687d3341eaf"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_DMA</b>&#160;&#160;&#160;((_CYHAL_DRIVER_AVAILABLE_DMA_DMAC) || (_CYHAL_DRIVER_AVAILABLE_DMA_DW))</td></tr>
+<tr class="memdesc:gab6ff6036bf3f1646f562f687d3341eaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the DMA driver is available for the current device. <br /></td></tr>
+<tr class="separator:gab6ff6036bf3f1646f562f687d3341eaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga0e37b73eca19c580d7f0807747542acc"><td class="memItemLeft" align="right" valign="top"><a id="ga0e37b73eca19c580d7f0807747542acc" name="ga0e37b73eca19c580d7f0807747542acc"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_IPC</b>&#160;&#160;&#160;((CPUSS_IPC_IPC_NR &gt; 0) || (CY_IP_MXIPC_INSTANCES &gt; 0))</td></tr>
 <tr class="memdesc:ga0e37b73eca19c580d7f0807747542acc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the IPC driver is available for the current device. <br /></td></tr>
@@ -183,6 +187,14 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_LPTIMER</b>&#160;&#160;&#160;((SRSS_NUM_MCWDT) &gt; 0)</td></tr>
 <tr class="memdesc:ga0e41620de863d089ea326a746cdd0f81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the LPTimer driver is available for the current device. <br /></td></tr>
 <tr class="separator:ga0e41620de863d089ea326a746cdd0f81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae04cb2342d4832ed58a9ebb501a8ddf2"><td class="memItemLeft" align="right" valign="top"><a id="gae04cb2342d4832ed58a9ebb501a8ddf2" name="gae04cb2342d4832ed58a9ebb501a8ddf2"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_SDHC</b>&#160;&#160;&#160;((CY_IP_MXSDHC_INSTANCES) &gt; 0)</td></tr>
+<tr class="memdesc:gae04cb2342d4832ed58a9ebb501a8ddf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the SDHC driver is available for the current device. <br /></td></tr>
+<tr class="separator:gae04cb2342d4832ed58a9ebb501a8ddf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga34d490d013103cd54a492df567f16ad7"><td class="memItemLeft" align="right" valign="top"><a id="ga34d490d013103cd54a492df567f16ad7" name="ga34d490d013103cd54a492df567f16ad7"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_SDIO</b>&#160;&#160;&#160;(((CY_IP_MXSDHC_INSTANCES) &gt; 0) || (_CYHAL_DRIVER_AVAILABLE_SDIO_UDB))</td></tr>
+<tr class="memdesc:ga34d490d013103cd54a492df567f16ad7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the SDIO driver is available for the current device. <br /></td></tr>
+<tr class="separator:ga34d490d013103cd54a492df567f16ad7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gac065212a08722e9fe4d44bffd41296c7"><td class="memItemLeft" align="right" valign="top"><a id="gac065212a08722e9fe4d44bffd41296c7" name="gac065212a08722e9fe4d44bffd41296c7"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_COMP</b>&#160;&#160;&#160;((_CYHAL_DRIVER_AVAILABLE_COMP_LP) || (_CYHAL_DRIVER_AVAILABLE_COMP_CTB))</td></tr>
 <tr class="memdesc:gac065212a08722e9fe4d44bffd41296c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the COMP driver is available for the current device. <br /></td></tr>
@@ -195,10 +207,6 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_DAC</b>&#160;&#160;&#160;(((CY_IP_MXS40PASS_INSTANCES) &gt; 0) &amp;&amp; ((CY_IP_MXS40PASS_CTDAC_INSTANCES) &gt; 0))</td></tr>
 <tr class="memdesc:ga11e5b6567243892d3b7ee5ea3d636923"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the DAC driver is available for the current device. <br /></td></tr>
 <tr class="separator:ga11e5b6567243892d3b7ee5ea3d636923"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab6ff6036bf3f1646f562f687d3341eaf"><td class="memItemLeft" align="right" valign="top"><a id="gab6ff6036bf3f1646f562f687d3341eaf" name="gab6ff6036bf3f1646f562f687d3341eaf"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_DMA</b>&#160;&#160;&#160;((_CYHAL_DRIVER_AVAILABLE_DMA_DMAC) || (_CYHAL_DRIVER_AVAILABLE_DMA_DW))</td></tr>
-<tr class="memdesc:gab6ff6036bf3f1646f562f687d3341eaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the DMA driver is available for the current device. <br /></td></tr>
-<tr class="separator:gab6ff6036bf3f1646f562f687d3341eaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga144cd0560450d7a2ba7cbd41004c9514"><td class="memItemLeft" align="right" valign="top"><a id="ga144cd0560450d7a2ba7cbd41004c9514" name="ga144cd0560450d7a2ba7cbd41004c9514"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_FLASH</b>&#160;&#160;&#160;(_CYHAL_DRIVER_AVAILABLE_FLASH)</td></tr>
 <tr class="memdesc:ga144cd0560450d7a2ba7cbd41004c9514"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the Flash driver is available for the current device. <br /></td></tr>
@@ -219,14 +227,6 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_RTC</b>&#160;&#160;&#160;((((CY_IP_MXS40SSRSS_INSTANCES) &gt; 0) || ((CY_IP_MXS40SRSS_INSTANCES) &gt; 0)) &amp;&amp; ((SRSS_BACKUP_PRESENT) &gt; 0))</td></tr>
 <tr class="memdesc:gaa2d11bfc0756f86ab20e67b63440723a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the RTC driver is available for the current device. <br /></td></tr>
 <tr class="separator:gaa2d11bfc0756f86ab20e67b63440723a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae04cb2342d4832ed58a9ebb501a8ddf2"><td class="memItemLeft" align="right" valign="top"><a id="gae04cb2342d4832ed58a9ebb501a8ddf2" name="gae04cb2342d4832ed58a9ebb501a8ddf2"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_SDHC</b>&#160;&#160;&#160;((CY_IP_MXSDHC_INSTANCES) &gt; 0)</td></tr>
-<tr class="memdesc:gae04cb2342d4832ed58a9ebb501a8ddf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the SDHC driver is available for the current device. <br /></td></tr>
-<tr class="separator:gae04cb2342d4832ed58a9ebb501a8ddf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga34d490d013103cd54a492df567f16ad7"><td class="memItemLeft" align="right" valign="top"><a id="ga34d490d013103cd54a492df567f16ad7" name="ga34d490d013103cd54a492df567f16ad7"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_SDIO</b>&#160;&#160;&#160;(((CY_IP_MXSDHC_INSTANCES) &gt; 0) || (_CYHAL_DRIVER_AVAILABLE_SDIO_UDB))</td></tr>
-<tr class="memdesc:ga34d490d013103cd54a492df567f16ad7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the SDIO driver is available for the current device. <br /></td></tr>
-<tr class="separator:ga34d490d013103cd54a492df567f16ad7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga086d627b651b34fa50e15badbb2108c9"><td class="memItemLeft" align="right" valign="top"><a id="ga086d627b651b34fa50e15badbb2108c9" name="ga086d627b651b34fa50e15badbb2108c9"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_SYSPM</b>&#160;&#160;&#160;(1)</td></tr>
 <tr class="memdesc:ga086d627b651b34fa50e15badbb2108c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the SysPM driver is available for the current device. <br /></td></tr>

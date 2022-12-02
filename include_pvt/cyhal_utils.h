@@ -44,7 +44,9 @@
 extern "C" {
 #endif
 
-#define _CYHAL_UTILS_NS_PER_SECOND (1000000000)
+#define _CYHAL_UTILS_NS_PER_SECOND   (1000000000)
+#define _CYHAL_UTILS_US_PER_MS       (1000)
+#define _CYHAL_UTILS_ONE_TIME_UNIT   (1)     /**< Used to do a delay in one time unit (1 ms, 1 us) */
 
 #define _CYHAL_UTILS_IRQN_OFFSET           (16U) /**< Offset for implementation-defined ISR type numbers (IRQ0 = 16) */
 #define _CYHAL_UTILS_GET_CURRENT_IRQN()    ((IRQn_Type) (__get_IPSR() - _CYHAL_UTILS_IRQN_OFFSET)) /**< Macro to get the IRQn of the current ISR */

@@ -315,42 +315,69 @@ static const cyhal_source_t _cyhal_audioss_tx_trigger[] =
 
 static _cyhal_audioss_t* _cyhal_audioss_config_structs[CY_IP_MXTDM_INSTANCES];
 
+// These structures will most probably be cleaned up a bit once we have more details 
+// on TDM interrupts for Hatchet1. Seems like there are no separate lines for tx and
+// rx interrupts but it will be confirmed once we have a working patch. 
 static const _cyhal_system_irq_t _cyhal_audioss_tx_irq_n[] =
 {
 #if defined (TDM0)
-    tdm_0_interrupts_tx_0_IRQn,
+    #if defined(COMPONENT_CAT5)
+        tdm_0_interrupts_IRQn,
+    #else
+        tdm_0_interrupts_tx_0_IRQn,
+    #endif
 #endif
 #if defined (TDM1)
-    tdm_1_interrupts_tx_0_IRQn,
+    #if defined(COMPONENT_CAT5)
+        tdm_1_interrupts_IRQn,
+    #else
+        tdm_1_interrupts_tx_0_IRQn,
+    #endif
 #endif
 };
 
 static const _cyhal_system_irq_t _cyhal_audioss_rx_irq_n[] =
 {
 #if defined (TDM0)
-    tdm_0_interrupts_rx_0_IRQn,
+    #if defined(COMPONENT_CAT5)
+        tdm_0_interrupts_IRQn,
+    #else
+        tdm_0_interrupts_rx_0_IRQn,
+    #endif
 #endif
 #if defined (TDM1)
-    tdm_1_interrupts_rx_0_IRQn,
+    #if defined(COMPONENT_CAT5)
+        tdm_1_interrupts_IRQn,
+    #else
+        tdm_1_interrupts_rx_0_IRQn,
+    #endif
 #endif
 };
 
 static uint8_t _cyhal_audioss_get_block_from_irqn(_cyhal_system_irq_t irqn)
 {
 #if defined (TDM0)
-    if ((irqn == tdm_0_interrupts_tx_0_IRQn) || (irqn == tdm_0_interrupts_rx_0_IRQn))
-        return 0;
+    #if defined (COMPONENT_CAT5)
+        if (irqn == tdm_0_interrupts_IRQn)
+    #else
+        if ((irqn == tdm_0_interrupts_tx_0_IRQn) || (irqn == tdm_0_interrupts_rx_0_IRQn))
+    #endif
+            return 0;
 #endif
 #if defined (TDM1)
-    if ((irqn == tdm_1_interrupts_tx_0_IRQn) || (irqn == tdm_1_interrupts_rx_0_IRQn))
-        return 1;
+    #if defined (COMPONENT_CAT5)
+        if (irqn == tdm_1_interrupts_IRQn)
+    #else
+        if ((irqn == tdm_1_interrupts_tx_0_IRQn) || (irqn == tdm_1_interrupts_rx_0_IRQn))
+    #endif
+            return 1;
 #endif
     CY_ASSERT(false); // Should never be called with a non-TDM IRQn
     return 0;
 }
 
 #if defined (COMPONENT_CAT5)
-static void _cyhal_audioss_irq_handler(UINT8 instance, BOOL32 rx_int);
+static void _cyhal_audioss_irq_handler(UINT8 instance, BOOL8 rx_int);
 static void _cyhal_audioss_irq_handler_rx(_cyhal_system_irq_t irqn);
 static void _cyhal_audioss_irq_handler_tx(_cyhal_system_irq_t irqn);
 #else
@@ -881,8 +908,8 @@ cy_rslt_t _cyhal_audioss_init(_cyhal_audioss_t *obj, const _cyhal_audioss_pins_t
     _cyhal_audioss_pdl_config_t pdl_config;
     memset(&pdl_config, 0, sizeof(pdl_config));
 #if defined(CY_IP_MXTDM)
-    cy_stc_tdm_config_tx_t tx_config;
-    cy_stc_tdm_config_rx_t rx_config;
+    cy_stc_tdm_config_tx_t tx_config = {0};
+    cy_stc_tdm_config_rx_t rx_config = {0};
     pdl_config.tx_config = &tx_config;
     pdl_config.rx_config = &rx_config;
 #endif
@@ -1128,8 +1155,8 @@ static cy_rslt_t _cyhal_audioss_compute_sclk_div(_cyhal_audioss_t *obj, uint32_t
 #endif
         uint32_t actual_source_freq = (0u != mclk_hz) ? mclk_hz : cyhal_clock_get_frequency(&obj->clock);
         uint32_t best_divider = (actual_source_freq + (desired_divided_freq / 2)) / desired_divided_freq; // Round to nearest divider
-        uint32_t desired_source_freq = desired_divided_freq * best_divider;
 #if !defined (COMPONENT_CAT5)
+        uint32_t desired_source_freq = desired_divided_freq * best_divider;
         uint32_t diff = (uint32_t)abs(_cyhal_utils_calculate_tolerance(SCLK_TOLERANCE.type, desired_source_freq, actual_source_freq));
         if(diff <= SCLK_TOLERANCE.value && best_divider <= MAX_SCLK_DIVIDER)
         {
@@ -2149,7 +2176,7 @@ static void _cyhal_audioss_irq_handler_tx()
 }
 
 #if defined (COMPONENT_CAT5)
-static void _cyhal_audioss_irq_handler(UINT8 instance, BOOL32 rx_int)
+static void _cyhal_audioss_irq_handler(UINT8 instance, BOOL8 rx_int)
 {
     (rx_int) ? _cyhal_audioss_irq_handler_rx(instance) : _cyhal_audioss_irq_handler_tx(instance);
 }

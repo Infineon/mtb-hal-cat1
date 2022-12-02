@@ -67,6 +67,11 @@ extern "C"
 
 #define _CYHAL_SPI_DEFAULT_SPEED            100000
 
+#define _CYHAL_SPI_WAIT_OP_RD_BUSY          1
+#define _CYHAL_SPI_WAIT_OP_RD_NOT_BUSY      2
+#define _CYHAL_SPI_WAIT_OP_WR               3
+#define _CYHAL_SPI_WAIT_OP_VALID(op)        ((op) > 0 && (op) <= _CYHAL_SPI_WAIT_OP_WR)
+
 #define _CYHAL_SPI_OVERSAMPLE_MIN           4
 #define _CYHAL_SPI_OVERSAMPLE_MAX           16
 #define _CYHAL_SPI_SSEL_NUM                 4
@@ -79,13 +84,14 @@ extern "C"
 #define _CYHAL_SPI_SSEL_ACTIVATE            true
 #define _CYHAL_SPI_SSEL_DEACTIVATE          false
 
+
 /* Default SPI configuration */
 static const cy_stc_scb_spi_config_t _cyhal_spi_default_config =
 {
     .spiMode                  = CY_SCB_SPI_MASTER,
     .subMode                  = CY_SCB_SPI_MOTOROLA,
     .sclkMode                 = CY_SCB_SPI_CPHA0_CPOL0,
-#if defined (COMPONENT_CAT2) || (CY_IP_MXSCB_VERSION >= 3)
+#if defined (COMPONENT_CAT2) || (CY_IP_MXSCB_VERSION >= 3) || (CY_IP_MXS22SCB_VERSION >= 1)
     .parity                   = CY_SCB_SPI_PARITY_NONE,
     .dropOnParityError        = false,
 #endif /* defined (COMPONENT_CAT2) || (CY_IP_MXSCB_VERSION >= 3) */
@@ -95,7 +101,7 @@ static const cy_stc_scb_spi_config_t _cyhal_spi_default_config =
     .enableMsbFirst           = true,
     .enableFreeRunSclk        = false,
     .enableInputFilter        = false,
-#if (CY_IP_MXSCB_VERSION >= 3)
+#if (CY_IP_MXSCB_VERSION >= 3) || (CY_IP_MXS22SCB_VERSION >= 1)
     /* Setting this to true leads to incorrect slave communication */
     .enableMisoLateSample     = false,
 #else
@@ -104,15 +110,15 @@ static const cy_stc_scb_spi_config_t _cyhal_spi_default_config =
     .enableTransferSeperation = false,
     .enableWakeFromSleep      = false,
     .ssPolarity               = CY_SCB_SPI_ACTIVE_LOW,
-#if defined (COMPONENT_CAT2) || (CY_IP_MXSCB_VERSION >= 3)
+#if defined (COMPONENT_CAT2) || (CY_IP_MXSCB_VERSION >= 3) || (CY_IP_MXS22SCB_VERSION >= 1)
     .ssSetupDelay             = false,
     .ssHoldDelay              = false,
-#endif /* defined (COMPONENT_CAT2) || (CY_IP_MXSCB_VERSION >= 3) */
-#if defined (COMPONENT_CAT1) && (CY_IP_MXSCB_VERSION >= 3)
+#endif /* defined (COMPONENT_CAT2) || (CY_IP_MXSCB_VERSION >= 3) || (CY_IP_MXS22SCB_VERSION >= 1) */
+#if defined (COMPONENT_CAT1) && ((CY_IP_MXSCB_VERSION >= 3) || (CY_IP_MXS22SCB_VERSION >= 1))
     .ssInterFrameDelay        = false,
 #elif defined (COMPONENT_CAT2)
     .ssInterDataframeDelay    = false,
-#endif /* defined (COMPONENT_CAT1) && (CY_IP_MXSCB_VERSION >= 3) or defined (COMPONENT_CAT2) */
+#endif /* defined (COMPONENT_CAT1) && ((CY_IP_MXSCB_VERSION >= 3) || (CY_IP_MXS22SCB_VERSION >= 1)) or defined (COMPONENT_CAT2) */
     .rxFifoTriggerLevel       = 0,
     .rxFifoIntEnableMask      = 0,
     .txFifoTriggerLevel       = 0,
@@ -252,7 +258,7 @@ static void _cyhal_spi_irq_handler(void)
         return;
     }
 
-    if (0 == (Cy_SCB_SPI_GetTransferStatus(obj->base,  &obj->context) & CY_SCB_SPI_TRANSFER_ACTIVE))
+    if (0 == (Cy_SCB_SPI_GetTransferStatus(obj->base, &obj->context) & CY_SCB_SPI_TRANSFER_ACTIVE))
     {
         if (NULL != obj->tx_buffer)
         {
@@ -347,8 +353,11 @@ static void _cyhal_spi_cb_wrapper(uint32_t event)
 
     if (anded_events)
     {
+        /* Indicates read/write operations will be in a callback */
+        obj->op_in_callback = true;
         cyhal_spi_event_callback_t callback = (cyhal_spi_event_callback_t) obj->callback_data.callback;
         callback(obj->callback_data.callback_arg, anded_events);
+        obj->op_in_callback = false;
     }
 }
 
@@ -510,6 +519,51 @@ static cy_rslt_t _cyhal_spi_ssel_config(cyhal_spi_t *obj, cyhal_gpio_t ssel,
             if (!obj->is_slave)
                 _cyhal_ssel_switch_state(obj, found_idx, _CYHAL_SPI_SSEL_DEACTIVATE);
         }
+    }
+    return result;
+}
+
+/* Wait untill SPI is busy for some time (timeout > 0) or no wait (timeout == 0). */
+static cy_rslt_t _cyhal_spi_wait_for_op(cyhal_spi_t *obj, uint8_t op, uint32_t* timeout)
+{
+    CY_ASSERT(_CYHAL_SPI_WAIT_OP_VALID(op));
+
+    cy_rslt_t result = CY_RSLT_SUCCESS;
+    uint32_t timeout_us = _CYHAL_UTILS_US_PER_MS;
+    bool op_condition = true;
+
+    if (!(obj->op_in_callback) && *timeout > 0)
+    {
+        while (op_condition && *timeout > 0)
+        {
+            switch (op)
+            {
+                case _CYHAL_SPI_WAIT_OP_RD_BUSY:
+                    op_condition = (cyhal_spi_readable(obj) == 0 && !cyhal_spi_is_busy(obj));
+                    break;
+                case _CYHAL_SPI_WAIT_OP_RD_NOT_BUSY:
+                    op_condition = (cyhal_spi_readable(obj) == 0 || cyhal_spi_is_busy(obj));
+                    break;
+                case _CYHAL_SPI_WAIT_OP_WR:
+                    op_condition = ((cyhal_spi_writable(obj) < Cy_SCB_GetFifoSize(obj->base)) || cyhal_spi_is_busy(obj));
+                    break;
+                default:
+                    op_condition = false;
+                    break;
+            }
+
+            if (timeout_us > 0)
+            {
+                cyhal_system_delay_us(_CYHAL_UTILS_ONE_TIME_UNIT);
+                --timeout_us;
+            }
+            else
+            {
+                timeout_us = _CYHAL_UTILS_US_PER_MS;
+                (*timeout)--;
+            }
+        }
+        result = (*timeout > 0) ? CY_RSLT_SUCCESS : CYHAL_SPI_RSLT_WARN_TIMEOUT;
     }
     return result;
 }
@@ -863,7 +917,7 @@ void cyhal_spi_free(cyhal_spi_t *obj)
             {
                 // In master mode, we have reserved this via cyhal_gpio_init which logs it as reserved
                 // in cyhal_gpio.c static arrays.  Need to free it similarly to mark it unreserved
-                
+
                 // Potential side effects: gpio free also unregisters any callback and disconnects the pin.
                 // If this becomes problematic, add new gpio free_btss function to unset those arrays
                 cyhal_gpio_free((obj->pin_ssel[i]));
@@ -1064,6 +1118,48 @@ cy_rslt_t cyhal_spi_send(cyhal_spi_t *obj, uint32_t value)
     return result;
 }
 
+
+cy_rslt_t cyhal_spi_slave_read(cyhal_spi_t *obj, uint8_t *dst_buff, uint16_t *size, uint32_t timeout)
+{
+    cy_rslt_t status = CYHAL_SPI_RSLT_BAD_ARGUMENT;
+
+    if ((dst_buff != NULL) && (size != NULL))
+    {
+        /* Wait until the master start writing or any data will be in the slave RX buffer */
+        status = _cyhal_spi_wait_for_op(obj, _CYHAL_SPI_WAIT_OP_RD_NOT_BUSY, &timeout);
+
+        if (CY_RSLT_SUCCESS == status)
+        {
+            /* Wait until the master finish writing */
+            status = _cyhal_spi_wait_for_op(obj, _CYHAL_SPI_WAIT_OP_RD_BUSY, &timeout);
+        }
+
+        if (CY_RSLT_SUCCESS == status)
+        {
+            *size = _CYHAL_SCB_BYTES_TO_COPY(cyhal_spi_readable(obj), *size);
+            *size = Cy_SCB_SPI_ReadArray(obj->base, (void*)dst_buff, (uint32_t)*size);
+        }
+    }
+    return status;
+}
+
+cy_rslt_t cyhal_spi_slave_write(cyhal_spi_t *obj, const uint8_t *src_buff, uint16_t *size, uint32_t timeout)
+{
+    cy_rslt_t status = CYHAL_SPI_RSLT_BAD_ARGUMENT;
+
+    if ((src_buff != NULL) && (size != NULL))
+    {
+        status = cyhal_spi_transfer_async(obj, src_buff, (size_t)*size, NULL, 0U);
+
+        if (CY_RSLT_SUCCESS == status)
+        {
+            /* Wait until the slave finish writing */
+            status = _cyhal_spi_wait_for_op(obj, _CYHAL_SPI_WAIT_OP_WR, &timeout);
+        }
+    }
+    return status;
+}
+
 cy_rslt_t cyhal_spi_transfer(cyhal_spi_t *obj, const uint8_t *tx, size_t tx_length, uint8_t *rx, size_t rx_length, uint8_t write_fill)
 {
     if (NULL == obj)
@@ -1239,6 +1335,24 @@ cy_rslt_t cyhal_spi_disable_output(cyhal_spi_t *obj, cyhal_spi_output_t output)
 {
     CY_UNUSED_PARAMETER(obj);
     return _cyhal_scb_disable_output((cyhal_scb_output_t)output);
+}
+
+uint32_t cyhal_spi_readable(cyhal_spi_t *obj)
+{
+    return Cy_SCB_SPI_GetNumInRxFifo(obj->base);
+}
+
+uint32_t cyhal_spi_writable(cyhal_spi_t *obj)
+{
+    return Cy_SCB_GetFifoSize(obj->base) - Cy_SCB_SPI_GetNumInTxFifo(obj->base);
+}
+
+cy_rslt_t cyhal_spi_clear(cyhal_spi_t *obj)
+{
+    Cy_SCB_SPI_ClearRxFifo(obj->base);
+    Cy_SCB_SPI_ClearTxFifo(obj->base);
+
+    return CY_RSLT_SUCCESS;
 }
 
 #if defined(__cplusplus)

@@ -295,10 +295,12 @@ cy_rslt_t cyhal_timer_set_frequency(cyhal_timer_t *obj, uint32_t hz)
         {
             result = CYHAL_TIMER_RSLT_ERR_SHARED_CLOCK;
         }
+        #if !defined(COMPONENT_CAT5)
         const cyhal_clock_tolerance_t tolerance = {
             .type = CYHAL_TOLERANCE_PERCENT,
             .value = 2,
         };
+        #endif
         if(CY_RSLT_SUCCESS == result)
         {
             #if defined(COMPONENT_CAT5)

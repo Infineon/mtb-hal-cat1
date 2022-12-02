@@ -260,6 +260,10 @@ static bool _cyhal_uart_pm_callback_instance(void *obj_ptr, cyhal_syspm_callback
     GPIO_PRT_Type *rtsport = ((obj->pin_rts != NC) && obj->rts_enabled) ? CYHAL_GET_PORTADDR(obj->pin_rts) : NULL;
     uint8_t txpin = (uint8_t)CYHAL_GET_PIN(obj->pin_tx);
     uint8_t rtspin = (uint8_t)CYHAL_GET_PIN(obj->pin_rts);
+    #if defined (COMPONENT_CAT5)
+        CY_UNUSED_PARAMETER(txpin);
+        CY_UNUSED_PARAMETER(rtspin);
+    #endif
 
     switch (pdl_mode)
     {
@@ -722,7 +726,7 @@ cy_rslt_t cyhal_uart_set_baud(cyhal_uart_t *obj, uint32_t baudrate, uint32_t *ac
         status = cyhal_clock_set_enabled(&(obj->clock), true, false);
 
         /* Configure the UART interface */
-        #if (CY_IP_MXSCB_VERSION >= 2) /* Versions 2 and later */
+        #if (CY_IP_MXSCB_VERSION >= 2) || (CY_IP_MXS22SCB_VERSION >= 1)
         uint32_t mem_width = (obj->config.dataWidth <= CY_SCB_BYTE_WIDTH)
             #if defined(COMPONENT_CAT1)
             ? CY_SCB_MEM_WIDTH_BYTE : CY_SCB_MEM_WIDTH_HALFWORD;

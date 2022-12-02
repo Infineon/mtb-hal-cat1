@@ -10,5 +10,6 @@ var group__group__hal__results__spi =
     [ "CYHAL_SPI_RSLT_ERR_CANNOT_CONFIG_SSEL", "group__group__hal__results__spi.html#ga4d1d1f93434e3948b5c04cac6a4316ff", null ],
     [ "CYHAL_SPI_RSLT_ERR_CANNOT_SWITCH_SSEL", "group__group__hal__results__spi.html#ga4a5ee16eae3c7b63cc93e5f763600482", null ],
     [ "CYHAL_SPI_RSLT_ERR_CFG_NOT_SUPPORTED", "group__group__hal__results__spi.html#gac864864c47aa774c27dfdecc9047825d", null ],
-    [ "CYHAL_SPI_RSLT_ERR_UNSUPPORTED", "group__group__hal__results__spi.html#ga340192b5c4e2b1ee9dc595acc2c52cdd", null ]
+    [ "CYHAL_SPI_RSLT_ERR_UNSUPPORTED", "group__group__hal__results__spi.html#ga340192b5c4e2b1ee9dc595acc2c52cdd", null ],
+    [ "CYHAL_SPI_RSLT_WARN_TIMEOUT", "group__group__hal__results__spi.html#gabf8c4be60b4dece77df8d9d7c3778c06", null ]
 ];

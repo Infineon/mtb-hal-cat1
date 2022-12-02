@@ -4,5 +4,6 @@ var group__group__hal__results__syspm =
     [ "CYHAL_SYSPM_RSLT_INIT_ERROR", "group__group__hal__results__syspm.html#ga31a8120e1330b35af8d99975a6b36bed", null ],
     [ "CYHAL_SYSPM_RSLT_CB_REGISTER_ERROR", "group__group__hal__results__syspm.html#gad5eb7c83311bdc9781d8e2c192cd6d85", null ],
     [ "CYHAL_SYSPM_RSLT_ERR_PM_PENDING", "group__group__hal__results__syspm.html#ga562e13ca6ef5662a8c12c5533bb73deb", null ],
-    [ "CYHAL_SYSPM_RSLT_ERR_NOT_SUPPORTED", "group__group__hal__results__syspm.html#ga1da0dd0a239743cd61288baf0fd2528d", null ]
+    [ "CYHAL_SYSPM_RSLT_ERR_NOT_SUPPORTED", "group__group__hal__results__syspm.html#ga1da0dd0a239743cd61288baf0fd2528d", null ],
+    [ "CYHAL_SYSPM_RSLT_DEEPSLEEP_LOCKED", "group__group__hal__results__syspm.html#gaaa6ddc7a36559f88697198d45e2d7424", null ]
 ];

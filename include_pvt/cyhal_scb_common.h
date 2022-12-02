@@ -57,6 +57,12 @@ extern "C" {
 #define _SCB_ARRAY_SIZE                 (CY_IP_MXS22SCB_INSTANCES)
 #endif /* CY_IP_MXSCB_INSTANCES */
 
+/* Return number of bytes to copy into the destination buffer */
+#define _CYHAL_SCB_BYTES_TO_COPY(actBufSize, bufSize) \
+                                (((uint32_t) (actBufSize) < (uint32_t) (bufSize)) ? \
+                                 ((uint32_t) (actBufSize)) : ((uint32_t) (bufSize)) )
+
+
 /** \addtogroup group_hal_results_scb SCB HAL Results
  *  SCB specific return codes
  *  \ingroup group_hal_results

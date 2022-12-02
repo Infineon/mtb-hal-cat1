@@ -160,7 +160,11 @@ static inline cyhal_dma_t* _cyhal_dma_dw_get_obj(uint8_t block, uint8_t channel)
 static inline uint8_t _cyhal_dma_dw_get_block_from_irqn(_cyhal_system_irq_t irqn)
 {
 #if (CPUSS_DW0_PRESENT==1)
+#if defined(COMPONENT_CAT1D)
+    if (irqn >= m33syscpuss_interrupts_dw0_0_IRQn && irqn < m33syscpuss_interrupts_dw0_0_IRQn + (_cyhal_system_irq_t)CYHAL_DMA_DW0_MAX_CONTIGUOUS_IRQ)
+#else
     if (irqn >= cpuss_interrupts_dw0_0_IRQn && irqn < cpuss_interrupts_dw0_0_IRQn + (_cyhal_system_irq_t)CYHAL_DMA_DW0_MAX_CONTIGUOUS_IRQ)
+#endif
         return 0;
 #if (CYHAL_DMA_DW0_MAX_CONTIGUOUS_IRQ != CPUSS_DW0_CH_NR)
     if ((irqn >= _CYHAL_DMA_GET_CPUSS_IRQN(0, CYHAL_DMA_DW0_MAX_CONTIGUOUS_IRQ)) &&
@@ -186,8 +190,13 @@ static inline uint8_t _cyhal_dma_dw_get_block_from_irqn(_cyhal_system_irq_t irqn
 static inline uint8_t _cyhal_dma_dw_get_channel_from_irqn(_cyhal_system_irq_t irqn)
 {
 #if (CPUSS_DW0_PRESENT==1)
+#if defined(COMPONENT_CAT1D)
+    if (irqn >= m33syscpuss_interrupts_dw0_0_IRQn && irqn < m33syscpuss_interrupts_dw0_0_IRQn + (_cyhal_system_irq_t)CYHAL_DMA_DW0_MAX_CONTIGUOUS_IRQ)
+        return (uint8_t)(irqn - m33syscpuss_interrupts_dw0_0_IRQn);
+#else
     if (irqn >= cpuss_interrupts_dw0_0_IRQn && irqn < cpuss_interrupts_dw0_0_IRQn + (_cyhal_system_irq_t)CYHAL_DMA_DW0_MAX_CONTIGUOUS_IRQ)
         return (uint8_t)(irqn - cpuss_interrupts_dw0_0_IRQn);
+#endif
 #if (CYHAL_DMA_DW0_MAX_CONTIGUOUS_IRQ != CPUSS_DW0_CH_NR)
     if ((irqn >= _CYHAL_DMA_GET_CPUSS_IRQN(0, CYHAL_DMA_DW0_MAX_CONTIGUOUS_IRQ)) &&
         (irqn < (_cyhal_system_irq_t)(_CYHAL_DMA_GET_CPUSS_IRQN(0, CYHAL_DMA_DW0_MAX_CONTIGUOUS_IRQ) + CPUSS_DW0_CH_NR - CYHAL_DMA_DW0_MAX_CONTIGUOUS_IRQ)))
@@ -214,7 +223,11 @@ static inline _cyhal_system_irq_t _cyhal_dma_dw_get_irqn(cyhal_dma_t *obj)
 #if (CPUSS_DW0_PRESENT==1)
     if (obj->resource.block_num == 0 && obj->resource.channel_num < CYHAL_DMA_DW0_MAX_CONTIGUOUS_IRQ)
     {
+#if defined(COMPONENT_CAT1D)
+        return (_cyhal_system_irq_t)((uint8_t)m33syscpuss_interrupts_dw0_0_IRQn + obj->resource.channel_num);
+#else
         return (_cyhal_system_irq_t)((uint8_t)cpuss_interrupts_dw0_0_IRQn + obj->resource.channel_num);
+#endif
     }
     #if (CYHAL_DMA_DW0_MAX_CONTIGUOUS_IRQ != CPUSS_DW0_CH_NR)
     else if ((obj->resource.block_num == 0 && obj->resource.channel_num < CPUSS_DW0_CH_NR))
@@ -263,7 +276,11 @@ static inline uint32_t _cyhal_dma_dw_get_trigger_line(uint8_t block_num, uint8_t
     /* cyhal_dest_t triggers are guaranteed to be sorted by trigger type, block
      * num, then channel num, therefore, we can just directly find the proper
      * trigger by calculating an offset. */
+#if defined(COMPONENT_CAT1D)
+    cyhal_dest_t trigger = (cyhal_dest_t)(CYHAL_TRIGGER_M33SYSCPUSS_DW0_TR_IN0 + (block_num * CPUSS_DW0_CH_NR) + channel_num);
+#else
     cyhal_dest_t trigger = (cyhal_dest_t)(CYHAL_TRIGGER_CPUSS_DW0_TR_IN0 + (block_num * CPUSS_DW0_CH_NR) + channel_num);
+#endif
 
     /* One to one triggers have bit 8 set in cyhal_dest_to_mux but
      * Cy_TrigMux_SwTrigger wants the trigger group field to have bit 5 set to
@@ -342,12 +359,20 @@ static void _cyhal_dma_dw_irq_handler(void)
 
 static cyhal_source_t _cyhal_dma_dw_get_src(uint8_t block_num, uint8_t channel_num)
 {
+#if defined(COMPONENT_CAT1D)
+    return (cyhal_source_t)_CYHAL_TRIGGER_CREATE_SOURCE(_CYHAL_TRIGGER_M33SYSCPUSS_DW0_TR_OUT0 + (block_num * CPUSS_DW0_CH_NR) + channel_num, CYHAL_SIGNAL_TYPE_EDGE);
+#else
     return (cyhal_source_t)_CYHAL_TRIGGER_CREATE_SOURCE(_CYHAL_TRIGGER_CPUSS_DW0_TR_OUT0 + (block_num * CPUSS_DW0_CH_NR) + channel_num, CYHAL_SIGNAL_TYPE_EDGE);
+#endif
 }
 
 static cyhal_dest_t _cyhal_dma_dw_get_dest(uint8_t block_num, uint8_t channel_num)
 {
+#if defined(COMPONENT_CAT1D)
+    return (cyhal_dest_t)(CYHAL_TRIGGER_M33SYSCPUSS_DW0_TR_IN0 + (block_num * CPUSS_DW0_CH_NR) + channel_num);
+#else
     return (cyhal_dest_t)(CYHAL_TRIGGER_CPUSS_DW0_TR_IN0 + (block_num * CPUSS_DW0_CH_NR) + channel_num);
+#endif
 }
 
 cy_rslt_t _cyhal_dma_dw_stage(cyhal_dma_t *obj)
@@ -409,12 +434,12 @@ cy_rslt_t _cyhal_dma_dw_init(cyhal_dma_t *obj, cyhal_source_t *src, cyhal_dest_t
     obj->channel_config.dw = _cyhal_dma_dw_default_channel_config;
     obj->channel_config.dw.descriptor = &obj->descriptor.dw;
     obj->channel_config.dw.priority = priority;
-
+#if CYHAL_DRIVER_AVAILABLE_SYSPM
     if (!_cyhal_dma_dw_has_enabled())
     {
         _cyhal_syspm_register_peripheral_callback(&cyhal_dma_dw_pm_callback_args);
     }
-
+#endif
     _cyhal_dma_dw_set_obj(obj);
 
     return CY_RSLT_SUCCESS;
@@ -436,10 +461,12 @@ cy_rslt_t _cyhal_dma_dw_init_cfg(cyhal_dma_t *obj, const cyhal_dma_configurator_
     obj->channel_config.dw.descriptor = &obj->descriptor.dw;
     obj->expected_bursts = cfg->dw_descriptor_config->yCount;
 
+#if CYHAL_DRIVER_AVAILABLE_SYSPM
     if (!_cyhal_dma_dw_has_enabled())
     {
         _cyhal_syspm_register_peripheral_callback(&cyhal_dma_dw_pm_callback_args);
     }
+#endif
 
     _cyhal_dma_dw_set_obj(obj);
 
@@ -454,12 +481,13 @@ void _cyhal_dma_dw_free(cyhal_dma_t *obj)
     _cyhal_irq_free(_cyhal_dma_dw_get_irqn(obj));
 
     _cyhal_dma_dw_free_obj(obj);
-
+#if CYHAL_DRIVER_AVAILABLE_SYSPM
     if (!_cyhal_dma_dw_has_enabled())
     {
         _cyhal_syspm_unregister_peripheral_callback(&cyhal_dma_dw_pm_callback_args);
         _cyhal_dma_dw_pm_transition_pending = false;
     }
+#endif
 }
 
 /* Initialize descriptor, initialize channel, enable channel, enable channel

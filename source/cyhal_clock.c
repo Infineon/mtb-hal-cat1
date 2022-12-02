@@ -1562,6 +1562,34 @@ static bool _cyhal_clock_is_enabled_pll(const cyhal_clock_t *clock)
     #endif
     return Cy_SysClk_PllIsEnabled(clock->channel + 1);
 }
+
+static void _cyhal_clock_extract_pll_params(cyhal_clock_t *clock, cy_stc_pll_manual_config_t *cfg, uint64_t *feedbackDiv,
+        uint32_t *referenceDiv, uint32_t *outputDiv)
+{
+    #if defined (CY_IP_MXS40SRSS)
+    *feedbackDiv = cfg->feedbackDiv;
+    *referenceDiv = cfg->referenceDiv;
+    *outputDiv = cfg->outputDiv;
+    CY_UNUSED_PARAMETER(clock);
+    #elif defined (CY_IP_MXS22SRSS)
+    if (clock->block == CYHAL_CLOCK_BLOCK_DPLL_LP)
+    {
+        *feedbackDiv = cfg->lpPllCfg->feedbackDiv;
+        *referenceDiv = cfg->lpPllCfg->referenceDiv;
+        *outputDiv = cfg->lpPllCfg->outputDiv;
+    }
+    else if (clock->block == CYHAL_CLOCK_BLOCK_DPLL_HP)
+    {
+        /* Per IP block documentation, each divider requires +1 for correct output clock calculation */
+        *feedbackDiv = cfg->hpPllCfg->nDiv + 1;
+        *referenceDiv = cfg->hpPllCfg->pDiv + 1;
+        *outputDiv = cfg->hpPllCfg->kDiv + 1;
+    }
+    #else
+        #error "Unhandled SRSS block type"
+    #endif /* defined (CY_IP_MXS40SRSS) or defined (CY_IP_MXS22SRSS) or other (error) */
+}
+
 static cy_rslt_t _cyhal_clock_set_enabled_pll(cyhal_clock_t *clock, bool enabled, bool wait_for_lock)
 {
     CY_UNUSED_PARAMETER(clock);
@@ -1582,7 +1610,14 @@ static cy_rslt_t _cyhal_clock_set_enabled_pll(cyhal_clock_t *clock, bool enabled
         uint32_t new_freq, old_freq;
         uint32_t div = (uint32_t)Cy_SysClk_ClkHfGetDivider(0);
         uint32_t src_freq = Cy_SysClk_ClkPathMuxGetFrequency(pll_idx);
-        uint32_t pll_freq = CY_SYSLIB_DIV_ROUND((uint64_t)src_freq * (uint64_t)cfg.feedbackDiv, (uint32_t)cfg.referenceDiv * (uint32_t)cfg.outputDiv);
+
+        uint64_t feedbackDiv = 0;
+        uint32_t referenceDiv = 0;
+        uint32_t outputDiv = 0;
+        _cyhal_clock_extract_pll_params(clock, &cfg, &feedbackDiv, &referenceDiv, &outputDiv);
+
+        uint32_t pll_freq = CY_SYSLIB_DIV_ROUND((uint64_t)src_freq * feedbackDiv, referenceDiv * outputDiv);
+
         if (enabled)
         {
             new_freq = pll_freq >> div;
@@ -1644,7 +1679,13 @@ static cy_rslt_t _cyhal_clock_set_frequency_pll(cyhal_clock_t *clock, uint32_t h
         if (CY_RSLT_SUCCESS == rslt)
         {
             uint32_t src_freq = Cy_SysClk_ClkPathMuxGetFrequency(pll_idx);
-            uint32_t old_freq = CY_SYSLIB_DIV_ROUND((uint64_t)src_freq * (uint64_t)cfg.feedbackDiv, (uint32_t)cfg.referenceDiv * (uint32_t)cfg.outputDiv);
+
+            uint64_t feedbackDiv = 0;
+            uint32_t referenceDiv = 0;
+            uint32_t outputDiv = 0;
+            _cyhal_clock_extract_pll_params(clock, &cfg, &feedbackDiv, &referenceDiv, &outputDiv);
+
+            uint32_t old_freq = CY_SYSLIB_DIV_ROUND((uint64_t)src_freq * feedbackDiv, referenceDiv * outputDiv);
 
             uint32_t div = (uint32_t)Cy_SysClk_ClkHfGetDivider(0);
             uint32_t old_hf_freq = old_freq >> div;

@@ -82,10 +82,12 @@ static inline cy_rslt_t _cyhal_quaddec_configure_clock(cyhal_tcpwm_t *tcpwm, en_
 {
     cy_rslt_t rslt;
 
+    #if !defined(COMPONENT_CAT5)
     const cyhal_clock_tolerance_t tolerance = {
         .type = CYHAL_TOLERANCE_PERCENT,
         .value = 2,
     };
+    #endif
 
     #if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
         rslt = _cyhal_utils_allocate_clock(&tcpwm->clock, &tcpwm->resource, CYHAL_CLOCK_BLOCK_PERIPHERAL_16BIT, true);
@@ -259,7 +261,7 @@ static cy_rslt_t _cyhal_quaddec_pin_init(cyhal_quaddec_t *obj, cyhal_gpio_t pin,
     return rslt;
 }
 
-#if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D) || defined(COMPONENT_CAT5)
+#if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
 static uint8_t _cyhal_quaddec_get_phy_a_input_dest_trig_idx;
 static cyhal_dest_t _cyhal_quaddec_get_phy_a_input_dest(uint8_t block_num, uint8_t channel_num)
 {

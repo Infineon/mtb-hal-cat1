@@ -109,13 +109,13 @@ $(document).ready(function(){initNavTree('group__group__result.html',''); initRe
 <div class="ttc" id="agroup__group__result_html_ga5a7fc037210b7ff81c65160e11823443"><div class="ttname"><a href="group__group__result.html#ga5a7fc037210b7ff81c65160e11823443">CY_RSLT_GET_CODE</a></div><div class="ttdeci">#define CY_RSLT_GET_CODE(x)</div><div class="ttdoc">Get the value of the result code field.</div><div class="ttdef"><b>Definition:</b> cy_result.h:130</div></div>
 <div class="ttc" id="agroup__group__result_html_ga9ae9b152a38632a9e0f8620845c6cea9"><div class="ttname"><a href="group__group__result.html#ga9ae9b152a38632a9e0f8620845c6cea9">CY_RSLT_GET_TYPE</a></div><div class="ttdeci">#define CY_RSLT_GET_TYPE(x)</div><div class="ttdoc">Get the value of the result type field.</div><div class="ttdef"><b>Definition:</b> cy_result.h:120</div></div>
 <div class="ttc" id="agroup__group__result_html_gab959fc67da8489c03d3ab631442393b4"><div class="ttname"><a href="group__group__result.html#gab959fc67da8489c03d3ab631442393b4">CY_RSLT_GET_MODULE</a></div><div class="ttdeci">#define CY_RSLT_GET_MODULE(x)</div><div class="ttdoc">Get the value of the module identifier field.</div><div class="ttdef"><b>Definition:</b> cy_result.h:125</div></div>
-<div class="ttc" id="agroup__group__result_html_gaca79700fcc701534ce61778a9bcf57d1"><div class="ttname"><a href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a></div><div class="ttdeci">uint32_t cy_rslt_t</div><div class="ttdoc">Provides the result of an operation as a structured bitfield.</div><div class="ttdef"><b>Definition:</b> cy_result.h:398</div></div>
+<div class="ttc" id="agroup__group__result_html_gaca79700fcc701534ce61778a9bcf57d1"><div class="ttname"><a href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a></div><div class="ttdeci">uint32_t cy_rslt_t</div><div class="ttdoc">Provides the result of an operation as a structured bitfield.</div><div class="ttdef"><b>Definition:</b> cy_result.h:424</div></div>
 </div><!-- fragment --><p >Using <a class="el" href="group__group__result.html#unioncy__rslt__decode__t">cy_rslt_decode_t</a> to decode: </p><div class="fragment"><div class="line"><a class="code hl_union" href="group__group__result.html#unioncy__rslt__decode__t">cy_rslt_decode_t</a> result;</div>
 <div class="line">result.<a class="code hl_variable" href="group__group__result.html#aa46cfbec8a99e1c9bce73b87f1f988c9">raw</a> = cy_hal_do_operation(arg);</div>
 <div class="line"> </div>
 <div class="line">printf(<span class="stringliteral">&quot;type=%d, module=%d, code=%d\n&quot;</span>, result.type, result.module, result.code);</div>
-<div class="ttc" id="agroup__group__result_html_aa46cfbec8a99e1c9bce73b87f1f988c9"><div class="ttname"><a href="group__group__result.html#aa46cfbec8a99e1c9bce73b87f1f988c9">cy_rslt_decode_t::raw</a></div><div class="ttdeci">cy_rslt_t raw</div><div class="ttdoc">The raw uint32/cy_rslt_t value.</div><div class="ttdef"><b>Definition:</b> cy_result.h:414</div></div>
-<div class="ttc" id="agroup__group__result_html_unioncy__rslt__decode__t"><div class="ttname"><a href="group__group__result.html#unioncy__rslt__decode__t">cy_rslt_decode_t</a></div><div class="ttdoc">Provides the result of an operation as a structured bitfield.</div><div class="ttdef"><b>Definition:</b> cy_result.h:413</div></div>
+<div class="ttc" id="agroup__group__result_html_aa46cfbec8a99e1c9bce73b87f1f988c9"><div class="ttname"><a href="group__group__result.html#aa46cfbec8a99e1c9bce73b87f1f988c9">cy_rslt_decode_t::raw</a></div><div class="ttdeci">cy_rslt_t raw</div><div class="ttdoc">The raw uint32/cy_rslt_t value.</div><div class="ttdef"><b>Definition:</b> cy_result.h:440</div></div>
+<div class="ttc" id="agroup__group__result_html_unioncy__rslt__decode__t"><div class="ttname"><a href="group__group__result.html#unioncy__rslt__decode__t">cy_rslt_decode_t</a></div><div class="ttdoc">Provides the result of an operation as a structured bitfield.</div><div class="ttdef"><b>Definition:</b> cy_result.h:439</div></div>
 </div><!-- fragment --> <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Structures</h2></td></tr>
@@ -226,6 +226,8 @@ Typedefs</h2></td></tr>
 , <br />
 &#160;&#160;<a class="el" href="group__group__result.html#gga9008565cba0207520330a1cb8509a8d0a4707f80546f2ef8b4a682473aa7eef80">CY_RSLT_MODULE_DRIVER_MCWDT</a> = 0x0035
 , <br />
+&#160;&#160;<a class="el" href="group__group__result.html#gga9008565cba0207520330a1cb8509a8d0a5ec643ba77ca98917f462340665752b1">CY_RSLT_MODULE_DRIVER_LIN</a> = 0x0037
+, <br />
 &#160;&#160;<a class="el" href="group__group__result.html#gga9008565cba0207520330a1cb8509a8d0a6375955d6bd89a3f1587eb35edb8a13e">CY_RSLT_MODULE_DRIVER_LVD</a> = 0x0039
 , <br />
 &#160;&#160;<a class="el" href="group__group__result.html#gga9008565cba0207520330a1cb8509a8d0aff3550164c9dee83bd9669beffa24876">CY_RSLT_MODULE_DRIVER_SD_HOST</a> = 0x003a
@@ -244,7 +246,27 @@ Typedefs</h2></td></tr>
 , <br />
 &#160;&#160;<a class="el" href="group__group__result.html#gga9008565cba0207520330a1cb8509a8d0ace424ee83f49647a3fc779afe1d22706">CY_RSLT_MODULE_DRIVER_CANFD</a> = 0x0045
 , <br />
+&#160;&#160;<a class="el" href="group__group__result.html#gga9008565cba0207520330a1cb8509a8d0aa5fcf52eb274e5f395a8a68d50bf5e3a">CY_RSLT_MODULE_DRIVER_PRA</a> = 0x0046
+, <br />
 &#160;&#160;<a class="el" href="group__group__result.html#gga9008565cba0207520330a1cb8509a8d0a0fc6efe902ef7b9c380b068bed0b825a">CY_RSLT_MODULE_DRIVER_MSC</a> = 0x0047
+, <br />
+&#160;&#160;<a class="el" href="group__group__result.html#gga9008565cba0207520330a1cb8509a8d0ac3ae8ab20284f27b8c60c89bb93589bb">CY_RSLT_MODULE_DRIVER_ADCMIC</a> = 0x0048
+, <br />
+&#160;&#160;<a class="el" href="group__group__result.html#gga9008565cba0207520330a1cb8509a8d0aed3dd57a9b76ec1b0f612d3beb2cb0df">CY_RSLT_MODULE_DRIVER_MSCLP</a> = 0x0049
+, <br />
+&#160;&#160;<a class="el" href="group__group__result.html#gga9008565cba0207520330a1cb8509a8d0ac2fc66f31cf1775461fde206aa9cd19a">CY_RSLT_MODULE_DRIVER_EVTGEN</a> = 0x004a
+, <br />
+&#160;&#160;<a class="el" href="group__group__result.html#gga9008565cba0207520330a1cb8509a8d0a556f94e44063eedd35902918290b3e8b">CY_RSLT_MODULE_DRIVER_SAR2</a> = 0x004b
+, <br />
+&#160;&#160;<a class="el" href="group__group__result.html#gga9008565cba0207520330a1cb8509a8d0ac3fe5c1390bd3da0a397af4f1fac8a96">CY_RSLT_MODULE_DRIVER_KEYSCAN</a> = 0x0072
+, <br />
+&#160;&#160;<a class="el" href="group__group__result.html#gga9008565cba0207520330a1cb8509a8d0a8108e24a01c2130c03f018293573b30f">CY_RSLT_MODULE_DRIVER_PDM_PCM2</a> = 0x0073
+, <br />
+&#160;&#160;<a class="el" href="group__group__result.html#gga9008565cba0207520330a1cb8509a8d0ab8047a8ce963ee7e66e98863a99b083e">CY_RSLT_MODULE_DRIVER_CRYPTOLITE</a> = 0x0074
+, <br />
+&#160;&#160;<a class="el" href="group__group__result.html#gga9008565cba0207520330a1cb8509a8d0a4a24cc73b0ab9f7aff80f6d403dcd002">CY_RSLT_MODULE_DRIVER_SYSFAULT</a> = 0x0076
+, <br />
+&#160;&#160;<a class="el" href="group__group__result.html#gga9008565cba0207520330a1cb8509a8d0a7a6484fd707902f6037932a4ed40f7fb">CY_RSLT_MODULE_DRIVER_LVD_HT</a> = 0x0078
 , <br />
 &#160;&#160;<a class="el" href="group__group__result.html#gga9008565cba0207520330a1cb8509a8d0aa3a4adf999fe96df83914f3d20ce996b">CY_RSLT_MODULE_DRIVER_WHD</a> = 0x0080
 , <br />
@@ -675,7 +697,7 @@ The 14bit module id. </td></tr>
 <p >Asset(s): (usbdev) </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga9008565cba0207520330a1cb8509a8d0a1f410aa2088b97d000f69891ccccede9" name="gga9008565cba0207520330a1cb8509a8d0a1f410aa2088b97d000f69891ccccede9"></a>CY_RSLT_MODULE_DRIVER_CTB&#160;</td><td class="fielddoc"><p >Module identifier for the Continuous Time Block (CTB) driver. </p>
-<p >Asset(s): (mtb-pdl-cat1) </p>
+<p >Asset(s): (mtb-pdl-cat1, mtb-pdl-cat2) </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga9008565cba0207520330a1cb8509a8d0ae6ba296c579a3bf4463d4f24c7b36ea6" name="gga9008565cba0207520330a1cb8509a8d0ae6ba296c579a3bf4463d4f24c7b36ea6"></a>CY_RSLT_MODULE_DRIVER_CRYPTO&#160;</td><td class="fielddoc"><p >Module identifier for the Crypto driver. </p>
 <p >Asset(s): (mtb-pdl-cat1) </p>
@@ -717,13 +739,13 @@ The 14bit module id. </td></tr>
 <p >Asset(s): (mtb-pdl-cat1) </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga9008565cba0207520330a1cb8509a8d0a99716db1ae42e2470e24c333327cf57e" name="gga9008565cba0207520330a1cb8509a8d0a99716db1ae42e2470e24c333327cf57e"></a>CY_RSLT_MODULE_DRIVER_I2S&#160;</td><td class="fielddoc"><p >Module identifier for the I2S driver. </p>
-<p >Asset(s): (mtb-pdl-cat1) </p>
+<p >Asset(s): (mtb-pdl-cat1, mtb-pdl-cat2) </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga9008565cba0207520330a1cb8509a8d0ac3e2436bc0c33b236451d5d4c32ea20e" name="gga9008565cba0207520330a1cb8509a8d0ac3e2436bc0c33b236451d5d4c32ea20e"></a>CY_RSLT_MODULE_DRIVER_IPC&#160;</td><td class="fielddoc"><p >Module identifier for the IPC driver. </p>
 <p >Asset(s): (mtb-pdl-cat1) </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga9008565cba0207520330a1cb8509a8d0a32b00af7808aa55ebae3c699aab9496d" name="gga9008565cba0207520330a1cb8509a8d0a32b00af7808aa55ebae3c699aab9496d"></a>CY_RSLT_MODULE_DRIVER_LPCOMP&#160;</td><td class="fielddoc"><p >Module identifier for the Low Power Comparator (LPCOMP) driver. </p>
-<p >Asset(s): (mtb-pdl-cat1) </p>
+<p >Asset(s): (mtb-pdl-cat1, mtb-pdl-cat2) </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga9008565cba0207520330a1cb8509a8d0a481bfffac0d57ea84388d5ed044cf584" name="gga9008565cba0207520330a1cb8509a8d0a481bfffac0d57ea84388d5ed044cf584"></a>CY_RSLT_MODULE_DRIVER_PDM_PCM&#160;</td><td class="fielddoc"><p >Module identifier for the PDM-PCM driver. </p>
 <p >Asset(s): (mtb-pdl-cat1) </p>
@@ -752,6 +774,9 @@ The 14bit module id. </td></tr>
 <tr><td class="fieldname"><a id="gga9008565cba0207520330a1cb8509a8d0a4707f80546f2ef8b4a682473aa7eef80" name="gga9008565cba0207520330a1cb8509a8d0a4707f80546f2ef8b4a682473aa7eef80"></a>CY_RSLT_MODULE_DRIVER_MCWDT&#160;</td><td class="fielddoc"><p >Module identifier for the (WDC / MCWDT) driver. </p>
 <p >Asset(s): (mtb-pdl-cat1, mtb-pdl-cat2) </p>
 </td></tr>
+<tr><td class="fieldname"><a id="gga9008565cba0207520330a1cb8509a8d0a5ec643ba77ca98917f462340665752b1" name="gga9008565cba0207520330a1cb8509a8d0a5ec643ba77ca98917f462340665752b1"></a>CY_RSLT_MODULE_DRIVER_LIN&#160;</td><td class="fielddoc"><p >Module identifier for the LIN driver. </p>
+<p >Asset(s): (mtb-pdl-cat1) </p>
+</td></tr>
 <tr><td class="fieldname"><a id="gga9008565cba0207520330a1cb8509a8d0a6375955d6bd89a3f1587eb35edb8a13e" name="gga9008565cba0207520330a1cb8509a8d0a6375955d6bd89a3f1587eb35edb8a13e"></a>CY_RSLT_MODULE_DRIVER_LVD&#160;</td><td class="fielddoc"><p >Module identifier for the LVD driver. </p>
 <p >Asset(s): (mtb-pdl-cat1) </p>
 </td></tr>
@@ -759,13 +784,13 @@ The 14bit module id. </td></tr>
 <p >Asset(s): (mtb-pdl-cat1) </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga9008565cba0207520330a1cb8509a8d0aca7b31d73856833ecbad7c6bafb22956" name="gga9008565cba0207520330a1cb8509a8d0aca7b31d73856833ecbad7c6bafb22956"></a>CY_RSLT_MODULE_DRIVER_USBFS&#160;</td><td class="fielddoc"><p >Module identifier for the USBFS driver. </p>
-<p >Asset(s): (mtb-pdl-cat1) </p>
+<p >Asset(s): (mtb-pdl-cat1, mtb-pdl-cat2) </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga9008565cba0207520330a1cb8509a8d0ab3be9dafa6e19b34d9dba46595f2b33e" name="gga9008565cba0207520330a1cb8509a8d0ab3be9dafa6e19b34d9dba46595f2b33e"></a>CY_RSLT_MODULE_DRIVER_DMAC&#160;</td><td class="fielddoc"><p >Module identifier for the DMAC driver. </p>
 <p >Asset(s): (mtb-pdl-cat1, mtb-pdl-cat2) </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga9008565cba0207520330a1cb8509a8d0aa1c344315557516ec1cab41352010be2" name="gga9008565cba0207520330a1cb8509a8d0aa1c344315557516ec1cab41352010be2"></a>CY_RSLT_MODULE_DRIVER_SEGLCD&#160;</td><td class="fielddoc"><p >Module identifier for the SegLCD driver. </p>
-<p >Asset(s): (mtb-pdl-cat1) </p>
+<p >Asset(s): (mtb-pdl-cat1, mtb-pdl-cat2) </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga9008565cba0207520330a1cb8509a8d0ae1bd8b816a4a5ba23e185c1cfceffcaf" name="gga9008565cba0207520330a1cb8509a8d0ae1bd8b816a4a5ba23e185c1cfceffcaf"></a>CY_RSLT_MODULE_DRIVER_CSD&#160;</td><td class="fielddoc"><p >Module identifier for the CSD driver. </p>
 <p >Asset(s): (mtb-pdl-cat1, mtb-pdl-cat2) </p>
@@ -779,8 +804,38 @@ The 14bit module id. </td></tr>
 <tr><td class="fieldname"><a id="gga9008565cba0207520330a1cb8509a8d0ace424ee83f49647a3fc779afe1d22706" name="gga9008565cba0207520330a1cb8509a8d0ace424ee83f49647a3fc779afe1d22706"></a>CY_RSLT_MODULE_DRIVER_CANFD&#160;</td><td class="fielddoc"><p >Module identifier for the CAN FD driver. </p>
 <p >Asset(s): (mtb-pdl-cat1, mtb-pdl-cat2) </p>
 </td></tr>
+<tr><td class="fieldname"><a id="gga9008565cba0207520330a1cb8509a8d0aa5fcf52eb274e5f395a8a68d50bf5e3a" name="gga9008565cba0207520330a1cb8509a8d0aa5fcf52eb274e5f395a8a68d50bf5e3a"></a>CY_RSLT_MODULE_DRIVER_PRA&#160;</td><td class="fielddoc"><p >Module identifier for the PRA driver. </p>
+<p >Asset(s): (mtb-pdl-cat1) </p>
+</td></tr>
 <tr><td class="fieldname"><a id="gga9008565cba0207520330a1cb8509a8d0a0fc6efe902ef7b9c380b068bed0b825a" name="gga9008565cba0207520330a1cb8509a8d0a0fc6efe902ef7b9c380b068bed0b825a"></a>CY_RSLT_MODULE_DRIVER_MSC&#160;</td><td class="fielddoc"><p >Module identifier for the MSC driver. </p>
 <p >Asset(s): (mtb-pdl-cat2) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga9008565cba0207520330a1cb8509a8d0ac3ae8ab20284f27b8c60c89bb93589bb" name="gga9008565cba0207520330a1cb8509a8d0ac3ae8ab20284f27b8c60c89bb93589bb"></a>CY_RSLT_MODULE_DRIVER_ADCMIC&#160;</td><td class="fielddoc"><p >Module identifier for the ADC Mic driver. </p>
+<p >Asset(s): (mtb-pdl-cat1) Module identifier for the USB PD driver. Asset(s): (mtb-pdl-cat2) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga9008565cba0207520330a1cb8509a8d0aed3dd57a9b76ec1b0f612d3beb2cb0df" name="gga9008565cba0207520330a1cb8509a8d0aed3dd57a9b76ec1b0f612d3beb2cb0df"></a>CY_RSLT_MODULE_DRIVER_MSCLP&#160;</td><td class="fielddoc"><p >Module identifier for the MSC LP driver. </p>
+<p >Asset(s): (mtb-pdl-cat2) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga9008565cba0207520330a1cb8509a8d0ac2fc66f31cf1775461fde206aa9cd19a" name="gga9008565cba0207520330a1cb8509a8d0ac2fc66f31cf1775461fde206aa9cd19a"></a>CY_RSLT_MODULE_DRIVER_EVTGEN&#160;</td><td class="fielddoc"><p >Module identifier for the Event Gen driver. </p>
+<p >Asset(s): (mtb-pdl-cat1) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga9008565cba0207520330a1cb8509a8d0a556f94e44063eedd35902918290b3e8b" name="gga9008565cba0207520330a1cb8509a8d0a556f94e44063eedd35902918290b3e8b"></a>CY_RSLT_MODULE_DRIVER_SAR2&#160;</td><td class="fielddoc"><p >Module identifier for the SAR v2 driver. </p>
+<p >Asset(s): (mtb-pdl-cat1) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga9008565cba0207520330a1cb8509a8d0ac3fe5c1390bd3da0a397af4f1fac8a96" name="gga9008565cba0207520330a1cb8509a8d0ac3fe5c1390bd3da0a397af4f1fac8a96"></a>CY_RSLT_MODULE_DRIVER_KEYSCAN&#160;</td><td class="fielddoc"><p >Module identifier for the Key Scan driver. </p>
+<p >Asset(s): (mtb-pdl-cat1) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga9008565cba0207520330a1cb8509a8d0a8108e24a01c2130c03f018293573b30f" name="gga9008565cba0207520330a1cb8509a8d0a8108e24a01c2130c03f018293573b30f"></a>CY_RSLT_MODULE_DRIVER_PDM_PCM2&#160;</td><td class="fielddoc"><p >Module identifier for the PDM-PCM v2 driver. </p>
+<p >Asset(s): (mtb-pdl-cat1) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga9008565cba0207520330a1cb8509a8d0ab8047a8ce963ee7e66e98863a99b083e" name="gga9008565cba0207520330a1cb8509a8d0ab8047a8ce963ee7e66e98863a99b083e"></a>CY_RSLT_MODULE_DRIVER_CRYPTOLITE&#160;</td><td class="fielddoc"><p >Module identifier for the Crypto Lite driver. </p>
+<p >Asset(s): (mtb-pdl-cat1, mtb-pdl-cat2) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga9008565cba0207520330a1cb8509a8d0a4a24cc73b0ab9f7aff80f6d403dcd002" name="gga9008565cba0207520330a1cb8509a8d0a4a24cc73b0ab9f7aff80f6d403dcd002"></a>CY_RSLT_MODULE_DRIVER_SYSFAULT&#160;</td><td class="fielddoc"><p >Module identifier for the SysFault driver. </p>
+<p >Asset(s): (mtb-pdl-cat1) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga9008565cba0207520330a1cb8509a8d0a7a6484fd707902f6037932a4ed40f7fb" name="gga9008565cba0207520330a1cb8509a8d0a7a6484fd707902f6037932a4ed40f7fb"></a>CY_RSLT_MODULE_DRIVER_LVD_HT&#160;</td><td class="fielddoc"><p >Module identifier for the LVD HT driver. </p>
+<p >Asset(s): (mtb-pdl-cat1) </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga9008565cba0207520330a1cb8509a8d0aa3a4adf999fe96df83914f3d20ce996b" name="gga9008565cba0207520330a1cb8509a8d0aa3a4adf999fe96df83914f3d20ce996b"></a>CY_RSLT_MODULE_DRIVER_WHD&#160;</td><td class="fielddoc"><p >Module identifier for the WiFi Host Driver. </p>
 <p >Asset(s): (wifi-host-driver) </p>

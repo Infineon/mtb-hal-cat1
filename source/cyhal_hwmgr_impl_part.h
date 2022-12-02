@@ -236,6 +236,13 @@
     #else
         #warning Unhandled DMA instance count
     #endif
+#elif defined(CY_IP_MXSAXIDMAC_INSTANCES)
+    #define CY_BLOCK_COUNT_DMA      (CY_IP_MXSAXIDMAC_INSTANCES)
+#if (APPCPUSS_AXIDMAC1_PRESENT)
+    #define CY_CHANNEL_COUNT_DMA    (APPCPUSS_AXIDMAC0_CH_NR + APPCPUSS_AXIDMAC1_CH_NR)
+#else
+    #define CY_CHANNEL_COUNT_DMA    (APPCPUSS_AXIDMAC0_CH_NR)
+#endif
 #elif defined(CPUSS_CPUMEMSS_DMAC_PRESENT)
     #define CY_BLOCK_COUNT_DMA      (CPUSS_CPUMEMSS_DMAC_PRESENT)
     #define CY_CHANNEL_COUNT_DMA    (CPUSS_DMAC_CH_NR)
@@ -361,7 +368,7 @@
     #define CY_BLOCK_COUNT_RTC      (0)
 #endif
 
-#if defined(CY_IP_MXSCB_INSTANCES) || defined(CY_IP_M0S8SCB_INSTANCES)
+#if defined(CY_IP_MXSCB_INSTANCES)|| defined(CY_IP_MXS22SCB_INSTANCES) || defined(CY_IP_M0S8SCB_INSTANCES)
     #define CY_BLOCK_COUNT_SCB      (_SCB_ARRAY_SIZE)
 #else
     #define CY_BLOCK_COUNT_SCB      (0)

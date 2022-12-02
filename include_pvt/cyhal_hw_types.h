@@ -214,7 +214,7 @@ typedef struct {
   * between platforms and/or HAL releases.
   */
 typedef struct {
-#if defined(CY_IP_M4CPUSS_DMAC) || defined(CY_IP_M7CPUSS_DMAC) || defined(CY_IP_M4CPUSS_DMA) || defined(CY_IP_M7CPUSS_DMA) || defined(CY_IP_MXAHBDMAC) || defined(CY_IP_MXDW)
+#if defined(CY_IP_M4CPUSS_DMAC) || defined(CY_IP_M7CPUSS_DMAC) || defined(CY_IP_M4CPUSS_DMA) || defined(CY_IP_M7CPUSS_DMA) || defined(CY_IP_MXAHBDMAC) || defined(CY_IP_MXDW) || defined(CY_IP_MXSAXIDMAC)
     cyhal_resource_inst_t               resource;
     #if (CY_CPU_CORTEX_M7) && defined (ENABLE_CM7_DATA_CACHE)
     CY_ALIGN(__SCB_DCACHE_LINE_SIZE)
@@ -224,7 +224,9 @@ typedef struct {
 #if defined(CY_IP_M4CPUSS_DMA) || defined(CY_IP_M7CPUSS_DMA) || defined(CY_IP_MXDW)
         cy_stc_dma_channel_config_t     dw;
 #endif
-#if defined(CY_IP_M4CPUSS_DMAC) || defined(CY_IP_M7CPUSS_DMAC) || defined(CY_IP_MXAHBDMAC)
+#if defined(CY_IP_MXSAXIDMAC)
+        cy_stc_axidmac_channel_config_t dmac;
+#elif defined(CY_IP_M4CPUSS_DMAC) || defined(CY_IP_M7CPUSS_DMAC) || defined(CY_IP_MXAHBDMAC)
         cy_stc_dmac_channel_config_t    dmac;
 #endif
     } channel_config;
@@ -236,7 +238,9 @@ typedef struct {
 #if defined(CY_IP_M4CPUSS_DMA) || defined(CY_IP_M7CPUSS_DMA) || defined(CY_IP_MXDW)
         cy_stc_dma_descriptor_config_t  dw;
 #endif
-#if defined(CY_IP_M4CPUSS_DMAC) || defined(CY_IP_M7CPUSS_DMAC) || defined(CY_IP_MXAHBDMAC)
+#if defined(CY_IP_MXSAXIDMAC)
+        cy_stc_axidmac_descriptor_config_t dmac;
+#elif defined(CY_IP_M4CPUSS_DMAC) || defined(CY_IP_M7CPUSS_DMAC) || defined(CY_IP_MXAHBDMAC)
         cy_stc_dmac_descriptor_config_t dmac;
 #endif
     } descriptor_config;
@@ -248,7 +252,9 @@ typedef struct {
 #if defined(CY_IP_M4CPUSS_DMA) || defined(CY_IP_M7CPUSS_DMA) || defined(CY_IP_MXDW)
         cy_stc_dma_descriptor_t         dw;
 #endif
-#if defined(CY_IP_M4CPUSS_DMAC) || defined(CY_IP_M7CPUSS_DMAC) || defined(CY_IP_MXAHBDMAC)
+#if defined(CY_IP_MXSAXIDMAC)
+        cy_stc_axidmac_descriptor_t     dmac;
+#elif defined(CY_IP_M4CPUSS_DMAC) || defined(CY_IP_M7CPUSS_DMAC) || defined(CY_IP_MXAHBDMAC)
         cy_stc_dmac_descriptor_t        dmac;
 #endif
     } descriptor;
@@ -282,7 +288,9 @@ typedef struct
 #if defined(CY_IP_M4CPUSS_DMA) || defined(CY_IP_M7CPUSS_DMA) || defined(CY_IP_MXDW)
             cy_stc_dma_channel_config_t const*      dw_channel_config;
 #endif
-#if defined(CY_IP_M4CPUSS_DMAC) || defined(CY_IP_M7CPUSS_DMAC) || defined(CY_IP_MXAHBDMAC)
+#if defined(CY_IP_MXSAXIDMAC)
+            cy_stc_axidmac_channel_config_t const*  dmac_channel_config;
+#elif defined(CY_IP_M4CPUSS_DMAC) || defined(CY_IP_M7CPUSS_DMAC) || defined(CY_IP_MXAHBDMAC)
             cy_stc_dmac_channel_config_t const*     dmac_channel_config;
 #endif
         };
@@ -291,7 +299,9 @@ typedef struct
 #if defined(CY_IP_M4CPUSS_DMA) || defined(CY_IP_M7CPUSS_DMA) || defined(CY_IP_MXDW)
             cy_stc_dma_descriptor_config_t const*   dw_descriptor_config;
 #endif
-#if defined(CY_IP_M4CPUSS_DMAC) || defined(CY_IP_M7CPUSS_DMAC) || defined(CY_IP_MXAHBDMAC)
+#if defined(CY_IP_MXSAXIDMAC)
+            cy_stc_axidmac_descriptor_config_t const*  dmac_descriptor_config;
+#elif defined(CY_IP_M4CPUSS_DMAC) || defined(CY_IP_M7CPUSS_DMAC) || defined(CY_IP_MXAHBDMAC)
             cy_stc_dmac_descriptor_config_t const*  dmac_descriptor_config;
 #endif
         };
@@ -732,7 +742,7 @@ typedef struct {
   * between platforms and/or HAL releases.
   */
 typedef struct {
-#ifdef CY_IP_MXSCB
+#if defined(CY_IP_MXSCB) || defined(CY_IP_MXS22SCB)
     CySCB_Type*                         base;
     cyhal_resource_inst_t               resource;
     cyhal_gpio_t                        pin_sda;
@@ -765,13 +775,13 @@ typedef struct {
   * and/or HAL releases.
   */
 typedef struct {
-#if defined(CY_IP_MXSCB)
+#if defined(CY_IP_MXSCB) || defined(CY_IP_MXS22SCB)
     const cyhal_resource_inst_t*            resource;
     const cy_stc_scb_i2c_config_t*          config;
     const cyhal_clock_t*                    clock;
 #else
     void *empty;
-#endif /* defined(CY_IP_MXSCB) */
+#endif /* defined(CY_IP_MXSCB) || defined(CY_IP_MXS22SCB) */
 } cyhal_i2c_configurator_t;
 
 /**
@@ -782,7 +792,7 @@ typedef struct {
   * between platforms and/or HAL releases.
   */
 typedef struct {
-#ifdef CY_IP_MXSCB
+#if defined(CY_IP_MXSCB) || defined(CY_IP_MXS22SCB)
     CySCB_Type*                         base;
     cyhal_resource_inst_t               resource;
     cyhal_gpio_t                        pin_sda;
@@ -808,13 +818,13 @@ typedef struct {
   * and/or HAL releases.
   */
 typedef struct {
-#if defined(CY_IP_MXSCB)
+#if defined(CY_IP_MXSCB) || defined(CY_IP_MXS22SCB)
     const cyhal_resource_inst_t*            resource;
     const cy_stc_scb_ezi2c_config_t*        config;
     const cyhal_clock_t*                    clock;
 #else
     void *empty;
-#endif /* defined(CY_IP_MXSCB) */
+#endif /* defined(CY_IP_MXSCB) || defined(CY_IP_MXS22SCB) */
 } cyhal_ezi2c_configurator_t;
 
 /**
@@ -981,7 +991,7 @@ typedef struct {
     const cyhal_clock_t*                    clock;
 #else
     void *empty;
-#endif /* defined(CY_IP_MXSCB) */
+#endif
 #else
     void *empty;
 #endif
@@ -1383,7 +1393,7 @@ typedef struct {
   * between platforms and/or HAL releases.
   */
 typedef struct {
-#if defined(CY_IP_MXSCB)
+#if defined(CY_IP_MXSCB) || defined(CY_IP_MXS22SCB)
     CySCB_Type*                         base;
     cyhal_resource_inst_t               resource;
     cyhal_gpio_t                        pin_miso;
@@ -1403,6 +1413,7 @@ typedef struct {
     cy_stc_scb_spi_context_t            context;
     uint32_t                            irq_cause;
     uint16_t volatile                   pending;
+    bool                                op_in_callback;
     uint8_t                             write_fill;
     void                                *rx_buffer;
     uint32_t                            rx_buffer_size;
@@ -1425,7 +1436,7 @@ typedef struct {
   * and/or HAL releases.
   */
 typedef struct {
-#if defined(CY_IP_MXSCB)
+#if defined(CY_IP_MXSCB) || defined(CY_IP_MXS22SCB)
     const cyhal_resource_inst_t*            resource;
     const cy_stc_scb_spi_config_t*          config;
     const cyhal_clock_t*                    clock;
@@ -1438,7 +1449,7 @@ typedef struct {
     } gpios;
 #else
     void *empty;
-#endif /* defined(CY_IP_MXSCB) */
+#endif /* defined(CY_IP_MXSCB) || defined(CY_IP_MXS22SCB) */
 } cyhal_spi_configurator_t;
 
 /**
@@ -1503,7 +1514,7 @@ typedef struct
   * between platforms and/or HAL releases.
   */
 typedef struct {
-#ifdef CY_IP_MXSCB
+#if defined(CY_IP_MXSCB) || defined(CY_IP_MXS22SCB)
     CySCB_Type*                         base;
     cyhal_resource_inst_t               resource;
     cyhal_gpio_t                        pin_rx;
@@ -1535,7 +1546,7 @@ typedef struct {
   * and/or HAL releases.
   */
 typedef struct {
-#ifdef CY_IP_MXSCB
+#if defined(CY_IP_MXSCB) || defined(CY_IP_MXS22SCB)
     const cyhal_resource_inst_t*            resource;
     const cy_stc_scb_uart_config_t*         config;
     const cyhal_clock_t*                    clock;
@@ -1547,7 +1558,7 @@ typedef struct {
     } gpios;
 #else
     void *empty;
-#endif /* CY_IP_MXSCB */
+#endif /* defined(CY_IP_MXSCB) || defined(CY_IP_MXS22SCB) */
 } cyhal_uart_configurator_t;
 
 /**

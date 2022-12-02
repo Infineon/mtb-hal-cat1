@@ -50,14 +50,6 @@ extern "C"
 #define _CYHAL_I2C_PENDING_TX_RX             3
 
 #define _CYHAL_I2C_MASTER_DEFAULT_FREQ       100000
-#define _CYHAL_I2C_WAIT_1_UNIT               1
-#define _CYHAL_I2C_MS_TO_US_RATIO            1000
-
-
-/* Return number of bytes to copy into the destination buffer */
-#define _CYHAL_I2C_BYTES_TO_COPY(actBufSize, bufSize) \
-                                (((uint32_t) (actBufSize) < (uint32_t) (bufSize)) ? \
-                                 ((uint32_t) (actBufSize)) : ((uint32_t) (bufSize)) )
 
 
 static const _cyhal_buffer_info_t _cyhal_i2c_buff_info_default = {
@@ -378,7 +370,7 @@ __STATIC_INLINE void _cyhal_i2c_slave_clear_read_status(cyhal_i2c_t *obj)
 static cy_rslt_t _cyhal_i2c_slave_wait_for_status(cyhal_i2c_t *obj, uint32_t i2c_status, uint32_t timeout)
 {
     cy_rslt_t result = CY_RSLT_SUCCESS;
-    uint32_t timeout_us = _CYHAL_I2C_MS_TO_US_RATIO;
+    uint32_t timeout_us = _CYHAL_UTILS_US_PER_MS;
 
     if (!(obj->op_in_callback) && timeout > 0)
     {
@@ -386,12 +378,12 @@ static cy_rslt_t _cyhal_i2c_slave_wait_for_status(cyhal_i2c_t *obj, uint32_t i2c
         {
             if (timeout_us > 0)
             {
-                cyhal_system_delay_us(_CYHAL_I2C_WAIT_1_UNIT);
+                cyhal_system_delay_us(_CYHAL_UTILS_ONE_TIME_UNIT);
                 --timeout_us;
             }
             else
             {
-                timeout_us = _CYHAL_I2C_MS_TO_US_RATIO;
+                timeout_us = _CYHAL_UTILS_US_PER_MS;
                 --timeout;
             }
         }
@@ -745,7 +737,7 @@ cy_rslt_t cyhal_i2c_slave_read(cyhal_i2c_t *obj, uint8_t *dst_buff, uint16_t *si
 
         if (CY_RSLT_SUCCESS == status)
         {
-            *size = _CYHAL_I2C_BYTES_TO_COPY(cyhal_i2c_slave_readable(obj), *size);
+            *size = _CYHAL_SCB_BYTES_TO_COPY(cyhal_i2c_slave_readable(obj), *size);
             /* Check if the destination buffer is not a I2C RX buffer. */
             if (obj->rx_slave_buff.addr.u8 != dst_buff)
             {
@@ -754,7 +746,7 @@ cy_rslt_t cyhal_i2c_slave_read(cyhal_i2c_t *obj, uint8_t *dst_buff, uint16_t *si
             }
 
             /* Wait for device set the state to IDLE */
-            while (obj->context.state != CY_SCB_I2C_IDLE)
+            while (obj->context.state != CY_SCB_I2C_IDLE && !(obj->op_in_callback))
             {
                 /* I2C PDL driver guarantee the slave will be in IDLE state
                     after the end of a transaction */
@@ -777,7 +769,7 @@ cy_rslt_t cyhal_i2c_slave_write(cyhal_i2c_t *obj, const uint8_t *src_buff, uint1
     else if ((src_buff != NULL) && (size != NULL))
     {
         /* Wait for completion of a previous Master read transaction */
-        while (obj->context.state != CY_SCB_I2C_IDLE)
+        while (obj->context.state != CY_SCB_I2C_IDLE && !(obj->op_in_callback))
         {
             /* I2C PDL driver guarantee the slave will be in IDLE state
                 after the end of a previous transaction */
@@ -785,7 +777,7 @@ cy_rslt_t cyhal_i2c_slave_write(cyhal_i2c_t *obj, const uint8_t *src_buff, uint1
 
         if (obj->context.state == CY_SCB_I2C_IDLE)
         {
-            *size = _CYHAL_I2C_BYTES_TO_COPY(obj->tx_slave_buff.size, *size);
+            *size = _CYHAL_SCB_BYTES_TO_COPY(obj->tx_slave_buff.size, *size);
             /* Check if the source buffer is not a I2C TX buffer. */
             if (obj->tx_slave_buff.addr.u8 != src_buff)
             {

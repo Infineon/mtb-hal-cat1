@@ -140,14 +140,14 @@ Snippet 1: SPI Master - Single byte transfer operation (Read and Write)</h2>
 <div class="line">            <span class="comment">// Transfer Complete and successful</span></div>
 <div class="line">        }</div>
 <div class="line">    }</div>
-<div class="ttc" id="agroup__group__hal__impl__hw__types_html_structcyhal__spi__t"><div class="ttname"><a href="group__group__hal__impl__hw__types.html#structcyhal__spi__t">cyhal_spi_t</a></div><div class="ttdoc">SPI object.</div><div class="ttdef"><b>Definition:</b> cyhal_hw_types.h:1385</div></div>
+<div class="ttc" id="agroup__group__hal__impl__hw__types_html_structcyhal__spi__t"><div class="ttname"><a href="group__group__hal__impl__hw__types.html#structcyhal__spi__t">cyhal_spi_t</a></div><div class="ttdoc">SPI object.</div><div class="ttdef"><b>Definition:</b> cyhal_hw_types.h:1395</div></div>
 <div class="ttc" id="agroup__group__hal__spi_html_ga20c9cdb5b051ff8b68cf313fc19b550d"><div class="ttname"><a href="group__group__hal__spi.html#ga20c9cdb5b051ff8b68cf313fc19b550d">cyhal_spi_init</a></div><div class="ttdeci">cy_rslt_t cyhal_spi_init(cyhal_spi_t *obj, cyhal_gpio_t mosi, cyhal_gpio_t miso, cyhal_gpio_t sclk, cyhal_gpio_t ssel, const cyhal_clock_t *clk, uint8_t bits, cyhal_spi_mode_t mode, bool is_slave)</div><div class="ttdoc">Initialize the SPI peripheral.</div></div>
 <div class="ttc" id="agroup__group__hal__spi_html_ga24b88b94f4869a34a98a54fc0edf9e53"><div class="ttname"><a href="group__group__hal__spi.html#ga24b88b94f4869a34a98a54fc0edf9e53">cyhal_spi_send</a></div><div class="ttdeci">cy_rslt_t cyhal_spi_send(cyhal_spi_t *obj, uint32_t value)</div><div class="ttdoc">Synchronously send a byte out.</div></div>
 <div class="ttc" id="agroup__group__hal__spi_html_ga536ac25a0556330a35651e32b5c180cb"><div class="ttname"><a href="group__group__hal__spi.html#ga536ac25a0556330a35651e32b5c180cb">cyhal_spi_set_frequency</a></div><div class="ttdeci">cy_rslt_t cyhal_spi_set_frequency(cyhal_spi_t *obj, uint32_t hz)</div><div class="ttdoc">Set the SPI baud rate.</div></div>
 <div class="ttc" id="agroup__group__hal__spi_html_gad9e6f6399f3096426b718d58e813b0d1"><div class="ttname"><a href="group__group__hal__spi.html#gad9e6f6399f3096426b718d58e813b0d1">cyhal_spi_recv</a></div><div class="ttdeci">cy_rslt_t cyhal_spi_recv(cyhal_spi_t *obj, uint32_t *value)</div><div class="ttdoc">Synchronously get a received value out of the SPI receive buffer.</div></div>
-<div class="ttc" id="agroup__group__hal__spi_html_ggaf56d895e50b0cf0e858a1ff221c58d51a8109c5d0edd4c10a68d82e98bd76de8a"><div class="ttname"><a href="group__group__hal__spi.html#ggaf56d895e50b0cf0e858a1ff221c58d51a8109c5d0edd4c10a68d82e98bd76de8a">CYHAL_SPI_MODE_00_MSB</a></div><div class="ttdeci">@ CYHAL_SPI_MODE_00_MSB</div><div class="ttdoc">Standard motorola SPI CPOL=0, CPHA=0 with MSB first operation.</div><div class="ttdef"><b>Definition:</b> cyhal_spi.h:184</div></div>
-<div class="ttc" id="agroup__group__result_html_gaca79700fcc701534ce61778a9bcf57d1"><div class="ttname"><a href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a></div><div class="ttdeci">uint32_t cy_rslt_t</div><div class="ttdoc">Provides the result of an operation as a structured bitfield.</div><div class="ttdef"><b>Definition:</b> cy_result.h:398</div></div>
-<div class="ttc" id="agroup__group__result_html_gaf58fac450d9fff4472f03ad68f6e546e"><div class="ttname"><a href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a></div><div class="ttdeci">#define CY_RSLT_SUCCESS</div><div class="ttdoc">cy_rslt_t return value indicating success</div><div class="ttdef"><b>Definition:</b> cy_result.h:425</div></div>
+<div class="ttc" id="agroup__group__hal__spi_html_ggaf56d895e50b0cf0e858a1ff221c58d51a8109c5d0edd4c10a68d82e98bd76de8a"><div class="ttname"><a href="group__group__hal__spi.html#ggaf56d895e50b0cf0e858a1ff221c58d51a8109c5d0edd4c10a68d82e98bd76de8a">CYHAL_SPI_MODE_00_MSB</a></div><div class="ttdeci">@ CYHAL_SPI_MODE_00_MSB</div><div class="ttdoc">Standard motorola SPI CPOL=0, CPHA=0 with MSB first operation.</div><div class="ttdef"><b>Definition:</b> cyhal_spi.h:188</div></div>
+<div class="ttc" id="agroup__group__result_html_gaca79700fcc701534ce61778a9bcf57d1"><div class="ttname"><a href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a></div><div class="ttdeci">uint32_t cy_rslt_t</div><div class="ttdoc">Provides the result of an operation as a structured bitfield.</div><div class="ttdef"><b>Definition:</b> cy_result.h:424</div></div>
+<div class="ttc" id="agroup__group__result_html_gaf58fac450d9fff4472f03ad68f6e546e"><div class="ttname"><a href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a></div><div class="ttdeci">#define CY_RSLT_SUCCESS</div><div class="ttdoc">cy_rslt_t return value indicating success</div><div class="ttdef"><b>Definition:</b> cy_result.h:451</div></div>
 </div><!-- fragment --><h2><a class="anchor" id="subsection_spi_snippet_2"></a>
 Snippet 2: SPI Slave - Single byte transfer operation (Read and Write)</h2>
 <p >The following code snippet initializes an SPI Slave interface using the <a class="el" href="group__group__hal__spi.html#ga20c9cdb5b051ff8b68cf313fc19b550d">cyhal_spi_init()</a>. The data rate of transfer is set using <a class="el" href="group__group__hal__spi.html#ga536ac25a0556330a35651e32b5c180cb">cyhal_spi_set_frequency</a>. The code snippet shows how to transfer a single byte of data using <a class="el" href="group__group__hal__spi.html#ga24b88b94f4869a34a98a54fc0edf9e53">cyhal_spi_send()</a> and <a class="el" href="group__group__hal__spi.html#gad9e6f6399f3096426b718d58e813b0d1">cyhal_spi_recv</a>. </p><div class="fragment"><div class="line">    <a class="code hl_typedef" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>   rslt;</div>
@@ -257,11 +257,11 @@ Snippet 4: Interrupts on SPI events</h2>
 <div class="line"> </div>
 <div class="line"> </div>
 <div class="ttc" id="agroup__group__hal__spi_html_ga3cbcb44263ba6af2668f8847b8c90210"><div class="ttname"><a href="group__group__hal__spi.html#ga3cbcb44263ba6af2668f8847b8c90210">cyhal_spi_transfer_async</a></div><div class="ttdeci">cy_rslt_t cyhal_spi_transfer_async(cyhal_spi_t *obj, const uint8_t *tx, size_t tx_length, uint8_t *rx, size_t rx_length)</div><div class="ttdoc">Start an asynchronous SPI transfer.</div></div>
-<div class="ttc" id="agroup__group__hal__spi_html_ga49db139205e26d6150dc9a83338d8a1c"><div class="ttname"><a href="group__group__hal__spi.html#ga49db139205e26d6150dc9a83338d8a1c">cyhal_spi_event_callback_t</a></div><div class="ttdeci">void(* cyhal_spi_event_callback_t)(void *callback_arg, cyhal_spi_event_t event)</div><div class="ttdoc">Handler for SPI interrupts.</div><div class="ttdef"><b>Definition:</b> cyhal_spi.h:167</div></div>
+<div class="ttc" id="agroup__group__hal__spi_html_ga49db139205e26d6150dc9a83338d8a1c"><div class="ttname"><a href="group__group__hal__spi.html#ga49db139205e26d6150dc9a83338d8a1c">cyhal_spi_event_callback_t</a></div><div class="ttdeci">void(* cyhal_spi_event_callback_t)(void *callback_arg, cyhal_spi_event_t event)</div><div class="ttdoc">Handler for SPI interrupts.</div><div class="ttdef"><b>Definition:</b> cyhal_spi.h:171</div></div>
 <div class="ttc" id="agroup__group__hal__spi_html_ga5efa8d542f1ab5307d7896a249581a6a"><div class="ttname"><a href="group__group__hal__spi.html#ga5efa8d542f1ab5307d7896a249581a6a">cyhal_spi_register_callback</a></div><div class="ttdeci">void cyhal_spi_register_callback(cyhal_spi_t *obj, cyhal_spi_event_callback_t callback, void *callback_arg)</div><div class="ttdoc">Register a SPI callback handler.</div></div>
 <div class="ttc" id="agroup__group__hal__spi_html_ga6d53ecb445603a2470ec1fd7e456bba3"><div class="ttname"><a href="group__group__hal__spi.html#ga6d53ecb445603a2470ec1fd7e456bba3">cyhal_spi_enable_event</a></div><div class="ttdeci">void cyhal_spi_enable_event(cyhal_spi_t *obj, cyhal_spi_event_t event, uint8_t intr_priority, bool enable)</div><div class="ttdoc">Configure SPI interrupt.</div></div>
-<div class="ttc" id="agroup__group__hal__spi_html_gae8f0cf0233d0225a80815f8282d87b85"><div class="ttname"><a href="group__group__hal__spi.html#gae8f0cf0233d0225a80815f8282d87b85">cyhal_spi_event_t</a></div><div class="ttdeci">cyhal_spi_event_t</div><div class="ttdoc">SPI interrupt triggers.</div><div class="ttdef"><b>Definition:</b> cyhal_spi.h:149</div></div>
-<div class="ttc" id="agroup__group__hal__spi_html_ggae8f0cf0233d0225a80815f8282d87b85a3f926937b0199cc8729c443d8e71f91b"><div class="ttname"><a href="group__group__hal__spi.html#ggae8f0cf0233d0225a80815f8282d87b85a3f926937b0199cc8729c443d8e71f91b">CYHAL_SPI_IRQ_DONE</a></div><div class="ttdeci">@ CYHAL_SPI_IRQ_DONE</div><div class="ttdoc">Transfer complete.</div><div class="ttdef"><b>Definition:</b> cyhal_spi.h:153</div></div>
+<div class="ttc" id="agroup__group__hal__spi_html_gae8f0cf0233d0225a80815f8282d87b85"><div class="ttname"><a href="group__group__hal__spi.html#gae8f0cf0233d0225a80815f8282d87b85">cyhal_spi_event_t</a></div><div class="ttdeci">cyhal_spi_event_t</div><div class="ttdoc">SPI interrupt triggers.</div><div class="ttdef"><b>Definition:</b> cyhal_spi.h:153</div></div>
+<div class="ttc" id="agroup__group__hal__spi_html_ggae8f0cf0233d0225a80815f8282d87b85a3f926937b0199cc8729c443d8e71f91b"><div class="ttname"><a href="group__group__hal__spi.html#ggae8f0cf0233d0225a80815f8282d87b85a3f926937b0199cc8729c443d8e71f91b">CYHAL_SPI_IRQ_DONE</a></div><div class="ttdeci">@ CYHAL_SPI_IRQ_DONE</div><div class="ttdoc">Transfer complete.</div><div class="ttdef"><b>Definition:</b> cyhal_spi.h:157</div></div>
 </div><!-- fragment --><h1><a class="anchor" id="subsection_spi_moreinfor"></a>
 More Information</h1>
 <ul>
@@ -389,6 +389,18 @@ Functions</h2></td></tr>
 <tr class="memitem:ga24b88b94f4869a34a98a54fc0edf9e53"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__spi.html#ga24b88b94f4869a34a98a54fc0edf9e53">cyhal_spi_send</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__spi__t">cyhal_spi_t</a> *obj, uint32_t value)</td></tr>
 <tr class="memdesc:ga24b88b94f4869a34a98a54fc0edf9e53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Synchronously send a byte out.  <a href="group__group__hal__spi.html#ga24b88b94f4869a34a98a54fc0edf9e53">More...</a><br /></td></tr>
 <tr class="separator:ga24b88b94f4869a34a98a54fc0edf9e53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga25b9d2e7a99b8a08bac915ccedd4fe6b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__spi.html#ga25b9d2e7a99b8a08bac915ccedd4fe6b">cyhal_spi_slave_read</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__spi__t">cyhal_spi_t</a> *obj, uint8_t *dst_buff, uint16_t *size, uint32_t timeout)</td></tr>
+<tr class="memdesc:ga25b9d2e7a99b8a08bac915ccedd4fe6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait for master send data to RX buffer and store them to the user-defined buffer.  <a href="group__group__hal__spi.html#ga25b9d2e7a99b8a08bac915ccedd4fe6b">More...</a><br /></td></tr>
+<tr class="separator:ga25b9d2e7a99b8a08bac915ccedd4fe6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadba53bbb5b0533c9ad50b053e2a63f00"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__spi.html#gadba53bbb5b0533c9ad50b053e2a63f00">cyhal_spi_slave_write</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__spi__t">cyhal_spi_t</a> *obj, const uint8_t *src_buff, uint16_t *size, uint32_t timeout)</td></tr>
+<tr class="memdesc:gadba53bbb5b0533c9ad50b053e2a63f00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write data from the user-defined buffer to TX buffer.  <a href="group__group__hal__spi.html#gadba53bbb5b0533c9ad50b053e2a63f00">More...</a><br /></td></tr>
+<tr class="separator:gadba53bbb5b0533c9ad50b053e2a63f00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9aac1062d8da58c37bcbe57bf6cc53fd"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__spi.html#ga9aac1062d8da58c37bcbe57bf6cc53fd">cyhal_spi_readable</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__spi__t">cyhal_spi_t</a> *obj)</td></tr>
+<tr class="memdesc:ga9aac1062d8da58c37bcbe57bf6cc53fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of bytes that can be read from the RX buffer.  <a href="group__group__hal__spi.html#ga9aac1062d8da58c37bcbe57bf6cc53fd">More...</a><br /></td></tr>
+<tr class="separator:ga9aac1062d8da58c37bcbe57bf6cc53fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga45d9af3604ae1c1d9dc2aa271db26d37"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__spi.html#ga45d9af3604ae1c1d9dc2aa271db26d37">cyhal_spi_writable</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__spi__t">cyhal_spi_t</a> *obj)</td></tr>
+<tr class="memdesc:ga45d9af3604ae1c1d9dc2aa271db26d37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of bytes that can be written to the TX buffer.  <a href="group__group__hal__spi.html#ga45d9af3604ae1c1d9dc2aa271db26d37">More...</a><br /></td></tr>
+<tr class="separator:ga45d9af3604ae1c1d9dc2aa271db26d37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gad21547fa4048c45f15308c0b1ff62c1f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__spi.html#gad21547fa4048c45f15308c0b1ff62c1f">cyhal_spi_transfer</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__spi__t">cyhal_spi_t</a> *obj, const uint8_t *tx, size_t tx_length, uint8_t *rx, size_t rx_length, uint8_t write_fill)</td></tr>
 <tr class="memdesc:gad21547fa4048c45f15308c0b1ff62c1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Synchronously Write a block out and receive a value.  <a href="group__group__hal__spi.html#gad21547fa4048c45f15308c0b1ff62c1f">More...</a><br /></td></tr>
 <tr class="separator:gad21547fa4048c45f15308c0b1ff62c1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -419,6 +431,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga325d0890195400a2d1e4e994cd24fa09"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__spi.html#ga325d0890195400a2d1e4e994cd24fa09">cyhal_spi_init_cfg</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__spi__t">cyhal_spi_t</a> *obj, const <a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__spi__configurator__t">cyhal_spi_configurator_t</a> *cfg)</td></tr>
 <tr class="memdesc:ga325d0890195400a2d1e4e994cd24fa09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the SPI peripheral using a configurator generated configuration struct.  <a href="group__group__hal__spi.html#ga325d0890195400a2d1e4e994cd24fa09">More...</a><br /></td></tr>
 <tr class="separator:ga325d0890195400a2d1e4e994cd24fa09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga561c87eefd7d265448e646cc2f1c1ae3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__spi.html#ga561c87eefd7d265448e646cc2f1c1ae3">cyhal_spi_clear</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__spi__t">cyhal_spi_t</a> *obj)</td></tr>
+<tr class="memdesc:ga561c87eefd7d265448e646cc2f1c1ae3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear the SPI buffers.  <a href="group__group__hal__spi.html#ga561c87eefd7d265448e646cc2f1c1ae3">More...</a><br /></td></tr>
+<tr class="separator:ga561c87eefd7d265448e646cc2f1c1ae3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/><h2 class="groupheader">Data Structure Documentation</h2>
 <a name="structcyhal__spi__cfg__t" id="structcyhal__spi__cfg__t"></a>
@@ -491,9 +506,9 @@ Whether the peripheral is operating as slave or master. </td></tr>
 <b>Value:</b><div class="fragment"><div class="line">                                             ((((cpol) &gt; 0) ? <a class="code hl_define" href="group__group__hal__spi.html#ga028740fed4f8c4dac07d1b33d68adf94">CYHAL_SPI_MODE_FLAG_CPOL</a> : 0) | \</div>
 <div class="line">                                             (((cpha) &gt; 0) ? <a class="code hl_define" href="group__group__hal__spi.html#gaad78a88937b2e405bd296dc88d2720d8">CYHAL_SPI_MODE_FLAG_CPHA</a> : 0) | \</div>
 <div class="line">                                              (((lsb) &gt; 0) ? <a class="code hl_define" href="group__group__hal__spi.html#ga71078e4a04040e81f171c21bae4269b9">CYHAL_SPI_MODE_FLAG_LSB</a>  : 0))</div>
-<div class="ttc" id="agroup__group__hal__spi_html_ga028740fed4f8c4dac07d1b33d68adf94"><div class="ttname"><a href="group__group__hal__spi.html#ga028740fed4f8c4dac07d1b33d68adf94">CYHAL_SPI_MODE_FLAG_CPOL</a></div><div class="ttdeci">#define CYHAL_SPI_MODE_FLAG_CPOL</div><div class="ttdoc">Flag for SPI cyhal_spi_mode_t values indicating that the CPOL=1.</div><div class="ttdef"><b>Definition:</b> cyhal_spi.h:174</div></div>
-<div class="ttc" id="agroup__group__hal__spi_html_ga71078e4a04040e81f171c21bae4269b9"><div class="ttname"><a href="group__group__hal__spi.html#ga71078e4a04040e81f171c21bae4269b9">CYHAL_SPI_MODE_FLAG_LSB</a></div><div class="ttdeci">#define CYHAL_SPI_MODE_FLAG_LSB</div><div class="ttdoc">Flag for SPI cyhal_spi_mode_t values indicating that the LSB is sent first.</div><div class="ttdef"><b>Definition:</b> cyhal_spi.h:170</div></div>
-<div class="ttc" id="agroup__group__hal__spi_html_gaad78a88937b2e405bd296dc88d2720d8"><div class="ttname"><a href="group__group__hal__spi.html#gaad78a88937b2e405bd296dc88d2720d8">CYHAL_SPI_MODE_FLAG_CPHA</a></div><div class="ttdeci">#define CYHAL_SPI_MODE_FLAG_CPHA</div><div class="ttdoc">Flag for SPI cyhal_spi_mode_t values indicating that the CPHA=1.</div><div class="ttdef"><b>Definition:</b> cyhal_spi.h:172</div></div>
+<div class="ttc" id="agroup__group__hal__spi_html_ga028740fed4f8c4dac07d1b33d68adf94"><div class="ttname"><a href="group__group__hal__spi.html#ga028740fed4f8c4dac07d1b33d68adf94">CYHAL_SPI_MODE_FLAG_CPOL</a></div><div class="ttdeci">#define CYHAL_SPI_MODE_FLAG_CPOL</div><div class="ttdoc">Flag for SPI cyhal_spi_mode_t values indicating that the CPOL=1.</div><div class="ttdef"><b>Definition:</b> cyhal_spi.h:178</div></div>
+<div class="ttc" id="agroup__group__hal__spi_html_ga71078e4a04040e81f171c21bae4269b9"><div class="ttname"><a href="group__group__hal__spi.html#ga71078e4a04040e81f171c21bae4269b9">CYHAL_SPI_MODE_FLAG_LSB</a></div><div class="ttdeci">#define CYHAL_SPI_MODE_FLAG_LSB</div><div class="ttdoc">Flag for SPI cyhal_spi_mode_t values indicating that the LSB is sent first.</div><div class="ttdef"><b>Definition:</b> cyhal_spi.h:174</div></div>
+<div class="ttc" id="agroup__group__hal__spi_html_gaad78a88937b2e405bd296dc88d2720d8"><div class="ttname"><a href="group__group__hal__spi.html#gaad78a88937b2e405bd296dc88d2720d8">CYHAL_SPI_MODE_FLAG_CPHA</a></div><div class="ttdeci">#define CYHAL_SPI_MODE_FLAG_CPHA</div><div class="ttdoc">Flag for SPI cyhal_spi_mode_t values indicating that the CPHA=1.</div><div class="ttdef"><b>Definition:</b> cyhal_spi.h:176</div></div>
 </div><!-- fragment -->
 <p>Creates a <a class="el" href="group__group__hal__spi.html#gaf56d895e50b0cf0e858a1ff221c58d51">cyhal_spi_mode_t</a> value given the cpol, cpha, lsb values. </p>
 
@@ -978,6 +993,166 @@ Whether the peripheral is operating as slave or master. </td></tr>
 
 </div>
 </div>
+<a id="ga25b9d2e7a99b8a08bac915ccedd4fe6b" name="ga25b9d2e7a99b8a08bac915ccedd4fe6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga25b9d2e7a99b8a08bac915ccedd4fe6b">&#9670;&nbsp;</a></span>cyhal_spi_slave_read()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_spi_slave_read </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__spi__t">cyhal_spi_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>dst_buff</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t *&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Wait for master send data to RX buffer and store them to the user-defined buffer. </p>
+<p >NOTE: If size of actual data is less then expected the function copy only available data.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The SPI object </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dst_buff</td><td>Pointer on memory to store the data from the slave RX buffer. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">size</td><td>[in] The number of bytes to read, [out] number actually read. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">timeout</td><td>Timeout in millisecond, set this value to 0 if you don't want to wait at all. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the read request </dd></dl>
+
+</div>
+</div>
+<a id="gadba53bbb5b0533c9ad50b053e2a63f00" name="gadba53bbb5b0533c9ad50b053e2a63f00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gadba53bbb5b0533c9ad50b053e2a63f00">&#9670;&nbsp;</a></span>cyhal_spi_slave_write()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_spi_slave_write </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__spi__t">cyhal_spi_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint8_t *&#160;</td>
+          <td class="paramname"><em>src_buff</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t *&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Write data from the user-defined buffer to TX buffer. </p>
+<p >NOTE: If size of actual data is less then expected the function copy only available data.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The SPI object </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">src_buff</td><td>Pointer on memory to copy the data to the slave TX buffer. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">size</td><td>[in] The number of bytes to send, [out] number actually sent. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">timeout</td><td>Timeout in millisecond, set this value to 0 if you don't want to wait at all. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the write request </dd></dl>
+
+</div>
+</div>
+<a id="ga9aac1062d8da58c37bcbe57bf6cc53fd" name="ga9aac1062d8da58c37bcbe57bf6cc53fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9aac1062d8da58c37bcbe57bf6cc53fd">&#9670;&nbsp;</a></span>cyhal_spi_readable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t cyhal_spi_readable </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__spi__t">cyhal_spi_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the number of bytes that can be read from the RX buffer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The SPI object </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The number of bytes in the RX buffer. </dd></dl>
+
+</div>
+</div>
+<a id="ga45d9af3604ae1c1d9dc2aa271db26d37" name="ga45d9af3604ae1c1d9dc2aa271db26d37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga45d9af3604ae1c1d9dc2aa271db26d37">&#9670;&nbsp;</a></span>cyhal_spi_writable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t cyhal_spi_writable </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__spi__t">cyhal_spi_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the number of bytes that can be written to the TX buffer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The SPI object </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The number of bytes that can be written </dd></dl>
+
+</div>
+</div>
 <a id="gad21547fa4048c45f15308c0b1ff62c1f" name="gad21547fa4048c45f15308c0b1ff62c1f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gad21547fa4048c45f15308c0b1ff62c1f">&#9670;&nbsp;</a></span>cyhal_spi_transfer()</h2>
 
@@ -1424,6 +1599,33 @@ Whether the peripheral is operating as slave or master. </td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The status of the operation </dd></dl>
+
+</div>
+</div>
+<a id="ga561c87eefd7d265448e646cc2f1c1ae3" name="ga561c87eefd7d265448e646cc2f1c1ae3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga561c87eefd7d265448e646cc2f1c1ae3">&#9670;&nbsp;</a></span>cyhal_spi_clear()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_spi_clear </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__spi__t">cyhal_spi_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Clear the SPI buffers. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The SPI object </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the clear request </dd></dl>
 
 </div>
 </div>
