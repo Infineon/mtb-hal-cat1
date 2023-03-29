@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['cat1_20_28psoc™_206_29_20implementation_20specific_0',['CAT1 (PSoC™ 6) Implementation Specific',['../group__group__hal__impl.html',1,'']]],
+  ['cat1_20implementation_20specific_0',['CAT1 Implementation Specific',['../group__group__hal__impl.html',1,'']]],
   ['cat1_20specific_20hardware_20types_1',['CAT1 Specific Hardware Types',['../group__group__hal__impl__hw__types.html',1,'']]],
   ['clock_2',['Clock',['../group__group__hal__clock.html',1,'']]],
   ['clock_20hal_20results_3',['Clock HAL Results',['../group__group__hal__results__clock.html',1,'']]],

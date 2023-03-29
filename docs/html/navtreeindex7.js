@@ -1,5 +1,11 @@
 var NAVTREEINDEX7 =
 {
+"group__group__hal__impl__pin__package__psoc6__01__116__bga__ble.html#gab2b03fcd25050d9ca908fb3ee333309f":[1,3,6,2,7],
+"group__group__hal__impl__pin__package__psoc6__01__116__bga__ble.html#gab99bfe3c0c19201941c4d5709abf779f":[1,3,6,2,175],
+"group__group__hal__impl__pin__package__psoc6__01__116__bga__ble.html#gab9c3adc44848cad6aebb5ed948d5872c":[1,3,6,2,157],
+"group__group__hal__impl__pin__package__psoc6__01__116__bga__ble.html#gabae698e52a40c2ac4476c73c33e87757":[1,3,6,2,22],
+"group__group__hal__impl__pin__package__psoc6__01__116__bga__ble.html#gabb61262ad6d2438dc291a337a1bf9b24":[1,3,6,2,24],
+"group__group__hal__impl__pin__package__psoc6__01__116__bga__ble.html#gabd225f5bfc118ba66eea847c18866c2c":[1,3,6,2,143],
 "group__group__hal__impl__pin__package__psoc6__01__116__bga__ble.html#gabf7d92e7cfce17305ee7ceaa7e6eb3ed":[1,3,6,2,138],
 "group__group__hal__impl__pin__package__psoc6__01__116__bga__ble.html#gac318010274b12c158f3d1e86f99cd72b":[1,3,6,2,75],
 "group__group__hal__impl__pin__package__psoc6__01__116__bga__ble.html#gac7b7cce8fdf09e451d2b74ce77bd743f":[1,3,6,2,111],
@@ -243,11 +249,5 @@ var NAVTREEINDEX7 =
 "group__group__hal__impl__pin__package__psoc6__01__116__bga__usb.html#ga9f1267e1d5dcd2bb8ef2cc7fbf4af828":[1,3,6,3,62],
 "group__group__hal__impl__pin__package__psoc6__01__116__bga__usb.html#gaa00085b8bc453328b55f179956964eb4":[1,3,6,3,13],
 "group__group__hal__impl__pin__package__psoc6__01__116__bga__usb.html#gaa02073e8f6e8a250aeb851a5976eb92c":[1,3,6,3,54],
-"group__group__hal__impl__pin__package__psoc6__01__116__bga__usb.html#gaa4a0b9678341c62534d22b954a825e8a":[1,3,6,3,51],
-"group__group__hal__impl__pin__package__psoc6__01__116__bga__usb.html#gaa612a6f5399cc13f973742722733a677":[1,3,6,3,20],
-"group__group__hal__impl__pin__package__psoc6__01__116__bga__usb.html#gaa6b83e57fe0f9fb4b596060bb7b00928":[1,3,6,3,92],
-"group__group__hal__impl__pin__package__psoc6__01__116__bga__usb.html#gaa6ea39ff701959b9056a202c2b51dc05":[1,3,6,3,141],
-"group__group__hal__impl__pin__package__psoc6__01__116__bga__usb.html#gaa74b19db04790a5988f287e7b343f599":[1,3,6,3,56],
-"group__group__hal__impl__pin__package__psoc6__01__116__bga__usb.html#gaa8b54e4f7f506c0a28b84b6715f93c3a":[1,3,6,3,139],
-"group__group__hal__impl__pin__package__psoc6__01__116__bga__usb.html#gaab3e5ef4da736a410b62a3b278ba67e4":[1,3,6,3,127]
+"group__group__hal__impl__pin__package__psoc6__01__116__bga__usb.html#gaa4a0b9678341c62534d22b954a825e8a":[1,3,6,3,51]
 };

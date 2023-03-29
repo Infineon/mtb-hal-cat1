@@ -249,5 +249,5 @@ var NAVTREEINDEX1 =
 "group__group__hal__impl__availability.html#gae8d9f6c5a92ee3bcf678bfb8e93397cf":[1,3,3,5],
 "group__group__hal__impl__availability.html#gafd2c6be6a2b5da41f85c8d08bc79c2ca":[1,3,3,0],
 "group__group__hal__impl__clock.html":[1,3,0],
-"group__group__hal__impl__clock.html#ga08ce53989edcad9d0f61940592084c67":[1,3,0,3]
+"group__group__hal__impl__clock.html#ga08ce53989edcad9d0f61940592084c67":[1,3,0,9]
 };

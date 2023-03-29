@@ -1,5 +1,11 @@
 var NAVTREEINDEX30 =
 {
+"group__group__hal__impl__pin__package__xmc7200__320__bga.html#gaf4cf41a298d04fa5fd73e5f417c23bf8":[1,3,6,27,29],
+"group__group__hal__impl__pin__package__xmc7200__320__bga.html#gaf578b5e1fae2df841b2237a89d88ee28":[1,3,6,27,167],
+"group__group__hal__impl__pin__package__xmc7200__320__bga.html#gaf6d2cd1604b264c4a6e63eae2f880fcf":[1,3,6,27,92],
+"group__group__hal__impl__pin__package__xmc7200__320__bga.html#gaf83b659420603c4cfb4489d59eabc8dc":[1,3,6,27,171],
+"group__group__hal__impl__pin__package__xmc7200__320__bga.html#gaf8f95e20bf8c7e699bccaab260a615cd":[1,3,6,27,44],
+"group__group__hal__impl__pin__package__xmc7200__320__bga.html#gaf8ff854b867c8b05fb5bacdf143d5c06":[1,3,6,27,143],
 "group__group__hal__impl__pin__package__xmc7200__320__bga.html#gafaf03d6c4890576c1ef026c39168f898":[1,3,6,27,99],
 "group__group__hal__impl__pin__package__xmc7200__320__bga.html#gafbad9d80b7c6a8929c6d9e1ad8b0e316":[1,3,6,27,149],
 "group__group__hal__impl__pin__package__xmc7200__320__bga.html#gafd51be129e3d547477caa66ba0c6bf66":[1,3,6,27,53],
@@ -243,11 +249,5 @@ var NAVTREEINDEX30 =
 "group__group__hal__impl__pin__package__xmc7200__320__bga.html#ggad38839a2406ac562d708d7639fbff225afd215d1efb45e70398433193f49c307c":[1,3,6,27,93,26],
 "group__group__hal__impl__pin__package__xmc7200__320__bga.html#ggad38839a2406ac562d708d7639fbff225afd56ffcfa788a4abc6b289d3e0ffbd37":[1,3,6,27,93,130],
 "group__group__hal__impl__pin__package__xmc7200__320__bga.html#ggad38839a2406ac562d708d7639fbff225afe312bc1c4d342fc8f54c16fcc81be25":[1,3,6,27,93,202],
-"group__group__hal__impl__pin__package__xmc7200__320__bga.html#ggad38839a2406ac562d708d7639fbff225aff09d95d8c422a3f260a4addeb7a42b5":[1,3,6,27,93,164],
-"group__group__hal__impl__pin__package__xmc7200__320__bga.html#ggad38839a2406ac562d708d7639fbff225affc5cbc615d0ee2959ff85c3eea3f872":[1,3,6,27,93,228],
-"group__group__hal__impl__pin__package__xmc7200__320__bga.html#ggad38839a2406ac562d708d7639fbff225affd46e9aa03ea6966fb9c094b1cdd989":[1,3,6,27,93,70],
-"group__group__hal__impl__pwm.html":[1,3,20],
-"group__group__hal__impl__qspi.html":[1,3,21],
-"group__group__hal__impl__quaddec.html":[1,3,22],
-"group__group__hal__impl__rtc.html":[1,3,23]
+"group__group__hal__impl__pin__package__xmc7200__320__bga.html#ggad38839a2406ac562d708d7639fbff225aff09d95d8c422a3f260a4addeb7a42b5":[1,3,6,27,93,164]
 };

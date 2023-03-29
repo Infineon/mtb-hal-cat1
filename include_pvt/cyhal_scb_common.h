@@ -57,6 +57,9 @@ extern "C" {
 #define _SCB_ARRAY_SIZE                 (CY_IP_MXS22SCB_INSTANCES)
 #endif /* CY_IP_MXSCB_INSTANCES */
 
+/* Indicates the invalid SCB block selected */
+#define _CYHAL_SCB_BLOCK_ID_INVALID     (0xFF)
+
 /* Return number of bytes to copy into the destination buffer */
 #define _CYHAL_SCB_BYTES_TO_COPY(actBufSize, bufSize) \
                                 (((uint32_t) (actBufSize) < (uint32_t) (bufSize)) ? \
@@ -91,6 +94,8 @@ typedef enum
     CYHAL_SCB_OUTPUT_TRIGGER_TX_FIFO_LEVEL_REACHED, //!< Output the TX FIFO signal which is triggered when the transmit FIFO has less entries than the configured level.
 } cyhal_scb_output_t;
 
+/** The mask of available SCB blocks */
+extern const uint32_t _CYHAL_SCB_AVAILABLE_BLOCKS_MASK;
 /** The start address of the SCB blocks */
 extern CySCB_Type* const _CYHAL_SCB_BASE_ADDRESSES[_SCB_ARRAY_SIZE];
 /** The interrupt number of the SCB blocks. */
@@ -103,6 +108,13 @@ extern const _cyhal_system_irq_t _CYHAL_SCB_IRQ_N[_SCB_ARRAY_SIZE];
  * @return         The corresponding SCB block
  */
 uint8_t cyhal_scb_get_block_from_irqn(_cyhal_system_irq_t irqn);
+
+/** Get the index of SCB block in internal arrays corresponding to SCB instance.
+ *
+ * @param[in] scb_block_num The SCB instance number
+ * @return              The corresponding index of SCB block in internal array
+ */
+uint8_t _cyhal_scb_get_block_index(uint8_t scb_block_num);
 
 #if defined (COMPONENT_CAT5)
 /** Get the SCB object corresponding to the currently running ISR.

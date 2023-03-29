@@ -56,13 +56,10 @@ extern "C"
  * \ingroup group_hal_impl
  * \{
  * Implementation specific interface for using the Clock driver. These items, while usable
- * within the HAL, are <b>not</b> necessarily portable between devices. The diagram below
- * shows how the clocks relate to each other. This is a superset of what is available. See
+ * within the HAL, are <b>not</b> necessarily portable between devices. The diagrams below
+ * show how the clocks relate to each other. This is a superset of what is available. See
  * the device specific Data Sheet for the exact set of clocks that are available on a
  * specific device.
- *
- * \image html mxs40_clock_tree.png
- *
  * \section section_clock_snippets_impl Code snippets
  * \note Error handling code has been intentionally left out of snippets to highlight API usage.
  *
@@ -70,6 +67,36 @@ extern "C"
  * The following snippet shows the clock driver can be used to initialize all clocks in the system.
  * \note This example is device specific.
  * \snippet hal_clock.c snippet_cyhal_clock_system_init_p6
+ * \addtogroup group_hal_impl_clock_psoc6_01 PSoC™ 6S1 Clocks
+ * \{
+ * <b>PSoC™ 6S1 Clock Tree:</b>
+ * \image html psoc6able2_clock_tree.png
+ * \}
+ * \addtogroup group_hal_impl_clock_psoc6_02 PSoC™ 6S2 Clocks
+ * \{
+ * <b>PSoC™ 6S2 Clock Tree:</b>
+ * \image html psoc6a2m_clock_tree.png
+ * \}
+ * \addtogroup group_hal_impl_clock_psoc6_03 PSoC™ 6S3 Clocks
+ * \{
+ * <b>PSoC™ 6S3 Clock Tree:</b>
+ * \image html psoc6a512k_clock_tree.png
+ * \}
+ * \addtogroup group_hal_impl_clock_psoc6_04 PSoC™ 6S4 Clocks
+ * \{
+ * <b>PSoC™ 6S4 Clock Tree:</b>
+ * \image html psoc6a256k_clock_tree.png
+ * \}
+ * \addtogroup group_hal_impl_clock_xmc7100 XMC7100/T2G-B-H-4M Clocks
+ * \{
+ * <b>XMC7100/T2G-B-H-4M Clock Tree:</b>
+ * \image html xmc7100_clock_tree.png
+ * \}
+ * \addtogroup group_hal_impl_clock_xmc7200 XMC7200/T2G-B-H-8M Clocks
+  * \{
+ * <b>XMC7200/T2G-B-H-8M Clock Tree:</b>
+ * \image html xmc7200_clock_tree.png
+ * \}
  */
 
 /** \cond INTERNAL */

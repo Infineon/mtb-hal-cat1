@@ -201,38 +201,6 @@ static inline cy_rslt_t _cyhal_utils_allocate_peri(cyhal_clock_t *clock, uint8_t
 #if defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
 uint8_t _cyhal_utils_get_hfclk_for_peri_group(uint8_t peri_group)
 {
-#if defined(CY_DEVICE_EXPLORER)
-    switch (peri_group)
-    {
-        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 0):
-        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(1, 4):
-            return 0;
-        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 7):
-        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(1, 0):
-            return 1;
-        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 3):
-        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(1, 2):
-            return 5;
-        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 4):
-        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(1, 3):
-            return 6;
-        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(1, 1):
-            return 7;
-        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 2):
-            return 9;
-        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 1):
-        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 5):
-            return 10;
-        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 8):
-            return 11;
-        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 6):
-            return 13;
-        default:
-            /* Unhandled peri clock */
-            CY_ASSERT(false);
-            break;
-    }
-#else
     switch (peri_group)
     {
         /* Peripheral groups are device specific. */
@@ -260,7 +228,6 @@ uint8_t _cyhal_utils_get_hfclk_for_peri_group(uint8_t peri_group)
             CY_ASSERT(false); /* Use APIs provided by the clock driver */
             break;
     }
-#endif /* defined(COMPONENT_CAT1D) or other */
     return 0;
 }
 #endif /* defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) */
@@ -271,21 +238,7 @@ uint8_t _cyhal_utils_get_peri_group(const cyhal_resource_inst_t *clocked_item)
     switch (clocked_item->type)
     {
         /* Peripheral groups are device specific. */
-#if defined(CY_DEVICE_EXPLORER)
-        case CYHAL_RSC_CAN:
-        case CYHAL_RSC_SCB:
-        case CYHAL_RSC_TCPWM:
-        case CYHAL_RSC_I3C:
-            /* Peri instance num + Peri group num */
-            return _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 1);
-        case CYHAL_RSC_TDM:
-        case CYHAL_RSC_PDM:
-            /* Peri instance num + Peri group num */
-            return _CYHAL_UTILS_PACK_INSTANCE_GROUP(1, 1);
-        case CYHAL_RSC_ADC:
-            /* Peri instance num + Peri group num */
-            return _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 2);
-#elif defined(CY_DEVICE_CYW20829)
+#if defined(CY_DEVICE_CYW20829)
         case CYHAL_RSC_CAN:
         case CYHAL_RSC_LIN:
         case CYHAL_RSC_SCB:

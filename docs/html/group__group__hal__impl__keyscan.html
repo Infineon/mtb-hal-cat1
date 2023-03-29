@@ -83,10 +83,10 @@ $(document).ready(function(){initNavTree('group__group__hal__impl__keyscan.html'
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">KeyScan<div class="ingroups"><a class="el" href="group__group__hal__impl.html">CAT1 (PSoC™ 6) Implementation Specific</a></div></div></div>
+  <div class="headertitle"><div class="title">KeyScan<div class="ingroups"><a class="el" href="group__group__hal__impl.html">CAT1 Implementation Specific</a></div></div></div>
 </div><!--header-->
 <div class="contents">
-<p >On PSoC™ devices, the KeyScan peripheral is clocked from the shared source CLK_MF. </p>
+<p >On CAT1 devices, the KeyScan peripheral is clocked from the shared source CLK_MF. </p>
 <p >If <code>NULL</code> is passed for the <code>clk</code> argument to <a class="el" href="group__group__hal__keyscan.html#ga57f2f3a26d67dcdda74ba34637be68dc">cyhal_keyscan_init</a>, the KeyScan HAL will automatically reserve and enable CLK_MF. If the KeyScan driver needs to be used in combination with another driver that also requires CLK_MF, use the Clock driver to initialize CLK_MF, then pass the resulting <a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__clock__t">cyhal_clock_t</a> value to <a class="el" href="group__group__hal__keyscan.html#ga57f2f3a26d67dcdda74ba34637be68dc">cyhal_keyscan_init</a> and any other HAL driver that needs to share this clock. </p>
 </div><!-- contents -->
 </div><!-- doc-content -->

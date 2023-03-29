@@ -1,5 +1,11 @@
 var NAVTREEINDEX10 =
 {
+"group__group__hal__impl__pin__package__psoc6__01__124__bga__sip.html#ga6ba1c6630f89a2fed5771a88c5baf5d4":[1,3,6,5,41],
+"group__group__hal__impl__pin__package__psoc6__01__124__bga__sip.html#ga6bdf1a9c049d10d2fd1eaafdbb7d9043":[1,3,6,5,21],
+"group__group__hal__impl__pin__package__psoc6__01__124__bga__sip.html#ga6c548a21e0aa045fef1970d1b597958c":[1,3,6,5,44],
+"group__group__hal__impl__pin__package__psoc6__01__124__bga__sip.html#ga705128944c5d2488548532596b9add12":[1,3,6,5,39],
+"group__group__hal__impl__pin__package__psoc6__01__124__bga__sip.html#ga7221768d19aece6d360458bb7cb5ccfe":[1,3,6,5,12],
+"group__group__hal__impl__pin__package__psoc6__01__124__bga__sip.html#ga73ec2bd0309c68e5c3a214f92391f44d":[1,3,6,5,27],
 "group__group__hal__impl__pin__package__psoc6__01__124__bga__sip.html#ga771b49d6a6568fe8ce7570e9b09ccff9":[1,3,6,5,171],
 "group__group__hal__impl__pin__package__psoc6__01__124__bga__sip.html#ga7a9867472e2b3ff245eaed06a736836e":[1,3,6,5,133],
 "group__group__hal__impl__pin__package__psoc6__01__124__bga__sip.html#ga7d40983581a0d307b3a4d24982084800":[1,3,6,5,166],
@@ -243,11 +249,5 @@ var NAVTREEINDEX10 =
 "group__group__hal__impl__pin__package__psoc6__01__43__smt.html#ga472fc26416467d759ecf44a45a45fc3b":[1,3,6,6,9],
 "group__group__hal__impl__pin__package__psoc6__01__43__smt.html#ga487c0366c56db45f80bfa6cb7303e93b":[1,3,6,6,95],
 "group__group__hal__impl__pin__package__psoc6__01__43__smt.html#ga4bfcb89ac0debaebe772a7e08e3c978b":[1,3,6,6,104],
-"group__group__hal__impl__pin__package__psoc6__01__43__smt.html#ga4bff04447ebb5944ef282e93efd16e8a":[1,3,6,6,152],
-"group__group__hal__impl__pin__package__psoc6__01__43__smt.html#ga4da3ab29d709603578d183c6759af13e":[1,3,6,6,102],
-"group__group__hal__impl__pin__package__psoc6__01__43__smt.html#ga4e45148eb46a4c35615383490cb73fe6":[1,3,6,6,48],
-"group__group__hal__impl__pin__package__psoc6__01__43__smt.html#ga4f2b0d51798f9a8f269723248ea66078":[1,3,6,6,144],
-"group__group__hal__impl__pin__package__psoc6__01__43__smt.html#ga4fc53fe2ab45b703a9deb5385e417190":[1,3,6,6,46],
-"group__group__hal__impl__pin__package__psoc6__01__43__smt.html#ga53214b963103020404b40defabdf2ef7":[1,3,6,6,106],
-"group__group__hal__impl__pin__package__psoc6__01__43__smt.html#ga53d5f829426010ac6a604b548b62b78f":[1,3,6,6,108]
+"group__group__hal__impl__pin__package__psoc6__01__43__smt.html#ga4bff04447ebb5944ef282e93efd16e8a":[1,3,6,6,152]
 };

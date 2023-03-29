@@ -1,5 +1,11 @@
 var NAVTREEINDEX57 =
 {
+"group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005aa7ba6553c921351f322f391838049f91":[1,0,1,0,32,34],
+"group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005ab8eb6c73c4faba6bc4921c84ab03f065":[1,0,1,0,32,24],
+"group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005ab9373b6613ccb00bd4dedab0ae06d11c":[1,0,1,0,32,12],
+"group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005ab957798178a7d11049efcba5bf4887fc":[1,0,1,0,32,3],
+"group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005abb3e7eab4c1403e33f9d069725a14787":[1,0,1,0,32,35],
+"group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005ac0436b7ec40cb5d645207a8bb23c0e0d":[1,0,1,0,32,18],
 "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005adae9f9541be461434c4e2011fe477bc3":[1,0,1,0,32,7],
 "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005ae22cca7b373e114a80c8f1aa33d42619":[1,0,1,0,32,14],
 "group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005af001a4e0cb1173e8797a0a77c820bf0c":[1,0,1,0,32,19],
@@ -243,11 +249,5 @@ var NAVTREEINDEX57 =
 "group__group__hal__results__quaddec.html#ga4f66b654ef3e4596c5a250132d95bd18":[1,2,21,0,1],
 "group__group__hal__results__quaddec.html#ga4f66b654ef3e4596c5a250132d95bd18":[1,0,1,0,19,1],
 "group__group__hal__results__quaddec.html#ga5501c2641f8257be6e33e98d05e0b612":[1,2,21,0,2],
-"group__group__hal__results__quaddec.html#ga5501c2641f8257be6e33e98d05e0b612":[1,0,1,0,19,2],
-"group__group__hal__results__quaddec.html#gacc58c62a9186dd35d771c75886b7ad7d":[1,2,21,0,0],
-"group__group__hal__results__quaddec.html#gacc58c62a9186dd35d771c75886b7ad7d":[1,0,1,0,19,0],
-"group__group__hal__results__rtc.html":[1,0,1,0,20],
-"group__group__hal__results__rtc.html":[1,2,22,0],
-"group__group__hal__results__rtc.html#ga6c6143b437306d30ee23482cce83d461":[1,2,22,0,1],
-"group__group__hal__results__rtc.html#ga6c6143b437306d30ee23482cce83d461":[1,0,1,0,20,1]
+"group__group__hal__results__quaddec.html#ga5501c2641f8257be6e33e98d05e0b612":[1,0,1,0,19,2]
 };

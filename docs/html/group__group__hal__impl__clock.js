@@ -1,5 +1,11 @@
 var group__group__hal__impl__clock =
 [
+    [ "PSoC™ 6S1 Clocks", "group__group__hal__impl__clock__psoc6__01.html", null ],
+    [ "PSoC™ 6S2 Clocks", "group__group__hal__impl__clock__psoc6__02.html", null ],
+    [ "PSoC™ 6S3 Clocks", "group__group__hal__impl__clock__psoc6__03.html", null ],
+    [ "PSoC™ 6S4 Clocks", "group__group__hal__impl__clock__psoc6__04.html", null ],
+    [ "XMC7100/T2G-B-H-4M Clocks", "group__group__hal__impl__clock__xmc7100.html", null ],
+    [ "XMC7200/T2G-B-H-8M Clocks", "group__group__hal__impl__clock__xmc7200.html", null ],
     [ "CYHAL_CLOCK_IMO", "group__group__hal__impl__clock.html#gafa4836792bae2914a3d2b6297c18f61d", null ],
     [ "CYHAL_CLOCK_RSC_IMO", "group__group__hal__impl__clock.html#ga7cf29e2a46f1ae3c82cd06a93aafb3a9", null ],
     [ "CYHAL_CLOCK_EXT", "group__group__hal__impl__clock.html#gae65cbd0b69893c6a8b51abdf765db08d", null ],

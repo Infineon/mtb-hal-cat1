@@ -1,7 +1,7 @@
-# CAT1 (PSoC™ 6, XMC7000, CYW20829) Hardware Abstraction Layer (HAL) Release Notes
-The CAT1 Hardware Abstraction Layer (HAL) provides an implementation of the Hardware Abstraction Layer for the PSoC™ 6 family of chips. This API provides convenience methods for initializing and manipulating different hardware peripherals. Depending on the specific chip being used, not all features may be supported.
+# CAT1 Hardware Abstraction Layer (HAL) Release Notes
+The CAT1 Hardware Abstraction Layer (HAL) provides an implementation of the Hardware Abstraction Layer for the PSoC™ 6 and XMC7000/T2G-B-H families of chips. This API provides convenience methods for initializing and manipulating different hardware peripherals. Depending on the specific chip being used, not all features may be supported.
 
-This library is supported on both the Cortex-M0 and Cortex-M4. If HAL is used on both cores at the same time, the application is responsible for ensuring that each peripheral is only used on one core at a given time. This can be achieved by calling cyhal_hwmgr_reserve()on the core which is not expected to use a particular resource. This ensures the HAL is aware the resource is in use and does not overuse it.
+On devices which contain multiple cores, this library is supported on all cores. If HAL is used on multiple cores at the same time, the application is responsible for ensuring that each peripheral is only used on one core at a given time. This can be achieved by calling cyhal_hwmgr_reserve() on the core(s) where a particular resource is not expected to be used. This ensures the HAL is aware the resource is in use and does not use it in a conflicting manner.
 
 ### What's Included?
 This release of the CAT1 HAL includes support for the following drivers:
@@ -40,10 +40,10 @@ This release of the CAT1 HAL includes support for the following drivers:
 * WDT
 
 ### What Changed?
-#### v2.3.0 Beta 1
-NOTE: This is a pre-production release which is only intended for use with CAT1B devices. It will be removed
-when the production 2.3.0 release is available.
-* Updated pre-production support for CAT1B devices.
+#### v2.3.0
+* Add new SPI APIs
+* Fix incorrect base address calculation on some devices in SCB-based drivers (UART, SPI, I2C, EZI2C).
+* Extend documentation on pins and triggers to cover additional devices.
 #### v2.2.0
 * Production support for CAT1C devices
 * Improve interrupt handling when running on on CM0+ core

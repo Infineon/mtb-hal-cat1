@@ -1,5 +1,11 @@
 var NAVTREEINDEX60 =
 {
+"group__group__hal__syspm.html#gga716955af458772e538910575cbf6e1dda0882eed07391eb7773ea2f4c47a7b5ff":[1,0,1,1,7,7],
+"group__group__hal__syspm.html#gga716955af458772e538910575cbf6e1dda0882eed07391eb7773ea2f4c47a7b5ff":[1,2,8,7,7],
+"group__group__hal__syspm.html#gga716955af458772e538910575cbf6e1dda0a4d1ab39bb8cbece570a555971bcd99":[1,0,1,1,7,2],
+"group__group__hal__syspm.html#gga716955af458772e538910575cbf6e1dda0a4d1ab39bb8cbece570a555971bcd99":[1,2,8,7,2],
+"group__group__hal__syspm.html#gga716955af458772e538910575cbf6e1dda1bf3cfcfb69b48e6b0ef5a525cc6eb3d":[1,0,1,1,7,8],
+"group__group__hal__syspm.html#gga716955af458772e538910575cbf6e1dda1bf3cfcfb69b48e6b0ef5a525cc6eb3d":[1,2,8,7,8],
 "group__group__hal__syspm.html#gga716955af458772e538910575cbf6e1dda2a495fcdf84252843b6fc9bc4e27206a":[1,0,1,1,7,4],
 "group__group__hal__syspm.html#gga716955af458772e538910575cbf6e1dda2a495fcdf84252843b6fc9bc4e27206a":[1,2,8,7,4],
 "group__group__hal__syspm.html#gga716955af458772e538910575cbf6e1dda46ab6d77f810acb319caff3616a8f88c":[1,0,1,1,7,3],
@@ -243,11 +249,5 @@ var NAVTREEINDEX60 =
 "group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaa9984c9f5e7f3b57c9740d390c35388db":[1,2,30,6,3],
 "group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaa9b64ead890054ee5943b58bafc0f367e":[1,2,30,6,7],
 "group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaaafb0642f2b2672db3ab4446e4c075864":[1,2,30,6,1],
-"group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaac116ebc0ab3ebc77dffd457f904ae029":[1,2,30,6,9],
-"group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaac2db86894106691360ad64c35d33b578":[1,2,30,6,5],
-"group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaadc15f333858441e62e2de2408a5ac767":[1,2,30,6,0],
-"group__group__hal__uart.html#structcyhal__uart__cfg__t":[1,2,30,1],
-"group__group__hal__usb__dev.html":[1,2,31],
-"group__group__hal__usb__dev__common.html":[1,2,31,2],
-"group__group__hal__usb__dev__common.html#ga06d07346fb9aeaca315b468647a79f25":[1,2,31,2,3]
+"group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaac116ebc0ab3ebc77dffd457f904ae029":[1,2,30,6,9]
 };

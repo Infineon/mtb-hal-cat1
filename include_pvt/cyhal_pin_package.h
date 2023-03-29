@@ -156,14 +156,6 @@ typedef uint16_t cyhal_gpio_mapping_cfg_t; // 8bit hsiom, 8bit mode
 #include "pin_packages/cyhal_xmc7200_176_teqfp.h"
 #elif defined(_GPIO_XMC7200_272_BGA_H_)
 #include "pin_packages/cyhal_xmc7200_272_bga.h"
-#elif defined(_GPIO_EXPLORER_144_LQFP_H_)
-#include "pin_packages/cyhal_explorer_144_lqfp.h"
-#elif defined(_GPIO_EXPLORER_196_BGA_H_)
-#include "pin_packages/cyhal_explorer_196_bga.h"
-#elif defined(_GPIO_EXPLORER_289_CSP_H_)
-#include "pin_packages/cyhal_explorer_289_csp.h"
-#elif defined(_GPIO_EXPLORER_220_BGA_H_)
-#include "pin_packages/cyhal_explorer_220_bga.h"
 #else
 #error "Unhandled Device/PinPackage combination"
 #endif

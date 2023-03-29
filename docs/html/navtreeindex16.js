@@ -1,5 +1,11 @@
 var NAVTREEINDEX16 =
 {
+"group__group__hal__impl__pin__package__psoc6__02__128__tqfp.html#gae0c9060c6cec19384f6bd70e6c1fc56b":[1,3,6,11,79],
+"group__group__hal__impl__pin__package__psoc6__02__128__tqfp.html#gae2fb4a5ecaefc1c60b6dfd0f137afd81":[1,3,6,11,66],
+"group__group__hal__impl__pin__package__psoc6__02__128__tqfp.html#gae412e083c2cc451e231e97921df65207":[1,3,6,11,71],
+"group__group__hal__impl__pin__package__psoc6__02__128__tqfp.html#gae57cdb5758a621d21b351efe45cf783b":[1,3,6,11,103],
+"group__group__hal__impl__pin__package__psoc6__02__128__tqfp.html#gae6f130fdc79bade0b25b31d39bab151c":[1,3,6,11,42],
+"group__group__hal__impl__pin__package__psoc6__02__128__tqfp.html#gaea45d934786311a793e9883b6be0bbbe":[1,3,6,11,106],
 "group__group__hal__impl__pin__package__psoc6__02__128__tqfp.html#gaec325a7be768ac96ff1dfecfdbce5e59":[1,3,6,11,86],
 "group__group__hal__impl__pin__package__psoc6__02__128__tqfp.html#gaec35ac47f1a4b24812dfe060f92ec3f2":[1,3,6,11,67],
 "group__group__hal__impl__pin__package__psoc6__02__128__tqfp.html#gaed800ce0b563a59c39505058143ee297":[1,3,6,11,138],
@@ -243,11 +249,5 @@ var NAVTREEINDEX16 =
 "group__group__hal__impl__pin__package__psoc6__02__68__qfn.html#gadbcb21726bedc8b2e4f1bb2e0235035d":[1,3,6,12,1],
 "group__group__hal__impl__pin__package__psoc6__02__68__qfn.html#gadd74ce587fa555c8650a802012fcbc95":[1,3,6,12,18],
 "group__group__hal__impl__pin__package__psoc6__02__68__qfn.html#gadf69720f4b9406d51715cf1b7b3a085b":[1,3,6,12,43],
-"group__group__hal__impl__pin__package__psoc6__02__68__qfn.html#gae0af2ee8c5a2a2e6661962b368d1f2ba":[1,3,6,12,2],
-"group__group__hal__impl__pin__package__psoc6__02__68__qfn.html#gae0ba4b8191d0ce260e08fca914553439":[1,3,6,12,135],
-"group__group__hal__impl__pin__package__psoc6__02__68__qfn.html#gae2fb4a5ecaefc1c60b6dfd0f137afd81":[1,3,6,12,66],
-"group__group__hal__impl__pin__package__psoc6__02__68__qfn.html#gae412e083c2cc451e231e97921df65207":[1,3,6,12,71],
-"group__group__hal__impl__pin__package__psoc6__02__68__qfn.html#gae6f130fdc79bade0b25b31d39bab151c":[1,3,6,12,42],
-"group__group__hal__impl__pin__package__psoc6__02__68__qfn.html#gaec325a7be768ac96ff1dfecfdbce5e59":[1,3,6,12,86],
-"group__group__hal__impl__pin__package__psoc6__02__68__qfn.html#gaec35ac47f1a4b24812dfe060f92ec3f2":[1,3,6,12,67]
+"group__group__hal__impl__pin__package__psoc6__02__68__qfn.html#gae0af2ee8c5a2a2e6661962b368d1f2ba":[1,3,6,12,2]
 };

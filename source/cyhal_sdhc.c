@@ -46,7 +46,7 @@
 * \ingroup group_hal_impl
 * \{
 *
-* The SHDC HAL implemenation for PSoC™ 6 provides implementations for the following weak functions
+* The SHDC HAL implemenation for CAT1 provides implementations for the following weak functions
 * specified by the PDL to make their usage in SDHC HAL driver more flexible by providing user ability
 * to use card detect, write protect, pwr en, and io select signals on custom pins instead of dedicated
 * SDHC block pins
@@ -2147,7 +2147,7 @@ cy_rslt_t cyhal_sdhc_set_data_read_timeout(cyhal_sdhc_t *obj, uint32_t timeout, 
 
     uint32_t user_needs_us = (((uint64_t)timeout * 1000000) + current_card_clock - 1) / current_card_clock;
 
-    /* Timeout range from 0x0 to 0xE is valid for PSoC™ 6, which corresponds to
+    /* Timeout range from 0x0 to 0xE is valid for CAT1 which corresponds to
     * TMCLK x 2^13 for 0, TMCLK x 2^14 for 1, ..., TMCLK x 2^27 for 0xE. 0xF is reserved. */
     const uint8_t tout_clk_power_base = _CYHAL_SDHC_TOUT_TMCLK_POW_MIN;
     for (uint8_t tmclk_power = tout_clk_power_base; tmclk_power <= _CYHAL_SDHC_TOUT_TMCLK_POW_MAX; tmclk_power++)

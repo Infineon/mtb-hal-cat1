@@ -41,15 +41,7 @@ extern "C"
 {
 #endif
 
-#if defined(TARGET_PSVP_CYW20829) || defined(CY_DEVICE_EXPLORER)
-/* The PSVP hardware doesn't fully simulate the FLL so it will never report locked, but the "FLL Output"
- * line provides a 48 MHz nonetheless. So we need to ignore the "locked" bit so that the rest of the
- * system will see the FLL as enabled and draw the correct conclusions about source frequencies. If
- * a lock timeout is provided and elapses, the PDL will set the FLL to disabled */
-#define _CYHAL_CLOCK_FLL_LOCK_TIME (0UL)
-#else
 #define _CYHAL_CLOCK_FLL_LOCK_TIME (20000UL)
-#endif
 #define _CYHAL_CLOCK_PLL_LOCK_TIME (10000UL)
 
 #if defined(PERI_PCLK_GR_NUM_Pos)
@@ -1330,7 +1322,7 @@ static cy_rslt_t _cyhal_clock_get_sources_pathmux(const cyhal_clock_t *clock, co
         #if (SRSS_HT_VARIANT > 0)
         &CYHAL_CLOCK_RSC_ILO[1],
         #endif
-    /* There are no ILO clock available on Explorer */
+    /* There are no ILO clock available on CAT1D */
     #elif !defined(COMPONENT_CAT1D)
         &CYHAL_CLOCK_RSC_ILO,
     #endif
@@ -2001,7 +1993,7 @@ static cy_rslt_t _cyhal_clock_get_sources_lf(const cyhal_clock_t *clock, const c
         #if (SRSS_HT_VARIANT > 0)
         &CYHAL_CLOCK_RSC_ILO[1],
         #endif
-    /* There are no ILO clock available on Explorer */
+    /* There are no ILO clock available on CAT1D */
     #elif !defined(COMPONENT_CAT1D)
         &CYHAL_CLOCK_RSC_ILO,
     #endif

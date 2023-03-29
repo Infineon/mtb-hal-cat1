@@ -1,5 +1,11 @@
 var NAVTREEINDEX59 =
 {
+"group__group__hal__sdhc.html#gace71512915eb3049e3e7552f98db94c6":[1,2,23,9],
+"group__group__hal__sdhc.html#gad28a8b2178173ce3ee981453ed3ce12c":[1,2,23,22],
+"group__group__hal__sdhc.html#gad9bff4cfd487a33cd6dd62d49e7d2969":[1,2,23,34],
+"group__group__hal__sdhc.html#gaded71f4751306e4983c1e8315c569fa1":[1,2,23,4],
+"group__group__hal__sdhc.html#gae07049e08e19fe729d8a5705ea3765c0":[1,2,23,37],
+"group__group__hal__sdhc.html#gae6612fc9362124a783f8b47add69dde4":[1,2,23,36],
 "group__group__hal__sdhc.html#gaf3fd9221a57b5667adc97b31ad71fdd5":[1,2,23,43],
 "group__group__hal__sdhc.html#gaf8864c53c6bcb103a95040874af92102":[1,2,23,39],
 "group__group__hal__sdhc.html#gafb5534f9654bbd459481936c5abe40ad":[1,2,23,33],
@@ -243,11 +249,5 @@ var NAVTREEINDEX59 =
 "group__group__hal__syspm.html#gga5a6a88eb2b6e35dbea25e36b027bf4baadd83c77cb81d9d4aafef1d094e6c4e71":[1,2,8,5,2],
 "group__group__hal__syspm.html#gga5a6a88eb2b6e35dbea25e36b027bf4baadd83c77cb81d9d4aafef1d094e6c4e71":[1,0,1,1,5,2],
 "group__group__hal__syspm.html#gga5a6a88eb2b6e35dbea25e36b027bf4baaf6a195dbd042da0bffc35b9161ca49e6":[1,0,1,1,5,3],
-"group__group__hal__syspm.html#gga5a6a88eb2b6e35dbea25e36b027bf4baaf6a195dbd042da0bffc35b9161ca49e6":[1,2,8,5,3],
-"group__group__hal__syspm.html#gga716955af458772e538910575cbf6e1dda0882eed07391eb7773ea2f4c47a7b5ff":[1,0,1,1,7,7],
-"group__group__hal__syspm.html#gga716955af458772e538910575cbf6e1dda0882eed07391eb7773ea2f4c47a7b5ff":[1,2,8,7,7],
-"group__group__hal__syspm.html#gga716955af458772e538910575cbf6e1dda0a4d1ab39bb8cbece570a555971bcd99":[1,0,1,1,7,2],
-"group__group__hal__syspm.html#gga716955af458772e538910575cbf6e1dda0a4d1ab39bb8cbece570a555971bcd99":[1,2,8,7,2],
-"group__group__hal__syspm.html#gga716955af458772e538910575cbf6e1dda1bf3cfcfb69b48e6b0ef5a525cc6eb3d":[1,0,1,1,7,8],
-"group__group__hal__syspm.html#gga716955af458772e538910575cbf6e1dda1bf3cfcfb69b48e6b0ef5a525cc6eb3d":[1,2,8,7,8]
+"group__group__hal__syspm.html#gga5a6a88eb2b6e35dbea25e36b027bf4baaf6a195dbd042da0bffc35b9161ca49e6":[1,2,8,5,3]
 };

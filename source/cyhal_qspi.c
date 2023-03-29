@@ -1007,7 +1007,7 @@ cy_rslt_t cyhal_qspi_init(
     CY_ASSERT(NULL != obj);
     CY_ASSERT(NULL != pin_set);
 
-    /* mode (CPOL and CPHA) are not supported in CAT1 (PSoC™ 6) */
+    /* mode (CPOL and CPHA) are not supported in CAT1 */
     CY_UNUSED_PARAMETER(mode);
 
 #if defined(CY_DEVICE_CYW20829)

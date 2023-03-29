@@ -2,7 +2,7 @@ var searchData=
 [
   ['callback_0',['callback',['../group__group__hal__syspm.html#aacd72d2e829b54c27e98e6495ca4dfd8',1,'cyhal_syspm_callback_data_t::callback()'],['../group__group__hal__gpio.html#ac7a03146c870c549d695248448455750',1,'cyhal_gpio_callback_data_t::callback()']]],
   ['callback_5farg_1',['callback_arg',['../group__group__hal__gpio.html#a76e7b6816d6677dd0760e73840c35dc5',1,'cyhal_gpio_callback_data_t']]],
-  ['cat1_20_28psoc™_206_29_20implementation_20specific_2',['CAT1 (PSoC™ 6) Implementation Specific',['../group__group__hal__impl.html',1,'']]],
+  ['cat1_20implementation_20specific_2',['CAT1 Implementation Specific',['../group__group__hal__impl.html',1,'']]],
   ['cat1_20specific_20hardware_20types_3',['CAT1 Specific Hardware Types',['../group__group__hal__impl__hw__types.html',1,'']]],
   ['channel_5flength_4',['channel_length',['../group__group__hal__tdm.html#a2ead53a98f4620ccb93fb519e45cd21e',1,'cyhal_tdm_config_t::channel_length()'],['../group__group__hal__i2s.html#abec410733e0694bbfa7b720bffe0b1d3',1,'cyhal_i2s_config_t::channel_length()']]],
   ['channel_5fmask_5',['channel_mask',['../group__group__hal__tdm.html#a25d815f0062f16cf2f1dae0e7f7dc201',1,'cyhal_tdm_config_t']]],

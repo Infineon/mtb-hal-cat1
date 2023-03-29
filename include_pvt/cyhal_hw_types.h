@@ -25,9 +25,9 @@
 *******************************************************************************/
 
 /**
-* \addtogroup group_hal_impl CAT1 (PSoC™ 6) Implementation Specific
+* \addtogroup group_hal_impl CAT1 Implementation Specific
 * \{
-* This section provides details about the CAT1 (PSoC™ 6) implementation of the Cypress HAL.
+* This section provides details about the CAT1 implementation of the Cypress HAL.
 * All information within this section is platform specific and is provided for reference.
 * Portable application code should depend only on the APIs and types which are documented
 * in the @ref group_hal section.

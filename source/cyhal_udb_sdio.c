@@ -29,9 +29,9 @@
  * \addtogroup group_hal_impl_udb_sdio UDB SDIO (Secure Digital Input Output)
  * \ingroup group_hal_impl
  * \{
- * The UDB based SDIO interface allows for communicating between a PSoC™ 6 and a
+ * The UDB based SDIO interface allows for communicating between a CAT1 and a
  * Cypress wireless device such as the CYW4343W, CYW43438, or CYW43012. This
- * library allows PSoC™ 6 devices that do not have a dedicated SDHC hardware block,
+ * library allows CAT1 devices that do not have a dedicated SDHC hardware block,
  * but do have UDBs, to work with the
  * <a href="https://github.com/infineon/wifi-host-driver">Wi-Fi
  * Host Driver (WHD)</a> library.

@@ -62,7 +62,7 @@
 #include "cy_syspm.h"
 #include "cy_utils.h"
 #include "cyhal_utils.h"
-#if defined(CY_RTOS_AWARE) || defined(COMPONENT_RTOS_AWARE)
+#if (defined(CY_RTOS_AWARE) || defined(COMPONENT_RTOS_AWARE)) && defined(CY_IP_MXS40SSRSS)
 #include "cyabs_rtos_dsram.h"
 #endif
 #if defined(COMPONENT_CAT1B)

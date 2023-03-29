@@ -38,6 +38,110 @@ extern "C"
 {
 #endif
 
+const uint32_t _CYHAL_SCB_AVAILABLE_BLOCKS_MASK =
+{
+#ifdef SCB0
+    1 << 0u
+#endif
+#ifdef SCB1
+    | 1 << 1u
+#endif
+#ifdef SCB2
+    | 1 << 2u
+#endif
+#ifdef SCB3
+    | 1 << 3u
+#endif
+#ifdef SCB4
+    | 1 << 4u
+#endif
+#ifdef SCB5
+    | 1 << 5u
+#endif
+#ifdef SCB6
+    | 1 << 6u
+#endif
+#ifdef SCB7
+    | 1 << 7u
+#endif
+#ifdef SCB8
+    | 1 << 8u
+#endif
+#ifdef SCB9
+    | 1 << 9u
+#endif
+#ifdef SCB10
+    | 1 << 10u
+#endif
+#ifdef SCB11
+    | 1 << 11u
+#endif
+#ifdef SCB12
+    | 1 << 12u
+#endif
+#ifdef SCB13
+    | 1 << 13u
+#endif
+#ifdef SCB14
+    | 1 << 14u
+#endif
+#ifdef SCB15
+    | 1 << 15u
+#endif
+};
+
+const uint8_t _CYHAL_SCB_BASE_ADDRESS_INDEX[_SCB_ARRAY_SIZE] =
+{
+#ifdef SCB0
+    0u,
+#endif
+#ifdef SCB1
+    1u,
+#endif
+#ifdef SCB2
+    2u,
+#endif
+#ifdef SCB3
+    3u,
+#endif
+#ifdef SCB4
+    4u,
+#endif
+#ifdef SCB5
+    5u,
+#endif
+#ifdef SCB6
+    6u,
+#endif
+#ifdef SCB7
+    7u,
+#endif
+#ifdef SCB8
+    8u,
+#endif
+#ifdef SCB9
+    9u,
+#endif
+#ifdef SCB10
+    10u,
+#endif
+#ifdef SCB11
+    11u,
+#endif
+#ifdef SCB12
+    12u,
+#endif
+#ifdef SCB13
+    13u,
+#endif
+#ifdef SCB14
+    14u,
+#endif
+#ifdef SCB15
+    15u,
+#endif
+};
+
 CySCB_Type* const _CYHAL_SCB_BASE_ADDRESSES[_SCB_ARRAY_SIZE] =
 {
 #ifdef SCB0
@@ -51,8 +155,6 @@ CySCB_Type* const _CYHAL_SCB_BASE_ADDRESSES[_SCB_ARRAY_SIZE] =
 #endif
 #ifdef SCB3
     SCB3,
-#elif defined(CY_DEVICE_PSOC6A256K)
-    NULL, // Placeholder
 #endif
 #ifdef SCB4
     SCB4,
@@ -105,8 +207,6 @@ const _cyhal_system_irq_t _CYHAL_SCB_IRQ_N[_SCB_ARRAY_SIZE] =
 #endif
 #ifdef SCB3
     scb_3_interrupt_IRQn,
-#elif defined(CY_DEVICE_PSOC6A256K)
-    (_cyhal_system_irq_t)0, // Placeholder
 #endif
 #ifdef SCB4
     scb_4_interrupt_IRQn,
@@ -153,77 +253,112 @@ static bool (*_cyhal_scb_config_pm_callback[_SCB_ARRAY_SIZE]) (void *obj_ptr, cy
 
 static uint8_t _cyhal_scb_get_block_from_irqn(_cyhal_system_irq_t irqn)
 {
+    uint8_t scb_block_num = 0;
     switch (irqn)
     {
-#if (_SCB_ARRAY_SIZE > 0)
-    case scb_0_interrupt_IRQn: return 0;
-#endif
-#if (_SCB_ARRAY_SIZE > 1)
-    case scb_1_interrupt_IRQn: return 1;
-#endif
-#if (_SCB_ARRAY_SIZE > 2)
-    case scb_2_interrupt_IRQn: return 2;
-#endif
-#if (_SCB_ARRAY_SIZE > 3)
-#if !defined(CY_DEVICE_PSOC6A256K)
-    case scb_3_interrupt_IRQn: return 3;
-#endif
-#endif
-#if (_SCB_ARRAY_SIZE > 4)
-    case scb_4_interrupt_IRQn: return 4;
-#endif
-#if (_SCB_ARRAY_SIZE > 5)
-    case scb_5_interrupt_IRQn: return 5;
-#endif
-#if (_SCB_ARRAY_SIZE > 6)
-    case scb_6_interrupt_IRQn: return 6;
-#endif
-#if (_SCB_ARRAY_SIZE > 7)
-    case scb_7_interrupt_IRQn: return 7;
-#endif
-#if (_SCB_ARRAY_SIZE > 8)
-    case scb_8_interrupt_IRQn: return 8;
-#endif
-#if (_SCB_ARRAY_SIZE > 9)
-    case scb_9_interrupt_IRQn: return 9;
-#endif
-#if (_SCB_ARRAY_SIZE > 10)
-    case scb_10_interrupt_IRQn: return 10;
-#endif
-#if (_SCB_ARRAY_SIZE > 11)
-    case scb_11_interrupt_IRQn: return 11;
-#endif
-#if (_SCB_ARRAY_SIZE > 12)
-    case scb_12_interrupt_IRQn: return 12;
-#endif
-#if (_SCB_ARRAY_SIZE > 13)
-    case scb_13_interrupt_IRQn: return 13;
-#endif
-#if (_SCB_ARRAY_SIZE > 14)
-    case scb_14_interrupt_IRQn: return 14;
-#endif
-#if (_SCB_ARRAY_SIZE > 15)
-    case scb_15_interrupt_IRQn: return 15;
-#endif
-#if (_SCB_ARRAY_SIZE > 16)
-    case scb_16_interrupt_IRQn: return 16;
-#endif
-#if (_SCB_ARRAY_SIZE > 17)
-    case scb_17_interrupt_IRQn: return 17;
-#endif
-#if (_SCB_ARRAY_SIZE > 18)
-    case scb_18_interrupt_IRQn: return 18;
-#endif
-#if (_SCB_ARRAY_SIZE > 19)
-    case scb_19_interrupt_IRQn: return 19;
-#endif
-#if (_SCB_ARRAY_SIZE > 20)
-#error "Unhandled scb count"
-#endif
-    default:
-        CY_ASSERT(false); // Should never be called with a non-SCB IRQn
-        return 0;
+    #ifdef SCB0
+        case scb_0_interrupt_IRQn:
+            scb_block_num = 0;
+            break;
+    #endif
+    #ifdef SCB1
+        case scb_1_interrupt_IRQn:
+            scb_block_num = 1;
+            break;
+    #endif
+    #ifdef SCB2
+        case scb_2_interrupt_IRQn:
+            scb_block_num = 2;
+            break;
+    #endif
+    #ifdef SCB3
+        case scb_3_interrupt_IRQn:
+            scb_block_num = 3;
+            break;
+    #endif
+    #ifdef SCB4
+        case scb_4_interrupt_IRQn:
+            scb_block_num = 4;
+            break;
+    #endif
+    #ifdef SCB5
+        case scb_5_interrupt_IRQn:
+            scb_block_num = 5;
+            break;
+    #endif
+    #ifdef SCB6
+        case scb_6_interrupt_IRQn:
+            scb_block_num = 6;
+            break;
+    #endif
+    #ifdef SCB7
+        case scb_7_interrupt_IRQn:
+            scb_block_num = 7;
+            break;
+    #endif
+    #ifdef SCB8
+        case scb_8_interrupt_IRQn:
+            scb_block_num = 8;
+            break;
+    #endif
+    #ifdef SCB9
+        case scb_9_interrupt_IRQn:
+            scb_block_num = 9;
+            break;
+    #endif
+    #ifdef SCB10
+        case scb_10_interrupt_IRQn:
+            scb_block_num = 10;
+            break;
+    #endif
+    #ifdef SCB11
+        case scb_11_interrupt_IRQn:
+            scb_block_num = 11;
+            break;
+    #endif
+    #ifdef SCB12
+        case scb_12_interrupt_IRQn:
+            scb_block_num = 12;
+            break;
+    #endif
+    #ifdef SCB13
+        case scb_13_interrupt_IRQn:
+            scb_block_num = 13;
+            break;
+    #endif
+    #ifdef SCB14
+        case scb_14_interrupt_IRQn:
+            scb_block_num = 14;
+            break;
+    #endif
+    #ifdef SCB15
+        case scb_15_interrupt_IRQn:
+            scb_block_num = 15;
+            break;
+    #endif
+    #if (_SCB_ARRAY_SIZE > 16)
+    #error "Unhandled scb count"
+    #endif
+        default:
+            CY_ASSERT(false); // Should never be called with a non-SCB IRQn
+            scb_block_num = _CYHAL_SCB_BLOCK_ID_INVALID;
     }
+
+    return _cyhal_scb_get_block_index(scb_block_num);
+}
+
+uint8_t _cyhal_scb_get_block_index(uint8_t scb_block_num)
+{
+    uint8_t arr_index = _CYHAL_SCB_BLOCK_ID_INVALID;
+    for (uint8_t instance_idx = 0; instance_idx < _SCB_ARRAY_SIZE; instance_idx++)
+    {
+        if (_CYHAL_SCB_BASE_ADDRESS_INDEX[instance_idx] == scb_block_num)
+        {
+            arr_index = instance_idx;
+            break;
+        }
+    }
+    return arr_index;
 }
 
 #if defined (COMPONENT_CAT5)
@@ -404,34 +539,19 @@ cy_rslt_t _cyhal_scb_enable_output(cyhal_resource_inst_t resource, cyhal_scb_out
     // This just returns a proper cyhal_source_t. Use _cyhal_scb_set_fifo_level
     // to actually set level.
     cyhal_internal_source_t src_int;
+    uint8_t scb_arr_index = _cyhal_scb_get_block_index(resource.block_num);
     if(output == CYHAL_SCB_OUTPUT_TRIGGER_RX_FIFO_LEVEL_REACHED)
     {
-#if defined(CY_DEVICE_PSOC6A256K)
-        // 256K devices have no SCB3
-        src_int = (resource.block_num < 3)
-            ? (cyhal_internal_source_t)(_CYHAL_TRIGGER_SCB0_TR_RX_REQ + resource.block_num)
-            : (cyhal_internal_source_t)(_CYHAL_TRIGGER_SCB0_TR_RX_REQ + resource.block_num - 1);
-#else
-        src_int = (cyhal_internal_source_t)(_CYHAL_TRIGGER_SCB0_TR_RX_REQ + resource.block_num);
-#endif
+        src_int = (cyhal_internal_source_t)(_CYHAL_TRIGGER_SCB0_TR_RX_REQ + scb_arr_index);
         *source = (cyhal_source_t)_CYHAL_TRIGGER_CREATE_SOURCE(src_int, CYHAL_SIGNAL_TYPE_EDGE);
-
         return CY_RSLT_SUCCESS;
     }
     // This just returns a proper cyhal_source_t. Use _cyhal_scb_set_fifo_level
     // to actually set level.
     else if(output == CYHAL_SCB_OUTPUT_TRIGGER_TX_FIFO_LEVEL_REACHED)
     {
-#if defined(CY_DEVICE_PSOC6A256K)
-        // 256K devices have no SCB3
-        src_int = (resource.block_num < 3)
-            ? (cyhal_internal_source_t)(_CYHAL_TRIGGER_SCB0_TR_TX_REQ + resource.block_num)
-            : (cyhal_internal_source_t)(_CYHAL_TRIGGER_SCB0_TR_TX_REQ + resource.block_num - 1);
-#else
-        src_int = (cyhal_internal_source_t)(_CYHAL_TRIGGER_SCB0_TR_TX_REQ + resource.block_num);
-#endif
+        src_int = (cyhal_internal_source_t)(_CYHAL_TRIGGER_SCB0_TR_TX_REQ + scb_arr_index);
         *source = (cyhal_source_t)_CYHAL_TRIGGER_CREATE_SOURCE(src_int, CYHAL_SIGNAL_TYPE_EDGE);
-
         return CY_RSLT_SUCCESS;
     }
 
@@ -517,8 +637,10 @@ cyhal_syspm_callback_data_t _cyhal_scb_pm_callback_data =
 
 void _cyhal_scb_update_instance_data(uint8_t block_num, void *obj, cyhal_scb_instance_pm_callback pm_callback)
 {
-    _cyhal_scb_config_structs[block_num] = obj;
-    _cyhal_scb_config_pm_callback[block_num] = pm_callback;
+    uint8_t scb_arr_index = _cyhal_scb_get_block_index(block_num);
+
+    _cyhal_scb_config_structs[scb_arr_index] = obj;
+    _cyhal_scb_config_pm_callback[scb_arr_index] = pm_callback;
 
     int count = 0;
     for (uint8_t i = 0; i < _SCB_ARRAY_SIZE; i++)

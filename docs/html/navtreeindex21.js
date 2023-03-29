@@ -1,5 +1,11 @@
 var NAVTREEINDEX21 =
 {
+"group__group__hal__impl__pin__package__psoc6__04__80__tqfp.html#gaa0f51d550db3a5498c5a48ba64ef4a95":[1,3,6,18,86],
+"group__group__hal__impl__pin__package__psoc6__04__80__tqfp.html#gaa204ca86ffbc1b1425ff244251415b6d":[1,3,6,18,5],
+"group__group__hal__impl__pin__package__psoc6__04__80__tqfp.html#gaa4a0b9678341c62534d22b954a825e8a":[1,3,6,18,22],
+"group__group__hal__impl__pin__package__psoc6__04__80__tqfp.html#gaa74b19db04790a5988f287e7b343f599":[1,3,6,18,27],
+"group__group__hal__impl__pin__package__psoc6__04__80__tqfp.html#gaab3e5ef4da736a410b62a3b278ba67e4":[1,3,6,18,67],
+"group__group__hal__impl__pin__package__psoc6__04__80__tqfp.html#gaac3bd9031d2cb575dc6e4bed1f0a32f0":[1,3,6,18,98],
 "group__group__hal__impl__pin__package__psoc6__04__80__tqfp.html#gaad5e15237798fe8d3275f878426933b7":[1,3,6,18,106],
 "group__group__hal__impl__pin__package__psoc6__04__80__tqfp.html#gaae16431467a3f534b9f6ebc2213ad4b5":[1,3,6,18,88],
 "group__group__hal__impl__pin__package__psoc6__04__80__tqfp.html#gab9b6476bdb3876db143ac73b79740acb":[1,3,6,18,100],
@@ -243,11 +249,5 @@ var NAVTREEINDEX21 =
 "group__group__hal__impl__pin__package__xmc7100__100__teqfp.html#gad6f96cbe70db217177be374264eed3eb":[1,3,6,21,4],
 "group__group__hal__impl__pin__package__xmc7100__100__teqfp.html#gad92a5fd297f6dedf51184d38a52e7e40":[1,3,6,21,166],
 "group__group__hal__impl__pin__package__xmc7100__100__teqfp.html#gad9c6f5e43065048a2dae4e03127bf4fe":[1,3,6,21,153],
-"group__group__hal__impl__pin__package__xmc7100__100__teqfp.html#gad9f68834cb7c93d12843f539f61e07cc":[1,3,6,21,40],
-"group__group__hal__impl__pin__package__xmc7100__100__teqfp.html#gadae9f548095e7ef49d1230a813b5518e":[1,3,6,21,80],
-"group__group__hal__impl__pin__package__xmc7100__100__teqfp.html#gadbcb21726bedc8b2e4f1bb2e0235035d":[1,3,6,21,1],
-"group__group__hal__impl__pin__package__xmc7100__100__teqfp.html#gadd74ce587fa555c8650a802012fcbc95":[1,3,6,21,20],
-"group__group__hal__impl__pin__package__xmc7100__100__teqfp.html#gadf69720f4b9406d51715cf1b7b3a085b":[1,3,6,21,59],
-"group__group__hal__impl__pin__package__xmc7100__100__teqfp.html#gae0af2ee8c5a2a2e6661962b368d1f2ba":[1,3,6,21,2],
-"group__group__hal__impl__pin__package__xmc7100__100__teqfp.html#gae0ba4b8191d0ce260e08fca914553439":[1,3,6,21,159]
+"group__group__hal__impl__pin__package__xmc7100__100__teqfp.html#gad9f68834cb7c93d12843f539f61e07cc":[1,3,6,21,40]
 };

@@ -219,14 +219,14 @@ static const _cyhal_system_irq_t _CYHAL_MCWDT_DISCONNECTED_IRQ = unconnected_IRQ
 static const _cyhal_system_irq_t _CYHAL_MCWDT_IRQS[_CYHAL_LPTIMER_INSTANCES] =
 {
 #if (defined(COMPONENT_CM55) && defined(CY_IP_MXS22SRSS))
-//For CM0P/CM55 cores for explorer, there is no 0 irqn.
+//For CM0P/CM55 cores, there is no 0 irqn.
     unconnected_IRQn,
 #else
     srss_interrupt_mcwdt_0_IRQn,
 #endif
 #if (_CYHAL_LPTIMER_INSTANCES >=2) 
 #if (defined(COMPONENT_CM33) && defined(CY_IP_MXS22SRSS))
-//For CM0P/CM33 cores for explorer, there is no 1 irqn
+//For CM0P/CM33 cores, there is no 1 irqn
     unconnected_IRQn,
 #else
     srss_interrupt_mcwdt_1_IRQn,

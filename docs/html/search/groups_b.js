@@ -27,6 +27,10 @@ var searchData=
   ['psoc6_5f04_2064_2dtqfp_24',['PSoC6_04 64-TQFP',['../group__group__hal__impl__pin__package__psoc6__04__64__tqfp.html',1,'']]],
   ['psoc6_5f04_2068_2dqfn_25',['PSoC6_04 68-QFN',['../group__group__hal__impl__pin__package__psoc6__04__68__qfn.html',1,'']]],
   ['psoc6_5f04_2080_2dtqfp_26',['PSoC6_04 80-TQFP',['../group__group__hal__impl__pin__package__psoc6__04__80__tqfp.html',1,'']]],
-  ['pwm_20_28pulse_20width_20modulator_29_27',['PWM (Pulse Width Modulator)',['../group__group__hal__impl__pwm.html',1,'(Global Namespace)'],['../group__group__hal__pwm.html',1,'(Global Namespace)']]],
-  ['pwm_20hal_20results_28',['PWM HAL Results',['../group__group__hal__results__pwm.html',1,'']]]
+  ['psoc™_206s1_20clocks_27',['PSoC™ 6S1 Clocks',['../group__group__hal__impl__clock__psoc6__01.html',1,'']]],
+  ['psoc™_206s2_20clocks_28',['PSoC™ 6S2 Clocks',['../group__group__hal__impl__clock__psoc6__02.html',1,'']]],
+  ['psoc™_206s3_20clocks_29',['PSoC™ 6S3 Clocks',['../group__group__hal__impl__clock__psoc6__03.html',1,'']]],
+  ['psoc™_206s4_20clocks_30',['PSoC™ 6S4 Clocks',['../group__group__hal__impl__clock__psoc6__04.html',1,'']]],
+  ['pwm_20_28pulse_20width_20modulator_29_31',['PWM (Pulse Width Modulator)',['../group__group__hal__impl__pwm.html',1,'(Global Namespace)'],['../group__group__hal__pwm.html',1,'(Global Namespace)']]],
+  ['pwm_20hal_20results_32',['PWM HAL Results',['../group__group__hal__results__pwm.html',1,'']]]
 ];
