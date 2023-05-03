@@ -12,6 +12,7 @@ var group__group__hal__impl__clock =
     [ "CYHAL_CLOCK_RSC_EXT", "group__group__hal__impl__clock.html#ga08ce53989edcad9d0f61940592084c67", null ],
     [ "CYHAL_CLOCK_ILO", "group__group__hal__impl__clock.html#gad9bf491260b8e0bd5a01c18eb5e84746", null ],
     [ "CYHAL_CLOCK_RSC_ILO", "group__group__hal__impl__clock.html#gab786e80392aab6a3b9dffe6ce37bfc1f", null ],
+    [ "CYHAL_CLOCK_RSC_MFO", "group__group__hal__impl__clock.html#ga8c10f28ab8436da2dfa018d8e954d7ec", null ],
     [ "CYHAL_CLOCK_LF", "group__group__hal__impl__clock.html#gaa9c549fc1e14cc954beea1e0e401c06b", null ],
     [ "CYHAL_CLOCK_RSC_LF", "group__group__hal__impl__clock.html#gaf41ad9bcad5895c4e7db1adc681eb367", null ],
     [ "CYHAL_CLOCK_PUMP", "group__group__hal__impl__clock.html#ga3e045b1d1e5b701169095fc14939843f", null ],

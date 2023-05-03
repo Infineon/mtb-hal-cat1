@@ -67,41 +67,61 @@ CY_NOINIT static cyhal_source_t _cyhal_gpio_source_signals[_CYHAL_GPIO_SOURCE_SI
 static void _cyhal_gpio_irq_handler(void)
 {
     _cyhal_system_irq_t irqn = _cyhal_irq_get_active();
-#if !defined(COMPONENT_CAT1C)
-    uint32_t port = (uint32_t)(irqn - ioss_interrupts_gpio_0_IRQn);
-#else
-#if defined(CY_DEVICE_TVIIBH4M) || defined(CY_DEVICE_TVIIBH8M)
-    /* Port 0-23 and 28-32 (inclusive) are DeepSleep capable. Port 24-27 and 33-34
-     * (inclusive) are active mode only. The interrupt numbers are grouped by power
-     * domain which means the numbers are non-contiguous - and die specific */
+#if defined(COMPONENT_CAT1D)
     uint32_t port;
-    if(irqn <= ioss_interrupts_gpio_dpslp_23_IRQn)
+    if(irqn >= ioss_interrupts_gpio_0_IRQn && irqn < ioss_interrupts_gpio_2_IRQn)
     {
-        port = (uint32_t)(irqn - ioss_interrupts_gpio_dpslp_0_IRQn);
+        port = (uint32_t)(irqn - ioss_interrupts_gpio_0_IRQn);
     }
-    else if((irqn >= ioss_interrupts_gpio_act_24_IRQn) && (irqn <= ioss_interrupts_gpio_act_27_IRQn))
+    else if(irqn >= ioss_interrupts_gpio_2_IRQn && irqn < ioss_interrupts_gpio_5_IRQn)
     {
-        port = 24u + (uint32_t)(irqn - ioss_interrupts_gpio_act_24_IRQn);
+        port = (uint32_t)(irqn - ioss_interrupts_gpio_0_IRQn + 1);
     }
-    else if((irqn >= ioss_interrupts_gpio_dpslp_28_IRQn) && (irqn <= ioss_interrupts_gpio_dpslp_32_IRQn))
+    else if(irqn >= ioss_interrupts_gpio_5_IRQn && irqn <= ioss_interrupts_gpio_21_IRQn)
     {
-        port = 28u + (uint32_t)(irqn - ioss_interrupts_gpio_dpslp_28_IRQn);
+        port = (uint32_t)(irqn - ioss_interrupts_gpio_0_IRQn + 2);
     }
-#if defined(CY_DEVICE_TVIIBH8M) /* Ports 33 and 34 don't exist on the 4M part */
-    else if((irqn >= ioss_interrupts_gpio_act_33_IRQn) && (irqn <= ioss_interrupts_gpio_act_34_IRQn))
-    {
-        port = 33u + (uint32_t)(irqn - ioss_interrupts_gpio_act_33_IRQn);
-    }
-#endif
     else
     {
         port = 0u;
         CY_ASSERT(false); /* Unknown port */
     }
-#else
-    #error "Unknown base die"
-#endif
-#endif /* other or COMPONENT_CAT1C */
+#elif defined(COMPONENT_CAT1C)
+    #if defined(CY_DEVICE_TVIIBH4M) || defined(CY_DEVICE_TVIIBH8M)
+        /* Port 0-23 and 28-32 (inclusive) are DeepSleep capable. Port 24-27 and 33-34
+        * (inclusive) are active mode only. The interrupt numbers are grouped by power
+        * domain which means the numbers are non-contiguous - and die specific */
+        uint32_t port;
+        if(irqn <= ioss_interrupts_gpio_dpslp_23_IRQn)
+        {
+            port = (uint32_t)(irqn - ioss_interrupts_gpio_dpslp_0_IRQn);
+        }
+        else if((irqn >= ioss_interrupts_gpio_act_24_IRQn) && (irqn <= ioss_interrupts_gpio_act_27_IRQn))
+        {
+            port = 24u + (uint32_t)(irqn - ioss_interrupts_gpio_act_24_IRQn);
+        }
+        else if((irqn >= ioss_interrupts_gpio_dpslp_28_IRQn) && (irqn <= ioss_interrupts_gpio_dpslp_32_IRQn))
+        {
+            port = 28u + (uint32_t)(irqn - ioss_interrupts_gpio_dpslp_28_IRQn);
+        }
+    #if defined(CY_DEVICE_TVIIBH8M) /* Ports 33 and 34 don't exist on the 4M part */
+        else if((irqn >= ioss_interrupts_gpio_act_33_IRQn) && (irqn <= ioss_interrupts_gpio_act_34_IRQn))
+        {
+            port = 33u + (uint32_t)(irqn - ioss_interrupts_gpio_act_33_IRQn);
+        }
+    #endif /* defined(CY_DEVICE_TVIIBH8M) */
+        else
+        {
+            port = 0u;
+            CY_ASSERT(false); /* Unknown port */
+        }
+    #else
+        #error "Unknown base die"
+    #endif /* defined(CY_DEVICE_TVIIBH4M) || defined(CY_DEVICE_TVIIBH8M) */
+
+#else /* other components */
+    uint32_t port = (uint32_t)(irqn - ioss_interrupts_gpio_0_IRQn);
+#endif /* defined(COMPONENT_CAT1D) */
     uint32_t intr_cause = 1 << port;
 #if defined(COMPONENT_CAT2)
     if (irqn == ioss_interrupt_gpio_IRQn)
@@ -203,7 +223,7 @@ static uint32_t _cyhal_gpio_convert_drive_mode(cyhal_gpio_drive_mode_t drive_mod
 
     if (direction == CYHAL_GPIO_DIR_OUTPUT)
     {
-#if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C)
+#if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
         drvMode &= _CYHAL_GPIO_DIRECTION_OUTPUT_MASK;
 #elif defined(COMPONENT_CAT2)
         drvMode |= _CYHAL_GPIO_DIRECTION_OUTPUT_MASK;
@@ -256,7 +276,7 @@ void cyhal_gpio_free(cyhal_gpio_t pin)
     {
         if (pin != CYHAL_NC_PIN_VALUE)
         {
-#if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C)
+#if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
             Cy_GPIO_SetInterruptMask(CYHAL_GET_PORTADDR(pin), CYHAL_GET_PIN(pin), 0);
 #elif defined(COMPONENT_CAT2)
             Cy_GPIO_SetInterruptEdge(CYHAL_GET_PORTADDR(pin), CYHAL_GET_PIN(pin), CY_GPIO_INTR_DISABLE);
@@ -264,7 +284,7 @@ void cyhal_gpio_free(cyhal_gpio_t pin)
             cyhal_gpio_register_callback(pin, NULL);
 
             (void)cyhal_gpio_disable_output(pin);
-            #if defined(CY_IP_MXS40IOSS) || defined(CY_IP_MXS40SIOSS)
+            #if defined(CY_IP_MXS40IOSS) || defined(CY_IP_MXS40SIOSS) || defined(CY_IP_MXS22IOSS)
             for(uint8_t i = 0; i < (uint8_t)(sizeof(cyhal_pin_map_peri_tr_io_output)/sizeof(cyhal_resource_pin_mapping_t)); i++)
             {
                 cyhal_resource_pin_mapping_t mapping = cyhal_pin_map_peri_tr_io_output[i];
@@ -340,13 +360,31 @@ void cyhal_gpio_enable_event(cyhal_gpio_t pin, cyhal_gpio_event_t event, uint8_t
 #if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
     Cy_GPIO_SetInterruptEdge(CYHAL_GET_PORTADDR(pin), CYHAL_GET_PIN(pin), (uint32_t)event);
     Cy_GPIO_SetInterruptMask(CYHAL_GET_PORTADDR(pin), CYHAL_GET_PIN(pin), (uint32_t)enable);
-#if !defined(COMPONENT_CAT1C)
-    _cyhal_system_irq_t irqn = (_cyhal_system_irq_t)(ioss_interrupts_gpio_0_IRQn + CYHAL_GET_PORT(pin));
-#else
+#if defined(COMPONENT_CAT1D)
+    uint32_t port = CYHAL_GET_PORT(pin);
+    _cyhal_system_irq_t irqn;
+    if(port <= 2u)
+    {
+        irqn = (_cyhal_system_irq_t)(ioss_interrupts_gpio_0_IRQn + port);
+    }
+    else if(port <= 4u)
+    {
+        irqn = (_cyhal_system_irq_t)(ioss_interrupts_gpio_0_IRQn + (port - 1u));
+    }
+    else if(port <= 21u)
+    {
+        irqn = (_cyhal_system_irq_t)(ioss_interrupts_gpio_0_IRQn + (port - 2u));
+    }
+    else
+    {
+        irqn = (_cyhal_system_irq_t)0u;
+        CY_ASSERT(false); /* Unknown port */
+    }
+#elif defined(COMPONENT_CAT1C)
     uint32_t port = CYHAL_GET_PORT(pin);
     /* Port 0-23 and 28-32 (inclusive) are DeepSleep capable. Port 24-27 and 33-34
-     * (inclusive) are active mode only. The interrupt numbers are grouped by power
-     * domain which means the numbers are non-contiguous - and die specific */
+    * (inclusive) are active mode only. The interrupt numbers are grouped by power
+    * domain which means the numbers are non-contiguous - and die specific */
     _cyhal_system_irq_t irqn;
     if(port <= 23u)
     {
@@ -365,20 +403,23 @@ void cyhal_gpio_enable_event(cyhal_gpio_t pin, cyhal_gpio_event_t event, uint8_t
     {
         irqn = (_cyhal_system_irq_t)(ioss_interrupts_gpio_act_33_IRQn + (port - 33u));
     }
-#endif
+#endif /* defined(CY_DEVICE_TVIIBH8M) */
     else
     {
         irqn = (_cyhal_system_irq_t)0u;
         CY_ASSERT(false); /* Unknown port */
     }
-#endif /* other or COMPONENT_CAT1C */
+#else /* other components */
+    _cyhal_system_irq_t irqn = (_cyhal_system_irq_t)(ioss_interrupts_gpio_0_IRQn + CYHAL_GET_PORT(pin));
+#endif /* defined(COMPONENT_CAT1D) */
 #elif defined(COMPONENT_CAT2)
     uint32_t intr_val = enable ? (uint32_t)event : CY_GPIO_INTR_DISABLE;
     Cy_GPIO_SetInterruptEdge(CYHAL_GET_PORTADDR(pin), CYHAL_GET_PIN(pin), intr_val);
     _cyhal_system_irq_t irqn = ((ioss_interrupts_gpio_0_IRQn + CYHAL_GET_PORT(pin)) < ioss_interrupt_gpio_IRQn)
                     ? (_cyhal_system_irq_t)(ioss_interrupts_gpio_0_IRQn + CYHAL_GET_PORT(pin))
                     : (_cyhal_system_irq_t)(ioss_interrupt_gpio_IRQn);
-#endif
+#endif /* defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D) */
+
     /* Only enable if it's not already enabled */
     if (false == _cyhal_irq_is_enabled(irqn))
     {

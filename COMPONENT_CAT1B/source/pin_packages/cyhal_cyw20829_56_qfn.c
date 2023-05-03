@@ -27,7 +27,7 @@
 #include "cy_device_headers.h"
 #include "cyhal_hw_types.h"
 
-#if defined(_GPIO_CYW20829_56_QFN_H_)
+#if defined(_GPIO_CYW20829B0_56_QFN_H_)
 #include "pin_packages/cyhal_cyw20829_56_qfn.h"
 
 /* Pin connections */
@@ -58,13 +58,15 @@ const cyhal_resource_pin_mapping_t cyhal_pin_map_adcmic_pdm_data[2] = {
 };
 
 /* Connections for: canfd_ttcan_rx */
-const cyhal_resource_pin_mapping_t cyhal_pin_map_canfd_ttcan_rx[1] = {
+const cyhal_resource_pin_mapping_t cyhal_pin_map_canfd_ttcan_rx[2] = {
     {0u, 0u, P3_2, P3_2_CANFD0_TTCAN_RX0},
+    {0u, 0u, P5_0, P5_0_CANFD0_TTCAN_RX0},
 };
 
 /* Connections for: canfd_ttcan_tx */
-const cyhal_resource_pin_mapping_t cyhal_pin_map_canfd_ttcan_tx[1] = {
+const cyhal_resource_pin_mapping_t cyhal_pin_map_canfd_ttcan_tx[2] = {
     {0u, 0u, P3_3, P3_3_CANFD0_TTCAN_TX0},
+    {0u, 0u, P5_1, P5_1_CANFD0_TTCAN_TX0},
 };
 
 /* Connections for: cpuss_clk_swj_swclk_tclk */
@@ -171,15 +173,17 @@ const cyhal_resource_pin_mapping_t cyhal_pin_map_lin_lin_tx[2] = {
 };
 
 /* Connections for: pdm_pdm_clk */
-const cyhal_resource_pin_mapping_t cyhal_pin_map_pdm_pdm_clk[3] = {
+const cyhal_resource_pin_mapping_t cyhal_pin_map_pdm_pdm_clk[4] = {
     {0u, 1u, P0_0, P0_0_PDM_PDM_CLK1},
+    {0u, 1u, P1_0, P1_0_PDM_PDM_CLK1},
     {0u, 0u, P3_2, P3_2_PDM_PDM_CLK0},
     {0u, 0u, P5_0, P5_0_PDM_PDM_CLK0},
 };
 
 /* Connections for: pdm_pdm_data */
-const cyhal_resource_pin_mapping_t cyhal_pin_map_pdm_pdm_data[3] = {
+const cyhal_resource_pin_mapping_t cyhal_pin_map_pdm_pdm_data[4] = {
     {0u, 1u, P0_1, P0_1_PDM_PDM_DATA1},
+    {0u, 1u, P1_1, P1_1_PDM_PDM_DATA1},
     {0u, 0u, P3_3, P3_3_PDM_PDM_DATA0},
     {0u, 0u, P5_1, P5_1_PDM_PDM_DATA0},
 };
@@ -209,19 +213,21 @@ const cyhal_resource_pin_mapping_t cyhal_pin_map_peri_tr_io_output[2] = {
 };
 
 /* Connections for: scb_i2c_scl */
-const cyhal_resource_pin_mapping_t cyhal_pin_map_scb_i2c_scl[4] = {
+const cyhal_resource_pin_mapping_t cyhal_pin_map_scb_i2c_scl[5] = {
     {0u, 0u, P0_2, P0_2_SCB0_I2C_SCL},
     {2u, 0u, P1_2, P1_2_SCB2_I2C_SCL},
     {2u, 0u, P3_2, P3_2_SCB2_I2C_SCL},
     {0u, 0u, P4_0, P4_0_SCB0_I2C_SCL},
+    {2u, 0u, P5_0, P5_0_SCB2_I2C_SCL},
 };
 
 /* Connections for: scb_i2c_sda */
-const cyhal_resource_pin_mapping_t cyhal_pin_map_scb_i2c_sda[4] = {
+const cyhal_resource_pin_mapping_t cyhal_pin_map_scb_i2c_sda[5] = {
     {0u, 0u, P0_3, P0_3_SCB0_I2C_SDA},
     {2u, 0u, P1_3, P1_3_SCB2_I2C_SDA},
     {2u, 0u, P3_3, P3_3_SCB2_I2C_SDA},
     {0u, 0u, P4_1, P4_1_SCB0_I2C_SDA},
+    {2u, 0u, P5_1, P5_1_SCB2_I2C_SDA},
 };
 
 /* Connections for: scb_spi_m_clk */

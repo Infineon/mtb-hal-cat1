@@ -42,6 +42,7 @@
 #include "cyhal_dma.h"
 #include "cyhal_system.h"
 #include "cyhal_hwmgr.h"
+#include <string.h>
 
 #if (CYHAL_DRIVER_AVAILABLE_DMA)
 
@@ -61,6 +62,8 @@ cy_rslt_t cyhal_dma_init_adv(
     cyhal_dma_t *obj, cyhal_dma_src_t *src, cyhal_dma_dest_t *dest, cyhal_source_t *dest_source, uint8_t priority, cyhal_dma_direction_t direction)
 {
     CY_ASSERT(NULL != obj);
+
+    memset(obj, 0u, sizeof(*obj));
 
     obj->direction = direction;
     obj->callback_data.callback = NULL;
@@ -128,6 +131,8 @@ cy_rslt_t cyhal_dma_init_cfg(cyhal_dma_t *obj, const cyhal_dma_configurator_t *c
 {
     CY_ASSERT(NULL != obj);
     CY_ASSERT(NULL != cfg);
+
+    memset(obj, 0u, sizeof(*obj));
 
     obj->owned_by_configurator = true;
 

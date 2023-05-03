@@ -195,6 +195,29 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_SDIO</b>&#160;&#160;&#160;(((CY_IP_MXSDHC_INSTANCES) &gt; 0) || (_CYHAL_DRIVER_AVAILABLE_SDIO_UDB))</td></tr>
 <tr class="memdesc:ga34d490d013103cd54a492df567f16ad7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the SDIO driver is available for the current device. <br /></td></tr>
 <tr class="separator:ga34d490d013103cd54a492df567f16ad7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaaa024446105f87484845a4037f81d7da"><td class="memItemLeft" align="right" valign="top"><a id="gaaa024446105f87484845a4037f81d7da" name="gaaa024446105f87484845a4037f81d7da"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_SDIO_HOST</b>&#160;&#160;&#160;(<a class="el" href="group__group__hal__impl__availability.html#ga34d490d013103cd54a492df567f16ad7">CYHAL_DRIVER_AVAILABLE_SDIO</a>)</td></tr>
+<tr class="memdesc:gaaa024446105f87484845a4037f81d7da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the SDIO host driver is available for the current device. <br /></td></tr>
+<tr class="separator:gaaa024446105f87484845a4037f81d7da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga67f98cb71269fc69d11f84092012e92f"><td class="memItemLeft" align="right" valign="top"><a id="ga67f98cb71269fc69d11f84092012e92f" name="ga67f98cb71269fc69d11f84092012e92f"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_SDIO_DEV</b>&#160;&#160;&#160;(0)</td></tr>
+<tr class="memdesc:ga67f98cb71269fc69d11f84092012e92f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the SDIO dev driver is available for the current device. <br /></td></tr>
+<tr class="separator:ga67f98cb71269fc69d11f84092012e92f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5a2601a3ad02e25fcca8f9c4ff5179c9"><td class="memItemLeft" align="right" valign="top"><a id="ga5a2601a3ad02e25fcca8f9c4ff5179c9" name="ga5a2601a3ad02e25fcca8f9c4ff5179c9"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_NVM</b>&#160;&#160;&#160;(_CYHAL_DRIVER_AVAILABLE_NVM_FLASH || _CYHAL_DRIVER_AVAILABLE_NVM_RRAM || _CYHAL_DRIVER_AVAILABLE_NVM_OTP)</td></tr>
+<tr class="memdesc:ga5a2601a3ad02e25fcca8f9c4ff5179c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the NVM driver is available for the current device. <br /></td></tr>
+<tr class="separator:ga5a2601a3ad02e25fcca8f9c4ff5179c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga144cd0560450d7a2ba7cbd41004c9514"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__impl__availability.html#ga144cd0560450d7a2ba7cbd41004c9514">CYHAL_DRIVER_AVAILABLE_FLASH</a>&#160;&#160;&#160;(_CYHAL_DRIVER_AVAILABLE_NVM_FLASH)     /* Deprecated */</td></tr>
+<tr class="memdesc:ga144cd0560450d7a2ba7cbd41004c9514"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deprecated.  <a href="group__group__hal__impl__availability.html#ga144cd0560450d7a2ba7cbd41004c9514">More...</a><br /></td></tr>
+<tr class="separator:ga144cd0560450d7a2ba7cbd41004c9514"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga086d627b651b34fa50e15badbb2108c9"><td class="memItemLeft" align="right" valign="top"><a id="ga086d627b651b34fa50e15badbb2108c9" name="ga086d627b651b34fa50e15badbb2108c9"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_SYSPM</b>&#160;&#160;&#160;(1)</td></tr>
+<tr class="memdesc:ga086d627b651b34fa50e15badbb2108c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the SysPM driver is available for the current device. <br /></td></tr>
+<tr class="separator:ga086d627b651b34fa50e15badbb2108c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa2d11bfc0756f86ab20e67b63440723a"><td class="memItemLeft" align="right" valign="top"><a id="gaa2d11bfc0756f86ab20e67b63440723a" name="gaa2d11bfc0756f86ab20e67b63440723a"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_RTC</b>&#160;&#160;&#160;(((((CY_IP_MXS40SSRSS_INSTANCES) &gt; 0) || ((CY_IP_MXS40SRSS_INSTANCES) &gt; 0)) &amp;&amp; ((SRSS_BACKUP_PRESENT) &gt; 0)) || (((SRSS_RTC_PRESENT) &gt; 0) &amp;&amp; ((SRSS_NUM_HIBDATA) &gt; 0)))</td></tr>
+<tr class="memdesc:gaa2d11bfc0756f86ab20e67b63440723a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the RTC driver is available for the current device. <br /></td></tr>
+<tr class="separator:gaa2d11bfc0756f86ab20e67b63440723a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gac065212a08722e9fe4d44bffd41296c7"><td class="memItemLeft" align="right" valign="top"><a id="gac065212a08722e9fe4d44bffd41296c7" name="gac065212a08722e9fe4d44bffd41296c7"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_COMP</b>&#160;&#160;&#160;((_CYHAL_DRIVER_AVAILABLE_COMP_LP) || (_CYHAL_DRIVER_AVAILABLE_COMP_CTB))</td></tr>
 <tr class="memdesc:gac065212a08722e9fe4d44bffd41296c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the COMP driver is available for the current device. <br /></td></tr>
@@ -207,10 +230,6 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_DAC</b>&#160;&#160;&#160;(((CY_IP_MXS40PASS_INSTANCES) &gt; 0) &amp;&amp; ((CY_IP_MXS40PASS_CTDAC_INSTANCES) &gt; 0))</td></tr>
 <tr class="memdesc:ga11e5b6567243892d3b7ee5ea3d636923"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the DAC driver is available for the current device. <br /></td></tr>
 <tr class="separator:ga11e5b6567243892d3b7ee5ea3d636923"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga144cd0560450d7a2ba7cbd41004c9514"><td class="memItemLeft" align="right" valign="top"><a id="ga144cd0560450d7a2ba7cbd41004c9514" name="ga144cd0560450d7a2ba7cbd41004c9514"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_FLASH</b>&#160;&#160;&#160;(_CYHAL_DRIVER_AVAILABLE_FLASH)</td></tr>
-<tr class="memdesc:ga144cd0560450d7a2ba7cbd41004c9514"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the Flash driver is available for the current device. <br /></td></tr>
-<tr class="separator:ga144cd0560450d7a2ba7cbd41004c9514"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga9ffca2ce9483512e1965f9a3e44f5988"><td class="memItemLeft" align="right" valign="top"><a id="ga9ffca2ce9483512e1965f9a3e44f5988" name="ga9ffca2ce9483512e1965f9a3e44f5988"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_KEYSCAN</b>&#160;&#160;&#160;((CY_IP_MXKEYSCAN_INSTANCES) &gt; 0)</td></tr>
 <tr class="memdesc:ga9ffca2ce9483512e1965f9a3e44f5988"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the KeyScan driver is available for the current device. <br /></td></tr>
@@ -223,14 +242,6 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_PDMPCM</b>&#160;&#160;&#160;((((CY_IP_MXAUDIOSS_INSTANCES) &gt; 0) &amp;&amp; (AUDIOSS_PDM || AUDIOSS0_PDM || AUDIOSS0_PDM_PDM)) || ((CY_IP_MXPDM_INSTANCES) &gt; 0))</td></tr>
 <tr class="memdesc:ga7e9103a244e1554f48171d1c7474f037"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the PDM/PCM driver is available for the current device. <br /></td></tr>
 <tr class="separator:ga7e9103a244e1554f48171d1c7474f037"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa2d11bfc0756f86ab20e67b63440723a"><td class="memItemLeft" align="right" valign="top"><a id="gaa2d11bfc0756f86ab20e67b63440723a" name="gaa2d11bfc0756f86ab20e67b63440723a"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_RTC</b>&#160;&#160;&#160;((((CY_IP_MXS40SSRSS_INSTANCES) &gt; 0) || ((CY_IP_MXS40SRSS_INSTANCES) &gt; 0)) &amp;&amp; ((SRSS_BACKUP_PRESENT) &gt; 0))</td></tr>
-<tr class="memdesc:gaa2d11bfc0756f86ab20e67b63440723a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the RTC driver is available for the current device. <br /></td></tr>
-<tr class="separator:gaa2d11bfc0756f86ab20e67b63440723a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga086d627b651b34fa50e15badbb2108c9"><td class="memItemLeft" align="right" valign="top"><a id="ga086d627b651b34fa50e15badbb2108c9" name="ga086d627b651b34fa50e15badbb2108c9"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_SYSPM</b>&#160;&#160;&#160;(1)</td></tr>
-<tr class="memdesc:ga086d627b651b34fa50e15badbb2108c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the SysPM driver is available for the current device. <br /></td></tr>
-<tr class="separator:ga086d627b651b34fa50e15badbb2108c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga62fb3ca240efe27c10ffd8489ea18714"><td class="memItemLeft" align="right" valign="top"><a id="ga62fb3ca240efe27c10ffd8489ea18714" name="ga62fb3ca240efe27c10ffd8489ea18714"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_DRIVER_AVAILABLE_TRNG</b>&#160;&#160;&#160;((((CY_IP_MXCRYPTO_INSTANCES) &gt; 0) &amp;&amp; ((CPUSS_CRYPTO_TR) &gt; 0)) /*|| (((CY_IP_MXCRYPTOLITE_INSTANCES) &gt; 0) &amp;&amp; ((CRYPTO_TRNG_PRESENT) &gt; 0))*/)</td></tr>
 <tr class="memdesc:ga62fb3ca240efe27c10ffd8489ea18714"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro specifying whether the TRNG driver is available for the current device. <br /></td></tr>
@@ -259,6 +270,23 @@ Macros</h2></td></tr>
 
 <p>Macro specifying the major version number of the HAL API. </p>
 <p >Since there are multiple HAL library implementations, this is not necessarily the same as the major version number of the library. It is instead intended as a single version number that can be used across implementation libraries to know what signatures to use in the case an API is updated in the future. Once an API is available, its API will remain consistant across libraries sharing the same version here. </p><dl class="section note"><dt>Note</dt><dd>Support for new drivers/functionality may be added without changing the version number, to check for whether a specific driver is available, the CYHAL_DRIVER_AVAILABLE_X macros defined in <a class="el" href="group__group__hal__availability.html">HAL Driver Availability</a> should be used. </dd></dl>
+
+</div>
+</div>
+<a id="ga144cd0560450d7a2ba7cbd41004c9514" name="ga144cd0560450d7a2ba7cbd41004c9514"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga144cd0560450d7a2ba7cbd41004c9514">&#9670;&nbsp;</a></span>CYHAL_DRIVER_AVAILABLE_FLASH</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CYHAL_DRIVER_AVAILABLE_FLASH&#160;&#160;&#160;(_CYHAL_DRIVER_AVAILABLE_NVM_FLASH)     /* Deprecated */</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Deprecated. </p>
+<p >Macro specifying whether the NVM driver is available for the current device </p>
 
 </div>
 </div>

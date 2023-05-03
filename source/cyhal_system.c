@@ -107,6 +107,12 @@ cyhal_reset_reason_t cyhal_system_get_reset_reason(void)
     if ((CY_SYSLIB_RESET_HFCLK_LOSS | CY_SYSLIB_RESET_HFCLK_ERR) & pdl_reason)
         reason |= CYHAL_SYSTEM_RESET_SYS_CLK_ERR;
 #endif
+
+#if defined(CY_IP_MXS40SSRSS)
+    if ((reason == CYHAL_SYSTEM_RESET_NONE) && Cy_SysLib_IsDSRAMWarmBootEntry())
+        reason |= CYHAL_SYSTEM_RESET_WARMBOOT;
+#endif
+
     return reason;
 }
 

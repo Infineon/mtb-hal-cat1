@@ -79,23 +79,33 @@ extern "C" {
 #define _CYHAL_RTC_TM_YEAR_BASE 1900
 
 #if defined(COMPONENT_CAT1A) || defined (COMPONENT_CAT1C)
-#define _CYHAL_RTC_BREG (BACKUP->BREG[SRSS_BACKUP_NUM_BREG-1])
+    #define _CYHAL_RTC_BREG (BACKUP->BREG[SRSS_BACKUP_NUM_BREG-1])
 #elif defined(COMPONENT_CAT1B)
-#if defined(SRSS_BACKUP_NUM_BREG3) && (SRSS_BACKUP_NUM_BREG3 > 0)
-#define _CYHAL_RTC_BREG (BACKUP->BREG_SET3[SRSS_BACKUP_NUM_BREG3-1])
-#elif defined(SRSS_BACKUP_NUM_BREG2) && (SRSS_BACKUP_NUM_BREG2 > 0)
-#define _CYHAL_RTC_BREG (BACKUP->BREG_SET2[SRSS_BACKUP_NUM_BREG2-1])
-#elif defined(SRSS_BACKUP_NUM_BREG1) && (SRSS_BACKUP_NUM_BREG1 > 0)
-#define _CYHAL_RTC_BREG (BACKUP->BREG_SET1[SRSS_BACKUP_NUM_BREG1-1])
-#elif defined(SRSS_BACKUP_NUM_BREG0) && (SRSS_BACKUP_NUM_BREG0 > 0)
-#define _CYHAL_RTC_BREG (BACKUP->BREG_SET0[SRSS_BACKUP_NUM_BREG0-1])
-#endif
+    #if defined(SRSS_BACKUP_NUM_BREG3) && (SRSS_BACKUP_NUM_BREG3 > 0)
+    #define _CYHAL_RTC_BREG (BACKUP->BREG_SET3[SRSS_BACKUP_NUM_BREG3-1])
+    #elif defined(SRSS_BACKUP_NUM_BREG2) && (SRSS_BACKUP_NUM_BREG2 > 0)
+    #define _CYHAL_RTC_BREG (BACKUP->BREG_SET2[SRSS_BACKUP_NUM_BREG2-1])
+    #elif defined(SRSS_BACKUP_NUM_BREG1) && (SRSS_BACKUP_NUM_BREG1 > 0)
+    #define _CYHAL_RTC_BREG (BACKUP->BREG_SET1[SRSS_BACKUP_NUM_BREG1-1])
+    #elif defined(SRSS_BACKUP_NUM_BREG0) && (SRSS_BACKUP_NUM_BREG0 > 0)
+    #define _CYHAL_RTC_BREG (BACKUP->BREG_SET0[SRSS_BACKUP_NUM_BREG0-1])
+    #endif
+#elif defined(COMPONENT_CAT1D)
+    #if defined(SRSS_NUM_HIBDATA) && ((SRSS_NUM_HIBDATA) > 0)
+    #define _CYHAL_RTC_BREG (SRSS->PWR_HIB_DATA[SRSS_NUM_HIBDATA-1])
+    #endif
 #endif /* defined(COMPONENT_CAT1B) */
 
 #define _CYHAL_RTC_BREG_CENTURY_Pos 0UL
 #define _CYHAL_RTC_BREG_CENTURY_Msk 0x0000FFFFUL
 #define _CYHAL_RTC_BREG_STATE_Pos 16UL
 #define _CYHAL_RTC_BREG_STATE_Msk 0xFFFF0000UL
+
+#if defined(COMPONENT_CAT1D)
+#define _CYHAL_RTC_IRQ_NAME      (srss_interrupt_rtc_IRQn)
+#else
+#define _CYHAL_RTC_IRQ_NAME      (srss_interrupt_backup_IRQn)
+#endif /* defined(COMPONENT_CAT1D) */
 
 static const uint32_t _CYHAL_RTC_MAX_RETRY = 10;
 static const uint32_t _CYHAL_RTC_RETRY_DELAY_MS = 1;
@@ -229,12 +239,12 @@ static cy_rslt_t _cyhal_rtc_init_common(const cy_stc_rtc_config_t* default_time)
 
     Cy_RTC_ClearInterrupt(CY_RTC_INTR_CENTURY);
     Cy_RTC_SetInterruptMask(CY_RTC_INTR_CENTURY);
-    _cyhal_irq_register(srss_interrupt_backup_IRQn, _CYHAL_RTC_DEFAULT_PRIORITY, _cyhal_rtc_isr_handler);
+    _cyhal_irq_register(_CYHAL_RTC_IRQ_NAME, _CYHAL_RTC_DEFAULT_PRIORITY, _cyhal_rtc_isr_handler);
 
     if (rslt == CY_RSLT_SUCCESS)
     {
         _cyhal_rtc_dst = NULL;
-        _cyhal_irq_enable(srss_interrupt_backup_IRQn);
+        _cyhal_irq_enable(_CYHAL_RTC_IRQ_NAME);
     }
 
     return rslt;
@@ -281,7 +291,7 @@ void cyhal_rtc_free(cyhal_rtc_t *obj)
 {
     CY_UNUSED_PARAMETER(obj);
     CY_ASSERT(NULL != obj);
-    _cyhal_irq_free(srss_interrupt_backup_IRQn);
+    _cyhal_irq_free(_CYHAL_RTC_IRQ_NAME);
 
     Cy_RTC_SetInterruptMask(CY_RTC_INTR_CENTURY);
     _cyhal_rtc_dst = NULL;
@@ -569,7 +579,7 @@ void cyhal_rtc_enable_event(cyhal_rtc_t *obj, cyhal_rtc_event_t event, uint8_t i
     Cy_RTC_ClearInterrupt(CY_RTC_INTR_ALARM1 | CY_RTC_INTR_ALARM2);
     uint32_t alarm2_status = (Cy_RTC_GetInterruptMask() & CY_RTC_INTR_ALARM2);
     Cy_RTC_SetInterruptMask((enable ? CY_RTC_INTR_ALARM1 : 0) | CY_RTC_INTR_CENTURY | alarm2_status);
-    _cyhal_irq_set_priority(srss_interrupt_backup_IRQn, intr_priority);
+    _cyhal_irq_set_priority(_CYHAL_RTC_IRQ_NAME, intr_priority);
 }
 
 #if defined(__cplusplus)

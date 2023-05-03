@@ -8,5 +8,9 @@ var group__group__hal__results__sdio =
     [ "CYHAL_SDIO_RSLT_ERR_CONFIG", "group__group__hal__results__sdio.html#ga409fd9a9979b4543ef86a50bc0d77c7e", null ],
     [ "CYHAL_SDIO_RSLT_ERR_IO_VOLT_SEL_PIN_CONFIGURED", "group__group__hal__results__sdio.html#ga5dc733150b5b0f8bf4ad0510fe215103", null ],
     [ "CYHAL_SDIO_RSLT_ERR_IO_VOLT_SWITCH_SEQ", "group__group__hal__results__sdio.html#ga217e107842cae4d2e81cb7fd65d9e9da", null ],
-    [ "CYHAL_SDIO_RSLT_ERR_CLOCK", "group__group__hal__results__sdio.html#ga2a97a51e0fece4c6b155d42480549550", null ]
+    [ "CYHAL_SDIO_RSLT_ERR_CLOCK", "group__group__hal__results__sdio.html#ga2a97a51e0fece4c6b155d42480549550", null ],
+    [ "CYHAL_SDIO_DEV_RSLT_WRITE_ERROR", "group__group__hal__results__sdio.html#gaeb45ac665e47bea198bc9bd8f18dfbc7", null ],
+    [ "CYHAL_SDIO_DEV_RSLT_READ_ERROR", "group__group__hal__results__sdio.html#ga8dcbb12d9362742139ffdd3cdc1d9adf", null ],
+    [ "CYHAL_SDIO_DEV_RSLT_MAILBOX_WRITE_ERROR", "group__group__hal__results__sdio.html#ga97c933e178ac24c60c3e505b4a66e1ae", null ],
+    [ "CYHAL_SDIO_DEV_RSLT_MAILBOX_READ_ERROR", "group__group__hal__results__sdio.html#ga500e7f78768c848c5363227aaca22d1d", null ]
 ];

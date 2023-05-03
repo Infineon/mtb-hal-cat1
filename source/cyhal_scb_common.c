@@ -384,11 +384,18 @@ void *_cyhal_scb_get_irq_obj(void)
 #endif
 
 /* Peripheral clock values for different I2C speeds according PDL API Reference Guide */
+#if defined(COMPONENT_CAT1D)
+    /* Must be between 1.55 MHz and 12.8 MHz for running i2c master at 100KHz   */
+    #define _CYHAL_SCB_PERI_CLOCK_SLAVE_STD      6000000
+    /* Must be between 7.82 MHz and 15.38 MHz for running i2c master at 400KHz  */
+    #define _CYHAL_SCB_PERI_CLOCK_SLAVE_FST      12000000
+#else
+    /* Must be between 1.55 MHz and 12.8 MHz for running i2c master at 100KHz   */
+    #define _CYHAL_SCB_PERI_CLOCK_SLAVE_STD      8000000
+    /* Must be between 7.82 MHz and 15.38 MHz for running i2c master at 400KHz  */
+    #define _CYHAL_SCB_PERI_CLOCK_SLAVE_FST      12500000
+#endif /* defined(COMPONENT_CAT1D) */
 
-/* Must be between 1.55 MHz and 12.8 MHz for running i2c master at 100KHz   */
-#define _CYHAL_SCB_PERI_CLOCK_SLAVE_STD      8000000
-/* Must be between 7.82 MHz and 15.38 MHz for running i2c master at 400KHz  */
-#define _CYHAL_SCB_PERI_CLOCK_SLAVE_FST      12500000
 
 /* Must be between 15.84 MHz and 89.0 MHz for running i2c master at 1MHz */
 #if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
@@ -406,6 +413,69 @@ void *_cyhal_scb_get_irq_obj(void)
 /* Must be between 14.32 MHz and 25.8 MHz for running i2c slave at 1MHz  */
 #define _CYHAL_SCB_PERI_CLOCK_MASTER_FSTP    20000000
 
+#if !defined(COMPONENT_CAT5)
+static cy_rslt_t _cyhal_scb_configure_peri_clock(cyhal_clock_t *clock, const cyhal_resource_inst_t *resource, uint32_t freq, bool is_clock_owned)
+{
+    cy_rslt_t result = CYHAL_SCB_RSLT_ERR_BAD_ARGUMENT;
+    cyhal_clock_block_t clk_type = (cyhal_clock_block_t)_CYHAL_PERIPHERAL_GROUP_GET_DIVIDER_TYPE(clock->block);
+
+    const cyhal_clock_block_t PERI_DIVIDERS[] =
+    {
+        CYHAL_CLOCK_BLOCK_PERIPHERAL_8BIT,
+        CYHAL_CLOCK_BLOCK_PERIPHERAL_16BIT,
+        CYHAL_CLOCK_BLOCK_PERIPHERAL_16_5BIT,
+        CYHAL_CLOCK_BLOCK_PERIPHERAL_24_5BIT
+    };
+
+    const cyhal_clock_tolerance_t tolerance = {
+        .type = CYHAL_TOLERANCE_PERCENT,
+        .value = 5
+    };
+
+    if (freq == 0)
+    {
+        return CYHAL_SCB_RSLT_ERR_BAD_ARGUMENT;
+    }
+    else if (is_clock_owned)
+    {
+        for (uint8_t i = 0; i < sizeof(PERI_DIVIDERS)/sizeof(cyhal_clock_block_t); i++)
+        {
+            if (PERI_DIVIDERS[i] < clk_type)
+            {
+                continue;
+            }
+            else if (PERI_DIVIDERS[i] > clk_type)
+            {
+                result = _cyhal_utils_allocate_clock(clock, resource, PERI_DIVIDERS[i], true);
+            }
+            else
+            {
+                result = CY_RSLT_SUCCESS;
+            }
+
+            if (CY_RSLT_SUCCESS == result)
+            {
+                result = cyhal_clock_set_frequency(clock, freq, &tolerance);
+                if (CY_RSLT_SUCCESS != result)
+                {
+                    cyhal_clock_free(clock);
+                }
+                else
+                {
+                    break;
+                }
+
+            }
+        }
+    }
+    else
+    {
+        result = CY_RSLT_SUCCESS;
+    }
+    return result;
+}
+#endif /* !defined(COMPONENT_CAT5) */
+
 uint32_t _cyhal_i2c_set_peri_divider(void *obj, bool is_i2c, uint32_t freq, bool is_slave)
 {
     CySCB_Type *base = is_i2c ? ((cyhal_i2c_t *)obj)->base : ((cyhal_ezi2c_t *)obj)->base;
@@ -415,9 +485,9 @@ uint32_t _cyhal_i2c_set_peri_divider(void *obj, bool is_i2c, uint32_t freq, bool
 
     /* Return the actual data rate on success, 0 otherwise */
     uint32_t data_rate = 0;
+    uint32_t peri_freq = 0;
     if (freq != 0)
     {
-        uint32_t peri_freq = 0;
         if (freq <= CY_SCB_I2C_STD_DATA_RATE)
         {
             peri_freq = is_slave ? _CYHAL_SCB_PERI_CLOCK_SLAVE_STD : _CYHAL_SCB_PERI_CLOCK_MASTER_STD;
@@ -431,11 +501,16 @@ uint32_t _cyhal_i2c_set_peri_divider(void *obj, bool is_i2c, uint32_t freq, bool
             peri_freq = is_slave ? _CYHAL_SCB_PERI_CLOCK_SLAVE_FSTP : _CYHAL_SCB_PERI_CLOCK_MASTER_FSTP;
         }
 
-        if (peri_freq > 0 && _cyhal_utils_peri_pclk_assign_divider(
+    #if !defined(COMPONENT_CAT5)
+        cyhal_resource_inst_t *resource = is_i2c ? &(((cyhal_i2c_t *)obj)->resource) : &(((cyhal_ezi2c_t *)obj)->resource);
+        cy_rslt_t status = _cyhal_scb_configure_peri_clock(clock, resource, peri_freq, is_clock_owned);
+    #else
+        cy_rslt_t status = CY_RSLT_SUCCESS;
+    #endif /* !defined(COMPONENT_CAT5) */
+
+        if ((CY_RSLT_SUCCESS == status) && (peri_freq > 0) && _cyhal_utils_peri_pclk_assign_divider(
             _cyhal_scb_get_clock_index(block_num), clock) == CY_SYSCLK_SUCCESS)
         {
-            cy_rslt_t status = CY_RSLT_SUCCESS;
-
             if (is_clock_owned)
             {
                 status = cyhal_clock_set_enabled(clock, false, false);
@@ -535,7 +610,7 @@ cy_rslt_t _cyhal_scb_set_fifo_level(CySCB_Type *base, cyhal_scb_fifo_type_t type
 cy_rslt_t _cyhal_scb_enable_output(cyhal_resource_inst_t resource, cyhal_scb_output_t output, cyhal_source_t *source)
 {
 // All PSoC™ 6 devices have scb triggers but not all PSoC™ 4 devices do
-#if ((defined(CY_IP_MXSCB) && !defined(COMPONENT_CAT2)) || defined(CY_DEVICE_PSOC4AMC) || defined(CY_DEVICE_PSOC4AS3) || defined(CY_DEVICE_PSOC4AS4))
+#if ((defined(CY_IP_MXSCB) && !defined(COMPONENT_CAT2)) || defined(CY_DEVICE_PSOC4AMC) || defined(CY_DEVICE_PSOC4AS3) || defined(CY_DEVICE_PSOC4AS4) || defined(CY_IP_MXS22SCB))
     // This just returns a proper cyhal_source_t. Use _cyhal_scb_set_fifo_level
     // to actually set level.
     cyhal_internal_source_t src_int;
@@ -543,7 +618,7 @@ cy_rslt_t _cyhal_scb_enable_output(cyhal_resource_inst_t resource, cyhal_scb_out
     if(output == CYHAL_SCB_OUTPUT_TRIGGER_RX_FIFO_LEVEL_REACHED)
     {
         src_int = (cyhal_internal_source_t)(_CYHAL_TRIGGER_SCB0_TR_RX_REQ + scb_arr_index);
-        *source = (cyhal_source_t)_CYHAL_TRIGGER_CREATE_SOURCE(src_int, CYHAL_SIGNAL_TYPE_EDGE);
+        *source = (cyhal_source_t)_CYHAL_TRIGGER_CREATE_SOURCE(src_int, CYHAL_SIGNAL_TYPE_LEVEL);
         return CY_RSLT_SUCCESS;
     }
     // This just returns a proper cyhal_source_t. Use _cyhal_scb_set_fifo_level
@@ -551,7 +626,7 @@ cy_rslt_t _cyhal_scb_enable_output(cyhal_resource_inst_t resource, cyhal_scb_out
     else if(output == CYHAL_SCB_OUTPUT_TRIGGER_TX_FIFO_LEVEL_REACHED)
     {
         src_int = (cyhal_internal_source_t)(_CYHAL_TRIGGER_SCB0_TR_TX_REQ + scb_arr_index);
-        *source = (cyhal_source_t)_CYHAL_TRIGGER_CREATE_SOURCE(src_int, CYHAL_SIGNAL_TYPE_EDGE);
+        *source = (cyhal_source_t)_CYHAL_TRIGGER_CREATE_SOURCE(src_int, CYHAL_SIGNAL_TYPE_LEVEL);
         return CY_RSLT_SUCCESS;
     }
 
@@ -567,7 +642,7 @@ cy_rslt_t _cyhal_scb_enable_output(cyhal_resource_inst_t resource, cyhal_scb_out
 cy_rslt_t _cyhal_scb_disable_output(cyhal_scb_output_t output)
 {
 // All PSoC™ 6 devices have scb triggers but not all PSoC™ 4 devices do
-#if (defined(CY_IP_MXSCB) || defined(CY_DEVICE_PSOC4AMC) || defined(CY_DEVICE_PSOC4AS3) || defined(CY_DEVICE_PSOC4AS4))
+#if (defined(CY_IP_MXSCB) || defined(CY_DEVICE_PSOC4AMC) || defined(CY_DEVICE_PSOC4AS3) || defined(CY_DEVICE_PSOC4AS4) || defined(CY_IP_MXS22SCB))
     // Noop: Use _cyhal_scb_set_fifo_level to actually set level
     if (output == CYHAL_SCB_OUTPUT_TRIGGER_RX_FIFO_LEVEL_REACHED ||
         output == CYHAL_SCB_OUTPUT_TRIGGER_TX_FIFO_LEVEL_REACHED)
@@ -629,7 +704,7 @@ static bool _cyhal_scb_pm_callback_common(cyhal_syspm_callback_state_t state, cy
 cyhal_syspm_callback_data_t _cyhal_scb_pm_callback_data =
 {
     .callback = &_cyhal_scb_pm_callback_common,
-    .states = (cyhal_syspm_callback_state_t)(CYHAL_SYSPM_CB_CPU_DEEPSLEEP | CYHAL_SYSPM_CB_SYSTEM_HIBERNATE),
+    .states = (cyhal_syspm_callback_state_t)(CYHAL_SYSPM_CB_CPU_DEEPSLEEP | CYHAL_SYSPM_CB_CPU_DEEPSLEEP_RAM | CYHAL_SYSPM_CB_SYSTEM_HIBERNATE),
     .args = NULL,
     .next = NULL,
     .ignore_modes = (cyhal_syspm_callback_mode_t)0,

@@ -6,7 +6,7 @@ var group__group__hal__types__implementation =
     [ "cyhal_crc_t", "group__group__hal__types__implementation.html#ga9426486751ae7dfaf2d8c0e5578fb33e", null ],
     [ "cyhal_dac_t", "group__group__hal__types__implementation.html#ga073aa47a7acec06dc54fb2ed08bdc3e9", null ],
     [ "cyhal_dma_t", "group__group__hal__types__implementation.html#gac478af1064b0bd94f73c2d5e7c868708", null ],
-    [ "cyhal_flash_t", "group__group__hal__types__implementation.html#gafe92f247338f36a9d4480d092d56e84f", null ],
+    [ "cyhal_nvm_t", "group__group__hal__types__implementation.html#ga01f4f1796d911a3d8750a962467f10c0", null ],
     [ "cyhal_gpio_t", "group__group__hal__types__implementation.html#ga37579d500a1d05905c8f2bea4e907f99", null ],
     [ "cyhal_i2c_t", "group__group__hal__types__implementation.html#ga32f094d79c0c6a3cb3f006ad5ebea3f6", null ],
     [ "cyhal_i2s_t", "group__group__hal__types__implementation.html#gad248d645946045b26fcda59e77e43015", null ],

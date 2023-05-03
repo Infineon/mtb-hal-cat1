@@ -216,10 +216,7 @@ typedef struct {
 typedef struct {
 #if defined(CY_IP_M4CPUSS_DMAC) || defined(CY_IP_M7CPUSS_DMAC) || defined(CY_IP_M4CPUSS_DMA) || defined(CY_IP_M7CPUSS_DMA) || defined(CY_IP_MXAHBDMAC) || defined(CY_IP_MXDW) || defined(CY_IP_MXSAXIDMAC)
     cyhal_resource_inst_t               resource;
-    #if (CY_CPU_CORTEX_M7) && defined (ENABLE_CM7_DATA_CACHE)
-    CY_ALIGN(__SCB_DCACHE_LINE_SIZE)
-    #endif
-    union
+    _CYHAL_DMA_ALIGN union
     {
 #if defined(CY_IP_M4CPUSS_DMA) || defined(CY_IP_M7CPUSS_DMA) || defined(CY_IP_MXDW)
         cy_stc_dma_channel_config_t     dw;
@@ -230,10 +227,7 @@ typedef struct {
         cy_stc_dmac_channel_config_t    dmac;
 #endif
     } channel_config;
-    #if (CY_CPU_CORTEX_M7) && defined (ENABLE_CM7_DATA_CACHE)
-    CY_ALIGN(__SCB_DCACHE_LINE_SIZE)
-    #endif
-    union
+    _CYHAL_DMA_ALIGN union
     {
 #if defined(CY_IP_M4CPUSS_DMA) || defined(CY_IP_M7CPUSS_DMA) || defined(CY_IP_MXDW)
         cy_stc_dma_descriptor_config_t  dw;
@@ -244,10 +238,7 @@ typedef struct {
         cy_stc_dmac_descriptor_config_t dmac;
 #endif
     } descriptor_config;
-    #if (CY_CPU_CORTEX_M7) && defined (ENABLE_CM7_DATA_CACHE)
-    CY_ALIGN(__SCB_DCACHE_LINE_SIZE)
-    #endif
-    union
+    _CYHAL_DMA_ALIGN union
     {
 #if defined(CY_IP_M4CPUSS_DMA) || defined(CY_IP_M7CPUSS_DMA) || defined(CY_IP_MXDW)
         cy_stc_dma_descriptor_t         dw;
@@ -285,25 +276,27 @@ typedef struct
     {
         union
         {
-#if defined(CY_IP_M4CPUSS_DMA) || defined(CY_IP_M7CPUSS_DMA) || defined(CY_IP_MXDW)
+        #if defined(CY_IP_M4CPUSS_DMA) || defined(CY_IP_M7CPUSS_DMA) || defined(CY_IP_MXDW)
             cy_stc_dma_channel_config_t const*      dw_channel_config;
-#endif
-#if defined(CY_IP_MXSAXIDMAC)
-            cy_stc_axidmac_channel_config_t const*  dmac_channel_config;
-#elif defined(CY_IP_M4CPUSS_DMAC) || defined(CY_IP_M7CPUSS_DMAC) || defined(CY_IP_MXAHBDMAC)
+        #endif
+        #if defined(CY_IP_MXSAXIDMAC)
+            /* AXI DMA controller has a 64-bit AXI master interface */
+            _CYHAL_DMA_ALIGN cy_stc_axidmac_channel_config_t const*  dmac_channel_config;
+        #elif defined(CY_IP_M4CPUSS_DMAC) || defined(CY_IP_M7CPUSS_DMAC) || defined(CY_IP_MXAHBDMAC)
             cy_stc_dmac_channel_config_t const*     dmac_channel_config;
-#endif
+        #endif
         };
         union
         {
-#if defined(CY_IP_M4CPUSS_DMA) || defined(CY_IP_M7CPUSS_DMA) || defined(CY_IP_MXDW)
+        #if defined(CY_IP_M4CPUSS_DMA) || defined(CY_IP_M7CPUSS_DMA) || defined(CY_IP_MXDW)
             cy_stc_dma_descriptor_config_t const*   dw_descriptor_config;
-#endif
-#if defined(CY_IP_MXSAXIDMAC)
-            cy_stc_axidmac_descriptor_config_t const*  dmac_descriptor_config;
-#elif defined(CY_IP_M4CPUSS_DMAC) || defined(CY_IP_M7CPUSS_DMAC) || defined(CY_IP_MXAHBDMAC)
+        #endif
+        #if defined(CY_IP_MXSAXIDMAC)
+            /* AXI DMA controller has a 64-bit AXI master interface */
+            _CYHAL_DMA_ALIGN cy_stc_axidmac_descriptor_config_t const*  dmac_descriptor_config;
+        #elif defined(CY_IP_M4CPUSS_DMAC) || defined(CY_IP_M7CPUSS_DMAC) || defined(CY_IP_MXAHBDMAC)
             cy_stc_dmac_descriptor_config_t const*  dmac_descriptor_config;
-#endif
+        #endif
         };
     };
 #else
@@ -724,7 +717,7 @@ typedef struct
 } cyhal_opamp_configurator_t;
 
 /**
-  * @brief Flash object
+  * @brief NVM object
   *
   * Application code should not rely on the specific contents of this struct.
   * They are considered an implementation detail which is subject to change
@@ -732,13 +725,13 @@ typedef struct
   */
 typedef struct {
     void *empty;
-} cyhal_flash_t;
+} cyhal_nvm_t;
 
 /**
   * @brief I2C object
   *
-  * Application code should not rely on the specific contents of this struct.
-  * They are considered an implementation detail which is subject to change
+  * Application code should not rely on the specific contents of this staruct.
+  * They are considered an implementation detail which is subject to chnge
   * between platforms and/or HAL releases.
   */
 typedef struct {
@@ -1060,7 +1053,9 @@ typedef struct {
     uint32_t                            irq_cause;
     cyhal_event_callback_data_t         callback_data;
     cyhal_syspm_callback_data_t         pm_callback;
+    #if CYHAL_DRIVER_AVAILABLE_SYSPM
     bool                                pm_transition_pending;
+    #endif // CYHAL_DRIVER_AVAILABLE_SYSPM
     bool                                dc_configured;
 #else
     void *empty;
@@ -1167,7 +1162,7 @@ typedef struct {
   * between platforms and/or HAL releases.
   */
 typedef struct {
-#if defined(CY_IP_MXS40SRSS) || defined(CY_IP_MXS40SSRSS)
+#if defined(CY_IP_MXS40SRSS) || defined(CY_IP_MXS40SSRSS) || defined(CY_IP_MXS22SRSS)
     cy_stc_rtc_dst_t                    dst;
 #else
     void *empty;
@@ -1235,8 +1230,10 @@ typedef struct {
     uint32_t                            irq_cause;
     cyhal_event_callback_data_t         callback_data;
 
+    #if CYHAL_DRIVER_AVAILABLE_SYSPM
     bool                                pm_transition_pending;
     cyhal_syspm_callback_data_t         pm_callback_data;
+    #endif // CYHAL_DRIVER_AVAILABLE_SYSPM
     /* whether the block is configured by device-configurator (true)
     *  or by user via HAL API (false) */
     bool                                dc_configured;
@@ -1532,6 +1529,16 @@ typedef struct {
     en_hsiom_sel_t                      saved_rts_hsiom;
     cyhal_event_callback_data_t         callback_data;
     bool                                dc_configured;
+#if (CYHAL_DRIVER_AVAILABLE_DMA)
+    cyhal_async_mode_t                  async_mode;
+    cyhal_dma_t                         dma_tx;
+    cyhal_dma_t                         dma_rx;
+    volatile uint32_t                   async_tx_length;
+    volatile uint32_t                   async_rx_length;
+    volatile void                       *async_tx_buff;
+    volatile void                       *async_rx_buff;
+    uint32_t                            user_fifo_level;
+#endif
 #else
     void *empty;
 #endif

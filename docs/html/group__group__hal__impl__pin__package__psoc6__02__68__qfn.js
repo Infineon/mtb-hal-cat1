@@ -137,7 +137,9 @@ var group__group__hal__impl__pin__package__psoc6__02__68__qfn =
       [ "P12_6", "group__group__hal__impl__pin__package__psoc6__02__68__qfn.html#gga211a36c071f2ae834389f4667b181c35a48712274c5055ce58f2835247789024b", null ],
       [ "P12_7", "group__group__hal__impl__pin__package__psoc6__02__68__qfn.html#gga211a36c071f2ae834389f4667b181c35a21febea0182e445d7348566f94cfeb8f", null ],
       [ "USBDP", "group__group__hal__impl__pin__package__psoc6__02__68__qfn.html#gga211a36c071f2ae834389f4667b181c35a91f4d44fb984bb1c20f9a34af8015642", null ],
-      [ "USBDM", "group__group__hal__impl__pin__package__psoc6__02__68__qfn.html#gga211a36c071f2ae834389f4667b181c35a4ce5d83730a8b57610cdffe18cd54eff", null ]
+      [ "P14_0", "group__group__hal__impl__pin__package__psoc6__02__68__qfn.html#gga211a36c071f2ae834389f4667b181c35a364d50a4e0e287628956fcedafd2cd14", null ],
+      [ "USBDM", "group__group__hal__impl__pin__package__psoc6__02__68__qfn.html#gga211a36c071f2ae834389f4667b181c35a4ce5d83730a8b57610cdffe18cd54eff", null ],
+      [ "P14_1", "group__group__hal__impl__pin__package__psoc6__02__68__qfn.html#gga211a36c071f2ae834389f4667b181c35a98d3818de8eed4e56eaa87bef3dcd8db", null ]
     ] ],
     [ "cyhal_pin_map_audioss_clk_i2s_if", "group__group__hal__impl__pin__package__psoc6__02__68__qfn.html#ga91782facf1cac199a21bf09c102d25d0", null ],
     [ "cyhal_pin_map_audioss_pdm_clk", "group__group__hal__impl__pin__package__psoc6__02__68__qfn.html#ga53e8e5d18be5aeb8bc5e211e356a696e", null ],
@@ -208,6 +210,6 @@ var group__group__hal__impl__pin__package__psoc6__02__68__qfn =
     [ "cyhal_pin_map_smif_spi_select3", "group__group__hal__impl__pin__package__psoc6__02__68__qfn.html#gab99bfe3c0c19201941c4d5709abf779f", null ],
     [ "cyhal_pin_map_tcpwm_line", "group__group__hal__impl__pin__package__psoc6__02__68__qfn.html#gac03d6374ac6edc11651010038e67bceb", null ],
     [ "cyhal_pin_map_tcpwm_line_compl", "group__group__hal__impl__pin__package__psoc6__02__68__qfn.html#gaf5d1b74321eb038e11df3a766b57e875", null ],
-    [ "cyhal_pin_map_usb_usb_dm_pad", "group__group__hal__impl__pin__package__psoc6__02__68__qfn.html#ga90d588859bafd8ecf06a9758e767b73a", null ],
-    [ "cyhal_pin_map_usb_usb_dp_pad", "group__group__hal__impl__pin__package__psoc6__02__68__qfn.html#ga83fb4570c24c16b8b6ec802d5e522808", null ]
+    [ "cyhal_pin_map_usb_usb_dm_pad", "group__group__hal__impl__pin__package__psoc6__02__68__qfn.html#ga618f6b9ad69d21bea03de04dc0f42f0d", null ],
+    [ "cyhal_pin_map_usb_usb_dp_pad", "group__group__hal__impl__pin__package__psoc6__02__68__qfn.html#gac1e001dd6cea9e59b9df2545f871bf9d", null ]
 ];

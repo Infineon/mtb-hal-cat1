@@ -1,9 +1,17 @@
 var searchData=
 [
-  ['dac_20_28digital_20to_20analog_20converter_29_0',['DAC (Digital to Analog Converter)',['../group__group__hal__dac.html',1,'(Global Namespace)'],['../group__group__hal__impl__dac.html',1,'(Global Namespace)']]],
-  ['dac_20hal_20results_1',['DAC HAL Results',['../group__group__hal__results__dac.html',1,'']]],
-  ['dma_20_28direct_20memory_20access_29_2',['DMA (Direct Memory Access)',['../group__group__hal__dma.html',1,'(Global Namespace)'],['../group__group__hal__impl__dma.html',1,'(Global Namespace)']]],
-  ['dma_20hal_20results_3',['DMA HAL Results',['../group__group__hal__results__dma.html',1,'']]],
-  ['dmac_20_28direct_20memory_20access_20controller_29_4',['DMAC (Direct Memory Access Controller)',['../group__group__hal__impl__dma__dmac.html',1,'']]],
-  ['dw_20_28datawire_29_5',['DW (Datawire)',['../group__group__hal__impl__dma__dw.html',1,'']]]
+  ['cat1_20implementation_20specific_0',['CAT1 Implementation Specific',['../group__group__hal__impl.html',1,'']]],
+  ['cat1_20specific_20hardware_20types_1',['CAT1 Specific Hardware Types',['../group__group__hal__impl__hw__types.html',1,'']]],
+  ['clock_2',['Clock',['../group__group__hal__clock.html',1,'']]],
+  ['clock_20hal_20results_3',['Clock HAL Results',['../group__group__hal__results__clock.html',1,'']]],
+  ['clocks_4',['Clocks',['../group__group__hal__impl__clock.html',1,'']]],
+  ['common_5',['Common',['../group__group__hal__usb__dev__common.html',1,'']]],
+  ['comp_20_28analog_20comparator_29_6',['COMP (Analog Comparator)',['../group__group__hal__comp.html',1,'(Global Namespace)'],['../group__group__hal__impl__comp.html',1,'(Global Namespace)']]],
+  ['comparator_20hal_20results_7',['Comparator HAL Results',['../group__group__hal__results__comp.html',1,'']]],
+  ['crc_20_28cyclic_20redundancy_20check_29_8',['CRC (Cyclic Redundancy Check)',['../group__group__hal__crc.html',1,'']]],
+  ['crc_20hal_20results_9',['CRC HAL Results',['../group__group__hal__results__crc.html',1,'']]],
+  ['cyw20829_10',['CYW20829',['../group__group__hal__impl__triggers__cyw20829.html',1,'']]],
+  ['cyw20829_2040_2dqfn_11',['CYW20829 40-QFN',['../group__group__hal__impl__pin__package__cyw20829__40__qfn.html',1,'']]],
+  ['cyw20829_2056_2dqfn_12',['CYW20829 56-QFN',['../group__group__hal__impl__pin__package__cyw20829__56__qfn.html',1,'']]],
+  ['cyw20829_20a0_13',['CYW20829 A0',['../group__group__hal__impl__triggers__cyw20829a0.html',1,'']]]
 ];

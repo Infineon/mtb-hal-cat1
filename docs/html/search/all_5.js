@@ -15,7 +15,7 @@ var searchData=
   ['enableledcontrol_12',['enableLedControl',['../group__group__hal__sdhc.html#a9a0d3720e7b0898f436fd51dc3f65ab2',1,'cyhal_sdhc_config_t']]],
   ['endpoint_13',['Endpoint',['../group__group__hal__usb__dev__endpoint.html',1,'']]],
   ['ep0_14',['EP0',['../group__group__hal__usb__dev__ep0.html',1,'']]],
-  ['erase_5fvalue_15',['erase_value',['../group__group__hal__flash.html#a736a77cdecefcca007609dd7b73b9996',1,'cyhal_flash_block_info_t']]],
+  ['erase_5fvalue_15',['erase_value',['../group__group__hal__nvm.html#a0962dee0293304664bb462b49e826f48',1,'cyhal_nvm_region_info_t::erase_value()'],['../structcyhal__flash__block__info__t.html#a736a77cdecefcca007609dd7b73b9996',1,'cyhal_flash_block_info_t::erase_value()']]],
   ['err_5fclock_16',['err_clock',['../struct__cyhal__audioss__interface__t.html#a3f83605d15a9fc3b51a97693074ce041',1,'_cyhal_audioss_interface_t']]],
   ['err_5finvalid_5farg_17',['err_invalid_arg',['../struct__cyhal__audioss__interface__t.html#a165f5d2699fa7454c60ff05255439027',1,'_cyhal_audioss_interface_t']]],
   ['err_5finvalid_5fpin_18',['err_invalid_pin',['../struct__cyhal__audioss__interface__t.html#ae494185e0ccae1a2e238c7025764bbf9',1,'_cyhal_audioss_interface_t']]],

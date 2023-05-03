@@ -117,7 +117,9 @@ typedef enum {
     P12_7 = CYHAL_GET_GPIO(CYHAL_PORT_12, 7), //!< Port 12 Pin 7
 
     USBDP = CYHAL_GET_GPIO(CYHAL_PORT_14, 0), //!< Port 14 Pin 0
+    P14_0 = CYHAL_GET_GPIO(CYHAL_PORT_14, 0), //!< Port 14 Pin 0
     USBDM = CYHAL_GET_GPIO(CYHAL_PORT_14, 1), //!< Port 14 Pin 1
+    P14_1 = CYHAL_GET_GPIO(CYHAL_PORT_14, 1), //!< Port 14 Pin 1
 } cyhal_gpio_psoc6_02_68_qfn_t;
 
 /** Create generic name for the series/package specific type. */
@@ -413,11 +415,11 @@ extern const cyhal_resource_pin_mapping_t cyhal_pin_map_tcpwm_line_compl[52];
 /** Indicates that a pin map exists for usb_usb_dm_pad*/
 #define CYHAL_PIN_MAP_DRIVE_MODE_USB_USB_DM_PAD (CY_GPIO_DM_ANALOG)
 /** List of valid pin to peripheral connections for the usb_usb_dm_pad signal. */
-extern const cyhal_resource_pin_mapping_t cyhal_pin_map_usb_usb_dm_pad[1];
+extern const cyhal_resource_pin_mapping_t cyhal_pin_map_usb_usb_dm_pad[2];
 /** Indicates that a pin map exists for usb_usb_dp_pad*/
 #define CYHAL_PIN_MAP_DRIVE_MODE_USB_USB_DP_PAD (CY_GPIO_DM_ANALOG)
 /** List of valid pin to peripheral connections for the usb_usb_dp_pad signal. */
-extern const cyhal_resource_pin_mapping_t cyhal_pin_map_usb_usb_dp_pad[1];
+extern const cyhal_resource_pin_mapping_t cyhal_pin_map_usb_usb_dp_pad[2];
 
 #if defined(__cplusplus)
 }

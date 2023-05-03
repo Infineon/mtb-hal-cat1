@@ -40,10 +40,10 @@ This release of the CAT1 HAL includes support for the following drivers:
 * WDT
 
 ### What Changed?
-#### v2.3.0
-* Add new SPI APIs
-* Fix incorrect base address calculation on some devices in SCB-based drivers (UART, SPI, I2C, EZI2C).
-* Extend documentation on pins and triggers to cover additional devices.
+#### v2.3.0 Beta 1
+NOTE: This is a pre-production release which is only intended for use with CAT1B devices. It will be removed
+when the production 2.3.0 release is available.
+* Updated pre-production support for CAT1B devices.
 #### v2.2.0
 * Production support for CAT1C devices
 * Improve interrupt handling when running on on CM0+ core
@@ -189,4 +189,4 @@ Use the following links for more information, as needed:
 * [ModusToolbox™](https://www.cypress.com/products/modustoolbox-software-environment)
 
 ---
-© Cypress Semiconductor Corporation (an Infineon company) or an affiliate of Cypress Semiconductor Corporation, 2019-2022.
+© Cypress Semiconductor Corporation (an Infineon company) or an affiliate of Cypress Semiconductor Corporation, 2019-2023.

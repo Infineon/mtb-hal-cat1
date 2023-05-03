@@ -92,16 +92,19 @@ static const cy_stc_dma_channel_config_t _cyhal_dma_dw_default_channel_config =
     .bufferable = false,
 };
 
+static bool _cyhal_dma_dw_pm_transition_pending = false;
+
+#if CYHAL_DRIVER_AVAILABLE_SYSPM
 static bool _cyhal_dma_dw_pm_callback(cyhal_syspm_callback_state_t state, cyhal_syspm_callback_mode_t mode, void* callback_arg);
 
 static cyhal_syspm_callback_data_t cyhal_dma_dw_pm_callback_args = {
     .callback = &_cyhal_dma_dw_pm_callback,
-    .states = (cyhal_syspm_callback_state_t)(CYHAL_SYSPM_CB_CPU_DEEPSLEEP | CYHAL_SYSPM_CB_SYSTEM_HIBERNATE),
+    .states = (cyhal_syspm_callback_state_t)(CYHAL_SYSPM_CB_CPU_DEEPSLEEP | CYHAL_SYSPM_CB_CPU_DEEPSLEEP_RAM | CYHAL_SYSPM_CB_SYSTEM_HIBERNATE),
     .next = NULL,
     .args = NULL,
     .ignore_modes = (cyhal_syspm_callback_mode_t)(CYHAL_SYSPM_BEFORE_TRANSITION | CYHAL_SYSPM_AFTER_DS_WFI_TRANSITION),
 };
-static bool _cyhal_dma_dw_pm_transition_pending = false;
+
 static bool _cyhal_dma_dw_has_enabled(void)
 {
     for (uint8_t i = 0; i < _CYHAL_DMA_DW_NUM_CHANNELS; i++)
@@ -136,6 +139,7 @@ static bool _cyhal_dma_dw_pm_callback(cyhal_syspm_callback_state_t state, cyhal_
     }
     return _cyhal_dma_dw_pm_transition_pending;
 }
+#endif
 
 /** Sets the dw configuration struct */
 static inline void _cyhal_dma_dw_set_obj(cyhal_dma_t *obj)

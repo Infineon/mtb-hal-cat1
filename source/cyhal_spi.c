@@ -147,8 +147,6 @@ static cy_rslt_t _cyhal_spi_int_frequency(cyhal_spi_t *obj, uint32_t hz, uint8_t
     uint32_t divided_freq = 0;
     uint32_t diff = 0;
 
-    _cyhal_utils_peri_pclk_disable_divider(_cyhal_scb_get_clock_index(obj->resource.block_num), &(obj->clock));
-
     uint32_t peri_freq = _cyhal_utils_get_peripheral_clock_frequency(&(obj->resource));
     if (!obj->is_slave)
     {
@@ -165,6 +163,12 @@ static cy_rslt_t _cyhal_spi_int_frequency(cyhal_spi_t *obj, uint32_t hz, uint8_t
             }
 
             divider_value = _cyhal_utils_divider_value(&(obj->resource), hz * oversample_value, 0);
+            #if defined(COMPONENT_CAT5)
+            if(!_cyhal_clock_is_divider_valid(&(obj->resource), divider_value))
+            {
+                continue;
+            }
+            #endif
             divided_freq = peri_freq / divider_value;
             diff = (oversampled_freq > divided_freq)
                 ? oversampled_freq - divided_freq
@@ -199,20 +203,42 @@ static cy_rslt_t _cyhal_spi_int_frequency(cyhal_spi_t *obj, uint32_t hz, uint8_t
         }
 
         /* Use maximum available clock for slave to make it able to work with any master environment */
+        #if defined(COMPONENT_CAT5)
+        /* On CAT5, frequency is set to (hz * oversample).  Set to max oversample so the slave can match any master equal or slower
+        * than it.  On other devices, last_dvdr_val is set to 1 to minimize the divider thus max the frequency, to the same effect. */
+        last_ovrsmpl_val = _CYHAL_SPI_OVERSAMPLE_MAX;
+        CY_UNUSED_PARAMETER(last_dvdr_val);
+        #else
         last_dvdr_val = 1;
-        last_ovrsmpl_val = 1;
+        CY_UNUSED_PARAMETER(last_ovrsmpl_val);
+        #endif
     }
 
-#if defined (COMPONENT_CAT5)
-    CY_UNUSED_PARAMETER(last_dvdr_val);
-    result = _cyhal_utils_peri_pclk_set_freq(_cyhal_scb_get_clock_index(obj->resource.block_num), &(obj->clock), hz, last_ovrsmpl_val);
-#else
-    result = _cyhal_utils_peri_pclk_set_divider(_cyhal_scb_get_clock_index(obj->resource.block_num), &(obj->clock), last_dvdr_val - 1);
-#endif
-    if (CY_RSLT_SUCCESS == result)
+    #if defined (COMPONENT_CAT5)
+    if (last_ovrsmpl_val == 0)
     {
-        _cyhal_utils_peri_pclk_enable_divider(_cyhal_scb_get_clock_index(obj->resource.block_num), &(obj->clock));
+        result = CYHAL_SPI_RSLT_ERR_CFG_NOT_SUPPORTED;
     }
+    else
+    {
+        _cyhal_utils_peri_pclk_disable_divider(_cyhal_scb_get_clock_index(obj->resource.block_num), &(obj->clock));
+        result = _cyhal_utils_peri_pclk_set_freq(_cyhal_scb_get_clock_index(obj->resource.block_num), &(obj->clock), hz, last_ovrsmpl_val);
+        if (CY_RSLT_SUCCESS == result)
+        {
+            _cyhal_utils_peri_pclk_enable_divider(_cyhal_scb_get_clock_index(obj->resource.block_num), &(obj->clock));
+        }
+    }
+    #else
+        result = cyhal_clock_set_enabled(&(obj->clock), false, false);
+        if (result == CY_RSLT_SUCCESS)
+        {
+            result = cyhal_clock_set_divider(&(obj->clock), last_dvdr_val);
+        }
+        if (result == CY_RSLT_SUCCESS)
+        {
+            result = cyhal_clock_set_enabled(&(obj->clock), true, false);
+        }
+    #endif
 
     return result;
 }
@@ -323,16 +349,19 @@ static void _cyhal_spi_irq_handler(void)
 static void _cyhal_spi0_irq_handler(void)
 {
     _cyhal_spi_irq_handler(scb_0_interrupt_IRQn);
+    Cy_SCB_EnableInterrupt(SCB0);
 }
 
 static void _cyhal_spi1_irq_handler(void)
 {
     _cyhal_spi_irq_handler(scb_1_interrupt_IRQn);
+    Cy_SCB_EnableInterrupt(SCB1);
 }
 
 static void _cyhal_spi2_irq_handler(void)
 {
     _cyhal_spi_irq_handler(scb_2_interrupt_IRQn);
+    Cy_SCB_EnableInterrupt(SCB2);
 }
 
 static CY_SCB_IRQ_THREAD_CB_t _cyhal_irq_cb[3] = {_cyhal_spi0_irq_handler, _cyhal_spi1_irq_handler, _cyhal_spi2_irq_handler};
@@ -401,7 +430,7 @@ static bool _cyhal_spi_pm_callback_instance(void *obj_ptr, cyhal_syspm_callback_
         .context = (void *) &(obj->context)
     };
 
-    if (CYHAL_SYSPM_CB_CPU_DEEPSLEEP == state)
+    if ((CYHAL_SYSPM_CB_CPU_DEEPSLEEP == state) || (CYHAL_SYSPM_CB_CPU_DEEPSLEEP_RAM == state))
         allow = (CY_SYSPM_SUCCESS == Cy_SCB_SPI_DeepSleepCallback(&spi_callback_params, pdl_mode));
 #if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1D)
     else if (CYHAL_SYSPM_CB_SYSTEM_HIBERNATE == state)
@@ -754,6 +783,22 @@ static cy_rslt_t _cyhal_spi_setup_resources(cyhal_spi_t *obj, const cyhal_spi_co
         obj->resource = *spi_inst_p;
         uint8_t scb_arr_index = _cyhal_scb_get_block_index(obj->resource.block_num);
         obj->base = _CYHAL_SCB_BASE_ADDRESSES[scb_arr_index];
+        #if defined(COMPONENT_CAT5)
+        // Check if either clock hasn't been provided thus not initialized (clock == NULL), or the user has not yet
+        // set the clock frequency (which enables it).
+        if(cfg->clock == NULL)
+        {
+            result = _cyhal_utils_allocate_clock(&(obj->clock), &(obj->resource), CYHAL_CLOCK_BLOCK_PERIPHERAL_16BIT, true);
+            obj->alloc_clock = true;
+            result = _cyhal_spi_int_frequency(obj, _CYHAL_SPI_DEFAULT_SPEED, &obj->oversample_value);
+        }
+        if((cfg->clock != NULL) && (_cyhal_utils_peri_pclk_get_freq(0, cfg->clock) == 0))
+        {
+            obj->clock = *cfg->clock;
+            obj->alloc_clock = false;
+            result = _cyhal_spi_int_frequency(obj, _CYHAL_SPI_DEFAULT_SPEED, &obj->oversample_value);
+        }
+        #endif
     }
 
     // reserve the MOSI pin
@@ -802,6 +847,8 @@ static cy_rslt_t _cyhal_spi_setup_resources(cyhal_spi_t *obj, const cyhal_spi_co
                     (cyhal_spi_ssel_polarity_t)((cfg->config->ssPolarity >> obj->active_ssel) & 0x1), !obj->dc_configured);
     }
 
+    #if !defined(COMPONENT_CAT5)
+    // Already handled above for CAT5
     if (result == CY_RSLT_SUCCESS)
     {
         if (cfg->clock == NULL)
@@ -816,12 +863,14 @@ static cy_rslt_t _cyhal_spi_setup_resources(cyhal_spi_t *obj, const cyhal_spi_co
 
             /* Per CDT 315848 and 002-20730 Rev. *E:
              * For SPI, an integer clock divider must be used for both master and slave. */
-            if ((obj->clock.block == CYHAL_CLOCK_BLOCK_PERIPHERAL_16_5BIT) || (obj->clock.block == CYHAL_CLOCK_BLOCK_PERIPHERAL_24_5BIT))
+            if ((_CYHAL_PERIPHERAL_GROUP_GET_DIVIDER_TYPE(obj->clock.block) == (cy_en_divider_types_t)CYHAL_CLOCK_BLOCK_PERIPHERAL_16_5BIT) ||
+                (_CYHAL_PERIPHERAL_GROUP_GET_DIVIDER_TYPE(obj->clock.block) == (cy_en_divider_types_t)CYHAL_CLOCK_BLOCK_PERIPHERAL_24_5BIT))
             {
                 result = CYHAL_SPI_RSLT_CLOCK_NOT_SUPPORTED;
             }
         }
     }
+    #endif
     if (result == CY_RSLT_SUCCESS)
     {
         result = _cyhal_utils_peri_pclk_assign_divider(_cyhal_scb_get_clock_index(obj->resource.block_num), &(obj->clock));
@@ -1048,6 +1097,7 @@ static void _cyhal_ssel_switch_state(cyhal_spi_t *obj, uint8_t ssel_idx, bool ss
 cy_rslt_t cyhal_spi_set_frequency(cyhal_spi_t *obj, uint32_t hz)
 {
     cy_rslt_t result = CY_RSLT_SUCCESS;
+    cy_rslt_t scb_init_result = CY_RSLT_SUCCESS;
     uint8_t   ovr_sample_val;
 
     if (NULL == obj)
@@ -1075,10 +1125,9 @@ cy_rslt_t cyhal_spi_set_frequency(cyhal_spi_t *obj, uint32_t hz)
             config_structure.txDataWidth = obj->data_bits;
             config_structure.oversample = ovr_sample_val;
             obj->oversample_value = ovr_sample_val;
-            result = (cy_rslt_t)Cy_SCB_SPI_Init(obj->base, &config_structure, &(obj->context));
+            scb_init_result = (cy_rslt_t)Cy_SCB_SPI_Init(obj->base, &config_structure, &(obj->context));
         }
-
-        if (CY_RSLT_SUCCESS == result)
+        if(CY_RSLT_SUCCESS == scb_init_result)
         {
             Cy_SCB_SPI_Enable(obj->base);
         }

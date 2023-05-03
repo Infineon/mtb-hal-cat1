@@ -377,7 +377,7 @@ static bool _cyhal_tcpwm_pm_callback(cyhal_syspm_callback_state_t state, cyhal_s
 static cyhal_syspm_callback_data_t _cyhal_tcpwm_syspm_callback_data =
 {
     .callback = &_cyhal_tcpwm_pm_callback,
-    .states = (cyhal_syspm_callback_state_t)(CYHAL_SYSPM_CB_CPU_DEEPSLEEP | CYHAL_SYSPM_CB_SYSTEM_HIBERNATE),
+    .states = (cyhal_syspm_callback_state_t)(CYHAL_SYSPM_CB_CPU_DEEPSLEEP | CYHAL_SYSPM_CB_CPU_DEEPSLEEP_RAM | CYHAL_SYSPM_CB_SYSTEM_HIBERNATE),
     .next = NULL,
     .args = NULL,
     .ignore_modes = (cyhal_syspm_callback_mode_t)(CYHAL_SYSPM_AFTER_DS_WFI_TRANSITION),

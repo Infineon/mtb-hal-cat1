@@ -232,7 +232,7 @@ static bool _cyhal_i2c_pm_callback_instance(void *obj_ptr, cyhal_syspm_callback_
     };
     bool allow = true;
 
-    if (CYHAL_SYSPM_CB_CPU_DEEPSLEEP == state)
+    if ((CYHAL_SYSPM_CB_CPU_DEEPSLEEP == state) || (CYHAL_SYSPM_CB_CPU_DEEPSLEEP_RAM == state))
         allow = (CY_SYSPM_SUCCESS == Cy_SCB_I2C_DeepSleepCallback(&i2c_callback_params, pdl_mode));
 #if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
     else if (CYHAL_SYSPM_CB_SYSTEM_HIBERNATE == state)
@@ -241,6 +241,7 @@ static bool _cyhal_i2c_pm_callback_instance(void *obj_ptr, cyhal_syspm_callback_
 
     return allow;
 }
+
 
 static cy_rslt_t _cyhal_i2c_init_resources(cyhal_i2c_t *obj, cyhal_gpio_t sda, cyhal_gpio_t scl, const cyhal_clock_t *clk)
 {

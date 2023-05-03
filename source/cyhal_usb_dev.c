@@ -507,7 +507,7 @@ cy_rslt_t cyhal_usb_dev_init(cyhal_usb_dev_t *obj, cyhal_gpio_t dp, cyhal_gpio_t
                                              &(obj->context));
         cyhal_usb_dev_sof_enable(obj, false);
 
-        obj->pm_callback.states = (cyhal_syspm_callback_state_t)(CYHAL_SYSPM_CB_CPU_DEEPSLEEP | CYHAL_SYSPM_CB_SYSTEM_HIBERNATE);
+        obj->pm_callback.states = (cyhal_syspm_callback_state_t)(CYHAL_SYSPM_CB_CPU_DEEPSLEEP | CYHAL_SYSPM_CB_CPU_DEEPSLEEP_RAM | CYHAL_SYSPM_CB_SYSTEM_HIBERNATE);
         obj->pm_callback.callback = &_cyhal_usb_dev_pm_callback;
         obj->pm_callback.args = (void *)obj;
         obj->pm_callback.next = NULL;

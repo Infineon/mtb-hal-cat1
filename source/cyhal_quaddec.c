@@ -82,7 +82,9 @@ static inline cy_rslt_t _cyhal_quaddec_configure_clock(cyhal_tcpwm_t *tcpwm, en_
 {
     cy_rslt_t rslt;
 
-    #if !defined(COMPONENT_CAT5)
+    #if defined(COMPONENT_CAT5)
+    CY_UNUSED_PARAMETER(pclk);
+    #else
     const cyhal_clock_tolerance_t tolerance = {
         .type = CYHAL_TOLERANCE_PERCENT,
         .value = 2,
@@ -219,6 +221,7 @@ static cy_rslt_t _cyhal_quaddec_pin_init(cyhal_quaddec_t *obj, cyhal_gpio_t pin,
     }
 
     #if defined (COMPONENT_CAT5)
+        CY_UNUSED_PARAMETER(signal_type);
         cy_rslt_t rslt = CYHAL_QUADDEC_RSLT_ERR_BAD_ARGUMENT;
         const cyhal_resource_pin_mapping_t* pinMap = _CYHAL_UTILS_GET_RESOURCE(pin, cyhal_pin_map_tcpwm_tr_all_cnt_in);
         

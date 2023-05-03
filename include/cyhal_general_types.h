@@ -70,15 +70,15 @@ enum cyhal_rslt_module_chip
     CYHAL_RSLT_MODULE_DAC           = (0x05),  //!< An error occurred in DAC module
     CYHAL_RSLT_MODULE_DMA           = (0x06),  //!< An error occurred in DMA module
     CYHAL_RSLT_MODULE_EZI2C         = (0x07),  //!< An error occurred in EZI2C module
-    CYHAL_RSLT_MODULE_FLASH         = (0x08),  //!< An error occurred in flash module
-    CYHAL_RSLT_MODULE_GPIO          = (0x09),  //!< An error occurred in GPIO module
-    CYHAL_RSLT_MODULE_I2C           = (0x0A),  //!< An error occurred in I2C module
-    CYHAL_RSLT_MODULE_I2S           = (0x0B),  //!< An error occurred in I2S module
-    CYHAL_RSLT_MODULE_IPC           = (0x0C),  //!< An error occurred in IPC module
-    CYHAL_RSLT_MODULE_INTERCONNECT  = (0x0D),  //!< An error occurred in Interconnect module
-    CYHAL_RSLT_MODULE_HWMGR         = (0x0E),  //!< An error occurred in hardware management module
-    CYHAL_RSLT_MODULE_KEYSCAN       = (0x0F),  //!< An error occurred in KeyScan module
-    CYHAL_RSLT_MODULE_LPTIMER       = (0x10),  //!< An error occured in LPTimer module
+    CYHAL_RSLT_MODULE_GPIO          = (0x08),  //!< An error occurred in GPIO module
+    CYHAL_RSLT_MODULE_I2C           = (0x09),  //!< An error occurred in I2C module
+    CYHAL_RSLT_MODULE_I2S           = (0x0A),  //!< An error occurred in I2S module
+    CYHAL_RSLT_MODULE_IPC           = (0x0B),  //!< An error occurred in IPC module
+    CYHAL_RSLT_MODULE_INTERCONNECT  = (0x0C),  //!< An error occurred in Interconnect module
+    CYHAL_RSLT_MODULE_HWMGR         = (0x0D),  //!< An error occurred in hardware management module
+    CYHAL_RSLT_MODULE_KEYSCAN       = (0x0E),  //!< An error occurred in KeyScan module
+    CYHAL_RSLT_MODULE_LPTIMER       = (0x0F),  //!< An error occurred in LPTimer module
+    CYHAL_RSLT_MODULE_NVM           = (0x10),  //!< An error occurred in NVM module
     CYHAL_RSLT_MODULE_OPAMP         = (0x11),  //!< An error occurred in OpAmp module
     CYHAL_RSLT_MODULE_PDMPCM        = (0x12),  //!< An error occurred in PDM/PCM module
     CYHAL_RSLT_MODULE_PWM           = (0x13),  //!< An error occurred in PWM module
@@ -171,16 +171,18 @@ typedef enum
  */
 typedef enum
 {
-    CYHAL_SYSPM_CB_CPU_SLEEP         = 0x01U,   /**< Flag for MCU sleep callback. */
-    CYHAL_SYSPM_CB_CPU_DEEPSLEEP     = 0x02U,   /**< Flag for MCU deep sleep callback. */
-    CYHAL_SYSPM_CB_SYSTEM_HIBERNATE  = 0x04U,   /**< Flag for Hibernate callback. */
-    CYHAL_SYSPM_CB_SYSTEM_NORMAL     = 0x08U,   /**< Flag for Normal mode callback. */
-    CYHAL_SYSPM_CB_SYSTEM_LOW        = 0x10U,   /**< Flag for Low power mode callback. */
+    CYHAL_SYSPM_CB_CPU_SLEEP             = 0x01U,   /**< Flag for MCU sleep callback. */
+    CYHAL_SYSPM_CB_CPU_DEEPSLEEP         = 0x02U,   /**< Flag for MCU deep sleep callback. */
+    CYHAL_SYSPM_CB_CPU_DEEPSLEEP_RAM     = 0x04U,   /**< Flag for MCU deep sleep ram callback. */
+    CYHAL_SYSPM_CB_SYSTEM_HIBERNATE      = 0x08U,   /**< Flag for Hibernate callback. */
+    CYHAL_SYSPM_CB_SYSTEM_NORMAL         = 0x10U,   /**< Flag for Normal mode callback. */
+    CYHAL_SYSPM_CB_SYSTEM_LOW            = 0x20U,   /**< Flag for Low power mode callback. */
 } cyhal_syspm_callback_state_t;
 
 /** Define for enabling all system and MCU state callbacks .*/
 #define CYHAL_SYSPM_CALLBACK_STATE_ALL (CYHAL_SYSPM_CB_CPU_SLEEP\
                                         | CYHAL_SYSPM_CB_CPU_DEEPSLEEP\
+                                        | CYHAL_SYSPM_CB_CPU_DEEPSLEEP_RAM\
                                         | CYHAL_SYSPM_CB_SYSTEM_HIBERNATE\
                                         | CYHAL_SYSPM_CB_SYSTEM_NORMAL\
                                         | CYHAL_SYSPM_CB_SYSTEM_LOW)

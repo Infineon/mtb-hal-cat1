@@ -871,12 +871,14 @@ const cyhal_resource_pin_mapping_t cyhal_pin_map_tcpwm_line_compl[70] = {
 };
 
 /* Connections for: usb_usb_dm_pad */
-const cyhal_resource_pin_mapping_t cyhal_pin_map_usb_usb_dm_pad[1] = {
+const cyhal_resource_pin_mapping_t cyhal_pin_map_usb_usb_dm_pad[2] = {
+    {0u, 0u, P14_1, HSIOM_SEL_GPIO},
     {0u, 0u, USBDM, HSIOM_SEL_GPIO},
 };
 
 /* Connections for: usb_usb_dp_pad */
-const cyhal_resource_pin_mapping_t cyhal_pin_map_usb_usb_dp_pad[1] = {
+const cyhal_resource_pin_mapping_t cyhal_pin_map_usb_usb_dp_pad[2] = {
+    {0u, 0u, P14_0, HSIOM_SEL_GPIO},
     {0u, 0u, USBDP, HSIOM_SEL_GPIO},
 };
 

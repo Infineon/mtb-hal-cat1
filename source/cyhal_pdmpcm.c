@@ -569,7 +569,6 @@ static void _cyhal_pdm_pcm_hw_irq_handler(void)
 #elif defined(CY_IP_MXPDM)
         uint32_t irq_status = Cy_PDM_PCM_Channel_GetInterruptStatus(obj->base, obj->resource.channel_num);
 #endif
-        _cyhal_pdm_pcm_clear_interrupt(obj, irq_status);
         cyhal_pdm_pcm_event_t event = _cyhal_pdm_pcm_get_hal_event(irq_status);
 
         if((CYHAL_PDM_PCM_RX_HALF_FULL & event) || (CYHAL_PDM_PCM_RX_OVERFLOW & event))
@@ -648,6 +647,7 @@ static void _cyhal_pdm_pcm_hw_irq_handler(void)
                 callback(obj->callback_data.callback_arg, event);
             }
         }
+        _cyhal_pdm_pcm_clear_interrupt(obj, irq_status);
     }
 }
 
@@ -1163,7 +1163,7 @@ static cy_rslt_t _cyhal_pdm_pcm_init_hw(cyhal_pdm_pcm_t *obj, int paired_channel
         obj->pm_transition_ready = false;
 
         obj->pm_callback.callback = &_cyhal_pdm_pcm_pm_callback;
-        obj->pm_callback.states = (cyhal_syspm_callback_state_t)(CYHAL_SYSPM_CB_CPU_DEEPSLEEP | CYHAL_SYSPM_CB_SYSTEM_HIBERNATE);
+        obj->pm_callback.states = (cyhal_syspm_callback_state_t)(CYHAL_SYSPM_CB_CPU_DEEPSLEEP | CYHAL_SYSPM_CB_CPU_DEEPSLEEP_RAM | CYHAL_SYSPM_CB_SYSTEM_HIBERNATE);
         obj->pm_callback.next = NULL;
         obj->pm_callback.args = (void*)obj;
         obj->pm_callback.ignore_modes = (cyhal_syspm_callback_mode_t)(CYHAL_SYSPM_BEFORE_TRANSITION | CYHAL_SYSPM_AFTER_DS_WFI_TRANSITION);
@@ -1189,7 +1189,7 @@ cy_rslt_t cyhal_pdm_pcm_init(cyhal_pdm_pcm_t *obj, cyhal_gpio_t pin_data, cyhal_
     cy_rslt_t result = CY_RSLT_SUCCESS;
 
     _cyhal_pdm_pcm_arrays_init();
-    
+
     /* Explicitly marked not allocated resources as invalid to prevent freeing them. */
     obj->resource.type = CYHAL_RSC_INVALID;
     obj->pin_data = CYHAL_NC_PIN_VALUE;
@@ -1562,6 +1562,9 @@ cy_rslt_t cyhal_pdm_pcm_clear(cyhal_pdm_pcm_t *obj)
         }
     }
 #endif
+    // clear data-related interrupts
+    _cyhal_pdm_pcm_clear_interrupt(obj, CY_PDM_PCM_INTR_RX_TRIGGER | CY_PDM_PCM_INTR_RX_OVERFLOW
+            | CY_PDM_PCM_INTR_RX_UNDERFLOW);
     return CY_RSLT_SUCCESS;
 }
 

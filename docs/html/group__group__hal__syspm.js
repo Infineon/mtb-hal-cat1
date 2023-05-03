@@ -13,6 +13,7 @@ var group__group__hal__syspm =
     [ "cyhal_syspm_callback_state_t", "group__group__hal__syspm.html#ga560aa7873d3131c4eb5d1453711305d2", [
       [ "CYHAL_SYSPM_CB_CPU_SLEEP", "group__group__hal__syspm.html#gga560aa7873d3131c4eb5d1453711305d2a30f5d217aded3c5525b1d9cea03ac5a8", null ],
       [ "CYHAL_SYSPM_CB_CPU_DEEPSLEEP", "group__group__hal__syspm.html#gga560aa7873d3131c4eb5d1453711305d2aeaae71eba11b9c861e4a86a6f5c0f2aa", null ],
+      [ "CYHAL_SYSPM_CB_CPU_DEEPSLEEP_RAM", "group__group__hal__syspm.html#gga560aa7873d3131c4eb5d1453711305d2af1a90dd70e5455e36edb783c060a4a98", null ],
       [ "CYHAL_SYSPM_CB_SYSTEM_HIBERNATE", "group__group__hal__syspm.html#gga560aa7873d3131c4eb5d1453711305d2ac9de4348b02a53d947ce48bd7bc6922a", null ],
       [ "CYHAL_SYSPM_CB_SYSTEM_NORMAL", "group__group__hal__syspm.html#gga560aa7873d3131c4eb5d1453711305d2aca71bfa3460ce92a9eed50dace3b8b5a", null ],
       [ "CYHAL_SYSPM_CB_SYSTEM_LOW", "group__group__hal__syspm.html#gga560aa7873d3131c4eb5d1453711305d2af13d1c94115a90b1f9d734ace0017045", null ]
@@ -54,8 +55,8 @@ var group__group__hal__syspm =
     [ "cyhal_syspm_deepsleep", "group__group__hal__syspm.html#ga0afe7e58c0df4a2eda5010ac628ea981", null ],
     [ "cyhal_syspm_lock_deepsleep", "group__group__hal__syspm.html#ga3568214a6038240239f99768fe6707d6", null ],
     [ "cyhal_syspm_unlock_deepsleep", "group__group__hal__syspm.html#ga028b85f03d4607ccac8494b46ec8413c", null ],
-    [ "cyhal_syspm_tickless_deepsleep", "group__group__hal__syspm.html#ga2217e0c4c24cc5fe14d5765681de191d", null ],
-    [ "cyhal_syspm_tickless_sleep", "group__group__hal__syspm.html#ga777835c494bbea3923a4cf9795249fd6", null ],
+    [ "cyhal_syspm_tickless_deepsleep", "group__group__hal__syspm.html#ga2bbc7d6e2727228629d7e485ed9a6565", null ],
+    [ "cyhal_syspm_tickless_sleep", "group__group__hal__syspm.html#gadc3bb2e5eff7491f79585034bbe99cb0", null ],
     [ "cyhal_syspm_set_supply_voltage", "group__group__hal__syspm.html#ga01d10df7bebeb345902a0d8e1c193ad1", null ],
     [ "cyhal_syspm_get_supply_voltage", "group__group__hal__syspm.html#ga6bbb8993f1add4b31d7b168fb670f842", null ]
 ];

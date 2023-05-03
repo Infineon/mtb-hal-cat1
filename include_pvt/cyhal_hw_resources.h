@@ -53,6 +53,11 @@ extern "C" {
 #endif
 #define _CYHAL_DRIVER_AVAILABLE_DMA_DMAC    (((CY_IP_M4CPUSS_DMAC_INSTANCES) > 0) || ((CY_IP_M7CPUSS_DMAC_INSTANCES) > 0) || ((CY_IP_MXAHBDMAC_INSTANCES) > 0) || ((CY_IP_MXSAXIDMAC_INSTANCES) > 0))
 #define _CYHAL_DRIVER_AVAILABLE_DMA_DW      (((CY_IP_M4CPUSS_DMA_INSTANCES) > 0) || ((CY_IP_M7CPUSS_DMA_INSTANCES) > 0) || ((CY_IP_MXDW_INSTANCES) > 0))
+
+#define _CYHAL_DRIVER_AVAILABLE_NVM_FLASH   (((FLASHC_BASE) > 0) || ((CPUSS_FLASHC_PRESENT) > 0))
+#define _CYHAL_DRIVER_AVAILABLE_NVM_OTP     ((CY_IP_MXS22RRAMC_INSTANCES) > 0)
+#define _CYHAL_DRIVER_AVAILABLE_NVM_RRAM    ((CY_IP_MXS22RRAMC_INSTANCES) > 0)
+
 #if !defined(COMPONENT_CAT1D)
 
 #define _CYHAL_DRIVER_AVAILABLE_ADC_SAR     ((CY_IP_MXS40PASS_SAR_INSTANCES) > 0) || ((CY_IP_MXS40EPASS_ESAR_INSTANCES) > 0)
@@ -64,11 +69,6 @@ extern "C" {
 /* MXCRYPTOLITE is not yet supported */
 //#define _CYHAL_DRIVER_AVAILABLE_CRYPTO      (((CY_IP_MXCRYPTO_INSTANCES) > 0) || ((CY_IP_MXCRYPTOLITE_INSTANCES) > 0))
 #define _CYHAL_DRIVER_AVAILABLE_CRYPTO      ((CY_IP_MXCRYPTO_INSTANCES) > 0)
-#if (!defined(CPUSS_FLASHC_PRESENT) || ((CPUSS_FLASHC_PRESENT) > 0))
-#define _CYHAL_DRIVER_AVAILABLE_FLASH       (1)
-#else
-#define _CYHAL_DRIVER_AVAILABLE_FLASH       (0)
-#endif
 
 #else
 
@@ -78,9 +78,8 @@ extern "C" {
 #define _CYHAL_DRIVER_AVAILABLE_COMP_CTB    (0)
 #define _CYHAL_DRIVER_AVAILABLE_PASS        (0)
 #define _CYHAL_DRIVER_AVAILABLE_CRYPTO      (0)
-#define _CYHAL_DRIVER_AVAILABLE_FLASH       (0)
 
-#endif /* not COMPONENT_CAT1D or COMPONENTCAT1D */
+#endif /* not COMPONENT_CAT1D or COMPONENT_CAT1D */
 
 #if defined(PERI_PERI_PCLK_PCLK_GROUP_NR)
 #define _CYHAL_CLOCK_PERI_GROUPS    PERI_PERI_PCLK_PCLK_GROUP_NR
@@ -90,9 +89,14 @@ extern "C" {
 #define _CYHAL_CLOCK_PERI_GROUPS    1
 #endif
 
-/* CAT1C devices define _CYHAL_SRSS_NUM_PLL to be the macro that documents the number of 200MHz PLL's present */
+
 #if defined(COMPONENT_CAT1C)
-    #define SRSS_NUM_PLL200M SRSS_NUM_PLL
+    /* CAT1C devices define _CYHAL_SRSS_NUM_PLL to be the macro that documents the number of 200MHz PLL's present */
+    #define SRSS_NUM_PLL200M    SRSS_NUM_PLL
+#elif defined(COMPONENT_CAT1D)
+    /* CAT1D devices define SRSS_NUM_DPLL_LP/SRSS_NUM_DPLL_HP to be the macro that documents the number of 200/500MHz PLL's present */
+    #define SRSS_NUM_DPLL250M   SRSS_NUM_DPLL_LP
+    #define SRSS_NUM_DPLL500M   SRSS_NUM_DPLL_HP
 #endif
 
 #if defined(COMPONENT_CAT1C) && (SRSS_HT_VARIANT)
@@ -102,6 +106,17 @@ extern "C" {
 #endif
 
 #define _CYHAL_SRSS_NUM_FAST (1 + CPUSS_CM7_1_PRESENT)
+
+/* Alignment for DMA descriptors */
+#if (CY_IP_MXSAXIDMAC)
+    /* AXI DMA controller has a 64-bit AXI master interface */
+    #define _CYHAL_DMA_ALIGN        CY_ALIGN(8)
+#elif (CY_CPU_CORTEX_M7) && defined (ENABLE_CM7_DATA_CACHE)
+    #define _CYHAL_DMA_ALIGN        CY_ALIGN(__SCB_DCACHE_LINE_SIZE)
+#else
+    #define _CYHAL_DMA_ALIGN
+#endif
+
 /** \endcond */
 
 // Documented in cyhal.h
@@ -140,6 +155,12 @@ extern "C" {
 #endif
 #define CYHAL_DRIVER_AVAILABLE_SDHC         ((CY_IP_MXSDHC_INSTANCES) > 0)
 #define CYHAL_DRIVER_AVAILABLE_SDIO         (((CY_IP_MXSDHC_INSTANCES) > 0) || (_CYHAL_DRIVER_AVAILABLE_SDIO_UDB))
+#define CYHAL_DRIVER_AVAILABLE_SDIO_HOST    (CYHAL_DRIVER_AVAILABLE_SDIO)
+#define CYHAL_DRIVER_AVAILABLE_SDIO_DEV     (0)
+#define CYHAL_DRIVER_AVAILABLE_NVM          (_CYHAL_DRIVER_AVAILABLE_NVM_FLASH || _CYHAL_DRIVER_AVAILABLE_NVM_RRAM || _CYHAL_DRIVER_AVAILABLE_NVM_OTP)
+#define CYHAL_DRIVER_AVAILABLE_FLASH        (_CYHAL_DRIVER_AVAILABLE_NVM_FLASH)     /* Deprecated */
+#define CYHAL_DRIVER_AVAILABLE_SYSPM        (1)
+#define CYHAL_DRIVER_AVAILABLE_RTC          (((((CY_IP_MXS40SSRSS_INSTANCES) > 0) || ((CY_IP_MXS40SRSS_INSTANCES) > 0)) && ((SRSS_BACKUP_PRESENT) > 0)) || (((SRSS_RTC_PRESENT) > 0) && ((SRSS_NUM_HIBDATA) > 0)))
 
 #if !defined(COMPONENT_CAT1D)
 
@@ -147,12 +168,9 @@ extern "C" {
 #define CYHAL_DRIVER_AVAILABLE_COMP         ((_CYHAL_DRIVER_AVAILABLE_COMP_LP) || (_CYHAL_DRIVER_AVAILABLE_COMP_CTB))
 #define CYHAL_DRIVER_AVAILABLE_CRC          (((CY_IP_MXCRYPTO_INSTANCES) > 0) && (CPUSS_CRYPTO_CRC))
 #define CYHAL_DRIVER_AVAILABLE_DAC          (((CY_IP_MXS40PASS_INSTANCES) > 0) && ((CY_IP_MXS40PASS_CTDAC_INSTANCES) > 0))
-#define CYHAL_DRIVER_AVAILABLE_FLASH        (_CYHAL_DRIVER_AVAILABLE_FLASH)
 #define CYHAL_DRIVER_AVAILABLE_KEYSCAN      ((CY_IP_MXKEYSCAN_INSTANCES) > 0)
 #define CYHAL_DRIVER_AVAILABLE_OPAMP        (((CY_IP_MXS40PASS_INSTANCES) > 0) && ((CY_IP_MXS40PASS_CTB_INSTANCES) > 0))
 #define CYHAL_DRIVER_AVAILABLE_PDMPCM       ((((CY_IP_MXAUDIOSS_INSTANCES) > 0) && (AUDIOSS_PDM || AUDIOSS0_PDM || AUDIOSS0_PDM_PDM)) || ((CY_IP_MXPDM_INSTANCES) > 0)) //AUDIOSS[x]_PDM
-#define CYHAL_DRIVER_AVAILABLE_RTC          ((((CY_IP_MXS40SSRSS_INSTANCES) > 0) || ((CY_IP_MXS40SRSS_INSTANCES) > 0)) && ((SRSS_BACKUP_PRESENT) > 0))
-#define CYHAL_DRIVER_AVAILABLE_SYSPM        (1)
 #define CYHAL_DRIVER_AVAILABLE_TRNG         ((((CY_IP_MXCRYPTO_INSTANCES) > 0) && ((CPUSS_CRYPTO_TR) > 0)) /*|| (((CY_IP_MXCRYPTOLITE_INSTANCES) > 0) && ((CRYPTO_TRNG_PRESENT) > 0))*/)
 #define CYHAL_DRIVER_AVAILABLE_USB_DEV      ((CY_IP_MXUSBFS_INSTANCES) > 0)
 
@@ -164,12 +182,10 @@ extern "C" {
 #define CYHAL_DRIVER_AVAILABLE_KEYSCAN      (0)
 #define CYHAL_DRIVER_AVAILABLE_OPAMP        (0)
 #define CYHAL_DRIVER_AVAILABLE_PDMPCM       (0)
-#define CYHAL_DRIVER_AVAILABLE_SYSPM        (0)
-#define CYHAL_DRIVER_AVAILABLE_RTC          (0)
 #define CYHAL_DRIVER_AVAILABLE_TRNG         (0)
 #define CYHAL_DRIVER_AVAILABLE_USB_DEV      (0)
 #define CYHAL_DRIVER_AVAILABLE_ADC          (0)
-#define CYHAL_DRIVER_AVAILABLE_FLASH        (0)
+
 
 #endif /* not COMPONENT_CAT1D or other */
 
@@ -236,9 +252,9 @@ typedef enum
         CYHAL_CLOCK_BLOCK_PERIPHERAL##gr##_24_5BIT = _CYHAL_PERIPHERAL_GROUP_ADJUST((gr), CY_SYSCLK_DIV_24_5_BIT)   /*!< 24.5bit Peripheral Divider Group */
 #else /* !defined(COMPONENT_CAT1D) */
     /* Converts the group/div pair into a unique block number. */
-    #define _CYHAL_PERIPHERAL_GROUP_ADJUST(instance, group, div)        (((instance) << 6) | ((group) << 2) | (div))
-    #define _CYHAL_PERIPHERAL_CLOCK_GET_INSTANCE(clock)                 ((clock >> 6) & 0x3)
-    #define _CYHAL_PERIPHERAL_CLOCK_GET_GROUP(clock)                    ((clock >> 2) & 0xF)
+    #define _CYHAL_PERIPHERAL_GROUP_ADJUST(instance, group, div)        (((group + (instance * PERI0_PERI_PCLK_PCLK_GROUP_NR)) << 2) | (div))
+    #define _CYHAL_PERIPHERAL_CLOCK_GET_INSTANCE(clock)                 ((clock >> 2) / PERI0_PERI_PCLK_PCLK_GROUP_NR)
+    #define _CYHAL_PERIPHERAL_CLOCK_GET_GROUP(clock)                    ((clock >> 2) - (_CYHAL_PERIPHERAL_CLOCK_GET_INSTANCE(clock) * PERI0_PERI_PCLK_PCLK_GROUP_NR))
 
     #define _CYHAL_CLOCK_BLOCK_PERI_GROUP(instance, gr) \
         CYHAL_CLOCK_BLOCK##instance##_PERIPHERAL##gr##_8BIT = _CYHAL_PERIPHERAL_GROUP_ADJUST((instance), (gr), CY_SYSCLK_DIV_8_BIT),        /*!< 8bit Peripheral Divider for specified instance and group */ \
@@ -515,20 +531,15 @@ typedef enum
     #endif
 
     CYHAL_CLOCK_BLOCK_IHO,                                          /*!< Internal High Speed Oscillator Input Clock */
-    CYHAL_CLOCK_BLOCK_IMO,                                          /*!< Internal Main Oscillator Input Clock */
     CYHAL_CLOCK_BLOCK_ECO,                                          /*!< External Crystal Oscillator Input Clock */
     CYHAL_CLOCK_BLOCK_EXT,                                          /*!< External Input Clock */
-    CYHAL_CLOCK_BLOCK_ALTHF,                                        /*!< Alternate High Frequency Input Clock */
-    CYHAL_CLOCK_BLOCK_ALTLF,                                        /*!< Alternate Low Frequency Input Clock */
-    CYHAL_CLOCK_BLOCK_ILO,                                          /*!< Internal Low Speed Oscillator Input Clock */
     CYHAL_CLOCK_BLOCK_PILO,                                         /*!< Precision ILO Input Clock */
     CYHAL_CLOCK_BLOCK_WCO,                                          /*!< Watch Crystal Oscillator Input Clock */
 
     CYHAL_CLOCK_BLOCK_PATHMUX,                                      /*!< Path selection mux for input to FLL/PLLs */
 
-    CYHAL_CLOCK_BLOCK_FLL,                                          /*!< Frequency-Locked Loop Clock */
-    CYHAL_CLOCK_BLOCK_DPLL_LP,                                      /*!< 250MHz Digital Phase-Locked Loop Clock */
-    CYHAL_CLOCK_BLOCK_DPLL_HP,                                      /*!< 500MHz Digital Phase-Locked Loop Clock */
+    CYHAL_CLOCK_BLOCK_DPLL250,                                      /*!< 250MHz Digital Phase-Locked Loop Clock */
+    CYHAL_CLOCK_BLOCK_DPLL500,                                      /*!< 500MHz Digital Phase-Locked Loop Clock */
     CYHAL_CLOCK_BLOCK_ECO_PRESCALER,                                /*!< ECO Prescaler Divider */
 
     CYHAL_CLOCK_BLOCK_LF,                                           /*!< Low Frequency Clock */
@@ -536,7 +547,6 @@ typedef enum
     CYHAL_CLOCK_BLOCK_HF,                                           /*!< High Frequency Clock */
 
     CYHAL_CLOCK_BLOCK_BAK,                                          /*!< Backup Power Domain Clock */
-    CYHAL_CLOCK_BLOCK_ALT_SYS_TICK,                                 /*!< Alternative SysTick Clock */
     CYHAL_CLOCK_BLOCK_PERI,                                         /*!< Peripheral Clock Group */
 
 #endif

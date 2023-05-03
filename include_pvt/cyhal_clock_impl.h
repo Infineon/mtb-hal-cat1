@@ -51,6 +51,15 @@ extern "C"
 #define _CYHAL_SRSS_NUM_PLL SRSS_NUM_PLL
 #endif /* defined(COMPONENT_CAT1C) or other */
 
+#if defined(CY_SRSS_ILO_PRESENT)
+    #define _CYHAL_SRSS_ILO_PRESENT      (CY_SRSS_ILO_PRESENT)
+#elif ((CY_SRSS_ILO_COUNT) > 0) || defined(COMPONENT_CAT1A)
+    #define _CYHAL_SRSS_ILO_PRESENT      (1)
+#else
+    #define _CYHAL_SRSS_ILO_PRESENT      (0)
+#endif /* (CY_SRSS_ILO_PRESENT) */
+
+
 /**
  * \addtogroup group_hal_impl_clock Clocks
  * \ingroup group_hal_impl
@@ -120,7 +129,8 @@ extern const cyhal_clock_t CYHAL_CLOCK_MEM;
 extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_MEM;
 #endif
 
-#if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1D)
+#if (_CYHAL_SRSS_ILO_PRESENT)
+#if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B)
 /** Internal Low Speed Oscillator: This is a low accuracy fixed-frequency clock in the kilohertz range that is available in sleep, deep sleep and hibernate power modes. */
 extern const cyhal_clock_t CYHAL_CLOCK_ILO;
 /** Internal Low Speed Oscillator: This is a low accuracy fixed-frequency clock in the kilohertz range that is available in sleep, deep sleep and hibernate power modes. */
@@ -131,12 +141,15 @@ extern const cyhal_clock_t CYHAL_CLOCK_ILO[_CYHAL_SRSS_NUM_ILO];
 /** Internal Low Speed Oscillator: This is a low accuracy fixed-frequency clock in the kilohertz range that is available in sleep, deep sleep and hibernate power modes. */
 extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_ILO[_CYHAL_SRSS_NUM_ILO];
 #endif
+#endif /* (_CYHAL_SRSS_ILO_PRESENT) */
 
 #if SRSS_ECO_PRESENT
 /** External Crystal Oscillator: This is an off-chip clock source that is used when specific frequencies and/or very high accuracy is required. This clock is stopped in the deep sleep and hibernate power modes. */
 extern const cyhal_clock_t CYHAL_CLOCK_ECO;
 /** External Crystal Oscillator: This is an off-chip clock source that is used when specific frequencies and/or very high accuracy is required. This clock is stopped in the deep sleep and hibernate power modes. */
 extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_ECO;
+/** External Crystal Oscillator Prescaler. */
+extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_ECO_PRESCALER;
 #endif
 #if SRSS_ALTHF_PRESENT
 /** Alternate High Frequency Clock: A high speed clock input provided by a subsystem outside the clocking system. This clock is stopped in the deep sleep and hibernate power modes. */
@@ -156,7 +169,7 @@ extern const cyhal_clock_t CYHAL_CLOCK_PILO;
 /** Precision ILO: An additional source that can provide a much more accurate 32.768kHz clock than ILO when periodically calibrated using a high-accuracy clock such as the ECO. This clock is stopped in the hibernate power mode. */
 extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_PILO;
 #endif
-#if SRSS_BACKUP_PRESENT
+#if SRSS_BACKUP_PRESENT || SRSS_WCO_PRESENT
 /** Watch Crystal Oscillator: This source is driven from an off-chip watch crystal that provides an extremely accurate source. This clock is stopped in the hibernate power mode. */
 extern const cyhal_clock_t CYHAL_CLOCK_WCO;
 /** Watch Crystal Oscillator: This source is driven from an off-chip watch crystal that provides an extremely accurate source. This clock is stopped in the hibernate power mode. */
@@ -171,9 +184,10 @@ extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_LPECO_PRESCALER;
 #if defined(COMPONENT_CAT1B) || (SRSS_MFO_PRESENT)
 /** Medium Frequency Oscillator: This source produced by dividing the IMO by 4. The MFO works down to DeepSleep, and the IMO does not turn off if this clock requires it. */
 extern const cyhal_clock_t CYHAL_CLOCK_MFO;
+#endif
 /** Medium Frequency Oscillator: This source produced by dividing the IMO by 4. The MFO works down to DeepSleep, and the IMO does not turn off if this clock requires it. */
 extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_MFO;
-
+#if defined(COMPONENT_CAT1B) || (SRSS_MFO_PRESENT) || defined(CY_IP_MXS22SRSS)
 /** Medium Frequency Clock: This clock is a medium frequency, between the Low Frequency Clock (LF) and High Frequency Clock (HF). */
 extern const cyhal_clock_t CYHAL_CLOCK_MF;
 /** Medium Frequency Clock: This clock is a medium frequency, between the Low Frequency Clock (LF) and High Frequency Clock (HF). */
@@ -296,17 +310,17 @@ extern const cyhal_clock_t CYHAL_CLOCK_PLL[SRSS_NUM_PLL400M];
 extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_PLL[SRSS_NUM_PLL400M];
 #endif
 
-#if (SRSS_NUM_DPLL_LP > 0) && defined(COMPONENT_CAT1D)
+#if (SRSS_NUM_DPLL250M > 0) && defined(COMPONENT_CAT1D)
 /** 250MHz Digital Phase-Locked Loop: A high-frequency clock able to generate a wide range of clock frequencies making it suitable for most on-chip purposes. This clock is stopped in the deep sleep and hibernate power modes. */
-extern const cyhal_clock_t CYHAL_CLOCK_DPLL_LP[SRSS_NUM_DPLL_LP];
+extern const cyhal_clock_t CYHAL_CLOCK_DPLL250[SRSS_NUM_DPLL250M];
 /** 250MHz Digital Phase-Locked Loop: A high-frequency clock able to generate a wide range of clock frequencies making it suitable for most on-chip purposes. This clock is stopped in the deep sleep and hibernate power modes. */
-extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_DPLL_LP[SRSS_NUM_DPLL_LP];
+extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_DPLL250M[SRSS_NUM_DPLL250M];
 #endif
-#if (SRSS_NUM_DPLL_HP > 0) && defined(COMPONENT_CAT1D)
+#if (SRSS_NUM_DPLL500M > 0) && defined(COMPONENT_CAT1D)
 /** 500MHz Digital Phase-Locked Loop: A high-frequency clock able to generate a wide range of clock frequencies making it suitable for most on-chip purposes. This clock is stopped in the deep sleep and hibernate power modes. */
-extern const cyhal_clock_t CYHAL_CLOCK_DPLL_HP[SRSS_NUM_DPLL_HP];
+extern const cyhal_clock_t CYHAL_CLOCK_DPLL500[SRSS_NUM_DPLL500M];
 /** 500MHz Digital Phase-Locked Loop: A high-frequency clock able to generate a wide range of clock frequencies making it suitable for most on-chip purposes. This clock is stopped in the deep sleep and hibernate power modes. */
-extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_DPLL_HP[SRSS_NUM_DPLL_HP];
+extern const cyhal_resource_inst_t CYHAL_CLOCK_RSC_DPLL500M[SRSS_NUM_DPLL500M];
 #endif
 
 /** High Frequency Clock: A high-frequency clock output driving specific peripherals. */
@@ -337,8 +351,8 @@ static inline const void* _cyhal_clock_get_funcs(cyhal_clock_block_t block)
         case CYHAL_CLOCK_BLOCK_PLL200:
         case CYHAL_CLOCK_BLOCK_PLL400:
         #elif defined(COMPONENT_CAT1D)
-        case CYHAL_CLOCK_BLOCK_DPLL_LP:
-        case CYHAL_CLOCK_BLOCK_DPLL_HP:
+        case CYHAL_CLOCK_BLOCK_DPLL250:
+        case CYHAL_CLOCK_BLOCK_DPLL500:
         #else
         case CYHAL_CLOCK_BLOCK_PLL:
         #endif

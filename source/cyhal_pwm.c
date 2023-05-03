@@ -359,8 +359,8 @@ cy_rslt_t cyhal_pwm_init_adv(cyhal_pwm_t *obj, cyhal_gpio_t pin, cyhal_gpio_t co
     {
         obj->pin = pin;
         #if defined (COMPONENT_CAT5)
-            Cy_TCPWM_SelectTrigmuxOutput(TCPCM_TRIGMUX_OUTPUT_LINE_OUT);
-            Cy_TCPWM_SelectInputSignalForWGPOMux(map->channel_num, (TCPCM_LOGIC_TRIGMUX_INPUT_t)(TCPCM_LOGIC_TRIGMUX_WGPO_INPUT_LINE_OUT_0 + map->channel_num));
+            Cy_TCPWM_SelectTrigmuxOutput(TCPWM_TRIGMUX_OUTPUT_LINE_OUT);
+            Cy_TCPWM_SelectInputSignalForWGPOMux(map->channel_num, (TCPWM_LOGIC_TRIGMUX_INPUT_t)(TCPWM_LOGIC_TRIGMUX_WGPO_INPUT_LINE_OUT_0 + map->channel_num));
         #endif
     }
 
@@ -385,8 +385,8 @@ cy_rslt_t cyhal_pwm_init_adv(cyhal_pwm_t *obj, cyhal_gpio_t pin, cyhal_gpio_t co
             {
                 obj->pin_compl = compl_pin;
                 #if defined (COMPONENT_CAT5)
-                    Cy_TCPWM_SelectTrigmuxOutput(TCPCM_TRIGMUX_OUTPUT_LINE_OUT);
-                    Cy_TCPWM_SelectInputSignalForWGPOMux(map_compl->channel_num, (TCPCM_LOGIC_TRIGMUX_INPUT_t)(TCPCM_LOGIC_TRIGMUX_WGPO_INPUT_LINE_OUT_0 + map_compl->channel_num));
+                    Cy_TCPWM_SelectTrigmuxOutput(TCPWM_TRIGMUX_OUTPUT_LINE_OUT);
+                    Cy_TCPWM_SelectInputSignalForWGPOMux(map_compl->channel_num, (TCPWM_LOGIC_TRIGMUX_INPUT_t)(TCPWM_LOGIC_TRIGMUX_WGPO_INPUT_LINE_OUT_0 + map_compl->channel_num));
                 #endif
             }
         }

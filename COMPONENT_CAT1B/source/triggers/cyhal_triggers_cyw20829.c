@@ -27,12 +27,12 @@
 #include "cy_device_headers.h"
 #include "cyhal_hw_types.h"
 
-#ifdef CY_DEVICE_CYW20829
+#if (defined(CY_DEVICE_CYW20829) && (CY_SYSLIB_GET_SILICON_REV_ID == CY_SYSLIB_20829B0_SILICON_REV))
 #include "triggers/cyhal_triggers_cyw20829.h"
 
 const uint16_t cyhal_sources_per_mux[15] =
 {
-    25, 54, 54, 46, 64, 3, 19, 2, 3, 3, 4, 5, 1, 1, 2, 
+    26, 54, 54, 46, 64, 3, 19, 2, 3, 3, 4, 5, 1, 1, 2, 
 };
 
 const bool cyhal_is_mux_1to1[15] =
@@ -40,7 +40,7 @@ const bool cyhal_is_mux_1to1[15] =
     false, false, false, false, false, false, false, false, false, false, true, true, true, true, true, 
 };
 
-const _cyhal_trigger_source_cyw20829_t cyhal_mux0_sources[25] =
+const _cyhal_trigger_source_cyw20829_t cyhal_mux0_sources[26] =
 {
     _CYHAL_TRIGGER_CPUSS_ZERO,
     _CYHAL_TRIGGER_CPUSS_DW0_TR_OUT0,
@@ -67,6 +67,7 @@ const _cyhal_trigger_source_cyw20829_t cyhal_mux0_sources[25] =
     _CYHAL_TRIGGER_TDM_TR_RX_REQ0,
     _CYHAL_TRIGGER_PDM_TR_RX_REQ0,
     _CYHAL_TRIGGER_PDM_TR_RX_REQ1,
+    _CYHAL_TRIGGER_CRYPTO_TR_TRNG_BITSTREAM,
 };
 
 const _cyhal_trigger_source_cyw20829_t cyhal_mux1_sources[54] =
@@ -101,7 +102,7 @@ const _cyhal_trigger_source_cyw20829_t cyhal_mux1_sources[54] =
     _CYHAL_TRIGGER_SCB0_TR_I2C_SCL_FILTERED,
     _CYHAL_TRIGGER_SCB0_TR_TX_REQ,
     _CYHAL_TRIGGER_SCB0_TR_RX_REQ,
-    _CYHAL_TRIGGER_CPUSS_ZERO,
+    _CYHAL_TRIGGER_CRYPTO_TR_TRNG_BITSTREAM,
     _CYHAL_TRIGGER_SCB1_TR_TX_REQ,
     _CYHAL_TRIGGER_SCB1_TR_RX_REQ,
     _CYHAL_TRIGGER_SCB2_TR_I2C_SCL_FILTERED,
@@ -159,7 +160,7 @@ const _cyhal_trigger_source_cyw20829_t cyhal_mux2_sources[54] =
     _CYHAL_TRIGGER_SCB0_TR_I2C_SCL_FILTERED,
     _CYHAL_TRIGGER_SCB0_TR_TX_REQ,
     _CYHAL_TRIGGER_SCB0_TR_RX_REQ,
-    _CYHAL_TRIGGER_CPUSS_ZERO,
+    _CYHAL_TRIGGER_CRYPTO_TR_TRNG_BITSTREAM,
     _CYHAL_TRIGGER_SCB1_TR_TX_REQ,
     _CYHAL_TRIGGER_SCB1_TR_RX_REQ,
     _CYHAL_TRIGGER_SCB2_TR_I2C_SCL_FILTERED,
@@ -217,7 +218,7 @@ const _cyhal_trigger_source_cyw20829_t cyhal_mux3_sources[46] =
     _CYHAL_TRIGGER_SCB0_TR_I2C_SCL_FILTERED,
     _CYHAL_TRIGGER_SCB0_TR_TX_REQ,
     _CYHAL_TRIGGER_SCB0_TR_RX_REQ,
-    _CYHAL_TRIGGER_CPUSS_ZERO,
+    _CYHAL_TRIGGER_CRYPTO_TR_TRNG_BITSTREAM,
     _CYHAL_TRIGGER_SCB1_TR_TX_REQ,
     _CYHAL_TRIGGER_SCB1_TR_RX_REQ,
     _CYHAL_TRIGGER_SCB2_TR_I2C_SCL_FILTERED,
@@ -275,7 +276,7 @@ const _cyhal_trigger_source_cyw20829_t cyhal_mux4_sources[64] =
     _CYHAL_TRIGGER_SCB0_TR_I2C_SCL_FILTERED,
     _CYHAL_TRIGGER_SCB0_TR_TX_REQ,
     _CYHAL_TRIGGER_SCB0_TR_RX_REQ,
-    _CYHAL_TRIGGER_CPUSS_ZERO,
+    _CYHAL_TRIGGER_CRYPTO_TR_TRNG_BITSTREAM,
     _CYHAL_TRIGGER_SCB1_TR_TX_REQ,
     _CYHAL_TRIGGER_SCB1_TR_RX_REQ,
     _CYHAL_TRIGGER_SCB2_TR_I2C_SCL_FILTERED,

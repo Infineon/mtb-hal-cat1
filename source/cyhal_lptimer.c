@@ -219,14 +219,14 @@ static const _cyhal_system_irq_t _CYHAL_MCWDT_DISCONNECTED_IRQ = unconnected_IRQ
 static const _cyhal_system_irq_t _CYHAL_MCWDT_IRQS[_CYHAL_LPTIMER_INSTANCES] =
 {
 #if (defined(COMPONENT_CM55) && defined(CY_IP_MXS22SRSS))
-//For CM0P/CM55 cores, there is no 0 irqn.
+//For CM0P/CM55 cores for cat1d, there is no 0 irqn.
     unconnected_IRQn,
 #else
     srss_interrupt_mcwdt_0_IRQn,
 #endif
-#if (_CYHAL_LPTIMER_INSTANCES >=2) 
+#if (_CYHAL_LPTIMER_INSTANCES >=2)
 #if (defined(COMPONENT_CM33) && defined(CY_IP_MXS22SRSS))
-//For CM0P/CM33 cores, there is no 1 irqn
+//For CM0P/CM33 cores for cat1d, there is no 1 irqn
     unconnected_IRQn,
 #else
     srss_interrupt_mcwdt_1_IRQn,
@@ -262,7 +262,7 @@ static uint32_t _cyhal_lptimer_get_instance_from_irq(void)
 
     /* The IRQ may be muxed and may be triggered by other sources */
     return _CYHAL_MCWDT_DISCONNECTED_IRQ;
-} 
+}
 
 #if defined (_CYHAL_LPTIMER_MCWDT_B)
 /* Get the mask (for e.g. ClearInterrupt) associated with a particular counter */
@@ -732,7 +732,7 @@ void cyhal_lptimer_enable_event(cyhal_lptimer_t *obj, cyhal_lptimer_event_t even
         #endif
     }
     else
-    {   
+    {
 #if (_CYHAL_IRQ_MUXING)
         /* We may be in a critical section. Only clear the interrupt status if there isn't a pending interrupt */
         if (Cy_MCWDT_GetInterruptStatus(obj->base) != 0)

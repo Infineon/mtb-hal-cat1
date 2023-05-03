@@ -83,7 +83,7 @@ static const cy_stc_ks_config_t _cyhal_keyscan_default_config = {
 static cyhal_syspm_callback_data_t _cyhal_keyscan_syspm_callback_data =
 {
     .callback = &_cyhal_keyscan_pm_callback,
-    .states = (cyhal_syspm_callback_state_t)(CYHAL_SYSPM_CB_CPU_DEEPSLEEP | CYHAL_SYSPM_CB_SYSTEM_HIBERNATE),
+    .states = (cyhal_syspm_callback_state_t)(CYHAL_SYSPM_CB_CPU_DEEPSLEEP | CYHAL_SYSPM_CB_CPU_DEEPSLEEP_RAM | CYHAL_SYSPM_CB_SYSTEM_HIBERNATE),
     .next = NULL,
     .args = NULL,
     .ignore_modes = (cyhal_syspm_callback_mode_t)(CYHAL_SYSPM_CHECK_READY | CYHAL_SYSPM_AFTER_DS_WFI_TRANSITION),
@@ -149,12 +149,18 @@ static bool _cyhal_keyscan_pm_callback(cyhal_syspm_callback_state_t state, cyhal
         {
             Cy_Keyscan_EnableClockStayOn(obj->base);
             Cy_Keyscan_SetInterruptMask(obj->base, readMask & ~MXKEYSCAN_INTR_KEY_EDGE_DONE);
+            // Reenable MF clock after exiting DeepSleep
+            Cy_SysClk_MfoEnable(false);
+            Cy_SysClk_ClkMfEnable();
             break;
         }
         case CYHAL_SYSPM_BEFORE_TRANSITION:
         {
             Cy_Keyscan_DisableClockStayOn(obj->base);
             Cy_Keyscan_SetInterruptMask(obj->base, readMask | MXKEYSCAN_INTR_KEY_EDGE_DONE);
+            // Disable MF clock to reduce power consumption in DeepSleep
+            Cy_SysClk_MfoDisable();
+            Cy_SysClk_ClkMfDisable();
             break;
         }
         default:

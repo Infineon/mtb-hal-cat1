@@ -1,11 +1,13 @@
 var searchData=
 [
-  ['tdm_20_28time_20division_20multiplexed_29_0',['TDM (Time Division Multiplexed)',['../group__group__hal__tdm.html',1,'']]],
-  ['tdm_20_28time_20division_20multiplexing_29_1',['TDM (Time Division Multiplexing)',['../group__group__hal__impl__tdm.html',1,'']]],
-  ['tdm_20hal_20results_2',['TDM HAL Results',['../group__group__hal__results__tdm.html',1,'']]],
-  ['timer_20_28timer_2fcounter_29_3',['Timer (Timer/Counter)',['../group__group__hal__impl__timer.html',1,'(Global Namespace)'],['../group__group__hal__timer.html',1,'(Global Namespace)']]],
-  ['timer_20hal_20results_4',['Timer HAL Results',['../group__group__hal__results__timer.html',1,'']]],
-  ['trigger_20connections_5',['Trigger Connections',['../group__group__hal__impl__triggers.html',1,'']]],
-  ['trng_20_28true_20random_20number_20generator_29_6',['TRNG (True Random Number Generator)',['../group__group__hal__trng.html',1,'']]],
-  ['trng_20hal_20results_7',['TRNG HAL Results',['../group__group__hal__results__trng.html',1,'']]]
+  ['sdhc_20_28sd_20host_20controller_29_0',['SDHC (SD Host Controller)',['../group__group__hal__impl__sdhc.html',1,'(Global Namespace)'],['../group__group__hal__sdhc.html',1,'(Global Namespace)']]],
+  ['sdhc_20hal_20results_1',['SDHC HAL Results',['../group__group__hal__results__sdhc.html',1,'']]],
+  ['sdio_20_28secure_20digital_20input_20output_29_2',['SDIO (Secure Digital Input Output)',['../group__group__hal__sdio.html',1,'']]],
+  ['sdio_20hal_20results_3',['SDIO HAL Results',['../group__group__hal__results__sdio.html',1,'']]],
+  ['spi_20_28serial_20peripheral_20interface_29_4',['SPI (Serial Peripheral Interface)',['../group__group__hal__impl__spi.html',1,'(Global Namespace)'],['../group__group__hal__spi.html',1,'(Global Namespace)']]],
+  ['spi_20hal_20results_5',['SPI HAL Results',['../group__group__hal__results__spi.html',1,'']]],
+  ['syspm_20hal_20results_6',['SYSPM HAL Results',['../group__group__hal__results__syspm.html',1,'']]],
+  ['system_7',['System',['../group__group__hal__system.html',1,'']]],
+  ['system_20hal_20results_8',['SYSTEM HAL Results',['../group__group__hal__results__system.html',1,'']]],
+  ['system_20power_20management_9',['System Power Management',['../group__group__hal__impl__syspm.html',1,'(Global Namespace)'],['../group__group__hal__syspm.html',1,'(Global Namespace)']]]
 ];

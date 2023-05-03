@@ -67,7 +67,9 @@
 #include "cyhal_gpio.h"
 #include "cyhal_interconnect.h"
 #include "cyhal_system_impl.h"
+#if CYHAL_DRIVER_AVAILABLE_SYSPM
 #include "cyhal_syspm.h"
+#endif // CYHAL_DRIVER_AVAILABLE_SYSPM
 #include "cyhal_clock.h"
 
 #if (CYHAL_DRIVER_AVAILABLE_QSPI)
@@ -179,6 +181,7 @@ static cyhal_qspi_t *_cyhal_qspi_get_irq_obj(void)
     return _cyhal_qspi_config_structs[block];
 }
 
+#if CYHAL_DRIVER_AVAILABLE_SYSPM
 static void _cyhal_qspi_set_pins_frozen(cyhal_qspi_t* obj, bool freeze)
 {
     GPIO_PRT_Type* port;
@@ -275,6 +278,7 @@ static bool _cyhal_qspi_pm_callback(cyhal_syspm_callback_state_t state, cyhal_sy
     }
     return allow;
 }
+#endif // CYHAL_DRIVER_AVAILABLE_SYSPM
 
 /*******************************************************************************
 *       Dispatcher Interrupt Service Routine
@@ -786,7 +790,7 @@ static cy_rslt_t _cyhal_qspi_init_common(cyhal_qspi_t *obj, const cyhal_qspi_con
     memset(obj, 0, sizeof(cyhal_qspi_t));
     obj->resource.type = CYHAL_RSC_INVALID;
     obj->is_clock_owned = false;
-    
+
     obj->dc_configured = (NULL != cfg->resource);
     if ((obj->dc_configured) &&
         (cfg->config->mode != CY_SMIF_NORMAL ||
@@ -872,7 +876,7 @@ static cy_rslt_t _cyhal_qspi_init_common(cyhal_qspi_t *obj, const cyhal_qspi_con
         }
     }
     if (CY_RSLT_SUCCESS == result)
-    {   
+    {
         if (obj->dc_configured)
         {
             obj->resource = *cfg->resource;
@@ -980,13 +984,15 @@ static cy_rslt_t _cyhal_qspi_init_common(cyhal_qspi_t *obj, const cyhal_qspi_con
         obj->callback_data.callback_arg = NULL;
         obj->irq_cause = CYHAL_QSPI_EVENT_NONE;
         _cyhal_qspi_config_structs[obj->resource.block_num] = obj;
+        #if CYHAL_DRIVER_AVAILABLE_SYSPM
         obj->pm_transition_pending = false;
         obj->pm_callback.callback = &_cyhal_qspi_pm_callback;
-        obj->pm_callback.states = (cyhal_syspm_callback_state_t)(CYHAL_SYSPM_CB_CPU_DEEPSLEEP | CYHAL_SYSPM_CB_SYSTEM_HIBERNATE);
+        obj->pm_callback.states = (cyhal_syspm_callback_state_t)(CYHAL_SYSPM_CB_CPU_DEEPSLEEP | CYHAL_SYSPM_CB_CPU_DEEPSLEEP_RAM | CYHAL_SYSPM_CB_SYSTEM_HIBERNATE);
         obj->pm_callback.args = obj;
         obj->pm_callback.next = NULL;
         obj->pm_callback.ignore_modes = CYHAL_SYSPM_AFTER_DS_WFI_TRANSITION;
         _cyhal_syspm_register_peripheral_callback(&(obj->pm_callback));
+        #endif // CYHAL_DRIVER_AVAILABLE_SYSPM
 
         _cyhal_irq_register(_cyhal_qspi_irq_n[obj->resource.block_num], CYHAL_ISR_PRIORITY_DEFAULT, _cyhal_qspi_irq_handler);
         _cyhal_irq_enable(_cyhal_qspi_irq_n[obj->resource.block_num]);
@@ -1066,7 +1072,9 @@ void cyhal_qspi_free(cyhal_qspi_t *obj)
     {
         _cyhal_system_irq_t irqn = _cyhal_qspi_irq_n[obj->resource.block_num];
         _cyhal_irq_free(irqn);
+        #if CYHAL_DRIVER_AVAILABLE_SYSPM
         _cyhal_syspm_unregister_peripheral_callback(&(obj->pm_callback));
+        #endif // CYHAL_DRIVER_AVAILABLE_SYSPM
         if (obj->base != NULL)
         {
             Cy_SMIF_Disable(obj->base);
@@ -1182,10 +1190,13 @@ static cy_rslt_t _cyhal_qspi_wait_for_cmd_fifo(cyhal_qspi_t *obj)
 /* no restriction on the value of length. This function splits the read into multiple chunked transfers. */
 cy_rslt_t cyhal_qspi_read(cyhal_qspi_t *obj, const cyhal_qspi_command_t *command, uint32_t address, void *data, size_t *length)
 {
+    #if CYHAL_DRIVER_AVAILABLE_SYSPM
     if (obj->pm_transition_pending)
     {
         return CYHAL_SYSPM_RSLT_ERR_PM_PENDING;
     }
+    #endif // CYHAL_DRIVER_AVAILABLE_SYSPM
+
     cy_rslt_t status = CY_RSLT_SUCCESS;
     uint32_t chunk = 0;
     size_t read_bytes = *length;
@@ -1244,10 +1255,13 @@ cy_rslt_t cyhal_qspi_read(cyhal_qspi_t *obj, const cyhal_qspi_command_t *command
 
 cy_rslt_t cyhal_qspi_read_async(cyhal_qspi_t *obj, const cyhal_qspi_command_t *command, uint32_t address, void *data, size_t *length)
 {
+    #if CYHAL_DRIVER_AVAILABLE_SYSPM
     if (obj->pm_transition_pending)
     {
         return CYHAL_SYSPM_RSLT_ERR_PM_PENDING;
     }
+    #endif // CYHAL_DRIVER_AVAILABLE_SYSPM
+
     cy_rslt_t status = _cyhal_qspi_command_transfer(obj, command, address, false);
 
     if (CY_RSLT_SUCCESS == status)
@@ -1290,10 +1304,12 @@ cy_rslt_t cyhal_qspi_read_async(cyhal_qspi_t *obj, const cyhal_qspi_command_t *c
 cy_rslt_t cyhal_qspi_write(cyhal_qspi_t *obj, const cyhal_qspi_command_t *command, uint32_t address, const void *data,
         size_t *length)
 {
+    #if CYHAL_DRIVER_AVAILABLE_SYSPM
     if (obj->pm_transition_pending)
     {
         return CYHAL_SYSPM_RSLT_ERR_PM_PENDING;
     }
+    #endif // CYHAL_DRIVER_AVAILABLE_SYSPM
     cy_rslt_t status = _cyhal_qspi_command_transfer(obj, command, address, false);
 
     if (CY_RSLT_SUCCESS == status)
@@ -1336,10 +1352,13 @@ cy_rslt_t cyhal_qspi_write(cyhal_qspi_t *obj, const cyhal_qspi_command_t *comman
 /* length can be up to 65536. */
 cy_rslt_t cyhal_qspi_write_async(cyhal_qspi_t *obj, const cyhal_qspi_command_t *command, uint32_t address, const void *data, size_t *length)
 {
+    #if CYHAL_DRIVER_AVAILABLE_SYSPM
     if (obj->pm_transition_pending)
     {
         return CYHAL_SYSPM_RSLT_ERR_PM_PENDING;
     }
+    #endif // CYHAL_DRIVER_AVAILABLE_SYSPM
+
     cy_rslt_t status = _cyhal_qspi_command_transfer(obj, command, address, false);
 
     if (CY_RSLT_SUCCESS == status)
@@ -1382,10 +1401,13 @@ cy_rslt_t cyhal_qspi_transfer(
     cyhal_qspi_t *obj, const cyhal_qspi_command_t *command, uint32_t address, const void *tx_data, size_t tx_size, void *rx_data,
     size_t rx_size)
 {
+    #if CYHAL_DRIVER_AVAILABLE_SYSPM
     if (obj->pm_transition_pending)
     {
         return CYHAL_SYSPM_RSLT_ERR_PM_PENDING;
     }
+    #endif // CYHAL_DRIVER_AVAILABLE_SYSPM
+
     cy_rslt_t status = CY_RSLT_SUCCESS;
 
     if ((tx_data == NULL || tx_size == 0) && (rx_data == NULL || rx_size == 0))

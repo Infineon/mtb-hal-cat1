@@ -171,7 +171,7 @@ Snippet 1: Initialization and Configuration</h2>
 <div class="line">    <a class="code hl_function" href="group__group__hal__uart.html#gae436ac5108e3bc92f439c66c315e07ca">cyhal_uart_read</a>(&amp;uart_obj, (<span class="keywordtype">void</span>*)rx_buf, &amp;rx_length);</div>
 <div class="line">    <a class="code hl_function" href="group__group__hal__system.html#ga5f450769c1207d98134a9ced39adfdda">cyhal_system_delay_ms</a>(UART_DELAY);</div>
 <div class="line"> </div>
-<div class="ttc" id="agroup__group__hal__impl__hw__types_html_structcyhal__uart__t"><div class="ttname"><a href="group__group__hal__impl__hw__types.html#structcyhal__uart__t">cyhal_uart_t</a></div><div class="ttdoc">UART object.</div><div class="ttdef"><b>Definition:</b> cyhal_hw_types.h:1516</div></div>
+<div class="ttc" id="agroup__group__hal__impl__hw__types_html_structcyhal__uart__t"><div class="ttname"><a href="group__group__hal__impl__hw__types.html#structcyhal__uart__t">cyhal_uart_t</a></div><div class="ttdoc">UART object.</div><div class="ttdef"><b>Definition:</b> cyhal_hw_types.h:1513</div></div>
 <div class="ttc" id="agroup__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble_html_gga707195ce0627016bf371643bdd9caa51a3dbd1016ea99d087d747530418b89a01"><div class="ttname"><a href="group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#gga707195ce0627016bf371643bdd9caa51a3dbd1016ea99d087d747530418b89a01">NC</a></div><div class="ttdeci">@ NC</div><div class="ttdoc">No Connect/Invalid Pin.</div><div class="ttdef"><b>Definition:</b> cyhal_psoc6_01_104_m_csp_ble.h:53</div></div>
 <div class="ttc" id="agroup__group__hal__system_html_ga5f450769c1207d98134a9ced39adfdda"><div class="ttname"><a href="group__group__hal__system.html#ga5f450769c1207d98134a9ced39adfdda">cyhal_system_delay_ms</a></div><div class="ttdeci">cy_rslt_t cyhal_system_delay_ms(uint32_t milliseconds)</div><div class="ttdoc">Requests that the current operation delays for at least the specified length of time.</div></div>
 <div class="ttc" id="agroup__group__hal__uart_html_a3360061aafad236eb9a9d347f9154643"><div class="ttname"><a href="group__group__hal__uart.html#a3360061aafad236eb9a9d347f9154643">cyhal_uart_cfg_t::data_bits</a></div><div class="ttdeci">uint32_t data_bits</div><div class="ttdoc">The number of data bits (generally 8 or 9)</div><div class="ttdef"><b>Definition:</b> cyhal_uart.h:198</div></div>
@@ -182,7 +182,7 @@ Snippet 1: Initialization and Configuration</h2>
 <div class="ttc" id="agroup__group__hal__uart_html_gae436ac5108e3bc92f439c66c315e07ca"><div class="ttname"><a href="group__group__hal__uart.html#gae436ac5108e3bc92f439c66c315e07ca">cyhal_uart_read</a></div><div class="ttdeci">cy_rslt_t cyhal_uart_read(cyhal_uart_t *obj, void *rx, size_t *rx_length)</div><div class="ttdoc">Begin synchronous RX transfer (enable interrupt for data collecting)</div></div>
 <div class="ttc" id="agroup__group__hal__uart_html_gga410f06ac3fe5576220caf146fda6b77ba327098a8b49fceb10e330d561019d8cb"><div class="ttname"><a href="group__group__hal__uart.html#gga410f06ac3fe5576220caf146fda6b77ba327098a8b49fceb10e330d561019d8cb">CYHAL_UART_PARITY_NONE</a></div><div class="ttdeci">@ CYHAL_UART_PARITY_NONE</div><div class="ttdoc">UART has no parity check</div><div class="ttdef"><b>Definition:</b> cyhal_uart.h:155</div></div>
 <div class="ttc" id="agroup__group__hal__uart_html_structcyhal__uart__cfg__t"><div class="ttname"><a href="group__group__hal__uart.html#structcyhal__uart__cfg__t">cyhal_uart_cfg_t</a></div><div class="ttdoc">Initial UART configuration.</div><div class="ttdef"><b>Definition:</b> cyhal_uart.h:197</div></div>
-<div class="ttc" id="agroup__group__result_html_gaca79700fcc701534ce61778a9bcf57d1"><div class="ttname"><a href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a></div><div class="ttdeci">uint32_t cy_rslt_t</div><div class="ttdoc">Provides the result of an operation as a structured bitfield.</div><div class="ttdef"><b>Definition:</b> cy_result.h:424</div></div>
+<div class="ttc" id="agroup__group__result_html_gaca79700fcc701534ce61778a9bcf57d1"><div class="ttname"><a href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a></div><div class="ttdeci">uint32_t cy_rslt_t</div><div class="ttdoc">Provides the result of an operation as a structured bitfield.</div><div class="ttdef"><b>Definition:</b> cy_result.h:426</div></div>
 </div><!-- fragment --><h2><a class="anchor" id="subsection_uart_snippet_2"></a>
 Snippet 2: Interrupts on UART events</h2>
 <p >In the following snippet, UART events are handled in a callback function. The callback function has to be registered and then the events have to be enabled.</p>
@@ -269,7 +269,7 @@ Snippet 2: Interrupts on UART events</h2>
 <div class="ttc" id="agroup__group__hal__uart_html_ggaf307283f3d358e4b6048846034df19aaa656718b2b8343a46a64478b1d415bfc4"><div class="ttname"><a href="group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaa656718b2b8343a46a64478b1d415bfc4">CYHAL_UART_IRQ_TX_DONE</a></div><div class="ttdeci">@ CYHAL_UART_IRQ_TX_DONE</div><div class="ttdoc">All TX data has been transmitted (applicable only for cyhal_uart_write_async)</div><div class="ttdef"><b>Definition:</b> cyhal_uart.h:165</div></div>
 <div class="ttc" id="agroup__group__hal__uart_html_ggaf307283f3d358e4b6048846034df19aaa9984c9f5e7f3b57c9740d390c35388db"><div class="ttname"><a href="group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaa9984c9f5e7f3b57c9740d390c35388db">CYHAL_UART_IRQ_TX_ERROR</a></div><div class="ttdeci">@ CYHAL_UART_IRQ_TX_ERROR</div><div class="ttdoc">An error occurred during TX.</div><div class="ttdef"><b>Definition:</b> cyhal_uart.h:166</div></div>
 <div class="ttc" id="agroup__group__hal__uart_html_ggaf307283f3d358e4b6048846034df19aaac2db86894106691360ad64c35d33b578"><div class="ttname"><a href="group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaac2db86894106691360ad64c35d33b578">CYHAL_UART_IRQ_RX_DONE</a></div><div class="ttdeci">@ CYHAL_UART_IRQ_RX_DONE</div><div class="ttdoc">All RX data has been received (applicable only for cyhal_uart_read_async)</div><div class="ttdef"><b>Definition:</b> cyhal_uart.h:168</div></div>
-<div class="ttc" id="agroup__group__result_html_gaf58fac450d9fff4472f03ad68f6e546e"><div class="ttname"><a href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a></div><div class="ttdeci">#define CY_RSLT_SUCCESS</div><div class="ttdoc">cy_rslt_t return value indicating success</div><div class="ttdef"><b>Definition:</b> cy_result.h:451</div></div>
+<div class="ttc" id="agroup__group__result_html_gaf58fac450d9fff4472f03ad68f6e546e"><div class="ttname"><a href="group__group__result.html#gaf58fac450d9fff4472f03ad68f6e546e">CY_RSLT_SUCCESS</a></div><div class="ttdeci">#define CY_RSLT_SUCCESS</div><div class="ttdoc">cy_rslt_t return value indicating success</div><div class="ttdef"><b>Definition:</b> cy_result.h:453</div></div>
 </div><!-- fragment --> <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="groups" name="groups"></a>
 API Reference</h2></td></tr>
@@ -394,6 +394,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gae436ac5108e3bc92f439c66c315e07ca"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__uart.html#gae436ac5108e3bc92f439c66c315e07ca">cyhal_uart_read</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__uart__t">cyhal_uart_t</a> *obj, void *rx, size_t *rx_length)</td></tr>
 <tr class="memdesc:gae436ac5108e3bc92f439c66c315e07ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Begin synchronous RX transfer (enable interrupt for data collecting)  <a href="group__group__hal__uart.html#gae436ac5108e3bc92f439c66c315e07ca">More...</a><br /></td></tr>
 <tr class="separator:gae436ac5108e3bc92f439c66c315e07ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadb84cac4753a07555c98cfd7c95d4dce"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__uart.html#gadb84cac4753a07555c98cfd7c95d4dce">cyhal_uart_set_async_mode</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__uart__t">cyhal_uart_t</a> *obj, <a class="el" href="group__group__hal__general__types.html#gab2d2acfb82599df54152be0b170c6ec2">cyhal_async_mode_t</a> mode, uint8_t dma_priority)</td></tr>
+<tr class="memdesc:gadb84cac4753a07555c98cfd7c95d4dce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the mechanism that is used to perform UART asynchronous transfers.  <a href="group__group__hal__uart.html#gadb84cac4753a07555c98cfd7c95d4dce">More...</a><br /></td></tr>
+<tr class="separator:gadb84cac4753a07555c98cfd7c95d4dce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gab569e52660c519b775e3a15f3e2dbb46"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__uart.html#gab569e52660c519b775e3a15f3e2dbb46">cyhal_uart_write_async</a> (<a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__uart__t">cyhal_uart_t</a> *obj, void *tx, size_t length)</td></tr>
 <tr class="memdesc:gab569e52660c519b775e3a15f3e2dbb46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Begin asynchronous TX transfer.  <a href="group__group__hal__uart.html#gab569e52660c519b775e3a15f3e2dbb46">More...</a><br /></td></tr>
 <tr class="separator:gab569e52660c519b775e3a15f3e2dbb46"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1081,6 +1084,52 @@ Function activates the flow control feature if CTS / RTS pins are provided.</dd>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The status of the rx request </dd></dl>
+
+</div>
+</div>
+<a id="gadb84cac4753a07555c98cfd7c95d4dce" name="gadb84cac4753a07555c98cfd7c95d4dce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gadb84cac4753a07555c98cfd7c95d4dce">&#9670;&nbsp;</a></span>cyhal_uart_set_async_mode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a> cyhal_uart_set_async_mode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__impl__hw__types.html#structcyhal__uart__t">cyhal_uart_t</a> *&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__group__hal__general__types.html#gab2d2acfb82599df54152be0b170c6ec2">cyhal_async_mode_t</a>&#160;</td>
+          <td class="paramname"><em>mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>dma_priority</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the mechanism that is used to perform UART asynchronous transfers. </p>
+<p >The default is SW. </p><dl class="section warning"><dt>Warning</dt><dd>The effect of calling this function while an async transfer is pending is undefined.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The UART object </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">mode</td><td>The transfer mode </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dma_priority</td><td>The priority, if DMA is used. Valid values are the same as for <a class="el" href="group__group__hal__dma.html#gab9c200507a8ee87b894150416e4f5dd1">cyhal_dma_init</a>. If DMA is not selected, the only valid value is CYHAL_DMA_PRIORITY_DEFAULT, and no guarantees are made about prioritization. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The status of the set mode request </dd></dl>
 
 </div>
 </div>

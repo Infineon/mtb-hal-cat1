@@ -124,6 +124,7 @@ static bool _cyhal_ezi2c_pm_callback_instance(void *obj_ptr, cyhal_syspm_callbac
     switch(state)
     {
         case CYHAL_SYSPM_CB_CPU_DEEPSLEEP:
+        case CYHAL_SYSPM_CB_CPU_DEEPSLEEP_RAM:
             allow = (CY_SYSPM_SUCCESS == Cy_SCB_EZI2C_DeepSleepCallback(&ezi2c_callback_params, pdl_mode));
             break;
 #if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)

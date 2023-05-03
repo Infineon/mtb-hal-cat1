@@ -116,9 +116,6 @@ API Reference</h2></td></tr>
 <tr class="memitem:group__group__hal__results__ezi2c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__results__ezi2c.html">EZI2C HAL Results</a></td></tr>
 <tr class="memdesc:group__group__hal__results__ezi2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">EZI2C specific return codes. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__group__hal__results__flash"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__results__flash.html">Flash HAL Results</a></td></tr>
-<tr class="memdesc:group__group__hal__results__flash"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flash specific return codes. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__group__hal__results__gpio"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__results__gpio.html">GPIO HAL Results</a></td></tr>
 <tr class="memdesc:group__group__hal__results__gpio"><td class="mdescLeft">&#160;</td><td class="mdescRight">GPIO specific return codes. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -139,6 +136,9 @@ API Reference</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__group__hal__results__lptimer"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__results__lptimer.html">LPTimer HAL Results</a></td></tr>
 <tr class="memdesc:group__group__hal__results__lptimer"><td class="mdescLeft">&#160;</td><td class="mdescRight">LPTimer specific return codes. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__group__hal__results__nvm"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__results__nvm.html">NVM HAL Results</a></td></tr>
+<tr class="memdesc:group__group__hal__results__nvm"><td class="mdescLeft">&#160;</td><td class="mdescRight">NVM specific return codes. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__group__hal__results__opamp"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__results__opamp.html">Opamp HAL Results</a></td></tr>
 <tr class="memdesc:group__group__hal__results__opamp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opamp specific return codes. <br /></td></tr>
@@ -209,23 +209,23 @@ Enumerations</h2></td></tr>
 , <br />
 &#160;&#160;<a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005af4818692bb8ff6b7b19c2b15e395c1da">CYHAL_RSLT_MODULE_EZI2C</a> = (0x07)
 , <br />
-&#160;&#160;<a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005adae9f9541be461434c4e2011fe477bc3">CYHAL_RSLT_MODULE_FLASH</a> = (0x08)
+&#160;&#160;<a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a8a22f6926766c2e3e69868ec51c2572b">CYHAL_RSLT_MODULE_GPIO</a> = (0x08)
 , <br />
-&#160;&#160;<a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a8a22f6926766c2e3e69868ec51c2572b">CYHAL_RSLT_MODULE_GPIO</a> = (0x09)
+&#160;&#160;<a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a48c873ac3890a78ae0379e725396c607">CYHAL_RSLT_MODULE_I2C</a> = (0x09)
 , <br />
-&#160;&#160;<a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a48c873ac3890a78ae0379e725396c607">CYHAL_RSLT_MODULE_I2C</a> = (0x0A)
+&#160;&#160;<a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a8f3c272518c2a32f2455e34137a5180d">CYHAL_RSLT_MODULE_I2S</a> = (0x0A)
 , <br />
-&#160;&#160;<a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a8f3c272518c2a32f2455e34137a5180d">CYHAL_RSLT_MODULE_I2S</a> = (0x0B)
+&#160;&#160;<a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a7228239f5834ed4df9600859c3588a3d">CYHAL_RSLT_MODULE_IPC</a> = (0x0B)
 , <br />
-&#160;&#160;<a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a7228239f5834ed4df9600859c3588a3d">CYHAL_RSLT_MODULE_IPC</a> = (0x0C)
+&#160;&#160;<a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005ab9373b6613ccb00bd4dedab0ae06d11c">CYHAL_RSLT_MODULE_INTERCONNECT</a> = (0x0C)
 , <br />
-&#160;&#160;<a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005ab9373b6613ccb00bd4dedab0ae06d11c">CYHAL_RSLT_MODULE_INTERCONNECT</a> = (0x0D)
+&#160;&#160;<a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005aa31caff90dfe21b862ea4c4d034208b6">CYHAL_RSLT_MODULE_HWMGR</a> = (0x0D)
 , <br />
-&#160;&#160;<a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005aa31caff90dfe21b862ea4c4d034208b6">CYHAL_RSLT_MODULE_HWMGR</a> = (0x0E)
+&#160;&#160;<a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005ae22cca7b373e114a80c8f1aa33d42619">CYHAL_RSLT_MODULE_KEYSCAN</a> = (0x0E)
 , <br />
-&#160;&#160;<a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005ae22cca7b373e114a80c8f1aa33d42619">CYHAL_RSLT_MODULE_KEYSCAN</a> = (0x0F)
+&#160;&#160;<a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a130057944f24739b96a5552429a243a6">CYHAL_RSLT_MODULE_LPTIMER</a> = (0x0F)
 , <br />
-&#160;&#160;<a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a130057944f24739b96a5552429a243a6">CYHAL_RSLT_MODULE_LPTIMER</a> = (0x10)
+&#160;&#160;<a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005ab68a5786555e0e0826d28a6644baa54f">CYHAL_RSLT_MODULE_NVM</a> = (0x10)
 , <br />
 &#160;&#160;<a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005a291ed2da7ed5183c3e2164ab8b6a8c3e">CYHAL_RSLT_MODULE_OPAMP</a> = (0x11)
 , <br />
@@ -300,8 +300,6 @@ Enumerations</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="gga84f32ecb6376e2088d4f048e35f52005af4818692bb8ff6b7b19c2b15e395c1da" name="gga84f32ecb6376e2088d4f048e35f52005af4818692bb8ff6b7b19c2b15e395c1da"></a>CYHAL_RSLT_MODULE_EZI2C&#160;</td><td class="fielddoc"><p >An error occurred in EZI2C module. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="gga84f32ecb6376e2088d4f048e35f52005adae9f9541be461434c4e2011fe477bc3" name="gga84f32ecb6376e2088d4f048e35f52005adae9f9541be461434c4e2011fe477bc3"></a>CYHAL_RSLT_MODULE_FLASH&#160;</td><td class="fielddoc"><p >An error occurred in flash module. </p>
-</td></tr>
 <tr><td class="fieldname"><a id="gga84f32ecb6376e2088d4f048e35f52005a8a22f6926766c2e3e69868ec51c2572b" name="gga84f32ecb6376e2088d4f048e35f52005a8a22f6926766c2e3e69868ec51c2572b"></a>CYHAL_RSLT_MODULE_GPIO&#160;</td><td class="fielddoc"><p >An error occurred in GPIO module. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga84f32ecb6376e2088d4f048e35f52005a48c873ac3890a78ae0379e725396c607" name="gga84f32ecb6376e2088d4f048e35f52005a48c873ac3890a78ae0379e725396c607"></a>CYHAL_RSLT_MODULE_I2C&#160;</td><td class="fielddoc"><p >An error occurred in I2C module. </p>
@@ -316,7 +314,9 @@ Enumerations</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="gga84f32ecb6376e2088d4f048e35f52005ae22cca7b373e114a80c8f1aa33d42619" name="gga84f32ecb6376e2088d4f048e35f52005ae22cca7b373e114a80c8f1aa33d42619"></a>CYHAL_RSLT_MODULE_KEYSCAN&#160;</td><td class="fielddoc"><p >An error occurred in KeyScan module. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="gga84f32ecb6376e2088d4f048e35f52005a130057944f24739b96a5552429a243a6" name="gga84f32ecb6376e2088d4f048e35f52005a130057944f24739b96a5552429a243a6"></a>CYHAL_RSLT_MODULE_LPTIMER&#160;</td><td class="fielddoc"><p >An error occured in LPTimer module. </p>
+<tr><td class="fieldname"><a id="gga84f32ecb6376e2088d4f048e35f52005a130057944f24739b96a5552429a243a6" name="gga84f32ecb6376e2088d4f048e35f52005a130057944f24739b96a5552429a243a6"></a>CYHAL_RSLT_MODULE_LPTIMER&#160;</td><td class="fielddoc"><p >An error occurred in LPTimer module. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga84f32ecb6376e2088d4f048e35f52005ab68a5786555e0e0826d28a6644baa54f" name="gga84f32ecb6376e2088d4f048e35f52005ab68a5786555e0e0826d28a6644baa54f"></a>CYHAL_RSLT_MODULE_NVM&#160;</td><td class="fielddoc"><p >An error occurred in NVM module. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga84f32ecb6376e2088d4f048e35f52005a291ed2da7ed5183c3e2164ab8b6a8c3e" name="gga84f32ecb6376e2088d4f048e35f52005a291ed2da7ed5183c3e2164ab8b6a8c3e"></a>CYHAL_RSLT_MODULE_OPAMP&#160;</td><td class="fielddoc"><p >An error occurred in OpAmp module. </p>
 </td></tr>

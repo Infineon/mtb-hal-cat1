@@ -45,7 +45,7 @@ extern "C" {
     #define _CYHAL_TCPWM0_PCLK_CLOCK0       PCLK_TCPWM0_CLOCK_COUNTER_EN0
     #define _CYHAL_TCPWM1_PCLK_CLOCK0       PCLK_TCPWM1_CLOCK_COUNTER_EN0
     #define _CYHAL_SCB0_PCLK_CLOCK          PCLK_SCB0_CLOCK_SCB_EN
-
+    #define _CYHAL_SCB1_PCLK_CLOCK          PCLK_SCB1_CLOCK_SCB_EN
 #endif
 
 #if defined(__cplusplus)

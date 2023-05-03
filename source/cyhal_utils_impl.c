@@ -201,6 +201,39 @@ static inline cy_rslt_t _cyhal_utils_allocate_peri(cyhal_clock_t *clock, uint8_t
 #if defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
 uint8_t _cyhal_utils_get_hfclk_for_peri_group(uint8_t peri_group)
 {
+#if defined(COMPONENT_CAT1D)
+    switch (peri_group)
+    {
+        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 0):
+        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(1, 4):
+            return 0;
+        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 7):
+        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(1, 0):
+            return 1;
+        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 3):
+        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(1, 2):
+            return 5;
+        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 4):
+        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(1, 3):
+            return 6;
+        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(1, 1):
+            return 7;
+        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 2):
+            return 9;
+        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 1):
+        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 5):
+            return 10;
+        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 8):
+            return 11;
+        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 6):
+        case _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 9):
+            return 13;
+        default:
+            /* Unhandled peri clock */
+            CY_ASSERT(false);
+            break;
+    }
+#else
     switch (peri_group)
     {
         /* Peripheral groups are device specific. */
@@ -228,6 +261,7 @@ uint8_t _cyhal_utils_get_hfclk_for_peri_group(uint8_t peri_group)
             CY_ASSERT(false); /* Use APIs provided by the clock driver */
             break;
     }
+#endif /* defined(COMPONENT_CAT1D) or other */
     return 0;
 }
 #endif /* defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) */
@@ -238,7 +272,33 @@ uint8_t _cyhal_utils_get_peri_group(const cyhal_resource_inst_t *clocked_item)
     switch (clocked_item->type)
     {
         /* Peripheral groups are device specific. */
-#if defined(CY_DEVICE_CYW20829)
+#if defined(COMPONENT_CAT1D)
+        case CYHAL_RSC_CAN:
+        case CYHAL_RSC_SCB:
+            // SCB1 is clocked from group 8
+            if (clocked_item->block_num == 1)
+            {
+                /* Peri instance num + Peri group num */
+                return _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 8);
+            }
+            else
+            {
+                /* Peri instance num + Peri group num */
+                return _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 1);
+            }
+
+        case CYHAL_RSC_TCPWM:
+        case CYHAL_RSC_I3C:
+            /* Peri instance num + Peri group num */
+            return _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 1);
+        case CYHAL_RSC_TDM:
+        case CYHAL_RSC_PDM:
+            /* Peri instance num + Peri group num */
+            return _CYHAL_UTILS_PACK_INSTANCE_GROUP(1, 1);
+        case CYHAL_RSC_ADC:
+            /* Peri instance num + Peri group num */
+            return _CYHAL_UTILS_PACK_INSTANCE_GROUP(0, 2);
+#elif defined(CY_DEVICE_CYW20829)
         case CYHAL_RSC_CAN:
         case CYHAL_RSC_LIN:
         case CYHAL_RSC_SCB:
@@ -356,7 +416,7 @@ uint32_t _cyhal_utils_get_clock_count(cyhal_clock_block_t block)
             return SRSS_NUM_PLL200M;
         case CYHAL_CLOCK_BLOCK_PLL400:
             return SRSS_NUM_PLL400M;
-        #elif defined (COMPOANENT_CAT1D)
+        #elif defined (COMPONENT_CAT1D)
         #if (PERI0_PERI_PCLK_PCLK_GROUP_NR > 0)
         _CYHAL_MXSPERI_PCLK_DIV_CNT(0, 0);
         #endif
@@ -412,12 +472,12 @@ uint32_t _cyhal_utils_get_clock_count(cyhal_clock_block_t block)
         #warning "Unhandled number of PCLK for PERI1"
         #endif
         case CYHAL_CLOCK_BLOCK_PERI:
-            return PERI_PCLK_GROUP_NR;
-        case CYHAL_CLOCK_BLOCK_DPLL_LP:
+            return (PERI0_PCLK_GROUP_NR + PERI1_PCLK_GROUP_NR);
+        case CYHAL_CLOCK_BLOCK_DPLL250:
             return SRSS_NUM_DPLL_LP;
-        case CYHAL_CLOCK_BLOCK_DPLL_HP:
+        case CYHAL_CLOCK_BLOCK_DPLL500:
             return SRSS_NUM_DPLL_HP;
-        #endif /* defined(COMPONENT_CAT1B) */
+        #endif /* defined(COMPONENT_CAT1A) */
 
         case CYHAL_CLOCK_BLOCK_PATHMUX:
             return SRSS_NUM_CLKPATH;
@@ -553,7 +613,11 @@ cy_rslt_t _cyhal_utils_set_clock_frequency(cyhal_clock_t* clock, uint32_t hz, co
 cy_rslt_t _cyhal_utils_find_hf_clk_div(uint32_t hz_src, uint32_t desired_hz, const cyhal_clock_tolerance_t *tolerance,
                         bool only_below_desired, uint32_t *div)
 {
+    #if defined (CY_IP_MXS22SRSS)
+    const uint8_t HFCLK_DIVIDERS[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
+    #else
     const uint8_t HFCLK_DIVIDERS[] = { 1, 2, 4, 8};
+    #endif
     cy_rslt_t retval = CYHAL_CLOCK_RSLT_ERR_FREQ;
     uint32_t tolerance_check_value = (NULL != tolerance) ? tolerance->value : 0xFFFFFFFFU;
     cyhal_clock_tolerance_unit_t tolerance_type = (NULL != tolerance) ? tolerance->type : CYHAL_TOLERANCE_HZ;
@@ -617,7 +681,11 @@ cy_rslt_t _cyhal_utils_find_hf_source_n_divider(cyhal_clock_t *clock, uint32_t h
                 is observed on PATHMUX which is covered in other iterations of the sources loop */
             if (CYHAL_CLOCK_BLOCK_PATHMUX == temp_clock.block)
             {
-                if (((sources[i]->channel_num == 0) && Cy_SysClk_FllIsEnabled())
+                if (false
+                #if !defined(COMPONENT_CAT1D)
+                    /* CAT1D devices does not have FLL */
+                    || ((sources[i]->channel_num == 0) && Cy_SysClk_FllIsEnabled())
+                #endif /* !defined(COMPONENT_CAT1D) */
                 #if (SRSS_NUM_PLL > 0)
                     || ((sources[i]->channel_num > 0) && (sources[i]->channel_num <= SRSS_NUM_PLL) &&
                         Cy_SysClk_PllIsEnabled(sources[i]->channel_num))
@@ -628,10 +696,10 @@ cy_rslt_t _cyhal_utils_find_hf_source_n_divider(cyhal_clock_t *clock, uint32_t h
                         Cy_SysClk_PllIsEnabled(sources[i]->channel_num))
                 #endif /* SRSS_NUM_PLL400M > 0 */
                 #else /* !defined(COMPONENT_CAT1D) */
-                #if (SRSS_NUM_DPLL_HP > 0)
-                    || ((sources[i]->channel_num > SRSS_NUM_PLL) && (sources[i]->channel_num <= SRSS_NUM_PLL + SRSS_NUM_DPLL_HP) &&
+                #if (SRSS_NUM_DPLL500M > 0)
+                    || ((sources[i]->channel_num > SRSS_NUM_PLL) && (sources[i]->channel_num <= SRSS_NUM_PLL + SRSS_NUM_DPLL500M) &&
                         Cy_SysClk_PllIsEnabled(sources[i]->channel_num))
-                #endif /* SRSS_NUM_DPLL_HP > 0 */
+                #endif /* SRSS_NUM_DPLL500M > 0 */
                 #endif /* !defined(COMPONENT_CAT1D) or other */
                 )
                 {

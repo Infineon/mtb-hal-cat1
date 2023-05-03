@@ -333,6 +333,18 @@ cy_rslt_t cyhal_uart_write(cyhal_uart_t *obj, void *tx, size_t *tx_length);
  */
 cy_rslt_t cyhal_uart_read(cyhal_uart_t *obj, void *rx, size_t *rx_length);
 
+/** Set the mechanism that is used to perform UART asynchronous transfers. The default is SW.
+ *  @warning The effect of calling this function while an async transfer is pending is undefined.
+ *
+ * @param[in]     obj          The UART object
+ * @param[in]     mode         The transfer mode
+ * @param[in]     dma_priority The priority, if DMA is used. Valid values are the same as for @ref cyhal_dma_init.
+ *                             If DMA is not selected, the only valid value is CYHAL_DMA_PRIORITY_DEFAULT, and no
+                               guarantees are made about prioritization.
+ * @return The status of the set mode request
+ */
+cy_rslt_t cyhal_uart_set_async_mode(cyhal_uart_t *obj, cyhal_async_mode_t mode, uint8_t dma_priority);
+
 /** Begin asynchronous TX transfer.
  *
  * This will transfer `length` bytes into the buffer pointed to by `tx` in the background. When the

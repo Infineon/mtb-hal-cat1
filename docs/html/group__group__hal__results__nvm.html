@@ -64,7 +64,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(document).ready(function(){initNavTree('group__group__hal__results__flash.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('group__group__hal__results__nvm.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -85,22 +85,22 @@ $(document).ready(function(){initNavTree('group__group__hal__results__flash.html
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a>  </div>
-  <div class="headertitle"><div class="title">Flash HAL Results<div class="ingroups"><a class="el" href="group__group__hal.html">HAL Drivers</a> &raquo; <a class="el" href="group__group__hal__flash.html">Flash (Flash System Routine)</a> &#124; <a class="el" href="group__group__hal__types.html">HAL General Types/Macros</a> &raquo; <a class="el" href="group__group__hal__general__types.html">General Types</a> &raquo; <a class="el" href="group__group__hal__results.html">Result Codes</a></div></div></div>
+  <div class="headertitle"><div class="title">NVM HAL Results<div class="ingroups"><a class="el" href="group__group__hal.html">HAL Drivers</a> &raquo; <a class="el" href="group__group__hal__nvm.html">NVM (Onboard Non-Volatile Memory)</a> &#124; <a class="el" href="group__group__hal__types.html">HAL General Types/Macros</a> &raquo; <a class="el" href="group__group__hal__general__types.html">General Types</a> &raquo; <a class="el" href="group__group__hal__results.html">Result Codes</a></div></div></div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">General Description</h2>
-<p >Flash specific return codes. </p>
+<p >NVM specific return codes. </p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:gaadb7f0cb44015fc9a6f9abdb9c914f41"><td class="memItemLeft" align="right" valign="top"><a id="gaadb7f0cb44015fc9a6f9abdb9c914f41" name="gaadb7f0cb44015fc9a6f9abdb9c914f41"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_FLASH_RSLT_ERR_ADDRESS</b>&#160;&#160;&#160;    (<a class="el" href="group__group__result.html#ga7b3e119b13a8bb398f429a22d8cf4dcd">CY_RSLT_CREATE_EX</a>(<a class="el" href="group__group__result.html#gga379d2c0a6a4ef22f04e53e8eb4c9ee79aac3d9861cc429ed0a29962e7829f4160">CY_RSLT_TYPE_ERROR</a>, <a class="el" href="group__group__result.html#gga9008565cba0207520330a1cb8509a8d0a79b500d6463aadd493b3812f779f75df">CY_RSLT_MODULE_ABSTRACTION_HAL</a>, <a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005adae9f9541be461434c4e2011fe477bc3">CYHAL_RSLT_MODULE_FLASH</a>, 0))</td></tr>
-<tr class="memdesc:gaadb7f0cb44015fc9a6f9abdb9c914f41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invalid argument. <br /></td></tr>
-<tr class="separator:gaadb7f0cb44015fc9a6f9abdb9c914f41"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac2800a5475d76fcb65a1da22235e2f11"><td class="memItemLeft" align="right" valign="top"><a id="gac2800a5475d76fcb65a1da22235e2f11" name="gac2800a5475d76fcb65a1da22235e2f11"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_FLASH_RSLT_ERR_NOT_SUPPORTED</b>&#160;&#160;&#160;    (<a class="el" href="group__group__result.html#ga7b3e119b13a8bb398f429a22d8cf4dcd">CY_RSLT_CREATE_EX</a>(<a class="el" href="group__group__result.html#gga379d2c0a6a4ef22f04e53e8eb4c9ee79aac3d9861cc429ed0a29962e7829f4160">CY_RSLT_TYPE_ERROR</a>, <a class="el" href="group__group__result.html#gga9008565cba0207520330a1cb8509a8d0a79b500d6463aadd493b3812f779f75df">CY_RSLT_MODULE_ABSTRACTION_HAL</a>, <a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005adae9f9541be461434c4e2011fe477bc3">CYHAL_RSLT_MODULE_FLASH</a>, 1))</td></tr>
-<tr class="memdesc:gac2800a5475d76fcb65a1da22235e2f11"><td class="mdescLeft">&#160;</td><td class="mdescRight">API is not supported. <br /></td></tr>
-<tr class="separator:gac2800a5475d76fcb65a1da22235e2f11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga072d358fd096acb457241bf78d81438d"><td class="memItemLeft" align="right" valign="top"><a id="ga072d358fd096acb457241bf78d81438d" name="ga072d358fd096acb457241bf78d81438d"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_NVM_RSLT_ERR_ADDRESS</b>&#160;&#160;&#160;    (<a class="el" href="group__group__result.html#ga7b3e119b13a8bb398f429a22d8cf4dcd">CY_RSLT_CREATE_EX</a>(<a class="el" href="group__group__result.html#gga379d2c0a6a4ef22f04e53e8eb4c9ee79aac3d9861cc429ed0a29962e7829f4160">CY_RSLT_TYPE_ERROR</a>, <a class="el" href="group__group__result.html#gga9008565cba0207520330a1cb8509a8d0a79b500d6463aadd493b3812f779f75df">CY_RSLT_MODULE_ABSTRACTION_HAL</a>, <a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005ab68a5786555e0e0826d28a6644baa54f">CYHAL_RSLT_MODULE_NVM</a>, 0))</td></tr>
+<tr class="memdesc:ga072d358fd096acb457241bf78d81438d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invalid argument. <br /></td></tr>
+<tr class="separator:ga072d358fd096acb457241bf78d81438d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac4251d508b1ed51cf8116ae84b4cbd60"><td class="memItemLeft" align="right" valign="top"><a id="gac4251d508b1ed51cf8116ae84b4cbd60" name="gac4251d508b1ed51cf8116ae84b4cbd60"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYHAL_NVM_RSLT_ERR_NOT_SUPPORTED</b>&#160;&#160;&#160;    (<a class="el" href="group__group__result.html#ga7b3e119b13a8bb398f429a22d8cf4dcd">CY_RSLT_CREATE_EX</a>(<a class="el" href="group__group__result.html#gga379d2c0a6a4ef22f04e53e8eb4c9ee79aac3d9861cc429ed0a29962e7829f4160">CY_RSLT_TYPE_ERROR</a>, <a class="el" href="group__group__result.html#gga9008565cba0207520330a1cb8509a8d0a79b500d6463aadd493b3812f779f75df">CY_RSLT_MODULE_ABSTRACTION_HAL</a>, <a class="el" href="group__group__hal__results.html#gga84f32ecb6376e2088d4f048e35f52005ab68a5786555e0e0826d28a6644baa54f">CYHAL_RSLT_MODULE_NVM</a>, 1))</td></tr>
+<tr class="memdesc:gac4251d508b1ed51cf8116ae84b4cbd60"><td class="mdescLeft">&#160;</td><td class="mdescRight">API is not supported. <br /></td></tr>
+<tr class="separator:gac4251d508b1ed51cf8116ae84b4cbd60"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

@@ -169,7 +169,9 @@ var group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble__usb =
       [ "P13_0", "group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble__usb.html#ggadb1b30ad8667ff98ff7c39046c4d0741a3e5cbec8950dbbdf6b28c2edf8b5de30", null ],
       [ "P13_1", "group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble__usb.html#ggadb1b30ad8667ff98ff7c39046c4d0741a7d9c8584fafbb18ba97cb26bcfde01dc", null ],
       [ "USBDP", "group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble__usb.html#ggadb1b30ad8667ff98ff7c39046c4d0741a91f4d44fb984bb1c20f9a34af8015642", null ],
-      [ "USBDM", "group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble__usb.html#ggadb1b30ad8667ff98ff7c39046c4d0741a4ce5d83730a8b57610cdffe18cd54eff", null ]
+      [ "P14_0", "group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble__usb.html#ggadb1b30ad8667ff98ff7c39046c4d0741a364d50a4e0e287628956fcedafd2cd14", null ],
+      [ "USBDM", "group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble__usb.html#ggadb1b30ad8667ff98ff7c39046c4d0741a4ce5d83730a8b57610cdffe18cd54eff", null ],
+      [ "P14_1", "group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble__usb.html#ggadb1b30ad8667ff98ff7c39046c4d0741a98d3818de8eed4e56eaa87bef3dcd8db", null ]
     ] ],
     [ "cyhal_pin_map_audioss_clk_i2s_if", "group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble__usb.html#gacc056cc6a80d1db085c18245f6f94e77", null ],
     [ "cyhal_pin_map_audioss_pdm_clk", "group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble__usb.html#gacad95701fc570accfbf728c655cb2abf", null ],
@@ -256,6 +258,6 @@ var group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble__usb =
     [ "cyhal_pin_map_smif_spi_select3", "group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble__usb.html#gab99bfe3c0c19201941c4d5709abf779f", null ],
     [ "cyhal_pin_map_tcpwm_line", "group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble__usb.html#ga3c9ce6350bc5c02bb97df5040ca8b6e6", null ],
     [ "cyhal_pin_map_tcpwm_line_compl", "group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble__usb.html#ga0dbd98e67ee70122912bd16c78fc4f0b", null ],
-    [ "cyhal_pin_map_usb_usb_dm_pad", "group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble__usb.html#ga90d588859bafd8ecf06a9758e767b73a", null ],
-    [ "cyhal_pin_map_usb_usb_dp_pad", "group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble__usb.html#ga83fb4570c24c16b8b6ec802d5e522808", null ]
+    [ "cyhal_pin_map_usb_usb_dm_pad", "group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble__usb.html#ga618f6b9ad69d21bea03de04dc0f42f0d", null ],
+    [ "cyhal_pin_map_usb_usb_dp_pad", "group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble__usb.html#gac1e001dd6cea9e59b9df2545f871bf9d", null ]
 ];

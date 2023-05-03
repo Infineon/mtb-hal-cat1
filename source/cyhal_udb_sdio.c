@@ -342,7 +342,7 @@ cy_rslt_t cyhal_sdio_init(cyhal_sdio_t *obj, cyhal_gpio_t cmd, cyhal_gpio_t clk,
             if (CY_RSLT_SUCCESS == retVal)
             {
                 obj->pm_callback_data.callback = &_cyhal_sdio_ds_callback;
-                obj->pm_callback_data.states = (cyhal_syspm_callback_state_t)(CYHAL_SYSPM_CB_CPU_DEEPSLEEP | CYHAL_SYSPM_CB_SYSTEM_HIBERNATE);
+                obj->pm_callback_data.states = (cyhal_syspm_callback_state_t)(CYHAL_SYSPM_CB_CPU_DEEPSLEEP | CYHAL_SYSPM_CB_CPU_DEEPSLEEP_RAM | CYHAL_SYSPM_CB_SYSTEM_HIBERNATE);
                 obj->pm_callback_data.next = NULL;
                 obj->pm_callback_data.args = obj;
                 /* The CYHAL_SYSPM_BEFORE_TRANSITION mode cannot be ignored because the PM handler
@@ -408,7 +408,7 @@ cy_rslt_t cyhal_sdio_configure(cyhal_sdio_t *obj, const cyhal_sdio_cfg_t *config
     return CY_RSLT_SUCCESS;
 }
 
-cy_rslt_t cyhal_sdio_send_cmd(cyhal_sdio_t *obj, cyhal_sdio_transfer_type_t direction, cyhal_sdio_command_t command, uint32_t argument, uint32_t* response)
+cy_rslt_t cyhal_sdio_host_send_cmd(cyhal_sdio_t *obj, cyhal_sdio_host_transfer_type_t direction, cyhal_sdio_host_command_t command, uint32_t argument, uint32_t* response)
 {
     CY_ASSERT(NULL != obj);
     if (command == CYHAL_SDIO_CMD_IO_RW_EXTENDED)
@@ -460,7 +460,7 @@ cy_rslt_t cyhal_sdio_send_cmd(cyhal_sdio_t *obj, cyhal_sdio_transfer_type_t dire
     return retVal;
 }
 
-cy_rslt_t cyhal_sdio_bulk_transfer(cyhal_sdio_t *obj, cyhal_sdio_transfer_type_t direction, uint32_t argument, const uint32_t* data, uint16_t length, uint32_t* response)
+cy_rslt_t cyhal_sdio_host_bulk_transfer(cyhal_sdio_t *obj, cyhal_sdio_host_transfer_type_t direction, uint32_t argument, const uint32_t* data, uint16_t length, uint32_t* response)
 {
     CY_ASSERT(NULL != obj);
     if (obj->pm_transition_pending)
@@ -517,7 +517,7 @@ cy_rslt_t cyhal_sdio_bulk_transfer(cyhal_sdio_t *obj, cyhal_sdio_transfer_type_t
     return retVal;
 }
 
-cy_rslt_t cyhal_sdio_transfer_async(cyhal_sdio_t *obj, cyhal_sdio_transfer_type_t direction, uint32_t argument, const uint32_t* data, uint16_t length)
+cy_rslt_t cyhal_sdio_host_transfer_async(cyhal_sdio_t *obj, cyhal_sdio_host_transfer_type_t direction, uint32_t argument, const uint32_t* data, uint16_t length)
 {
     /* UDB SDIO implementation does not support async transfers */
 
@@ -601,8 +601,8 @@ void cyhal_sdio_enable_event(cyhal_sdio_t *obj, cyhal_sdio_event_t event, uint8_
     _cyhal_irq_set_priority(udb_interrupts_0_IRQn, intr_priority);
 }
 
-cy_rslt_t cyhal_sdio_set_io_voltage(cyhal_sdio_t *obj, cyhal_gpio_t io_volt_sel, cyhal_sdio_io_voltage_t io_voltage,
-                                    cyhal_sdio_io_volt_action_type_t io_switch_type)
+cy_rslt_t cyhal_sdio_host_set_io_voltage(cyhal_sdio_t *obj, cyhal_gpio_t io_volt_sel, cyhal_sdio_host_io_voltage_t io_voltage,
+                                    cyhal_sdio_host_io_volt_action_type_t io_switch_type)
 {
     /* UDB SDIO Does not support IO voltage switch */
     CY_UNUSED_PARAMETER(obj);

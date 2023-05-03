@@ -239,7 +239,6 @@ typedef enum
     CYHAL_VOLTAGE_SUPPLY_MAX  = CYHAL_VOLTAGE_SUPPLY_VDDA //!< Alias for the highest value in this enum
 } cyhal_syspm_voltage_supply_t;
 
- 
 /**
  * Performs any system wide power management initialization that is needed for future operations.
  * This can include things like unlocking IOs that might have been frozen when entering a low
@@ -383,14 +382,14 @@ void cyhal_syspm_unlock_deepsleep(void);
  * @note The actual ms in the best case will be 1 ms less than the desired time to
  * prevent the device from over-sleeping due to low clock accuracy.
  *
- * @param[in]   obj         Pre-Initialized LPTimer object.
+ * @param[in]   lptimer_obj Pre-Initialized LPTimer object.
  * @param[in]   desired_ms  Desired number of ms to deep-sleep.
  * @param[out]  actual_ms   Actual number of ms that was spent in deep-sleep.
  *                          This value can range from 0 to desired_ms - 1
  *                          depending on how long the device was able to deep-sleep.
  * @return The status of the deep-sleep request.
  */
-cy_rslt_t cyhal_syspm_tickless_deepsleep(cyhal_lptimer_t *obj, uint32_t desired_ms, uint32_t *actual_ms);
+cy_rslt_t cyhal_syspm_tickless_deepsleep(cyhal_lptimer_t *lptimer_obj, uint32_t desired_ms, uint32_t *actual_ms);
 
 /** Timed sleep without system timer.
  *
@@ -401,14 +400,14 @@ cy_rslt_t cyhal_syspm_tickless_deepsleep(cyhal_lptimer_t *obj, uint32_t desired_
  * @note The actual ms in the best case will be 1 ms less than the desired time to
  * prevent the device from over-sleeping due to low clock accuracy.
  *
- * @param[in]   obj         Pre-Initialized LPTimer object.
+ * @param[in]   lptimer_obj Pre-Initialized LPTimer object.
  * @param[in]   desired_ms  Desired number of ms to sleep.
  * @param[out]  actual_ms   Actual number of ms that was spent in sleep.
  *                          This value can range from 0 to desired_ms - 1
  *                          depending on how long the device was able to sleep.
  * @return The status of the sleep request.
  */
-cy_rslt_t cyhal_syspm_tickless_sleep(cyhal_lptimer_t *obj, uint32_t desired_ms, uint32_t *actual_ms);
+cy_rslt_t cyhal_syspm_tickless_sleep(cyhal_lptimer_t *lptimer_obj, uint32_t desired_ms, uint32_t *actual_ms);
 
 /** Informs the system of the current voltage level on the specified supply.
   *

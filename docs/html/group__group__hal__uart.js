@@ -49,6 +49,7 @@ var group__group__hal__uart =
     [ "cyhal_uart_enable_flow_control", "group__group__hal__uart.html#gacd188597425e7bbf4536082277248e9f", null ],
     [ "cyhal_uart_write", "group__group__hal__uart.html#ga2be8141bcc5fcc349b0dce1c09c4e98f", null ],
     [ "cyhal_uart_read", "group__group__hal__uart.html#gae436ac5108e3bc92f439c66c315e07ca", null ],
+    [ "cyhal_uart_set_async_mode", "group__group__hal__uart.html#gadb84cac4753a07555c98cfd7c95d4dce", null ],
     [ "cyhal_uart_write_async", "group__group__hal__uart.html#gab569e52660c519b775e3a15f3e2dbb46", null ],
     [ "cyhal_uart_read_async", "group__group__hal__uart.html#ga00ef108f7ee7beba3d5090b2e506b54f", null ],
     [ "cyhal_uart_is_tx_active", "group__group__hal__uart.html#ga5ee15173efae0edfa0813e8b78a1a467", null ],

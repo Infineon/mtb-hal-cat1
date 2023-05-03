@@ -67,6 +67,15 @@
 * events will be raised at the configurator defined TX and RX FIFO trigger levels, respectively,
 * instead of their usual trigger level of half the FIFO depth.
 *
+* \section section_psoc6_i2s_output_signals_behavior MXTDM SCLK/WS output signals behavior
+* On devices with MXTDM IP block (e.g. CAT1B devices), in master role, I2S' SCK and WS signals starts toggling upon
+* cyhal_i2s_init function call, while data is being transmitted / received after corresponding cyhal_i2s_start_*
+* functions call. This is different to the behavior of MXAUDIOSS-based I2S (e.g. CAT1A, CAT1C devices), where SCK
+* and WS signals starts toggling along with data receive / transmit process is being started with corresponding
+* cyhal_i2s_start_* function call. This is important for power efficient applications. For them, it is recommended
+* to init i2s master using @ref cyhal_i2s_init right before data transfers are performed and deinit it using
+* @ref cyhal_i2s_free when no i2s transmission is expected in nearest time, to save power.
+*
 * \} group_hal_impl_i2s
 */
 #elif defined(COMPONENT_CAT2)
@@ -94,7 +103,7 @@
 *
 * The sclk signal is formed by integer division of the input clock source (either internally
 * provided or from the mclk pin). The CAT2 I2S supports sclk divider values from 1 to 64.
-
+*
 * \note If the I2S hardware is initialized with a configurator-generated configuration via the
 * @ref cyhal_i2s_init_cfg function, the @ref CYHAL_I2S_TX_HALF_EMPTY event will be raised at the
 * configurator defined TX FIFO trigger level instead of the usual trigger level of half the FIFO depth.

@@ -109,6 +109,7 @@ typedef enum
     CYHAL_SYSTEM_RESET_WCO_ERR         = 1 << 5, /**< A reset has occurred due to a watch-crystal clock error */
     CYHAL_SYSTEM_RESET_SYS_CLK_ERR     = 1 << 6, /**< A reset has occurred due to a system clock error */
     CYHAL_SYSTEM_RESET_PROTECTION      = 1 << 7, /**< A reset has occurred due to a protection violation */
+	CYHAL_SYSTEM_RESET_WARMBOOT        = 1 << 8, /**< A reset has occurred due wake up from DSRAM, which is a Warm Boot */
 } cyhal_reset_reason_t;
 
 /** Function pointer for IRQ handlers ( \ref cyhal_system_set_isr). */

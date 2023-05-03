@@ -11,7 +11,8 @@ var group__group__hal__system =
       [ "CYHAL_SYSTEM_RESET_HIB_WAKEUP", "group__group__hal__system.html#gga53ba6a7416574a1b03890d23b7a90264a2d37ff7de305fafa5efd82851b10f9f8", null ],
       [ "CYHAL_SYSTEM_RESET_WCO_ERR", "group__group__hal__system.html#gga53ba6a7416574a1b03890d23b7a90264a9f7bc88bd31996816b0c87e66b6ed3ab", null ],
       [ "CYHAL_SYSTEM_RESET_SYS_CLK_ERR", "group__group__hal__system.html#gga53ba6a7416574a1b03890d23b7a90264a47ca71b4cbbccce8cce116e61d5054c0", null ],
-      [ "CYHAL_SYSTEM_RESET_PROTECTION", "group__group__hal__system.html#gga53ba6a7416574a1b03890d23b7a90264a2ed57102eaf30e7b73e04b380d8abe10", null ]
+      [ "CYHAL_SYSTEM_RESET_PROTECTION", "group__group__hal__system.html#gga53ba6a7416574a1b03890d23b7a90264a2ed57102eaf30e7b73e04b380d8abe10", null ],
+      [ "CYHAL_SYSTEM_RESET_WARMBOOT", "group__group__hal__system.html#gga53ba6a7416574a1b03890d23b7a90264aa830cecbee70100de8bac92a52975c52", null ]
     ] ],
     [ "cyhal_system_critical_section_enter", "group__group__hal__system.html#ga70a306e5108a38aa995c0ab7d0147e43", null ],
     [ "cyhal_system_critical_section_exit", "group__group__hal__system.html#ga9fe83f08f46b64c956ec7ed3c335f659", null ],

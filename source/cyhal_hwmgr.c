@@ -81,7 +81,7 @@ static inline void _check_array_size(void)
 
 static cy_rslt_t _cyhal_get_bit_position(cyhal_resource_t type, uint8_t block, uint8_t channel, uint16_t* bitPosition)
 {
-#if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C)
+#if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
     /* For backwards compatability. */
     if (type == CYHAL_RSC_CLKPATH)
     {

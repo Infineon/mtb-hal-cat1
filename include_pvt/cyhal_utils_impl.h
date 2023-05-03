@@ -252,7 +252,7 @@ cy_rslt_t _cyhal_utils_set_clock_frequency2(cyhal_clock_t *clock, uint32_t hz, c
 
 static inline cy_rslt_t _cyhal_utils_peri_pclk_set_divider(en_clk_dst_t clk_dest, const cyhal_clock_t *clock, uint32_t div)
 {
-    #if defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C)
+    #if defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
     return Cy_SysClk_PeriPclkSetDivider(clk_dest, _CYHAL_PERIPHERAL_GROUP_GET_DIVIDER_TYPE(clock->block), clock->channel, div);
     #else
     CY_UNUSED_PARAMETER(clk_dest);
@@ -261,7 +261,7 @@ static inline cy_rslt_t _cyhal_utils_peri_pclk_set_divider(en_clk_dst_t clk_dest
 }
 static inline uint32_t _cyhal_utils_peri_pclk_get_divider(en_clk_dst_t clk_dest, const cyhal_clock_t *clock)
 {
-    #if defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C)
+    #if defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
     return Cy_SysClk_PeriPclkGetDivider(clk_dest, _CYHAL_PERIPHERAL_GROUP_GET_DIVIDER_TYPE(clock->block), clock->channel);
     #else
     CY_UNUSED_PARAMETER(clk_dest);
@@ -270,7 +270,7 @@ static inline uint32_t _cyhal_utils_peri_pclk_get_divider(en_clk_dst_t clk_dest,
 }
 static inline cy_rslt_t _cyhal_utils_peri_pclk_set_frac_divider(en_clk_dst_t clk_dest, const cyhal_clock_t *clock, uint32_t div_int, uint32_t div_frac)
 {
-    #if defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C)
+    #if defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
     return Cy_SysClk_PeriPclkSetFracDivider(clk_dest, _CYHAL_PERIPHERAL_GROUP_GET_DIVIDER_TYPE(clock->block), clock->channel, div_int, div_frac);
     #else
     CY_UNUSED_PARAMETER(clk_dest);
@@ -279,7 +279,7 @@ static inline cy_rslt_t _cyhal_utils_peri_pclk_set_frac_divider(en_clk_dst_t clk
 }
 static inline void _cyhal_utils_peri_pclk_get_frac_divider(en_clk_dst_t clk_dest, const cyhal_clock_t *clock, uint32_t *div_int, uint32_t *div_frac)
 {
-    #if defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C)
+    #if defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
     Cy_SysClk_PeriPclkGetFracDivider(clk_dest, _CYHAL_PERIPHERAL_GROUP_GET_DIVIDER_TYPE(clock->block), clock->channel, div_int, div_frac);
     #else
     CY_UNUSED_PARAMETER(clk_dest);
@@ -288,7 +288,7 @@ static inline void _cyhal_utils_peri_pclk_get_frac_divider(en_clk_dst_t clk_dest
 }
 static inline uint32_t _cyhal_utils_peri_pclk_get_frequency(en_clk_dst_t clk_dest, const cyhal_clock_t *clock)
 {
-    #if defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C)
+    #if defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
     return Cy_SysClk_PeriPclkGetFrequency(clk_dest, _CYHAL_PERIPHERAL_GROUP_GET_DIVIDER_TYPE(clock->block), clock->channel);
     #else
     CY_UNUSED_PARAMETER(clk_dest);
@@ -297,7 +297,7 @@ static inline uint32_t _cyhal_utils_peri_pclk_get_frequency(en_clk_dst_t clk_des
 }
 static inline cy_rslt_t _cyhal_utils_peri_pclk_assign_divider(en_clk_dst_t clk_dest, const cyhal_clock_t *clock)
 {
-    #if defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C)
+    #if defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
         return Cy_SysClk_PeriPclkAssignDivider(clk_dest, _CYHAL_PERIPHERAL_GROUP_GET_DIVIDER_TYPE(clock->block), clock->channel);
     #else
         return Cy_SysClk_PeriphAssignDivider(clk_dest, _CYHAL_PERIPHERAL_GROUP_GET_DIVIDER_TYPE(clock->block), clock->channel);
@@ -305,7 +305,7 @@ static inline cy_rslt_t _cyhal_utils_peri_pclk_assign_divider(en_clk_dst_t clk_d
 }
 static inline uint32_t _cyhal_utils_peri_pclk_get_assigned_divider(en_clk_dst_t clk_dest)
 {
-    #if defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C)
+    #if defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
         return Cy_SysClk_PeriPclkGetAssignedDivider(clk_dest);
     #else
         return Cy_SysClk_PeriphGetAssignedDivider(clk_dest);
@@ -313,7 +313,7 @@ static inline uint32_t _cyhal_utils_peri_pclk_get_assigned_divider(en_clk_dst_t 
 }
 static inline cy_rslt_t _cyhal_utils_peri_pclk_enable_divider(en_clk_dst_t clk_dest, const cyhal_clock_t *clock)
 {
-    #if defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C)
+    #if defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
     return Cy_SysClk_PeriPclkEnableDivider(clk_dest, _CYHAL_PERIPHERAL_GROUP_GET_DIVIDER_TYPE(clock->block), clock->channel);
     #else
     CY_UNUSED_PARAMETER(clk_dest);
@@ -322,7 +322,7 @@ static inline cy_rslt_t _cyhal_utils_peri_pclk_enable_divider(en_clk_dst_t clk_d
 }
 static inline cy_rslt_t _cyhal_utils_peri_pclk_disable_divider(en_clk_dst_t clk_dest, const cyhal_clock_t *clock)
 {
-    #if defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C)
+    #if defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
     return Cy_SysClk_PeriPclkDisableDivider(clk_dest, _CYHAL_PERIPHERAL_GROUP_GET_DIVIDER_TYPE(clock->block), clock->channel);
     #else
     CY_UNUSED_PARAMETER(clk_dest);
@@ -331,7 +331,7 @@ static inline cy_rslt_t _cyhal_utils_peri_pclk_disable_divider(en_clk_dst_t clk_
 }
 static inline cy_rslt_t _cyhal_utils_peri_pclk_enable_phase_align_divider(en_clk_dst_t clk_dest, const cyhal_clock_t *clock, const cyhal_clock_t *clock2)
 {
-    #if defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C)
+    #if defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
     return Cy_SysClk_PeriPclkEnablePhaseAlignDivider(clk_dest, _CYHAL_PERIPHERAL_GROUP_GET_DIVIDER_TYPE(clock->block), clock->channel,
                                                     _CYHAL_PERIPHERAL_GROUP_GET_DIVIDER_TYPE(clock2->block), clock2->channel);
     #else
@@ -342,7 +342,7 @@ static inline cy_rslt_t _cyhal_utils_peri_pclk_enable_phase_align_divider(en_clk
 }
 static inline bool _cyhal_utils_peri_pclk_is_divider_enabled(en_clk_dst_t clk_dest, const cyhal_clock_t *clock)
 {
-    #if defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C)
+    #if defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
     return Cy_SysClk_PeriPclkGetDividerEnabled(clk_dest, _CYHAL_PERIPHERAL_GROUP_GET_DIVIDER_TYPE(clock->block), clock->channel);
     #elif defined(COMPONENT_CAT2)
     CY_UNUSED_PARAMETER(clk_dest);

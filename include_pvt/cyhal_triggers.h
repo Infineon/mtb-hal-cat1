@@ -80,7 +80,11 @@ extern "C" {
 #elif defined(CY_DEVICE_PSOC6A256K)
 #include "triggers/cyhal_triggers_psoc6_04.h"
 #elif defined(CY_DEVICE_CYW20829)
+#if (defined(CY_DEVICE_CYW20829) && (CY_SYSLIB_GET_SILICON_REV_ID == CY_SYSLIB_20829A0_SILICON_REV))
+#include "triggers/cyhal_triggers_cyw20829a0.h"
+#else
 #include "triggers/cyhal_triggers_cyw20829.h"
+#endif // (defined(CY_DEVICE_CYW20829) && (CY_SYSLIB_GET_SILICON_REV_ID == CY_SYSLIB_20829A0_SILICON_REV))
 #elif defined(CY_DEVICE_TVIIBH4M)
 #include "triggers/cyhal_triggers_xmc7100.h"
 #elif defined(CY_DEVICE_TVIIBH8M)

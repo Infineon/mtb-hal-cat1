@@ -505,7 +505,7 @@
     #define CY_BLOCK_COUNT_USBPD    (0)
 #endif
 
-#if defined(CY_IP_MXS40SRSS) || defined(CY_IP_MXS40SSRSS)
+#if defined(CY_IP_MXS40SRSS) || defined(CY_IP_MXS40SSRSS) || defined(CY_IP_MXS22SRSS)
     #define CY_BLOCK_COUNT_MCWDT    (SRSS_NUM_MCWDT)
 #elif (defined(CY_IP_S8SRSSLT_INSTANCES) && defined(CY_IP_M0S8WCO))
     #define CY_BLOCK_COUNT_MCWDT    (CY_IP_M0S8WCO_INSTANCES)
@@ -1054,7 +1054,7 @@ static const _cyhal_hwmgr_offset_t cyhal_block_offsets_clock[PERI_PERI_PCLK_PCLK
  * one higher than the previous value. When there are multiple clocks (e.g.: PathMux/PLL)
  * the subsequent value is increased by the define that specifies how many clocks are
  * actually present. */
-static const _cyhal_hwmgr_offset_t cyhal_block_offsets_clock[(PERI0_PERI_PCLK_PCLK_GROUP_NR + PERI1_PERI_PCLK_PCLK_GROUP_NR) * 4 + 22] =
+static const _cyhal_hwmgr_offset_t cyhal_block_offsets_clock[(PERI0_PERI_PCLK_PCLK_GROUP_NR + PERI1_PERI_PCLK_PCLK_GROUP_NR) * 4 + 14] =
 {
     // Peripheral dividers (8-bit, 16-bit, 16.5-bit & 24.5 bit) for each group
     #if (PERI0_PERI_PCLK_PCLK_GROUP_NR > 0)
@@ -1116,25 +1116,22 @@ static const _cyhal_hwmgr_offset_t cyhal_block_offsets_clock[(PERI0_PERI_PCLK_PC
     PERI_DIV_NR,                                                                                    // IHO
     PERI_DIV_NR + 1,                                                                                // ECO
     PERI_DIV_NR + 2,                                                                                // EXT
-    PERI_DIV_NR + 3,                                                                                // ALTHF
-    PERI_DIV_NR + 4,                                                                                // ALTLF
-    PERI_DIV_NR + 5,                                                                                // ILO
-    PERI_DIV_NR + 6,                                                                                // PILO
-    PERI_DIV_NR + 7,                                                                                // WCO
+    PERI_DIV_NR + 3,                                                                                // PILO
+    PERI_DIV_NR + 4,                                                                                // WCO
 
-    PERI_DIV_NR + 8,                                                                                // PathMux
+    PERI_DIV_NR + 5,                                                                                // PathMux
 
-    PERI_DIV_NR + SRSS_NUM_CLKPATH + 8,                                                             // FLL
-    PERI_DIV_NR + SRSS_NUM_CLKPATH + 9,                                                             // DPLL_LP
-    PERI_DIV_NR + SRSS_NUM_CLKPATH + SRSS_NUM_DPLL_LP + 9,                                          // DPLL_HP
-    PERI_DIV_NR + SRSS_NUM_CLKPATH + SRSS_NUM_DPLL_LP + SRSS_NUM_DPLL_HP + 9,                       // ECO_PreScaler
+    PERI_DIV_NR + SRSS_NUM_CLKPATH + 5,                                                             // DPLL_LP
+    PERI_DIV_NR + SRSS_NUM_CLKPATH + SRSS_NUM_DPLL_LP + 5,                                          // DPLL_HP
+    PERI_DIV_NR + SRSS_NUM_CLKPATH + SRSS_NUM_DPLL_LP + SRSS_NUM_DPLL_HP + 5,                       // ECO_PreScaler
 
-    PERI_DIV_NR + SRSS_NUM_CLKPATH + SRSS_NUM_DPLL_LP + SRSS_NUM_DPLL_HP + 10,                      // LF
-    PERI_DIV_NR + SRSS_NUM_CLKPATH + SRSS_NUM_DPLL_LP + SRSS_NUM_DPLL_HP + 11,                      // MF
-    PERI_DIV_NR + SRSS_NUM_CLKPATH + SRSS_NUM_DPLL_LP + SRSS_NUM_DPLL_HP + 12,                      // HF
+    PERI_DIV_NR + SRSS_NUM_CLKPATH + SRSS_NUM_DPLL_LP + SRSS_NUM_DPLL_HP + 6,                       // LF
+    PERI_DIV_NR + SRSS_NUM_CLKPATH + SRSS_NUM_DPLL_LP + SRSS_NUM_DPLL_HP + 7,                       // MF
+    PERI_DIV_NR + SRSS_NUM_CLKPATH + SRSS_NUM_DPLL_LP + SRSS_NUM_DPLL_HP + 8,                       // HF
 
-    PERI_DIV_NR + SRSS_NUM_CLKPATH + SRSS_NUM_DPLL_LP + SRSS_NUM_DPLL_HP + SRSS_NUM_HFROOT + 12,    // BAK
-    PERI_DIV_NR + SRSS_NUM_CLKPATH + SRSS_NUM_DPLL_LP + SRSS_NUM_DPLL_HP + SRSS_NUM_HFROOT + 13     // AltSysTick
+    PERI_DIV_NR + SRSS_NUM_CLKPATH + SRSS_NUM_DPLL_LP + SRSS_NUM_DPLL_HP + SRSS_NUM_HFROOT + 8,     // BAK
+    PERI_DIV_NR + SRSS_NUM_CLKPATH + SRSS_NUM_DPLL_LP + SRSS_NUM_DPLL_HP + SRSS_NUM_HFROOT + 9      // Peri
+
 };
 
 #elif defined(COMPONENT_CAT2)
@@ -1184,7 +1181,7 @@ static const _cyhal_hwmgr_offset_t cyhal_block_offsets_dma[] =
 #endif /* defined(CY_IP_MXAHBDMAC_INSTANCES) */
 };
 
-#if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C)
+#if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
 static const _cyhal_hwmgr_offset_t cyhal_block_offsets_dw[] =
 {
     0,
@@ -1205,7 +1202,7 @@ static const _cyhal_hwmgr_offset_t cyhal_block_offsets_tdm[] =
 static const _cyhal_hwmgr_offset_t cyhal_block_offsets_gpio[] =
 {
     0, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120,
-    #if defined(COMPONENT_CAT1C)
+    #if defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
     /* Most devices don't have more than 16 ports, so save the flash in most cases */
     128, 136, 144, 152, 160, 168, 176, 184, 192, 200, 208, 216, 224,
     232, 240, 248, 256, 264, 272, 280
@@ -1423,7 +1420,7 @@ static const uint32_t cyhal_has_channels =
     (1 << CYHAL_RSC_CAN)   |
     (1 << CYHAL_RSC_CLOCK) |
     (1 << CYHAL_RSC_DMA)   |
-#if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C)
+#if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
     (1 << CYHAL_RSC_DW)    |
     (1 << CYHAL_RSC_TDM)   |
 #endif
@@ -1456,7 +1453,7 @@ static inline const _cyhal_hwmgr_offset_t* _cyhal_get_block_offsets(cyhal_resour
             return cyhal_block_offsets_clock;
         case CYHAL_RSC_DMA:
             return cyhal_block_offsets_dma;
-#if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C)
+#if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
         case CYHAL_RSC_DW:
             return cyhal_block_offsets_dw;
         case CYHAL_RSC_TDM:
@@ -1487,7 +1484,7 @@ static inline uint8_t _cyhal_get_block_offset_length(cyhal_resource_t type)
             return sizeof(cyhal_block_offsets_clock)/sizeof(cyhal_block_offsets_clock[0]);
         case CYHAL_RSC_DMA:
             return sizeof(cyhal_block_offsets_dma)/sizeof(cyhal_block_offsets_dma[0]);
-#if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C)
+#if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
         case CYHAL_RSC_DW:
             return sizeof(cyhal_block_offsets_dw)/sizeof(cyhal_block_offsets_dw[0]);
         case CYHAL_RSC_TDM:

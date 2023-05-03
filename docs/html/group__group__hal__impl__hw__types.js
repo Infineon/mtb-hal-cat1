@@ -36,7 +36,7 @@ var group__group__hal__impl__hw__types =
     [ "cyhal_dac_configurator_t", "group__group__hal__impl__hw__types.html#structcyhal__dac__configurator__t", null ],
     [ "cyhal_opamp_t", "group__group__hal__impl__hw__types.html#structcyhal__opamp__t", null ],
     [ "cyhal_opamp_configurator_t", "group__group__hal__impl__hw__types.html#structcyhal__opamp__configurator__t", null ],
-    [ "cyhal_flash_t", "group__group__hal__impl__hw__types.html#structcyhal__flash__t", null ],
+    [ "cyhal_nvm_t", "group__group__hal__impl__hw__types.html#structcyhal__nvm__t", null ],
     [ "cyhal_i2c_t", "group__group__hal__impl__hw__types.html#structcyhal__i2c__t", null ],
     [ "cyhal_i2c_configurator_t", "group__group__hal__impl__hw__types.html#structcyhal__i2c__configurator__t", null ],
     [ "cyhal_ezi2c_t", "group__group__hal__impl__hw__types.html#structcyhal__ezi2c__t", null ],

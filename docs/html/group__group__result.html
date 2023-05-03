@@ -109,13 +109,13 @@ $(document).ready(function(){initNavTree('group__group__result.html',''); initRe
 <div class="ttc" id="agroup__group__result_html_ga5a7fc037210b7ff81c65160e11823443"><div class="ttname"><a href="group__group__result.html#ga5a7fc037210b7ff81c65160e11823443">CY_RSLT_GET_CODE</a></div><div class="ttdeci">#define CY_RSLT_GET_CODE(x)</div><div class="ttdoc">Get the value of the result code field.</div><div class="ttdef"><b>Definition:</b> cy_result.h:130</div></div>
 <div class="ttc" id="agroup__group__result_html_ga9ae9b152a38632a9e0f8620845c6cea9"><div class="ttname"><a href="group__group__result.html#ga9ae9b152a38632a9e0f8620845c6cea9">CY_RSLT_GET_TYPE</a></div><div class="ttdeci">#define CY_RSLT_GET_TYPE(x)</div><div class="ttdoc">Get the value of the result type field.</div><div class="ttdef"><b>Definition:</b> cy_result.h:120</div></div>
 <div class="ttc" id="agroup__group__result_html_gab959fc67da8489c03d3ab631442393b4"><div class="ttname"><a href="group__group__result.html#gab959fc67da8489c03d3ab631442393b4">CY_RSLT_GET_MODULE</a></div><div class="ttdeci">#define CY_RSLT_GET_MODULE(x)</div><div class="ttdoc">Get the value of the module identifier field.</div><div class="ttdef"><b>Definition:</b> cy_result.h:125</div></div>
-<div class="ttc" id="agroup__group__result_html_gaca79700fcc701534ce61778a9bcf57d1"><div class="ttname"><a href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a></div><div class="ttdeci">uint32_t cy_rslt_t</div><div class="ttdoc">Provides the result of an operation as a structured bitfield.</div><div class="ttdef"><b>Definition:</b> cy_result.h:424</div></div>
+<div class="ttc" id="agroup__group__result_html_gaca79700fcc701534ce61778a9bcf57d1"><div class="ttname"><a href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a></div><div class="ttdeci">uint32_t cy_rslt_t</div><div class="ttdoc">Provides the result of an operation as a structured bitfield.</div><div class="ttdef"><b>Definition:</b> cy_result.h:426</div></div>
 </div><!-- fragment --><p >Using <a class="el" href="group__group__result.html#unioncy__rslt__decode__t">cy_rslt_decode_t</a> to decode: </p><div class="fragment"><div class="line"><a class="code hl_union" href="group__group__result.html#unioncy__rslt__decode__t">cy_rslt_decode_t</a> result;</div>
 <div class="line">result.<a class="code hl_variable" href="group__group__result.html#aa46cfbec8a99e1c9bce73b87f1f988c9">raw</a> = cy_hal_do_operation(arg);</div>
 <div class="line"> </div>
 <div class="line">printf(<span class="stringliteral">&quot;type=%d, module=%d, code=%d\n&quot;</span>, result.type, result.module, result.code);</div>
-<div class="ttc" id="agroup__group__result_html_aa46cfbec8a99e1c9bce73b87f1f988c9"><div class="ttname"><a href="group__group__result.html#aa46cfbec8a99e1c9bce73b87f1f988c9">cy_rslt_decode_t::raw</a></div><div class="ttdeci">cy_rslt_t raw</div><div class="ttdoc">The raw uint32/cy_rslt_t value.</div><div class="ttdef"><b>Definition:</b> cy_result.h:440</div></div>
-<div class="ttc" id="agroup__group__result_html_unioncy__rslt__decode__t"><div class="ttname"><a href="group__group__result.html#unioncy__rslt__decode__t">cy_rslt_decode_t</a></div><div class="ttdoc">Provides the result of an operation as a structured bitfield.</div><div class="ttdef"><b>Definition:</b> cy_result.h:439</div></div>
+<div class="ttc" id="agroup__group__result_html_aa46cfbec8a99e1c9bce73b87f1f988c9"><div class="ttname"><a href="group__group__result.html#aa46cfbec8a99e1c9bce73b87f1f988c9">cy_rslt_decode_t::raw</a></div><div class="ttdeci">cy_rslt_t raw</div><div class="ttdoc">The raw uint32/cy_rslt_t value.</div><div class="ttdef"><b>Definition:</b> cy_result.h:442</div></div>
+<div class="ttc" id="agroup__group__result_html_unioncy__rslt__decode__t"><div class="ttname"><a href="group__group__result.html#unioncy__rslt__decode__t">cy_rslt_decode_t</a></div><div class="ttdoc">Provides the result of an operation as a structured bitfield.</div><div class="ttdef"><b>Definition:</b> cy_result.h:441</div></div>
 </div><!-- fragment --> <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Structures</h2></td></tr>
@@ -319,6 +319,8 @@ Typedefs</h2></td></tr>
 &#160;&#160;<a class="el" href="group__group__result.html#gga9008565cba0207520330a1cb8509a8d0ad7371dad534d9b98b9cdef2eb5ca9308">CY_RSLT_MODULE_BOARD_HARDWARE_XENSIV_PASCO2</a> = 0x01CA
 , <br />
 &#160;&#160;<a class="el" href="group__group__result.html#gga9008565cba0207520330a1cb8509a8d0a2b8851142c3acd0ca0300398c149281b">CY_RSLT_MODULE_BOARD_HARDWARE_XENSIV_BGT60TRXX</a> = 0x01CC
+, <br />
+&#160;&#160;<a class="el" href="group__group__result.html#gga9008565cba0207520330a1cb8509a8d0aa0fc0957b382b4db7b1cbb3b00554fe1">CY_RSLT_MODULE_BOARD_HARDWARE_LM49450</a> = 0x01CE
 , <br />
 &#160;&#160;<a class="el" href="group__group__result.html#gga9008565cba0207520330a1cb8509a8d0a6edb3d5f78ed597631a60671eaca638c">CY_RSLT_MODULE_MIDDLEWARE_MNDS</a> = 0x200
 , <br />
@@ -913,6 +915,9 @@ The 14bit module id. </td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="gga9008565cba0207520330a1cb8509a8d0a2b8851142c3acd0ca0300398c149281b" name="gga9008565cba0207520330a1cb8509a8d0a2b8851142c3acd0ca0300398c149281b"></a>CY_RSLT_MODULE_BOARD_HARDWARE_XENSIV_BGT60TRXX&#160;</td><td class="fielddoc"><p >Module identifier for the XENSIV™ BGT60TRxx Sensor Library. </p>
 <p >Asset(s): (sensor-xensiv-bgt60trxx) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga9008565cba0207520330a1cb8509a8d0aa0fc0957b382b4db7b1cbb3b00554fe1" name="gga9008565cba0207520330a1cb8509a8d0aa0fc0957b382b4db7b1cbb3b00554fe1"></a>CY_RSLT_MODULE_BOARD_HARDWARE_LM49450&#160;</td><td class="fielddoc"><p >Module identifier for the LM49450 Audio Codec Library. </p>
+<p >Asset(s): (audio-codec-lm49450) </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga9008565cba0207520330a1cb8509a8d0a6edb3d5f78ed597631a60671eaca638c" name="gga9008565cba0207520330a1cb8509a8d0a6edb3d5f78ed597631a60671eaca638c"></a>CY_RSLT_MODULE_MIDDLEWARE_MNDS&#160;</td><td class="fielddoc"><p >Module identifier for the MDNS library. </p>
 <p >Asset(s): (mdns) </p>

@@ -100,6 +100,7 @@ var group__group__result =
       [ "CY_RSLT_MODULE_BOARD_HARDWARE_WM8960", "group__group__result.html#gga9008565cba0207520330a1cb8509a8d0aaa418c782ce87fab530d277e60def871", null ],
       [ "CY_RSLT_MODULE_BOARD_HARDWARE_XENSIV_PASCO2", "group__group__result.html#gga9008565cba0207520330a1cb8509a8d0ad7371dad534d9b98b9cdef2eb5ca9308", null ],
       [ "CY_RSLT_MODULE_BOARD_HARDWARE_XENSIV_BGT60TRXX", "group__group__result.html#gga9008565cba0207520330a1cb8509a8d0a2b8851142c3acd0ca0300398c149281b", null ],
+      [ "CY_RSLT_MODULE_BOARD_HARDWARE_LM49450", "group__group__result.html#gga9008565cba0207520330a1cb8509a8d0aa0fc0957b382b4db7b1cbb3b00554fe1", null ],
       [ "CY_RSLT_MODULE_MIDDLEWARE_MNDS", "group__group__result.html#gga9008565cba0207520330a1cb8509a8d0a6edb3d5f78ed597631a60671eaca638c", null ],
       [ "CY_RSLT_MODULE_MIDDLEWARE_AWS", "group__group__result.html#gga9008565cba0207520330a1cb8509a8d0a9cfcba0d3677533910dd85d6c66076be", null ],
       [ "CY_RSLT_MODULE_MIDDLEWARE_JSON", "group__group__result.html#gga9008565cba0207520330a1cb8509a8d0af3da701df88c97389963b230abd6f517", null ],

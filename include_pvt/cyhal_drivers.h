@@ -43,6 +43,7 @@
 #include "cyhal_interconnect.h"
 #include "cyhal_keyscan.h"
 #include "cyhal_lptimer.h"
+#include "cyhal_nvm.h"
 #include "cyhal_opamp.h"
 #include "cyhal_pdmpcm.h"
 #include "cyhal_pwm.h"

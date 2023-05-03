@@ -34,17 +34,45 @@
 #include "cyhal_hwmgr.h"
 #include "cyhal_syspm.h"
 #include "cyhal_clock.h"
+#if (CYHAL_DRIVER_AVAILABLE_DMA)
+#include "cyhal_dma.h"
+#endif
 #include "cyhal_interconnect.h"
 #include "cyhal_irq_impl.h"
 
 #if (CYHAL_DRIVER_AVAILABLE_UART)
+
+/** \addtogroup group_hal_uart UART
+ * \ingroup group_hal
+ * \{
+ * \section group_hal_uart_dma_transfers Asynchronous DMA Transfers
+ * Asynchronous transfers can be performed using DMA to load data into
+ * and from the FIFOs. The purpose of this is to minimize CPU load on
+ * large transfers. UART also supports using an overflow buffer to
+ * hold RX FIFO data. Data transfer into and out of this overflow buffer
+ * is done through software transfers, even when in DMA async mode. Use
+ * of the overflow buffer will cause CPU load.
+ * Upon starting an asynchronous read in DMA-mode, the overflow buffer
+ * will be emptied through software transfers and promptly disabled.
+ * During this process, CYHAL_UART_IRQ_RX_FIFO interrupts will be
+ * temporarily ignored.
+ * \} group_hal_uart
+ */
+
 
 #if defined(__cplusplus)
 extern "C"
 {
 #endif
 
+#if defined(COMPONENT_CAT5)
+/* CAT5 SCB System Clock Maximum frequency is 192MHz, maximum divider
+ * value is 128 and hence the minimum valid oversample value possible is 13
+ */
+#define _CYHAL_UART_OVERSAMPLE                 13UL
+#else
 #define _CYHAL_UART_OVERSAMPLE                 12UL
+#endif
 #define _CYHAL_UART_OVERSAMPLE_MIN             8UL
 #define _CYHAL_UART_OVERSAMPLE_MAX             16UL
 
@@ -120,8 +148,21 @@ static void _cyhal_uart_irq_handler(void)
     uint32_t txMasked = Cy_SCB_GetTxInterruptStatusMasked(obj->base);
     uint32_t rxMasked = Cy_SCB_GetRxInterruptStatusMasked(obj->base);
 
-    /* SCB high-level API interrupt handler. Must be called as high-level API is used in the HAL */
-    Cy_SCB_UART_Interrupt(obj->base, &(obj->context));
+    #if (CYHAL_DRIVER_AVAILABLE_DMA)
+    /* Don't process the 'refill ring buffer' interrupt if we're actively emptying it in a DMA async read */
+    if (!(obj->async_rx_buff != NULL) || !(rxMasked & CY_SCB_RX_INTR_LEVEL) || !(obj->context.rxRingBuf != NULL))
+    {
+    #endif
+       /* SCB high-level API interrupt handler. Must be called as high-level API is used in the HAL */
+        Cy_SCB_UART_Interrupt(obj->base, &(obj->context));
+    #if (CYHAL_DRIVER_AVAILABLE_DMA)
+    }
+    else
+    {
+        /* Normally cleared in the above handler call */
+        Cy_SCB_ClearRxInterrupt(obj->base, CY_SCB_RX_INTR_LEVEL);
+    }
+    #endif
 
     /* Custom handling for TX overflow (cannot occur using HAL API but can occur if user makes custom modifications)
         Note: This is partially handled in Cy_SCB_UART_Interrupt()
@@ -197,22 +238,101 @@ static void _cyhal_uart_irq_handler(void)
 }
 
 #if defined (COMPONENT_CAT5)
+// CAT5 interrupts are implemented oddly in PDL: they auto-disable themselves after firing.  So re-enable
 static void _cyhal_uart0_irq_handler(void)
 {
     _cyhal_uart_irq_handler(scb_0_interrupt_IRQn);
+    Cy_SCB_EnableInterrupt(SCB0);
 }
 
 static void _cyhal_uart1_irq_handler(void)
 {
     _cyhal_uart_irq_handler(scb_1_interrupt_IRQn);
+    Cy_SCB_EnableInterrupt(SCB1);
 }
 
 static void _cyhal_uart2_irq_handler(void)
 {
     _cyhal_uart_irq_handler(scb_2_interrupt_IRQn);
+    Cy_SCB_EnableInterrupt(SCB2);
 }
 
 static CY_SCB_IRQ_THREAD_CB_t _cyhal_irq_cb[3] = {_cyhal_uart0_irq_handler, _cyhal_uart1_irq_handler, _cyhal_uart2_irq_handler};
+#endif
+
+#if (CYHAL_DRIVER_AVAILABLE_DMA)
+cy_rslt_t _cyhal_uart_dma_write_async(cyhal_uart_t *obj);
+
+static void _cyhal_uart_dma_handler_tx(void* arg, cyhal_dma_event_t event)
+{
+    CY_ASSERT(CYHAL_DMA_TRANSFER_COMPLETE == event);
+    CY_UNUSED_PARAMETER(event);
+    cyhal_uart_t* obj = (cyhal_uart_t*)arg;
+    CY_ASSERT(CYHAL_ASYNC_DMA == obj->async_mode);
+
+    if(obj->async_tx_length > 0)
+    {
+        /* Setup another transfer if we're expecting more */
+        _cyhal_uart_dma_write_async(obj);
+    }
+    else
+    {
+        obj->async_tx_buff = NULL;
+        /* We may have lowered the FIFO to complete a small transfer. Restore it */
+        if(obj->user_fifo_level != ((SCB_TX_FIFO_CTRL(obj->base) & SCB_TX_FIFO_CTRL_TRIGGER_LEVEL_Msk)))
+        {
+            _cyhal_scb_set_fifo_level(obj->base, (cyhal_scb_fifo_type_t)CYHAL_UART_FIFO_TX, obj->user_fifo_level);
+        }
+
+        if(0 == (CYHAL_UART_IRQ_TX_FIFO & ((cyhal_uart_event_t)obj->irq_cause)))
+        {
+             Cy_SCB_SetTxInterruptMask(obj->base, Cy_SCB_GetTxInterruptMask(obj->base) & ~CY_SCB_TX_INTR_LEVEL);
+        }
+
+        if(0 != ((cyhal_uart_event_t)obj->irq_cause & CYHAL_UART_IRQ_TX_TRANSMIT_IN_FIFO))
+        {
+            cyhal_uart_event_callback_t callback = (cyhal_uart_event_callback_t)obj->callback_data.callback;
+            if(NULL != callback)
+            {
+                callback(obj->callback_data.callback_arg, CYHAL_UART_IRQ_TX_TRANSMIT_IN_FIFO);
+            }
+        }
+    }
+}
+
+cy_rslt_t _cyhal_uart_dma_read_async(cyhal_uart_t *obj);
+
+static void _cyhal_uart_dma_handler_rx(void* arg, cyhal_dma_event_t event)
+{
+    CY_ASSERT(CYHAL_DMA_TRANSFER_COMPLETE == event);
+    CY_UNUSED_PARAMETER(event);
+    cyhal_uart_t* obj = (cyhal_uart_t*)arg;
+    CY_ASSERT(CYHAL_ASYNC_DMA == obj->async_mode);
+
+    if(obj->async_rx_length > 0)
+    {
+        /* Setup another transfer if we're expecting more */
+        _cyhal_uart_dma_read_async(obj);
+    }
+    else
+    {
+        obj->async_rx_buff = NULL;
+        /* We may have lowered the FIFO to complete a small transfer. Restore it */
+        if(obj->user_fifo_level != ((SCB_RX_FIFO_CTRL(obj->base) & SCB_RX_FIFO_CTRL_TRIGGER_LEVEL_Msk)))
+        {
+            _cyhal_scb_set_fifo_level(obj->base, (cyhal_scb_fifo_type_t)CYHAL_UART_FIFO_RX, obj->user_fifo_level);
+        }
+
+        if(0 != ((cyhal_uart_event_t)obj->irq_cause & CYHAL_UART_IRQ_RX_DONE))
+        {
+            cyhal_uart_event_callback_t callback = (cyhal_uart_event_callback_t)obj->callback_data.callback;
+            if(NULL != callback)
+            {
+                callback(obj->callback_data.callback_arg, CYHAL_UART_IRQ_RX_DONE);
+            }
+        }
+    }
+}
 #endif
 
 static void _cyhal_uart_cb_wrapper(uint32_t event)
@@ -272,7 +392,12 @@ static bool _cyhal_uart_pm_callback_instance(void *obj_ptr, cyhal_syspm_callback
             * or receive operation.
             */
             if ((0UL == (CY_SCB_UART_TRANSMIT_ACTIVE & Cy_SCB_UART_GetTransmitStatus(obj->base, &(obj->context)))) &&
-                (0UL == (CY_SCB_UART_RECEIVE_ACTIVE  & Cy_SCB_UART_GetReceiveStatus (obj->base, &(obj->context)))))
+                (0UL == (CY_SCB_UART_RECEIVE_ACTIVE  & Cy_SCB_UART_GetReceiveStatus (obj->base, &(obj->context))))
+            #if (CYHAL_DRIVER_AVAILABLE_DMA)
+                & (obj->async_rx_buff == NULL) & (obj->async_tx_buff == NULL))
+            #else
+                )
+            #endif /* CYHAL_DRIVER_AVAILABLE_DMA */
             {
                 /* If all data elements are transmitted from the TX FIFO and
                 * shifter and the RX FIFO is empty: the UART is ready to enter
@@ -391,6 +516,13 @@ static uint8_t _cyhal_uart_best_oversample(const cyhal_resource_inst_t *resource
     for (uint8_t i = _CYHAL_UART_OVERSAMPLE_MIN; i < _CYHAL_UART_OVERSAMPLE_MAX + 1; i++)
     {
         uint32_t divider = _cyhal_utils_divider_value(resource, baudrate * i, 0);
+
+        #if defined(COMPONENT_CAT5)
+        if(!_cyhal_clock_is_divider_valid(resource, divider))
+        {
+            continue;
+        }
+        #endif
         uint8_t difference = (uint8_t)_cyhal_uart_baud_perdif(baudrate, _cyhal_uart_actual_baud(resource, divider, i));
 
         if (difference < best_difference)
@@ -491,7 +623,7 @@ static cy_rslt_t _cyhal_uart_setup_resources(cyhal_uart_t *obj, cyhal_gpio_t tx,
         }
     }
 
-    //reseve the RX pin
+    // reserve the RX pin
     if ((result == CY_RSLT_SUCCESS) && NC != rx)
     {
         result = _cyhal_utils_reserve_and_connect(rx_map, (uint8_t)CYHAL_PIN_MAP_DRIVE_MODE_SCB_UART_RX);
@@ -551,6 +683,19 @@ static cy_rslt_t _cyhal_uart_init_hw(cyhal_uart_t *obj)
     uint8_t scb_arr_index = _cyhal_scb_get_block_index(obj->resource.block_num);
     obj->base = _CYHAL_SCB_BASE_ADDRESSES[scb_arr_index];
 
+    #if defined(COMPONENT_CAT5)
+    // CAT5 SCBs must be enabled prior to UART init
+    if(obj->is_clock_owned == true)
+    {
+        cyhal_uart_set_baud(obj, CYHAL_UART_DEFAULT_BAUD, NULL);
+    }
+    else
+    {
+        // Ensure user-provided clock is enabled
+        Cy_SCB_EnableClock(obj->base, cyhal_clock_get_frequency(&(obj->clock)), false);
+    }
+    #endif
+
     cy_rslt_t result = (cy_rslt_t) Cy_SCB_UART_Init(obj->base, &(obj->config), &(obj->context));
 
     if (CY_RSLT_SUCCESS == result)
@@ -582,6 +727,12 @@ cy_rslt_t cyhal_uart_init(cyhal_uart_t *obj, cyhal_gpio_t tx, cyhal_gpio_t rx, c
     memset(obj, 0, sizeof(cyhal_uart_t));
 
     obj->dc_configured = false;
+    #if (CYHAL_DRIVER_AVAILABLE_DMA)
+    obj->async_mode = CYHAL_ASYNC_SW;
+    /* resource type used to check if DMAs have been initialized before freeing */
+    obj->dma_tx.resource.type = CYHAL_RSC_INVALID;
+    obj->dma_rx.resource.type = CYHAL_RSC_INVALID;
+    #endif
     cy_rslt_t result = _cyhal_uart_setup_resources(obj, tx, rx, cts, rts, clk);
 
     if (CY_RSLT_SUCCESS == result)
@@ -606,10 +757,18 @@ cy_rslt_t cyhal_uart_init(cyhal_uart_t *obj, cyhal_gpio_t tx, cyhal_gpio_t rx, c
             cyhal_uart_config_software_buffer(obj, cfg->rx_buffer, cfg->rx_buffer_size);
         }
 
+        #if !defined(COMPONENT_CAT5)
+        // This was done earlier for CAT5
         if (obj->is_clock_owned)
         {
             result = cyhal_uart_set_baud(obj, CYHAL_UART_DEFAULT_BAUD, NULL);
         }
+        #endif
+
+        #if (CYHAL_DRIVER_AVAILABLE_DMA)
+        /* Use default FIFO level until user changes it */
+        obj->user_fifo_level = (Cy_SCB_GetFifoSize(obj->base) / 2);
+        #endif
     }
 
     if (CY_RSLT_SUCCESS != result)
@@ -635,9 +794,24 @@ cy_rslt_t cyhal_uart_init_cfg(cyhal_uart_t *obj, const cyhal_uart_configurator_t
     obj->dc_configured = true;
     obj->cts_enabled = cfg->config->enableCts;
     obj->rts_enabled = (NC != cfg->gpios.pin_rts);
+    #if (CYHAL_DRIVER_AVAILABLE_DMA)
+    obj->async_mode = CYHAL_ASYNC_SW;
+    obj->dma_tx.resource.type = CYHAL_RSC_INVALID;
+    obj->dma_rx.resource.type = CYHAL_RSC_INVALID;
+    #endif
 
     obj->config = *cfg->config;
-    return _cyhal_uart_init_hw(obj);
+    cy_rslt_t result = _cyhal_uart_init_hw(obj);
+
+    #if (CYHAL_DRIVER_AVAILABLE_DMA)
+    if(result == CY_RSLT_SUCCESS)
+    {
+        /* Use default FIFO level until user changes it */
+        obj->user_fifo_level = (Cy_SCB_GetFifoSize(obj->base) / 2);
+    }
+    #endif
+
+    return result;
 }
 
 void cyhal_uart_free(cyhal_uart_t *obj)
@@ -679,6 +853,22 @@ void cyhal_uart_free(cyhal_uart_t *obj)
             cyhal_clock_free(&(obj->clock));
         }
     }
+
+    #if (CYHAL_DRIVER_AVAILABLE_DMA)
+    if(obj->async_mode == CYHAL_ASYNC_DMA)
+    {
+        if(CYHAL_RSC_INVALID != obj->dma_tx.resource.type)
+        {
+            cyhal_dma_free(&obj->dma_tx);
+            obj->dma_tx.resource.type = CYHAL_RSC_INVALID;
+        }
+        if(CYHAL_RSC_INVALID != obj->dma_rx.resource.type)
+        {
+            cyhal_dma_free(&obj->dma_rx);
+            obj->dma_rx.resource.type = CYHAL_RSC_INVALID;
+        }
+    }
+    #endif
 }
 
 cy_rslt_t cyhal_uart_set_baud(cyhal_uart_t *obj, uint32_t baudrate, uint32_t *actualbaud)
@@ -703,12 +893,19 @@ cy_rslt_t cyhal_uart_set_baud(cyhal_uart_t *obj, uint32_t baudrate, uint32_t *ac
         obj->config.oversample = oversample_value;
 
         divider = _cyhal_utils_divider_value(&(obj->resource), baudrate * oversample_value, 0);
-
+        #if defined(COMPONENT_CAT5)
+        if( !_cyhal_clock_is_divider_valid(&(obj->resource),divider))
+        {
+            Cy_SCB_UART_Enable(obj->base);
+            status = CYHAL_UART_RSLT_ERR_UNSUPPORTED_CONFIG;
+            return status;
+        }
+        #endif
         /* Set baud rate */
         #if defined (COMPONENT_CAT5)
-            status = _cyhal_utils_peri_pclk_set_freq(0, &(obj->clock), baudrate, oversample_value);
+        status = _cyhal_utils_peri_pclk_set_freq(0, &(obj->clock), baudrate, oversample_value);
         #else
-            status = cyhal_clock_set_divider(&(obj->clock), divider);
+        status = cyhal_clock_set_divider(&(obj->clock), divider);
         #endif
         if(status != CY_RSLT_SUCCESS)
         {
@@ -730,7 +927,7 @@ cy_rslt_t cyhal_uart_set_baud(cyhal_uart_t *obj, uint32_t baudrate, uint32_t *ac
         /* Configure the UART interface */
         #if (CY_IP_MXSCB_VERSION >= 2) || (CY_IP_MXS22SCB_VERSION >= 1)
         uint32_t mem_width = (obj->config.dataWidth <= CY_SCB_BYTE_WIDTH)
-            #if defined(COMPONENT_CAT1)
+            #if defined(COMPONENT_CAT1) || defined (COMPONENT_CAT5)
             ? CY_SCB_MEM_WIDTH_BYTE : CY_SCB_MEM_WIDTH_HALFWORD;
             #elif defined(COMPONENT_CAT2)
             ? CY_SCB_CTRL_MEM_WIDTH_BYTE : CY_SCB_CTRL_MEM_WIDTH_HALFWORD;
@@ -786,7 +983,7 @@ cy_rslt_t cyhal_uart_getc(cyhal_uart_t *obj, uint8_t *value, uint32_t timeout)
         {
             if(timeoutTicks > 0UL)
             {
-                Cy_SysLib_Delay(1);
+                cyhal_system_delay_ms(1);
                 timeoutTicks--;
             }
             else
@@ -937,41 +1134,330 @@ cy_rslt_t cyhal_uart_read(cyhal_uart_t *obj, void *rx, size_t *rx_length)
     return CY_RSLT_SUCCESS;
 }
 
+cy_rslt_t cyhal_uart_set_async_mode(cyhal_uart_t *obj, cyhal_async_mode_t mode, uint8_t dma_priority)
+{
+    CY_ASSERT(NULL != obj);
+
+    if (_cyhal_scb_pm_transition_pending())
+        return CYHAL_SYSPM_RSLT_ERR_PM_PENDING;
+
+    #if (CYHAL_DRIVER_AVAILABLE_DMA)
+    if((obj->async_tx_buff != NULL) || (obj->async_rx_buff != NULL))
+    {
+        return CYHAL_DMA_RSLT_ERR_CHANNEL_BUSY;
+    }
+    #endif
+
+    cy_rslt_t result = CY_RSLT_SUCCESS;
+
+    if(mode == CYHAL_ASYNC_DMA)
+    {
+    #if (CYHAL_DRIVER_AVAILABLE_DMA)
+        /* Setup DMA for TX */
+        if(CYHAL_RSC_INVALID == obj->dma_tx.resource.type && obj->pin_tx != CYHAL_NC_PIN_VALUE)
+        {
+            cyhal_source_t source_tx;
+            cyhal_uart_disable_output(obj, CYHAL_UART_OUTPUT_TRIGGER_TX_FIFO_LEVEL_REACHED);
+            cyhal_uart_enable_output(obj, CYHAL_UART_OUTPUT_TRIGGER_TX_FIFO_LEVEL_REACHED, &source_tx);
+            cyhal_dma_src_t dma_src_tx =
+            {
+                .source = source_tx,
+                .input = CYHAL_DMA_INPUT_TRIGGER_ALL_ELEMENTS,
+            };
+            /* Set the DMA to correct direction and connect appropriate triggers */
+            result = cyhal_dma_init_adv(&(obj->dma_tx), &dma_src_tx, NULL, NULL, dma_priority, CYHAL_DMA_DIRECTION_MEM2PERIPH);
+        }
+        cyhal_dma_register_callback(&(obj->dma_tx), &_cyhal_uart_dma_handler_tx, obj);
+
+        /* Setup DMA for RX */
+        if(CYHAL_RSC_INVALID == obj->dma_rx.resource.type && obj->pin_rx != CYHAL_NC_PIN_VALUE)
+        {
+            cyhal_source_t source_rx;
+            cyhal_uart_disable_output(obj, CYHAL_UART_OUTPUT_TRIGGER_RX_FIFO_LEVEL_REACHED);
+            cyhal_uart_enable_output(obj, CYHAL_UART_OUTPUT_TRIGGER_RX_FIFO_LEVEL_REACHED, &source_rx);
+            cyhal_dma_src_t dma_src_rx =
+            {
+                .source = source_rx,
+                .input = CYHAL_DMA_INPUT_TRIGGER_ALL_ELEMENTS,
+            };
+            /* Set the DMA to correct direction and connect appropriate triggers */
+            cyhal_dma_init_adv(&(obj->dma_rx), &dma_src_rx, NULL, NULL, dma_priority, CYHAL_DMA_DIRECTION_PERIPH2MEM);
+        }
+        cyhal_dma_register_callback(&(obj->dma_rx), &_cyhal_uart_dma_handler_rx, obj);
+
+        // Default RTS level (20 or 3) may lead to DMA waiting for more data before reading and RTS waiting for data read
+        // before allowing more.  Raise RTS to near-max to ensure DMA runs smoothest
+        Cy_SCB_UART_SetRtsFifoLevel(obj->base, Cy_SCB_GetFifoSize(obj->base) - 1);
+    #else
+        CY_UNUSED_PARAMETER(obj);
+        CY_UNUSED_PARAMETER(dma_priority);
+        result = CYHAL_UART_RSLT_ERR_UNSUPPORTED_OPERATION; // DMA not supported
+    #endif
+    }
+    else
+    {
+    #if (CYHAL_DRIVER_AVAILABLE_DMA)
+        /* Free the DMA instances if we reserved them but don't need them anymore */
+        if(CYHAL_RSC_INVALID != obj->dma_tx.resource.type)
+        {
+            cyhal_dma_free(&obj->dma_tx);
+            obj->dma_tx.resource.type = CYHAL_RSC_INVALID;
+        }
+        if(CYHAL_RSC_INVALID != obj->dma_rx.resource.type)
+        {
+            cyhal_dma_free(&obj->dma_rx);
+            obj->dma_rx.resource.type = CYHAL_RSC_INVALID;
+        }
+
+        // Restore RTS values for SW mode.  Values taken from _cyhal_uart_default_config
+        Cy_SCB_UART_SetRtsFifoLevel(obj->base, _cyhal_uart_default_config.rtsRxFifoLevel);
+    #endif
+    }
+
+    #if (CYHAL_DRIVER_AVAILABLE_DMA)
+    if(CY_RSLT_SUCCESS == result)
+    {
+        obj->async_mode = mode;
+    }
+    #endif
+    return result;
+}
+
+#if (CYHAL_DRIVER_AVAILABLE_DMA)
+cy_rslt_t _cyhal_uart_dma_write_async(cyhal_uart_t *obj)
+{
+    if(cyhal_dma_is_busy(&(obj->dma_tx)))
+    {
+        return CYHAL_DMA_RSLT_ERR_CHANNEL_BUSY;
+    }
+
+    CY_ASSERT(NULL != obj->async_tx_buff);
+
+    /* If tranfer exceeds FIFO level, break into many small transfers */
+    uint32_t length = obj->async_tx_length;
+    if(length >= Cy_SCB_GetFifoSize(obj->base))
+    {
+        length = (Cy_SCB_GetFifoSize(obj->base) / 2);
+    }
+
+    uint32_t mem_width = (obj->config.dataWidth <= CY_SCB_BYTE_WIDTH) ? 8 : 16;
+    cyhal_dma_cfg_t dma_config =
+    {
+        .src_addr = (uint32_t)obj->async_tx_buff,
+        .src_increment = 1,
+        .dst_addr = (uint32_t)&obj->base->TX_FIFO_WR,
+        .dst_increment = 0,
+        .length = length,
+        .transfer_width = mem_width,
+        .burst_size = 0,
+        .action = CYHAL_DMA_TRANSFER_FULL_DISABLE,
+    };
+
+    /* Move next src up and keep track of how much data has already been sent */
+    uint32_t savedIntrStatus = cyhal_system_critical_section_enter();
+    obj->async_tx_buff = ((length * (mem_width / 8)) + (char*)obj->async_tx_buff);
+    obj->async_tx_length -= length;
+    cyhal_system_critical_section_exit(savedIntrStatus);
+
+    /* Transmit once UART is full */
+    cy_rslt_t result = cyhal_uart_set_fifo_level(obj, CYHAL_UART_FIFO_TX, Cy_SCB_GetFifoSize(obj->base) - length);
+    if(result == CY_RSLT_SUCCESS)
+    {
+        cyhal_dma_enable_event(&(obj->dma_tx), CYHAL_DMA_TRANSFER_COMPLETE, CYHAL_DMA_PRIORITY_DEFAULT, true);
+        #if defined(CY_IP_M4CPUSS_DMA) || defined(CY_IP_M7CPUSS_DMA) || defined(CY_IP_MXDW)
+        obj->dma_tx.descriptor_config.dw.retrigger = CY_DMA_WAIT_FOR_REACT;
+        #endif
+        result = cyhal_dma_configure(&(obj->dma_tx), &dma_config);
+    }
+    if(result == CY_RSLT_SUCCESS)
+    {
+        result = cyhal_dma_enable(&(obj->dma_tx));
+    }
+    return result;
+}
+#endif
+
 cy_rslt_t cyhal_uart_write_async(cyhal_uart_t *obj, void *tx, size_t length)
 {
     if (_cyhal_scb_pm_transition_pending())
         return CYHAL_SYSPM_RSLT_ERR_PM_PENDING;
 
-    return Cy_SCB_UART_Transmit(obj->base, tx, length, &(obj->context));
+    cy_rslt_t result;
+    #if (CYHAL_DRIVER_AVAILABLE_DMA)
+    if(obj->async_mode == CYHAL_ASYNC_DMA)
+    {
+        uint32_t savedIntrStatus = cyhal_system_critical_section_enter();
+        obj->async_tx_buff = tx;
+        obj->async_tx_length = length;
+        result = _cyhal_uart_dma_write_async(obj);
+        cyhal_system_critical_section_exit(savedIntrStatus);
+    }
+    else
+    #endif
+    {
+        result = Cy_SCB_UART_Transmit(obj->base, tx, length, &(obj->context));
+    }
+    return result;
 }
+
+#if (CYHAL_DRIVER_AVAILABLE_DMA)
+cy_rslt_t _cyhal_uart_dma_read_async(cyhal_uart_t *obj)
+{
+    if(cyhal_dma_is_busy(&(obj->dma_rx)))
+    {
+        return CYHAL_DMA_RSLT_ERR_CHANNEL_BUSY;
+    }
+
+    CY_ASSERT(NULL != obj->async_rx_buff);
+
+    /* If tranfer exceeds FIFO size, break into many small transfers */
+    uint32_t length = obj->async_rx_length;
+    if(length >= Cy_SCB_GetFifoSize(obj->base))
+    {
+        length = (Cy_SCB_GetFifoSize(obj->base) / 2);
+    }
+
+    uint32_t mem_width = (obj->config.dataWidth <= CY_SCB_BYTE_WIDTH) ? 8 : 16;
+    cyhal_dma_cfg_t dma_config =
+    {
+        .src_addr = (uint32_t)(&(obj->base->RX_FIFO_RD)),
+        .src_increment = 0,
+        .dst_addr = (uint32_t)obj->async_rx_buff,
+        .dst_increment = 1,
+        .length = length,
+        .transfer_width = mem_width,
+        .burst_size = 0,
+        .action = CYHAL_DMA_TRANSFER_FULL_DISABLE,
+    };
+
+    /* Move next src up and keep track of how much data has already been sent */
+    uint32_t savedIntrStatus = cyhal_system_critical_section_enter();
+    obj->async_rx_buff = ((length * (mem_width / 8)) + (char*)obj->async_rx_buff);
+    obj->async_rx_length -= length;
+    cyhal_system_critical_section_exit(savedIntrStatus);
+
+    /* Read once UART is full */
+    cy_rslt_t result = CY_RSLT_SUCCESS;
+    result = _cyhal_scb_set_fifo_level(obj->base, (cyhal_scb_fifo_type_t)CYHAL_UART_FIFO_RX, length - 1);
+    if(result == CY_RSLT_SUCCESS)
+    {
+        cyhal_dma_enable_event(&(obj->dma_rx), CYHAL_DMA_TRANSFER_COMPLETE, CYHAL_DMA_PRIORITY_DEFAULT, true);
+        #if defined(CY_IP_M4CPUSS_DMA) || defined(CY_IP_M7CPUSS_DMA) || defined(CY_IP_MXDW)
+        obj->dma_tx.descriptor_config.dw.retrigger = CY_DMA_WAIT_FOR_REACT;
+        #endif
+        result = cyhal_dma_configure(&(obj->dma_rx), &dma_config);
+    }
+    if(result == CY_RSLT_SUCCESS)
+    {
+        result = cyhal_dma_enable(&(obj->dma_rx));
+    }
+
+    return result;
+}
+#endif
 
 cy_rslt_t cyhal_uart_read_async(cyhal_uart_t *obj, void *rx, size_t length)
 {
     if (_cyhal_scb_pm_transition_pending())
         return CYHAL_SYSPM_RSLT_ERR_PM_PENDING;
 
-    return Cy_SCB_UART_Receive(obj->base, rx, length, &(obj->context));
+    cy_rslt_t result = CY_RSLT_SUCCESS;
+    #if (CYHAL_DRIVER_AVAILABLE_DMA)
+    if(obj->async_mode == CYHAL_ASYNC_DMA)
+    {
+        uint32_t savedIntrStatus = cyhal_system_critical_section_enter();
+        obj->async_rx_buff = rx;
+        obj->async_rx_length = length;
+        cyhal_system_critical_section_exit(savedIntrStatus);
+
+        /* First read anything that ended up in the overflow buffer */
+        if(obj->context.rxRingBuf != NULL)
+        {
+            uint32_t overflow = Cy_SCB_UART_GetNumInRingBuffer(obj->base, &(obj->context));
+            /* Fully drain Ring Buffer and disable it.  When enabled, it instantly empties RX FIFO into it */
+            if (overflow > length)
+            {
+                overflow = length;
+            }
+            if (overflow > 0)
+            {
+                result = Cy_SCB_UART_Receive(obj->base, rx, overflow, &(obj->context));
+            }
+            obj->async_rx_length -= overflow;
+            if(obj->async_rx_length == 0)
+            {
+                obj->async_rx_buff = NULL;
+                return result;
+            }
+            obj->async_rx_buff = ((overflow * (((obj->config.dataWidth <= CY_SCB_BYTE_WIDTH) ? 8 : 16) / 8)) + (char*)rx);
+            /* Stop ring buffer */
+            Cy_SCB_UART_StopRingBuffer(obj->base, &obj->context);
+        }
+
+        result = _cyhal_uart_dma_read_async(obj);
+    }
+    else
+    #endif
+    {
+        result = Cy_SCB_UART_Receive(obj->base, rx, length, &(obj->context));
+    }
+    return result;
 }
 
 bool cyhal_uart_is_tx_active(cyhal_uart_t *obj)
 {
-    return (0UL != (obj->context.txStatus & CY_SCB_UART_TRANSMIT_ACTIVE)) || !Cy_SCB_IsTxComplete(obj->base);
+    return (0UL != (obj->context.txStatus & CY_SCB_UART_TRANSMIT_ACTIVE)) || !Cy_SCB_IsTxComplete(obj->base)
+    #if (CYHAL_DRIVER_AVAILABLE_DMA)
+            || (obj->async_tx_buff != NULL)
+    #endif
+            ;
 }
 
 bool cyhal_uart_is_rx_active(cyhal_uart_t *obj)
 {
-    return (0UL != (obj->context.rxStatus & CY_SCB_UART_RECEIVE_ACTIVE));
+    return (0UL != (obj->context.rxStatus & CY_SCB_UART_RECEIVE_ACTIVE))
+    #if (CYHAL_DRIVER_AVAILABLE_DMA)
+            || (obj->async_rx_buff != NULL)
+    #endif
+            ;
 }
 
 cy_rslt_t cyhal_uart_write_abort(cyhal_uart_t *obj)
 {
-    Cy_SCB_UART_AbortTransmit(obj->base, &(obj->context));
+    #if (CYHAL_DRIVER_AVAILABLE_DMA)
+    if(obj->async_mode == CYHAL_ASYNC_DMA && (obj->async_tx_buff != NULL))
+    {
+        uint32_t savedIntrStatus = cyhal_system_critical_section_enter();
+        obj->async_tx_buff = NULL;
+        cyhal_dma_enable_event(&(obj->dma_tx), CYHAL_DMA_TRANSFER_COMPLETE, CYHAL_DMA_PRIORITY_DEFAULT, false);
+        cyhal_dma_disable(&(obj->dma_tx));
+        cyhal_system_critical_section_exit(savedIntrStatus);
+        Cy_SCB_UART_ClearTxFifo(obj->base);
+    }
+    else
+    #endif
+    {
+        Cy_SCB_UART_AbortTransmit(obj->base, &(obj->context));
+    }
     return CY_RSLT_SUCCESS;
 }
 
 cy_rslt_t cyhal_uart_read_abort(cyhal_uart_t *obj)
 {
-    Cy_SCB_UART_AbortReceive(obj->base, &(obj->context));
+    #if (CYHAL_DRIVER_AVAILABLE_DMA)
+    if(obj->async_mode == CYHAL_ASYNC_DMA && (obj->async_rx_buff != NULL))
+    {
+        uint32_t savedIntrStatus = cyhal_system_critical_section_enter();
+        obj->async_rx_buff = NULL;
+        cyhal_dma_enable_event(&(obj->dma_rx), CYHAL_DMA_TRANSFER_COMPLETE, CYHAL_DMA_PRIORITY_DEFAULT, false);
+        cyhal_dma_disable(&(obj->dma_rx));
+        cyhal_system_critical_section_exit(savedIntrStatus);
+    }
+    else
+    #endif
+    {
+        Cy_SCB_UART_AbortReceive(obj->base, &(obj->context));
+    }
     return CY_RSLT_SUCCESS;
 }
 
@@ -989,8 +1475,12 @@ void cyhal_uart_register_callback(cyhal_uart_t *obj, cyhal_uart_event_callback_t
 void cyhal_uart_enable_event(cyhal_uart_t *obj, cyhal_uart_event_t event, uint8_t intr_priority, bool enable)
 {
     uint8_t scb_arr_index = _cyhal_scb_get_block_index(obj->resource.block_num);
+    #if defined(COMPONENT_CAT5)
+    Cy_SCB_DisableInterrupt(obj->base);
+    #else
     _cyhal_irq_disable(_CYHAL_SCB_IRQ_N[scb_arr_index]);
     _cyhal_irq_clear_pending(_CYHAL_SCB_IRQ_N[scb_arr_index]);
+    #endif
 
     if (enable)
     {
@@ -1107,11 +1597,24 @@ void cyhal_uart_enable_event(cyhal_uart_t *obj, cyhal_uart_event_t event, uint8_
 
     _cyhal_irq_set_priority(_CYHAL_SCB_IRQ_N[scb_arr_index], intr_priority);
     _cyhal_irq_enable(_CYHAL_SCB_IRQ_N[scb_arr_index]);
+    #if defined(COMPONENT_CAT5)
+    // The above Cy_SCB_DisableInterrupt also disconnects all the callback functions. They need to be registered again
+    Cy_SCB_RegisterInterruptCallback(obj->base, _cyhal_irq_cb[_CYHAL_SCB_IRQ_N[scb_arr_index]]);
+    Cy_SCB_EnableInterrupt(obj->base);
+    #endif
 }
 
 cy_rslt_t cyhal_uart_set_fifo_level(cyhal_uart_t *obj, cyhal_uart_fifo_type_t type, uint16_t level)
 {
-    return _cyhal_scb_set_fifo_level(obj->base, (cyhal_scb_fifo_type_t)type, level);
+    cy_rslt_t result = _cyhal_scb_set_fifo_level(obj->base, (cyhal_scb_fifo_type_t)type, level);
+    #if (CYHAL_DRIVER_AVAILABLE_DMA)
+    // Note: Because of this, it is important that any internal FIFO level setting is done via the above command directly
+    if(result == CY_RSLT_SUCCESS)
+    {
+        obj->user_fifo_level = level;
+    }
+    #endif
+    return result;
 }
 
 cy_rslt_t cyhal_uart_enable_output(cyhal_uart_t *obj, cyhal_uart_output_t output, cyhal_source_t *source)

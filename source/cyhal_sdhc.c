@@ -39,7 +39,9 @@
 #include "cyhal_utils.h"
 #include "cyhal_irq_impl.h"
 #include "cyhal_system.h"
+#if CYHAL_DRIVER_AVAILABLE_SYSPM
 #include "cyhal_syspm.h"
+#endif // CYHAL_DRIVER_AVAILABLE_SYSPM
 
 /**
 * \addtogroup group_hal_impl_sdhc SDHC (SD Host Controller)
@@ -616,6 +618,7 @@ bool _cyhal_sdio_is_busy(const _cyhal_sdxx_t *sdxx) {
 /*******************************************************************************
 *       Deep Sleep Callback Service Routine
 *******************************************************************************/
+#if CYHAL_DRIVER_AVAILABLE_SYSPM
 static bool _cyhal_sdio_syspm_callback(cyhal_syspm_callback_state_t state, cyhal_syspm_callback_mode_t mode, void *callback_arg)
 {
     bool allow = true;
@@ -703,7 +706,7 @@ static bool _cyhal_sdhc_syspm_callback(cyhal_syspm_callback_state_t state, cyhal
     };
 
     /* Check if hardware is ready to go sleep using lower level callback. */
-    if (state == CYHAL_SYSPM_CB_CPU_DEEPSLEEP)
+    if ((state == CYHAL_SYSPM_CB_CPU_DEEPSLEEP) || (state == CYHAL_SYSPM_CB_CPU_DEEPSLEEP_RAM))
     {
         allow = (Cy_SD_Host_DeepSleepCallback(&pdl_params, _cyhal_utils_convert_haltopdl_pm_mode(mode)) == CY_SYSPM_SUCCESS);
     }
@@ -744,6 +747,7 @@ static bool _cyhal_sdhc_syspm_callback(cyhal_syspm_callback_state_t state, cyhal
     }
     return allow;
 }
+#endif // CYHAL_DRIVER_AVAILABLE_SYSPM
 
 static cy_en_sd_host_bus_width_t _cyhal_sdhc_buswidth_hal_to_pdl(uint8_t sd_data_bits)
 {
@@ -1544,6 +1548,7 @@ static cy_rslt_t _cyhal_sdhc_init_common_hw(cyhal_sdhc_t *obj, const cyhal_sdhc_
         result = (cy_rslt_t)Cy_SD_Host_Init(sdxx->base, cfg->host_config, &(sdxx->context));
     }
 
+    #if CYHAL_DRIVER_AVAILABLE_SYSPM
     if(result == CY_RSLT_SUCCESS)
     {
         sdxx->pm_transition_pending = false;
@@ -1559,6 +1564,7 @@ static cy_rslt_t _cyhal_sdhc_init_common_hw(cyhal_sdhc_t *obj, const cyhal_sdhc_
 
         _cyhal_syspm_register_peripheral_callback(&(sdxx->pm_callback_data));
     }
+    #endif // CYHAL_DRIVER_AVAILABLE_SYSPM
 
     if (result != CY_RSLT_SUCCESS)
     {
@@ -1732,7 +1738,9 @@ void cyhal_sdhc_free(cyhal_sdhc_t *obj)
         }
         sdxx->base = NULL;
 
+        #if CYHAL_DRIVER_AVAILABLE_SYSPM
         _cyhal_syspm_unregister_peripheral_callback(&(sdxx->pm_callback_data));
+        #endif // CYHAL_DRIVER_AVAILABLE_SYSPM
     }
 
     if (sdxx->resource.type != CYHAL_RSC_INVALID)
@@ -1842,10 +1850,12 @@ cy_rslt_t cyhal_sdhc_erase(cyhal_sdhc_t *obj, uint32_t start_addr, size_t length
     {
         timeout_ms = sdxx->emmc ? _CYHAL_SDHC_EMMC_TRIM_DELAY_MS : _CYHAL_SDHC_RETRY_TIMES;
     }
+    #if CYHAL_DRIVER_AVAILABLE_SYSPM
     if (sdxx->pm_transition_pending)
     {
         return CYHAL_SYSPM_RSLT_ERR_PM_PENDING;
     }
+    #endif // CYHAL_DRIVER_AVAILABLE_SYSPM
     if (0 == length)
     {
         return CYHAL_SDHC_RSLT_ERR_WRONG_PARAM;
@@ -1912,10 +1922,12 @@ cy_rslt_t cyhal_sdhc_read_async(cyhal_sdhc_t *obj, uint32_t address, uint8_t *da
 {
     _cyhal_sdxx_t *sdxx = &(obj->sdxx);
 
+    #if CYHAL_DRIVER_AVAILABLE_SYSPM
     if (sdxx->pm_transition_pending)
     {
         return CYHAL_SYSPM_RSLT_ERR_PM_PENDING;
     }
+    #endif // CYHAL_DRIVER_AVAILABLE_SYSPM
 
     cy_rslt_t ret;
     cy_stc_sd_host_write_read_config_t dataConfig;
@@ -1960,10 +1972,12 @@ cy_rslt_t cyhal_sdhc_write_async(cyhal_sdhc_t *obj, uint32_t address, const uint
 {
     _cyhal_sdxx_t *sdxx = &(obj->sdxx);
 
+    #if CYHAL_DRIVER_AVAILABLE_SYSPM
     if (sdxx->pm_transition_pending)
     {
         return CYHAL_SYSPM_RSLT_ERR_PM_PENDING;
     }
+    #endif // CYHAL_DRIVER_AVAILABLE_SYSPM
 
     cy_rslt_t ret;
     cy_stc_sd_host_write_read_config_t dataConfig;
@@ -2816,6 +2830,7 @@ static cy_rslt_t _cyhal_sdio_init_common(cyhal_sdio_t *obj, const cyhal_sdio_con
         if (CY_RSLT_SUCCESS == result)
         {
             sdxx->context.cardType = CY_SD_HOST_SDIO;
+            #if CYHAL_DRIVER_AVAILABLE_SYSPM
             sdxx->pm_transition_pending = false;
             sdxx->pm_callback_data.callback = &_cyhal_sdio_syspm_callback;
             sdxx->pm_callback_data.states = (cyhal_syspm_callback_state_t)(CYHAL_SYSPM_CB_CPU_DEEPSLEEP | CYHAL_SYSPM_CB_SYSTEM_HIBERNATE);
@@ -2827,6 +2842,7 @@ static cy_rslt_t _cyhal_sdio_init_common(cyhal_sdio_t *obj, const cyhal_sdio_con
             sdxx->pm_callback_data.ignore_modes = (cyhal_syspm_callback_mode_t)0;
 
             _cyhal_syspm_register_peripheral_callback(&(sdxx->pm_callback_data));
+            #endif // #if CYHAL_DRIVER_AVAILABLE_SYSPM
         }
 
         if (result == CY_RSLT_SUCCESS)
@@ -2936,7 +2952,9 @@ void cyhal_sdio_free(cyhal_sdio_t *obj)
         sdxx->base = NULL;
 
         _cyhal_sdxx_config_structs[sdxx->resource.block_num] = NULL;
+        #if CYHAL_DRIVER_AVAILABLE_SYSPM
         _cyhal_syspm_unregister_peripheral_callback(&(sdxx->pm_callback_data));
+        #endif // CYHAL_DRIVER_AVAILABLE_SYSPM
     }
 
     if (sdxx->resource.type != CYHAL_RSC_INVALID)
@@ -2996,8 +3014,8 @@ cy_rslt_t cyhal_sdio_configure(cyhal_sdio_t *obj, const cyhal_sdio_cfg_t *config
     return result;
 }
 
-cy_rslt_t cyhal_sdio_send_cmd(cyhal_sdio_t *obj, cyhal_sdio_transfer_type_t direction, \
-                              cyhal_sdio_command_t command, uint32_t argument, uint32_t* response)
+cy_rslt_t cyhal_sdio_host_send_cmd(cyhal_sdio_t *obj, cyhal_sdio_host_transfer_type_t direction, \
+                              cyhal_sdio_host_command_t command, uint32_t argument, uint32_t* response)
 {
     CY_UNUSED_PARAMETER(direction);
     if (NULL == obj)
@@ -3007,10 +3025,12 @@ cy_rslt_t cyhal_sdio_send_cmd(cyhal_sdio_t *obj, cyhal_sdio_transfer_type_t dire
 
     _cyhal_sdxx_t *sdxx = &(obj->sdxx);
 
+    #if CYHAL_DRIVER_AVAILABLE_SYSPM
     if (sdxx->pm_transition_pending)
     {
         return CYHAL_SDIO_RSLT_ERR_PM_PENDING;
     }
+    #endif // CYHAL_DRIVER_AVAILABLE_SYSPM
 
     cy_rslt_t                   ret;
     cy_stc_sd_host_cmd_config_t cmd;
@@ -3072,7 +3092,7 @@ cy_rslt_t cyhal_sdio_send_cmd(cyhal_sdio_t *obj, cyhal_sdio_transfer_type_t dire
     return ret;
 }
 
-cy_rslt_t cyhal_sdio_bulk_transfer(cyhal_sdio_t *obj, cyhal_sdio_transfer_type_t direction,
+cy_rslt_t cyhal_sdio_host_bulk_transfer(cyhal_sdio_t *obj, cyhal_sdio_host_transfer_type_t direction,
                                    uint32_t argument, const uint32_t* data,
                                    uint16_t length, uint32_t* response)
 {
@@ -3128,7 +3148,7 @@ cy_rslt_t cyhal_sdio_bulk_transfer(cyhal_sdio_t *obj, cyhal_sdio_transfer_type_t
 *   by user via cyhal_sdio_enable_event function.
 *
 *******************************************************************************/
-cy_rslt_t cyhal_sdio_transfer_async(cyhal_sdio_t *obj, cyhal_sdio_transfer_type_t direction,
+cy_rslt_t cyhal_sdio_host_transfer_async(cyhal_sdio_t *obj, cyhal_sdio_host_transfer_type_t direction,
                                     uint32_t argument, const uint32_t* data, uint16_t length)
 {
     if (NULL == obj)
@@ -3138,10 +3158,12 @@ cy_rslt_t cyhal_sdio_transfer_async(cyhal_sdio_t *obj, cyhal_sdio_transfer_type_
 
     _cyhal_sdxx_t *sdxx = &(obj->sdxx);
 
+    #if CYHAL_DRIVER_AVAILABLE_SYSPM
     if (sdxx->pm_transition_pending)
     {
         return CYHAL_SDIO_RSLT_ERR_PM_PENDING;
     }
+    #endif // CYHAL_DRIVER_AVAILABLE_SYSPM
 
     cy_rslt_t                    ret;
     uint32_t                     retry = _CYHAL_SDIO_TRANSFER_TRIES;
@@ -3322,8 +3344,8 @@ void cyhal_sdio_enable_event(cyhal_sdio_t *obj, cyhal_sdio_event_t event, uint8_
     }
 }
 
-cy_rslt_t cyhal_sdio_set_io_voltage(cyhal_sdio_t *obj, cyhal_gpio_t io_volt_sel, cyhal_sdio_io_voltage_t io_voltage,
-                                    cyhal_sdio_io_volt_action_type_t io_switch_type)
+cy_rslt_t cyhal_sdio_host_set_io_voltage(cyhal_sdio_t *obj, cyhal_gpio_t io_volt_sel, cyhal_sdio_host_io_voltage_t io_voltage,
+                                    cyhal_sdio_host_io_volt_action_type_t io_switch_type)
 {
     CY_ASSERT(NULL != obj);
     cy_rslt_t result = CY_RSLT_SUCCESS;

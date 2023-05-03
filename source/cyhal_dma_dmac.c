@@ -88,7 +88,7 @@ typedef SAXI_DMAC_Type              cyhal_dmac_hw_type;
 #define _CYHAL_DMAC_CHANNEL_ENABLED        (CY_AXIDMAC_CHANNEL_ENABLED)
 #define _CYHAL_DMAC_CHANNEL_DISABLED       (CY_AXIDMAC_CHANNEL_DISABLED)
 #define _CYHAL_DMAC_DESCR            (CY_AXIDMAC_DESCR)
-#define _CYHAL_DMAC_X_LOOP           (CY_AXIDMAC_X_LOOP)
+#define _CYHAL_DMAC_M_LOOP           (CY_AXIDMAC_M_LOOP)
 #define _CYHAL_DMAC_CH_DESCR_CTL_TR_IN_TYPE_Msk   (SAXI_DMAC_CH_DESCR_CTL_TR_IN_TYPE_Msk)
 #define _CYHAL_DMAC_CH_DESCR_CTL_TR_OUT_TYPE_Msk   (SAXI_DMAC_CH_DESCR_CTL_TR_OUT_TYPE_Msk)
 #define _CYHAL_DMAC_CH_DESCR_CTL_TR_IN_TYPE        (SAXI_DMAC_CH_DESCR_CTL_TR_IN_TYPE)
@@ -140,8 +140,8 @@ static const cy_stc_dmac_descriptor_config_t _cyhal_dma_dmac_default_descriptor_
     .srcXincrement = 1U,                            // Overriden by cyhal_dma_cfg_t.src_increment
     .dstXincrement = 1U,                            // Overriden by cyhal_dma_cfg_t.dst_increment
     .xCount = 1UL,                                  // Overriden by cyhal_dma_cfg_t.length/burst_size
-    .srcYincrement = 0U,                            // Overriden by cyhal_dma_cfg_t.burst_size
-    .dstYincrement = 0U,                            // Overriden by cyhal_dma_cfg_t.burst_size
+    .srcYincrement = 1U,                            // Overriden by cyhal_dma_cfg_t.burst_size
+    .dstYincrement = 1U,                            // Overriden by cyhal_dma_cfg_t.burst_size
     .yCount = 1UL,                                  // Overriden by cyhal_dma_cfg_t.length
     .nextDescriptor = 0,
 #elif defined(CY_IP_M0S8CPUSSV3_DMAC)
@@ -157,19 +157,21 @@ static const cy_stc_dmac_descriptor_config_t _cyhal_dma_dmac_default_descriptor_
     .preemptable = true,
     .flipping = false,
 #elif defined(CY_IP_MXSAXIDMAC)
+    .retrigger = CY_AXIDMAC_RETRIG_IM,
     .interruptType = CY_AXIDMAC_DESCR,              // Overridden by cyhal_dma_cfg_t.action
     .triggerOutType = CY_AXIDMAC_DESCR_CHAIN,       // Overridden by [en/dis]able_output()
-    .channelState = CY_AXIDMAC_CHANNEL_ENABLED,
+    .channelState = CY_AXIDMAC_CHANNEL_DISABLED,
     .triggerInType = CY_AXIDMAC_DESCR,              // Overridden by cyhal_dma_cfg_t.action & [dis]connect_digital()
     .dataPrefetch = false,
-    .descriptorType = CY_AXIDMAC_1D_MEMCOPY_COPY,   // Overriden by cyhal_dma_cfg_t.burst_size
-    .srcXincrement = 1U,                            // Overriden by cyhal_dma_cfg_t.src_increment
-    .dstXincrement = 1U,                            // Overriden by cyhal_dma_cfg_t.dst_increment
+    .descriptorType = CY_AXIDMAC_1D_MEMORY_COPY,    // Overriden by cyhal_dma_cfg_t.burst_size
+    .mCount = 1U,                                   // Overriden by cyhal_dma_cfg_t.length
+    .srcXincrement = 0U,                            // Overriden by cyhal_dma_cfg_t.src_increment
+    .dstXincrement = 0U,                            // Overriden by cyhal_dma_cfg_t.dst_increment
     .xCount = 1UL,                                  // Overriden by cyhal_dma_cfg_t.length/burst_size
-    .srcYincrement = 0U,                            // Overriden by cyhal_dma_cfg_t.burst_size
-    .dstYincrement = 0U,                            // Overriden by cyhal_dma_cfg_t.burst_size
-    .yCount = 1UL,                                  // Overriden by cyhal_dma_cfg_t.length
-    .nextDescriptor = 0,
+    .srcYincrement = 0U,
+    .dstYincrement = 0U,
+    .yCount = 1UL,
+    .nextDescriptor = NULL,
 #endif
 };
 
@@ -182,26 +184,27 @@ static const cy_stc_dmac_channel_config_t _cyhal_dma_dmac_default_channel_config
 {
     .priority = 1,                          // Overriden by config().priority
     .enable = false,
-#if defined(CY_IP_M4CPUSS_DMAC) || defined(CY_IP_M7CPUSS_DMAC) || defined(CY_IP_MXAHBDMAC)
+#if defined(CY_IP_M4CPUSS_DMAC) || defined(CY_IP_M7CPUSS_DMAC) || defined(CY_IP_MXAHBDMAC) || defined(CY_IP_MXSAXIDMAC)
     .bufferable = false,
     .descriptor = 0,                        // Overriden by config()
 #elif defined(CY_IP_M0S8CPUSSV3_DMAC)
     .descriptor = CY_DMAC_DESCRIPTOR_PING,  // Overriden by config()
-#elif defined(CY_IP_MXSAXIDMAC)
-    .bufferable = false,
 #endif
 };
 
+static bool _cyhal_dma_dmac_pm_transition_pending = false;
+
+#if CYHAL_DRIVER_AVAILABLE_SYSPM
 static bool _cyhal_dma_dmac_pm_callback(cyhal_syspm_callback_state_t state, cyhal_syspm_callback_mode_t mode, void* callback_arg);
 
 static cyhal_syspm_callback_data_t _cyhal_dma_dmac_pm_callback_args = {
     .callback = &_cyhal_dma_dmac_pm_callback,
-    .states = (cyhal_syspm_callback_state_t)(CYHAL_SYSPM_CB_CPU_DEEPSLEEP | CYHAL_SYSPM_CB_SYSTEM_HIBERNATE),
+    .states = (cyhal_syspm_callback_state_t)(CYHAL_SYSPM_CB_CPU_DEEPSLEEP | CYHAL_SYSPM_CB_CPU_DEEPSLEEP_RAM | CYHAL_SYSPM_CB_SYSTEM_HIBERNATE),
     .next = NULL,
     .args = NULL,
     .ignore_modes = (cyhal_syspm_callback_mode_t)(CYHAL_SYSPM_BEFORE_TRANSITION | CYHAL_SYSPM_AFTER_DS_WFI_TRANSITION),
 };
-static bool _cyhal_dma_dmac_pm_transition_pending = false;
+
 static bool _cyhal_dma_dmac_has_enabled(void)
 {
     for (uint8_t i = 0; i < NUM_DMAC_CHANNELS; i++)
@@ -234,6 +237,7 @@ static bool _cyhal_dma_dmac_pm_callback(cyhal_syspm_callback_state_t state, cyha
     }
     return _cyhal_dma_dmac_pm_transition_pending;
 }
+#endif
 
 /** Gets the dmac configuration struct offset */
 static inline uint8_t _cyhal_dma_dmac_get_cfg_offset(const cyhal_dma_t* obj)
@@ -320,7 +324,7 @@ static inline cyhal_dmac_hw_type* _cyhal_dma_dmac_get_base(uint8_t block_num)
 #if defined(CY_IP_MXSAXIDMAC)
     CY_UNUSED_PARAMETER(block_num);
     return SAXI_DMAC;
-#elif defined(CPUSS_DMAC0_CH_NR) && !defined(CPUSS_DMAC1_CH_NR) 
+#elif defined(CPUSS_DMAC0_CH_NR) && !defined(CPUSS_DMAC1_CH_NR)
     CY_UNUSED_PARAMETER(block_num);
     return DMAC;
 #elif defined(CPUSS_DMAC0_CH_NR) && defined(CPUSS_DMAC1_CH_NR)
@@ -344,6 +348,7 @@ static inline uint32_t _cyhal_dma_dmac_get_trigger_line(uint8_t block_num, uint8
 #else
     cyhal_dest_t trigger = (cyhal_dest_t)(CYHAL_TRIGGER_CPUSS_DMAC0_TR_IN0 + (block_num * CPUSS_DMAC0_CH_NR) + channel_num);
 #endif
+    uint32_t trigger_line = 0;
 
     /* One to one triggers have bit 8 set in cyhal_dest_to_mux but
      * Cy_TrigMux_SwTrigger wants the trigger group field to have bit 5 set to
@@ -360,10 +365,19 @@ static inline uint32_t _cyhal_dma_dmac_get_trigger_line(uint8_t block_num, uint8
      * Bits 12-8: Trigger group selection.
      * Bits  7-0: Select the output trigger number in the trigger group. */
 #if defined(CY_IP_M4CPUSS_DMAC) || defined(CY_IP_M7CPUSS_DMAC) || defined(CY_IP_MXAHBDMAC) || defined(CY_IP_MXSAXIDMAC)
-    return PERI_TR_CMD_OUT_SEL_Msk | ((uint32_t)trig_group << 8) | cyhal_mux_dest_index[trigger];
+    trigger_line = PERI_TR_CMD_OUT_SEL_Msk | ((uint32_t)trig_group << 8) | cyhal_mux_dest_index[trigger];
 #elif defined(CY_IP_M0S8CPUSSV3_DMAC)
-    return PERI_TR_CTL_TR_OUT_Msk | ((uint32_t)trig_group << 8) | cyhal_mux_dest_index[trigger];
+    trigger_line =  PERI_TR_CTL_TR_OUT_Msk | ((uint32_t)trig_group << 8) | cyhal_mux_dest_index[trigger];
 #endif
+
+#if (((CY_IP_MXSPERI_INSTANCES) == 2U) && defined(CY_IP_MXSAXIDMAC))
+    /* Bits   16: The PERI 1 instance.
+        The trigger input for AXIDMAC is located on PERI 1
+    */
+    trigger_line |= PERI_INSTANCE_1_IDENT_Msk;
+#endif
+
+    return trigger_line;
 }
 
 #if defined(CY_IP_M4CPUSS_DMAC) || defined(CY_IP_M7CPUSS_DMAC) || defined(CY_IP_MXAHBDMAC) || defined(CY_IP_MXSAXIDMAC)
@@ -395,13 +409,17 @@ static inline cyhal_dma_event_t _cyhal_dma_dmac_convert_interrupt_cause(cyhal_dm
         if (0 == obj->expected_bursts)
         {
             hal_rslt |= CYHAL_DMA_DESCRIPTOR_COMPLETE;
-#if defined(CY_IP_M4CPUSS_DMAC) || defined(CY_IP_M7CPUSS_DMAC) || defined(CY_IP_MXAHBDMAC) || defined(CY_IP_MXSAXIDMAC)
+        #if defined(CY_IP_M4CPUSS_DMAC) || defined(CY_IP_M7CPUSS_DMAC) || defined(CY_IP_MXAHBDMAC)
             obj->expected_bursts = (GET_RESOURCE_DATA(obj->descriptor_config).interruptType == _CYHAL_DMAC_X_LOOP)
                 ? GET_RESOURCE_DATA(obj->descriptor_config).yCount
                 : 1;
-#else
+        #elif defined(CY_IP_MXSAXIDMAC)
+            obj->expected_bursts = (GET_RESOURCE_DATA(obj->descriptor_config).interruptType == _CYHAL_DMAC_M_LOOP)
+                ? GET_RESOURCE_DATA(obj->descriptor_config).xCount
+                : 1;
+        #else
             obj->expected_bursts = 1;
-#endif
+        #endif
         }
     }
 
@@ -482,7 +500,11 @@ static cy_rslt_t _cyhal_dma_dmac_stage(cyhal_dma_t *obj)
     SCB_CleanDCache_by_Addr((void *)&(obj->descriptor), sizeof(obj->descriptor));
     #endif /* (CY_CPU_CORTEX_M7) && defined (ENABLE_CM7_DATA_CACHE) */
 #if defined(CY_IP_MXSAXIDMAC)
+    cy_en_axidmac_descriptor_type_t descr_type = GET_RESOURCE_DATA(&obj->descriptor_config)->descriptorType;
+    GET_RESOURCE_DATA(&obj->descriptor_config)->descriptorType = CY_AXIDMAC_3D_MEMORY_COPY;
     cy_rslt_t rslt = Cy_AXIDMAC_Descriptor_Init(GET_RESOURCE_DATA(&obj->descriptor), GET_RESOURCE_DATA(&obj->descriptor_config));
+    Cy_AXIDMAC_Descriptor_SetDescriptorType(GET_RESOURCE_DATA(&obj->descriptor), descr_type);
+    GET_RESOURCE_DATA(&obj->descriptor_config)->descriptorType = descr_type;
 #else
     cy_rslt_t rslt = Cy_DMAC_Descriptor_Init(GET_RESOURCE_DATA(&obj->descriptor), GET_RESOURCE_DATA(&obj->descriptor_config));
 #endif
@@ -556,6 +578,7 @@ static cy_rslt_t _cyhal_dma_dmac_stage(cyhal_dma_t *obj)
 
 cy_rslt_t _cyhal_dma_dmac_init(cyhal_dma_t *obj, cyhal_source_t *src, cyhal_dest_t *dest, uint8_t priority)
 {
+
 #if defined(CY_IP_MXSAXIDMAC)
     if(!CY_AXIDMAC_IS_PRIORITY_VALID(priority))
 #else
@@ -612,7 +635,11 @@ cy_rslt_t _cyhal_dma_dmac_init_cfg(cyhal_dma_t *obj, const cyhal_dma_configurato
     obj->descriptor_config.dmac = *(cfg->dmac_descriptor_config);
     obj->channel_config.dmac = *(cfg->dmac_channel_config);
     GET_RESOURCE_DATA(obj->channel_config).descriptor = GET_RESOURCE_DATA(&obj->descriptor);
-    obj->expected_bursts = cfg->dmac_descriptor_config->yCount;
+    #if defined(CY_IP_MXSAXIDMAC)
+        obj->expected_bursts = cfg->dmac_descriptor_config->xCount;
+    #else
+        obj->expected_bursts = cfg->dmac_descriptor_config->yCount;
+    #endif
 #elif defined(CY_IP_M0S8CPUSSV3_DMAC)
     obj->descriptor_config = *(cfg->descriptor_config);
     obj->channel_config = *(cfg->channel_config);
@@ -663,6 +690,8 @@ void _cyhal_dma_dmac_free(cyhal_dma_t *obj)
  * interrupt, and enable DMAC controller */
 cy_rslt_t _cyhal_dma_dmac_configure(cyhal_dma_t *obj, const cyhal_dma_cfg_t *cfg)
 {
+    uint32_t total_length = cfg->length;
+
     /* Do not reconfigure if transfer is pending/active already */
     if(_cyhal_dma_dmac_is_busy(obj))
         return CYHAL_DMA_RSLT_ERR_CHANNEL_BUSY;
@@ -689,7 +718,12 @@ cy_rslt_t _cyhal_dma_dmac_configure(cyhal_dma_t *obj, const cyhal_dma_cfg_t *cfg
     GET_RESOURCE_DATA(obj->descriptor_config).srcAddress = (void*)cfg->src_addr;
     GET_RESOURCE_DATA(obj->descriptor_config).dstAddress = (void*)cfg->dst_addr;
 
+    if ((cfg->transfer_width != 8) && (cfg->transfer_width != 16) && (cfg->transfer_width != 32))
+        return CYHAL_DMA_RSLT_ERR_INVALID_TRANSFER_WIDTH;
+
 #if !defined(CY_IP_MXSAXIDMAC)
+    total_length = cfg->length;
+
     if(cfg->transfer_width == 8)
         GET_RESOURCE_DATA(obj->descriptor_config).dataSize = CY_DMAC_BYTE;
     else if(cfg->transfer_width == 16)
@@ -707,7 +741,15 @@ cy_rslt_t _cyhal_dma_dmac_configure(cyhal_dma_t *obj, const cyhal_dma_cfg_t *cfg
         GET_RESOURCE_DATA(obj->descriptor_config).srcTransferSize = CY_DMAC_TRANSFER_SIZE_WORD;
     else if (obj->direction == CYHAL_DMA_DIRECTION_MEM2PERIPH)
         GET_RESOURCE_DATA(obj->descriptor_config).dstTransferSize = CY_DMAC_TRANSFER_SIZE_WORD;
+#else
+    /* Need to convert number of elements to the total number of bytes for transfer */
+    total_length = cfg->length * (cfg->transfer_width / 8);
+    if (!CY_AXIDMAC_IS_LOOP_COUNT_VALID(total_length))
+    {
+        return CYHAL_DMA_RSLT_ERR_INVALID_TRANSFER_SIZE;
+    }
 #endif
+
 #if defined(CY_IP_M4CPUSS_DMAC) || defined(CY_IP_M7CPUSS_DMAC) || defined(CY_IP_MXAHBDMAC) || defined(CY_IP_MXSAXIDMAC)
     GET_RESOURCE_DATA(obj->descriptor_config).nextDescriptor = GET_RESOURCE_DATA(&obj->descriptor);
     if ((cfg->action == CYHAL_DMA_TRANSFER_BURST) || (cfg->action == CYHAL_DMA_TRANSFER_FULL))
@@ -727,37 +769,50 @@ cy_rslt_t _cyhal_dma_dmac_configure(cyhal_dma_t *obj, const cyhal_dma_cfg_t *cfg
     if(cfg->burst_size != 0)
     {
         /* Length must be a multiple of burst_size */
-        if(cfg->length % cfg->burst_size != 0)
+        if(total_length % cfg->burst_size != 0)
             return CYHAL_DMA_RSLT_ERR_INVALID_BURST_SIZE;
-            
-#if defined(CY_IP_MXSAXIDMAC)
-        GET_RESOURCE_DATA(obj->descriptor_config).descriptorType = CY_AXIDMAC_2D_MEMCOPY_COPY;
-#else
+
+    #if defined(CY_IP_MXSAXIDMAC)
+        GET_RESOURCE_DATA(obj->descriptor_config).descriptorType = CY_AXIDMAC_2D_MEMORY_COPY;
+        GET_RESOURCE_DATA(obj->descriptor_config).mCount = cfg->burst_size * (cfg->transfer_width / 8);
+        GET_RESOURCE_DATA(obj->descriptor_config).xCount = (cfg->length / cfg->burst_size);
+        GET_RESOURCE_DATA(obj->descriptor_config).srcXincrement = cfg->src_increment * cfg->burst_size * (cfg->transfer_width / 8);
+        GET_RESOURCE_DATA(obj->descriptor_config).dstXincrement = cfg->dst_increment * cfg->burst_size * (cfg->transfer_width / 8);
+    #else
         GET_RESOURCE_DATA(obj->descriptor_config).descriptorType = CY_DMAC_2D_TRANSFER;
-#endif
         GET_RESOURCE_DATA(obj->descriptor_config).xCount = cfg->burst_size;
-        GET_RESOURCE_DATA(obj->descriptor_config).yCount = cfg->length / cfg->burst_size;
+        GET_RESOURCE_DATA(obj->descriptor_config).yCount = total_length / cfg->burst_size;
         GET_RESOURCE_DATA(obj->descriptor_config).srcYincrement = cfg->src_increment * cfg->burst_size;
         GET_RESOURCE_DATA(obj->descriptor_config).dstYincrement = cfg->dst_increment * cfg->burst_size;
+    #endif
+
     }
     else
     {
-#if defined(CY_IP_MXSAXIDMAC)
-        GET_RESOURCE_DATA(obj->descriptor_config).descriptorType = CY_AXIDMAC_1D_MEMCOPY_COPY;
-#else
+    #if defined(CY_IP_MXSAXIDMAC)
+        GET_RESOURCE_DATA(obj->descriptor_config).descriptorType = CY_AXIDMAC_1D_MEMORY_COPY;
+        GET_RESOURCE_DATA(obj->descriptor_config).mCount = total_length;
+    #else
         GET_RESOURCE_DATA(obj->descriptor_config).descriptorType = CY_DMAC_1D_TRANSFER;
-#endif
-        GET_RESOURCE_DATA(obj->descriptor_config).xCount = cfg->length;
+        GET_RESOURCE_DATA(obj->descriptor_config).xCount = total_length;
+    #endif
     }
 
     /* If burst action, configure trigger and interrupt actions */
     if (cfg->burst_size != 0 &&
         (cfg->action == CYHAL_DMA_TRANSFER_BURST || cfg->action == CYHAL_DMA_TRANSFER_BURST_DISABLE))
     {
+    #if defined(CY_IP_MXSAXIDMAC)
+        obj->expected_bursts = GET_RESOURCE_DATA(obj->descriptor_config).xCount;
+        GET_RESOURCE_DATA(obj->descriptor_config).interruptType = _CYHAL_DMAC_M_LOOP;
+        if (obj->source == _CYHAL_TRIGGER_CPUSS_ZERO) // If not overridden by connect_digital()
+            GET_RESOURCE_DATA(obj->descriptor_config).triggerInType = _CYHAL_DMAC_M_LOOP;
+    #else
         obj->expected_bursts = GET_RESOURCE_DATA(obj->descriptor_config).yCount;
         GET_RESOURCE_DATA(obj->descriptor_config).interruptType = _CYHAL_DMAC_X_LOOP;
         if (obj->source == _CYHAL_TRIGGER_CPUSS_ZERO) // If not overridden by connect_digital()
             GET_RESOURCE_DATA(obj->descriptor_config).triggerInType = _CYHAL_DMAC_X_LOOP;
+    #endif
     }
     else
     {
@@ -773,7 +828,7 @@ cy_rslt_t _cyhal_dma_dmac_configure(cyhal_dma_t *obj, const cyhal_dma_cfg_t *cfg
     }
     else
     {
-        GET_RESOURCE_DATA(obj->descriptor_config).dataCount = cfg->length;
+        GET_RESOURCE_DATA(obj->descriptor_config).dataCount = total_length;
         GET_RESOURCE_DATA(obj->descriptor_config).srcAddrIncrement = cfg->src_increment;
         GET_RESOURCE_DATA(obj->descriptor_config).dstAddrIncrement = cfg->dst_increment;
         obj->expected_bursts = 1;
@@ -891,7 +946,6 @@ static cy_en_axidmac_trigger_type_t _cyhal_convert_output_t(cyhal_dma_output_t o
         case CYHAL_DMA_OUTPUT_TRIGGER_SINGLE_ELEMENT:
             return CY_AXIDMAC_M_LOOP;
         case CYHAL_DMA_OUTPUT_TRIGGER_SINGLE_BURST:
-
             return CY_AXIDMAC_X_LOOP;
         case CYHAL_DMA_OUTPUT_TRIGGER_ALL_ELEMENTS:
             return CY_AXIDMAC_DESCR;
