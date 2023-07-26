@@ -105,7 +105,7 @@ static cyhal_keyscan_t *_cyhal_keyscan_config_structs[1];
 static void _cyhal_keyscan_irq_handler(void)
 {
     cyhal_keyscan_t *obj = _cyhal_keyscan_config_structs[0];
-    uint32_t int_status;
+    uint32_t int_status = 0;
     cy_rslt_t result = Cy_Keyscan_GetInterruptMaskedStatus(MXKEYSCAN, &int_status);
     CY_ASSERT(CY_RSLT_SUCCESS == result);
     CY_UNUSED_PARAMETER(result);
@@ -139,7 +139,7 @@ static bool _cyhal_keyscan_pm_callback(cyhal_syspm_callback_state_t state, cyhal
     CY_UNUSED_PARAMETER(state);
     CY_UNUSED_PARAMETER(callback_arg);
 
-    uint32_t readMask;
+    uint32_t readMask = 0;
     cyhal_keyscan_t *obj = _cyhal_keyscan_config_structs[0];
     Cy_Keyscan_GetInterruptMask(obj->base, &readMask);
 

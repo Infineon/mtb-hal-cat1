@@ -573,7 +573,8 @@ uint32_t _cyhal_scb_check_pin_affiliation(cyhal_gpio_t pin, const cyhal_resource
     {
         if (pin == pin_map[i].pin)
         {
-            cyhal_resource_inst_t rsc = { CYHAL_RSC_SCB, pin_map[i].block_num, pin_map[i].channel_num };
+            uint8_t scb_arr_index = _cyhal_scb_get_block_index(pin_map[i].block_num);
+            cyhal_resource_inst_t rsc = { CYHAL_RSC_SCB, scb_arr_index, pin_map[i].channel_num };
             if (CY_RSLT_SUCCESS == cyhal_hwmgr_reserve(&rsc))
             {
                 cyhal_hwmgr_free(&rsc);
@@ -704,7 +705,7 @@ static bool _cyhal_scb_pm_callback_common(cyhal_syspm_callback_state_t state, cy
 cyhal_syspm_callback_data_t _cyhal_scb_pm_callback_data =
 {
     .callback = &_cyhal_scb_pm_callback_common,
-    .states = (cyhal_syspm_callback_state_t)(CYHAL_SYSPM_CB_CPU_DEEPSLEEP | CYHAL_SYSPM_CB_CPU_DEEPSLEEP_RAM | CYHAL_SYSPM_CB_SYSTEM_HIBERNATE),
+    .states = (cyhal_syspm_callback_state_t)(CYHAL_SYSPM_CB_CPU_DEEPSLEEP | CYHAL_SYSPM_CB_CPU_DEEPSLEEP_RAM | CYHAL_SYSPM_CB_SYSTEM_HIBERNATE | CYHAL_SYSPM_CB_SYSTEM_NORMAL | CYHAL_SYSPM_CB_SYSTEM_LOW),
     .args = NULL,
     .next = NULL,
     .ignore_modes = (cyhal_syspm_callback_mode_t)0,

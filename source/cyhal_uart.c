@@ -48,14 +48,42 @@
  * \section group_hal_uart_dma_transfers Asynchronous DMA Transfers
  * Asynchronous transfers can be performed using DMA to load data into
  * and from the FIFOs. The purpose of this is to minimize CPU load on
- * large transfers. UART also supports using an overflow buffer to
- * hold RX FIFO data. Data transfer into and out of this overflow buffer
- * is done through software transfers, even when in DMA async mode. Use
- * of the overflow buffer will cause CPU load.
- * Upon starting an asynchronous read in DMA-mode, the overflow buffer
- * will be emptied through software transfers and promptly disabled.
- * During this process, CYHAL_UART_IRQ_RX_FIFO interrupts will be
- * temporarily ignored.
+ * large transfers. Unlike SW async mode, DMA async mode does not support an
+ * overflow buffer as it would cause CPU load and go against the fundamental
+ * principle of using DMA transfers. Trying to set DMA async mode when an
+ * overflow buffer is enabled will return an error. If an application wants
+ * to transition from SW to DMA async modes it is recommended to perform the following
+ * sequence:
+ * 1. Read until the ring buffer is empty. This can be determined by checking
+ * that cyhal_uart_readable returns a number that is smaller than the hardware fifo size.
+ * 2. Enter a critical section, to prevent any interrupts from refilling the ring buffer.
+ * 3. Repeat step 1 if necessary
+ * 4. Use cyhal_uart_configure to disable the ring buffer, or free and reinit the UART
+ *    instance with no SW buffer
+ * 5. Exit the critical section
+ * 6. Call cyhal_uart_set_async_mode to change the async mode to DMA.
+ * 
+ * If an application wants to transition from DMA to SW async modes, and enable
+ * the ring buffer, it is recommended to perform the following sequence:
+ * 1. Call cyhal_uart_set_async_mode to change the async mode to SW.
+ * 2. Use cyhal_uart_config_software_buffer to enable the ring buffer 
+ * 
+ * \section group_hal_uart_pm_strategy UART at different power modes
+ * In order to allow UART to maintain the specified baud rate in all 
+ * power modes it was necessary to introduce a power management callback 
+ * that deals with the state switching for supported power modes 
+ * (e.g. normal, low power).
+ * As the clock inputs can change when switching power modes it is necessary
+ * to reset the baud rate. Since it is not possible to pause a transmission 
+ * and then restart it after the power mode has been updated whenever a system
+ * state change is detected any ongoing transmission is aborted. 
+ * It is then up to the user to make sure that all transmissions are finished 
+ * Therefore, power state transition is prevented if the FIFO is not empty.
+ * It's also important to note that if a custom cyhal_clock_t value was provided
+ * during cyhal_uart_init, the UART HAL cannot automatically update the baud rate
+ * because it does not own the source clock. 
+ * In that case, the application must adjust the UART source clock itself to retain
+ * the desired frequency.
  * \} group_hal_uart
  */
 
@@ -148,21 +176,8 @@ static void _cyhal_uart_irq_handler(void)
     uint32_t txMasked = Cy_SCB_GetTxInterruptStatusMasked(obj->base);
     uint32_t rxMasked = Cy_SCB_GetRxInterruptStatusMasked(obj->base);
 
-    #if (CYHAL_DRIVER_AVAILABLE_DMA)
-    /* Don't process the 'refill ring buffer' interrupt if we're actively emptying it in a DMA async read */
-    if (!(obj->async_rx_buff != NULL) || !(rxMasked & CY_SCB_RX_INTR_LEVEL) || !(obj->context.rxRingBuf != NULL))
-    {
-    #endif
-       /* SCB high-level API interrupt handler. Must be called as high-level API is used in the HAL */
-        Cy_SCB_UART_Interrupt(obj->base, &(obj->context));
-    #if (CYHAL_DRIVER_AVAILABLE_DMA)
-    }
-    else
-    {
-        /* Normally cleared in the above handler call */
-        Cy_SCB_ClearRxInterrupt(obj->base, CY_SCB_RX_INTR_LEVEL);
-    }
-    #endif
+   /* SCB high-level API interrupt handler. Must be called as high-level API is used in the HAL */
+    Cy_SCB_UART_Interrupt(obj->base, &(obj->context));
 
     /* Custom handling for TX overflow (cannot occur using HAL API but can occur if user makes custom modifications)
         Note: This is partially handled in Cy_SCB_UART_Interrupt()
@@ -370,7 +385,6 @@ static void _cyhal_uart_cb_wrapper(uint32_t event)
 
 static bool _cyhal_uart_pm_callback_instance(void *obj_ptr, cyhal_syspm_callback_state_t state, cy_en_syspm_callback_mode_t pdl_mode)
 {
-    CY_UNUSED_PARAMETER(state);
     cyhal_uart_t *obj = (cyhal_uart_t*)obj_ptr;
     bool allow = false;
 
@@ -385,9 +399,10 @@ static bool _cyhal_uart_pm_callback_instance(void *obj_ptr, cyhal_syspm_callback
         CY_UNUSED_PARAMETER(rtspin);
     #endif
 
-    switch (pdl_mode)
+   if (state == CYHAL_SYSPM_CB_SYSTEM_NORMAL || state == CYHAL_SYSPM_CB_SYSTEM_LOW)
     {
-        case CY_SYSPM_CHECK_READY:
+        if(pdl_mode == CY_SYSPM_CHECK_READY)
+        {
             /* Check whether the High-level API is not busy executing the transmit
             * or receive operation.
             */
@@ -407,59 +422,113 @@ static bool _cyhal_uart_pm_callback_instance(void *obj_ptr, cyhal_syspm_callback
                 {
                     if (0UL == Cy_SCB_UART_GetNumInRxFifo(obj->base))
                     {
-                        /* Disable the UART. The transmitter stops driving the
-                        * lines and the receiver stops receiving data until
-                        * the UART is enabled.
-                        * This happens when the device failed to enter Deep
-                        * Sleep or it is awaken from Deep Sleep mode.
-                        */
-
-                        if (NULL != txport)
-                        {
-                            obj->saved_tx_hsiom = Cy_GPIO_GetHSIOM(txport, txpin);
-                            Cy_GPIO_Set(txport, txpin);
-                            Cy_GPIO_SetHSIOM(txport, txpin, HSIOM_SEL_GPIO);
-                        }
-                        if (NULL != rtsport)
-                        {
-                            obj->saved_rts_hsiom = Cy_GPIO_GetHSIOM(rtsport, rtspin);
-                            Cy_GPIO_Set(rtsport, rtspin);
-                            Cy_GPIO_SetHSIOM(rtsport, rtspin, HSIOM_SEL_GPIO);
-                        }
-
-                        Cy_SCB_UART_Disable(obj->base, &(obj->context));
                         allow = true;
-
                     }
                 }
             }
-            break;
+        }
+        if (pdl_mode == CY_SYSPM_AFTER_TRANSITION)
+        {        
+            allow = true;    
+            //Return of the function is ignored as failing to reset the baud rate
+            //does not classify as reason to interrupt the power mode transition
+            cyhal_uart_set_baud(obj, obj->baud_rate, NULL);
 
-        case CY_SYSPM_CHECK_FAIL:
-        case CY_SYSPM_AFTER_TRANSITION:
-            allow = true;
-            Cy_SCB_UART_Enable(obj->base);
-            if (NULL != txport)
-            {
-                Cy_GPIO_SetHSIOM(txport, txpin, obj->saved_tx_hsiom);
-            }
             if (NULL != rtsport)
             {
                 Cy_GPIO_SetHSIOM(rtsport, rtspin, obj->saved_rts_hsiom);
             }
-            break;
+        }
+        if (pdl_mode == CY_SYSPM_BEFORE_TRANSITION)
+        {
+            allow = true;
 
-        case CY_SYSPM_BEFORE_TRANSITION:
-            allow = true;
-            break;
-#if defined(COMPONENT_CAT1B)
-        case CY_SYSPM_AFTER_DS_WFI_TRANSITION:
-            allow = true;
-            break;
-#endif
-        default:
-            CY_ASSERT(false);
-            break;
+            if (NULL != rtsport)
+            {
+                obj->saved_rts_hsiom = Cy_GPIO_GetHSIOM(rtsport, rtspin);
+                Cy_GPIO_Set(rtsport, rtspin);
+                Cy_GPIO_SetHSIOM(rtsport, rtspin, HSIOM_SEL_GPIO);
+            }
+        }
+    }
+    else
+    {
+        switch (pdl_mode)
+        {
+            case CY_SYSPM_CHECK_READY:
+                /* Check whether the High-level API is not busy executing the transmit
+                * or receive operation.
+                */
+                if ((0UL == (CY_SCB_UART_TRANSMIT_ACTIVE & Cy_SCB_UART_GetTransmitStatus(obj->base, &(obj->context)))) &&
+                    (0UL == (CY_SCB_UART_RECEIVE_ACTIVE  & Cy_SCB_UART_GetReceiveStatus (obj->base, &(obj->context))))
+                #if (CYHAL_DRIVER_AVAILABLE_DMA)
+                    & (obj->async_rx_buff == NULL) & (obj->async_tx_buff == NULL))
+                #else
+                    )
+                #endif /* CYHAL_DRIVER_AVAILABLE_DMA */
+                {
+                    /* If all data elements are transmitted from the TX FIFO and
+                    * shifter and the RX FIFO is empty: the UART is ready to enter
+                    * Deep Sleep mode.
+                    */
+                    if (Cy_SCB_UART_IsTxComplete(obj->base))
+                    {
+                        if (0UL == Cy_SCB_UART_GetNumInRxFifo(obj->base))
+                        {
+                            /* Disable the UART. The transmitter stops driving the
+                            * lines and the receiver stops receiving data until
+                            * the UART is enabled.
+                            * This happens when the device failed to enter Deep
+                            * Sleep or it is awaken from Deep Sleep mode.
+                            */
+
+                            if (NULL != txport)
+                            {
+                                obj->saved_tx_hsiom = Cy_GPIO_GetHSIOM(txport, txpin);
+                                Cy_GPIO_Set(txport, txpin);
+                                Cy_GPIO_SetHSIOM(txport, txpin, HSIOM_SEL_GPIO);
+                            }
+                            if (NULL != rtsport)
+                            {
+                                obj->saved_rts_hsiom = Cy_GPIO_GetHSIOM(rtsport, rtspin);
+                                Cy_GPIO_Set(rtsport, rtspin);
+                                Cy_GPIO_SetHSIOM(rtsport, rtspin, HSIOM_SEL_GPIO);
+                            }
+
+                            Cy_SCB_UART_Disable(obj->base, &(obj->context));
+                            allow = true;
+
+                        }
+                    }
+                }
+                break;
+
+            case CY_SYSPM_CHECK_FAIL:
+            case CY_SYSPM_AFTER_TRANSITION:
+                allow = true;
+                Cy_SCB_UART_Enable(obj->base);
+                if (NULL != txport)
+                {
+                    Cy_GPIO_SetHSIOM(txport, txpin, obj->saved_tx_hsiom);
+                }
+                if (NULL != rtsport)
+                {
+                    Cy_GPIO_SetHSIOM(rtsport, rtspin, obj->saved_rts_hsiom);
+                }
+                break;
+
+            case CY_SYSPM_BEFORE_TRANSITION:
+                allow = true;
+                break;
+    #if defined(COMPONENT_CAT1B)
+            case CY_SYSPM_AFTER_DS_WFI_TRANSITION:
+                allow = true;
+                break;
+    #endif
+            default:
+                CY_ASSERT(false);
+                break;
+        }
     }
     return allow;
 }
@@ -604,7 +673,8 @@ static cy_rslt_t _cyhal_uart_setup_resources(cyhal_uart_t *obj, cyhal_gpio_t tx,
         CY_ASSERT(false);
     }
 
-    result = cyhal_hwmgr_reserve(&uart_rsc);
+    cyhal_resource_inst_t rsc_to_reserve = { CYHAL_RSC_SCB, _cyhal_scb_get_block_index(found_block_idx), 0 };
+    result = cyhal_hwmgr_reserve(&rsc_to_reserve);
     cyhal_system_critical_section_exit(saved_intr_status);
     if (CY_RSLT_SUCCESS != result)
     {
@@ -733,6 +803,7 @@ cy_rslt_t cyhal_uart_init(cyhal_uart_t *obj, cyhal_gpio_t tx, cyhal_gpio_t rx, c
     obj->dma_tx.resource.type = CYHAL_RSC_INVALID;
     obj->dma_rx.resource.type = CYHAL_RSC_INVALID;
     #endif
+    obj->baud_rate = CYHAL_UART_DEFAULT_BAUD;
     cy_rslt_t result = _cyhal_uart_setup_resources(obj, tx, rx, cts, rts, clk);
 
     if (CY_RSLT_SUCCESS == result)
@@ -761,7 +832,7 @@ cy_rslt_t cyhal_uart_init(cyhal_uart_t *obj, cyhal_gpio_t tx, cyhal_gpio_t rx, c
         // This was done earlier for CAT5
         if (obj->is_clock_owned)
         {
-            result = cyhal_uart_set_baud(obj, CYHAL_UART_DEFAULT_BAUD, NULL);
+            result = cyhal_uart_set_baud(obj, obj->baud_rate, NULL);
         }
         #endif
 
@@ -835,7 +906,8 @@ void cyhal_uart_free(cyhal_uart_t *obj)
 
         if (false == obj->dc_configured)
         {
-            cyhal_hwmgr_free(&(obj->resource));
+            cyhal_resource_inst_t rsc_to_free = { CYHAL_RSC_SCB, _cyhal_scb_get_block_index(obj->resource.block_num), obj->resource.channel_num };
+            cyhal_hwmgr_free(&(rsc_to_free));
         }
 
         obj->resource.type = CYHAL_RSC_INVALID;
@@ -874,7 +946,11 @@ void cyhal_uart_free(cyhal_uart_t *obj)
 cy_rslt_t cyhal_uart_set_baud(cyhal_uart_t *obj, uint32_t baudrate, uint32_t *actualbaud)
 {
     cy_rslt_t status;
-
+    if( obj->baud_rate != baudrate)
+    {
+        obj->baud_rate = baudrate;
+    }
+    
     if (obj->is_clock_owned)
     {
         uint8_t oversample_value;
@@ -1153,41 +1229,48 @@ cy_rslt_t cyhal_uart_set_async_mode(cyhal_uart_t *obj, cyhal_async_mode_t mode, 
     if(mode == CYHAL_ASYNC_DMA)
     {
     #if (CYHAL_DRIVER_AVAILABLE_DMA)
-        /* Setup DMA for TX */
-        if(CYHAL_RSC_INVALID == obj->dma_tx.resource.type && obj->pin_tx != CYHAL_NC_PIN_VALUE)
+        if (obj->context.rxRingBuf != NULL)
         {
-            cyhal_source_t source_tx;
-            cyhal_uart_disable_output(obj, CYHAL_UART_OUTPUT_TRIGGER_TX_FIFO_LEVEL_REACHED);
-            cyhal_uart_enable_output(obj, CYHAL_UART_OUTPUT_TRIGGER_TX_FIFO_LEVEL_REACHED, &source_tx);
-            cyhal_dma_src_t dma_src_tx =
-            {
-                .source = source_tx,
-                .input = CYHAL_DMA_INPUT_TRIGGER_ALL_ELEMENTS,
-            };
-            /* Set the DMA to correct direction and connect appropriate triggers */
-            result = cyhal_dma_init_adv(&(obj->dma_tx), &dma_src_tx, NULL, NULL, dma_priority, CYHAL_DMA_DIRECTION_MEM2PERIPH);
+            return CYHAL_UART_RSLT_ERR_UNSUPPORTED_CONFIG;
         }
-        cyhal_dma_register_callback(&(obj->dma_tx), &_cyhal_uart_dma_handler_tx, obj);
-
-        /* Setup DMA for RX */
-        if(CYHAL_RSC_INVALID == obj->dma_rx.resource.type && obj->pin_rx != CYHAL_NC_PIN_VALUE)
+        else
         {
-            cyhal_source_t source_rx;
-            cyhal_uart_disable_output(obj, CYHAL_UART_OUTPUT_TRIGGER_RX_FIFO_LEVEL_REACHED);
-            cyhal_uart_enable_output(obj, CYHAL_UART_OUTPUT_TRIGGER_RX_FIFO_LEVEL_REACHED, &source_rx);
-            cyhal_dma_src_t dma_src_rx =
+            /* Setup DMA for TX */
+            if(CYHAL_RSC_INVALID == obj->dma_tx.resource.type && obj->pin_tx != CYHAL_NC_PIN_VALUE)
             {
-                .source = source_rx,
-                .input = CYHAL_DMA_INPUT_TRIGGER_ALL_ELEMENTS,
-            };
-            /* Set the DMA to correct direction and connect appropriate triggers */
-            cyhal_dma_init_adv(&(obj->dma_rx), &dma_src_rx, NULL, NULL, dma_priority, CYHAL_DMA_DIRECTION_PERIPH2MEM);
-        }
-        cyhal_dma_register_callback(&(obj->dma_rx), &_cyhal_uart_dma_handler_rx, obj);
+                cyhal_source_t source_tx;
+                cyhal_uart_disable_output(obj, CYHAL_UART_OUTPUT_TRIGGER_TX_FIFO_LEVEL_REACHED);
+                cyhal_uart_enable_output(obj, CYHAL_UART_OUTPUT_TRIGGER_TX_FIFO_LEVEL_REACHED, &source_tx);
+                cyhal_dma_src_t dma_src_tx =
+                {
+                    .source = source_tx,
+                    .input = CYHAL_DMA_INPUT_TRIGGER_ALL_ELEMENTS,
+                };
+                /* Set the DMA to correct direction and connect appropriate triggers */
+                result = cyhal_dma_init_adv(&(obj->dma_tx), &dma_src_tx, NULL, NULL, dma_priority, CYHAL_DMA_DIRECTION_MEM2PERIPH);
+            }
+            cyhal_dma_register_callback(&(obj->dma_tx), &_cyhal_uart_dma_handler_tx, obj);
 
-        // Default RTS level (20 or 3) may lead to DMA waiting for more data before reading and RTS waiting for data read
-        // before allowing more.  Raise RTS to near-max to ensure DMA runs smoothest
-        Cy_SCB_UART_SetRtsFifoLevel(obj->base, Cy_SCB_GetFifoSize(obj->base) - 1);
+            /* Setup DMA for RX */
+            if(CYHAL_RSC_INVALID == obj->dma_rx.resource.type && obj->pin_rx != CYHAL_NC_PIN_VALUE)
+            {
+                cyhal_source_t source_rx;
+                cyhal_uart_disable_output(obj, CYHAL_UART_OUTPUT_TRIGGER_RX_FIFO_LEVEL_REACHED);
+                cyhal_uart_enable_output(obj, CYHAL_UART_OUTPUT_TRIGGER_RX_FIFO_LEVEL_REACHED, &source_rx);
+                cyhal_dma_src_t dma_src_rx =
+                {
+                    .source = source_rx,
+                    .input = CYHAL_DMA_INPUT_TRIGGER_ALL_ELEMENTS,
+                };
+                /* Set the DMA to correct direction and connect appropriate triggers */
+                cyhal_dma_init_adv(&(obj->dma_rx), &dma_src_rx, NULL, NULL, dma_priority, CYHAL_DMA_DIRECTION_PERIPH2MEM);
+            }
+            cyhal_dma_register_callback(&(obj->dma_rx), &_cyhal_uart_dma_handler_rx, obj);
+
+            // Default RTS level (20 or 3) may lead to DMA waiting for more data before reading and RTS waiting for data read
+            // before allowing more.  Raise RTS to near-max to ensure DMA runs smoothest
+            Cy_SCB_UART_SetRtsFifoLevel(obj->base, Cy_SCB_GetFifoSize(obj->base) - 1);
+        }
     #else
         CY_UNUSED_PARAMETER(obj);
         CY_UNUSED_PARAMETER(dma_priority);
@@ -1370,30 +1453,6 @@ cy_rslt_t cyhal_uart_read_async(cyhal_uart_t *obj, void *rx, size_t length)
         obj->async_rx_length = length;
         cyhal_system_critical_section_exit(savedIntrStatus);
 
-        /* First read anything that ended up in the overflow buffer */
-        if(obj->context.rxRingBuf != NULL)
-        {
-            uint32_t overflow = Cy_SCB_UART_GetNumInRingBuffer(obj->base, &(obj->context));
-            /* Fully drain Ring Buffer and disable it.  When enabled, it instantly empties RX FIFO into it */
-            if (overflow > length)
-            {
-                overflow = length;
-            }
-            if (overflow > 0)
-            {
-                result = Cy_SCB_UART_Receive(obj->base, rx, overflow, &(obj->context));
-            }
-            obj->async_rx_length -= overflow;
-            if(obj->async_rx_length == 0)
-            {
-                obj->async_rx_buff = NULL;
-                return result;
-            }
-            obj->async_rx_buff = ((overflow * (((obj->config.dataWidth <= CY_SCB_BYTE_WIDTH) ? 8 : 16) / 8)) + (char*)rx);
-            /* Stop ring buffer */
-            Cy_SCB_UART_StopRingBuffer(obj->base, &obj->context);
-        }
-
         result = _cyhal_uart_dma_read_async(obj);
     }
     else
@@ -1499,23 +1558,23 @@ void cyhal_uart_enable_event(cyhal_uart_t *obj, cyhal_uart_event_t event, uint8_
         {
             // Omit underflow condition as the interrupt perpetually triggers
             //Standard mode only uses OVERFLOW irq
-        	if(obj->config.uartMode == CY_SCB_UART_STANDARD)
-			{
+            if(obj->config.uartMode == CY_SCB_UART_STANDARD)
+            {
                 Cy_SCB_ClearTxInterrupt(obj->base, (CY_SCB_UART_TX_OVERFLOW | CY_SCB_UART_TRANSMIT_ERR));
-        		Cy_SCB_SetTxInterruptMask(obj->base, Cy_SCB_GetTxInterruptMask(obj->base) | (CY_SCB_UART_TX_OVERFLOW | CY_SCB_UART_TRANSMIT_ERR));
-			}
+                Cy_SCB_SetTxInterruptMask(obj->base, Cy_SCB_GetTxInterruptMask(obj->base) | (CY_SCB_UART_TX_OVERFLOW | CY_SCB_UART_TRANSMIT_ERR));
+            }
             //SMARTCARD mode uses OVERFLOW, NACK, and ARB_LOST irq's
-        	else if(obj->config.uartMode == CY_SCB_UART_SMARTCARD)
-			{
-				Cy_SCB_ClearTxInterrupt(obj->base, (CY_SCB_UART_TX_OVERFLOW | CY_SCB_TX_INTR_UART_NACK | CY_SCB_TX_INTR_UART_ARB_LOST | CY_SCB_UART_TRANSMIT_ERR));
-				Cy_SCB_SetTxInterruptMask(obj->base, Cy_SCB_GetTxInterruptMask(obj->base) | (CY_SCB_UART_TX_OVERFLOW | CY_SCB_TX_INTR_UART_NACK | CY_SCB_TX_INTR_UART_ARB_LOST | CY_SCB_UART_TRANSMIT_ERR));
-			}
+            else if(obj->config.uartMode == CY_SCB_UART_SMARTCARD)
+            {
+                Cy_SCB_ClearTxInterrupt(obj->base, (CY_SCB_UART_TX_OVERFLOW | CY_SCB_TX_INTR_UART_NACK | CY_SCB_TX_INTR_UART_ARB_LOST | CY_SCB_UART_TRANSMIT_ERR));
+                Cy_SCB_SetTxInterruptMask(obj->base, Cy_SCB_GetTxInterruptMask(obj->base) | (CY_SCB_UART_TX_OVERFLOW | CY_SCB_TX_INTR_UART_NACK | CY_SCB_TX_INTR_UART_ARB_LOST | CY_SCB_UART_TRANSMIT_ERR));
+            }
             //LIN Mode only uses OVERFLOW, ARB_LOST irq's
-        	else
-			{
-				Cy_SCB_ClearTxInterrupt(obj->base, (CY_SCB_UART_TX_OVERFLOW | CY_SCB_TX_INTR_UART_ARB_LOST | CY_SCB_UART_TRANSMIT_ERR));
-				Cy_SCB_SetTxInterruptMask(obj->base, Cy_SCB_GetTxInterruptMask(obj->base) | (CY_SCB_UART_TX_OVERFLOW | CY_SCB_TX_INTR_UART_ARB_LOST | CY_SCB_UART_TRANSMIT_ERR));
-			}
+            else
+            {
+                Cy_SCB_ClearTxInterrupt(obj->base, (CY_SCB_UART_TX_OVERFLOW | CY_SCB_TX_INTR_UART_ARB_LOST | CY_SCB_UART_TRANSMIT_ERR));
+                Cy_SCB_SetTxInterruptMask(obj->base, Cy_SCB_GetTxInterruptMask(obj->base) | (CY_SCB_UART_TX_OVERFLOW | CY_SCB_TX_INTR_UART_ARB_LOST | CY_SCB_UART_TRANSMIT_ERR));
+            }
         }
         if (event & CYHAL_UART_IRQ_TX_FIFO)
         {
@@ -1630,12 +1689,23 @@ cy_rslt_t cyhal_uart_disable_output(cyhal_uart_t *obj, cyhal_uart_output_t outpu
 
 cy_rslt_t cyhal_uart_config_software_buffer(cyhal_uart_t *obj, uint8_t *rx_buffer, uint32_t rx_buffer_size)
 {
+    cy_rslt_t result = CY_RSLT_SUCCESS;
     CY_ASSERT(NULL != obj);
     CY_ASSERT(NULL != rx_buffer);
 
-    Cy_SCB_UART_StartRingBuffer(obj->base, rx_buffer, rx_buffer_size, &(obj->context));
+#if (CYHAL_DRIVER_AVAILABLE_DMA)
+    if(obj->async_mode == CYHAL_ASYNC_DMA)
+    {
+        result =  CYHAL_UART_RSLT_ERR_UNSUPPORTED_CONFIG;
+    }
+    else
+#endif
+    {
 
-    return CY_RSLT_SUCCESS;
+        Cy_SCB_UART_StartRingBuffer(obj->base, rx_buffer, rx_buffer_size, &(obj->context));
+    }
+
+    return result;
 }
 
 #if defined(__cplusplus)

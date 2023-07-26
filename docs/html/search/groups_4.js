@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['endpoint_0',['Endpoint',['../group__group__hal__usb__dev__endpoint.html',1,'']]],
-  ['ep0_1',['EP0',['../group__group__hal__usb__dev__ep0.html',1,'']]],
-  ['ezi2c_20_28inter_2dintegrated_20circuit_29_2',['EZI2C (Inter-Integrated Circuit)',['../group__group__hal__ezi2c.html',1,'']]],
-  ['ezi2c_20hal_20results_3',['EZI2C HAL Results',['../group__group__hal__results__ezi2c.html',1,'']]]
+  ['general_20types_0',['General Types',['../group__group__hal__general__types.html',1,'']]],
+  ['gpio_1',['GPIO',['../group__group__hal__impl__gpio.html',1,'']]],
+  ['gpio_20_28general_20purpose_20input_20output_29_2',['GPIO (General Purpose Input Output)',['../group__group__hal__gpio.html',1,'']]],
+  ['gpio_20hal_20results_3',['GPIO HAL Results',['../group__group__hal__results__gpio.html',1,'']]],
+  ['group_5fhal_5ftolerance_4',['Group_hal_tolerance',['../group__group__hal__tolerance.html',1,'']]]
 ];

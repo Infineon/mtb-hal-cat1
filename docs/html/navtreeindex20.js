@@ -1,5 +1,10 @@
 var NAVTREEINDEX20 =
 {
+"group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#gab96b3fe27ca770054c95118c3561be52":[1,3,6,14,72],
+"group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#gac318010274b12c158f3d1e86f99cd72b":[1,3,6,14,49],
+"group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#gac8415c649490a0beb19b9c52fa177739":[1,3,6,14,55],
+"group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#gac8e3a1c1ca5ed736ce59dbf11547e6ce":[1,3,6,14,32],
+"group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#gacb3c8a576d0045bed5af0e894204ede1":[1,3,6,14,82],
 "group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#gad019c0b133fdf6f7dc5dae836cfe8f5c":[1,3,6,14,10],
 "group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#gad29c4248430c8f6e8d78ad8f644b1e5c":[1,3,6,14,113],
 "group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#gad2ba0f9b5a238e3d06237036845ae5ed":[1,3,6,14,68],
@@ -244,10 +249,5 @@ var NAVTREEINDEX20 =
 "group__group__hal__impl__pin__package__psoc6__03__68__qfn.html#ggac5ef75242c79cd654461fe238990b566aecc7f0ac8642bc54d5263aa885d41908":[1,3,6,15,61,16],
 "group__group__hal__impl__pin__package__psoc6__03__68__qfn.html#ggac5ef75242c79cd654461fe238990b566aeeaaeb6232b5bd27b3d18c1699737e31":[1,3,6,15,61,7],
 "group__group__hal__impl__pin__package__psoc6__03__68__qfn.html#ggac5ef75242c79cd654461fe238990b566af7da371a007188db645f365f367a10a8":[1,3,6,15,61,13],
-"group__group__hal__impl__pin__package__psoc6__03__68__qfn.html#ggac5ef75242c79cd654461fe238990b566affd46e9aa03ea6966fb9c094b1cdd989":[1,3,6,15,61,42],
-"group__group__hal__impl__pin__package__psoc6__04__64__tqfp.html":[1,3,6,16],
-"group__group__hal__impl__pin__package__psoc6__04__64__tqfp.html#ga0030a679fd05a02add8e255314d41c27":[1,3,6,16,70],
-"group__group__hal__impl__pin__package__psoc6__04__64__tqfp.html#ga015f256578abd5638668ff19b9dc89d5":[1,3,6,16,3],
-"group__group__hal__impl__pin__package__psoc6__04__64__tqfp.html#ga02bf919af595cef48bee3cd806aa34d2":[1,3,6,16,23],
-"group__group__hal__impl__pin__package__psoc6__04__64__tqfp.html#ga05e76b82d7531ae0d9b403c8b9382db6":[1,3,6,16,13]
+"group__group__hal__impl__pin__package__psoc6__03__68__qfn.html#ggac5ef75242c79cd654461fe238990b566affd46e9aa03ea6966fb9c094b1cdd989":[1,3,6,15,61,42]
 };

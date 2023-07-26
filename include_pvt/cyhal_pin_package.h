@@ -138,6 +138,8 @@ typedef uint16_t cyhal_gpio_mapping_cfg_t; // 8bit hsiom, 8bit mode
 #include "pin_packages/cyhal_psoc6_04_64_tqfp.h"
 #elif defined (_GPIO_PSOC6_04_68_QFN_H_)
 #include "pin_packages/cyhal_psoc6_04_68_qfn.h"
+#elif defined (_GPIO_PSOC6_04_80_M_CSP_H_)
+#include "pin_packages/cyhal_psoc6_04_80_m_csp.h"
 #elif defined (_GPIO_PSOC6_04_80_TQFP_H_)
 #include "pin_packages/cyhal_psoc6_04_80_tqfp.h"
 #elif defined(_GPIO_CYW20829A0_40_QFN_H_)

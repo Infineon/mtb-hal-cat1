@@ -12,7 +12,6 @@ This release of the CAT1 HAL includes support for the following drivers:
 * DAC
 * DMA
 * EZ-I2C
-* Flash
 * GPIO
 * Hardware Manager
 * KeyScan
@@ -21,6 +20,7 @@ This release of the CAT1 HAL includes support for the following drivers:
 * Interconnect
 * IPC
 * LowPower Timer (LPTimer)
+* NVM (Formerly Flash)
 * OpAmp
 * PDM/PCM
 * Power Management (SysPM)
@@ -40,10 +40,16 @@ This release of the CAT1 HAL includes support for the following drivers:
 * WDT
 
 ### What Changed?
-#### v2.3.0 Beta 1
-NOTE: This is a pre-production release which is only intended for use with CAT1B devices. It will be removed
-when the production 2.3.0 release is available.
-* Updated pre-production support for CAT1B devices.
+#### v2.4.1
+* Rename "Flash" driver to "NVM" (Non-Volatile Memory). The existing cyhal_flash APIs are retained as aliases for compatibility purposes.
+* Rename SDIO functions to clarify which apply to host mode only
+* Make GPIO members optional in cyhal_spi_configurator_t
+* Add support for DMA-based asynchronous transfers mode in cyhal_uart
+* Updated pre-production support for CAT1B devices
+#### v2.3.0 
+* Add new SPI APIs
+* Fix incorrect base address calculation on some devices in SCB-based drivers (UART, SPI, I2C, EZI2C).
+* Extend documentation on pins and triggers to cover additional devices.
 #### v2.2.0
 * Production support for CAT1C devices
 * Improve interrupt handling when running on on CM0+ core
@@ -174,8 +180,8 @@ This version of the CAT1 Hardware Abstraction Layer was validated for compatibil
 
 | Software and Tools                        | Version |
 | :---                                      | :----:  |
-| ModusToolbox™ Software Environment        | 3.0.0   |
-| GCC Compiler                              | 10.3.1  |
+| ModusToolbox™ Software Environment        | 3.1.0   |
+| GCC Compiler                              | 11.3.1  |
 | IAR Compiler                              | 9.30.1  |
 | ARM Compiler                              | 6.16    |
 

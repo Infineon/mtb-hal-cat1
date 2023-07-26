@@ -1,5 +1,10 @@
 var NAVTREEINDEX19 =
 {
+"group__group__hal__impl__pin__package__psoc6__03__100__tqfp.html#ga2a6c03c305ec93e487644037cd689074":[1,3,6,13,106],
+"group__group__hal__impl__pin__package__psoc6__03__100__tqfp.html#ga2b6f3b9a4229f16e16191644d7a021ec":[1,3,6,13,31],
+"group__group__hal__impl__pin__package__psoc6__03__100__tqfp.html#ga2c19ce8abbf88f2e44c76496f28f5494":[1,3,6,13,59],
+"group__group__hal__impl__pin__package__psoc6__03__100__tqfp.html#ga2dc77ed5cbb7c57306a64b17961211ed":[1,3,6,13,51],
+"group__group__hal__impl__pin__package__psoc6__03__100__tqfp.html#ga308eeb188a13e8e569ac3b1d073f3c71":[1,3,6,13,80],
 "group__group__hal__impl__pin__package__psoc6__03__100__tqfp.html#ga309c0e7dd2e92058ecdf4e11880ffc63":[1,3,6,13,81],
 "group__group__hal__impl__pin__package__psoc6__03__100__tqfp.html#ga318ce843790a53d67e48f4a313f816c1":[1,3,6,13,27],
 "group__group__hal__impl__pin__package__psoc6__03__100__tqfp.html#ga378664a41ec7e92635dabd81dff171b1":[1,3,6,13,107],
@@ -244,10 +249,5 @@ var NAVTREEINDEX19 =
 "group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#gaaac6287988ec188f717b70fc15e85daf":[1,3,6,14,92],
 "group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#gaab3e5ef4da736a410b62a3b278ba67e4":[1,3,6,14,69],
 "group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#gaad5e15237798fe8d3275f878426933b7":[1,3,6,14,111],
-"group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#gab34299e57f3dd222f98b18549fab3eca":[1,3,6,14,61],
-"group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#gab96b3fe27ca770054c95118c3561be52":[1,3,6,14,72],
-"group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#gac318010274b12c158f3d1e86f99cd72b":[1,3,6,14,49],
-"group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#gac8415c649490a0beb19b9c52fa177739":[1,3,6,14,55],
-"group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#gac8e3a1c1ca5ed736ce59dbf11547e6ce":[1,3,6,14,32],
-"group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#gacb3c8a576d0045bed5af0e894204ede1":[1,3,6,14,82]
+"group__group__hal__impl__pin__package__psoc6__03__49__wlcsp.html#gab34299e57f3dd222f98b18549fab3eca":[1,3,6,14,61]
 };

@@ -1529,6 +1529,7 @@ typedef struct {
     en_hsiom_sel_t                      saved_rts_hsiom;
     cyhal_event_callback_data_t         callback_data;
     bool                                dc_configured;
+    uint32_t                            baud_rate;
 #if (CYHAL_DRIVER_AVAILABLE_DMA)
     cyhal_async_mode_t                  async_mode;
     cyhal_dma_t                         dma_tx;

@@ -18,6 +18,7 @@ var group__group__hal__impl__pin__package =
     [ "PSoC6_03 68-QFN", "group__group__hal__impl__pin__package__psoc6__03__68__qfn.html", "group__group__hal__impl__pin__package__psoc6__03__68__qfn" ],
     [ "PSoC6_04 64-TQFP", "group__group__hal__impl__pin__package__psoc6__04__64__tqfp.html", "group__group__hal__impl__pin__package__psoc6__04__64__tqfp" ],
     [ "PSoC6_04 68-QFN", "group__group__hal__impl__pin__package__psoc6__04__68__qfn.html", "group__group__hal__impl__pin__package__psoc6__04__68__qfn" ],
+    [ "PSoC6_04 80-M-CSP", "group__group__hal__impl__pin__package__psoc6__04__80__m__csp.html", "group__group__hal__impl__pin__package__psoc6__04__80__m__csp" ],
     [ "PSoC6_04 80-TQFP", "group__group__hal__impl__pin__package__psoc6__04__80__tqfp.html", "group__group__hal__impl__pin__package__psoc6__04__80__tqfp" ],
     [ "CYW20829 40-QFN", "group__group__hal__impl__pin__package__cyw20829__40__qfn.html", "group__group__hal__impl__pin__package__cyw20829__40__qfn" ],
     [ "CYW20829 56-QFN", "group__group__hal__impl__pin__package__cyw20829__56__qfn.html", "group__group__hal__impl__pin__package__cyw20829__56__qfn" ],

@@ -1,5 +1,10 @@
 var NAVTREEINDEX21 =
 {
+"group__group__hal__impl__pin__package__psoc6__04__64__tqfp.html":[1,3,6,16],
+"group__group__hal__impl__pin__package__psoc6__04__64__tqfp.html#ga0030a679fd05a02add8e255314d41c27":[1,3,6,16,70],
+"group__group__hal__impl__pin__package__psoc6__04__64__tqfp.html#ga015f256578abd5638668ff19b9dc89d5":[1,3,6,16,3],
+"group__group__hal__impl__pin__package__psoc6__04__64__tqfp.html#ga02bf919af595cef48bee3cd806aa34d2":[1,3,6,16,23],
+"group__group__hal__impl__pin__package__psoc6__04__64__tqfp.html#ga05e76b82d7531ae0d9b403c8b9382db6":[1,3,6,16,13],
 "group__group__hal__impl__pin__package__psoc6__04__64__tqfp.html#ga08148565c4adbb7f2ca5c4dded5dc01d":[1,3,6,16,58],
 "group__group__hal__impl__pin__package__psoc6__04__64__tqfp.html#ga08321f8717e435129488566d93b25868":[1,3,6,16,89],
 "group__group__hal__impl__pin__package__psoc6__04__64__tqfp.html#ga0a3014b4578def49733175d7e7dbec9e":[1,3,6,16,64],
@@ -244,10 +249,5 @@ var NAVTREEINDEX21 =
 "group__group__hal__impl__pin__package__psoc6__04__68__qfn.html#gab9b6476bdb3876db143ac73b79740acb":[1,3,6,17,100],
 "group__group__hal__impl__pin__package__psoc6__04__68__qfn.html#gac1e001dd6cea9e59b9df2545f871bf9d":[1,3,6,17,113],
 "group__group__hal__impl__pin__package__psoc6__04__68__qfn.html#gac318010274b12c158f3d1e86f99cd72b":[1,3,6,17,46],
-"group__group__hal__impl__pin__package__psoc6__04__68__qfn.html#gac8415c649490a0beb19b9c52fa177739":[1,3,6,17,52],
-"group__group__hal__impl__pin__package__psoc6__04__68__qfn.html#gac8893626820c065205d9847082e41416":[1,3,6,17,84],
-"group__group__hal__impl__pin__package__psoc6__04__68__qfn.html#gac8e3a1c1ca5ed736ce59dbf11547e6ce":[1,3,6,17,36],
-"group__group__hal__impl__pin__package__psoc6__04__68__qfn.html#gac9d7cb9e18c5d1556d807a804f6a50ac":[1,3,6,17,109],
-"group__group__hal__impl__pin__package__psoc6__04__68__qfn.html#gaccfbb1eee046d034c118cd420e7d49a1":[1,3,6,17,90],
-"group__group__hal__impl__pin__package__psoc6__04__68__qfn.html#gad019c0b133fdf6f7dc5dae836cfe8f5c":[1,3,6,17,10]
+"group__group__hal__impl__pin__package__psoc6__04__68__qfn.html#gac8415c649490a0beb19b9c52fa177739":[1,3,6,17,52]
 };

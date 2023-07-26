@@ -289,7 +289,9 @@ static cy_rslt_t _cyhal_i2c_init_resources(cyhal_i2c_t *obj, cyhal_gpio_t sda, c
         return CYHAL_I2C_RSLT_ERR_INVALID_PIN;
     }
 
-    cy_rslt_t result = cyhal_hwmgr_reserve(&i2c_rsc);
+
+    cyhal_resource_inst_t rsc_to_reserve = { CYHAL_RSC_SCB, _cyhal_scb_get_block_index(found_block_idx), 0 };
+    cy_rslt_t result = cyhal_hwmgr_reserve(&rsc_to_reserve);
 
     if (result == CY_RSLT_SUCCESS)
     {
@@ -481,7 +483,8 @@ void cyhal_i2c_free(cyhal_i2c_t *obj)
 
         if (!obj->dc_configured)
         {
-            cyhal_hwmgr_free(&(obj->resource));
+            cyhal_resource_inst_t rsc_to_free = { CYHAL_RSC_SCB, _cyhal_scb_get_block_index(obj->resource.block_num), obj->resource.channel_num };
+            cyhal_hwmgr_free(&(rsc_to_free));
         }
 
         obj->resource.type = CYHAL_RSC_INVALID;
