@@ -40,6 +40,9 @@ This release of the CAT1 HAL includes support for the following drivers:
 * WDT
 
 ### What Changed?
+#### v2.4.2
+* Production support for CYW20829 devices
+* Add new API `cyhal_syspm_get_deepsleep_mode`
 #### v2.4.1
 * Rename "Flash" driver to "NVM" (Non-Volatile Memory). The existing cyhal_flash APIs are retained as aliases for compatibility purposes.
 * Rename SDIO functions to clarify which apply to host mode only

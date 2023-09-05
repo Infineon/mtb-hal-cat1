@@ -9,6 +9,7 @@ var group__group__hal__syspm =
       [ "next", "group__group__hal__syspm.html#a7cf9d47efae150366d250371f113ae6c", null ]
     ] ],
     [ "CYHAL_SYSPM_CALLBACK_STATE_ALL", "group__group__hal__syspm.html#ga76ba531d277abb20e430874026756664", null ],
+    [ "CYHAL_API_AVAILABLE_SYSPM_GET_DEEPSLEEP_MODE", "group__group__hal__syspm.html#ga468602279a080cb8c956cb6338f740da", null ],
     [ "cyhal_syspm_callback_t", "group__group__hal__syspm.html#ga19c98edec42da617e97eb09ea9292514", null ],
     [ "cyhal_syspm_callback_state_t", "group__group__hal__syspm.html#ga560aa7873d3131c4eb5d1453711305d2", [
       [ "CYHAL_SYSPM_CB_CPU_SLEEP", "group__group__hal__syspm.html#gga560aa7873d3131c4eb5d1453711305d2a30f5d217aded3c5525b1d9cea03ac5a8", null ],
@@ -28,6 +29,12 @@ var group__group__hal__syspm =
     [ "cyhal_syspm_system_state_t", "group__group__hal__syspm.html#ga144e474d3bfb544b207f172d1d8bd633", [
       [ "CYHAL_SYSPM_SYSTEM_NORMAL", "group__group__hal__syspm.html#gga144e474d3bfb544b207f172d1d8bd633acd2a5522b6591eb77418369e464a3eb1", null ],
       [ "CYHAL_SYSPM_SYSTEM_LOW", "group__group__hal__syspm.html#gga144e474d3bfb544b207f172d1d8bd633af4060b98561e43a6b930576644af014f", null ]
+    ] ],
+    [ "cyhal_syspm_system_deep_sleep_mode_t", "group__group__hal__syspm.html#ga624438ff56f764659e2afa62b7eafba0", [
+      [ "CYHAL_SYSPM_SYSTEM_DEEPSLEEP_NONE", "group__group__hal__syspm.html#gga624438ff56f764659e2afa62b7eafba0afffaf708d36fcd3a37cc23a009090a7d", null ],
+      [ "CYHAL_SYSPM_SYSTEM_DEEPSLEEP", "group__group__hal__syspm.html#gga624438ff56f764659e2afa62b7eafba0a052a17cb28779a2cdf08776f6ccb20a1", null ],
+      [ "CYHAL_SYSPM_SYSTEM_DEEPSLEEP_RAM", "group__group__hal__syspm.html#gga624438ff56f764659e2afa62b7eafba0a7e34e297ecd6710c7b6eb1237fdc5abe", null ],
+      [ "CYHAL_SYSPM_SYSTEM_DEEPSLEEP_OFF", "group__group__hal__syspm.html#gga624438ff56f764659e2afa62b7eafba0a0a6ced1a860c896bd94508f8af2e99f0", null ]
     ] ],
     [ "cyhal_syspm_hibernate_source_t", "group__group__hal__syspm.html#ga716955af458772e538910575cbf6e1dd", [
       [ "CYHAL_SYSPM_HIBERNATE_LPCOMP0_LOW", "group__group__hal__syspm.html#gga716955af458772e538910575cbf6e1dda57c81752ef79a93b9a9701c59a8b35e3", null ],
@@ -57,6 +64,7 @@ var group__group__hal__syspm =
     [ "cyhal_syspm_unlock_deepsleep", "group__group__hal__syspm.html#ga028b85f03d4607ccac8494b46ec8413c", null ],
     [ "cyhal_syspm_tickless_deepsleep", "group__group__hal__syspm.html#ga2bbc7d6e2727228629d7e485ed9a6565", null ],
     [ "cyhal_syspm_tickless_sleep", "group__group__hal__syspm.html#gadc3bb2e5eff7491f79585034bbe99cb0", null ],
+    [ "cyhal_syspm_get_deepsleep_mode", "group__group__hal__syspm.html#ga60a496432477ed130a5549550009bc61", null ],
     [ "cyhal_syspm_set_supply_voltage", "group__group__hal__syspm.html#ga01d10df7bebeb345902a0d8e1c193ad1", null ],
     [ "cyhal_syspm_get_supply_voltage", "group__group__hal__syspm.html#ga6bbb8993f1add4b31d7b168fb670f842", null ]
 ];

@@ -342,43 +342,14 @@ static bool _cyhal_syspm_register_cb(cy_stc_syspm_callback_t *data, cy_en_syspm_
     return Cy_SysPm_RegisterCallback(data);
 }
 
-#if defined(CY_IP_MXS40SSRSS) && (defined(CY_RTOS_AWARE) || defined(COMPONENT_RTOS_AWARE))
-CY_RAMFUNC_BEGIN
-cy_rslt_t _cyhal_syspm_enter_deepsleep_ram(void)
-{
-    cy_rslt_t retVal;
-    uint32_t dsramIntState;
-
-    retVal = Cy_SysPm_SetupDeepSleepRAM(CY_SYSPM_PRE_DSRAM, &dsramIntState); /* Pre DSRAM checks */
-    if(retVal == CY_RSLT_SUCCESS)
-    {
-        System_Store_NVIC_Reg();
-        cyabs_rtos_enter_dsram(); /* Enter WFI with context saved */
-        System_Restore_NVIC_Reg();
-
-        Cy_SysPm_SetupDeepSleepRAM(CY_SYSPM_POST_DSRAM, &dsramIntState); /* Post DSRAM Checks */
-    }
-    return retVal;
-}
-CY_RAMFUNC_END
-#endif
 
 
 static cy_rslt_t _cyhal_syspm_deepsleep_internal(void)
 {
 #if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
-#if defined(CY_IP_MXS40SSRSS) && (defined(CY_RTOS_AWARE) || defined(COMPONENT_RTOS_AWARE))
-        if(Cy_SysPm_GetDeepSleepMode() == CY_SYSPM_MODE_DEEPSLEEP_RAM)
-        {
-            return _cyhal_syspm_enter_deepsleep_ram();
-        }
-        else
-#endif
-        {
-            return Cy_SysPm_CpuEnterDeepSleep(CY_SYSPM_WAIT_FOR_INTERRUPT);
-        }
+    return Cy_SysPm_CpuEnterDeepSleep(CY_SYSPM_WAIT_FOR_INTERRUPT);
 #elif defined(COMPONENT_CAT2)
-        return Cy_SysPm_CpuEnterDeepSleep();
+    return Cy_SysPm_CpuEnterDeepSleep();
 #endif
 
 }
@@ -588,6 +559,35 @@ cy_rslt_t cyhal_syspm_tickless_sleep_deepsleep(cyhal_lptimer_t *obj, uint32_t de
     #endif /* (CYHAL_DRIVER_AVAILABLE_LPTIMER != 0) */
 
     return result;
+}
+
+cyhal_syspm_system_deep_sleep_mode_t cyhal_syspm_get_deepsleep_mode (void)
+{
+    cyhal_syspm_system_deep_sleep_mode_t deep_sleep_mode = CYHAL_SYSPM_SYSTEM_DEEPSLEEP;
+
+    #if defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1D)
+    cy_en_syspm_deep_sleep_mode_t mode = Cy_SysPm_GetDeepSleepMode();
+    switch (mode)
+    {
+        case CY_SYSPM_MODE_DEEPSLEEP:
+            deep_sleep_mode = CYHAL_SYSPM_SYSTEM_DEEPSLEEP;
+            break;
+        case CY_SYSPM_MODE_DEEPSLEEP_RAM:
+            deep_sleep_mode = CYHAL_SYSPM_SYSTEM_DEEPSLEEP_RAM;
+            break;
+        case CY_SYSPM_MODE_DEEPSLEEP_OFF:
+            deep_sleep_mode = CYHAL_SYSPM_SYSTEM_DEEPSLEEP_OFF;
+            break;
+        case CY_SYSPM_MODE_DEEPSLEEP_NONE:
+            deep_sleep_mode = CYHAL_SYSPM_SYSTEM_DEEPSLEEP_NONE;
+            break;
+        default:
+            deep_sleep_mode = CYHAL_SYSPM_SYSTEM_DEEPSLEEP_NONE;
+            break;
+    }
+    #endif /* defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1D) */
+
+    return deep_sleep_mode;
 }
 
 

@@ -114,6 +114,9 @@ $(document).ready(function(){initNavTree('group__group__hal__impl__wdt.html','')
 <tr>
 <td>3 - 3 </td><td>4  </td></tr>
 </table>
+<h1><a class="anchor" id="subsection_wdt_notes"></a>
+Notes</h1>
+<p >WDT timeout values for Active and Hibernate modes are different. In Active mode, the timeout value is used to create a match count that is matched by the hardware twice, then triggers (ISR) on the third match. In Hibernate mode, the trigger (reset) happens on the first match. Depending on the timing of starting the WDT and entering Hibernate mode, this can lead to WDT reset occurring earlier than it would if the device had not entered Hibernate. </p>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part
