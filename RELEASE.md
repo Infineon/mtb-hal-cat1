@@ -40,6 +40,10 @@ This release of the CAT1 HAL includes support for the following drivers:
 * WDT
 
 ### What Changed?
+#### v2.4.3
+* Fix compilation failure on devices without SCB0
+* Fix compilation failure in WDT HAL with older PDL versions which do not define Cy_WDT_ResetCounter
+* Fix uninitialized UART RTS FIFO level on CAT1C devices.
 #### v2.4.2
 * Production support for CYW20829 devices
 * Add new API `cyhal_syspm_get_deepsleep_mode`

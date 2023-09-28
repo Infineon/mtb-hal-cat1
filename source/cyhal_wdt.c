@@ -255,12 +255,13 @@ cy_rslt_t cyhal_wdt_init(cyhal_wdt_t *obj, uint32_t timeout_ms)
     Cy_WDT_SetIgnoreBits(_cyhal_wdt_ignore_bits);
     #endif
 
-#if !defined(COMPONENT_CAT2)
+#if defined(COMPONENT_CAT1) && (CY_WDT_DRV_VERSION_MAJOR > 1 ) && (CY_WDT_DRV_VERSION_MINOR > 6 )
     /* Reset counter every time - large current counts in WDT can cause problems on some boards */
     Cy_WDT_ResetCounter();
     /* Twice, as reading back after 1 reset gives same value as before single reset */
     Cy_WDT_ResetCounter();
 #endif
+
     Cy_WDT_SetMatch(_cyhal_wdt_timeout_to_match(_cyhal_wdt_rounded_timeout_ms, _cyhal_wdt_ignore_bits));
 #endif
 

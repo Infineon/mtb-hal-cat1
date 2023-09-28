@@ -129,7 +129,7 @@ static const cy_stc_scb_uart_config_t _cyhal_uart_default_config = {
 
     .enableCts                  = false,
     .ctsPolarity                = CY_SCB_UART_ACTIVE_LOW,
-#if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1D)
+#if defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B) || defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D) || defined(COMPONENT_CAT5)
     .rtsRxFifoLevel             = 20UL,
 #elif defined(COMPONENT_CAT2)
     .rtsRxFifoLevel             = 3UL,

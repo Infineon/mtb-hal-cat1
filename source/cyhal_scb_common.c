@@ -40,8 +40,9 @@ extern "C"
 
 const uint32_t _CYHAL_SCB_AVAILABLE_BLOCKS_MASK =
 {
+    0
 #ifdef SCB0
-    1 << 0u
+    | 1 << 0u
 #endif
 #ifdef SCB1
     | 1 << 1u
