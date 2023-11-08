@@ -244,12 +244,11 @@ typedef struct {
     uint32_t     max_count; //!< TCPWM counter width
     uint8_t      num_channels; //!< Number of channels on the TCPWM
     uint8_t      channel_offset; //!< Offset from channels on previous TCPWM
-#if !defined(COMPONENT_CAT1C)
-    uint8_t      isr_offset; //!< TCPWM base IRQn (channel 0 IRQn)
-#else
-    /** CAT1C device has number of interrupts, which exceeds uint8_t type max. value */
+#if (defined (CPUSS_SYSTEM_INT_NR) && (CPUSS_SYSTEM_INT_NR >= 256))
     uint16_t     isr_offset; //!< TCPWM base IRQn (channel 0 IRQn)
-#endif // not CAT1C or CAT1C
+#else
+    uint8_t      isr_offset; //!< TCPWM base IRQn (channel 0 IRQn)
+#endif
 } _cyhal_tcpwm_data_t;
 
 /** Contains data about all of the TCPWMs */

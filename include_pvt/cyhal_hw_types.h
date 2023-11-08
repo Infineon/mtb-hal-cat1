@@ -844,6 +844,7 @@ typedef struct cyhal_ipc_s {
 #if defined(IPC) || defined(CY_IP_MXIPC)
     bool                                sema_preemptable;
     uint32_t                            sema_number;
+    bool                                sema_taken;
     struct cyhal_ipc_queue_s*           queue_obj;
     uint16_t                            user_events;
     /* events, that were already processed in callback */
@@ -909,7 +910,7 @@ typedef struct {
   * between platforms and/or HAL releases.
   */
 typedef struct {
-#if (defined (CY_IP_MXS40SRSS) && (CY_IP_MXS40SRSS_VERSION >= 3))
+#if (defined (CY_IP_MXS40SRSS) && (CY_IP_MXS40SRSS_VERSION >= 2))
     MCWDT_Type                          *base;
     cy_en_mcwdtctr_t                    counter;
     volatile uint32_t                   offset;

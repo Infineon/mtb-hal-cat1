@@ -68,7 +68,7 @@ extern "C" {
 * error code generation.
 *
 * \section section_hal_impl_ipc_last_sema_occupied Last available IPC semaphore is occupied by HAL IPC
-* Last available IPC semaphore (_CYHAL_IPC_PDL_SEMA_COUNT - 1) is occupied by multi-core interrupt synchronization mechanism
+* Last available IPC semaphore (CYHAL_IPC_SEMA_COUNT - 1) is occupied by multi-core interrupt synchronization mechanism
 * and is not available for user.
 *
 * \section section_hal_impl_ipc_semaphores_initialization On some devices (currently, CAT1C and CAT1D devices), startup
@@ -300,17 +300,17 @@ static cy_rslt_t _cyhal_ipc_sema_init(cyhal_ipc_t *obj, uint32_t semaphore_num, 
 
     /* On CAT1C and CAT1D devices, unlike CAT1A devices, startup code does not initialized IPC PDL semaphore and
     *  does not allocate shared memory for them. */
-    #if defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D)
+    #if defined(COMPONENT_CAT1D) || (defined(SRSS_HT_VARIANT) && (SRSS_HT_VARIANT > 0))
     if (false == semas_initialized)
     {
         #if (CYHAL_IPC_INIT_CORE)
         CY_SECTION_SHAREDMEM
-        static uint32_t ipc_sema_array[_CYHAL_IPC_PDL_SEMA_COUNT / CY_IPC_SEMA_PER_WORD]
+        static uint32_t ipc_sema_array[CYHAL_IPC_SEMA_COUNT / CY_IPC_SEMA_PER_WORD]
         #if (CY_CPU_CORTEX_M7) && defined (ENABLE_CM7_DATA_CACHE)
         CY_ALIGN(__SCB_DCACHE_LINE_SIZE)
         #endif /* (CY_CPU_CORTEX_M7) && defined (ENABLE_CM7_DATA_CACHE) */
         ;
-        result = (cy_rslt_t)Cy_IPC_Sema_Init(CY_IPC_CHAN_SEMA, _CYHAL_IPC_PDL_SEMA_COUNT, ipc_sema_array);
+        result = (cy_rslt_t)Cy_IPC_Sema_Init(CY_IPC_CHAN_SEMA, CYHAL_IPC_SEMA_COUNT, ipc_sema_array);
         #else
         result = (cy_rslt_t)Cy_IPC_Sema_Init(CY_IPC_CHAN_SEMA, 0, NULL);
         #endif /* CYHAL_IPC_INIT_CORE or other */
@@ -319,12 +319,13 @@ static cy_rslt_t _cyhal_ipc_sema_init(cyhal_ipc_t *obj, uint32_t semaphore_num, 
             semas_initialized = true;
         }
     }
-    #endif /* defined(COMPONENT_CAT1C) || defined(COMPONENT_CAT1D) */
+    #endif /* defined(COMPONENT_CAT1D) || (defined(SRSS_HT_VARIANT) && (SRSS_HT_VARIANT > 0)) */
 
     if (CY_RSLT_SUCCESS == result)
     {
         obj->sema_preemptable = preemptable;
         obj->sema_number = semaphore_num;
+        obj->sema_taken = false;
         #if (defined(CY_RTOS_AWARE) || defined(COMPONENT_RTOS_AWARE)) && (CYHAL_IPC_RTOS_SEMA_NUM > 0)
         obj->rtos_sema = NULL;
         #endif /* (defined(CY_RTOS_AWARE) || defined(COMPONENT_RTOS_AWARE)) && (CYHAL_IPC_RTOS_SEMA_NUM > 0) */
@@ -357,7 +358,7 @@ static cy_rslt_t _cyhal_ipc_sema_take(cyhal_ipc_t *obj, uint32_t *timeout_us, ui
         bool in_isr = (SCB->ICSR & SCB_ICSR_VECTACTIVE_Msk) != 0;
         if (((*timeout_us >= 1000) || is_never_timeout) && (false == in_isr))
         {
-            while ((result = (cy_rslt_t)Cy_IPC_Sema_Set(obj->sema_number, obj->sema_preemptable)) == (cy_rslt_t)CY_IPC_SEMA_LOCKED)
+            while ((result = (cy_rslt_t)Cy_IPC_Sema_Set(obj->sema_number, obj->sema_preemptable)) != (cy_rslt_t)CY_IPC_SEMA_SUCCESS)
             {
                 _cyhal_ipc_wait_step(is_never_timeout ? NULL : timeout_us, step_us);
             }
@@ -441,6 +442,11 @@ static cy_rslt_t _cyhal_ipc_sema_take(cyhal_ipc_t *obj, uint32_t *timeout_us, ui
         result = rtos_sema_result;
     }
     #endif /* (defined(CY_RTOS_AWARE) || defined(COMPONENT_RTOS_AWARE)) && (CYHAL_IPC_RTOS_SEMA_NUM > 0) */
+
+    if (CY_RSLT_SUCCESS == result)
+    {
+        obj->sema_taken = true;
+    }
 
     return result;
 }
@@ -941,7 +947,7 @@ cy_rslt_t cyhal_ipc_semaphore_init(cyhal_ipc_t *obj, uint32_t semaphore_num, boo
     CY_ASSERT(NULL != obj);
 
     /* Last semaphore is used for internal IPC queues functionality */
-    if (semaphore_num >= (_CYHAL_IPC_PDL_SEMA_COUNT - 1))
+    if (semaphore_num >= (CYHAL_IPC_SEMA_COUNT - 1))
     {
         /* Semaphore index exceeds the number of allowed Semaphores */
         return CYHAL_IPC_RSLT_ERR_INVALID_PARAMETER;
@@ -971,7 +977,7 @@ cy_rslt_t cyhal_ipc_semaphore_init(cyhal_ipc_t *obj, uint32_t semaphore_num, boo
         {
             IPC_INTR_STRUCT_Type *ipc_intr_base = Cy_IPC_Drv_GetIntrBaseAddr(_CYHAL_IPC_SEMA_INTR_STR_NUM);
             /* Enable all possible interrupt bits for sema interrupt */
-            Cy_IPC_Drv_SetInterruptMask(ipc_intr_base, (1 << _CYHAL_IPC_RELEASE_INTR_BITS) - 1, 0);
+            Cy_IPC_Drv_SetInterruptMask(ipc_intr_base, (1 << obj->sema_number) - 1, 0);
             _cyhal_irq_register((_cyhal_system_irq_t)(cpuss_interrupts_ipc_0_IRQn + _CYHAL_IPC_SEMA_INTR_STR_NUM), CYHAL_ISR_PRIORITY_DEFAULT, _cyhal_ipc_irq_handler);
             /* No IRQ enable, as it will be done before each time interrupt is needed */
         }
@@ -991,9 +997,19 @@ void cyhal_ipc_semaphore_free(cyhal_ipc_t *obj)
         ((_cyhal_ipc_rtos_sema_t *)obj->rtos_sema)->sema_num = 0;
         obj->rtos_sema = NULL;
     }
-    #else
-    CY_UNUSED_PARAMETER(obj);
+
+    /* clear the interrupt mask for this semaphore */
+    IPC_INTR_STRUCT_Type *ipc_intr_base = Cy_IPC_Drv_GetIntrBaseAddr(_CYHAL_IPC_SEMA_INTR_STR_NUM);
+    uint32_t mask = Cy_IPC_Drv_GetInterruptMask(ipc_intr_base);
+    mask &= ~(1 << (obj->sema_number));
+    Cy_IPC_Drv_SetInterruptMask(ipc_intr_base, mask, 0);
+
     #endif /* (defined(CY_RTOS_AWARE) || defined(COMPONENT_RTOS_AWARE)) && (CYHAL_IPC_RTOS_SEMA_NUM > 0) or other */
+
+    if (obj->sema_taken)
+    {
+        (void)cyhal_ipc_semaphore_give(obj);
+    }
 }
 
 cy_rslt_t cyhal_ipc_semaphore_take(cyhal_ipc_t *obj, uint32_t timeout_us)
@@ -1015,6 +1031,12 @@ cy_rslt_t cyhal_ipc_semaphore_give(cyhal_ipc_t *obj)
         Cy_IPC_Drv_SetInterrupt(ipc_intr_base, 1 << obj->sema_number, 0);
     }
     #endif /* (defined(CY_RTOS_AWARE) || defined(COMPONENT_RTOS_AWARE)) && (CYHAL_IPC_RTOS_SEMA_NUM > 0) */
+
+    if (CY_RSLT_SUCCESS == result)
+    {
+        obj->sema_taken = false;
+    }
+
     return result;
 }
 
@@ -1040,7 +1062,7 @@ cy_rslt_t cyhal_ipc_queue_init(cyhal_ipc_t *obj, cyhal_ipc_queue_t *queue_handle
     {
         memset(obj, 0, sizeof(cyhal_ipc_t));
 
-        result = _cyhal_ipc_sema_init(obj, _CYHAL_IPC_PDL_SEMA_COUNT - 1, false);
+        result = _cyhal_ipc_sema_init(obj, CYHAL_IPC_SEMA_COUNT - 1, false);
         if (CY_RSLT_SUCCESS == result)
         {
             /* If this is first IPC object being initialized,
@@ -1234,7 +1256,7 @@ cy_rslt_t cyhal_ipc_queue_get_handle(cyhal_ipc_t *obj, uint32_t channel_num, uin
             obj->prev_object = _CYHAL_IPC_OBJ_ARR_EL(channel_num);
             _CYHAL_IPC_OBJ_ARR_EL(channel_num) = obj;
 
-            result = _cyhal_ipc_sema_init(obj, _CYHAL_IPC_PDL_SEMA_COUNT - 1, false);
+            result = _cyhal_ipc_sema_init(obj, CYHAL_IPC_SEMA_COUNT - 1, false);
 
             if ((CY_RSLT_SUCCESS == result) && (false == interrupts_initialized))
             {
