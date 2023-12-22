@@ -10,19 +10,7 @@ var searchData=
   ['triggered_5fevents_7',['triggered_events',['../group__group__hal__ipc.html#abdb2185b2ab93af16d5f5d6a206b7120',1,'cyhal_ipc_queue_t']]],
   ['trng_20_28true_20random_20number_20generator_29_8',['TRNG (True Random Number Generator)',['../group__group__hal__trng.html',1,'']]],
   ['trng_20hal_20results_9',['TRNG HAL Results',['../group__group__hal__results__trng.html',1,'']]],
-  ['tviibe1m_10',['TVIIBE1M',['../group__group__hal__impl__triggers__tviibe1m.html',1,'']]],
-  ['tviibe1m_20100_2dlqfp_11',['TVIIBE1M 100-LQFP',['../group__group__hal__impl__pin__package__tviibe1m__100__lqfp.html',1,'']]],
-  ['tviibe1m_20144_2dlqfp_12',['TVIIBE1M 144-LQFP',['../group__group__hal__impl__pin__package__tviibe1m__144__lqfp.html',1,'']]],
-  ['tviibe1m_20176_2dlqfp_13',['TVIIBE1M 176-LQFP',['../group__group__hal__impl__pin__package__tviibe1m__176__lqfp.html',1,'']]],
-  ['tviibe1m_2064_2dlqfp_14',['TVIIBE1M 64-LQFP',['../group__group__hal__impl__pin__package__tviibe1m__64__lqfp.html',1,'']]],
-  ['tviibe1m_2080_2dlqfp_15',['TVIIBE1M 80-LQFP',['../group__group__hal__impl__pin__package__tviibe1m__80__lqfp.html',1,'']]],
-  ['tviibe4m_16',['TVIIBE4M',['../group__group__hal__impl__triggers__tviibe4m.html',1,'']]],
-  ['tviibe4m_20100_2dlqfp_17',['TVIIBE4M 100-LQFP',['../group__group__hal__impl__pin__package__tviibe4m__100__lqfp.html',1,'']]],
-  ['tviibe4m_20144_2dlqfp_18',['TVIIBE4M 144-LQFP',['../group__group__hal__impl__pin__package__tviibe4m__144__lqfp.html',1,'']]],
-  ['tviibe4m_20176_2dlqfp_19',['TVIIBE4M 176-LQFP',['../group__group__hal__impl__pin__package__tviibe4m__176__lqfp.html',1,'']]],
-  ['tviibe4m_2064_2dlqfp_20',['TVIIBE4M 64-LQFP',['../group__group__hal__impl__pin__package__tviibe4m__64__lqfp.html',1,'']]],
-  ['tviibe4m_2080_2dlqfp_21',['TVIIBE4M 80-LQFP',['../group__group__hal__impl__pin__package__tviibe4m__80__lqfp.html',1,'']]],
-  ['two_5faddresses_22',['two_addresses',['../group__group__hal__ezi2c.html#a97635e53c040e1d00c4b6aa646093299',1,'cyhal_ezi2c_cfg_t']]],
-  ['tx_5fws_5fwidth_23',['tx_ws_width',['../group__group__hal__tdm.html#ab04b9b939baa18409598707ca202d43a',1,'cyhal_tdm_config_t']]],
-  ['type_24',['type',['../group__group__hal__impl__hw__types.html#ad111187a65d182386ea96858369b83d4',1,'cyhal_resource_inst_t::type()'],['../group__group__hal__clock.html#a40d24ccae9f6f78e2c94d5fdbef1f355',1,'cyhal_clock_tolerance_t::type()']]]
+  ['two_5faddresses_10',['two_addresses',['../group__group__hal__ezi2c.html#a97635e53c040e1d00c4b6aa646093299',1,'cyhal_ezi2c_cfg_t']]],
+  ['tx_5fws_5fwidth_11',['tx_ws_width',['../group__group__hal__tdm.html#ab04b9b939baa18409598707ca202d43a',1,'cyhal_tdm_config_t']]],
+  ['type_12',['type',['../group__group__hal__clock.html#a40d24ccae9f6f78e2c94d5fdbef1f355',1,'cyhal_clock_tolerance_t::type()'],['../group__group__hal__impl__hw__types.html#ad111187a65d182386ea96858369b83d4',1,'cyhal_resource_inst_t::type()']]]
 ];

@@ -1,5 +1,5 @@
 # CAT1 Hardware Abstraction Layer (HAL) Release Notes
-The CAT1 Hardware Abstraction Layer (HAL) provides an implementation of the Hardware Abstraction Layer for the PSoC™ 6, XMC7000/T2G-B-H, and T2G-B-E families of chips. This API provides convenience methods for initializing and manipulating different hardware peripherals. Depending on the specific chip being used, not all features may be supported.
+The CAT1 Hardware Abstraction Layer (HAL) provides an implementation of the Hardware Abstraction Layer for the PSoC™ 6 and XMC7000/T2G-B-H families of chips. This API provides convenience methods for initializing and manipulating different hardware peripherals. Depending on the specific chip being used, not all features may be supported.
 
 On devices which contain multiple cores, this library is supported on all cores. If HAL is used on multiple cores at the same time, the application is responsible for ensuring that each peripheral is only used on one core at a given time. This can be achieved by calling cyhal_hwmgr_reserve() on the core(s) where a particular resource is not expected to be used. This ensures the HAL is aware the resource is in use and does not use it in a conflicting manner.
 
@@ -40,8 +40,6 @@ This release of the CAT1 HAL includes support for the following drivers:
 * WDT
 
 ### What Changed?
-#### v2.5.4
-* Production support added for Traveo II Body Entry devices as CAT1A devices.
 #### v2.4.3
 * Fix compilation failure on devices without SCB0
 * Fix compilation failure in WDT HAL with older PDL versions which do not define Cy_WDT_ResetCounter

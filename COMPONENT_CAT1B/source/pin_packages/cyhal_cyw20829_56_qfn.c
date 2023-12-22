@@ -27,7 +27,7 @@
 #include "cy_device_headers.h"
 #include "cyhal_hw_types.h"
 
-#if defined(_GPIO_CYW20829B0_56_QFN_H_)
+#if defined(_GPIO_CYW20829_56_QFN_H_)
 #include "pin_packages/cyhal_cyw20829_56_qfn.h"
 
 /* Pin connections */

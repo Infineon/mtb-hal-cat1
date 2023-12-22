@@ -31,9 +31,9 @@
 * \addtogroup group_hal_impl_lptimer LPTimer (Low-Power Timer)
 * \ingroup group_hal_impl
 * \{
-* The maximum number of ticks that can set to an LPTimer is 0xFFF0FFFF for non MCWDT-B devices.
+* The maximum number of ticks that can set to an LPTimer is 0xFFF0FFFF for non CAT1C devices.
 * It is not recommended to use 0xFFFFFFFF. This is to avoid overflowing both C0 and C1.
-* For MCWDT-B devices, the maximum number of ticks that can be set to an LPTimer is 0xFFFFFFFF
+* For CAT1C devices (XMC), the maximum number of ticks that can be set to an LPTimer is 0xFFFFFFFF
 * since C0 and C1 do not cascade.
 *
 * \section section_cat1c_lptimer_set_match LPTimer Set Match
@@ -57,7 +57,7 @@
 #if defined(CY_IP_MXS40SRSS) || defined(CY_IP_MXS40SSRSS) || defined(CY_IP_MXS28SRSS) || defined(CY_IP_MXS22SRSS)
 #include "cy_mcwdt.h"
 #define _CYHAL_LPTIMER_MCWDT
-#if (defined (CY_IP_MXS40SRSS) && (CY_IP_MXS40SRSS_VERSION >= 2)) || ((SRSS_NUM_MCWDT_B) > 0)
+#if (defined (CY_IP_MXS40SRSS) && (CY_IP_MXS40SRSS_VERSION >= 3)) || ((SRSS_NUM_MCWDT_B) > 0)
 #define _CYHAL_LPTIMER_MCWDT_B
 #if !defined(SRSS_NUM_MCWDT_B)
 #define SRSS_NUM_MCWDT_B (SRSS_NUM_MCWDT)

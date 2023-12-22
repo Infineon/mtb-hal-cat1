@@ -86,7 +86,7 @@
 
 #include "cyhal_wdt_impl_common.h"
 
-#if (defined(CY_IP_MXS40SRSS) && (CY_IP_MXS40SRSS_VERSION < 2)) || defined(CY_IP_MXS40SSRSS)
+#if (defined(CY_IP_MXS40SRSS) && (CY_IP_MXS40SRSS_VERSION < 3)) || defined(CY_IP_MXS40SSRSS)
 
 #if defined(__cplusplus)
 extern "C" {
