@@ -4,8 +4,7 @@ var group__group__hal__impl__pin__package__psoc6__02__124__bga =
       [ "block_num", "group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#a4fa13cb0d2ae96aeeb50c0c0c63e3b91", null ],
       [ "channel_num", "group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#a023ce9599d5a2fe07f82dd3cf5a7570b", null ],
       [ "pin", "group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#a61f6033fdaae54a06ac8e63656b2a37a", null ],
-      [ "hsiom", "group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ad4514be01ab83c7248c320b3232145c1", null ],
-      [ "channel_num", "group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ab7eaefcb92a89cc79dcfb6eddb0863a2", null ]
+      [ "hsiom", "group__group__hal__impl__pin__package__psoc6__01__104__m__csp__ble.html#ad4514be01ab83c7248c320b3232145c1", null ]
     ] ],
     [ "CYHAL_GET_GPIO", "group__group__hal__impl__pin__package__psoc6__02__124__bga.html#gadbcb21726bedc8b2e4f1bb2e0235035d", null ],
     [ "CYHAL_GET_PIN", "group__group__hal__impl__pin__package__psoc6__02__124__bga.html#gae0af2ee8c5a2a2e6661962b368d1f2ba", null ],

@@ -160,6 +160,36 @@ typedef uint16_t cyhal_gpio_mapping_cfg_t; // 8bit hsiom, 8bit mode
 #include "pin_packages/cyhal_xmc7200_176_teqfp.h"
 #elif defined(_GPIO_XMC7200_272_BGA_H_)
 #include "pin_packages/cyhal_xmc7200_272_bga.h"
+#elif defined(_GPIO_TVIIBE1M_100_LQFP_H_)
+#include "pin_packages/cyhal_tviibe1m_100_lqfp.h"
+#elif defined(_GPIO_TVIIBE1M_144_LQFP_H_)
+#include "pin_packages/cyhal_tviibe1m_144_lqfp.h"
+#elif defined(_GPIO_TVIIBE1M_176_LQFP_H_)
+#include "pin_packages/cyhal_tviibe1m_176_lqfp.h"
+#elif defined(_GPIO_TVIIBE1M_64_LQFP_H_)
+#include "pin_packages/cyhal_tviibe1m_64_lqfp.h"
+#elif defined(_GPIO_TVIIBE1M_80_LQFP_H_)
+#include "pin_packages/cyhal_tviibe1m_80_lqfp.h"
+#elif defined(_GPIO_TVIIBE2M_100_LQFP_H_)
+#include "pin_packages/cyhal_tviibe2m_100_lqfp.h"
+#elif defined(_GPIO_TVIIBE2M_144_LQFP_H_)
+#include "pin_packages/cyhal_tviibe2m_144_lqfp.h"
+#elif defined(_GPIO_TVIIBE2M_176_LQFP_H_)
+#include "pin_packages/cyhal_tviibe2m_176_lqfp.h"
+#elif defined(_GPIO_TVIIBE2M_64_LQFP_H_)
+#include "pin_packages/cyhal_tviibe2m_64_lqfp.h"
+#elif defined(_GPIO_TVIIBE2M_80_LQFP_H_)
+#include "pin_packages/cyhal_tviibe2m_80_lqfp.h"
+#elif defined(_GPIO_TVIIBE4M_100_LQFP_H_)
+#include "pin_packages/cyhal_tviibe4m_100_lqfp.h"
+#elif defined(_GPIO_TVIIBE4M_144_LQFP_H_)
+#include "pin_packages/cyhal_tviibe4m_144_lqfp.h"
+#elif defined(_GPIO_TVIIBE4M_176_LQFP_H_)
+#include "pin_packages/cyhal_tviibe4m_176_lqfp.h"
+#elif defined(_GPIO_TVIIBE4M_64_LQFP_H_)
+#include "pin_packages/cyhal_tviibe4m_64_lqfp.h"
+#elif defined(_GPIO_TVIIBE4M_80_LQFP_H_)
+#include "pin_packages/cyhal_tviibe4m_80_lqfp.h"
 #else
 #error "Unhandled Device/PinPackage combination"
 #endif

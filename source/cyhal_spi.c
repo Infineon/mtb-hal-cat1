@@ -84,6 +84,11 @@ extern "C"
 #define _CYHAL_SPI_SSEL_ACTIVATE            true
 #define _CYHAL_SPI_SSEL_DEACTIVATE          false
 
+// BWC: PDL finished new asymmetric transfer function in minor version 20
+#if CY_SCB_DRV_VERSION_MINOR >= 20 && defined(COMPONENT_CAT1) && CY_SCB_DRV_VERSION_MAJOR == 3
+#define _CYHAL_SPI_ASYMM_PDL_FUNC_AVAIL
+#endif
+
 
 /* Default SPI configuration */
 static const cy_stc_scb_spi_config_t _cyhal_spi_default_config =
@@ -286,6 +291,7 @@ static void _cyhal_spi_irq_handler(void)
 
     if (0 == (Cy_SCB_SPI_GetTransferStatus(obj->base, &obj->context) & CY_SCB_SPI_TRANSFER_ACTIVE))
     {
+        #if !defined(_CYHAL_SPI_ASYMM_PDL_FUNC_AVAIL)
         if (NULL != obj->tx_buffer)
         {
             /* Start TX Transfer */
@@ -334,6 +340,7 @@ static void _cyhal_spi_irq_handler(void)
             Cy_SCB_SPI_Transfer(obj->base, tx_buf, rx_buf, trx_size, &obj->context);
         }
         else
+        #endif /* #if !defined(_CYHAL_SPI_ASYMM_PDL_FUNC_AVAIL) */
         {
             /* Finish Async Transfer */
             obj->pending = _CYHAL_SPI_PENDING_NONE;
@@ -1383,6 +1390,7 @@ cy_rslt_t cyhal_spi_transfer_async(cyhal_spi_t *obj, const uint8_t *tx, size_t t
     _cyhal_ssel_switch_state(obj, obj->active_ssel, _CYHAL_SPI_SSEL_ACTIVATE);
     obj->is_async = true;
 
+    #if !defined(_CYHAL_SPI_ASYMM_PDL_FUNC_AVAIL)
     uint8_t arr_size_modifier = 0;
     if (obj->data_bits <= 8)
     {
@@ -1396,16 +1404,19 @@ cy_rslt_t cyhal_spi_transfer_async(cyhal_spi_t *obj, const uint8_t *tx, size_t t
     {
         arr_size_modifier = 4;
     }
+    #endif
 
 
     /* Setup transfer */
+    obj->rx_buffer = NULL;
+    obj->tx_buffer = NULL;
+    #if !defined(_CYHAL_SPI_ASYMM_PDL_FUNC_AVAIL)
     if (tx_length > rx_length)
     {
         if (rx_length > 0)
         {
             /* I) write + read, II) write only */
             obj->pending = _CYHAL_SPI_PENDING_TX_RX;
-            obj->rx_buffer = NULL;
 
             obj->tx_buffer = tx + (rx_length * arr_size_modifier);
             obj->tx_buffer_size = tx_length - rx_length;
@@ -1416,8 +1427,6 @@ cy_rslt_t cyhal_spi_transfer_async(cyhal_spi_t *obj, const uint8_t *tx, size_t t
         {
             /*  I) write only */
             obj->pending = _CYHAL_SPI_PENDING_TX;
-            obj->rx_buffer = NULL;
-            obj->tx_buffer = NULL;
 
             rx = NULL;
         }
@@ -1428,7 +1437,6 @@ cy_rslt_t cyhal_spi_transfer_async(cyhal_spi_t *obj, const uint8_t *tx, size_t t
         {
             /*  I) write + read, II) read only */
             obj->pending = _CYHAL_SPI_PENDING_TX_RX;
-            obj->tx_buffer = NULL;
 
             obj->rx_buffer = rx + (tx_length * arr_size_modifier);
             obj->rx_buffer_size = rx_length - tx_length;
@@ -1437,7 +1445,6 @@ cy_rslt_t cyhal_spi_transfer_async(cyhal_spi_t *obj, const uint8_t *tx, size_t t
         {
             /*  I) read only. */
             obj->pending = _CYHAL_SPI_PENDING_RX;
-            obj->tx_buffer = NULL;
 
             obj->rx_buffer = rx_length > 1 ? rx + 1 : NULL;
             obj->rx_buffer_size = rx_length - 1;
@@ -1449,10 +1456,35 @@ cy_rslt_t cyhal_spi_transfer_async(cyhal_spi_t *obj, const uint8_t *tx, size_t t
     {
         /* RX and TX of the same size: I) write + read. */
         obj->pending = _CYHAL_SPI_PENDING_TX_RX;
-        obj->rx_buffer = NULL;
-        obj->tx_buffer = NULL;
     }
     spi_status = Cy_SCB_SPI_Transfer(obj->base, (void *)tx, rx, tx_length, &obj->context);
+    #else // !defined(_CYHAL_SPI_ASYMM_PDL_FUNC_AVAIL)
+
+    if (tx_length != rx_length)
+    { 
+        if(tx_length == 0)
+        {
+            obj->pending = _CYHAL_SPI_PENDING_RX;
+            tx = NULL;
+        }
+        else if (rx_length == 0)
+        {
+            obj->pending = _CYHAL_SPI_PENDING_TX;
+            rx = NULL;
+        }
+        else
+        {
+            obj->pending = _CYHAL_SPI_PENDING_TX_RX;
+        }
+        spi_status = Cy_SCB_SPI_Transfer_Buffer(obj->base, (void *)tx, (void *)rx, tx_length, rx_length, obj->write_fill, &obj->context);
+    }
+    else
+    {
+        obj->pending = _CYHAL_SPI_PENDING_TX_RX;
+        spi_status = Cy_SCB_SPI_Transfer(obj->base, (void *)tx, rx, tx_length, &obj->context);
+    }
+    
+    #endif // _CYHAL_SPI_ASYMM_PDL_FUNC_AVAIL
     return spi_status == CY_SCB_SPI_SUCCESS
         ? CY_RSLT_SUCCESS
         : CYHAL_SPI_RSLT_TRANSFER_ERROR;

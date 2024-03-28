@@ -58,10 +58,14 @@ extern "C" {
 
 #if defined(SRSS_NUM_WDT_A_BITS)
 #define _CYHAL_WDT_MATCH_BITS     (SRSS_NUM_WDT_A_BITS)
-#elif defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1B)
+#elif defined(COMPONENT_CAT1A) || defined(COMPONENT_CAT1C) 
+#if defined (CY_IP_MXS40SRSS) && (CY_IP_MXS40SRSS_VERSION < 2)
 #define _CYHAL_WDT_MATCH_BITS     (16)
-#elif defined(COMPONENT_CAT1C)
+#else /* CY_IP_MXS40SRSS_VERSION >= 2 */
 #define _CYHAL_WDT_MATCH_BITS     (32)
+#endif
+#elif defined(COMPONENT_CAT1B)
+#define _CYHAL_WDT_MATCH_BITS     (16)
 #elif defined(COMPONENT_CAT2)
 #define _CYHAL_WDT_MATCH_BITS     (16)
 #else
@@ -76,7 +80,7 @@ extern "C" {
 #define _cyhal_wdt_unlock()
 #endif
 
-#if defined(CY_IP_MXS40SRSS) && (CY_IP_MXS40SRSS_VERSION >= 3)
+#if defined(CY_IP_MXS40SRSS) && (CY_IP_MXS40SRSS_VERSION >= 2)
 // 2^32 * .030518 ms
 /** Maximum WDT timeout in milliseconds */
 #define _CYHAL_WDT_MAX_TIMEOUT_MS 131073812
@@ -184,14 +188,13 @@ static const _cyhal_wdt_ignore_bits_data_t _cyhal_wdt_ignore_data[] = {
 static bool _cyhal_wdt_initialized = false;
 static uint32_t _cyhal_wdt_initial_timeout_ms = 0;
 
-#if defined (CY_IP_MXS40SRSS) && (CY_IP_MXS40SRSS_VERSION >= 3)
+#if defined (CY_IP_MXS40SRSS) && (CY_IP_MXS40SRSS_VERSION >= 2)
 __STATIC_INLINE uint32_t _cyhal_wdt_timeout_to_match(uint16_t timeout_ms)
 {
     uint32_t timeout = ((uint64_t)timeout_ms * CY_SYSCLK_ILO_FREQ) / 1000;
     return (uint32_t)(timeout + Cy_WDT_GetCount());
 }
-
-#else /* defined (CY_IP_MXS40SRSS) && (CY_IP_MXS40SRSS_VERSION >= 3) */
+#else /* defined (CY_IP_MXS40SRSS) && (CY_IP_MXS40SRSS_VERSION >= 2) */
 
 static uint32_t _cyhal_wdt_rounded_timeout_ms = 0;
 static uint32_t _cyhal_wdt_ignore_bits = 0;
@@ -225,7 +228,7 @@ __STATIC_INLINE uint32_t _cyhal_wdt_timeout_to_ignore_bits(uint32_t *timeout_ms)
     return _CYHAL_WDT_MAX_IGNORE_BITS; // Ideally should never reach this
 }
 
-#endif /* defined (CY_IP_MXS40SRSS) && (CY_IP_MXS40SRSS_VERSION >= 3) */
+#endif /* defined (CY_IP_MXS40SRSS) && (CY_IP_MXS40SRSS_VERSION >= 2) */
 
 cy_rslt_t cyhal_wdt_init(cyhal_wdt_t *obj, uint32_t timeout_ms)
 {
@@ -240,7 +243,7 @@ cy_rslt_t cyhal_wdt_init(cyhal_wdt_t *obj, uint32_t timeout_ms)
     Cy_WDT_MaskInterrupt();
 
     _cyhal_wdt_initial_timeout_ms = timeout_ms;
-#if defined(CY_IP_MXS40SRSS) && (CY_IP_MXS40SRSS_VERSION >= 3)
+#if defined(CY_IP_MXS40SRSS) && (CY_IP_MXS40SRSS_VERSION >= 2)
     Cy_WDT_SetUpperLimit(_cyhal_wdt_timeout_to_match(_cyhal_wdt_initial_timeout_ms));
     Cy_WDT_SetUpperAction(CY_WDT_LOW_UPPER_LIMIT_ACTION_RESET);
 #else
@@ -283,7 +286,7 @@ void cyhal_wdt_kick(cyhal_wdt_t *obj)
     CY_UNUSED_PARAMETER(obj);
     _cyhal_wdt_unlock();
     Cy_WDT_ClearWatchdog(); /* Clear to prevent reset from WDT */
-    #if defined(CY_IP_MXS40SRSS) && (CY_IP_MXS40SRSS_VERSION >= 3)
+    #if defined(CY_IP_MXS40SRSS) && (CY_IP_MXS40SRSS_VERSION >= 2)
     Cy_WDT_SetUpperLimit(_cyhal_wdt_timeout_to_match(_cyhal_wdt_initial_timeout_ms));
     #else
     Cy_WDT_SetMatch(_cyhal_wdt_timeout_to_match(_cyhal_wdt_rounded_timeout_ms, _cyhal_wdt_ignore_bits));
