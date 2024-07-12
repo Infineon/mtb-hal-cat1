@@ -40,6 +40,8 @@ This release of the CAT1 HAL includes support for the following drivers:
 * WDT
 
 ### What Changed?
+#### v2.6.1
+* SPI: Resolve a situation where data buffer could overflow during a transfer.
 #### v2.6.0
 * SPI: Resolve a situation where data could be lost during an asymmetric transfer.
 * SDIO: GPIO members may optionally be set to NC in cyhal_sdio_configurator_t.

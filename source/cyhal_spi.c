@@ -1390,7 +1390,6 @@ cy_rslt_t cyhal_spi_transfer_async(cyhal_spi_t *obj, const uint8_t *tx, size_t t
     _cyhal_ssel_switch_state(obj, obj->active_ssel, _CYHAL_SPI_SSEL_ACTIVATE);
     obj->is_async = true;
 
-    #if !defined(_CYHAL_SPI_ASYMM_PDL_FUNC_AVAIL)
     uint8_t arr_size_modifier = 0;
     if (obj->data_bits <= 8)
     {
@@ -1404,24 +1403,30 @@ cy_rslt_t cyhal_spi_transfer_async(cyhal_spi_t *obj, const uint8_t *tx, size_t t
     {
         arr_size_modifier = 4;
     }
-    #endif
+
+    if ((tx_length % arr_size_modifier != 0) || (rx_length % arr_size_modifier != 0))
+        return CYHAL_SPI_RSLT_BAD_ARGUMENT;
+
+    size_t tx_words = tx_length / arr_size_modifier;
+    size_t rx_words = rx_length / arr_size_modifier;
 
 
     /* Setup transfer */
     obj->rx_buffer = NULL;
     obj->tx_buffer = NULL;
     #if !defined(_CYHAL_SPI_ASYMM_PDL_FUNC_AVAIL)
-    if (tx_length > rx_length)
+
+    if (tx_words > rx_words)
     {
-        if (rx_length > 0)
+        if (rx_words > 0)
         {
             /* I) write + read, II) write only */
             obj->pending = _CYHAL_SPI_PENDING_TX_RX;
 
-            obj->tx_buffer = tx + (rx_length * arr_size_modifier);
-            obj->tx_buffer_size = tx_length - rx_length;
+            obj->tx_buffer = tx + (rx_words * arr_size_modifier);
+            obj->tx_buffer_size = tx_words - rx_words;
 
-            tx_length = rx_length; // Use tx_length to store entire transfer length
+            tx_words = rx_words; // Use tx_words to store entire transfer length
         }
         else
         {
@@ -1431,25 +1436,25 @@ cy_rslt_t cyhal_spi_transfer_async(cyhal_spi_t *obj, const uint8_t *tx, size_t t
             rx = NULL;
         }
     }
-    else if (rx_length > tx_length)
+    else if (rx_words > tx_words)
     {
-        if (tx_length > 0)
+        if (tx_words > 0)
         {
             /*  I) write + read, II) read only */
             obj->pending = _CYHAL_SPI_PENDING_TX_RX;
 
-            obj->rx_buffer = rx + (tx_length * arr_size_modifier);
-            obj->rx_buffer_size = rx_length - tx_length;
+            obj->rx_buffer = rx + (tx_words * arr_size_modifier);
+            obj->rx_buffer_size = rx_words - tx_words;
         }
         else
         {
             /*  I) read only. */
             obj->pending = _CYHAL_SPI_PENDING_RX;
 
-            obj->rx_buffer = rx_length > 1 ? rx + 1 : NULL;
-            obj->rx_buffer_size = rx_length - 1;
+            obj->rx_buffer = rx_words > 1 ? rx + 1 : NULL;
+            obj->rx_buffer_size = rx_words - 1;
             tx = &obj->write_fill;
-            tx_length = 1;
+            tx_words = 1;
         }
     }
     else
@@ -1457,17 +1462,18 @@ cy_rslt_t cyhal_spi_transfer_async(cyhal_spi_t *obj, const uint8_t *tx, size_t t
         /* RX and TX of the same size: I) write + read. */
         obj->pending = _CYHAL_SPI_PENDING_TX_RX;
     }
-    spi_status = Cy_SCB_SPI_Transfer(obj->base, (void *)tx, rx, tx_length, &obj->context);
+    spi_status = Cy_SCB_SPI_Transfer(obj->base, (void *)tx, rx, tx_words, &obj->context);
     #else // !defined(_CYHAL_SPI_ASYMM_PDL_FUNC_AVAIL)
 
-    if (tx_length != rx_length)
+    CY_UNUSED_PARAMETER(arr_size_modifier);
+    if (tx_words != rx_words)
     { 
-        if(tx_length == 0)
+        if(tx_words == 0)
         {
             obj->pending = _CYHAL_SPI_PENDING_RX;
             tx = NULL;
         }
-        else if (rx_length == 0)
+        else if (rx_words == 0)
         {
             obj->pending = _CYHAL_SPI_PENDING_TX;
             rx = NULL;
@@ -1476,12 +1482,12 @@ cy_rslt_t cyhal_spi_transfer_async(cyhal_spi_t *obj, const uint8_t *tx, size_t t
         {
             obj->pending = _CYHAL_SPI_PENDING_TX_RX;
         }
-        spi_status = Cy_SCB_SPI_Transfer_Buffer(obj->base, (void *)tx, (void *)rx, tx_length, rx_length, obj->write_fill, &obj->context);
+        spi_status = Cy_SCB_SPI_Transfer_Buffer(obj->base, (void *)tx, (void *)rx, tx_words, rx_words, obj->write_fill, &obj->context);
     }
     else
     {
         obj->pending = _CYHAL_SPI_PENDING_TX_RX;
-        spi_status = Cy_SCB_SPI_Transfer(obj->base, (void *)tx, rx, tx_length, &obj->context);
+        spi_status = Cy_SCB_SPI_Transfer(obj->base, (void *)tx, rx, tx_words, &obj->context);
     }
     
     #endif // _CYHAL_SPI_ASYMM_PDL_FUNC_AVAIL
