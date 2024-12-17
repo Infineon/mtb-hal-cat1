@@ -132,6 +132,9 @@ RTOS Integration</h1>
 <p >Some HAL driver's may have slightly different behavior when run in an RTOS environment. This is typically found in operations that need to wait for a significant period of time. In an RTOS aware environment, the function will attempt to wait using the RTOS. This allows other threads in the application to run while the current operation is waiting. In non-RTOS aware environments (eg: bare metal environments) the functions will instead rely on busy waits for operations to complete. To inform the HAL that an RTOS environment is being used the <code>RTOS_AWARE</code> component (COMPONENTS+=RTOS_AWARE) or the <code>CY_RTOS_AWARE</code> define (DEFINES+=CY_RTOS_AWARE) must be set. When set, the HAL will use the <a href="https://github.com/infineon/abstraction-rtos">RTOS Abstraction</a> APIs to wait.</p>
 <p >When using HAL in an RTOS environment with the <code>RTOS_AWARE</code> component enabled, initialization of the HAL drivers must be done after the RTOS has been initialized in order to ensure that the RTOS modules such as semaphores used by the HAL drivers are initialized properly. A temporary exception to this is the SDIO HAL driver that is initialized as a part of cybsp_init() and will be addressed in future releases.</p>
 <h1><a class="anchor" id="autotoc_md10"></a>
+Data Cache Management</h1>
+<p >Devices such as those in the XMC72 series contain a data cache (DCACHE). When working with DCACHE, it is important to be aware of issues related to cache coherency. The HAL contains code to perform cache management, but it also requires the application to be suitably structured. Refer to <a href="md_source_hal_dcache.html">DCACHE Management</a> for more information on this topic.</p>
+<h1><a class="anchor" id="autotoc_md11"></a>
 More information</h1>
 <ul>
 <li><a href="https://infineon.github.io/mtb-hal-cat1/html/modules.html">API Reference Guide</a></li>

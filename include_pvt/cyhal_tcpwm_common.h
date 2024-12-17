@@ -158,8 +158,13 @@ extern "C" {
 #endif
 
 #if (CY_IP_MXTCPWM_VERSION == 1U)
+    #if (CY_IP_MXTCPWM_INSTANCES == 1)
     extern const uint16_t _CYHAL_TCPWM_TRIGGER_INPUTS_IDX_OFFSET[1];
-    extern const uint16_t _CYHAL_TCPWM_TRIGGER_INPUTS_PER_BLOCK[1];
+    extern const uint16_t  _CYHAL_TCPWM_TRIGGER_INPUTS_PER_BLOCK[1];
+    #elif (CY_IP_MXTCPWM_INSTANCES == 2)
+    extern const uint16_t _CYHAL_TCPWM_TRIGGER_INPUTS_IDX_OFFSET[2];
+    extern const uint16_t _CYHAL_TCPWM_TRIGGER_INPUTS_PER_BLOCK[2];
+    #endif
 #elif (CY_IP_MXTCPWM_VERSION == 2U)
     // PSoC™ 6 devices with trigmux vers2 also have a number of reserved input
     // lines defined by TCPWM_TR_ONE_CNT_NR.

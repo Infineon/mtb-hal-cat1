@@ -35,8 +35,10 @@ var NAVTREE =
       [ "Event Handling", "index.html#autotoc_md7", null ],
       [ "Error reporting", "index.html#autotoc_md8", null ],
       [ "RTOS Integration", "index.html#autotoc_md9", null ],
-      [ "More information", "index.html#autotoc_md10", null ]
+      [ "Data Cache Management", "index.html#autotoc_md10", null ],
+      [ "More information", "index.html#autotoc_md11", null ]
     ] ],
+    [ "DCACHE Management", "md_source_hal_dcache.html", null ],
     [ "HAL API Reference", "modules.html", "modules" ]
   ] ]
 ];

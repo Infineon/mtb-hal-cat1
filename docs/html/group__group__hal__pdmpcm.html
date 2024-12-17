@@ -776,6 +776,8 @@ PGA in 0.5 dB increment, for example a value of 5 would mean +2.5 dB. <p >The cl
 <p>Begin asynchronous PDM/PCM read. </p>
 <p >This will transfer <code>length</code> words into the buffer pointed to by <code>data</code> in the background. When the requested quantity of data has been read, the <a class="el" href="group__group__hal__pdmpcm.html#ggae66c80c5bbcd3bb7bcfea6821fd009b7a614d379497b9b51176dd7fedee414fdc">CYHAL_PDM_PCM_ASYNC_COMPLETE</a> event will be raised. See <a class="el" href="group__group__hal__pdmpcm.html#ga788431478c16508839c16bcd76681dac">cyhal_pdm_pcm_register_callback</a> and <a class="el" href="group__group__hal__pdmpcm.html#gac32c975ba7bd470359c0e235bcdd82e7">cyhal_pdm_pcm_enable_event</a>.</p>
 <p >cyhal_pdm_pcm_set_async_mode can be used to control whether this uses DMA or a CPU-driven transfer.</p>
+<dl class="section note"><dt>Note</dt><dd>If D-cache is enabled, cyhal_pdm_pcm_set_async_mode is DMA and data Cache line is 32 bytes, the user needs to make sure that the data pointer passed to the cyhal_pdm_pcm_read_async function points to a 32 byte aligned array of words that contains the buffer data. The size of buffer data must be a multiple of 32 bytes to ensure cache coherency. CY_ALIGN(__SCB_DCACHE_LINE_SIZE) macro can be used for 32 byte alignment.</dd></dl>
+<p>Refer to <a class="el" href="md_source_hal_dcache.html#DCACHE_Management">DCACHE_Management</a> for more information.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The PDM/PCM object </td></tr>

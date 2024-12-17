@@ -1167,6 +1167,8 @@ Function activates the flow control feature if CTS / RTS pins are provided.</dd>
 
 <p>Begin asynchronous TX transfer. </p>
 <p >This will transfer <code>length</code> bytes into the buffer pointed to by <code>tx</code> in the background. When the requested quantity of data has been transferred, the <a class="el" href="group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaaafb0642f2b2672db3ab4446e4c075864">CYHAL_UART_IRQ_TX_TRANSMIT_IN_FIFO</a> event will be raised. The transmit buffer is a user defined buffer that will be sent on the UART. The user must register a callback with <a class="el" href="group__group__hal__uart.html#gae26bab64811713b1d69170352fe32c20">cyhal_uart_register_callback</a>. If desired, TX callback events can be enabled using <a class="el" href="group__group__hal__uart.html#ga4dae4cef7dbf1d7935fe6dd6d31f282e">cyhal_uart_enable_event</a> with the appropriate events.</p>
+<p >If D-cache is enabled and data Cache line is 32 bytes, the user needs to make sure that the tx pointer passed to the cyhal_uart_write_async function points to a 32 byte aligned array of words that contains the buffer data. The size of buffer data must be a multiple of 32 bytes to ensure cache coherency. CY_ALIGN(__SCB_DCACHE_LINE_SIZE) macro can be used for 32 byte alignment.</p>
+<p >Refer to <a class="el" href="md_source_hal_dcache.html#DCACHE_Management">DCACHE_Management</a> for more information.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The UART object </td></tr>
@@ -1213,6 +1215,8 @@ Function activates the flow control feature if CTS / RTS pins are provided.</dd>
 
 <p>Begin asynchronous RX transfer. </p>
 <p >This will transfer <code>length</code> bytes into the buffer pointed to by <code>rx</code> in the background. When the requested quantity of data has been transferred, the <a class="el" href="group__group__hal__uart.html#ggaf307283f3d358e4b6048846034df19aaac2db86894106691360ad64c35d33b578">CYHAL_UART_IRQ_RX_DONE</a> event will be raised. Received data is placed in the user specified buffer. The user must register a callback with <a class="el" href="group__group__hal__uart.html#gae26bab64811713b1d69170352fe32c20">cyhal_uart_register_callback</a>. RX callback events can be enabled using <a class="el" href="group__group__hal__uart.html#ga4dae4cef7dbf1d7935fe6dd6d31f282e">cyhal_uart_enable_event</a> with the appropriate events.</p>
+<p >If D-cache is enabled and data Cache line is 32 bytes, the user needs to make sure that the tx pointer passed to the cyhal_uart_read_async function points to a 32 byte aligned array of words that contains the buffer data. The size of buffer data must be a multiple of 32 bytes to ensure cache coherency. CY_ALIGN(__SCB_DCACHE_LINE_SIZE) macro can be used for 32 byte alignment.</p>
+<p >Refer to <a class="el" href="md_source_hal_dcache.html#DCACHE_Management">DCACHE_Management</a> for more information.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>The UART object </td></tr>

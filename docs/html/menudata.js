@@ -24,4 +24,5 @@
 */
 var menudata={children:[
 {text:"Home",url:"index.html"},
+{text:"DCACHE Management",url:"md_source_hal_dcache.html"},
 {text:"HAL API Reference",url:"modules.html"}]}

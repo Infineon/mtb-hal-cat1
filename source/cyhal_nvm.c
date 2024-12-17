@@ -72,7 +72,7 @@ static cyhal_syspm_callback_data_t _cyhal_flash_internal_pm_cb = {
     .states = (cyhal_syspm_callback_state_t)(CYHAL_SYSPM_CB_CPU_SLEEP | CYHAL_SYSPM_CB_CPU_DEEPSLEEP | CYHAL_SYSPM_CB_CPU_DEEPSLEEP_RAM | CYHAL_SYSPM_CB_SYSTEM_HIBERNATE | CYHAL_SYSPM_CB_SYSTEM_LOW),
     .next = NULL,
     .args = NULL,
-    .ignore_modes = (cyhal_syspm_callback_mode_t)(CYHAL_SYSPM_BEFORE_TRANSITION | CYHAL_SYSPM_AFTER_DS_WFI_TRANSITION),
+    .ignore_modes = (cyhal_syspm_callback_mode_t)(CYHAL_SYSPM_AFTER_DS_WFI_TRANSITION),
 };
 
 static inline cy_rslt_t _cyhal_flash_convert_status(uint32_t pdl_status)
@@ -100,11 +100,21 @@ static bool _cyhal_flash_pm_callback(cyhal_syspm_callback_state_t state, cyhal_s
             #if defined(CY_IP_MXS40SRSS) || (_CYHAL_USES_ECT_FLASH) || CY_FLASH_NON_BLOCKING_SUPPORTED
             if (CY_RSLT_SUCCESS != Cy_Flash_IsOperationComplete())
             {
-                _cyhal_flash_pending_pm_change = false;
-                allow = false;
+                #if (_CYHAL_USES_ECT_FLASH)
+                /* The SROM API response is invalid unless a flash operation has occurred at least once.
+                   Therefore allow that case as an exception. */
+                un_srom_api_resps_t resp = {{ 0UL }};
+                cy_en_srom_api_status_t status = Cy_Srom_GetApiResponse(&resp);
+                if(CY_SROM_STATUS_INVALID != status)
+                #endif
+                {
+                    _cyhal_flash_pending_pm_change = false;
+                    allow = false;
+                }
             }
             #endif
             break;
+        case CYHAL_SYSPM_BEFORE_TRANSITION:
         case CYHAL_SYSPM_AFTER_TRANSITION:
         case CYHAL_SYSPM_CHECK_FAIL:
             _cyhal_flash_pending_pm_change = false;
@@ -411,11 +421,21 @@ cy_rslt_t cyhal_nvm_init(cyhal_nvm_t *obj)
 #endif /* defined(CY_IP_S8SRSSLT) && CY_FLASH_NON_BLOCKING_SUPPORTED */
     if(_cyhal_nvm_init_count == 0)
     {
-        _cyhal_syspm_register_peripheral_callback(&_cyhal_flash_internal_pm_cb);
     #if _CYHAL_USES_ECT_FLASH
-        Cy_Flash_Init();
+        // Cy_Flash_Init is only safe to call a single time after the SysPm HAL
+        // has been initialized (or anything else in the application has registered
+        // a callback). It unconditionally re-initializes its callback struct each
+        // time, which would remove any callbacks registered with lower priority.
+        static bool flash_initialized = false;
+        if(false == flash_initialized)
+        {
+            flash_initialized = true;
+            Cy_Flash_Init();
+        }
+        // Always call this, because `cyhal_nvm_free` disables the work flash write
         Cy_Flashc_WorkWriteEnable();
     #endif /* _CYHAL_USES_ECT_FLASH */
+    _cyhal_syspm_register_peripheral_callback(&_cyhal_flash_internal_pm_cb);
     }
     _cyhal_nvm_init_count++;
     status = CY_RSLT_SUCCESS;
@@ -538,6 +558,9 @@ cy_rslt_t cyhal_nvm_erase(cyhal_nvm_t *obj, uint32_t address)
     }
     else
     {
+        #if defined (__DCACHE_PRESENT) && (__DCACHE_PRESENT == 1U)
+        SCB_InvalidateDCache_by_Addr((void *)address, _cyhal_nvm_current_block_info.sector_size);
+        #endif
         if (CYHAL_NVM_TYPE_FLASH == _cyhal_nvm_current_block_info.nvm_type)
         {
         #if (defined(CY_IP_MXS40SRSS) || (_CYHAL_USES_ECT_FLASH)) && (_CYHAL_DRIVER_AVAILABLE_NVM_FLASH)
@@ -683,6 +706,10 @@ cy_rslt_t cyhal_nvm_program(cyhal_nvm_t *obj, uint32_t address, const uint32_t *
     }
     else
     {
+        #if defined (__DCACHE_PRESENT) && (__DCACHE_PRESENT == 1U)
+        SCB_CleanDCache_by_Addr((void *)data, _cyhal_nvm_current_block_info.block_size);
+        SCB_InvalidateDCache_by_Addr((void *)address, _cyhal_nvm_current_block_info.block_size);
+        #endif
         if (CYHAL_NVM_TYPE_FLASH == _cyhal_nvm_current_block_info.nvm_type)
         {
         #if (defined(CY_IP_MXS40SRSS) || (_CYHAL_USES_ECT_FLASH)) && (_CYHAL_DRIVER_AVAILABLE_NVM_FLASH)

@@ -267,7 +267,7 @@ Snippet4: Host Bulk Data Transfer</h3>
 <div class="line">                                    DATA_LENGTH,</div>
 <div class="line">                                    &amp;response);</div>
 <div class="line"> </div>
-<div class="ttc" id="agroup__group__hal__sdio_html_ga8a4bd12ec1e7b7437ae17a0e7074d54b"><div class="ttname"><a href="group__group__hal__sdio.html#ga8a4bd12ec1e7b7437ae17a0e7074d54b">cyhal_sdio_bulk_transfer</a></div><div class="ttdeci">#define cyhal_sdio_bulk_transfer</div><div class="ttdoc">Deprecated.</div><div class="ttdef"><b>Definition:</b> cyhal_sdio.h:559</div></div>
+<div class="ttc" id="agroup__group__hal__sdio_html_ga8a4bd12ec1e7b7437ae17a0e7074d54b"><div class="ttname"><a href="group__group__hal__sdio.html#ga8a4bd12ec1e7b7437ae17a0e7074d54b">cyhal_sdio_bulk_transfer</a></div><div class="ttdeci">#define cyhal_sdio_bulk_transfer</div><div class="ttdoc">Deprecated.</div><div class="ttdef"><b>Definition:</b> cyhal_sdio.h:575</div></div>
 </div><!-- fragment --><h3><a class="anchor" id="subsection_sdio_host_use_case_5"></a>
 Snippet5: Host Async Data Transfer</h3>
 <p >The following snippet shows how to start an async data transfer. </p><div class="fragment"><div class="line"><span class="keywordtype">void</span> sdio_host_async_interrupt_handler(<span class="keywordtype">void</span>* handler_arg, <a class="code hl_enumeration" href="group__group__hal__sdio.html#gaabd12f41a517ee8a5097479ec0101d3a">cyhal_sdio_event_t</a> event)</div>
@@ -314,7 +314,7 @@ Snippet5: Host Async Data Transfer</h3>
 <div class="line">}</div>
 <div class="line"> </div>
 <div class="line"> </div>
-<div class="ttc" id="agroup__group__hal__sdio_html_ga2a3abb0a2294692b701eeade849be25d"><div class="ttname"><a href="group__group__hal__sdio.html#ga2a3abb0a2294692b701eeade849be25d">cyhal_sdio_transfer_async</a></div><div class="ttdeci">#define cyhal_sdio_transfer_async</div><div class="ttdoc">Deprecated.</div><div class="ttdef"><b>Definition:</b> cyhal_sdio.h:605</div></div>
+<div class="ttc" id="agroup__group__hal__sdio_html_ga2a3abb0a2294692b701eeade849be25d"><div class="ttname"><a href="group__group__hal__sdio.html#ga2a3abb0a2294692b701eeade849be25d">cyhal_sdio_transfer_async</a></div><div class="ttdeci">#define cyhal_sdio_transfer_async</div><div class="ttdoc">Deprecated.</div><div class="ttdef"><b>Definition:</b> cyhal_sdio.h:637</div></div>
 <div class="ttc" id="agroup__group__hal__sdio_html_gad90e4fad46d5d3f656853226ea31ea80"><div class="ttname"><a href="group__group__hal__sdio.html#gad90e4fad46d5d3f656853226ea31ea80">cyhal_sdio_is_busy</a></div><div class="ttdeci">bool cyhal_sdio_is_busy(const cyhal_sdio_t *obj)</div><div class="ttdoc">Check if the specified SDIO is in use.</div></div>
 </div><!-- fragment --><h2><a class="anchor" id="subsection_sdio_dev_code_snippets"></a>
 Device Code Snippets</h2>
@@ -709,6 +709,8 @@ is_sdio_dev</td>
 <p>Deprecated. </p>
 <p >Perform a bulk data transfer</p>
 <p >Sends <a class="el" href="group__group__hal__sdio.html#gga4028b29520471016e651dd6c29e95bbea039524638cd3381971564b1d0443ce1a">CYHAL_SDIO_CMD_IO_RW_EXTENDED</a> command (CMD=53) which allows writing and reading of a large number of I/O registers with a single command. This will block until the transfer is completed.</p>
+<p >If D-cache is enabled and data Cache line is 32 bytes, the user needs to make sure that the data pointer passed to the cyhal_sdio_bulk_transfer function points to a 32 byte aligned array of words that contains the buffer data. The size of buffer data must be a multiple of 32 bytes to ensure cache coherency. CY_ALIGN(__SCB_DCACHE_LINE_SIZE) macro can be used for 32 byte alignment.</p>
+<p >Refer to <a class="el" href="md_source_hal_dcache.html#DCACHE_Management">DCACHE_Management</a> for more information.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">obj</td><td>The SDIO host object </td></tr>
@@ -742,6 +744,8 @@ is_sdio_dev</td>
 <p >Transfer by issuing <a class="el" href="group__group__hal__sdio.html#gga4028b29520471016e651dd6c29e95bbea039524638cd3381971564b1d0443ce1a">CYHAL_SDIO_CMD_IO_RW_EXTENDED</a> command(CMD=53) to the SDIO block. After exiting this function, <a class="el" href="group__group__hal__sdio.html#ggaabd12f41a517ee8a5097479ec0101d3aa33a10369852ac53d71ff2c5828d03c5a">CYHAL_SDIO_CMD_COMPLETE</a> and <a class="el" href="group__group__hal__sdio.html#ggaabd12f41a517ee8a5097479ec0101d3aa8b6b40006ded2bc54775075d2fdd1ca2">CYHAL_SDIO_XFER_COMPLETE</a> events are not asserted.</p>
 <p >The <a class="el" href="group__group__hal__sdio.html#ggaabd12f41a517ee8a5097479ec0101d3aa33a10369852ac53d71ff2c5828d03c5a">CYHAL_SDIO_CMD_COMPLETE</a> and <a class="el" href="group__group__hal__sdio.html#ggaabd12f41a517ee8a5097479ec0101d3aa8b6b40006ded2bc54775075d2fdd1ca2">CYHAL_SDIO_XFER_COMPLETE</a> events are enabled after the asynchronous transfer completes and in the condition they were enabled in before the transfer operation started. Handle these events in the interrupt callback.</p>
 <p >When the transfer is complete, the <a class="el" href="group__group__hal__sdio.html#ggaabd12f41a517ee8a5097479ec0101d3aa8b6b40006ded2bc54775075d2fdd1ca2">CYHAL_SDIO_XFER_COMPLETE</a> event will be raised. See <a class="el" href="group__group__hal__sdio.html#ga578b8e176f1aa9444c2da358547ec3df">cyhal_sdio_register_callback</a> and <a class="el" href="group__group__hal__sdio.html#gad89734727c93fb79714fd94ced75cce5">cyhal_sdio_enable_event</a>.</p>
+<p >If D-cache is enabled and data Cache line is 32 bytes, the user needs to make sure that the data pointer passed to the cyhal_sdio_transfer_async function points to a 32 byte aligned array of words that contains the buffer data. The size of buffer data must be a multiple of 32 bytes to ensure cache coherency. CY_ALIGN(__SCB_DCACHE_LINE_SIZE) macro can be used for 32 byte alignment.</p>
+<p >Refer to <a class="el" href="md_source_hal_dcache.html#DCACHE_Management">DCACHE_Management</a> for more information.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">obj</td><td>The SDIO host object </td></tr>
@@ -1388,6 +1392,8 @@ is_sdio_dev</td>
 
 <p>Perform a bulk data transfer. </p>
 <p >Sends <a class="el" href="group__group__hal__sdio.html#gga4028b29520471016e651dd6c29e95bbea039524638cd3381971564b1d0443ce1a">CYHAL_SDIO_CMD_IO_RW_EXTENDED</a> command (CMD=53) which allows writing and reading of a large number of I/O registers with a single command. This will block until the transfer is completed.</p>
+<p >If D-cache is enabled and data Cache line is 32 bytes, the user needs to make sure that the data pointer passed to the cyhal_sdio_host_bulk_transfer function points to a 32 byte aligned array of words that contains the buffer data. The size of buffer data must be a multiple of 32 bytes to ensure cache coherency. CY_ALIGN(__SCB_DCACHE_LINE_SIZE) macro can be used for 32 byte alignment.</p>
+<p >Refer to <a class="el" href="md_source_hal_dcache.html#DCACHE_Management">DCACHE_Management</a> for more information.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">obj</td><td>The SDIO host object </td></tr>
@@ -1452,6 +1458,8 @@ is_sdio_dev</td>
 <p >Transfer by issuing <a class="el" href="group__group__hal__sdio.html#gga4028b29520471016e651dd6c29e95bbea039524638cd3381971564b1d0443ce1a">CYHAL_SDIO_CMD_IO_RW_EXTENDED</a> command(CMD=53) to the SDIO block. After exiting this function, <a class="el" href="group__group__hal__sdio.html#ggaabd12f41a517ee8a5097479ec0101d3aa33a10369852ac53d71ff2c5828d03c5a">CYHAL_SDIO_CMD_COMPLETE</a> and <a class="el" href="group__group__hal__sdio.html#ggaabd12f41a517ee8a5097479ec0101d3aa8b6b40006ded2bc54775075d2fdd1ca2">CYHAL_SDIO_XFER_COMPLETE</a> events are not asserted.</p>
 <p >The <a class="el" href="group__group__hal__sdio.html#ggaabd12f41a517ee8a5097479ec0101d3aa33a10369852ac53d71ff2c5828d03c5a">CYHAL_SDIO_CMD_COMPLETE</a> and <a class="el" href="group__group__hal__sdio.html#ggaabd12f41a517ee8a5097479ec0101d3aa8b6b40006ded2bc54775075d2fdd1ca2">CYHAL_SDIO_XFER_COMPLETE</a> events are enabled after the asynchronous transfer completes and in the condition they were enabled in before the transfer operation started. Handle these events in the interrupt callback.</p>
 <p >When the transfer is complete, the <a class="el" href="group__group__hal__sdio.html#ggaabd12f41a517ee8a5097479ec0101d3aa8b6b40006ded2bc54775075d2fdd1ca2">CYHAL_SDIO_XFER_COMPLETE</a> event will be raised. See <a class="el" href="group__group__hal__sdio.html#ga578b8e176f1aa9444c2da358547ec3df">cyhal_sdio_register_callback</a> and <a class="el" href="group__group__hal__sdio.html#gad89734727c93fb79714fd94ced75cce5">cyhal_sdio_enable_event</a>.</p>
+<p >If D-cache is enabled and data Cache line is 32 bytes, the user needs to make sure that the data pointer passed to the cyhal_sdio_host_transfer_async function points to a 32 byte aligned array of words that contains the buffer data. The size of buffer data must be a multiple of 32 bytes to ensure cache coherency. CY_ALIGN(__SCB_DCACHE_LINE_SIZE) macro can be used for 32 byte alignment.</p>
+<p >Refer to <a class="el" href="md_source_hal_dcache.html#DCACHE_Management">DCACHE_Management</a> for more information.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">obj</td><td>The SDIO host object </td></tr>

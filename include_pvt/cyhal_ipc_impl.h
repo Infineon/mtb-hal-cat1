@@ -184,6 +184,14 @@ extern "C" {
 #define CYHAL_IPC_SEMA_COUNT               (128u)
 #endif /* ifdef CY_IPC_SEMA_COUNT or other */
 
+/** The round up of cacheline size MACRO */
+#if defined (__DCACHE_PRESENT) && (__DCACHE_PRESENT == 1U)
+#define L1_DCACHE_LINE_BYTES_MASK         (uint32_t)(__SCB_DCACHE_LINE_SIZE - 1)
+#define L1_DCACHE_ROUND_UP_BYTES(a)       (((uint32_t)(a) + L1_DCACHE_LINE_BYTES_MASK) & ~(L1_DCACHE_LINE_BYTES_MASK))
+#define L1_DCACHE_LINE_WORDS_MASK         (uint32_t)((__SCB_DCACHE_LINE_SIZE >> 2) - 1)
+#define L1_DCACHE_ROUND_UP_WORDS(a)       (((uint32_t)(a) + L1_DCACHE_LINE_WORDS_MASK) & ~(L1_DCACHE_LINE_WORDS_MASK))
+#endif /* defined (__DCACHE_PRESENT) && (__DCACHE_PRESENT == 1U) */
+
 /** Macro for Queue pool shared memory allocation. Can be used only in function scope. Please use CY_SECTION_SHAREDMEM
  * instead if allocation in global scope is needed.
  * Params:
@@ -191,26 +199,38 @@ extern "C" {
  * NUM_ITEMS - number of items, that are expected to fit into the queue
  * ITEMSIZE - size of one queue item (in bytes)
  */
-#if (CY_CPU_CORTEX_M7) && defined (ENABLE_CM7_DATA_CACHE)
+#if defined (__DCACHE_PRESENT) && (__DCACHE_PRESENT == 1U)
 #define CYHAL_IPC_QUEUE_POOL_ALLOC(queue_pool, NUM_ITEMS, ITEMSIZE) \
-    do { CY_SECTION_SHAREDMEM static uint8_t _cyhal_ipc_queue_pool[ITEMSIZE * NUM_ITEMS] CY_ALIGN(__SCB_DCACHE_LINE_SIZE); queue_pool = (void*)&_cyhal_ipc_queue_pool; } while (0)
+    do { \
+        CY_SECTION_SHAREDMEM static uint8_t _cyhal_ipc_queue_pool[L1_DCACHE_ROUND_UP_BYTES(ITEMSIZE * NUM_ITEMS)] CY_ALIGN(__SCB_DCACHE_LINE_SIZE); \
+        queue_pool = (void*)&_cyhal_ipc_queue_pool; \
+    } while (0)
 #else
 #define CYHAL_IPC_QUEUE_POOL_ALLOC(queue_pool, NUM_ITEMS, ITEMSIZE) \
-    do { CY_SECTION_SHAREDMEM static uint8_t _cyhal_ipc_queue_pool[ITEMSIZE * NUM_ITEMS]; queue_pool = (void*)&_cyhal_ipc_queue_pool; } while (0)
-#endif /* (CY_CPU_CORTEX_M7) && defined (ENABLE_CM7_DATA_CACHE) */
+    do { \
+        CY_SECTION_SHAREDMEM static uint8_t _cyhal_ipc_queue_pool[ITEMSIZE * NUM_ITEMS]; \
+        queue_pool = (void*)&_cyhal_ipc_queue_pool; \
+    } while (0)
+#endif /* defined (__DCACHE_PRESENT) && (__DCACHE_PRESENT == 1U) */
 
 /** Macro for Queue handle shared memory allocation. Can be used only in function scope. Please use CY_SECTION_SHAREDMEM
  * instead if allocation in global scope is needed.
  * Params:
  * queue_handle - pointer to cyhal_ipc_queue_t data type, which will point to the shared memory
  */
-#if (CY_CPU_CORTEX_M7) && defined (ENABLE_CM7_DATA_CACHE)
+#if defined (__DCACHE_PRESENT) && (__DCACHE_PRESENT == 1U)
 #define CYHAL_IPC_QUEUE_HANDLE_ALLOC(queue_handle) \
-    do { CY_SECTION_SHAREDMEM static cyhal_ipc_queue_t _cyhal_ipc_queue_handle CY_ALIGN(__SCB_DCACHE_LINE_SIZE); queue_handle = &_cyhal_ipc_queue_handle; } while (0)
+    do { \
+        CY_SECTION_SHAREDMEM static cyhal_ipc_queue_t _cyhal_ipc_queue_handle CY_ALIGN(__SCB_DCACHE_LINE_SIZE); \
+        queue_handle = &_cyhal_ipc_queue_handle; \
+    } while (0)
 #else
 #define CYHAL_IPC_QUEUE_HANDLE_ALLOC(queue_handle) \
-    do { CY_SECTION_SHAREDMEM static cyhal_ipc_queue_t _cyhal_ipc_queue_handle; queue_handle = &_cyhal_ipc_queue_handle; } while (0)
-#endif /* (CY_CPU_CORTEX_M7) && defined (ENABLE_CM7_DATA_CACHE) */
+    do { \
+        CY_SECTION_SHAREDMEM static cyhal_ipc_queue_t _cyhal_ipc_queue_handle; \
+        queue_handle = &_cyhal_ipc_queue_handle; \
+    } while (0)
+#endif /* defined (__DCACHE_PRESENT) && (__DCACHE_PRESENT == 1U) */
 
 /** Polling interval, that will be used in blocking cyhal_ipc_* functions.
  * It is recommended to use value either below 1000 (e.g. 750) or multiple of 1000 (e.g. 1000, 2000, 3000, etc.)

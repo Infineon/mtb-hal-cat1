@@ -1362,6 +1362,11 @@ cy_rslt_t _cyhal_uart_dma_write_async(cyhal_uart_t *obj)
         #endif
         result = cyhal_dma_configure(&(obj->dma_tx), &dma_config);
     }
+
+    #if defined (__DCACHE_PRESENT) && (__DCACHE_PRESENT == 1U)
+    SCB_CleanDCache_by_Addr((void *)obj->async_tx_buff, (length * (mem_width / 8)));
+    #endif /* defined (__DCACHE_PRESENT) && (__DCACHE_PRESENT == 1U) */
+
     if(result == CY_RSLT_SUCCESS)
     {
         result = cyhal_dma_enable(&(obj->dma_tx));
@@ -1440,6 +1445,11 @@ cy_rslt_t _cyhal_uart_dma_read_async(cyhal_uart_t *obj)
         #endif
         result = cyhal_dma_configure(&(obj->dma_rx), &dma_config);
     }
+
+    #if defined (__DCACHE_PRESENT) && (__DCACHE_PRESENT == 1U)
+    SCB_InvalidateDCache_by_Addr((void *)obj->async_rx_buff, (length * (mem_width / 8)));
+    #endif /* defined (__DCACHE_PRESENT) && (__DCACHE_PRESENT == 1U) */
+
     if(result == CY_RSLT_SUCCESS)
     {
         result = cyhal_dma_enable(&(obj->dma_rx));

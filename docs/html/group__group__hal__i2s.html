@@ -1248,6 +1248,8 @@ Sample rate in Hz. </td></tr>
 <p>Start I2S asynchronous read. </p>
 <p >This will transfer <code>rx_length</code> words into the buffer pointed to by <code>rx</code> in the background. When the requested quantity of data has been read, the <a class="el" href="group__group__hal__i2s.html#gga98bc78188673aae2c4e27b660a3f20feab4a3a412a6b61efbd39ab540120713e9">CYHAL_I2S_ASYNC_RX_COMPLETE</a> event will be raised. See <a class="el" href="group__group__hal__i2s.html#gade0855962b32a1b4d4dbb9bbf9b6354b">cyhal_i2s_register_callback</a> and <a class="el" href="group__group__hal__i2s.html#gac8adecacf62147f30023e69010b52bf9">cyhal_i2s_enable_event</a>.</p>
 <p >cyhal_i2s_set_async_mode can be used to control whether this uses DMA or a CPU-driven transfer.</p>
+<dl class="section note"><dt>Note</dt><dd>If D-cache is enabled, cyhal_i2s_set_async_mode is DMA and data Cache line is 32 bytes, the user needs to make sure that the rx pointer passed to the cyhal_i2s_read_async function points to a 32 byte aligned array of words that contains the buffer data. The size of buffer data must be a multiple of 32 bytes to ensure cache coherency. CY_ALIGN(__SCB_DCACHE_LINE_SIZE) macro can be used for 32 byte alignment.</dd></dl>
+<p>Refer to <a class="el" href="md_source_hal_dcache.html#DCACHE_Management">DCACHE_Management</a> for more information.</p>
 <dl class="section note"><dt>Note</dt><dd>Each word will be aligned to the next largest power of 2. For example, if the word length is 16 bits, each word will consume two bytes. But if the word length is 20, each word will consume 32 bytes.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -1296,6 +1298,8 @@ Sample rate in Hz. </td></tr>
 <p>Start I2S asynchronous write. </p>
 <p >This will transfer <code>tx_length</code> words into the tx buffer in the background. When the requested quantity of data has been queued in the transmit buffer, the <a class="el" href="group__group__hal__i2s.html#gga98bc78188673aae2c4e27b660a3f20fea090269cec878bec745bb2e393606e41e">CYHAL_I2S_ASYNC_TX_COMPLETE</a> event will be raised. See <a class="el" href="group__group__hal__i2s.html#gade0855962b32a1b4d4dbb9bbf9b6354b">cyhal_i2s_register_callback</a> and <a class="el" href="group__group__hal__i2s.html#gac8adecacf62147f30023e69010b52bf9">cyhal_i2s_enable_event</a>.</p>
 <p >cyhal_i2s_set_async_mode can be used to control whether this uses DMA or a SW (CPU-driven) transfer.</p>
+<dl class="section note"><dt>Note</dt><dd>If D-cache is enabled, cyhal_i2s_set_async_mode is DMA and data Cache line is 32 bytes, the user needs to make sure that the tx pointer passed to the cyhal_i2s_write_async function points to a 32 byte aligned array of words that contains the buffer data. The size of buffer data must be a multiple of 32 bytes to ensure cache coherency. CY_ALIGN(__SCB_DCACHE_LINE_SIZE) macro can be used for 32 byte alignment.</dd></dl>
+<p>Refer to <a class="el" href="md_source_hal_dcache.html#DCACHE_Management">DCACHE_Management</a> for more information.</p>
 <dl class="section note"><dt>Note</dt><dd>Each word will be aligned to the next largest power of 2. For example, if the word length is 16 bits, each word will consume two bytes. But if the word length is 20, each word will consume 32 bytes.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">

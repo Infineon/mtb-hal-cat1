@@ -392,6 +392,7 @@ cy_rslt_t cyhal_syspm_init(void)
         {
             rslt = CYHAL_SYSPM_RSLT_INIT_ERROR;
         }
+
     return rslt;
 }
 

@@ -3191,6 +3191,15 @@ cy_rslt_t cyhal_sdio_host_transfer_async(cyhal_sdio_t *obj, cyhal_sdio_host_tran
     dat.enReliableWrite     = false;
     dat.enableDma           = true;
 
+    // Before we perform any operations with the DMA, flush the D-cache, if enabled.
+    // Casting away const is safe to do, because it will be a no-op
+    // if data has no dirty entries in the cache, and a const variable
+    // that is stored in flash will never have dirty entries in the cache
+#if defined (__DCACHE_PRESENT) && (__DCACHE_PRESENT == 1U)
+    if (direction == CYHAL_SDIO_XFER_TYPE_WRITE)
+        SCB_CleanDCache_by_Addr((void *) data, length);
+#endif
+
     do
     {
         /* Add SDIO Error Handling
@@ -3257,6 +3266,10 @@ cy_rslt_t cyhal_sdio_host_transfer_async(cyhal_sdio_t *obj, cyhal_sdio_host_tran
 
         ret = _cyhal_sdxx_prepare_for_transfer(sdxx);
 
+        #if defined (__DCACHE_PRESENT) && (__DCACHE_PRESENT == 1U)
+        SCB_CleanDCache_by_Addr((void *) sdxx->adma_descriptor_tbl, sizeof(sdxx->adma_descriptor_tbl));
+        #endif
+
         if (CY_RSLT_SUCCESS == ret)
         {
             ret = (cy_rslt_t)Cy_SD_Host_InitDataTransfer(sdxx->base, &dat);
@@ -3281,6 +3294,12 @@ cy_rslt_t cyhal_sdio_host_transfer_async(cyhal_sdio_t *obj, cyhal_sdio_host_tran
         /* Transfer failed */
         sdxx->data_transfer_status = _CYHAL_SDXX_NOT_RUNNING;
     }
+
+    // Invalidate dcache if enabled to update dcache's contents after DMA transfer
+    #if defined (__DCACHE_PRESENT) && (__DCACHE_PRESENT == 1U)
+    if (direction == CYHAL_SDIO_XFER_TYPE_READ)
+        SCB_InvalidateDCache_by_Addr((void *) data, length);
+    #endif
 
     return ret;
 }
