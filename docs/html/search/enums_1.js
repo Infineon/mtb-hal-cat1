@@ -132,7 +132,7 @@ var searchData=
   ['cyhal_5fsyspm_5fhibernate_5fsource_5ft_129',['cyhal_syspm_hibernate_source_t',['../group__group__hal__syspm.html#ga716955af458772e538910575cbf6e1dd',1,'cyhal_syspm.h']]],
   ['cyhal_5fsyspm_5fsystem_5fdeep_5fsleep_5fmode_5ft_130',['cyhal_syspm_system_deep_sleep_mode_t',['../group__group__hal__syspm.html#ga624438ff56f764659e2afa62b7eafba0',1,'cyhal_syspm.h']]],
   ['cyhal_5fsyspm_5fsystem_5fstate_5ft_131',['cyhal_syspm_system_state_t',['../group__group__hal__syspm.html#ga144e474d3bfb544b207f172d1d8bd633',1,'cyhal_syspm.h']]],
-  ['cyhal_5fsyspm_5fvoltage_5fsupply_5ft_132',['cyhal_syspm_voltage_supply_t',['../group__group__hal__syspm.html#ga843f8267deb62a570fff3ce7ebf1a6c4',1,'cyhal_syspm.h']]],
+  ['cyhal_5fsystem_5fvoltage_5fsupply_5ft_132',['cyhal_system_voltage_supply_t',['../group__group__hal__system.html#gafeea1420fd2da9fe4f00a182a083e57c',1,'cyhal_system.h']]],
   ['cyhal_5ftdm_5fevent_5ft_133',['cyhal_tdm_event_t',['../group__group__hal__tdm.html#ga76e6f6677a7173e7668df7dad2763bfd',1,'cyhal_tdm.h']]],
   ['cyhal_5ftdm_5foutput_5ft_134',['cyhal_tdm_output_t',['../group__group__hal__tdm.html#ga822a7a0155cc36038210bdcd8e1d7ed5',1,'cyhal_tdm.h']]],
   ['cyhal_5ftdm_5fword_5fselect_5fwidth_5ft_135',['cyhal_tdm_word_select_width_t',['../group__group__hal__tdm.html#ga0edef2c4d7d5735a3d758a2ec7d02cfe',1,'cyhal_tdm.h']]],

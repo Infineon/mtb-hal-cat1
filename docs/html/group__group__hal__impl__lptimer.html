@@ -86,8 +86,8 @@ $(document).ready(function(){initNavTree('group__group__hal__impl__lptimer.html'
   <div class="headertitle"><div class="title">LPTimer (Low-Power Timer)<div class="ingroups"><a class="el" href="group__group__hal__impl.html">CAT1 Implementation Specific</a></div></div></div>
 </div><!--header-->
 <div class="contents">
-<p >The maximum number of ticks that can set to an LPTimer is 0xFFF0FFFF for non MCWDT-B devices. </p>
-<p >It is not recommended to use 0xFFFFFFFF. This is to avoid overflowing both C0 and C1. For MCWDT-B devices, the maximum number of ticks that can be set to an LPTimer is 0xFFFFFFFF since C0 and C1 do not cascade.</p>
+<p >The maximum number of ticks that can set to an LPTimer is 0xFFF0FFFF for non MCWDT-B devices (e.g. </p>
+<p >XMC7/TVII B-E). It is not recommended to use 0xFFFFFFFF. This is to avoid overflowing both C0 and C1. For MCWDT-B devices, the maximum number of ticks that can be set to an LPTimer is 0xFFFFFFFF since C0 and C1 do not cascade.</p>
 <h1><a class="anchor" id="section_cat1c_lptimer_set_match"></a>
 LPTimer Set Match</h1>
 <p >For CAT1C devices (XMC), <a class="el" href="group__group__hal__lptimer.html#ga8be81430cef74735168e703f204fe1a5">cyhal_lptimer_set_match</a> will only trigger a single interrupt. </p>

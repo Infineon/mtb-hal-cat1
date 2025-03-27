@@ -14,6 +14,10 @@ var group__group__hal__system =
       [ "CYHAL_SYSTEM_RESET_PROTECTION", "group__group__hal__system.html#gga53ba6a7416574a1b03890d23b7a90264a2ed57102eaf30e7b73e04b380d8abe10", null ],
       [ "CYHAL_SYSTEM_RESET_WARMBOOT", "group__group__hal__system.html#gga53ba6a7416574a1b03890d23b7a90264aa830cecbee70100de8bac92a52975c52", null ]
     ] ],
+    [ "cyhal_system_voltage_supply_t", "group__group__hal__system.html#gafeea1420fd2da9fe4f00a182a083e57c", [
+      [ "CYHAL_VOLTAGE_SUPPLY_VDDA", "group__group__hal__system.html#ggafeea1420fd2da9fe4f00a182a083e57caf5c399ada3960bb3f5e6784be9bdccc9", null ],
+      [ "CYHAL_VOLTAGE_SUPPLY_MAX", "group__group__hal__system.html#ggafeea1420fd2da9fe4f00a182a083e57ca072774e669a76b4999d596b27bf897b0", null ]
+    ] ],
     [ "cyhal_system_critical_section_enter", "group__group__hal__system.html#ga70a306e5108a38aa995c0ab7d0147e43", null ],
     [ "cyhal_system_critical_section_exit", "group__group__hal__system.html#ga9fe83f08f46b64c956ec7ed3c335f659", null ],
     [ "cyhal_system_delay_ms", "group__group__hal__system.html#ga5f450769c1207d98134a9ced39adfdda", null ],
@@ -21,5 +25,7 @@ var group__group__hal__system =
     [ "cyhal_system_get_reset_reason", "group__group__hal__system.html#ga9a7b601e0b06a896860f411103a4abc6", null ],
     [ "cyhal_system_clear_reset_reason", "group__group__hal__system.html#ga9a935d5e4f43343e7bbb4f9a86a10df0", null ],
     [ "cyhal_system_reset_device", "group__group__hal__system.html#ga85e89acd2a95fc589999ad9a6f20d48d", null ],
-    [ "cyhal_system_set_isr", "group__group__hal__system.html#ga208f2774fd0143000cea9e488035c337", null ]
+    [ "cyhal_system_set_isr", "group__group__hal__system.html#ga208f2774fd0143000cea9e488035c337", null ],
+    [ "cyhal_system_set_supply_voltage", "group__group__hal__system.html#ga2338e3ad7fac5762523f4f5c473c86a3", null ],
+    [ "cyhal_system_get_supply_voltage", "group__group__hal__system.html#ga1ceb538fd488a22132ab2153280ade6b", null ]
 ];

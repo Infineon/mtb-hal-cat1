@@ -180,6 +180,14 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:ga53ba6a7416574a1b03890d23b7a90264"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flags enum of possible system reset causes.  <a href="group__group__hal__system.html#ga53ba6a7416574a1b03890d23b7a90264">More...</a><br /></td></tr>
 <tr class="separator:ga53ba6a7416574a1b03890d23b7a90264"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafeea1420fd2da9fe4f00a182a083e57c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__system.html#gafeea1420fd2da9fe4f00a182a083e57c">cyhal_system_voltage_supply_t</a> { <br />
+&#160;&#160;<a class="el" href="group__group__hal__system.html#ggafeea1420fd2da9fe4f00a182a083e57caf5c399ada3960bb3f5e6784be9bdccc9">CYHAL_VOLTAGE_SUPPLY_VDDA</a> = 0u
+, <br />
+&#160;&#160;<a class="el" href="group__group__hal__system.html#ggafeea1420fd2da9fe4f00a182a083e57ca072774e669a76b4999d596b27bf897b0">CYHAL_VOLTAGE_SUPPLY_MAX</a> = CYHAL_VOLTAGE_SUPPLY_VDDA
+<br />
+ }</td></tr>
+<tr class="memdesc:gafeea1420fd2da9fe4f00a182a083e57c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Supply voltages whose levels can be specified and queried via <a class="el" href="group__group__hal__system.html#ga2338e3ad7fac5762523f4f5c473c86a3">cyhal_system_set_supply_voltage</a> and <a class="el" href="group__group__hal__system.html#ga1ceb538fd488a22132ab2153280ade6b">cyhal_system_get_supply_voltage</a>, respectively.  <a href="group__group__hal__system.html#gafeea1420fd2da9fe4f00a182a083e57c">More...</a><br /></td></tr>
+<tr class="separator:gafeea1420fd2da9fe4f00a182a083e57c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -207,6 +215,12 @@ Functions</h2></td></tr>
 <tr class="memitem:ga208f2774fd0143000cea9e488035c337"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__group__result.html#gaca79700fcc701534ce61778a9bcf57d1">cy_rslt_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__system.html#ga208f2774fd0143000cea9e488035c337">cyhal_system_set_isr</a> (int32_t irq_num, int32_t irq_src, uint8_t priority, <a class="el" href="group__group__hal__system.html#gaa60625daf3efd10f83a90b0032b4a818">cyhal_irq_handler</a> handler)</td></tr>
 <tr class="memdesc:ga208f2774fd0143000cea9e488035c337"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers the specified handler as the callback function for the specified irq_num with the given priority.  <a href="group__group__hal__system.html#ga208f2774fd0143000cea9e488035c337">More...</a><br /></td></tr>
 <tr class="separator:ga208f2774fd0143000cea9e488035c337"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2338e3ad7fac5762523f4f5c473c86a3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__system.html#ga2338e3ad7fac5762523f4f5c473c86a3">cyhal_system_set_supply_voltage</a> (<a class="el" href="group__group__hal__system.html#gafeea1420fd2da9fe4f00a182a083e57c">cyhal_system_voltage_supply_t</a> supply, uint32_t mvolts)</td></tr>
+<tr class="memdesc:ga2338e3ad7fac5762523f4f5c473c86a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Informs the system of the current voltage level on the specified supply.  <a href="group__group__hal__system.html#ga2338e3ad7fac5762523f4f5c473c86a3">More...</a><br /></td></tr>
+<tr class="separator:ga2338e3ad7fac5762523f4f5c473c86a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1ceb538fd488a22132ab2153280ade6b"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__hal__system.html#ga1ceb538fd488a22132ab2153280ade6b">cyhal_system_get_supply_voltage</a> (<a class="el" href="group__group__hal__system.html#gafeea1420fd2da9fe4f00a182a083e57c">cyhal_system_voltage_supply_t</a> supply)</td></tr>
+<tr class="memdesc:ga1ceb538fd488a22132ab2153280ade6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the current voltage level on the specified supply, as set in <a class="el" href="group__group__hal__system.html#ga2338e3ad7fac5762523f4f5c473c86a3">cyhal_system_set_supply_voltage</a>.  <a href="group__group__hal__system.html#ga1ceb538fd488a22132ab2153280ade6b">More...</a><br /></td></tr>
+<tr class="separator:ga1ceb538fd488a22132ab2153280ade6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="ga53ba6a7416574a1b03890d23b7a90264" name="ga53ba6a7416574a1b03890d23b7a90264"></a>
@@ -242,6 +256,29 @@ Functions</h2></td></tr>
 <tr><td class="fieldname"><a id="gga53ba6a7416574a1b03890d23b7a90264a2ed57102eaf30e7b73e04b380d8abe10" name="gga53ba6a7416574a1b03890d23b7a90264a2ed57102eaf30e7b73e04b380d8abe10"></a>CYHAL_SYSTEM_RESET_PROTECTION&#160;</td><td class="fielddoc"><p >A reset has occurred due to a protection violation. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga53ba6a7416574a1b03890d23b7a90264aa830cecbee70100de8bac92a52975c52" name="gga53ba6a7416574a1b03890d23b7a90264aa830cecbee70100de8bac92a52975c52"></a>CYHAL_SYSTEM_RESET_WARMBOOT&#160;</td><td class="fielddoc"><p >A reset has occurred due wake up from DSRAM, which is a Warm Boot. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="gafeea1420fd2da9fe4f00a182a083e57c" name="gafeea1420fd2da9fe4f00a182a083e57c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gafeea1420fd2da9fe4f00a182a083e57c">&#9670;&nbsp;</a></span>cyhal_system_voltage_supply_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__group__hal__system.html#gafeea1420fd2da9fe4f00a182a083e57c">cyhal_system_voltage_supply_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Supply voltages whose levels can be specified and queried via <a class="el" href="group__group__hal__system.html#ga2338e3ad7fac5762523f4f5c473c86a3">cyhal_system_set_supply_voltage</a> and <a class="el" href="group__group__hal__system.html#ga1ceb538fd488a22132ab2153280ade6b">cyhal_system_get_supply_voltage</a>, respectively. </p>
+<dl class="section note"><dt>Note</dt><dd>Not all supplies which are present are included here. This enum only contains the voltage supplies whose values are relevant to the operation of one or more HAL drivers. </dd></dl>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ggafeea1420fd2da9fe4f00a182a083e57caf5c399ada3960bb3f5e6784be9bdccc9" name="ggafeea1420fd2da9fe4f00a182a083e57caf5c399ada3960bb3f5e6784be9bdccc9"></a>CYHAL_VOLTAGE_SUPPLY_VDDA&#160;</td><td class="fielddoc"><p >VDDA - Analog supply voltage. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggafeea1420fd2da9fe4f00a182a083e57ca072774e669a76b4999d596b27bf897b0" name="ggafeea1420fd2da9fe4f00a182a083e57ca072774e669a76b4999d596b27bf897b0"></a>CYHAL_VOLTAGE_SUPPLY_MAX&#160;</td><td class="fielddoc"><p >Alias for the highest value in this enum. </p>
 </td></tr>
 </table>
 
@@ -469,6 +506,73 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns CY_RSLT_SUCCESS if the set_isr request was successful, otherwise an error </dd></dl>
+
+</div>
+</div>
+<a id="ga2338e3ad7fac5762523f4f5c473c86a3" name="ga2338e3ad7fac5762523f4f5c473c86a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2338e3ad7fac5762523f4f5c473c86a3">&#9670;&nbsp;</a></span>cyhal_system_set_supply_voltage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cyhal_system_set_supply_voltage </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__system.html#gafeea1420fd2da9fe4f00a182a083e57c">cyhal_system_voltage_supply_t</a>&#160;</td>
+          <td class="paramname"><em>supply</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>mvolts</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Informs the system of the current voltage level on the specified supply. </p>
+<p >This is generally expected to be set once at system startup, but it may be set repeatedly during runtime if operating conditions change. Once set, this value can be queried via <a class="el" href="group__group__hal__system.html#ga1ceb538fd488a22132ab2153280ade6b">cyhal_system_get_supply_voltage</a>.</p>
+<dl class="section note"><dt>Note</dt><dd>This only informs the system of the voltage level. It does not alter any of the device operating conditions.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">supply</td><td>The supply whose voltage is being specified. </td></tr>
+    <tr><td class="paramname">mvolts</td><td>The voltage level on the specified supply, in millivolts. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga1ceb538fd488a22132ab2153280ade6b" name="ga1ceb538fd488a22132ab2153280ade6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1ceb538fd488a22132ab2153280ade6b">&#9670;&nbsp;</a></span>cyhal_system_get_supply_voltage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t cyhal_system_get_supply_voltage </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__hal__system.html#gafeea1420fd2da9fe4f00a182a083e57c">cyhal_system_voltage_supply_t</a>&#160;</td>
+          <td class="paramname"><em>supply</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieves the current voltage level on the specified supply, as set in <a class="el" href="group__group__hal__system.html#ga2338e3ad7fac5762523f4f5c473c86a3">cyhal_system_set_supply_voltage</a>. </p>
+<dl class="section note"><dt>Note</dt><dd>This only returns the value provided to <a class="el" href="group__group__hal__system.html#ga2338e3ad7fac5762523f4f5c473c86a3">cyhal_system_set_supply_voltage</a>. It does not perform any measurements of the current supply level.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">supply</td><td>The supply whose voltage is being specified. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The voltage level on the specified supply, in millivolts. If the voltage has not been specified, returns 0. </dd></dl>
 
 </div>
 </div>

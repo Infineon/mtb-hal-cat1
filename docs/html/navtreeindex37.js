@@ -1,5 +1,7 @@
 var NAVTREEINDEX37 =
 {
+"group__group__hal__impl__pin__package__tviibe4m__80__lqfp.html#gaa204ca86ffbc1b1425ff244251415b6d":[2,3,6,34,5],
+"group__group__hal__impl__pin__package__tviibe4m__80__lqfp.html#gaa3b548f4a588dd96c343ed126df641e8":[2,3,6,34,81],
 "group__group__hal__impl__pin__package__tviibe4m__80__lqfp.html#gaa4a0b9678341c62534d22b954a825e8a":[2,3,6,34,24],
 "group__group__hal__impl__pin__package__tviibe4m__80__lqfp.html#gaa53649503aae8d8f541cc7a7b9f602f4":[2,3,6,34,66],
 "group__group__hal__impl__pin__package__tviibe4m__80__lqfp.html#gaa74b19db04790a5988f287e7b343f599":[2,3,6,34,29],
@@ -247,7 +249,5 @@ var NAVTREEINDEX37 =
 "group__group__hal__impl__pin__package__xmc7100__100__teqfp.html#gad92a5fd297f6dedf51184d38a52e7e40":[2,3,6,43,166],
 "group__group__hal__impl__pin__package__xmc7100__100__teqfp.html#gad9c6f5e43065048a2dae4e03127bf4fe":[2,3,6,43,153],
 "group__group__hal__impl__pin__package__xmc7100__100__teqfp.html#gad9f68834cb7c93d12843f539f61e07cc":[2,3,6,43,40],
-"group__group__hal__impl__pin__package__xmc7100__100__teqfp.html#gadae9f548095e7ef49d1230a813b5518e":[2,3,6,43,80],
-"group__group__hal__impl__pin__package__xmc7100__100__teqfp.html#gadbcb21726bedc8b2e4f1bb2e0235035d":[2,3,6,43,1],
-"group__group__hal__impl__pin__package__xmc7100__100__teqfp.html#gadd74ce587fa555c8650a802012fcbc95":[2,3,6,43,20]
+"group__group__hal__impl__pin__package__xmc7100__100__teqfp.html#gadae9f548095e7ef49d1230a813b5518e":[2,3,6,43,80]
 };

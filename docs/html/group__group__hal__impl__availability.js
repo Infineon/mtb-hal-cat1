@@ -6,6 +6,7 @@ var group__group__hal__impl__availability =
     [ "CYHAL_DRIVER_AVAILABLE_INTERCONNECT", "group__group__hal__impl__availability.html#ga041bcd4b56db60b5d357c4235e3d40ec", null ],
     [ "CYHAL_DRIVER_AVAILABLE_CLOCK", "group__group__hal__impl__availability.html#gab7b277f7243da4199aaf63f304dbb213", null ],
     [ "CYHAL_DRIVER_AVAILABLE_SYSTEM", "group__group__hal__impl__availability.html#gae8d9f6c5a92ee3bcf678bfb8e93397cf", null ],
+    [ "CYHAL_DRIVER_AVAILABLE_ETHERNET", "group__group__hal__impl__availability.html#gac94b302c6f8ac6cfa4e3584795822eb6", null ],
     [ "CYHAL_DRIVER_AVAILABLE_EZI2C", "group__group__hal__impl__availability.html#ga5d668f66e4de981f1b6016b0b9842e97", null ],
     [ "CYHAL_DRIVER_AVAILABLE_I2C", "group__group__hal__impl__availability.html#ga0303725f9eb5eb434e9c44e571522011", null ],
     [ "CYHAL_DRIVER_AVAILABLE_SPI", "group__group__hal__impl__availability.html#ga2864729e542a1b4f9aba48579ee6b654", null ],

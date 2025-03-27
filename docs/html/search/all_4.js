@@ -10,7 +10,7 @@ var searchData=
   ['datareverse_7',['dataReverse',['../group__group__hal__crc.html#a500da567a545d16ec7f1e7de51b97b6f',1,'crc_algorithm_t']]],
   ['dataxor_8',['dataXor',['../group__group__hal__crc.html#aba877155c7581d729886913d945e9373',1,'crc_algorithm_t']]],
   ['dcache_20management_9',['DCACHE Management',['../md_source_hal_dcache.html',1,'']]],
-  ['decimation_5frate_10',['decimation_rate',['../group__group__hal__pdmpcm.html#a1d94274f6ae0d514c0140866ea7b5c7e',1,'cyhal_pdm_pcm_cfg_t']]],
+  ['decimation_5frate_10',['decimation_rate',['../group__group__hal__pdmpcm.html#a737e9a5d4be7b31eda309375b366beb5',1,'cyhal_pdm_pcm_cfg_t']]],
   ['dest_11',['dest',['../group__group__hal__dma.html#a441e10ce6c695f05aaf2a6d128c46b81',1,'cyhal_dma_dest_t']]],
   ['direction_12',['direction',['../group__group__hal__timer.html#abcacbb77905a45d92f9ecda65de6fe32',1,'cyhal_timer_cfg_t']]],
   ['dma_20_28direct_20memory_20access_29_13',['DMA (Direct Memory Access)',['../group__group__hal__dma.html',1,'(Global Namespace)'],['../group__group__hal__impl__dma.html',1,'(Global Namespace)']]],

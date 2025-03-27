@@ -7,7 +7,7 @@ var searchData=
   ['data_5frate_4',['data_rate',['../group__group__hal__ezi2c.html#a6fbb2cfc5e85e1ef64fec15075744b3d',1,'cyhal_ezi2c_cfg_t']]],
   ['datareverse_5',['dataReverse',['../group__group__hal__crc.html#a500da567a545d16ec7f1e7de51b97b6f',1,'crc_algorithm_t']]],
   ['dataxor_6',['dataXor',['../group__group__hal__crc.html#aba877155c7581d729886913d945e9373',1,'crc_algorithm_t']]],
-  ['decimation_5frate_7',['decimation_rate',['../group__group__hal__pdmpcm.html#a1d94274f6ae0d514c0140866ea7b5c7e',1,'cyhal_pdm_pcm_cfg_t']]],
+  ['decimation_5frate_7',['decimation_rate',['../group__group__hal__pdmpcm.html#a737e9a5d4be7b31eda309375b366beb5',1,'cyhal_pdm_pcm_cfg_t']]],
   ['dest_8',['dest',['../group__group__hal__dma.html#a441e10ce6c695f05aaf2a6d128c46b81',1,'cyhal_dma_dest_t']]],
   ['direction_9',['direction',['../group__group__hal__timer.html#abcacbb77905a45d92f9ecda65de6fe32',1,'cyhal_timer_cfg_t']]],
   ['dst_5faddr_10',['dst_addr',['../group__group__hal__dma.html#a4652fecb04594b84b09b07bee308e32a',1,'cyhal_dma_cfg_t']]],

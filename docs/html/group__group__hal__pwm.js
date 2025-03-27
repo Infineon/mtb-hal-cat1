@@ -31,7 +31,7 @@ var group__group__hal__pwm =
     [ "cyhal_pwm_init_cfg", "group__group__hal__pwm.html#ga81aee9136b71f0d3228a30caea794712", null ],
     [ "cyhal_pwm_free", "group__group__hal__pwm.html#ga3e4e8aa7a73d02a15dcf386c335b1598", null ],
     [ "cyhal_pwm_set_period", "group__group__hal__pwm.html#gaab0dc18eb0b1c51623df07f2c275a578", null ],
-    [ "cyhal_pwm_set_duty_cycle", "group__group__hal__pwm.html#ga9c468081d85d103ec10f9feeffe416ce", null ],
+    [ "cyhal_pwm_set_duty_cycle", "group__group__hal__pwm.html#ga69dd46478849e170fd91c8171be8ae95", null ],
     [ "cyhal_pwm_start", "group__group__hal__pwm.html#ga95006bcc5841e610719433660365e3e2", null ],
     [ "cyhal_pwm_stop", "group__group__hal__pwm.html#ga03f475a0f908814996ad697ed3036798", null ],
     [ "cyhal_pwm_register_callback", "group__group__hal__pwm.html#ga2e4256f7650bd1f38b852eeada4a55df", null ],

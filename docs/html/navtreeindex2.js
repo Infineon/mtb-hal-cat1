@@ -1,5 +1,7 @@
 var NAVTREEINDEX2 =
 {
+"group__group__hal__impl__clock.html#gad23c8f42d356dd8d95cb13b463d5e6a7":[2,3,0,30],
+"group__group__hal__impl__clock.html#gae65cbd0b69893c6a8b51abdf765db08d":[2,3,0,8],
 "group__group__hal__impl__clock.html#gaf41ad9bcad5895c4e7db1adc681eb367":[2,3,0,14],
 "group__group__hal__impl__clock.html#gaf4b09205667edc47ed28e48016b568b3":[2,3,0,29],
 "group__group__hal__impl__clock.html#gaf539298b23f6996cb528d43b549f8c95":[2,3,0,19],
@@ -247,7 +249,5 @@ var NAVTREEINDEX2 =
 "group__group__hal__impl__pin__package__cyw20829__40__qfn.html#ga9cafe677b73db4d6fcb892df4bf1f92a":[2,3,6,35,6],
 "group__group__hal__impl__pin__package__cyw20829__40__qfn.html#ga9cd19d262641ced5c24390e5bc0bd737":[2,3,6,35,88],
 "group__group__hal__impl__pin__package__cyw20829__40__qfn.html#ga9d58ef3c03846bfcc176e1851dc764eb":[2,3,6,35,56],
-"group__group__hal__impl__pin__package__cyw20829__40__qfn.html#ga9dc935f110b7314ffaa927253a11457f":[2,3,6,35,84],
-"group__group__hal__impl__pin__package__cyw20829__40__qfn.html#ga9e8d9a230dfbc67596cb1682de1284f5":[2,3,6,35,55],
-"group__group__hal__impl__pin__package__cyw20829__40__qfn.html#ga9f1267e1d5dcd2bb8ef2cc7fbf4af828":[2,3,6,35,33]
+"group__group__hal__impl__pin__package__cyw20829__40__qfn.html#ga9dc935f110b7314ffaa927253a11457f":[2,3,6,35,84]
 };

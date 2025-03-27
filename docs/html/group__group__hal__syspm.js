@@ -10,6 +10,8 @@ var group__group__hal__syspm =
     ] ],
     [ "CYHAL_SYSPM_CALLBACK_STATE_ALL", "group__group__hal__syspm.html#ga76ba531d277abb20e430874026756664", null ],
     [ "CYHAL_API_AVAILABLE_SYSPM_GET_DEEPSLEEP_MODE", "group__group__hal__syspm.html#ga468602279a080cb8c956cb6338f740da", null ],
+    [ "cyhal_syspm_set_supply_voltage", "group__group__hal__syspm.html#gad48a7dca8c53a68ee898e72f2c4cc675", null ],
+    [ "cyhal_syspm_get_supply_voltage", "group__group__hal__syspm.html#ga60255eda7ce90dcda24a7d4668585d37", null ],
     [ "cyhal_syspm_callback_t", "group__group__hal__syspm.html#ga19c98edec42da617e97eb09ea9292514", null ],
     [ "cyhal_syspm_callback_state_t", "group__group__hal__syspm.html#ga560aa7873d3131c4eb5d1453711305d2", [
       [ "CYHAL_SYSPM_CB_CPU_SLEEP", "group__group__hal__syspm.html#gga560aa7873d3131c4eb5d1453711305d2a30f5d217aded3c5525b1d9cea03ac5a8", null ],
@@ -48,10 +50,6 @@ var group__group__hal__syspm =
       [ "CYHAL_SYSPM_HIBERNATE_PINB_LOW", "group__group__hal__syspm.html#gga716955af458772e538910575cbf6e1dda1bf3cfcfb69b48e6b0ef5a525cc6eb3d", null ],
       [ "CYHAL_SYSPM_HIBERNATE_PINB_HIGH", "group__group__hal__syspm.html#gga716955af458772e538910575cbf6e1dda69f639b3f33245d1a789fd443b94b47d", null ]
     ] ],
-    [ "cyhal_syspm_voltage_supply_t", "group__group__hal__syspm.html#ga843f8267deb62a570fff3ce7ebf1a6c4", [
-      [ "CYHAL_VOLTAGE_SUPPLY_VDDA", "group__group__hal__syspm.html#gga843f8267deb62a570fff3ce7ebf1a6c4af5c399ada3960bb3f5e6784be9bdccc9", null ],
-      [ "CYHAL_VOLTAGE_SUPPLY_MAX", "group__group__hal__syspm.html#gga843f8267deb62a570fff3ce7ebf1a6c4a072774e669a76b4999d596b27bf897b0", null ]
-    ] ],
     [ "cyhal_syspm_init", "group__group__hal__syspm.html#ga299e36096b0ad36b29afe3c5bb02a6d7", null ],
     [ "cyhal_syspm_hibernate", "group__group__hal__syspm.html#ga507445e44ab6aae0f4cbaabaec6c5a3f", null ],
     [ "cyhal_syspm_set_system_state", "group__group__hal__syspm.html#gaae0157682bad1b2155738e73347afa87", null ],
@@ -64,7 +62,5 @@ var group__group__hal__syspm =
     [ "cyhal_syspm_unlock_deepsleep", "group__group__hal__syspm.html#ga028b85f03d4607ccac8494b46ec8413c", null ],
     [ "cyhal_syspm_tickless_deepsleep", "group__group__hal__syspm.html#ga2bbc7d6e2727228629d7e485ed9a6565", null ],
     [ "cyhal_syspm_tickless_sleep", "group__group__hal__syspm.html#gadc3bb2e5eff7491f79585034bbe99cb0", null ],
-    [ "cyhal_syspm_get_deepsleep_mode", "group__group__hal__syspm.html#ga60a496432477ed130a5549550009bc61", null ],
-    [ "cyhal_syspm_set_supply_voltage", "group__group__hal__syspm.html#ga01d10df7bebeb345902a0d8e1c193ad1", null ],
-    [ "cyhal_syspm_get_supply_voltage", "group__group__hal__syspm.html#ga6bbb8993f1add4b31d7b168fb670f842", null ]
+    [ "cyhal_syspm_get_deepsleep_mode", "group__group__hal__syspm.html#ga60a496432477ed130a5549550009bc61", null ]
 ];

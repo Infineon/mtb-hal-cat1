@@ -100,8 +100,12 @@ Supported transfer data width options</h1>
 <p >Next transfer data width options are supported by next devices:</p><ul>
 <li>CAT1 devices with MXSCB block version 2 and further (value of CY_IP_MXSCB_VERSION) support next data width range: 4 - 32 (included) with step 1</li>
 <li>CAT1 devices with MXSCB block version 1 (value of CY_IP_MXSCB_VERSION) support next data width range: 4 - 16 (included) with step 1</li>
-<li>CAT2 devices support next data width range : 4-16 (included) with step 1 </li>
+<li>CAT2 devices support next data width range : 4-16 (included) with step 1</li>
+<li>CAT5 devices support data widths: 4,8,16,32</li>
 </ul>
+<h1><a class="anchor" id="section_hal_impl_spi_master_ss"></a>
+SPI master SS pin configured in GPIO mode</h1>
+<p >SPI master Slave Select pins are configured in GPIO mode to support asymmetric data transfers. Therefore these pins are not restricted to direct connections to the SPI hardware </p>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part

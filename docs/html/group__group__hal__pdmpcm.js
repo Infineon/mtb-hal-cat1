@@ -3,7 +3,7 @@ var group__group__hal__pdmpcm =
     [ "PDM/PCM HAL Results", "group__group__hal__results__pdmpcm.html", "group__group__hal__results__pdmpcm" ],
     [ "cyhal_pdm_pcm_cfg_t", "group__group__hal__pdmpcm.html#structcyhal__pdm__pcm__cfg__t", [
       [ "sample_rate", "group__group__hal__pdmpcm.html#a19eeeb8ba0eaed3b82bf4f052e36b731", null ],
-      [ "decimation_rate", "group__group__hal__pdmpcm.html#a1d94274f6ae0d514c0140866ea7b5c7e", null ],
+      [ "decimation_rate", "group__group__hal__pdmpcm.html#a737e9a5d4be7b31eda309375b366beb5", null ],
       [ "mode", "group__group__hal__pdmpcm.html#a7be7271c85209a9f567a1335f58d05ba", null ],
       [ "word_length", "group__group__hal__pdmpcm.html#a5847815ce526fa0d67e4a5a9d9de21dd", null ],
       [ "left_gain", "group__group__hal__pdmpcm.html#a28e191d9695e078f30e4d4f79a127883", null ],
