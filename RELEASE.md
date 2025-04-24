@@ -40,6 +40,12 @@ This release of the CAT1 HAL includes support for the following drivers:
 * WDT
 
 ### What Changed?
+#### v2.7.1
+* Documentation updates
+#### v2.7.0
+* ADC: Fixed multi-channel read issues on CAT1B devices
+* Clock: Minor documentation correction for an old renamed API. Corrected code snippet
+* System: Added cyhal_system_reset_device
 #### v2.6.2
 * Support D-Cache
 #### v2.6.1
