@@ -13,5 +13,6 @@ var searchData=
   ['cyw20829_10',['CYW20829',['../group__group__hal__impl__triggers__cyw20829.html',1,'']]],
   ['cyw20829_2040_2dqfn_11',['CYW20829 40-QFN',['../group__group__hal__impl__pin__package__cyw20829__40__qfn.html',1,'']]],
   ['cyw20829_2056_2dqfn_12',['CYW20829 56-QFN',['../group__group__hal__impl__pin__package__cyw20829__56__qfn.html',1,'']]],
-  ['cyw20829_2077_2dbga_13',['CYW20829 77-BGA',['../group__group__hal__impl__pin__package__cyw20829__77__bga.html',1,'']]]
+  ['cyw20829_2064_2dbga_13',['CYW20829 64-BGA',['../group__group__hal__impl__pin__package__cyw20829__64__bga.html',1,'']]],
+  ['cyw20829_2077_2dbga_14',['CYW20829 77-BGA',['../group__group__hal__impl__pin__package__cyw20829__77__bga.html',1,'']]]
 ];

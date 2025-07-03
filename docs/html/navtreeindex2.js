@@ -173,7 +173,7 @@ var NAVTREEINDEX2 =
 "group__group__hal__impl__opamp.html":[2,3,18],
 "group__group__hal__impl__pdmpcm.html":[2,3,19],
 "group__group__hal__impl__pin__package.html":[2,3,6],
-"group__group__hal__impl__pin__package.html#gac30c50b470a38324d9a19057ac1eb0be":[2,3,6,50],
+"group__group__hal__impl__pin__package.html#gac30c50b470a38324d9a19057ac1eb0be":[2,3,6,51],
 "group__group__hal__impl__pin__package__cyw20829__40__qfn.html":[2,3,6,35],
 "group__group__hal__impl__pin__package__cyw20829__40__qfn.html#ga0008a9563fdddca8b3ebc0ea182fc448":[2,3,6,35,97],
 "group__group__hal__impl__pin__package__cyw20829__40__qfn.html#ga015f256578abd5638668ff19b9dc89d5":[2,3,6,35,3],
