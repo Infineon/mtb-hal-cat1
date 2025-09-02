@@ -1,5 +1,14 @@
 var NAVTREEINDEX95 =
 {
+"group__group__hal__results__gpio.html#ga38c2914e8284f909ba89000aefd6f003":[2,2,8,0,0],
+"group__group__hal__results__hwmgr.html":[2,2,9,0],
+"group__group__hal__results__hwmgr.html":[2,0,1,0,8],
+"group__group__hal__results__hwmgr.html#ga1de4e372b74df395c981b4cb3dcd1512":[2,0,1,0,8,3],
+"group__group__hal__results__hwmgr.html#ga1de4e372b74df395c981b4cb3dcd1512":[2,2,9,0,3],
+"group__group__hal__results__hwmgr.html#ga3f62c6c91a83ade984537394dd5d048a":[2,0,1,0,8,4],
+"group__group__hal__results__hwmgr.html#ga3f62c6c91a83ade984537394dd5d048a":[2,2,9,0,4],
+"group__group__hal__results__hwmgr.html#ga523569a6a6f28336355d86cadae15475":[2,2,9,0,0],
+"group__group__hal__results__hwmgr.html#ga523569a6a6f28336355d86cadae15475":[2,0,1,0,8,0],
 "group__group__hal__results__hwmgr.html#gae0a6a33301516f2b2040a5c47cdb339c":[2,0,1,0,8,1],
 "group__group__hal__results__hwmgr.html#gae0a6a33301516f2b2040a5c47cdb339c":[2,2,9,0,1],
 "group__group__hal__results__hwmgr.html#gaf992c3f39501527bd0ae5ef0599af73e":[2,0,1,0,8,2],
@@ -240,14 +249,5 @@ var NAVTREEINDEX95 =
 "group__group__hal__results__syspm.html#ga1da0dd0a239743cd61288baf0fd2528d":[2,2,7,0,4],
 "group__group__hal__results__syspm.html#ga31a8120e1330b35af8d99975a6b36bed":[2,0,1,0,24,1],
 "group__group__hal__results__syspm.html#ga31a8120e1330b35af8d99975a6b36bed":[2,2,7,0,1],
-"group__group__hal__results__syspm.html#ga31a8120e1330b35af8d99975a6b36bed":[2,0,1,1,0,1],
-"group__group__hal__results__syspm.html#ga562e13ca6ef5662a8c12c5533bb73deb":[2,0,1,0,24,3],
-"group__group__hal__results__syspm.html#ga562e13ca6ef5662a8c12c5533bb73deb":[2,0,1,1,0,3],
-"group__group__hal__results__syspm.html#ga562e13ca6ef5662a8c12c5533bb73deb":[2,2,7,0,3],
-"group__group__hal__results__syspm.html#ga999347dc2d0663c389a381e7d2e11798":[2,0,1,1,0,0],
-"group__group__hal__results__syspm.html#ga999347dc2d0663c389a381e7d2e11798":[2,2,7,0,0],
-"group__group__hal__results__syspm.html#ga999347dc2d0663c389a381e7d2e11798":[2,0,1,0,24,0],
-"group__group__hal__results__syspm.html#gaaa6ddc7a36559f88697198d45e2d7424":[2,0,1,1,0,5],
-"group__group__hal__results__syspm.html#gaaa6ddc7a36559f88697198d45e2d7424":[2,0,1,0,24,5],
-"group__group__hal__results__syspm.html#gaaa6ddc7a36559f88697198d45e2d7424":[2,2,7,0,5]
+"group__group__hal__results__syspm.html#ga31a8120e1330b35af8d99975a6b36bed":[2,0,1,1,0,1]
 };

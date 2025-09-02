@@ -1,5 +1,14 @@
 var NAVTREEINDEX13 =
 {
+"group__group__hal__impl__pin__package__psoc6__01__116__bga__usb.html#ggaa6b83e57fe0f9fb4b596060bb7b00928ac4e840a9752ddcf910485a9ad3bda6c3":[2,3,6,3,92,13],
+"group__group__hal__impl__pin__package__psoc6__01__116__bga__usb.html#ggaa6b83e57fe0f9fb4b596060bb7b00928ac541e7629d33ac2917e4b7f6a621fe9c":[2,3,6,3,92,36],
+"group__group__hal__impl__pin__package__psoc6__01__116__bga__usb.html#ggaa6b83e57fe0f9fb4b596060bb7b00928ac556dc6692d40142383b444a0545fe6d":[2,3,6,3,92,41],
+"group__group__hal__impl__pin__package__psoc6__01__116__bga__usb.html#ggaa6b83e57fe0f9fb4b596060bb7b00928ac6e8154eb8e09e91c630cd181399a0b9":[2,3,6,3,92,65],
+"group__group__hal__impl__pin__package__psoc6__01__116__bga__usb.html#ggaa6b83e57fe0f9fb4b596060bb7b00928aca42e6dc954ab8b8625f87b8e37f9bf2":[2,3,6,3,92,47],
+"group__group__hal__impl__pin__package__psoc6__01__116__bga__usb.html#ggaa6b83e57fe0f9fb4b596060bb7b00928aca7aefa70e4bd584098eeeb9402fd9d4":[2,3,6,3,92,40],
+"group__group__hal__impl__pin__package__psoc6__01__116__bga__usb.html#ggaa6b83e57fe0f9fb4b596060bb7b00928acc2bc0ae6122c8a701dfef8a33ab6e08":[2,3,6,3,92,68],
+"group__group__hal__impl__pin__package__psoc6__01__116__bga__usb.html#ggaa6b83e57fe0f9fb4b596060bb7b00928ad8a1b111713dd51ed2e6984af7a100ad":[2,3,6,3,92,56],
+"group__group__hal__impl__pin__package__psoc6__01__116__bga__usb.html#ggaa6b83e57fe0f9fb4b596060bb7b00928addfa78eb31b6d0217c46c7b69d3f5b31":[2,3,6,3,92,45],
 "group__group__hal__impl__pin__package__psoc6__01__116__bga__usb.html#ggaa6b83e57fe0f9fb4b596060bb7b00928ae1bb9ebce83eed74fa31958cc492dae7":[2,3,6,3,92,69],
 "group__group__hal__impl__pin__package__psoc6__01__116__bga__usb.html#ggaa6b83e57fe0f9fb4b596060bb7b00928ae523468e21f17d454671c2b300892915":[2,3,6,3,92,57],
 "group__group__hal__impl__pin__package__psoc6__01__116__bga__usb.html#ggaa6b83e57fe0f9fb4b596060bb7b00928ae5b0ca83b2050162a6a3c5e7f5cd7d72":[2,3,6,3,92,37],
@@ -240,14 +249,5 @@ var NAVTREEINDEX13 =
 "group__group__hal__impl__pin__package__psoc6__01__124__bga.html#gga07a8171f98ca709c496f6054afa5e568a6d9a4b708799671207e957ca525f6713":[2,3,6,4,92,43],
 "group__group__hal__impl__pin__package__psoc6__01__124__bga.html#gga07a8171f98ca709c496f6054afa5e568a6e81efad69a0ea034651af008bd857b9":[2,3,6,4,92,30],
 "group__group__hal__impl__pin__package__psoc6__01__124__bga.html#gga07a8171f98ca709c496f6054afa5e568a702f0443ac82eec7db778039597602de":[2,3,6,4,92,29],
-"group__group__hal__impl__pin__package__psoc6__01__124__bga.html#gga07a8171f98ca709c496f6054afa5e568a7219164e747c98cf7496d2cee556820e":[2,3,6,4,92,64],
-"group__group__hal__impl__pin__package__psoc6__01__124__bga.html#gga07a8171f98ca709c496f6054afa5e568a7d6ddc3a9879cd1388d2519e3ac7f248":[2,3,6,4,92,51],
-"group__group__hal__impl__pin__package__psoc6__01__124__bga.html#gga07a8171f98ca709c496f6054afa5e568a7d9c8584fafbb18ba97cb26bcfde01dc":[2,3,6,4,92,94],
-"group__group__hal__impl__pin__package__psoc6__01__124__bga.html#gga07a8171f98ca709c496f6054afa5e568a7dd012609401076ec68c99a41fcf12bc":[2,3,6,4,92,4],
-"group__group__hal__impl__pin__package__psoc6__01__124__bga.html#gga07a8171f98ca709c496f6054afa5e568a882beb570a6c2637a06e571d24fb533b":[2,3,6,4,92,100],
-"group__group__hal__impl__pin__package__psoc6__01__124__bga.html#gga07a8171f98ca709c496f6054afa5e568a8a42e7d3e80600ad7134b78692597498":[2,3,6,4,92,52],
-"group__group__hal__impl__pin__package__psoc6__01__124__bga.html#gga07a8171f98ca709c496f6054afa5e568a8ab80e76a8624109b9b303f2d2c3645d":[2,3,6,4,92,34],
-"group__group__hal__impl__pin__package__psoc6__01__124__bga.html#gga07a8171f98ca709c496f6054afa5e568a8c239764fe5c947cad341b176d49eb73":[2,3,6,4,92,2],
-"group__group__hal__impl__pin__package__psoc6__01__124__bga.html#gga07a8171f98ca709c496f6054afa5e568a8f9331cecf3c8f1bf81bc66386c8b4c1":[2,3,6,4,92,5],
-"group__group__hal__impl__pin__package__psoc6__01__124__bga.html#gga07a8171f98ca709c496f6054afa5e568a90d53a1a29a2233e7cc141b64c5fa7fa":[2,3,6,4,92,83]
+"group__group__hal__impl__pin__package__psoc6__01__124__bga.html#gga07a8171f98ca709c496f6054afa5e568a7219164e747c98cf7496d2cee556820e":[2,3,6,4,92,64]
 };

@@ -40,6 +40,9 @@ This release of the CAT1 HAL includes support for the following drivers:
 * WDT
 
 ### What Changed?
+#### v2.7.4
+* Production support for CYW89829 devices with 48-BGA package
+* Withdraw support for CYW89829 devices with 40-BGA package
 #### v2.7.3
 * Minor fixes for GCC14
 * Expand README documentation related to events and callbacks

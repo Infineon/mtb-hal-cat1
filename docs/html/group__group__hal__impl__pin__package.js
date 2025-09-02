@@ -35,7 +35,7 @@ var group__group__hal__impl__pin__package =
     [ "TVIIBE4M 176-LQFP", "group__group__hal__impl__pin__package__tviibe4m__176__lqfp.html", "group__group__hal__impl__pin__package__tviibe4m__176__lqfp" ],
     [ "TVIIBE4M 64-LQFP", "group__group__hal__impl__pin__package__tviibe4m__64__lqfp.html", "group__group__hal__impl__pin__package__tviibe4m__64__lqfp" ],
     [ "TVIIBE4M 80-LQFP", "group__group__hal__impl__pin__package__tviibe4m__80__lqfp.html", "group__group__hal__impl__pin__package__tviibe4m__80__lqfp" ],
-    [ "CYW20829 40-QFN", "group__group__hal__impl__pin__package__cyw20829__40__qfn.html", "group__group__hal__impl__pin__package__cyw20829__40__qfn" ],
+    [ "CYW20829 48-QFN", "group__group__hal__impl__pin__package__cyw20829__48__qfn.html", "group__group__hal__impl__pin__package__cyw20829__48__qfn" ],
     [ "CYW20829 56-QFN", "group__group__hal__impl__pin__package__cyw20829__56__qfn.html", "group__group__hal__impl__pin__package__cyw20829__56__qfn" ],
     [ "CYW20829 64-BGA", "group__group__hal__impl__pin__package__cyw20829__64__bga.html", "group__group__hal__impl__pin__package__cyw20829__64__bga" ],
     [ "CYW20829 77-BGA", "group__group__hal__impl__pin__package__cyw20829__77__bga.html", "group__group__hal__impl__pin__package__cyw20829__77__bga" ],

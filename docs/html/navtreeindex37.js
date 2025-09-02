@@ -1,5 +1,14 @@
 var NAVTREEINDEX37 =
 {
+"group__group__hal__impl__pin__package__tviibe4m__64__lqfp.html#ga6ba1c6630f89a2fed5771a88c5baf5d4":[2,3,6,33,15],
+"group__group__hal__impl__pin__package__tviibe4m__64__lqfp.html#ga6f095b745603ea9442e396d9625e74c9":[2,3,6,33,85],
+"group__group__hal__impl__pin__package__tviibe4m__64__lqfp.html#ga705128944c5d2488548532596b9add12":[2,3,6,33,13],
+"group__group__hal__impl__pin__package__tviibe4m__64__lqfp.html#ga789195b684f5cb8017ed0f89dd19d8d6":[2,3,6,33,65],
+"group__group__hal__impl__pin__package__tviibe4m__64__lqfp.html#ga7ee06358e90a33c3c02c51d9749271e1":[2,3,6,33,6],
+"group__group__hal__impl__pin__package__tviibe4m__64__lqfp.html#ga803b92e83981ec41e43631ef1053d394":[2,3,6,33,34],
+"group__group__hal__impl__pin__package__tviibe4m__64__lqfp.html#ga86eeebaf595ecbf4d449c74122dd8b42":[2,3,6,33,32],
+"group__group__hal__impl__pin__package__tviibe4m__64__lqfp.html#ga8ac645a03a58b04107a745d3a711de8d":[2,3,6,33,10],
+"group__group__hal__impl__pin__package__tviibe4m__64__lqfp.html#ga8b66e06a7123fe76e42e132764b4a69b":[2,3,6,33,9],
 "group__group__hal__impl__pin__package__tviibe4m__64__lqfp.html#ga8bf005d96677757fa3d5924f8003b2cf":[2,3,6,33,83],
 "group__group__hal__impl__pin__package__tviibe4m__64__lqfp.html#ga90d6cd790e46fac220149ced8a6cf67d":[2,3,6,33,46],
 "group__group__hal__impl__pin__package__tviibe4m__64__lqfp.html#ga94b975c961309d278169b4912fe28ef0":[2,3,6,33,22],
@@ -240,14 +249,5 @@ var NAVTREEINDEX37 =
 "group__group__hal__impl__pin__package__tviibe4m__80__lqfp.html#gga2d7d13cedefd932d0d505e2e04518659a882beb570a6c2637a06e571d24fb533b":[2,3,6,34,51,40],
 "group__group__hal__impl__pin__package__tviibe4m__80__lqfp.html#gga2d7d13cedefd932d0d505e2e04518659a8c239764fe5c947cad341b176d49eb73":[2,3,6,34,51,2],
 "group__group__hal__impl__pin__package__tviibe4m__80__lqfp.html#gga2d7d13cedefd932d0d505e2e04518659a950df72443b521531bc3be8f4058fd85":[2,3,6,34,51,3],
-"group__group__hal__impl__pin__package__tviibe4m__80__lqfp.html#gga2d7d13cedefd932d0d505e2e04518659a9818bf8780ec2ee3c063663dc227b339":[2,3,6,34,51,20],
-"group__group__hal__impl__pin__package__tviibe4m__80__lqfp.html#gga2d7d13cedefd932d0d505e2e04518659a98d3818de8eed4e56eaa87bef3dcd8db":[2,3,6,34,51,42],
-"group__group__hal__impl__pin__package__tviibe4m__80__lqfp.html#gga2d7d13cedefd932d0d505e2e04518659aaf16470ca94fc271c6dfa85b686461e3":[2,3,6,34,51,29],
-"group__group__hal__impl__pin__package__tviibe4m__80__lqfp.html#gga2d7d13cedefd932d0d505e2e04518659ab8284593b459e295b454e59c33e16325":[2,3,6,34,51,16],
-"group__group__hal__impl__pin__package__tviibe4m__80__lqfp.html#gga2d7d13cedefd932d0d505e2e04518659ac4e840a9752ddcf910485a9ad3bda6c3":[2,3,6,34,51,12],
-"group__group__hal__impl__pin__package__tviibe4m__80__lqfp.html#gga2d7d13cedefd932d0d505e2e04518659ac6e8154eb8e09e91c630cd181399a0b9":[2,3,6,34,51,30],
-"group__group__hal__impl__pin__package__tviibe4m__80__lqfp.html#gga2d7d13cedefd932d0d505e2e04518659acb6f2fa215c2c77ef2dd718311d0d1bc":[2,3,6,34,51,47],
-"group__group__hal__impl__pin__package__tviibe4m__80__lqfp.html#gga2d7d13cedefd932d0d505e2e04518659ad1f7de653b3077ff6378edfd2153b9ef":[2,3,6,34,51,54],
-"group__group__hal__impl__pin__package__tviibe4m__80__lqfp.html#gga2d7d13cedefd932d0d505e2e04518659ad57d1dc3534accb6f5821816c5432a97":[2,3,6,34,51,62],
-"group__group__hal__impl__pin__package__tviibe4m__80__lqfp.html#gga2d7d13cedefd932d0d505e2e04518659ad8a1b111713dd51ed2e6984af7a100ad":[2,3,6,34,51,26]
+"group__group__hal__impl__pin__package__tviibe4m__80__lqfp.html#gga2d7d13cedefd932d0d505e2e04518659a9818bf8780ec2ee3c063663dc227b339":[2,3,6,34,51,20]
 };
